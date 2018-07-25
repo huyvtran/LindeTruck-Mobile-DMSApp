@@ -1,0 +1,43 @@
+ion-side-menu {
+  ion-header-bar {
+    height: 140px !important;
+  }
+
+  ion-content {
+
+    background-color: $white;
+
+    ion-item, ion-item.item-complex .item-content {
+      background-color: $white;
+    }
+
+    ion-item, ion-item a {
+      color: $dark-grey;
+      i {
+        padding-right: 10px;
+      }
+
+      object.menu-item-icon{
+        vertical-align: bottom;
+      }
+    }
+
+    &.isw-menu-content {
+      top: 140px !important;
+      padding: 0 0 10px 0;
+    }
+    .o-home-list-menu {
+      a::selection {
+        color: $linde-blue;
+      }
+    }
+  }
+
+}
+
+a {
+  text-decoration: none;
+  color: $backgroundColor;
+}
+
+

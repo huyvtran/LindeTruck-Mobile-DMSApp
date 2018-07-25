@@ -1,0 +1,426 @@
+.pagelayout-list {
+  ul {
+    &.row {
+      padding: 0;
+      li {
+        .headline {
+          background-color: $backgroundColor;
+          color: $white;
+        }
+        &.col {
+          min-height: 70px;
+          padding: 0;
+          margin: 0;
+        }
+        &.entries {
+          span {
+            &:first-child {
+              padding-bottom: 0;
+              border-bottom-width: 0;
+            }
+            &:last-child {
+              padding-top: 0;
+              border-top-width: 0;
+              border-bottom-width: 0;
+              color: #666;
+              white-space: normal;
+            }
+          }
+          label {
+            border-top-width: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.list {
+  .item.item-accordion {
+    line-height: 38px;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: 0.09s all linear;
+  }
+  .item.item-accordion.ng-hide {
+    line-height: 0;
+  }
+  .item.item-accordion.ng-hide-add,
+  .item.item-accordion.ng-hide-remove {
+    display: block !important;
+  }
+  // Menu List on Home View
+  &.o-home-list-menu {
+    a {
+      background-color: rgba(255, 255, 255, .7);
+      margin: 10px 0;
+    }
+  }
+
+  // Menu List on Home View
+  &.o-reports-list-menu {
+    h2 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 1);
+      line-height: 28px;
+      vertical-align: middle;
+    }
+    div {
+      text-align: center;
+      padding: 4px 10px;
+      background-color: #c7c7c7;
+      color: #fff;
+    }
+  }
+
+  // Menu List on Reports View
+  &.o-reports-list-item {
+    h2 {
+      color: $linde-blue;
+      /*font-size:      14px;*/
+      margin-bottom: 5px;
+    }
+
+    object {
+      line-height: 1;
+      width: 1.2rem;
+      height: 1.2rem;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: normal;
+      padding-right: 5px
+    }
+
+    .status-box {
+      padding: 4px 10px;
+      background-color: $linde-grey-1;
+      color: #fff;
+      /*display: inline-block;*/
+      font-size: 12px
+    }
+
+    .status-box-light {
+      padding: 0px 10px;
+      /*display: inline-block;*/
+      font-size: 12px
+    }
+
+    .icon-text-box-with-margin-top {
+      background-color: $linde-grey-3;
+      font-size: 12px;
+      margin-top: 5px;
+      padding: 0 10px;
+      /*text-align: right;*/
+      min-height: 25px;
+      line-height: 25px;
+    }
+
+    .icon-text-box-without-margin-top {
+      background-color: $linde-grey-3;
+      font-size: 12px;
+      padding: 0 10px;
+      /*text-align: right;*/
+      min-height: 25px;
+      line-height: 25px;
+    }
+  }
+
+  // Menu List on Reports View
+  &.o-reports-list-item-huge {
+    a {
+      min-height: 90px;
+    }
+    h3 {
+      /*font-size:      12px;*/
+    }
+  }
+  // List with Status
+  &.o-list-with-status {
+    .o-status-grey-top {
+      background-color: $linde-grey-1;
+      font-size: 12px;
+      color: $white;
+      padding: 4px 10px;
+      text-align: center;
+    }
+    @media only screen and (min-device-width: 768px) {
+      .slds-medium-size--10-of-12 {
+        width: 84.4%;
+      }
+      .slds-medium-size--2-of-12 {
+        width: 15.6%;
+      }
+    }
+    @media only screen and (max-device-width: 767px) {
+      .slds-size--7-of-12 {
+        width: 63.33333%;
+      }
+      .slds-size--5-of-12 {
+        width: 36.66667%;
+      }
+    }
+  }
+  &.o-detail-lists {
+    margin-bottom: 0;
+    a.item {
+      color: $linde-black !important;
+      h2 {
+        color: $linde-black !important;
+      }
+    }
+    h2 {
+      color: $linde-black !important;
+    }
+    .item {
+      &.item-select {
+        select {
+          color: $linde-grey-2;
+          padding-right: 16px;
+          font-size: 1em;
+        }
+
+        select[disabled], select[readonly] {
+          pointer-events: none;
+        }
+
+        &:after {
+          display: none;
+        }
+      }
+      .item-note {
+        color: $linde-grey-2;
+        font-size: 16px;
+      }
+      .item-note-left {
+        color: $linde-grey-2;
+        font-size: 16px;
+        text-align: left;
+      }
+      .item-note-left-label {
+        padding-bottom: 3px;
+      }
+      &.o-item-detail-textarea {
+        height: 200px;
+        textarea {
+          width: 100%;
+          &:focus {
+            box-shadow: none;
+          }
+          &.note-detail {
+            height: 130px;
+            color: $linde-grey-2;
+            border: 0;
+            padding: 0;
+          }
+        }
+      }
+      &.o-item-completion-date {
+        input:first-of-type {
+          position: absolute;
+          top: 8px;
+          z-index: 2;
+          opacity: 0;
+        }
+        .input-trigger {
+          position: absolute;
+          top: 8px;
+          right: 15px;
+          z-index: 1;
+          font-size: 1em;
+          width: 46%;
+          border: 0 !important;
+          text-align: right;
+          padding-right: 6px;
+        }
+      }
+      &.o-item-input-editable {
+        padding: 10px 16px;
+        div {
+          &.o-item-input-label {
+            margin-top: 7px
+          }
+          input {
+            height: 35px;
+            min-height: calc(.5rem + (1px * 2));
+            font-size: 1em;
+            color: $linde-grey-2;
+            text-align: right;
+            padding-right: 0;
+            border: 0;
+          }
+          .item-note {
+            padding-top: 5px;
+          }
+        }
+      }
+
+      @media only screen and (min-device-width: 768px) {
+        &.o-item-completion-date {
+          .input-trigger {
+            width: 48% !important;
+          }
+        }
+      }
+
+      // Only portrait max width, for Example: iPhone5
+      @media only screen and (max-device-width: 347px) {
+        &.o-item-length-of-weld {
+          .o-input-wrap {
+            width: 46% !important;
+            margin-left: 10px;
+          }
+        }
+        &.o-item-completion-date {
+          .input-trigger {
+            width: 46% !important;
+          }
+        }
+      }
+    }
+  }
+  &.o-list-subprojects {
+    @media only screen and (max-device-width: 347px) {
+      .slds-size--8-of-12 {
+        width: 58.33333% !important;
+      }
+      .slds-size--4-of-12 {
+        width: 41.66667% !important;
+      }
+    }
+  }
+  .item-divider {
+    &.o-item-divider-transparent {
+      color: #7a7a7a;
+      background-color: transparent;
+      font-weight: 800;
+      border: 0;
+      padding-bottom: 0;
+      font-size: 14px;
+    }
+  }
+  .report-divider {
+    background-color: transparent;
+    border: 0;
+  }
+  &.o-filter-crit-action {
+    margin: 0;
+    .o-item-divider-transparent {
+      padding-left: 10px !important;
+    }
+    .o-button-reset-filter {
+      font-weight: 600;
+      font-size: 14px;
+      color: $linde-blue !important;
+      float: right;
+      padding: 8px 10px 0;
+    }
+  }
+  &.o-set-filter-crit {
+    .o-filter-crit {
+      font-size: 13px;
+      background-color: $linde-grey-1;
+      color: $white;
+      padding: 2px 10px;
+      margin: 0 5px 5px 0;
+      display: inline-block;
+    }
+  }
+  .o-weld-data-result-wrapper {
+    .o-weld-data-limit {
+      color: $linde-grey-2;
+    }
+    .o-weld-data-result-box {
+      color: $white;
+      &.o-weld-data-success {
+        background-color: $weld-success;
+      }
+      &.o-weld-data-error {
+        background-color: $weld-error;
+      }
+      &.o-weld-data-no-calculation {
+        background-color: $linde-grey-2;
+      }
+
+    }
+  }
+}
+
+.slds-list-card-wrapper {
+  &.o-list-padding-to-bottom {
+    padding-bottom: 70px;
+  }
+}
+
+.o-list-top-subheader-small {
+  top: 85px;
+}
+
+.o-list-padding-left {
+  padding-left: 12px;
+}
+
+.o-list-value-grey-right {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  padding: 4px 10px;
+  color: #c7c7c7;
+}
+
+.o-list-grey-right-item {
+  font-size: 16px;
+  color: $linde-grey-2;
+  text-align: right;
+  p {
+    color: $linde-grey-2;
+  }
+}
+
+.o-outer-box-select {
+  position: relative;
+  .item-select:after {
+    display: none !important;
+  }
+  .o-icon-status {
+    width: 4rem;
+    height: 4rem;
+  }
+  select {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    background: 0 0;
+    max-width: 100%;
+    width: 100%;
+    text-indent: -999px;
+    height: 100%;
+    border: 0;
+    -webkit-appearance: none;
+  }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 567px) {
+  .o-list-grey-right-item {
+    font-size: 14px;
+  }
+  .o-outer-box-select {
+    .o-icon-status {
+      width: 3rem;
+      height: 3rem;
+      margin-top: -2em;
+    }
+  }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 479px) {
+  .o-other-info-view-table {
+    .o-item-last-sync {
+      .o-item-float-none {
+        float: none;
+      }
+    }
+  }
+}

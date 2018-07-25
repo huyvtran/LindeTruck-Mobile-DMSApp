@@ -1,0 +1,214 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"definitions": {
+		"minmaxavg": {
+			"type": "object",
+			"properties": {
+				"min": {
+					"type": "number"
+				},
+				"max": {
+					"type": "number"
+				},
+				"avg": {
+					"type": "number"
+				}
+			},
+			"required": [
+				"min",
+				"max",
+				"avg"
+			]
+		}
+	},
+	"properties": {
+		"status": {
+			"type": "string"
+		},
+		"metadata": {
+			"type": "object",
+			"properties": {
+				"StepGasMixture__c" : { 
+					"$ref": "gasmixture.schema.json"
+				},
+				"StepGasCalibration__c": {
+					"type": "object",
+					"properties": {
+						"gain": {
+							"type": "number"
+						},
+						"offset": {
+							"type": "number"
+						}
+					},
+					"required": [
+						"gain",
+						"offset"
+					]
+				}
+			},
+			"required": [
+				"StepGasMixture__c",
+				"StepGasCalibration__c"
+			]
+		},
+		"measurements": {
+			"type": "object",
+			"properties": {
+				"scwdsstarttime__c": {
+					"type": "string"
+				},
+				"scwdsstoptime__c": {
+					"type": "string"
+				},
+				"scwdspolarity__c": {
+					"type": "string"
+				},
+				"scwdsarctime__c": {
+					"type": "number"
+				},
+				"scwdsprepurgetime__c": {
+					"type": "number"
+				},
+				"scwdspostpurgetime__c": {
+					"type": "number"
+				},
+				"scwdsflowtotal__c": {
+					"type": "number"
+				},
+				"scwdswireused__c": {
+					"type": "number"
+				},
+				"scwdsheatinput": {
+					"type": "number"
+				},
+				"scwdssurgeflow__c": {
+					"type": "number"
+				},
+				"scwdscurrent": {
+					"$ref": "#/definitions/minmaxavg"
+				},
+				"scwdsvoltage": {
+					"$ref": "#/definitions/minmaxavg"
+				},
+				"scwdspower": {
+					"$ref": "#/definitions/minmaxavg"
+				},
+				"scwdsflow": {
+					"$ref": "#/definitions/minmaxavg"
+				},
+				"scwdswirespeed": {
+					"type": "object",
+					"properties": {
+						"measured": {
+							"type": "object",
+							"properties": {
+								"min": {
+									"type": "number"
+								},
+								"max": {
+									"type": "number"
+								},
+								"avg": {
+									"type": "number"
+								},
+								"std": {
+									"type": "number"
+								}
+							},
+							"required": [
+								"min",
+								"max",
+								"avg",
+								"std"
+							]
+						},
+						"estimated": {
+							"type": "object",
+							"properties": {
+								"wiresize_0.8": {
+									"type": "number"
+								},
+								"wiresize_1.0": {
+									"type": "number"
+								},
+								"wiresize_1.2": {
+									"type": "number"
+								},
+								"wiresize_1.6": {
+									"type": "number"
+								}
+							},
+							"required": [
+								"wiresize_0.8",
+								"wiresize_1.0",
+								"wiresize_1.2",
+								"wiresize_1.6"
+							]
+						}
+					},
+					"required": [
+						"measured",
+						"estimated"
+					]
+				},
+				"scwdsambienttemp": {
+					"$ref": "#/definitions/minmaxavg"
+				},
+				"scwdscurrentlow__c": {
+					"type": "boolean"
+				},
+				"scwdscurrenthigh__c": {
+					"type": "boolean"
+				},
+				"scwdsvoltagelow__c": {
+					"type": "boolean"
+				},
+				"scwdsvoltagehigh__c": {
+					"type": "boolean"
+				},
+				"scwdsgasflowlow__c": {
+					"type": "boolean"
+				},
+				"scwdsgasflowhigh__c": {
+					"type": "boolean"
+				},
+				"scwdswirespeedlow__c": {
+					"type": "number"
+				},
+				"scwdswirespeedhigh__c": {
+					"type": "boolean"
+				},
+				"scwdswirespeederror__c": {
+					"type": "boolean"
+				},
+				"rejected": {
+					"type": "boolean"
+				}
+			},
+			"required": [
+				"scwdsstarttime__c",
+				"scwdsstoptime__c",
+				"scwdspolarity__c",
+				"scwdsarctime__c",
+				"scwdsprepurgetime__c",
+				"scwdspostpurgetime__c",
+				"scwdsflowtotal__c",
+				"scwdswireused__c",
+				"scwdsheatinput",
+				"scwdssurgeflow__c",
+				"scwdscurrent",
+				"scwdsvoltage",
+				"scwdspower",
+				"scwdsflow",
+				"scwdswirespeed",
+				"scwdsambienttemp"
+			]
+		}
+	},
+	"required": [
+		"status",
+		"measurements"
+	]
+}

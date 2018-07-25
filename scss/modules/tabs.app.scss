@@ -1,0 +1,19 @@
+ion-tabs {
+  &.tabs-top {
+    .tabs {
+      height: 55px;
+      padding-left: 15px;
+      justify-content: flex-start;
+      .tab-item {
+        font-family: $font-salesforce-bold;
+        text-transform: uppercase;
+        text-decoration: none;
+        line-height: 58px;
+        &.tab-item-active, &.activated {
+          color: $linde-blue;
+          border-color: $linde-blue;
+        }
+      }
+    }
+  }
+}

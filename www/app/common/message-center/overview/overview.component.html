@@ -1,0 +1,46 @@
+<!-- Overview View-->
+<ion-view>
+    <ion-content class="tab-content massage-center-content">
+        <div id="chart" class="details-header" style="width: 100%;">
+        </div>
+        <div >
+            <ul class="slds-list--vertical">
+                <li ng-repeat="item in $ctrl.recordsCount" class="slds-list__item slds-tile slds-hint-parent">
+                    <div class="slds-card slds-m-bottom--x-small">
+                        <div class="slds-card__header slds-grid">
+                            <div class="slds-media slds-has-flexi-truncate">
+                                <div class="slds-media__figure">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon--small slds-icon-standard-{{item.objectType.toLowerCase()}}" style="background-color: {{item.color}}">
+                                        <use xlink:href="{{$ctrl.getObjectTypeIcon(item.objectType)}}"></use>
+                                    </svg>
+                                </div>
+                                <div class="slds-media__body">
+                                    <h2 class="slds-m-vertical--none slds-truncate">{{item.objectType}}</h2>
+                                    <div class="slds-grid">
+                                        <div class="slds-col">
+                                            <div class="header-heightlight">
+                                                <div class="heightlight-item">
+                                                    <div class="heightlight-label">{{'cl.messageCenter.lb_recordsCount' | translate}}</div>
+                                                    <div class="heightlight-value">{{item.syncedRecordsCount}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="header-heightlight">
+                                                <div class="heightlight-item">
+                                                    <div class="heightlight-label">{{'cl.messageCenter.lb_queued' | translate}}</div>
+                                                    <div class="heightlight-value">{{item.queuedRecordsCount}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </ion-content>
+</ion-view>
+

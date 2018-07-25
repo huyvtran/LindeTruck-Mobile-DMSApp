@@ -1,0 +1,31 @@
+<!--RELATED LIST VIEW-->
+<ion-view ng-controller="ObjectDetailTabController as vm" ng-init="vm.getRelatedLists()">
+
+    <ion-content class="tab-content">
+
+
+
+
+        <div class="slds-card__body">
+            <ul class="slds-list--vertical slds-has-cards--space">
+                <li ng-repeat="relatedList in vm.relatedLists"
+                    ui-sref="app.relatedList({relatedList: vm.getStringifiedResultList(relatedList), pageSize:10, page: 1, objectType: vm.objectType, sid: vm.sid, labelName: vm.labelName})"
+                    class="slds-list__item slds-tile slds-hint-parent">
+
+                    <div class="slds-media slds-media--center slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <svg aria-hidden="true" class="slds-icon slds-icon-standard-contact slds-icon--small">
+                                <use xlink:href="lib/salesforce-lightning-design-system/assets/icons/standard-sprite/svg/symbols.svg#contact"></use>
+                            </svg>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-text-heading--small slds-truncate">{{relatedList.name}}</h2>
+                        </div>
+                    </div>
+
+                    </li>
+                </ul>
+            </div>
+    </ion-content>
+
+</ion-view>

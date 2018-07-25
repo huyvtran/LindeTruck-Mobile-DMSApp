@@ -1,0 +1,72 @@
+<!--HOME VIEW-->
+<ion-view hide-nav-bar="true" class="o-view-home">
+
+    <div class="slds-grid slds-wrap o-wrap-device-connection">
+        <!-- Show if device online or offline -->
+        <div class="slds-size--1-of-1 o-device-connection" ng-class="vm.isOnline === true ? 'is-online' : 'is-offline'">
+            <span ng-if="vm.isOnline">{{'cl.global.lb_online' | translate}}</span>
+            <span ng-if="!vm.isOnline">{{'cl.global.lb_offline' | translate}}</span>
+        </div>
+    </div>
+
+    <!-- HEADER BAR -->
+    <div class="bar bar-header">
+        <!-- Left Buttons -->
+        <div class="buttons"></div>
+        <!-- View Title -->
+        <div class="h1 title"></div>
+        <!-- Right Buttons -->
+        <div class="buttons">
+            <!-- Toggle right side menu -->
+            <button menu-toggle="right" class="button button-icon button-clear icon ion-navicon"></button>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <ion-header-bar align-title="left" class="bar-positive slds-grid slds-wrap slds-p-horizontal--none o-header-home">
+
+        <div class="slds-size--1-of-1 slds-p-around--small slds-p-top--none">
+            <div class="slds-grid slds-wrap">
+
+                <!-- Logo in the left of top -->
+                <div class="slds-size--5-of-12 slds-medium-size--4-of-12 slds-large-size--4-of-12 o-logo-lettering-header">
+                    <img src="img/linde/linde-logo-lettering-transparent.png"/>
+                </div>
+
+                <!-- Setting Icon in the right of top -->
+                <!--<div class="slds-grid slds-size&#45;&#45;7-of-12 slds-medium-size&#45;&#45;8-of-12 slds-large-size&#45;&#45;8-of-12">
+                    <div class="slds-col&#45;&#45;bump-left">
+                        <a class="o-icon-setting-menu" ng-click="vm.helpHint()">
+                            <object class="o-linde-item" data="img/linde/icons/svg/LG_Icon_Help_w.svg"
+                                    type="image/svg+xml"></object>
+                        </a>
+                        <a class="o-icon-setting-menu" ui-sref="app.user-setting" nav-direction="forward">
+                            <object class="o-linde-item" data="img/linde/icons/svg/LG_Icon_Maintenance_CMYK_RZ_w.svg"
+                                    type="image/svg+xml"></object>
+                        </a>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+
+        <div class="slds-size--1-of-1 slds-p-around--small slds-p-top--none slds-p-bottom--none">
+            <div class="slds-grid slds-wrap">
+
+                <!-- Show which User is logged in -->
+                <div class="slds-size--8-of-12 slds-medium-size--7-of-12 slds-large-size--7-of-12 o-username">
+                    <object class="o-item-linde-user" data="img/linde/icons/svg/LG_Icon_Profile_BB_CMYK_RZ_104005_w.svg"
+                            type="image/svg+xml"></object>
+                    <span ng-if="vm.username">{{'cl.global.lb_welcome' | translate}}, {{vm.username}}!</span>
+                </div>
+            </div>
+        </div>
+
+    </ion-header-bar>
+
+    <!-- CONTENT -->
+    <ion-content class="o-has-big-header">
+    </ion-content>
+
+    <!-- ACTION BUTTONS - FOOTER BAR -->
+
+</ion-view>

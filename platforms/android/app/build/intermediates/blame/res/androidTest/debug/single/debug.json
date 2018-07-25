@@ -1,0 +1,534 @@
+[
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_sf__action_back.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/sf__action_back.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_text_dark_normal.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_text_dark_normal.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-hdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_text_light_focused.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_text_light_focused.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-mdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/menu_sf__clear_custom_url.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/menu/sf__clear_custom_url.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__manage_space.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__manage_space.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/color_common_google_signin_btn_text_light.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/color/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_icon_disabled.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_icon_disabled.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-mdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_text_dark_focused.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_text_dark_focused.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_icon_dark_focused.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_icon_dark_focused.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-port-v4_sf__oauth_background.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-port-v4/sf__oauth_background.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/xml_app_restrictions.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/xml/app_restrictions.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/xml_authenticator.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/xml/authenticator.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__idp_code_generator.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__idp_code_generator.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_big_media_narrow_custom.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout-v21_notification_action.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/layout-v21/notification_action.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__custom_server_url.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__custom_server_url.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_sf__edit_icon.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-hdpi-v4/sf__edit_icon.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__header_bg.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__header_bg.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__toolbar_background.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__toolbar_background.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_sf__action_back.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-hdpi-v4/sf__action_back.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xhdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-xhdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout-v21_notification_action_tombstone.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__header_refresh_press.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__header_refresh_press.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_text_light.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/raw_userstore.json.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/build/intermediates/bundles/debug/res/raw/userstore.json"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout-v21_notification_template_icon_group.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__header_refresh.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__header_refresh.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xhdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_sf__progress_spinner.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable/sf__progress_spinner.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__oauth_container_dropshadow.9.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__oauth_container_dropshadow.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-xhdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_media_custom.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_template_media_custom.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-mdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_icon_light_normal.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_icon_light_normal.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_icon_dark_normal.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_icon_dark_normal.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_sf__highlight_glare.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-mdpi-v4/sf__highlight_glare.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__progress_spinner.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__progress_spinner.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xxhdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__login_content_header.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__login_content_header.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-hdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-ldpi-v4_sf__icon.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-ldpi-v4/sf__icon.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_icon_dark.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_icon_dark.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xhdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/color_common_google_signin_btn_tint.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/color/common_google_signin_btn_tint.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_big_media.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_template_big_media.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_sf__edit_icon.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-mdpi-v4/sf__edit_icon.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_icon_light_focused.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_icon_light_focused.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/menu_sf__login.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/menu/sf__login.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_common_google_signin_btn_icon_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_media_cancel_action.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/xml_servers.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/xml/servers.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__inspector_result_cell.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/build/intermediates/bundles/debug/res/layout/sf__inspector_result_cell.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__account_switcher.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__account_switcher.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_sf__icon.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-hdpi-v4/sf__icon.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_text_disabled.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_text_disabled.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-mdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-mdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-xhdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__refresh_loader.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__refresh_loader.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_icon_light.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_icon_light.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_sf__toolbar_background.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable/sf__toolbar_background.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-hdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__header_drop_shadow.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__header_drop_shadow.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-mdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_common_full_open_on_phone.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-hdpi-v4/common_full_open_on_phone.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xxhdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_sf__action_back.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/sf__action_back.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_sf__highlight_glare.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-hdpi-v4/sf__highlight_glare.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-hdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_sf__ic_refresh_sync_anim0.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-mdpi-v4/sf__ic_refresh_sync_anim0.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_sf__icon.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-mdpi-v4/sf__icon.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_googleg_standard_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-mdpi-v4/googleg_standard_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-v21_notification_action_background.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-v21/notification_action_background.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_big_media_custom.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__passcode.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__passcode.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_big_media_narrow.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-mdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-hdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_notification_bg_low_normal.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-mdpi-v4/notification_bg_low_normal.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-mdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_media_action.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_media_action.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/raw_globalstore.json.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/build/intermediates/bundles/debug/res/raw/globalstore.json"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_lines_media.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_template_lines_media.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__fingerprint_dialog.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__fingerprint_dialog.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-hdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__dev_info.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__dev_info.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__header_right_border.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__header_right_border.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__header_refresh_states.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__header_refresh_states.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_text_dark.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout-v21_notification_template_custom_big.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_ic_fp_40px.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/ic_fp_40px.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_common_google_signin_btn_text_light_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xxhdpi-v4/common_google_signin_btn_text_light_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__login.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__login.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_common_full_open_on_phone.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xhdpi-v4/common_full_open_on_phone.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__server_picker_list.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__server_picker_list.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/xml_config.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceHybrid/build/intermediates/bundles/debug/res/xml/config.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-hdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/raw_globalsyncs.json.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartSync/build/intermediates/bundles/debug/res/raw/globalsyncs.json"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_sf__icon.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xhdpi-v4/sf__icon.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_notification_bg_low_pressed.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-xhdpi-v4/notification_bg_low_pressed.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_notification_bg.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable/notification_bg.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_common_google_signin_btn_text_light_normal.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable/common_google_signin_btn_text_light_normal.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__inspector.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/build/intermediates/bundles/debug/res/layout/sf__inspector.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xhdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_sf__icon.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xxhdpi-v4/sf__icon.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_part_time.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__nav_shadow.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__nav_shadow.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_notification_bg_low.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable/notification_bg_low.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_part_chronometer.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_sf__header_bg.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable/sf__header_bg.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_notification_tile_bg.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable/notification_tile_bg.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_common_google_signin_btn_text_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xxhdpi-v4/common_google_signin_btn_text_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_sf__action_back.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-mdpi-v4/sf__action_back.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-mdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-mdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xxhdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_notification_bg_normal_pressed.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-hdpi-v4/notification_bg_normal_pressed.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__oauth_background.png.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__oauth_background.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xhdpi-v4_notify_panel_notification_icon_bg.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/raw_usersyncs.json.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartSync/build/intermediates/bundles/debug/res/raw/usersyncs.json"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_notification_template_media.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-media-compat-27.1.0.aar/c7e9129dfb3005c0ddbaac685ea1b64a/res/layout/notification_template_media.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable_notification_icon_background.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable/notification_icon_background.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_common_google_signin_btn_icon_dark_normal_background.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-hdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_googleg_disabled_color_18.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/drawable-hdpi-v4/googleg_disabled_color_18.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-hdpi-v4_notification_bg_normal.9.png.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.0.aar/8ee14656612b6798e7f4ead37c69804d/res/drawable-hdpi-v4/notification_bg_normal.9.png"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/drawable-xlarge-v4_sf__header_left_border.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/drawable-xlarge-v4/sf__header_left_border.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/color_common_google_signin_btn_text_dark.xml.flat",
+        "source": "/Users/gw/.gradle/caches/transforms-1/files-1.1/play-services-base-11.8.0.aar/b258675dc31046cf1b5e4e72b5d65962/res/color/common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/res/merged/androidTest/debug/layout_sf__server_picker.xml.flat",
+        "source": "/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceSDK/build/intermediates/bundles/debug/res/layout/sf__server_picker.xml"
+    }
+]

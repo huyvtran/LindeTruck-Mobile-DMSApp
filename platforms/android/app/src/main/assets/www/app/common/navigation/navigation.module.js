@@ -1,0 +1,1 @@
+angular.module('oinio.common.navigation', ['oinio.common']);

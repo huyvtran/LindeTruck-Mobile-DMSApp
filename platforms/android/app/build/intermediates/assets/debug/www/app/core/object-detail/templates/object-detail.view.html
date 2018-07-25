@@ -1,0 +1,13 @@
+<!--ACCOUNT DETAIL VIEW-->
+<ion-view class="pagelayout-list" title="{{vm.objectType + '.label' | translate}}">
+    <ion-content>
+
+        <page-layout-renderer rendermode="vm.mode"
+                              collapse-sections="true"
+                              sobject="vm.sobject"
+                              page-layout="vm.layout"></page-layout-renderer>
+    </ion-content>
+    <ion-footer-bar align-title="left" class="tabs tabs-icon-top custom-footer-action-bar">
+        <action-footer-bar object-type="vm.objectType"></action-footer-bar>
+    </ion-footer-bar>
+</ion-view>

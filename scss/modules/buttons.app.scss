@@ -1,0 +1,540 @@
+.button {
+  box-shadow: none;
+  &.ion-navicon {
+    box-shadow: none;
+  }
+  &.button-positive {
+    border-color: $primary-blue;
+    background-color: $primary-blue;
+  }
+  &.button-cancel {
+    &.activated {
+      background-color: #BB322E;
+      border-color: #BB322E;
+      color: #ffffff;
+    }
+
+    &:hover {
+      background-color: #BB322E;
+      border-color: #BB322E;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    border-color: #BB322E;
+    background-color: #BB322E;
+    color: #ffffff;
+  }
+  &.button-oinio {
+    border-color: $oinio-turkis;
+    background-color: $oinio-turkis;
+    color: $login-dark-grey;
+  }
+  &.o-button-visit-report {
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    min-height: 10px;
+    line-height: 35px;
+    /* padding: $spacing-xx-small;*/
+  }
+  &.o-button-visit-report-cancel {
+    &.activated {
+      background-color: #BB322E;
+      border-color: #BB322E;
+      color: #ffffff;
+    }
+
+    &:hover {
+      background-color: #BB322E;
+      border-color: #BB322E;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    position: absolute;
+    top: 8px;
+    left: 20px;
+    min-height: 10px;
+    line-height: 35px;
+    background-color: #BB322E;
+    border-color: #BB322E;
+
+  }
+  &.o-button-visit-report-add-note {
+    &.activated {
+      background-color: #FFFFFF;
+      color: #3784D7;
+      border-color: #3784D7;
+    }
+
+    &:hover {
+      color: #3784D7;
+      text-decoration: none;
+    }
+
+    position: absolute;
+    top: 8px;
+    right: 185px;
+    min-height: 10px;
+    line-height: 35px;
+    background-color: #FFFFFF;
+    color: #3784D7;
+    border-color: #EBEFF5;
+
+  }
+  &.o-button-visit-report-submit {
+    position: absolute;
+    top: 8px;
+    right: 20px;
+    min-height: 10px;
+    line-height: 35px;
+  }
+  &.o-button-visit-report-save {
+    position: absolute;
+    top: 8px;
+    right: 110px;
+    background-color: #42C171;
+    border-color: #42C171;
+    min-height: 10px;
+    line-height: 35px;
+  }
+
+  &.o-button-visit-report-topic-add-note {
+    &.activated {
+      background-color: #FFFFFF;
+      color: #3784D7;
+      border-color: #3784D7;
+    }
+
+    &:hover {
+      color: #3784D7;
+      text-decoration: none;
+    }
+
+    min-height: 35px;
+    line-height: 35px;
+    background-color: #FFFFFF;
+    color: #3784D7;
+    font-size: 16px !important;
+    border-color: #EBEFF5;
+  }
+
+  &.o-button-visit-report-add {
+    &.activated {
+      background-color: #FFFFFF;
+      color: #3784D7;
+      border-color: #EBEFF5;
+    }
+
+    &:hover {
+      color: #3784D7;
+      text-decoration: none;
+    }
+
+    min-height: 35px;
+    line-height: 35px;
+    background-color: #FFFFFF;
+    color: #3784D7;
+    border-color: #EBEFF5;
+  }
+
+  &.o-button-visit-report-topic-closed {
+    &.activated {
+      background-color: #42C171;
+      color: #FFFFFF;
+      border-color: #42C171;
+    }
+
+    &:hover {
+      color: #FFFFFF;
+      text-decoration: none;
+    }
+
+    min-height: 35px;
+    line-height: 35px;
+    background-color: #42C171;
+    border-color: #42C171;
+    font-size: 16px !important;
+    width: 85px;
+  }
+  &.o-button-visit-report-topic-open {
+    &.activated {
+      background-color: #FFFFFF;
+      color: #42C171;
+      border-color: #42C171;
+    }
+
+    &:hover {
+      color: #42C171;
+      text-decoration: none;
+    }
+
+    min-height: 35px;
+    line-height: 35px;
+    background-color: #FFFFFF;
+    color: #42C171;
+    border-color: #42C171;
+    font-size: 16px !important;
+    width: 85px;
+  }
+  &.o-button-search {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    min-height: 10px;
+    line-height: 21px;
+    background-color: #496785;
+    color: #AAAAAA;
+    border-color: #496785;
+    /* padding: $spacing-xx-small;*/
+  }
+  &.o-button-clear-blue {
+    color: $linde-blue;
+  }
+  &.o-button-record {
+    text-align: left;
+  }
+}
+
+.button-bar {
+  .button {
+    color: $linde-blue;
+    border-color: $linde-blue;
+    background-color: $white;
+    padding: 0 5px;
+    &:first-child, &:last-child {
+      border-radius: 0;
+    }
+    &.active {
+      color: $white;
+      background-color: $linde-blue;
+    }
+  }
+}
+
+.spinner-text {
+  min-height: 42px;
+  line-height: 42px;
+  font-size: 16px;
+  padding: 0 6px;
+  border: 0;
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+.o-button-bottom-gray {
+  width: 100%;
+  height: 100%;
+  background-color: #c7c7c7;
+  border-color: #c7c7c7;
+  margin: 0;
+  color: #333333;
+}
+
+.bar-footer {
+  &.o-action-button {
+    padding: 0;
+    height: 59px;
+    background-position: bottom;
+    button {
+      background-color: $linde-grey-3 !important;
+      color: $linde-grey-4 !important;
+      border-color: $linde-grey-4 !important;
+      border: 0;
+      border-right: 1px solid;
+      border-radius: 0;
+      font-weight: 800 !important;
+      line-height: 17px;
+      min-height: 60px;
+      &:last-child {
+        //position: static !important;
+        right: 0 !important;
+        border: 0;
+        top: 0 !important;
+      }
+    }
+  }
+
+  &.o-action-button-with-sc {
+    height: 120px;
+  }
+
+  &.o-sc-height-helper-class { height: 0 !important; }
+
+  &.o-sc-min-height-helper-class { height: 59px !important; }
+
+  &.o-modal-save-button {
+    padding: 0;
+    height: 60px;
+    background-position: bottom;
+    button {
+      background-color: $linde-grey-3 !important;
+      color: $linde-grey-4 !important;
+      border-color: $linde-grey-4 !important;
+      border: 0;
+      border-right: 1px solid;
+      border-radius: 0;
+      font-weight: 800 !important;
+      min-height: 60px;
+      &:last-child {
+        //position: static !important;
+        right: 0 !important;
+        border: 0;
+      }
+    }
+  }
+
+  .o-dark-button {
+    padding: 0;
+    height: 60px;
+    background-position: bottom;
+    background-color: $linde-black !important;
+    bottom: -1px;
+    .o-sc-wrapper {
+      height: 30px;
+      width: 100%;
+      display: flex;
+      margin-top: 10px;
+      padding: 0 10px;
+      button {
+        background-color: transparent !important;
+        color: white !important;
+        border-color: white !important;
+        border: 0;
+        border-radius: 0;
+        font-weight: 400 !important;
+        line-height: 17px;
+        min-height: 40px;
+        &:last-child {
+          right: 0 !important;
+          border: 1px solid;
+          top: 0 !important;
+        }
+        &.activated, &.active {
+          box-shadow: none !important;
+        }
+      }
+    }
+  }
+}
+
+.o-button-blue {
+  color: $white;
+  background-color: $linde-blue;
+}
+
+.o-button-dark-grey,
+.o-button-dark-grey:active,
+.o-button-dark-grey:hover,
+.o-button-dark-grey:focus {
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: $linde-black;
+}
+
+.o-wrapper-reload {
+  &.o-reload-sc {
+    text-align: center;
+    margin-top: 1em;
+    .o-button-reload-sc {
+      color: $linde-black;
+    }
+  }
+}
+
+.action-icon {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+}
+
+.inner-action-icon {
+  position: relative;
+  left: -50%;
+}
+
+.bottom-action-label {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+  text-align: center;
+  padding-right: 2rem;
+}
+
+.top-action-label {
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  padding-right: 2rem;
+}
+
+.outer-box {
+  position: relative;
+  background-color: white;
+  border: .3px solid #CCCCCC;
+  border-radius: .5em;
+  .o-top-action-label {
+    position: absolute;
+    bottom: 2.5em;
+    left: 0;
+  }
+  .o-bottom-action-label {
+    position: absolute;
+    bottom: 1em;
+    left: 0;
+  }
+  span:not(.o-icon) {
+    font-size: 14px;
+    font-weight: 700;
+    color: #7f7f7f;
+  }
+  img {
+    width: 6rem;
+  }
+  .o-action-detail-button {
+    span.o-icon-action-manage-perm-sets {
+      margin-top: 3em;
+    }
+  }
+}
+.spinner-outer-box {
+  position: relative;
+}
+
+.remove-button {
+  background-color: red;
+  color: white;
+}
+
+.o-detail-lists {
+  button.o-edit-data {
+    background-color: $linde-grey-3 !important;
+    color: $linde-grey-4 !important;
+    border-color: transparent !important;
+    border: 0;
+    border-radius: 0;
+    font-weight: 800 !important;
+    line-height: 17px;
+    min-height: 60px;
+
+  }
+}
+
+@media only screen and (min-device-width : 800px) and (max-device-width : 1280px) {
+  .outer-box {
+    height: 170px;
+    .o-img-grid-box {
+      margin-top: -1em;
+    }
+    .o-top-action-label {
+      bottom: 1.5em;
+    }
+    .o-bottom-action-label {
+      bottom: .4em
+    }
+    img.o-img-large {
+      max-height: 7em;
+    }
+  }
+}
+/*
+*** PORTRAIT MODE ***
+*/
+@media only screen and (min-device-width: 568px) and (max-device-width: 799px) {
+  .outer-box {
+    height: 227px;
+    .o-img-grid-box {
+      margin-top: -2em;
+    }
+    span:not(.o-icon) {
+      font-size: 16px;
+    }
+  }
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 567px) {
+  .outer-box {
+    height: 150px;
+    .o-img-grid-box {
+      margin-top: -2.5em;
+      img {
+        width: 3rem;
+      }
+    }
+  }
+}
+
+/* iPhone 4 ----------- */
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : landscape) and (-webkit-min-device-pixel-ratio : 2) {
+  .outer-box {
+    height: 150px;
+    .o-img-grid-box {
+      margin-top: -2.5em;
+      img {
+        width: 3rem;
+      }
+    }
+  }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) and (orientation : portrait) and (-webkit-min-device-pixel-ratio : 2) {
+  .outer-box {
+    height: 150px;
+    .o-img-grid-box {
+      margin-top: -2.5em;
+      img {
+        width: 3rem;
+      }
+    }
+  }
+  .popup-buttons button {
+    font-size: 14px;
+  }
+}
+
+/* iPhone 5 ----------- */
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+  .outer-box {
+    height: 150px;
+    .o-img-grid-box {
+      margin-top: -2.5em;
+      img {
+        width: 3rem;
+      }
+    }
+    span:not(.o-icon) {
+      font-size: 12px;
+    }
+  }
+}
+
+@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){
+  .outer-box {
+    height: 150px;
+    .o-img-grid-box {
+      margin-top: -2.5em;
+      img {
+        width: 3rem;
+      }
+    }
+    span:not(.o-icon) {
+      font-size: 12px;
+    }
+  }
+}
+
+/* iPhone 6 ----------- */
+@media only screen and (min-device-width: 375px) and (max-device-height: 667px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){
+  .outer-box {
+    height: 150px;
+    .o-img-grid-box {
+      margin-top: -2.5em;
+      img {
+        width: 3rem;
+      }
+    }
+  }
+}

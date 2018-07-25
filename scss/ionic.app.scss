@@ -1,0 +1,67 @@
+/*
+To customize the look and feel of Ionic, you can override the variables
+in ionic's _variables.scss file.
+
+For example, you might change some of the default colors:
+
+$light:                           #fff !default;
+$stable:                          #f8f8f8 !default;
+$positive:                        #387ef5 !default;
+$calm:                            #11c1f3 !default;
+$balanced:                        #33cd5f !default;
+$energized:                       #ffc900 !default;
+$assertive:                       #ef473a !default;
+$assertive:                       #ef473a !default;
+$royal:                           #886aea !default;
+$dark:                            #444 !default;
+*/
+
+// The path for our ionicons font files, relative to the built CSS in www/css
+$ionicons-font-path: "../lib/ionic/fonts";
+
+@import
+
+  // CUSTOM VARIABLES
+  "./global/variable.custom.app",
+
+  // IONIC
+  "../www/lib/ionic/scss/ionic",
+
+  // SFDC DESIGN SYSTEM
+  "../www/lib/salesforce-lightning-design-system/scss/index",
+
+  // MAIN
+  "./global/main.app",
+
+  // TRANSITIONS
+  "./global/transition.app",
+
+  // MIXINS
+  "./global/mixins.app",
+
+  // MODULES
+  "./modules/fonts.app",
+  "./modules/progress.app",
+  "./modules/buttons.app",
+  "./modules/navigations.app",
+  "./modules/forms.app",
+  "./modules/actionsheet.app",
+  "./modules/lists.app",
+  "./modules/sliding-tabs.app",
+  "./modules/tabs.app",
+  "./modules/modal.app",
+  "./modules/icons.app",
+  "./modules/login.app",
+  "./modules/pagelayout.app",
+  "./modules/annotations.app",
+  "./modules/cards.app",
+  "./modules/search-box.app",
+  "./modules/popup.app",
+  "./modules/charts.app",
+  "./modules/error-messages.app",
+  "./modules/message-center.app",
+
+  // SECTIONS
+  "./sections/header.app",
+  "./sections/content.app",
+  "./sections/footer.app";

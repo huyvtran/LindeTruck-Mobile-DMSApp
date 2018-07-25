@@ -1,0 +1,475 @@
+{
+  "Id": "a4t4E0000004m6pQAA",
+  "datasets": [
+    {
+      "measurements": {
+        "scwdswireused__c": 0.7041666,
+        "scwdswirespeed": {
+          "avg": 12.038461,
+          "max": 15.7,
+          "min": 7.4
+        },
+        "scwdsprepurgetime__c": 0.0,
+        "scwdsambienttemp": {
+          "avg": 17.0,
+          "max": 17.0,
+          "min": 17.0
+        },
+        "scwdspostpurgetime__c": 0.8,
+        "scwdspower": {
+          "avg": 4889.115,
+          "max": 5638.0,
+          "min": 3322.0
+        },
+        "scwdsarctime__c": 3.6,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105414",
+        "scwdssolenoidop__c": 1,
+        "scwdsflowtotal__c": 0.91733336,
+        "scwdscurrent": {
+          "avg": 228.53847,
+          "max": 252.0,
+          "min": 161.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 26.523075,
+          "max": 28.4,
+          "min": 26.0
+        },
+        "scwdssurgeflow__c": 0.25649992,
+        "scwdscurrenthigh__c": true,
+        "scwdsflow": {
+          "avg": 12.63846,
+          "max": 18.6,
+          "min": 10.6
+        },
+        "scwdsgasflowlow__c": true,
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105419"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "2"
+    },
+    {
+      "measurements": {
+        "scwdswireused__c": 0.51000005,
+        "scwdswirespeed": {
+          "avg": 5.8113627,
+          "max": 7.5,
+          "min": 3.4
+        },
+        "scwdsprepurgetime__c": 0.0,
+        "scwdsambienttemp": {
+          "avg": 17.0,
+          "max": 17.0,
+          "min": 17.0
+        },
+        "scwdspostpurgetime__c": 0.7,
+        "scwdspower": {
+          "avg": 3578.7727,
+          "max": 3935.0,
+          "min": 2711.0
+        },
+        "scwdsarctime__c": 5.4,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105424",
+        "scwdssolenoidop__c": 2,
+        "scwdsflowtotal__c": 1.235334,
+        "scwdscurrent": {
+          "avg": 162.27272,
+          "max": 179.0,
+          "min": 135.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 28.027271,
+          "max": 29.0,
+          "min": 27.3
+        },
+        "scwdssurgeflow__c": 0.2831667,
+        "scwdscurrenthigh__c": true,
+        "scwdsflow": {
+          "avg": 11.547729,
+          "max": 17.4,
+          "min": 10.5
+        },
+        "scwdsgasflowlow__c": true,
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105430"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "2"
+    },
+    {
+      "measurements": {
+        "scwdswireused__c": 0.4936667,
+        "scwdswirespeed": {
+          "avg": 5.8463416,
+          "max": 6.4,
+          "min": 3.7
+        },
+        "scwdsprepurgetime__c": 0.2,
+        "scwdsambienttemp": {
+          "avg": 17.0,
+          "max": 17.0,
+          "min": 17.0
+        },
+        "scwdspostpurgetime__c": 0.8,
+        "scwdspower": {
+          "avg": 2754.5854,
+          "max": 3505.0,
+          "min": 985.0
+        },
+        "scwdsarctime__c": 5.1,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105443",
+        "scwdssolenoidop__c": 3,
+        "scwdsflowtotal__c": 1.2555,
+        "scwdscurrent": {
+          "avg": 131.48781,
+          "max": 162.0,
+          "min": 60.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 28.621948,
+          "max": 30.0,
+          "min": 25.1
+        },
+        "scwdssurgeflow__c": 0.21150005,
+        "scwdsflow": {
+          "avg": 11.490244,
+          "max": 15.4,
+          "min": 10.6
+        },
+        "scwdsgasflowlow__c": true,
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105450"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "2"
+    },
+    {
+      "measurements": {
+        "scwdswireused__c": 0.29016665,
+        "scwdswirespeed": {
+          "avg": 5.4809523,
+          "max": 6.5,
+          "min": 2.0
+        },
+        "scwdsprepurgetime__c": 0.1,
+        "scwdsambienttemp": {
+          "avg": 17.0,
+          "max": 17.0,
+          "min": 17.0
+        },
+        "scwdspostpurgetime__c": 1.0,
+        "scwdspower": {
+          "avg": 3374.0476,
+          "max": 3891.0,
+          "min": 1359.0
+        },
+        "scwdsarctime__c": 3.1,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105510",
+        "scwdssolenoidop__c": 4,
+        "scwdsflowtotal__c": 1.3099998,
+        "scwdscurrent": {
+          "avg": 152.0,
+          "max": 176.0,
+          "min": 65.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 27.55238,
+          "max": 28.7,
+          "min": 15.2
+        },
+        "scwdssurgeflow__c": 0.29833338,
+        "scwdscurrenthigh__c": true,
+        "scwdsflow": {
+          "avg": 18.62857,
+          "max": 23.6,
+          "min": 16.2
+        },
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105514"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "2"
+    },
+    {
+      "measurements": {
+        "scwdswireused__c": 0.6633334,
+        "scwdswirespeed": {
+          "avg": 5.7982464,
+          "max": 6.5,
+          "min": 4.1
+        },
+        "scwdsprepurgetime__c": 0.2,
+        "scwdsambienttemp": {
+          "avg": 17.368422,
+          "max": 18.0,
+          "min": 17.0
+        },
+        "scwdspostpurgetime__c": 1.0,
+        "scwdspower": {
+          "avg": 2013.1578,
+          "max": 2423.0,
+          "min": 708.0
+        },
+        "scwdsarctime__c": 6.7,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105537",
+        "scwdssolenoidop__c": 5,
+        "scwdsflowtotal__c": 2.3370004,
+        "scwdscurrent": {
+          "avg": 133.8421,
+          "max": 158.0,
+          "min": 63.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 21.412283,
+          "max": 23.3,
+          "min": 20.8
+        },
+        "scwdssurgeflow__c": 0.2995,
+        "scwdsflow": {
+          "avg": 17.152634,
+          "max": 22.7,
+          "min": 16.2
+        },
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105545"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "2"
+    },
+    {
+      "measurements": {
+        "scwdsvoltagelow__c": true,
+        "scwdswireused__c": 6.6666666E-4,
+        "scwdswirespeed": {
+          "avg": 0.0,
+          "max": 0.0,
+          "min": 0.0
+        },
+        "scwdsprepurgetime__c": 0.0,
+        "scwdsambienttemp": {
+          "avg": 0.0,
+          "max": 0.0,
+          "min": 0.0
+        },
+        "scwdscurrentlow__c": true,
+        "scwdspostpurgetime__c": 0.0,
+        "scwdspower": {
+          "avg": 0.0,
+          "max": 0.0,
+          "min": 0.0
+        },
+        "scwdsarctime__c": 0.0,
+        "scwdspolarity__c": "",
+        "scwdsstarttime__c": "2017-04-19-105859",
+        "scwdssolenoidop__c": 6,
+        "scwdsflowtotal__c": 0.13433334,
+        "scwdscurrent": {
+          "avg": 0.0,
+          "max": 0.0,
+          "min": 0.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 0.0,
+          "max": 0.0,
+          "min": 0.0
+        },
+        "scwdssurgeflow__c": 0.0,
+        "rejected": true,
+        "scwdsflow": {
+          "avg": 0.0,
+          "max": 0.0,
+          "min": 0.0
+        },
+        "scwdsstoptime__c": "2017-04-19-105859"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "-1"
+    },
+    {
+      "measurements": {
+        "scwdswireused__c": 0.552,
+        "scwdswirespeed": {
+          "avg": 7.7935486,
+          "max": 8.9,
+          "min": 5.9
+        },
+        "scwdsprepurgetime__c": 0.2,
+        "scwdsambienttemp": {
+          "avg": 18.0,
+          "max": 18.0,
+          "min": 18.0
+        },
+        "scwdscurrentlow__c": true,
+        "scwdspostpurgetime__c": 1.0,
+        "scwdspower": {
+          "avg": 1595.742,
+          "max": 2756.0,
+          "min": 31.0
+        },
+        "scwdsarctime__c": 4.1,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105900",
+        "scwdssolenoidop__c": 7,
+        "scwdsflowtotal__c": 1.5805,
+        "scwdscurrent": {
+          "avg": 117.645164,
+          "max": 181.0,
+          "min": 39.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 21.935484,
+          "max": 24.8,
+          "min": 20.2
+        },
+        "scwdssurgeflow__c": 0.25233334,
+        "scwdsflow": {
+          "avg": 17.709679,
+          "max": 22.2,
+          "min": 16.5
+        },
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105905"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "2"
+    },
+    {
+      "measurements": {
+        "scwdswireused__c": 0.37500003,
+        "scwdswirespeed": {
+          "avg": 5.1777782,
+          "max": 5.8,
+          "min": 1.5
+        },
+        "scwdsprepurgetime__c": 0.0,
+        "scwdsambienttemp": {
+          "avg": 18.0,
+          "max": 18.0,
+          "min": 18.0
+        },
+
+        "scwdscurrentlow__c": true,
+        "scwdspostpurgetime__c": 1.0,
+
+        "scwdspower": {
+          "avg": 1778.5,
+          "max": 2220.0,
+          "min": 276.0
+        },
+        "scwdsarctime__c": 4.6,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105910",
+        "scwdssolenoidop__c": 8,
+        "scwdsflowtotal__c": 1.639,
+        "scwdscurrent": {
+          "avg": 119.361115,
+          "max": 147.0,
+          "min": 5.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 21.458336,
+          "max": 22.7,
+          "min": 12.3
+        },
+        "scwdssurgeflow__c": 0.367,
+        "scwdsflow": {
+          "avg": 18.499996,
+          "max": 27.3,
+          "min": 16.0
+        },
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105916"
+      },
+      "scwdsstep__c": "a4t4E0000004m6pQAA",
+      "status": "2"
+    },
+    {
+      "measurements": {
+        "scwdswireused__c": 0.8575001,
+        "scwdswirespeed": {
+          "avg": 4.7597938,
+          "max": 5.5,
+          "min": 0.2
+        },
+        "scwdsprepurgetime__c": 0.1,
+        "scwdsambienttemp": {
+          "avg": 18.742268,
+          "max": 19.0,
+          "min": 18.0
+        },
+        "scwdspostpurgetime__c": 0.9,
+        "scwdspower": {
+          "avg": 1780.8557,
+          "max": 2106.0,
+          "min": 96.0
+        },
+        "scwdsarctime__c": 10.7,
+        "scwdspolarity__c": "= / + DC",
+        "scwdsstarttime__c": "2017-04-19-105919",
+        "scwdssolenoidop__c": 9,
+        "scwdsflowtotal__c": 3.347664,
+        "scwdscurrent": {
+          "avg": 120.670105,
+          "max": 139.0,
+          "min": 8.0
+        },
+        "scwdsheatinput": 0.0,
+        "scwdsvoltage": {
+          "avg": 21.538147,
+          "max": 22.7,
+          "min": 2.6
+        },
+        "scwdssurgeflow__c": 0.3023335,
+        "scwdsflow": {
+          "avg": 16.784546,
+          "max": 23.2,
+          "min": 15.1
+        },
+        "scwdsvoltagehigh__c": true,
+        "scwdsstoptime__c": "2017-04-19-105931"
+      },
+      "scwdsstep__c": "",
+      "status": "2"
+    }
+  ],
+  "demonstrationApp": {
+    "Name": "Root Layer",
+    "WPSName": "Sentec WPS 12118-1-1",
+    "jsonversion": 2,
+    "limits": {
+      "GASFLOW": {
+        "max": 20.0,
+        "min": 15.0
+      },
+      "VOLTAGE": {
+        "max": 20.0,
+        "min": 18.0
+      },
+      "CURRENT": {
+        "max": 150.0,
+        "min": 120.0
+      },
+      "WIREFEED": {
+        "max": 7.0,
+        "min": 6.0
+      }
+    },
+    "status": "2"
+  },
+  "jobid": "",
+  "projectid": "a4g5E0000000FlvQAE"
+}

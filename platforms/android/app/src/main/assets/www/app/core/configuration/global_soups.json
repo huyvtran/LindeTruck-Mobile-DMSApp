@@ -1,0 +1,15 @@
+[
+  {
+    "name": "_user",
+    "indexSpec": [
+      {
+        "path": "username",
+        "type": "string"
+      },
+      {
+        "path": "Name",
+        "type": "string"
+      }
+    ]
+  }
+]

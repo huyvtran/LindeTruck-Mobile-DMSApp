@@ -1,0 +1,111 @@
+<!-- VIEW SIDE NAVIGATION -->
+<ion-side-menus enable-menu-with-back-views="true">
+
+    <ion-side-menu-content drag-content="false">
+        <ion-nav-bar class="bar-stable nav-title-slide-ios7" title="oinio framework">
+            <ion-nav-back-button>
+            </ion-nav-back-button>
+            <ion-nav-buttons side="right">
+                <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
+            </ion-nav-buttons>
+        </ion-nav-bar>
+        <ion-nav-view name="menuContent" animation="slide-right-left"></ion-nav-view>
+    </ion-side-menu-content>
+
+    <ion-side-menu side="right">
+
+        <ion-header-bar align-title="left" class="bar-positive slds-grid slds-wrap o-header-sidemenu">
+
+            <!-- Logo in the left of top -->
+            <div class="slds-size--1-of-1 slds-p-around--xxx-small slds-p-top--medium">
+                <div class="slds-grid slds-wrap">
+
+                    <div class="slds-size--5-of-12 slds-medium-size--5-of-12 slds-large-size--7-of-12 o-logo-lettering-header">
+                        <img src="img/linde/linde-logo-lettering-transparent.png"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Show which User is logged in -->
+            <div class="slds-size--1-of-1 slds-p-horizontal--xxx-small slds-p-top--small o-username">
+                <div class="slds-grid slds-wrap">
+
+                    <object class="slds-size--1-of-12 o-item-linde-user"
+                            data="img/linde/icons/svg/LG_Icon_Profile_BB_CMYK_RZ_104005_w.svg"
+                            type="image/svg+xml"></object>
+
+                    <p class="slds-size--11-of-12 slds-truncate" ng-if="vm.username">{{'cl.global.lb_welcome' | translate}}, {{vm.username}}!</p>
+                </div>
+            </div>
+        </ion-header-bar>
+
+        <!-- HEADER MENU END -->
+        <ion-content class="has-header isw-menu-content">
+            <ion-list>
+                <ion-item menu-close ui-sref="app.home">
+                    <i>
+                        <object class="menu-item-icon" data="img/linde/icons/svg/LG_Icon_Home_CMYK_RZ.svg"
+                                type="image/svg+xml" width="24"
+                                height="24"></object>
+                    </i>{{'cl.navigation.lb_home' | translate}}
+                </ion-item>
+                <ion-item menu-close ng-click="vm.synchronize()">
+                    <i>
+                        <object class="menu-item-icon" data="img/linde/icons/svg/LG_Icon_Synchronize_CMYK_RZ.svg" type="image/svg+xml"
+                                width="24"
+                                height="24"></object>
+                    </i>{{'cl.navigation.lb_synchronize' | translate}}
+                </ion-item>
+                <ion-item menu-close ng-click="vm.helpHint()" ng-if="vm.showHelpMenu">
+                    <i>
+                        <object class="menu-item-icon" data="img/linde/icons/svg/LG_Icon_Interrogant_CMYK_RZ.svg"
+                                type="image/svg+xml"
+                                width="24"
+                                height="24"></object>
+                    </i>
+                    {{'cl.navigation.lb_help' | translate}}
+                </ion-item>
+                <ion-item ng-if="vm.showMessageCenter" menu-close ui-sref="app.message-center">
+                    <i>
+                        <object class="ion-ios-cloud" data="img/linde/icons/svg/LG_Icon_Warning_CMYK_RZ.svg"
+                                type="image/svg+xml"
+                                width="24"
+                                height="24"></object>
+                    </i>
+                    {{'cl.navigation.lb_messageCenter' | translate}}
+                </ion-item>
+                <!--<ion-item ng-if="vm.showMessageCenter" menu-close ng-click="vm.showInspector()">
+                    <i class="ion-wrench"></i>{{'cl.navigation.lb_showInspector' | translate}}
+                </ion-item>-->
+                <ion-item menu-close ui-sref="app.user-setting">
+                    <i>
+                        <object class="menu-item-icon" data="img/linde/icons/svg/LG_Icon_Maintenance_CMYK_RZ.svg"
+                                type="image/svg+xml"
+                                width="24"
+                                height="24"></object>
+                    </i>
+                    {{'cl.navigation.lb_userSettings' | translate}}
+                </ion-item>
+                <ion-item menu-close ng-click="vm.logout()">
+                    <i>
+                        <object class="menu-item-icon" data="img/linde/icons/svg/LG_Icon_Logout_CMYK_RZ_99333.svg"
+                                type="image/svg+xml"
+                                width="24"
+                                height="24"></object>
+                    </i>
+                    {{'cl.navigation.lb_logout' | translate}}
+                </ion-item>
+
+                <!--<ion-item ng-if="vm.showMessageCenter" menu-close ng-click="vm.logoutAndDrop()">
+                    <i>
+                        <object class="menu-item-icon" data="img/linde/icons/svg/LG_Icon_Logout_CMYK_RZ_99333.svg"
+                                type="image/svg+xml"
+                                width="24"
+                                height="24"></object>
+                    </i>
+                    {{'cl.navigation.lb_logoutAndDropDatabase' | translate}}
+                </ion-item>-->
+            </ion-list>
+        </ion-content>
+    </ion-side-menu>
+</ion-side-menus>

@@ -1,0 +1,21 @@
+{
+  "name": "cordova-android-plugin",
+  "version": "0.11.1",
+  "description": "Android plugin used to discover and connect to a smart connector device.",
+  "cordova": {
+    "id": "com.linde.scapp",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.0.0"
+    }
+  ]
+}

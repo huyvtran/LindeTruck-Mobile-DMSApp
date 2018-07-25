@@ -1,0 +1,65 @@
+{
+  "_from": "cordova-plugin-document-viewer@0.8.1",
+  "_id": "cordova-plugin-document-viewer@0.8.1",
+  "_inBundle": false,
+  "_integrity": "sha1-kHq8Oi+wlG0DOxZ27dmR4YjaQ0U=",
+  "_location": "/cordova-plugin-document-viewer",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova-plugin-document-viewer@0.8.1",
+    "name": "cordova-plugin-document-viewer",
+    "escapedName": "cordova-plugin-document-viewer",
+    "rawSpec": "0.8.1",
+    "saveSpec": null,
+    "fetchSpec": "0.8.1"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova-plugin-document-viewer/-/cordova-plugin-document-viewer-0.8.1.tgz",
+  "_shasum": "907abc3a2fb0946d033b1676edd991e188da4345",
+  "_spec": "cordova-plugin-document-viewer@0.8.1",
+  "_where": "/Users/gw/my_project/OinioOne-Boilerplate",
+  "author": {
+    "name": "Felix Schauerte"
+  },
+  "bugs": {
+    "url": "https://github.com/sitewaerts/cordova-plugin-document-viewer/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-document-viewer",
+    "platforms": [
+      "android",
+      "ios",
+      "windows"
+    ]
+  },
+  "deprecated": false,
+  "description": "Document viewer cordova plugin for iOS, Android and Windows 8.1 + 10.",
+  "engines": {
+    "cordovaDependencies": {
+      "0.8.1": {
+        "cordova": ">=3.7.0",
+        "cordova-windows": ">=4.4.0"
+      }
+    }
+  },
+  "homepage": "https://github.com/sitewaerts/cordova-plugin-document-viewer#readme",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-windows"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-document-viewer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sitewaerts/cordova-plugin-document-viewer.git"
+  },
+  "version": "0.8.1"
+}

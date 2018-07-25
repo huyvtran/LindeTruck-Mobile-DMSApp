@@ -1,0 +1,22 @@
+body.platform-ios {
+  background: $linde-blue;
+  padding-top: 20px;
+
+  ion-nav-view:first-child {
+    height: calc(100% - 20px)
+  }
+}
+
+body.platform-ios11 {
+  ion-nav-view:first-child {
+    height: 100% !important;
+  }
+}
+
+body, html {
+  font-family: Arial, sans-serif;
+}
+
+a:hover, a:focus {
+  text-decoration: none !important;
+}

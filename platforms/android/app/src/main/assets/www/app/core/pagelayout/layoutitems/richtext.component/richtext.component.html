@@ -1,0 +1,24 @@
+<ng-if ng-if="$ctrl.form && $ctrl.editableForUpdate"
+       ng-class="{'slds-has-error': ($ctrl.form[$ctrl.detail.name].$invalid && $ctrl.form.$submitted)
+       || ($ctrl.form[$ctrl.detail.name].$invalid && !$ctrl.form.$submitted
+       && $ctrl.form[$ctrl.detail.name].$touched && !$ctrl.form[$ctrl.detail.name].$error.required)}">
+
+    <textarea id="{{::$ctrl.detail.name}}"
+              name="{{::$ctrl.detail.name}}"
+              class="slds-textarea"
+              tabindex="{{::$ctrl.tabOrder}}"
+              ng-maxlength="$ctrl.detail.length"
+              ng-required="true"
+              ng-model="$ctrl.value"
+              ng-model-options="{ updateOn: 'blur' }">{{::$ctrl.value}}</textarea>
+
+    <!-- Error messages are output for the form -->
+    <div static-include-without-new-scope template-path="app/core/pagelayout/inline-error-messages/inline-error-messages.view.html"></div>
+</ng-if>
+
+<!-- Component view for the pure output -->
+<div ng-if="!$ctrl.editableForUpdate" class="slds-form-element__control slds-has-divider--bottom">
+    <div class="slds-form-element__static slds-text-longform">
+        <p>{{::$ctrl.value}}</p>
+    </div>
+</div>

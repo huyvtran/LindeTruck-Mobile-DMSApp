@@ -1,0 +1,133 @@
+<div ng-if="$ctrl.form && $ctrl.itemEditableForUpdate"
+     class="slds-form-element__control pagelayout slds-input-has-icon slds-input-has-icon--right"
+     style="width: 100%;">
+
+    <input id="ref-{{$ctrl.detail.name}}" class="slds-input"
+           ng-model="$ctrl.referencedObjectName"
+           type="text"
+           placeholder="{{$ctrl.placeholder}}"
+           ng-focus="$ctrl.editReferenceValue()"
+    />
+    <svg class="slds-input__icon slds-icon-text-default">
+        <use ng-show="!$ctrl.value"
+             xlink:href="lib/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+        <use ng-show="$ctrl.value"
+             xlink:href="lib/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"
+             ng-click="$ctrl.resetValue()"></use>
+    </svg>
+    <input type="hidden" id="{{$ctrl.detail.name}}" tabindex="{{$ctrl.tabOrder}}" ng-model="$ctrl.value"
+           ng-change="$ctrl.change()"/>
+</div>
+
+<div ng-if="!$ctrl.itemEditableForUpdate" class="slds-form-element__control slds-has-divider--bottom">
+    <span class="slds-form-element__static">
+        {{::$ctrl.getReferenceLabel($ctrl.detail.relationshipName, $ctrl.detail.type)}}
+    </span>
+</div>
+
+
+<!-- modal template content start -->
+
+<script id="content-type-reference-modal.html" type="text/ng-template">
+    <ion-modal-view class="o-pagelayout-modal slds-medium-size--1-of-1 slds-large-size--1-of-1">
+        <ion-header-bar>
+                <button class="button button-cancel left-buttons ng-binding" ng-click="closeModal()" style="line-height: 100%">{{'cl.global.btn_cancel' | translate}}</button>
+                <h1 class="title">{{$ctrl.detail.label}}</h1>
+        </ion-header-bar>
+        <ion-content>
+            <!-- search box form -->
+            <search-box submit="$ctrl.search(searchTerm)" ng-model="$ctrl.searchTerm"
+                        class="cs-search-box-left"></search-box>
+
+            <!-- message -->
+            <div ng-show="$ctrl.message" class="slds-notify_container"
+                 style="position: relative; margin-bottom: 10px;">
+                <div class="slds-notify slds-notify--alert slds-theme--error" role="alert">
+                    <button class="slds-button slds-button--icon-inverse slds-notify__close"
+                            ng-click="$ctrl.message = null;">
+                        <svg aria-hidden="true" class="slds-button__icon">
+                            <use xlink:href="lib/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                        </svg>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <span class="slds-assistive-text">Info</span>
+
+                    <div class="notify__content slds-grid">
+                        <svg aria-hidden="true"
+                             class="slds-icon slds-icon--small slds-m-right--small slds-col slds-no-flex">
+                            <use xlink:href="lib/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                        </svg>
+                        <div class="slds-col slds-align-left" style="text-align: left;">{{$ctrl.message}}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- head card -->
+            <div class="slds-card" style="margin-bottom: 12px;">
+                <div class="slds-card__header slds-grid">
+                    <div class="slds-media slds-has-flexi-truncate">
+                        <div class="slds-media__figure">
+                            <svg aria-hidden="true" class="slds-icon slds-icon-standard-account slds-icon--regular"
+                                 ng-show="$ctrl.objectTabIconPath.srcType === 'svg'">
+                                <use xlink:href="{{$ctrl.objectTabIconPath.path}}"></use>
+                            </svg>
+                            <img ng-src="{{$ctrl.objectTabIconPath.path}}"
+                                 class="slds-icon slds-icon-standard-account slds-icon--regular"
+                                 ng-show="$ctrl.objectTabIconPath.srcType === 'http'"/>
+                        </div>
+                        <div class="slds-media__body">
+                            <h2 class="slds-text-heading--small slds-truncate"
+                                ng-show="$ctrl.selectOptions.length === 1">{{$ctrl.objectLabel}}</h2>
+
+                            <div ng-show="$ctrl.selectOptions.length > 1" style="position: relative;">
+                                    <span class="slds-has-inverted-triangle--right">{{$ctrl.objectLabel}}
+                                        <select ng-model="$ctrl.objectType"
+                                                ng-options="element.value as element.name for element in $ctrl.selectOptions"
+                                                ng-change="$ctrl.changeObjectType()"
+                                                ng-model-options="{updateOn: 'blur'}">
+                                        </select>
+                                    </span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- search result -->
+            <div class="slds-card__body">
+                <ul class="slds-list--vertical slds-has-cards--space">
+                    <li ng-repeat="item in $ctrl.showingRecords"
+                        class="slds-list__item slds-tile slds-hint-parent" ng-click="$ctrl.selectReference(item)">
+                        <div class="slds-grid slds-grid--align-spread slds-has-flexi-truncate">
+                            <p class="slds-tile__title slds-truncate">
+                                <a href="#">{{item.Name}}</a>
+                            </p>
+                        </div>
+                        <div class="slds-tile__detail">
+                            <dl class="slds-dl--horizontal slds-text-body--small slds-grid slds-wrap slds-grid--pull-padded">
+                                <div class="slds-grid" ng-repeat="field in item._listFields" style="width: 100%;">
+                                    <div class="slds-col--padded slds-size--1-of-3 slds-medium-size--2-of-6 slds-large-size--4-of-12">
+                                        <dt class="slds-dl--horizontal__label" style="width: 100%">
+                                        <p class="slds-truncate">{{field | fieldLabel}}</p>
+                                        </dt>
+                                    </div>
+                                    <div class="slds-col--padded slds-size--2-of-3 slds-medium-size--4-of-6 slds-large-size--8-of-12">
+                                        <dd class="slds-dl--horizontal__detail slds-tile__meta">
+                                            <p class="slds-truncate">{{field.value}}</p>
+                                        </dd>
+                                    </div>
+                                </div>
+                            </dl>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <ion-infinite-scroll ng-if="$ctrl.moreDataCanBeLoaded()" icon="ion-loading-c" on-infinite="$ctrl.loadMore()"
+                                 distance="2" immediate-check="false"></ion-infinite-scroll>
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<!-- modal template content end -->

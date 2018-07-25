@@ -1,0 +1,15 @@
+<form class="search-box-type-inline" ng-submit="doSearch({searchTerm: searchTerm});">
+    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+        <svg aria-hidden="true"
+             class="slds-input__icon slds-icon-text-default"
+             ng-click="searchTerm = ''; onClear();">
+            <use ng-show="searchTerm" xlink:href="lib/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#clear"></use>
+        </svg>
+        <input class="o-ionic-font icon ion-ios-search"
+               type="search"
+               placeholder="&#xf4a5; {{'cl.global.lb_search' | translate}}"
+               ng-model="searchTerm" />
+    </div>
+</form>
+
+

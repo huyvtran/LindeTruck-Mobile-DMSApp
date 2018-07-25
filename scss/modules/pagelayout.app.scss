@@ -1,0 +1,92 @@
+.pagelayout {
+  font-size:  $font-size-medium !important;
+  color: $color-text-label !important;
+  span {
+    /* The border in the span for the lightning design checkbox is getting overriden when label is placed on left. So need to set the border.
+    But this is still not working because of the border setting from the lists.app.scss*/
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+  }
+  input {
+    /*The border for the lightning design input component is not getting dispalyed be default. This is a workaround and can be deleted if a better solution is found*/
+    border: 1px solid;
+    border-color: $salesforce-border-color;
+    padding: 0 1rem 0 .75rem;
+    font-size:  $font-size-small !important;
+  }
+  textarea {
+    font-size:  $font-size-small !important;
+  }
+  .content-type-directive-address {
+    /* The border for the table of special address component, which includes border radius */
+    table {
+      border-collapse: separate;
+      border: 1px solid #d8dde6;
+      border-radius: 4px;
+      border-spacing: 0;
+      tr {
+        td {
+          border-top: 0px;
+          &:not(:last-child) {
+            border-right: 1px solid #d8dde6;
+          }
+          input {
+            display: inline-block;
+          }
+        }
+        &:not(:last-child) td {
+          border-bottom: 1px solid #d8dde6;
+        }
+      }
+    }
+  }
+}
+
+.pagelayout-list {
+  ion-content {
+    padding: 10px;
+    label, span, input, textarea {font-size: $font-size-medium-a;}
+    label {padding-top: 5px;}
+    span {color: $color-text-default;}
+    .o-pagelayout-view-mode {
+      display: block !important;
+      .slds-has-divider--bottom {
+        margin: 0 0.5rem !important;
+      }
+    }
+    &.has-footer {
+      bottom: 85px;
+    }
+  }
+}
+
+.cs-search-box-left input {
+  width: calc(100% - 10px);
+  transition: width 1s;
+  -webkit-transition: width 1s;
+}
+
+.content-type-component-reference-modal .cs-search-box-left input {
+  width: 100%;
+  height: 34px !important;
+}
+
+.content-type-component-reference-modal .slds-has-inverted-triangle--right {
+  position: relative;
+  select {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
+  }
+  &:after {
+    content: "\25BC";
+    display: inline-block;
+    font-size: 10px;
+    padding: 0px 7px;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "remoteAccessConsumerKeyPROD": "3MVG9LhmQQuck4iP2W_xx7.cCM36zGcFEXaDr43JpiFV_OjSD9dl45KwxXTurK7_bf_pJwedyaeoe0irhWDlL",
+  "remoteAccessConsumerKeyOld": "3MVG9sSN_PMn8tjSodyD28jSJpz1OSASIjNShGicqt4vYPHWB09uQLV2ct3RJi._.c58JbR_zoDIT8PYaGen3",
+  "remoteAccessConsumerKey": "3MVG9YDQS5WtC11qCLqo5stN3GVAxPgLIhm0M6jz29FP.ooGQBsCA1WVb9x5UALw2ZK8WImAgI4SgUKj5lywF",
+  "oauthRedirectURI": "http://localhost:8080/oauthcallback.html",
+  "oauthScopes": [
+    "web",
+    "api"
+  ],
+  "isLocal": true,
+  "startPage": "index.html",
+  "errorPage": "error.html",
+  "shouldAuthenticate": true,
+  "attemptOfflineLoad": false
+}

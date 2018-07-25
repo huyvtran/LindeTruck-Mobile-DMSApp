@@ -1,0 +1,15 @@
+<!--CONFERENCE VIEW-->
+<ion-view ng-controller="ObjectDetailTabController as vm" ng-init="vm.getPageLayout()">
+
+    <ion-content>
+        <div class="slds-card__body blank" style="padding-top: 5px;">
+
+            <!--ACCOUNT DETAIL VIEW-->
+            <page-layout-renderer rendermode="vm.mode"
+                                  collapse-sections="true"
+                                  sobject="vm.sobject"
+                                  page-layout="vm.layout"></page-layout-renderer>
+        </div>
+    </ion-content>
+
+</ion-view>

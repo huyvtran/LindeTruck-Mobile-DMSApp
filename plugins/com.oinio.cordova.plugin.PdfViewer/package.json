@@ -1,0 +1,17 @@
+{
+    "version": "1.1.1",
+    "name": "com.oinio.cordova.plugin.PdfViewer",
+    "cordova_name": "PdfViewer",
+    "description": "Cordova PDF Viewer Plugin",
+    "license": "MIT",
+    "repo": "https://github.com/ITBconsult/cordova-plugin-pdf-viewer",
+    "keywords": [
+        "cordova", "pdf", "pdfviewer", "viewer", "android", "open"
+    ],
+    "engines": [
+        {
+            "name": "cordova",
+            "version": ">=3.3.0"
+        }
+    ]
+}

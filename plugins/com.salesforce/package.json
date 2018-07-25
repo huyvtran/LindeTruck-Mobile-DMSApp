@@ -1,0 +1,59 @@
+{
+  "_from": "git+https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin.git#83649276e2bf2abe53951ee85ea6e8aeb5159479",
+  "_id": "SalesforceMobileSDK-CordovaPlugin@6.1.0",
+  "_inBundle": false,
+  "_location": "/SalesforceMobileSDK-CordovaPlugin",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "git",
+    "raw": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#83649276e2bf2abe53951ee85ea6e8aeb5159479",
+    "rawSpec": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#83649276e2bf2abe53951ee85ea6e8aeb5159479",
+    "saveSpec": "git+https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin.git#83649276e2bf2abe53951ee85ea6e8aeb5159479",
+    "fetchSpec": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin.git",
+    "gitCommittish": "83649276e2bf2abe53951ee85ea6e8aeb5159479"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "git+https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin.git#83649276e2bf2abe53951ee85ea6e8aeb5159479",
+  "_spec": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#83649276e2bf2abe53951ee85ea6e8aeb5159479",
+  "_where": "/Users/gw/my_project/OinioOne-Boilerplate",
+  "author": {
+    "name": "Bharath Hariharan",
+    "email": "bhariharan@salesforce.com"
+  },
+  "bugs": {
+    "url": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin/issues"
+  },
+  "bundleDependencies": false,
+  "contributors": [
+    {
+      "name": "Wolfgang Mathurin",
+      "email": "wmathurin@salesforce.com"
+    }
+  ],
+  "deprecated": false,
+  "description": "Salesforce Mobile SDK Cordova Plugin Repository",
+  "homepage": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin",
+  "keywords": [
+    "mobilesdk",
+    "android",
+    "ios",
+    "cordova",
+    "salesforce",
+    "mobile",
+    "sdk"
+  ],
+  "licenses": [
+    {
+      "type": "Salesforce.com Mobile SDK License",
+      "url": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin/blob/master/LICENSE.md"
+    }
+  ],
+  "name": "SalesforceMobileSDK-CordovaPlugin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin.git"
+  },
+  "version": "6.1.0"
+}

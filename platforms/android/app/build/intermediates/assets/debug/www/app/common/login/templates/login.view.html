@@ -1,0 +1,52 @@
+<!--LOGIN STANDARD VIEW-->
+<ion-view can-swipe-back="false" view-title="Login" ng-init="vm.loadUserNameFromCache()">
+    <ion-content class="local-login {{vm.themeClass}} scroll-content">
+        <div class="slds-grid slds-grid--align-center">
+            <div class="slds-size--1-of-1 slds-medium-size--6-of-12">
+
+                <!-- LOGO -->
+                <div class="slds-grid">
+                    <div class="flex-claim"></div>
+                </div>
+
+                <!-- USERNAME -->
+                <div class="slds-grid row-border row-padding row-padding-bottomLong">
+                    <span class="slds-size--1-of-12 ion-ios-person-outline o-login-user-color"> </span>
+                    <label class="slds-col o-login-user-color o-login-fontsize slds-truncate">{{vm.user.Username}}</label>
+                </div>
+
+                <!-- PASSWORD -->
+                <div class="slds-grid row-border row-padding row-padding-bottomShort">
+                    <span class="slds-size--1-of-12 ion-ios-locked-outline o-login-user-color">  </span>
+                    <input class="slds-col pwd-color item-no-border o-login-fontsize o-login-input-background"
+                           type="password" placeholder="{{'cl.loginInteraction.lb_enterPassword' | translate}}" ng-model="password">
+                </div>
+
+                <!-- ERROR MESSAGES -->
+                <div class="slds-grid row-padding">
+                    <label class="slds-col item-no-border" ng-show="loginFailure">
+                        <span class="assertive" >{{loginErrorMsg}}</span>
+                    </label>
+                </div>
+
+                <!-- DATA SUBMIT -->
+                <div class="slds-grid ">
+                    <button class="slds-col button button-block o-button-blue" ng-click="vm.loginApp(password)">
+                        {{'cl.loginInteraction.btn_login' | translate}}
+                    </button>
+                </div>
+
+                <div class="slds-grid slds-grid--align-spread">
+                    <!-- FORGOT PW -->
+                    <a class="slds-size--1-of-2 button button-left o-button-dark-grey" ui-sref="forgot-password({ local: true })" style="padding-left: 6px; padding-right: 0px;">
+                        {{'cl.loginInteraction.btn_forgotPassword' | translate}}
+                    </a>
+                    <!-- SWITCH USER -->
+                    <a class="slds-col button button-right o-button-dark-grey" ui-sref="switch-user({ local: true })" style="padding-right: 0px;">
+                        {{'cl.loginInteraction.btn_switchUser' | translate}}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

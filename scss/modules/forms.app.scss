@@ -1,0 +1,120 @@
+@import "../../www/lib/salesforce-lightning-design-system/scss/components/input/base/_index";
+
+.form {
+  .item {
+    .o-item {
+      &-readonly {
+
+      }
+      &non-readonly {
+
+      }
+    }
+  }
+  .item-input {
+    .icon {
+      margin-top: 3px;
+      float: left;
+    }
+    input {
+      width: 95%;
+      float: left;
+    }
+  }
+}
+
+// FIELDSET ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+fieldset {
+  // FIELDSET - PAGELAYOUT /////////////////////////////////////////////////////////////////////////////////////////////
+  &.o-pagelayout-fieldset {
+    margin-top: 5px;
+
+    /*&:first-child {
+      .o-toggle-icon-pagelayout-section { display: block; }
+    }*/
+    .slds-page-header {
+      color: $color-text-default;
+      padding: .5rem 0.75rem;
+      border-radius: 5px;
+      .slds-media__body {
+        font-size: 1.1em;
+        text-transform: uppercase;
+      }
+      &.close {
+        background-color: $color-background-button-brand-disabled;
+        transition: background-color .4s ease-in-out;
+      }
+      &.open {
+        transition: background-color .4s ease-in-out;
+      }
+    }
+    .o-rows-wrap {
+      padding-right: 15px;
+      .o-layout-row {
+        .slds-has-divider--bottom {
+          margin: 0 0.5rem !important;
+          .slds-form-element__static.slds-text-longform {
+            line-height: 1.875rem;
+          }
+           p {
+            //color: $color-text-default;
+            margin-bottom: 0 !important;
+          }
+        }
+        .o-pagelayout-view-mode {
+          .slds-has-divider--bottom {
+            margin: 0 !important;
+            //span { color: $color-text-default; }
+          }
+        }
+        &:last-child {
+          margin-bottom: 15px;
+        }
+      }
+      .slds-input-has-icon--right input[type=text].o-custom-fake-select {
+        background-color: $white;
+        border: 1px solid #d8dde6;
+        padding-right: 2.5rem;
+      }
+    }
+  }
+}
+
+input[readonly]:not(.cloned-text-input) {
+  background: transparent;
+}
+
+input[type=search],
+input[type=text],
+input[type=password],
+input[type=datetime],
+input[type=datetime-local],
+input[type=date],
+input[type=month],
+input[type=time],
+input[type=week],
+input[type=number],
+input[type=email],
+input[type=url],
+input[type=tel],
+input[type=color],
+input[type=phone],
+textarea, textarea:active {
+  @extend .slds-input;
+  -webkit-appearance: none;
+  border-radius: 2px;
+  box-shadow: none !important;
+}
+
+input[type=text]:not(.local-login):not([readonly]),
+textarea, textarea:focus, input[type=number].o-blue-bg-edit-number {
+  background-color: $editable-blue;
+}
+
+input[type=text]:read-only, textarea[readonly]{
+  background-color: $linde-grey-3;
+}
+
+input[type=number].o-blue-bg-edit-number {
+  padding-right: 1em !important;
+}

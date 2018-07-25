@@ -1,0 +1,33 @@
+Current, Voltage, Power, Gas Flow and Temperature
+
+The following steps are used to decide whether the live data packets are to be used for each of these five measurements:
+1. Check that the weld has started - the weld is considered to have started when the current first goes over the threshold value (3A)
+2. Delay for a short while - the next 10 live data packets are ignored and therefore, at a frequency of 10Hz, this means that the first second of data after the weld is considered to have started is ignored
+3. Utilise raw data whilst the current is above threshold - if the current drops below the threshold then the live data packet is ignored
+
+From this subset of values, the minimum, maximum and average (mean) can be computed as per usual.
+
+If the lower and upper limits are provided (current, voltage and gas flow) then whether a low or high error has occurred can be determined as follows:
+1. Recalculate the average (mean) every time a value is added
+2. Keep a record of the minimum and maximum values of the average over time
+3. Compare the minimum and maximum averages to the lower and upper limits i.e.
+	if minAvg < lowerLimit then report a low error
+	if maxAvg > upperLimit then report a high error
+e.g. if we have the raw values 5, 7, 3, 1 then the average goes as 5 (5/1), 6 ((5+7)/2), 5 ((5+7+3)/3), 4 ((5+7+3+1)/4) and therefore minAvg=4 and maxAvg=6
+
+
+
+Wirespeed
+
+The wirespeed utilises a histogram method with bin width 0.1m/min, and bins centered on integer multiples of the bin width e.g. ws < 0.05, 0.05 <= ws < 0.15, 0.15 <= ws < 0.25 etc. Unlike the other measurments, all live data packets are used. From this point onwards, a raw value is now replaced by the value corresponding to the center of its' bin.
+
+The min/max (and also the minAvg/maxAvg used to determine the low/high errors) are calculated in the same way as for the above measurements (current, voltage etc.) except for the fact that all raw values, apart from those in the "zero bin" i.e. ws < 0.05, are used.
+
+The average here corresponds to the mode i.e. the most-common bin (ignoring the "zero bin"). In the instance where there is more than one mode, we report the mean of these modes.
+
+Contrary to the standard definition, the standard deviation is calculated using the mode average in place of the mean average, and once again values in the "zero bin" are ignored.
+
+A third type of error will also be reported if either of the following conditions are met:
+1. The standard deviation is greater than the maximum allowed standard deviation (provided by app or default of 1.5m/min)
+2. More than 90% of the wirespeed values are in the "zero bin"
+3. More than 50% of the wirespeed values corresponding to live data packets which are used for the above measurments i.e. the current has been above threshold, are in the "zero bin"

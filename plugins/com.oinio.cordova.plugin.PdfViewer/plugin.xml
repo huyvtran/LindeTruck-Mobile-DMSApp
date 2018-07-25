@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        id="com.oinio.cordova.plugin.PdfViewer" version="1.1.1">
+    <name>PdfViewer</name>
+    <description>Phonegap PDF Viewer Plugin</description>
+    <license>MIT</license>
+    <keywords>cordova,phonegap,pdf,pdfviewer,viewer,android,open</keywords>
+
+    <js-module src="www/PdfViewer.js" name="PdfViewer">
+        <merges target="openPDF"/>
+    </js-module>
+
+    <platform name="android">
+        <framework src="com.android.support:support-v4:+" />
+        <source-file src="src/android/com/oinio/cordova/plugin/PdfViewer.java" target-dir="src/com/oinio/cordova/plugin"/>
+        <source-file src="src/android/com/oinio/cordova/plugin/FileProvider.java" target-dir="src/com/oinio/cordova/plugin"/>
+        <source-file src="src/android/res/xml/pdfviewer_provider_paths.xml" target-dir="res/xml" />
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="PdfViewer">
+                <param name="android-package" value="com.oinio.cordova.plugin.PdfViewer"/>
+            </feature>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <provider android:name="com.oinio.cordova.plugin.FileProvider" 
+                android:authorities="${applicationId}.PdfViewerPlugin.fileprovider" 
+                android:exported="false" 
+                android:grantUriPermissions="true">
+                <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/pdfviewer_provider_paths" />
+            </provider>
+        </config-file>
+    </platform>
+</plugin>

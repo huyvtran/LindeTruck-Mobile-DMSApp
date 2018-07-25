@@ -1,0 +1,165 @@
+.modal-backdrop {
+  ion-header-bar {
+    > * {
+      color: $white;
+    }
+  }
+  ion-modal-view {
+    &.modal {
+      &.slide-in-up {
+        &.o-pagelayout-modal {
+          right: 0 !important;
+          bottom: 0 !important;
+          left: 0 !important;
+          ion-content {
+            padding: 10px;
+            &.has-header {
+              bottom: 0;
+            }
+            .slds-has-divider--bottom {
+              margin: 0 0.5rem;
+            }
+            fieldset {
+              label, span, input, textarea, p {font-size: $font-size-medium-a !important;}
+              label {padding-top: 5px;}
+              span {color: $color-text-default;}
+              .slds-form-element__help {
+                padding-left: .6rem;
+                margin-top: .2rem;
+              }
+            }
+          }
+        }
+        &.o-visitdetails-modal, &.o-pagelayout-modal-landscape {
+          width: 80%;
+          height: 80%;
+          top: 10%;
+          left: 10% !important;
+        }
+      }
+      &.o-modal-checkbox-select {
+        ion-content {
+          padding: 0;
+
+          ion-list {
+            .o-ion-item.item {
+              padding: 0;
+            }
+          }
+        }
+      }
+
+      ion-content {
+        background: $white;
+        &.has-subheader {
+          top: 80px !important;
+          &.o-modal-has-subheader-search {
+            top: 94px !important;
+          }
+        }
+        &.o-modal-has-header-without-padding {
+          padding: 0 !important;
+        }
+        &.o-has-footer-action-button {
+          bottom: 80px !important;
+          form {
+            padding: 10px 10px 0 !important;
+          }
+        }
+      }
+
+      /*.bar-footer {
+        &.o-action-button {
+          bottom: 20px !important;
+        }
+      }*/
+
+      /*  SECTIONS  */
+      .section {
+        clear: both;
+        padding: 0;
+        margin: 0;
+      }
+
+      /*  COLUMN SETUP  */
+      .col {
+        display: block;
+        float:left;
+        margin: 0 0 0 1.6%;
+      }
+      .col:first-child { margin-left: 0; }
+
+      /*  GROUPING  */
+      .group:before,
+      .group:after { content:""; display:table; }
+      .group:after { clear:both;}
+      .group { zoom:1; /* For IE 6/7 */ }
+
+      /*  GRID OF TWO  */
+      .span_2_of_2 {
+        width: 50%;
+      }
+      .span_1_of_2 {
+        width: 49.2%;
+      }
+
+      /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+      @media only screen and (max-width: 480px) {
+        .col {
+          margin: 1% 0 1% 0;
+        }
+      }
+
+      @media only screen and (max-width: 480px) {
+        .span_2_of_2, .span_1_of_2 { width: 100%; }
+      }
+
+    }
+    // IONIC DATEPICKER
+    // TODO: integrate this classes in ionic datepicker lightning and make bundle
+    &.ionic_datepicker_modal {
+      background-color: #f0f1f3;
+      ion-header-bar .div-cancel .modal_close {
+        font-size: 15px;
+        margin: 7px 0 0 7px !important;
+      }
+      ion-content {
+        &.ionic_datepicker_modal_content {
+          background-color: #f0f1f3 !important;
+          .today_div {
+            background-color: #f0f1f3 !important;
+          }
+        }
+
+        .padding_top_zero {
+          padding: 0 0 5px !important;
+          margin: 0;
+          display: flex !important;
+          height: 55px !important;
+          line-height: 35px;
+        }
+        .col.col-10.right_arrow { margin: 0 -5px 0; }
+      }
+    }
+  }
+}
+
+@media (min-width: 680px) {
+  .modal {
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+  }
+  .platform-ios.platform-cordova .modal-wrapper .modal .bar-header:not(.bar-subheader) > * {
+    margin-top: 20px;
+  }
+  .platform-ios.platform-cordova .modal-wrapper .modal .bar-header:not(.bar-subheader) {
+    height: 64px;
+  }
+  .platform-ios.platform-cordova .modal-wrapper .modal .has-header,
+  .platform-ios.platform-cordova .modal-wrapper .modal .bar-subheader {
+    top: 64px;
+  }
+}

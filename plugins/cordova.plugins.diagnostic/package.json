@@ -1,0 +1,68 @@
+{
+  "_from": "cordova.plugins.diagnostic@3.6.5",
+  "_id": "cordova.plugins.diagnostic@3.6.5",
+  "_inBundle": false,
+  "_integrity": "sha1-NdRZ+xBTSQ7OJlaKLJhYioafaTE=",
+  "_location": "/cordova.plugins.diagnostic",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "cordova.plugins.diagnostic@3.6.5",
+    "name": "cordova.plugins.diagnostic",
+    "escapedName": "cordova.plugins.diagnostic",
+    "rawSpec": "3.6.5",
+    "saveSpec": null,
+    "fetchSpec": "3.6.5"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/cordova.plugins.diagnostic/-/cordova.plugins.diagnostic-3.6.5.tgz",
+  "_shasum": "35d459fb1053490ece26568a2c98588a869f6931",
+  "_spec": "cordova.plugins.diagnostic@3.6.5",
+  "_where": "/Users/gw/my_project/OinioOne-Boilerplate",
+  "author": {
+    "name": "Dave Alden"
+  },
+  "bugs": {
+    "url": "https://github.com/dpa99c/cordova-diagnostic-plugin/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova.plugins.diagnostic",
+    "platforms": [
+      "android",
+      "ios",
+      "windows"
+    ]
+  },
+  "cordova_name": "Diagnostic",
+  "deprecated": false,
+  "description": "Cordova/Phonegap plugin to check the state of Location/WiFi/Camera/Bluetooth device settings.",
+  "homepage": "https://github.com/dpa99c/cordova-diagnostic-plugin#readme",
+  "issue": "https://github.com/dpa99c/cordova-diagnostic-plugin/issues",
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova",
+    "android",
+    "ios",
+    "windows",
+    "phonegap",
+    "diagnostic",
+    "wifi",
+    "location",
+    "gps",
+    "camera",
+    "bluetooth",
+    "settings"
+  ],
+  "license": "MIT",
+  "name": "cordova.plugins.diagnostic",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dpa99c/cordova-diagnostic-plugin.git"
+  },
+  "types": "./cordova.plugins.diagnostic.d.ts",
+  "version": "3.6.5"
+}

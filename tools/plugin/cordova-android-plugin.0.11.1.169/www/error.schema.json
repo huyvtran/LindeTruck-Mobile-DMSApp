@@ -1,0 +1,26 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"code": {
+			"enum": [
+				-1, // Process already started
+				-2, // Process already stopped
+				-3, // Plugin not running
+				-4, // Bluetooth switched off
+				-5, // Not connected to device
+				-6, // Unexpected parameters
+				-7, // Welding in progress
+				-8, // Protocol not compatible
+				-99 // Other error
+			]
+		},
+		"message": {
+			"type": "string"
+		}
+	},
+	"required": [
+		"code",
+		"message"
+	]
+}

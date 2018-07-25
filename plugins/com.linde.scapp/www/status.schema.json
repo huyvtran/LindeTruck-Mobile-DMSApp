@@ -1,0 +1,60 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"battery": {
+			"type": "number"
+		},
+		"temperature": {
+			"type": "number"
+		},
+		"lowBattery": {
+			"type": "boolean"
+		},
+		"arcNoGas": {
+			"type": "boolean"
+		},
+		"zeroWireFeedRate": {
+			"type": "boolean"
+		},
+		"extendedNoArc": {
+			"type": "boolean"
+		},
+		"disconnectedReturnCable": {
+			"type": "boolean"
+		},
+		"lowTemperature": {
+			"type": "boolean"
+		},
+		"archiveFull": {
+			"type": "boolean"
+		},
+		"welding": {
+			"type": "boolean"
+		},
+		"archivedData": {
+			"type": "boolean"
+		},
+		"batteryChargingHighRate": {
+			"type": "boolean"
+		},
+		"batteryCharging": {
+			"type": "boolean"
+		}
+	},
+	"required": [
+		"battery",
+		"temperature",
+		"lowBattery",
+		"arcNoGas",
+		"zeroWireFeedRate",
+		"extendedNoArc",
+		"disconnectedReturnCable",
+		"lowTemperature",
+		"archiveFull",
+		"welding",
+		"archivedData",
+		"batteryChargingHighRate",
+		"batteryCharging"
+	]
+}

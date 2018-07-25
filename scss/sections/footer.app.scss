@@ -1,0 +1,41 @@
+ion-footer-bar {
+  &.bar {
+    &.bar-footer {
+      border-right: 0;
+      border-left: 0;
+    }
+    &.tabs {
+      padding: 10px 0 0;
+      height: 70px;
+    }
+    &.custom-footer-action-bar {
+      padding: 2px 0 0;
+      height: 70px;
+      a {
+        position: relative;
+        display: inline;
+        padding-right: 25px;
+        padding-left: 25px;
+        .custom-label-bottom {
+          top: 30px;
+          position: absolute;
+          bottom: 5px;
+          width: 100%;
+          text-align: center;
+          left: 0;
+        }
+      }
+    }
+  }
+  &.custom-pagelayout-tabs {
+    color: $grey;
+    padding-top: 4px;
+    border: 0;
+    .tab-item {
+      .icon {
+        font-size: 15px;
+        height: 15px;
+      }
+    }
+  }
+}

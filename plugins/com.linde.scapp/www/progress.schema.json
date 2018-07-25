@@ -1,0 +1,51 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"definitions": {
+		"minmaxvalue": {
+			"type": "object",
+			"properties": {
+				"min": {
+					"type": "number"
+				},
+				"max": {
+					"type": "number"
+				},
+				"value": {
+					"type": "number"
+				}
+			},
+			"required": [
+				"value"
+			]
+		}
+	},
+	"properties": {
+		"scwdscurrent": {
+			"$ref": "#/definitions/minmaxvalue"
+		},
+		"scwdsvoltage": {
+			"$ref": "#/definitions/minmaxvalue"
+		},
+		"scwdspower": {
+			"$ref": "#/definitions/minmaxvalue"
+		},
+		"scwdsflow": {
+			"$ref": "#/definitions/minmaxvalue"
+		},
+		"scwdswirespeed": {
+			"$ref": "#/definitions/minmaxvalue"
+		},
+		"scwdsambienttemp": {
+			"$ref": "#/definitions/minmaxvalue"
+		}
+	},
+	"required": [
+		"scwdscurrent",
+		"scwdsvoltage",
+		"scwdspower",
+		"scwdsflow",
+		"scwdswirespeed",
+		"scwdsambienttemp"
+	]
+}

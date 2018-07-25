@@ -1,0 +1,39 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:1-18:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:1-18:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:1-18:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:1-18:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:1-18:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:1-18:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:1-18:12
+	package
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:4:2-48
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:6:2-29
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:3:11-69
+	android:versionCode
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:5:2-26
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml
+uses-sdk
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:8:5-9:41
+	android:targetSdkVersion
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:9:9-38
+	android:minSdkVersion
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:8:15-41
+application
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:11:2-17:16
+activity#com.salesforce.androidsdk.smartstore.ui.SmartStoreInspectorActivity
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:14:9-16:30
+	android:exported
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:16:4-28
+	android:theme
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:15:4-55
+	android:name
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SmartStore/AndroidManifest.xml:14:19-101

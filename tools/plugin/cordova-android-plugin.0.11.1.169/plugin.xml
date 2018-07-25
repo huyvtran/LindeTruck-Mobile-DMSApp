@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="com.linde.scapp"
+        version="0.11.1">
+
+    <name>Smart Connecter Plugin</name>
+
+    <description>
+        Android plugin used to discover and connect to a smart connector device.
+    </description>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0"/>
+    </engines>
+
+    <dependency id="cordova.plugins.diagnostic" version="3.6.5"/>
+    
+    <platform name="android">
+
+        <framework src="com.android.support:support-v4:25.3.1" />
+        <framework src="com.android.support:appcompat-v7:26+" />
+        <framework src="com.google.code.gson:gson:2.8.0" />
+
+        <js-module src="www/scapp.js" name="SCApp">
+            <clobbers target="cordova.plugins.scapp" />
+        </js-module>
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="SCAppPlugin">
+                <param name="android-package" value="com.linde.scapp.SCAppPlugin"/>
+            </feature>
+        </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <service android:name="com.linde.scapp.SCService">
+                <intent-filter>
+                    <action android:name="com.linde.scapp.SCService"/>
+                </intent-filter>
+            </service>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.BLUETOOTH"/>
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+        </config-file>
+        
+        <source-file src="src/android/ADCFlowPair.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/ArchivedDataHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/BatteryHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/ConnectionHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/DataStore.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/DiscoveryHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/Gas.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/GasCalibration.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/GasLookupTable.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/GasMixture.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/Histogram.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/IdentifyHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/MachineIDHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/MinMaxAvg.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/MinMaxValue.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/NameHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/NicknameHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/SCAppPlugin.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/SCIDHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/SCService.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/ServiceHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/Stack.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/StatusHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/UniqueIDHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/Utils.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/WeldDataset.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/WeldHelper.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/WeldInputData.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/WeldMeasurements.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/WeldMetadata.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/WeldProgressData.java"
+            target-dir="src/com/linde/scapp"/>
+        <source-file src="src/android/WirespeedResult.java"
+            target-dir="src/com/linde/scapp"/>
+            
+        <source-file src="src/android/packet/AcknowledgeArchivedDataPacket.java"
+           target-dir="src/com/linde/scapp/packet"/>    
+        <source-file src="src/android/packet/ArchivedDataPacket.java"
+           target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/DeleteMachineIDPacket.java"
+           target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/DeleteNicknamePacket.java"
+           target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/EraseArchivedDataPacket.java"
+           target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/FaultAndStatusBits.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/GasCalibrationPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/IdentifyPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/LiveDataPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/MachineIDAndNicknamePacket.java"
+           target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/Packet.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/ReadSCIDPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/ReadUniqueIDPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/RequestArchivedDataPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/RequestStatusPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/ReadGasCalibrationPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/ReadMachineIDAndNicknamePacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/ResponsePacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/SCIDPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/StartPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/StatusPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/StopPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/SyncTimePacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/UniqueIDPacket.java"
+            target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/WriteMachineIDPacket.java"
+           target-dir="src/com/linde/scapp/packet"/>
+        <source-file src="src/android/packet/WriteNicknamePacket.java"
+           target-dir="src/com/linde/scapp/packet"/>
+         
+        <source-file src="src/android/response/AllowedGasesResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/BatteryResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/ConnectionResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/DeviceResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/ErrorResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/GasMixtureResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/MachineIDResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/NicknameResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/Response.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/ResultResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/SCIDResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/StartStopResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/StatusResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/SuccessResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/UniqueIDResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/Warning.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/WarningResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/WeldDatasetResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/WeldDatasetsResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+        <source-file src="src/android/response/WeldProgressResponse.java"
+            target-dir="src/com/linde/scapp/response"/>
+
+        <resource-file src="assets/lookuptables" target="assets/lookuptables"/>
+        
+    </platform>
+    
+</plugin>

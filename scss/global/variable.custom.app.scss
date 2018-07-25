@@ -1,0 +1,87 @@
+// BACKGROUND CI COLORS && BG-IMAGES ///////////////////////////////////////////////////////////////////////////////////
+$backgroundColor: #43B09D;
+$backgroundImage: 'url/example';
+
+// SALESFORCE CI COLORS ////////////////////////////////////////////////////////////////////////////////////////////////
+$primary-blue: rgb(0, 112, 210);
+
+// STANDARD COLORS /////////////////////////////////////////////////////////////////////////////////////////////////////
+$white: #fff;
+$black: #000;
+$white-with-opacity-09: rgba(255, 255, 255, .9);
+
+$dark-grey: rgb(51, 51, 51);
+$grey: rgba(111, 111, 111, 1);
+$light-grey: #eaeaea;
+
+// LINDE CI COLORS
+$linde-blue: rgb(13, 92, 145);
+$linde-black: rgb(68, 68, 68);
+$linde-grey-1: rgb(199, 199, 204);
+$linde-grey-2: rgb(142, 142, 147);
+$linde-grey-3: rgb(247, 247, 247);
+$linde-grey-4: rgb(127, 127, 127);
+
+$readonly-grey: rgb(249, 249, 249);
+$editable-blue: rgb(243, 251, 255);
+
+
+// COMPANY && SFDC STANDART FONTS //////////////////////////////////////////////////////////////////////////////////////
+
+// LINDE DAX FONT VARIABLES
+$font-linde-light: 'LindeDaxLig', sans-serif;
+$font-linde-regular: 'LindeDaxReg', sans-serif;
+$font-linde-middle: 'LindeDaxMed', sans-serif;
+
+// SALESFORCE SANS FONT VARIABLES
+$font-family-base: 'SFDC-Regular', sans-serif;
+
+$font-salesforce-thin: 'SFDC-Thin', sans-serif;
+$font-salesforce-thin-italic: 'SFDC-Thin-Italic', sans-serif;
+
+$font-salesforce-light: 'SFDC-Light', sans-serif;
+$font-salesforce-light-italic: 'SFDC-Light-Italic', sans-serif;
+
+$font-salesforce-regular: 'SFDC-Regular', sans-serif;
+$font-salesforce-regular-italic: 'SFDC-Regular-Italic', sans-serif;
+
+$font-salesforce-bold: 'SFDC-Bold', sans-serif;
+$font-salesforce-bold-italic: 'SFDC-Bold-Italic', sans-serif;
+
+// IMAGES //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// LINDE IMAGES
+$background-image-blurred: url('../img/background-blurred.png');
+$background-image: url('../img/background.png');
+$linde-background-image-logo-blue: url('../img/linde/linde-logo-lettering-transparent-blue.png');
+
+// OINIO IMAGES
+$login-bg-image: url('../../img/background-dark.png');
+$login-oinio-flex: url('../../img/flex.png');
+$login-oinio-flexClaim: url('../../img/flex_claim.png');
+// FORM VALIDATION ERRORS //////////////////////////////////////////////////////////////////////////////////////////////
+$form-validation-error: red;
+
+// LOGIN COLORS
+$oinio-turkis: #43B09D;
+$login-light-grey:#AAAAAA;
+$login-dark-grey:#494948;
+$login-white: #EEEEEE;
+$border-light:#1e1e1e;
+
+//PAGELAYOUT
+$salesforce-border-color: #d8dde6;
+
+$oinio-section--padded-top: .70em;
+
+// COLORS SIDEMENU
+$menu-dark-blue: rgba(42, 64, 85, 1);
+$menu-dark-blue-shadow: rgba(35, 53, 71, 1);
+$menu-lightdark-blue: rgba(52, 74, 96, 1);
+
+// COLORS IF DEVICE ONLINE OR OFFLINE
+$device-is-online-green : #4bc076;
+$device-is-offline-red : red;
+
+// WELD
+$weld-error : #f44336;
+$weld-success: #4bc076;

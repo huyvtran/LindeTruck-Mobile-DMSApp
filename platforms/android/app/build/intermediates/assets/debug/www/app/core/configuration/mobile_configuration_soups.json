@@ -1,0 +1,18 @@
+[
+  {
+    "name": "MobileVizArt__Mobile_Configuration__c",
+    "label": "Mobile Configuration",
+    "fields": [],
+    "filterCriteria": "",
+    "lookupModStamp": "",
+    "targetSoup": "_configuration"
+  },
+  {
+    "name": "MobileVizArt__Mobile_Object__c",
+    "label": "Mobile Object",
+    "fields": [],
+    "filterCriteria": " MobileVizArt__Active__c = true and Name not in ('Note', 'Attachment')",
+    "lookupModStamp": "",
+    "targetSoup": "_object"
+  }
+]

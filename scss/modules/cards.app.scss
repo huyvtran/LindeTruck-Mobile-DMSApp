@@ -1,0 +1,132 @@
+@media (min-width:48em) {
+  .oinio-section--padded-top { padding-top:$oinio-section--padded-top; }
+}
+ion-content {
+  .slds-card__body {
+    &.o-account-checklist-topic--c-card, &.o-upcoming-visits-card, &.o-all-notifications-card  {
+      .slds-truncate { max-width: 10rem; }
+    }
+    &.o-task-card, &.o-contact-card, &.o-partner-contract--c-card {
+      .slds-truncate { max-width: 7rem; }
+    }
+    &.o-todays-tasks-card {
+      .slds-truncate { max-width: 6rem; }
+    }
+
+    .slds-table {
+      tr > th:first-child { padding-left: 1rem; }
+      tr > td {
+        &:last-child { padding-right: .5rem; }
+        &:first-child { padding-left: 1rem; }
+      }
+    }
+  }
+  .o-past-activities-tab {
+    .slds-card__body {
+      &.o-task-card {
+        .slds-truncate {
+          max-width: 15rem;
+        }
+      }
+    }
+  }
+}
+
+ion-modal-view {
+  .slds-card__body {
+    &.o-task-card {
+      .slds-truncate {
+        max-width: 7rem;
+      }
+    }
+    &.o-account-checklist-topic--c-card {
+      .slds-truncate {
+        max-width: 8rem;
+      }
+    }
+    &.o-contact-card, &.o-partner-contract--c-card {
+      .slds-truncate {
+        max-width: 5rem;
+      }
+    }
+  }
+}
+
+/* fixed height for 2 rows */
+.table_fixed_height_2 {
+  height: 120px;
+  overflow-y: auto;
+}
+
+/* fixed height for 3 rows */
+.table_fixed_height_3 {
+  height: 143px;
+  overflow-y: auto;
+}
+
+/* fixed height for whole page height */
+.table_fixed_height_page {
+  height: 510px;
+  overflow-y: auto;
+}
+
+.o-past-activities-tab .slds-card__body.o-task-card  {
+  height: 550px;
+  overflow-y: auto;
+}
+
+.scroll_table {
+  width: 100%;
+}
+
+table.scroll_table tbody,
+table.scroll_table thead tr { display: block; }
+
+table.scroll_table tbody {
+  height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+table.scroll_table tbody td,
+table.scroll_table thead th {
+  width: 475px;
+}
+
+.chart {
+  background-color: white;
+}
+
+.left-align {
+  float: left;
+}
+
+.red {
+  color:red;
+}
+
+/**
+// Cards in related list detail
+**/
+.card {
+  &.o-card {
+    margin: 0 10px 5px !important;
+    .item {
+      &.item-divider {
+        background-color: $white !important;
+      }
+      .o-user {
+        font-size: 14px;
+        font-weight: bold !important;
+      }
+      .o-page-annotation {
+        font-size: 12px;
+        line-height: 13px !important;
+      }
+    }
+    .item-text-wrap {
+      font-size: 14px !important;
+      border: 0 !important;
+    }
+  }
+}

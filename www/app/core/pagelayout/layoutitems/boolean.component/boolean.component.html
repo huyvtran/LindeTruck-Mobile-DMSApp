@@ -1,0 +1,24 @@
+<ng-if ng-if="$ctrl.form"
+       ng-class="{'slds-has-error': ($ctrl.form[$ctrl.detail.name].$invalid && $ctrl.form.$submitted)
+       || ($ctrl.form[$ctrl.detail.name].$invalid && !$ctrl.form.$submitted
+       && $ctrl.form[$ctrl.detail.name].$touched && !$ctrl.form[$ctrl.detail.name].$error.required)}">
+
+    <label class="slds-checkbox">
+        <input id="{{$ctrl.detail.name}}"
+               ng-disabled="::!$ctrl.itemEditableForUpdate"
+               class="slds-checkbox"
+               type="checkbox"
+               name="{{::$ctrl.detail.name}}"
+               tabindex="{{::$ctrl.tabOrder}}"
+               ng-required="$ctrl.required"
+               ng-model="$ctrl.value"
+               ng-model-options="{ updateOn: 'blur' }"
+               ng-change="$ctrl.change()"
+        />
+        <span class="slds-checkbox--faux"></span>
+    </label>
+
+    <!-- INCLUDE ERROR FORM MESSAGES -->
+    <div static-include-without-new-scope
+         template-path="app/core/pagelayout/inline-error-messages/inline-error-messages.view.html"></div>
+</ng-if>

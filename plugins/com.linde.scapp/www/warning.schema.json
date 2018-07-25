@@ -1,0 +1,23 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"code": {
+			"enum": [
+				-1, // No gas mixture data provided, using default gas mixture
+				-2, // Unrecognised gas name provided, using default gas mixture
+				-3, // Invalid gas percentage(s) provided or percentages do not add to 100, using default gas mixture
+				-4, // Weld input data ignored, current dataset is already associated with weld input data
+				-5, // Gas mixture from weld input data ignored, current dataset is already using default gas mixture
+				-99 // Other error
+			]
+		},
+		"message": {
+			"type": "string"
+		}
+	},
+	"required": [
+		"code",
+		"message"
+	]
+}

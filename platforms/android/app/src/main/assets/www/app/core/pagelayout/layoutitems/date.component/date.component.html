@@ -1,0 +1,29 @@
+<ng-if ng-if="$ctrl.form && $ctrl.itemEditableForUpdate"
+       ng-class="{'slds-has-error': ($ctrl.form[$ctrl.detail.name].$invalid && $ctrl.form.$submitted)
+       || ($ctrl.form[$ctrl.detail.name].$invalid && !$ctrl.form.$submitted
+       && $ctrl.form[$ctrl.detail.name].$touched && !$ctrl.form[$ctrl.detail.name].$error.required)}">
+
+    <input id="{{::$ctrl.detail.name}}"
+           class="slds-input"
+           style="position: absolute; opacity: 0;"
+           type="{{::$ctrl.detail.type === 'datetime' ? 'datetime-local' : 'date'}}"
+           tabindex="{{::$ctrl.tabOrder}}"
+           ng-required="$ctrl.required"
+           ng-model="$ctrl.selectedTime"
+           ng-change="$ctrl.setDate()"
+    />
+
+    <input class="input-trigger" style="margin: 0 0rem !important;"
+           type="text" value="{{$ctrl.formatedDate}}" />
+
+    <input type="hidden" ng-required="$ctrl.required" name="{{$ctrl.detail.name}}" ng-model="$ctrl.sfdcDate"/>
+
+    <!-- Error messages are output for the form -->
+    <div static-include-without-new-scope
+         template-path="app/core/pagelayout/inline-error-messages/inline-error-messages.view.html"></div>
+</ng-if>
+
+<!-- Component view for the pure output -->
+<div ng-if="::!$ctrl.itemEditableForUpdate" class="slds-form-element__control slds-has-divider--bottom">
+    <span class="slds-form-element__static">{{::$ctrl.formatedDate}}</span>
+</div>

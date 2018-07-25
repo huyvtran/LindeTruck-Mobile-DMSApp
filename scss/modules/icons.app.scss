@@ -1,0 +1,139 @@
+.circle-icon {
+  background: #ccc;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  vertical-align: middle;
+  padding: 30px;
+}
+
+.o-ionic-font {
+  display: inline-block;
+  font-family: "Ionicons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// LINDE ICONS
+object {
+  &.o-linde-item {
+    line-height: 1;
+    width: 1.5rem;
+    height: 1.5rem;
+    &.o-icon-left {
+      position: absolute;
+      top: 14px;
+      left: 11px;
+    }
+    &.o-icon-arrow {
+      height: 1rem;
+    }
+  }
+}
+
+.o-item-icon-right {
+  padding-right: 30px;
+  .icon {
+    &.o-icon-right {
+      right: 5px;
+    }
+  }
+}
+
+.o-icon-sfdc-project {
+  height: 1em !important;
+  top: 14px !important;
+}
+
+.o-icon- {
+  &setting-menu {
+    padding: 5px 0 5px 10px;
+  }
+}
+
+
+.o-record-dot-wrapper, .o-button-record-dot-wrapper {
+  position: absolute;
+  right: 2.5em;
+  .o-record-dot-container, .o-busy-indicator-container {
+    position: relative;
+    width: 75px;
+    text-align: left;
+    line-height: normal;
+    .o-circle {
+      width: 15px;
+      height: 15px;
+      background-color: red;
+      border-radius: 50%;
+      position: absolute;
+      top: 9px;
+      right: -15px;
+    }
+
+    .o-pulse{
+      border: 3px solid red;
+      -webkit-border-radius: 30px;
+      height: 25px;
+      width: 25px;
+      position: absolute;
+      right: -20px;
+      top: 4px;
+      -webkit-animation: pulsate 2s ease-out;
+      -webkit-animation-iteration-count: infinite;
+      opacity: 0.0
+    }
+
+    .o-busy-indicator {
+      position: absolute;
+      top: 4px;
+      right: -30px;
+    }
+
+    @-webkit-keyframes pulsate {
+      0% {-webkit-transform: scale(0.1, 0.1); opacity: 0.0;}
+      50% {opacity: 1.0;}
+      100% {-webkit-transform: scale(1.0, 1.0); opacity: 0.0;}
+    }
+  }
+  &.o-button-record-dot-wrapper {
+    right: 2em;
+    top: 0.1em;
+  }
+}
+
+.o-action-detail-button {
+  .o-icon {
+    border: solid 7px;
+    &.o-icon-action-approval { border-color: #00c6b7; }
+    &.o-icon-action-new { border-color: #33bce7; }
+    &.o-icon-action-following { border-color: #7dcf64; }
+    &.o-icon-action-info { border-color: #54698C; }
+    &.o-icon-action-manage-perm-sets { border-color: #54698C; }
+    &.o-icon-action-custom19 { border-color: #3abeb1; }
+    &.o-icon-action-record { border-color: #7dc37d; }
+    &.o-icon-action-work-order-item { border-color: #62b7ed; }
+    &.o-icon-action-custom97 { border-color: #dd6085; }
+  }
+}
+
+@media only screen and (min-device-width: 568px) and (max-device-width: 799px) {
+  .o-action-detail-button .o-icon {
+    margin-top: 20px;
+    border: 20px solid;
+  }
+}
+
+.spinner-align {
+  position: absolute;
+  top: 14%;
+  left: 32%;
+}

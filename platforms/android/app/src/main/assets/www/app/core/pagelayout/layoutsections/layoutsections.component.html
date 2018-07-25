@@ -1,0 +1,75 @@
+<fieldset class="o-pagelayout-fieldset" ng-repeat="section in $ctrl.layoutsections track by $index"
+          ng-init="$ctrl.setFirstToggled(section, $first)">
+
+
+
+    <div class="slds-page-header" role="banner" ng-if="section.useHeading" ng-click="$ctrl.expandSection($index)">
+        <div class="slds-media" style="line-height:100%">
+            <div class="slds-media__body">
+                <p class="slds-page-header__title slds-truncate" title="">{{::section.heading}}</p>
+            </div>
+            <span class="slds-icon_container">
+            <svg aria-hidden="true" class="slds-icon--x-small">
+                <use xlink:href="lib/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#chevrondown" ng-if="$ctrl.expanded.indexOf($index) !== -1"></use>
+                <use xlink:href="lib/salesforce-lightning-design-system/assets/icons/utility-sprite/svg/symbols.svg#chevronright" ng-if="!($ctrl.expanded.indexOf($index) !== -1)"></use>
+            </svg>
+        </span>
+        </div>
+    </div>
+
+
+
+
+    <!--div id="o-layout-section-{{::$index}}" ng-if="section.useHeading"
+         ng-class="{'open' : section.toggled, 'close' : !section.toggled}"
+         class="sdls-col slds-container--fluid slds-page-header" role="banner"
+         ng-click="$ctrl.expandSection($index); $ctrl.toggleSection(section)">
+        <div class="slds-media slds-media--center">
+            <div class="slds-media__body">
+                <p class="slds-truncate slds-align-middle">
+                    {{::section.heading}}
+                </p>
+            </div>
+            <div class="slds-media__figure">
+                <div id="o-layout-section-arrow-{{::$index}}" ng-class="{'open' : section.toggled, 'close' : !section.toggled}"
+                     class="o-icon o-toggle-icon-pagelayout-section">
+                    <span class="icon ion-chevron-right"></span>
+                </div>
+            </div>
+        </div>
+    </div -->
+
+    <!-- create a grid for layout rows -->
+    <div class="slds-card blank" ng-if="!$ctrl.collapseSections || $ctrl.created.indexOf($index) !== -1"
+         ng-show="!$ctrl.collapseSections || $ctrl.expanded.indexOf($index) !== -1"
+    >
+    <div class="o-rows-wrap o-slide-section">
+        <div ng-repeat="layoutrow in section.layoutRows"
+             class="slds-grid slds-wrap o-layout-row">
+            <div class=""
+                 ng-repeat="layoutitem in layoutrow.layoutItems"
+                 ng-class="layoutrow.numItems === 2 ? 'slds-size--1-of-1 slds-small-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2' : 'slds-size--1-of-1'">
+                <ng-if ng-if="layoutitem.type!=='EmptySpace'">
+                    <label class="slds-form-element__label slds-form-element__addon"
+                           ng-if="!layoutitem.layoutComponents || layoutitem.layoutComponents[0].fieldType !== 'address'
+                                    || (layoutitem.layoutComponents[0].fieldType === 'address' && $ctrl.rendermode === 'view')"
+                           ng-hide="($ctrl.sobject.attributes.type === 'Contact' && layoutitem.layoutComponents[0].value === 'Name' )
+                                    && $ctrl.rendermode === 'edit' && layoutitem.layoutComponents[0].components.length > 0">
+                        <!-- abbr ng-show="layoutitem.required" class="slds-required" title="required">*</abbr -->
+                        {{::layoutitem.label}}
+                    </label>
+                    <div class="slds-form-element__control slds-has-divider--bottom" style="border-bottom: 0px;">
+
+                        <layout-components required="layoutitem.required"
+                                           editable-for-update="layoutitem.editableForUpdate"
+                                           layoutcomponents="layoutitem.layoutComponents"
+                                           sobject="$ctrl.sobject"
+                                           rendermode="$ctrl.rendermode"
+                                           read-only-fields="$ctrl.readOnlyFields"></layout-components>
+                    </div>
+                </ng-if>
+            </div>
+        </div>
+    </div>
+    </div>
+</fieldset>

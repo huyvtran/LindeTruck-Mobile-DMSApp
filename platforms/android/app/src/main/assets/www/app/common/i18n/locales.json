@@ -1,0 +1,420 @@
+{
+  "locales": [
+    {
+      "_comment": "English (United States)",
+      "locale": "en_US",
+      "country": "US",
+      "language": "en",
+      "pattern": {
+        "thousandsSeparator": ",",
+        "decimalSeparator": ".",
+        "datePattern": "M/d/yyyy",
+        "timePattern": "h:mm a",
+        "dateTimePattern": "M/d/yyyy h:mm a",
+        "numberPattern": "#,###.##",
+        "currencyPattern": "[USD] #,###.##",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "English (United Kingdom)",
+      "locale": "en_GB",
+      "country": "GB",
+      "language": "en",
+      "pattern": {
+        "thousandsSeparator": ",",
+        "decimalSeparator": ".",
+        "datePattern": "dd/MM/yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd/MM/yyyy HH:mm",
+        "numberPattern": "#,###.##",
+        "currencyPattern": "[£] #,###.##",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "German (Germany)",
+      "locale": "de_DE",
+      "country": "DE",
+      "language": "de",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "hh:mm",
+        "dateTimePattern": "dd.MM.yyyy HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/postalCode/< >/city/<\n>/state/< >/country"
+      }
+    },
+    {
+      "_comment": "German (Austria)",
+      "locale": "de_AT",
+      "country": "AT",
+      "language": "de",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd.MM.yyyy HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/postalCode/< >/city/<\n>/state/< >/country"
+      }
+    },
+    {
+      "_comment": "German (Luxembourg)",
+      "locale": "de_LU",
+      "country": "LU",
+      "language": "de",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd.MM.yyyy HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/postalCode/< >/city/<\n>/state/< >/country"
+      }
+    },
+    {
+      "_comment": "German (Switzerland)",
+      "locale": "de_CH",
+      "country": "CH",
+      "language": "de",
+      "pattern": {
+        "thousandsSeparator": "'",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd.MM.yyyy HH:mm",
+        "numberPattern": "#'###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/postalCode/< >/city/<\n>/state/< >/country"
+      }
+    },
+    {
+      "_comment": "French (France)",
+      "locale": "fr_FR",
+      "country": "FR",
+      "language": "fr",
+      "pattern": {
+        "thousandsSeparator": " ",
+        "decimalSeparator": ",",
+        "datePattern": "dd/MM/yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd/MM/yyyy HH:mm",
+        "numberPattern": "# ###,##",
+        "currencyPattern": "[EUR] # ###,###",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Spanish (Spain)",
+      "locale": "es_ES",
+      "country": "ES",
+      "language": "es",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "d/MM/yyyy",
+        "timePattern": "h:mm",
+        "dateTimePattern": "d/MM/yyyy H:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,###",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Italian (Italy)",
+      "locale": "it_IT",
+      "country": "IT",
+      "language": "it",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd/MM/yyyy",
+        "timePattern": "H.mm",
+        "dateTimePattern": "dd/MM/yyyy H.mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,###",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Hungarian (Hungary)",
+      "locale": "hu_HU",
+      "country": "HU",
+      "language": "hu",
+      "pattern": {
+        "thousandsSeparator": " ",
+        "decimalSeparator": ",",
+        "datePattern": "yyyy.MM.dd.",
+        "timePattern": "H:mm",
+        "dateTimePattern": "yyyy.MM.dd. H:mm",
+        "numberPattern": "# ###,##",
+        "currencyPattern": "[HUF] # ###,###",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Dutch (Netherlands)",
+      "locale": "nl_NL",
+      "country": "NL",
+      "language": "nl",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "d-M-yyyy",
+        "timePattern": "H:mm",
+        "dateTimePattern": "d-M-yyyy H:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,###",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Czech (Czech Republic)",
+      "locale": "cs_CZ",
+      "country": "CZ",
+      "language": "cs",
+      "pattern": {
+        "thousandsSeparator": " ",
+        "decimalSeparator": ",",
+        "datePattern": "d.M.yyyy",
+        "timePattern": "H:mm",
+        "dateTimePattern": "d.M.yyyy H:mm",
+        "numberPattern": "# ###,##",
+        "currencyPattern": "[CZK] # ###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Finnish (Finland)",
+      "locale": "fi_FI",
+      "country": "FI",
+      "language": "fi",
+      "pattern": {
+        "thousandsSeparator": " ",
+        "decimalSeparator": ",",
+        "datePattern": "d.M.yyyy",
+        "timePattern": "H:mm",
+        "dateTimePattern": "d.M.yyyy H:mm",
+        "numberPattern": "# ###,##",
+        "currencyPattern": "[EUR] # ###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Polish (Poland)",
+      "locale": "pl_PL",
+      "country": "PL",
+      "language": "pl",
+      "pattern": {
+        "thousandsSeparator": " ",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd.MM.yyyy HH:mm",
+        "numberPattern": "# ###,##",
+        "currencyPattern": "[PLN] # ###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+   {
+     "_comment": "Portuguese (Portugal)",
+      "locale": "pt_PT",
+      "country": "PT",
+      "language": "pt",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd-MM-yyyy",
+        "timePattern": "H:mm",
+        "dateTimePattern": "dd-MM-yyyy H:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Chinese (China)",
+      "locale": "zh_CN",
+      "country": "CN",
+      "language": "zh",
+      "pattern": {
+        "thousandsSeparator": ",",
+        "decimalSeparator": ".",
+        "datePattern": "yyyy-M-d",
+        "timePattern": "ah:mm",
+        "dateTimePattern": "yyyy-M-d ah:mm",
+        "numberPattern": "#,###.##",
+        "currencyPattern": "[CNY] #,###.## ",
+        "addressPattern": "country/<\n>/postalCode/< >/state/< >/city/<\n>/street"
+      }
+    },
+    {
+      "_comment": "Azerbaijani (Azerbaijan)",
+      "locale": "az_AZ",
+      "country": "AZ",
+      "language": "az",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "yyyy-MM-dd",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "yyyy-MM-dd HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[AZN] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Belarusian (Belarus)",
+      "locale": "be_BY",
+      "country": "BY",
+      "language": "be",
+      "pattern": {
+        "thousandsSeparator": " ",
+        "decimalSeparator": ",",
+        "datePattern": "d.M.yyyy",
+        "timePattern": "H:mm",
+        "dateTimePattern": "d.M.yyyy H:mm",
+        "numberPattern": "# ###,##",
+        "currencyPattern": "[BYR] # ###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Bulgarian (Bulgaria)",
+      "locale": "bg_BG",
+      "country": "BG",
+      "language": "bg",
+      "pattern": {
+        "thousandsSeparator": " ",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "H:mm",
+        "dateTimePattern": "dd.MM.yyyy H:mm",
+        "numberPattern": "# ###,##",
+        "currencyPattern": "[BGN] # ###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Bosnian (Bosnia and Herzegovina)",
+      "locale": "bs_BA",
+      "country": "BA",
+      "language": "bs",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd.MM.yyyy HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[BAM] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Catalan (Spain)",
+      "locale": "ca_ES",
+      "country": "ES",
+      "language": "ca",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd/MM/yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd/MM/yyyy HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Welsh (United Kingdom)",
+      "locale": "cy_GB",
+      "country": "GB",
+      "language": "cy",
+      "pattern": {
+        "thousandsSeparator": ",",
+        "decimalSeparator": ".",
+        "datePattern": "dd/MM/yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd/MM/yyyy HH:mm",
+        "numberPattern": "#,###.##",
+        "currencyPattern": "[GBP] #,###.## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Danish (Denmark)",
+      "locale": "da_DK",
+      "country": "DK",
+      "language": "da",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd-MM-yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd-MM-yyyy HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[DKK] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Greek (Greece)",
+      "locale": "el_GR",
+      "country": "GR",
+      "language": "el",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "d/M/yyyy",
+        "timePattern": "h:mm a",
+        "dateTimePattern": "d/M/yyyy h:mm a",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Estonian (Estonia)",
+      "locale": "et_EE",
+      "country": "EE",
+      "language": "et",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "d.M.yyyy",
+        "timePattern": "H:mm",
+        "dateTimePattern": "d.M.yyyy H:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    },
+    {
+      "_comment": "Croatian (Croatia)",
+      "locale": "hr_HR",
+      "country": "HR",
+      "language": "hr",
+      "pattern": {
+        "thousandsSeparator": ".",
+        "decimalSeparator": ",",
+        "datePattern": "dd.MM.yyyy",
+        "timePattern": "HH:mm",
+        "dateTimePattern": "dd.MM.yyyy HH:mm",
+        "numberPattern": "#.###,##",
+        "currencyPattern": "[EUR] #.###,## ",
+        "addressPattern": "street/<\n>/city/<, >/state/< >/postalCode/<\n>/country"
+      }
+    }
+  ]
+}

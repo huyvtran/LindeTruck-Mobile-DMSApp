@@ -1,0 +1,33 @@
+ion-modal-view {
+  &.modal {
+    &.slide-in-up {
+      &.o-pagelayout-modal {
+        .o-form-message {
+          height: 0;
+          width: 100%;
+          border-radius: 5px;
+          border: solid 1px #c23934;
+          opacity: 0;
+          margin-bottom: .1rem;
+          transition: all .5s ease-in-out;
+          &.is-invalid {
+            /*min-height: 70px;*/
+            min-height: 38px;
+            opacity: 1;
+            transition: all .5s ease-in-out;
+          }
+          .o-form-message-description {
+            background-color: #c23934;
+            color: #fff;
+            padding: .5rem 0.75rem;
+          }
+          .o-invalid-form-fields {
+            color: #c23934;
+            padding: .5rem 0.75rem;
+          }
+          ul, li { display: inline; }
+        }
+      }
+    }
+  }
+}

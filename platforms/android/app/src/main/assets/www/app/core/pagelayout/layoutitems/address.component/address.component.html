@@ -1,0 +1,33 @@
+<div class="slds-size--1-of-1" ng-repeat="component in $ctrl.components">
+    <label class="slds-form-element__label">
+        <abbr ng-show="component.required" class="slds-required" title="required">*</abbr>
+        {{::component.details.label}}
+    </label>
+    <string-component ng-if="component.details.type === 'string'"
+                      value="$ctrl.sobject[component.value]"
+                      editable-for-update="$ctrl.editableForUpdate"
+                      detail="component.details"
+                      required="$ctrl.required"
+                      tab-order="component.tabOrder"
+                      on-change="$ctrl.changeHandler(fieldName)"></string-component>
+    <textarea-component ng-if="component.details.type === 'textarea'"
+                        value="$ctrl.sobject[component.value]"
+                        editable-for-update="$ctrl.editableForUpdate"
+                        detail="component.details"
+                        required="$ctrl.required"
+                        tab-order="component.tabOrder"
+                        on-change="$ctrl.changeHandler(fieldName)"></textarea-component>
+
+    <input type="hidden"
+           name="{{::$ctrl.detail.name}}.{{::$ctrl.getAddressFieldFromFieldName(component.details.name)}}"
+           id="{{::$ctrl.detail.name}}.{{::$ctrl.getAddressFieldFromFieldName(component.details.name)}}"
+           ng-model="$ctrl.sobject[$ctrl.detail.name][$ctrl.getAddressFieldFromFieldName(component.details.name)]"/>
+</div>
+<div>&nbsp;</div>
+
+<!-- INCLUDE ERROR FORM MESSAGES -->
+<div ng-if="$ctrl.form && $ctrl.editableForUpdate"
+     ng-class="{'slds-has-error': ($ctrl.form[$ctrl.detail.name].$invalid)}">
+    <div static-include-without-new-scope
+         template-path="app/core/pagelayout/inline-error-messages/inline-error-messages.view.html"></div>
+</div>

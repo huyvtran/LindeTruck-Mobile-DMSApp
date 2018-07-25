@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   viewBox="0 0 992.06665 598.22668"
+   height="598.22668"
+   width="992.06665"
+   xml:space="preserve"
+   id="svg2"
+   version="1.1"><metadata
+     id="metadata8"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs6"><clipPath
+       id="clipPath20"
+       clipPathUnits="userSpaceOnUse"><path
+         id="path18"
+         d="M 0,0 H 7440 V 4486.75 H 0 Z" /></clipPath></defs><g
+     transform="matrix(1.3333333,0,0,-1.3333333,0,598.22667)"
+     id="g10"><g
+       transform="scale(0.1)"
+       id="g12"><g
+         id="g14"><g
+           clip-path="url(#clipPath20)"
+           id="g16"><path
+             id="path22"
+             style="fill:#0e5590;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             d="m 4280.24,2243.48 c 0,-309.26 -250.72,-559.98 -560,-559.98 -309.27,0 -560,250.72 -560,559.98 0,309.3 250.73,560.02 560,560.02 309.28,0 560,-250.72 560,-560.02" /><path
+             id="path24"
+             style="fill:#00adef;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             d="m 3720.24,3800.27 c -859.78,0 -1556.77,-696.98 -1556.77,-1556.77 0,-859.78 696.99,-1556.781 1556.77,-1556.781 859.77,0 1556.78,697.001 1556.78,1556.781 0,859.79 -697.01,1556.77 -1556.78,1556.77 z m 0,-619.99 c 516.55,0 936.78,-420.24 936.78,-936.78 0,-516.54 -420.23,-936.78 -936.78,-936.78 -516.54,0 -936.77,420.24 -936.77,936.78 0,516.54 420.23,936.78 936.77,936.78" /><path
+             id="path26"
+             style="fill:#0e5590;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             d="M 6226.98,1369.99 C 5656.06,820.211 4593.07,288.52 3712.64,288.52 c -880.43,0 -1947.72,531.691 -2518.64,1081.47 -520.855,501.6 -585.152,723 -585.152,723 0,0 160,460.8 680.862,962.39 570.92,549.79 1542.5,1144.8 2422.93,1144.8 880.43,0 1852.01,-595.01 2422.93,-1144.8 520.86,-501.59 680.86,-962.39 680.86,-962.39 0,0 -68.59,-221.4 -589.45,-723 z M 3724.79,4486.75 h -9.1 C 1674.34,4486.75 0,2737.82 0,2122.01 0,1506.19 1571.3,0 3720.24,0 c 2148.95,0 3720.25,1506.19 3720.25,2122.01 0,615.81 -1674.34,2364.74 -3715.7,2364.74" /></g></g></g></g></svg>

@@ -1,0 +1,48 @@
+When the plugin is connected to the device, the plugin is always listening for data.
+The app can choose to register or deregister with the plugin for welding notifications.
+When registering with the plugin, the app must provide input data (ID and limits) corresponding to the weld.
+The plugin can then associate the datasets it collects with the weld.
+One dataset corresponds to all of the live data packets received between a start packet and stop packet.
+
+The app may receive all, some, or none of the live progress data associated with a weld depending on when it registers and deregisters with the plugin relative to the start and stop packets. The ordering of these events also affects whether (following the stop packet) the  dataset is sent straight from the plugin to the app or saved to the plugin for retrieval by the app later, and also whether it is associated with a weld.
+
+Full Data Capture
+
+This is the normal use-case. The app registers before the start packet and deregisters after the stop packet. The plugin can associate the dataset with a weld and sends it to the app upon receipt of the stop packet.
+
+Partial Data Capture
+
+The app misses the start packet and/or stop packet but is registered for at least part of the weld step. The plugin can associate the dataset with a weld but will only send it straight to the app if still registered when finished, and otherwise the plugin will save it.
+
+1. The app registers after the start packet and deregisters after the stop packet
+2. The app registers before the start packet and deregisters before the stop packet
+3. The app registers after the start packet and deregisters before the stop packet
+
+No Data Captured
+
+The app misses the start and end packets and is not registered at any point during the weld step. The plugin cannot associate the dataset with a weld and will save the dataset when finished.
+
+1. The app registers and deregisters before the start packet
+2. The app registers and deregisters after the stop packet
+
+                    |       -       |       -       |       -
+                    |       -       |       -       -       -
+StartPacket         |       -       |       -       -       -
+                    |       |       |       |       -       -
+LiveDataPacket(s)   |       |       |       |       -       -
+                    |       |       |       |       -       -
+StopPacket          |-->    |-->    -XXX    -XXX    -???    -???
+                    |       |       -       -       -       -
+                    |       |       -       -       -       |
+
+Key:
+| = app registered for welding
+- = app not registered for welding
+--> = plugin sends associated dataset to app
+XXX = plugin saves associated dataset
+??? = plugin saves unassociated dataset
+
+As long as the app is registered at some time between the start and stop packets then the dataset can be associated with a weld.
+The dataset will be sent straight to the app if registered when the stop packet is received, otherwise it will be saved.
+When retrieving associated datasets (XXX), the app can query the plugin for a list of dataset start timestamps for a particular ID. The app can then retrieve the dataset using the ID and timestamp.
+When retrieving unassociated datasets (???), the app can query the plugin for a list of dataset start timestamps. The app can then retrieve the dataset using the timestamp and passing in the corresponding weld input data.

@@ -1,0 +1,50 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type": "object",
+	"properties": {
+		"Id": {
+			"type": "string"
+		},
+		"StepVoltageMin__c": {
+			"type": "number"
+		},
+		"StepVoltageMax__c": {
+			"type": "number"
+		},
+		"StepCurrentMin__c": {
+			"type": "number"
+		},
+		"StepCurrentMax__c": {
+			"type": "number"
+		},
+		"StepWireFeedMin__c": {
+			"type": "number"
+		},
+		"StepWireFeedMax__c": {
+			"type": "number"
+		},
+		"StepWireFeedMaxDev__c": {
+			"type": "number"
+		},
+		"StepGas1FlowMin__c": {
+			"type": "number"
+		},
+		"StepGas1FlowMax__c": {
+			"type": "number"
+		},
+		"StepGasMixture__c" : { 
+			"$ref" : "gasmixture.schema.json"
+		}
+	},
+	"required": [
+		"Id",
+		"StepVoltageMin__c",
+		"StepVoltageMax__c",
+		"StepCurrentMin__c",
+		"StepCurrentMax__c",
+		"StepWireFeedMin__c",
+		"StepWireFeedMax__c",
+		"StepGas1FlowMin__c",
+		"StepGas1FlowMax__c"
+	]
+}

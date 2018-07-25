@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width, height=device-height, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no">
+    <title>oinio</title>
+
+    <!-- compiled css output -->
+    <link href="css/animate.app.css" rel="stylesheet">
+    <link href="css/ionic.app.min.css" rel="stylesheet">
+
+    <script src="cordova.js"></script>
+
+    <!-- vendor library scripts start -->
+    <script src='lib/lodash/lodash.min.js'></script>
+    <script src='lib/jquery/jquery.js'></script>
+    <script src="lib/date/date.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular-animate/angular-animate.js"></script>
+    <script src="lib/angular-sanitize/angular-sanitize.js"></script>
+    <script src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="lib/ionic/js/ionic.js"></script>
+    <script src="lib/ionic/js/ionic-angular.js"></script>
+    <script src="lib/ngCordova/dist/ng-cordova.min.js"></script>
+    <script src="lib/salesforce/forcetk.mobilesdk.js"></script>
+    <script src="lib/angular-svg-round-progressbar/build/roundProgress.min.js"></script>
+    <script src="lib/angular-md5/angular-md5.js"></script>
+    <script src="lib/angular-translate/angular-translate.min.js"></script>
+    <script src="lib/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js"></script>
+    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+    <script src="lib/touch-id/touch-id.js"></script>
+    <script src="lib/ionic-datepicker-sfdc/dist/ionic-datepicker.bundle.min.js"></script>
+    <script src="lib/moment/min/moment.min.js"></script>
+    <script src="lib/moment-timezone/builds/moment-timezone-with-data.min.js"></script>
+    <script src="lib/angular-moment/angular-moment.js"></script>
+    <script src="lib/jszip/jszip.min.js"></script>
+
+    <script src="lib/d3/d3.js"></script>
+    <script src="lib/nvd3/build/nv.d3.js"></script>
+    <script src="lib/angular-nvd3/dist/angular-nvd3.js"></script>
+    <link rel="stylesheet" href="lib/nvd3/build/nv.d3.css">
+
+    <!-- app generals -->
+    <script src="app/app.settings.constant.js"></script>
+    <script src="app/app.components.config.js"></script>
+    <script src="app/app.js"></script>
+    <script src="app/app.routing.config.js"></script>
+
+    <!-- oinio core -->
+    <script src="app/core/lib/core.min.js"></script>
+
+
+    <!-- common scripts -->
+    <script src="app/common/common.module.js"></script>
+
+    <!-- common.loadingservice scripts -->
+    <script src="app/common/ionicloading/ionicloading.module.js"></script>
+    <script src="app/common/ionicloading/services/ionicloading.service.js"></script>
+
+    <!-- common.touch-id scripts -->
+    <script src="app/common/touch-id/touch-id.module.js"></script>
+    <script src="app/common/touch-id/services/touch-id.service.js"></script>
+
+    <!-- common.sliding-tabs scripts -->
+    <script src="app/common/sliding-tabs/sliding-tabs.module.js"></script>
+    <script src="app/common/sliding-tabs/directive/sliding-tabs.directive.js"></script>
+
+    <!-- common.login scripts -->
+    <script src="app/common/login/login.module.js"></script>
+    <script src="app/common/login/services/login.service.js"></script>
+    <script src="app/common/login/controllers/password.controller.js"></script>
+    <script src="app/common/login/controllers/login.controller.js"></script>
+    <script src="app/common/login/controllers/forgot-password.controller.js"></script>
+    <script src="app/common/login/controllers/update-password.controller.js"></script>
+    <script src="app/common/login/controllers/switch-user.controller.js"></script>
+
+    <!-- common.user-setting scripts -->
+    <script src="app/common/user-setting/user-setting.module.js"></script>
+    <script src="app/common/user-setting/controllers/user-setting.controller.js"></script>
+
+    <!-- common.navigation scripts -->
+    <script src="app/common/navigation/navigation.module.js"></script>
+    <script src="app/common/navigation/controller/side-navigation.controller.js"></script>
+    <script src="app/common/navigation/controller/modal/side-navigation.help-details.modal.controller.js"></script>
+
+    <!-- common.progress scripts -->
+    <script src="app/common/synchronize/synchronize.module.js"></script>
+    <script src="app/common/synchronize/controllers/synchronize.controller.js"></script>
+    <!-- message-center scripts -->
+    <script src="app/common/message-center/message-center.module.js"></script>
+    <script src="app/common/message-center/controllers/message-center.controller.js"></script>
+    <script src="app/common/message-center/services/message-center.service.js"></script>
+    <script src="app/common/message-center/error-messages/errormessages.component.js"></script>
+    <script src="app/common/message-center/queued-objects/queuedobjects.component.js"></script>
+    <script src="app/common/message-center/overview/overview.component.js"></script>
+
+    <!-- common.directives scripts -->
+    <script src="app/common/directives/directives.module.js"></script>
+    <!-- common.search-box-header scripts -->
+    <script src="app/common/directives/search/header/directive/search-box.header.directive.js"></script>
+    <!-- common.search-box-inline scripts -->
+    <script src="app/common/directives/search/inline/directive/search-box.inline.directive.js"></script>
+    <!-- common.action-bar scripts -->
+    <script src="app/common/directives/action-bar/directive/action-footer-bar.directive.js"></script>
+    <!-- common.header-title-position scripts -->
+    <script src="app/common/directives/header-title/header-title-position.directive.js"></script>
+    <script src="app/common/directives/restrict-number/restrict-number.directive.js"></script>
+    <script src="app/common/directives/restrict-decimals/restrict-decimals.directive.js"></script>
+
+    <!-- common.camera scripts -->
+    <script src="app/common/camera/camera.module.js"></script>
+    <script src="app/common/camera/services/camera.service.js"></script>
+
+    <!-- common.services scripts -->
+    <script src="app/common/services/services.module.js"></script>
+    <script src="app/common/services/lookup.service.js"></script>
+    <script src="app/common/services/project-hierarchy.service.js"></script>
+    <script src="app/common/services/open-file.service.js"></script>
+    <script src="app/common/services/permission.service.js"></script>
+    <script src="app/common/services/user-assignment.service.js"></script>
+
+    <!-- common.lookup scripts -->
+    <script src="app/common/lookup/lookup.module.js"></script>
+    <script src="app/common/lookup/services/lookup.modal.service.js"></script>
+    <script src="app/common/lookup/controller/lookup.modal.controller.js"></script>
+
+    <!-- Filter common scripts -->
+    <script src="app/common/filter/filter.module.js"></script>
+    <script src="app/common/filter/date-different/date-different.filter.js"></script>
+    <script src="app/common/filter/date-different/duration-format.filter.js"></script>
+    <script src="app/common/filter/local-date.filter.js"></script>
+
+    <!-- home scripts -->
+    <script src="app/views/home/controllers/home.controller.js"></script>
+    <script src="app/views/home/services/home.service.js"></script>
+
+    <!-- job queue scripts -->
+    <script src="app/views/job-queue/job-queue.module.js"></script>
+    <script src="app/views/job-queue/controllers/job-queue.list.controller.js"></script>
+    <script src="app/views/job-queue/controllers/job-queue.filter.controller.js"></script>
+    <script src="app/views/job-queue/controllers/job-queue.filter.reference.controller.js"></script>
+    <script src="app/views/job-queue/services/job-queue.service.js"></script>
+
+    <!-- job steps scripts -->
+    <script src="app/views/steps/steps.module.js"></script>
+    <script src="app/views/steps/services/steps.service.js"></script>
+    <script src="app/views/steps/controllers/steps.list.controller.js"></script>
+    <script src="app/views/steps/controllers/step.reference.modal.controller.js"></script>
+    <script src="app/views/steps/controllers/step.photo-detail.modal.controller.js"></script>
+    <script src="app/views/steps/controllers/steps.resource.list.controller.js"></script>
+    <script src="app/views/steps/controllers/steps.resource.detail.controller.js"></script>
+    <script src="app/views/steps/controllers/steps.detail.controller.js"></script>
+    <script src="app/views/steps/controllers/steps.information.controller.js"></script>
+    <script src="app/views/steps/controllers/steps.test-detail.controller.js"></script>
+
+    <!--projects scripts-->
+    <script src="app/views/projects/projects.module.js"></script>
+    <script src="app/views/projects/controllers/projects.controller.js"></script>
+    <script src="app/views/projects/controllers/subprojects.controller.js"></script>
+    <script src="app/views/projects/services/projects.service.js"></script>
+
+    <!--reports scripts-->
+    <script src="app/views/reports/reports.module.js"></script>
+    <script src="app/views/reports/controllers/reports.controller.js"></script>
+    <script src="app/views/reports/controllers/subreports.controller.js"></script>
+    <script src="app/views/reports/services/reports.service.js"></script>
+    <script src="app/views/reports/controllers/subreports.welds.controller.js"></script>
+    <script src="app/views/reports/controllers/subreports.weld.details.controller.js"></script>
+
+
+    <!--smart connector scripts-->
+    <script src="app/views/smart-connector/smart-connector.module.js"></script>
+    <script src="app/views/smart-connector/services/smart-connector.service.js"></script>
+    <script src="app/views/smart-connector/factories/smart-connector-plugin.factory.js"></script>
+    <script src="app/views/smart-connector/controllers/smart-connector.controller.js"></script>
+    <script src="app/views/smart-connector/controllers/smart-connector.details.controller.js"></script>
+    <script src="app/views/smart-connector/controllers/smart-connector.welding.machine.controller.js"></script>
+    <script src="app/views/smart-connector/controllers/smart-connector.welding.machine.filter.controller.js"></script>
+    <script src="app/views/smart-connector/components/weld-dashboard/smart-connector.weld-dashboard-item.component.js"></script>
+    <script src="app/views/smart-connector/controllers/welding-machine.filter.reference.controller.js"></script>
+    <script src="app/views/smart-connector/services/smart-connector.service.js"></script>
+    <script src="app/views/reports/controllers/subreports.welds.controller.js"></script>
+    <script src="app/views/smart-connector/controllers/welder.reference.controller.js"></script>
+    <script src="app/views/smart-connector/controllers/default-gas.controller.js"></script>
+    <script src="app/views/smart-connector/components/sc-ready/smart-connector.sc-ready.component.js"></script>
+    <script src="app/views/smart-connector/modal/controller/wds.modal.controller.js"></script>
+    <script src="app/views/smart-connector/modal/controller/default-welding-parameter.modal.controller.js"></script>
+    <script src="app/views/smart-connector/modal/services/wds.modal.service.js"></script>
+
+    <!-- job details scripts -->
+    <script src="app/views/job-detail/job-detail.module.js"></script>
+    <script src="app/views/job-detail/services/job-details.service.js"></script>
+    <script src="app/views/job-detail/controllers/job-details.controller.js"></script>
+    <script src="app/views/job-detail/controllers/project-hierarchy.controller.js"></script>
+    <script src="app/views/job-detail/controllers/job-details.materials.controller.js"></script>
+    <script src="app/views/job-detail/controllers/job-details.related-files.controller.js"></script>
+    <script src="app/views/job-detail/controllers/modal/job-details.photo-detail.modal.controller.js"></script>
+    <script src="app/views/job-detail/controllers/modal/job-details.reference.modal.controller.js"></script>
+    <script src="app/views/job-detail/controllers/job-action.controller.js"></script>
+    <script src="app/views/job-detail/controllers/job-materials.controller.js"></script>
+    <script src="app/views/job-detail/controllers/job-details.assigned-users.controller.js"></script>
+
+    <!-- terms and conditions -->
+    <script src="app/views/termsAndConditions/controllers/termsAndConditions.controller.js"></script>
+
+</head>
+<body ng-app="oinio">
+<ion-nav-view>
+</ion-nav-view>
+</body>
+</html>

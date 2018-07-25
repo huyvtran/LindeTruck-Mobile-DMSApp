@@ -1,0 +1,189 @@
+/* The CSS styles for the two themes(dark & light) for the local login are specified here. The theme is set according to the value of the value of DARK_THEME in app.settings.constants.js */
+
+.local-login {
+    // Common style for both themes
+    label,input, a, a:link, a:visited, a:active {
+      //background-color: transparent;
+    }
+  input{
+    margin-top: -5px;
+    background-color: transparent;
+  }
+  input::-webkit-input-placeholder {
+    font-size: 16px;
+  }
+  .item{
+    padding:0;
+    font-size: inherit;
+  }
+  .item-select {
+    height: 35px;
+    border-radius: 2px;
+    select {
+      left: 0;
+      //font-size: 16px;
+      max-width: 100%;
+      padding: 0 48px 0 9px;
+      direction: ltr;
+    }
+  }
+  .flex {
+    background-image: $login-oinio-flex;
+    width: 100%;
+    height: 90px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-top: 90px;
+    margin-bottom: 70px;
+  }
+  .flex-claim {
+    background-image: $linde-background-image-logo-blue;
+    width: 100%;
+    height: 80px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-top: 40px;
+    margin-bottom: 60px;
+  }
+  .item-no-border{
+    border-width: 0;
+  }
+  .button-left{
+    text-align: left;
+    left:-6px;
+  }
+  .button-right{
+    text-align: right;
+  }
+  .row {
+    &-border {
+      border-color: $login-dark-grey;
+      border-bottom-width: 1px;
+      border-bottom-style: inset;
+    }
+    &-padding{
+      padding-top: 15px;
+      &-bottomLong {
+        padding-bottom: 10px;
+      }
+      &-bottomShort {
+        padding-bottom: 5px;
+      }
+    }
+  }
+
+  span
+  {
+    align-items: center;
+  }
+
+  &.theme {
+    &-dark {
+
+      /* The dark theme. Use the theme-dark class in the html view*/
+      .item-border {
+        border-color: $login-light-grey;
+        border-left: 0;
+        border-right: 0;
+      }
+
+      .intro-color {
+        color: $login-light-grey;
+      }
+      .user {
+
+        &-color {
+          color: $login-light-grey;
+        }
+      }
+      ::-webkit-input-placeholder {
+        color: $login-white;
+      }
+
+      .pwd {
+        &-color {
+          color: $login-white;
+        }
+        &-padding {
+          padding-left: 10px;
+        }
+      }
+      &.scroll-content {
+        background: $login-bg-image no-repeat center / cover;
+        padding: 0 20px;
+      }
+      .questionsSelect {
+        select {
+          color: $login-white;
+          background: transparent;
+        }
+      }
+      .button-clear{
+        color:$login-white;
+      }
+    }
+
+    &-light {
+      /* The light theme. Use the theme-light class in the html view*/
+
+      .item-border {
+        border-color: $login-dark-grey;
+        border-left: 0;
+        border-right: 0;
+      }
+      .row-border
+      {
+        border-color: $login-dark-grey;
+        border-bottom-width: 1px;
+        border-bottom-style: inset;
+      }
+      .intro-color {
+        color: $login-dark-grey;
+      }
+      .user {
+
+        &-color {
+          color: $login-light-grey;
+        }
+      }
+      ::-webkit-input-placeholder {
+        color: $login-dark-grey;
+      }
+
+      .pwd {
+        &-color {
+          color: $login-dark-grey;
+        }
+        &-padding {
+          padding-left: 10px;
+        }
+      }
+      &.scroll-content {
+       /* background: white;*/
+        padding: 0 20px;
+      }
+
+      .questionsSelect {
+        select {
+          color: $login-dark-grey;
+          background: transparent;
+        }
+      }
+    }
+  }
+}
+
+.o-login-user-color {
+  color: $linde-black !important;
+}
+
+.o-login-fontsize {
+  font-size: 16px !important;
+}
+
+.o-login-input-background {
+  background-color: rgba(255,255,255,.5) !important;
+}
+

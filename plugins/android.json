@@ -1,0 +1,71 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "com.linde.scapp": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "com.oinio.cordova.plugin.PdfViewer": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-actionsheet": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-app-version": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-camera": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-dialogs": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-document-viewer": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-file": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-splashscreen": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-statusbar": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-x-toast": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "ionic-plugin-keyboard": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "phonegap-plugin-push": {
+      "SENDER_ID": "theIdFromGoogle",
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "com.salesforce": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    }
+  },
+  "dependent_plugins": {
+    "cordova.plugins.diagnostic": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "com.capgemini.lindetruck.pda"
+    }
+  }
+}

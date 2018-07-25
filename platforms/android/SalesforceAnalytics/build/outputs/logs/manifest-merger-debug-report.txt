@@ -1,0 +1,39 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:1-15:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:1-15:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:1-15:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:1-15:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:1-15:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:1-15:12
+INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:1-15:12
+	package
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:4:2-47
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml
+	android:versionName
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:6:2-29
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:3:11-69
+	android:versionCode
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:5:2-26
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml
+		INJECTED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml
+uses-permission#android.permission.INTERNET
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:8:2-64
+	android:name
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:8:19-61
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:9:2-76
+	android:name
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:9:19-73
+uses-sdk
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:11:5-12:41
+	android:targetSdkVersion
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:12:9-38
+	android:minSdkVersion
+		ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:11:15-41
+application
+ADDED from /Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/AndroidManifest.xml:14:5-20

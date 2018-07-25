@@ -1,0 +1,111 @@
+// Font: SalesforceSans in thin
+@include font-face('SFDC-Thin', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-Thin', 100);
+
+// Font: SalesforceSans in thin and italic
+@include font-face('SFDC-Thin-Italic', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-Thin', 100, italic);
+
+// Font: SalesforceSans in light
+@include font-face('SFDC-Light', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-Light', 300);
+
+// Font: SalesforceSans in light and italic
+@include font-face('SFDC-Light-Italic', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-LightItalic', 300, italic);
+
+// Font: SalesforceSans in regular
+@include font-face('SFDC-Regular', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-Regular', 400);
+
+// Font: SalesforceSans in regular and italic
+@include font-face('SFDC-Regular-Italic', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-Italic', 400, italic);
+
+// Font: SalesforceSans in bold
+@include font-face('SFDC-Bold', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-Bold', 700);
+
+// Font: SalesforceSans in bold and italic
+@include font-face('SFDC-Bold-Italic', '../lib/salesforce-lightning-design-system/assets/fonts/webfonts/SalesforceSans-BoldItalic', 700, italic);
+
+// Font: Linde Dax Light
+@include font-face('LindeDaxLig', '../font/LindeDaxLigWeb', 300, normal, eot woff);
+
+// Font: Linde Dax Regular
+@include font-face('LindeDaxReg', '../font/LindeDaxRegWeb', 400, normal, eot woff);
+
+// Font: Linde Dax Medium
+@include font-face('LindeDaxMed', '../font/LindeDaxMedWeb', 500, normal, eot woff);
+
+h1 {
+  font-size: 1.8em;
+  &.linde-lig {
+    font-family: 'LindeDaxLig', sans-serif;
+  }
+  &.linde-reg {
+    font-family: 'LindeDaxReg', sans-serif;
+  }
+  &.linde-med {
+    font-family: 'LindeDaxMed', sans-serif;
+  }
+  &.o-home-headline {
+    padding: 20px 0 25px 0
+  }
+}
+
+h2 {
+  font-size: 21px;
+  color: $linde-blue;
+  &.linde-lig {
+    font-family: 'LindeDaxLig', sans-serif;
+  }
+  &.linde-reg {
+    font-family: 'LindeDaxReg', sans-serif;
+  }
+  &.linde-med {
+    font-family: 'LindeDaxMed', sans-serif;
+  }
+}
+
+h3 {
+  &.linde-lig {
+    font-family: 'LindeDaxLig', sans-serif;
+  }
+  &.linde-reg {
+    font-family: 'LindeDaxReg', sans-serif;
+  }
+  &.linde-med {
+    font-family: 'LindeDaxMed', sans-serif;
+  }
+}
+
+
+//h1, h2, h3 { text-align: left; }
+// optical class attributes
+
+h1, a.item {
+  color: $linde-blue;
+}
+
+.o-text-align-center {
+  text-align: center !important;
+  padding: 10px 0 10px 0;
+}
+
+.o-header-subline {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  font-size: 18px;
+  text-align: center;
+  background-color: white;
+}
+
+.o-font-size-values {
+  font-size: 16px;
+}
+
+.o-white-space-normal {
+  white-space: normal !important;
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 567px) {
+  .o-white-space-normal {
+    font-size: 14px !important;
+  }
+}

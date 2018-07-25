@@ -1,0 +1,31 @@
+<div ng-class="{'slds-form-element__help': ($ctrl.form[$ctrl.detail.name].$invalid && $ctrl.form.$submitted)
+       || (form[$ctrl.detail.name].$invalid && !form.$submitted
+       && form[$ctrl.detail.name].$touched && !form[$ctrl.detail.name].$error.required)}">
+
+    <!-- Error Messages for required on submit -->
+    <div ng-show="$ctrl.form.$submitted">
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.required">{{'cl.pagelayout.error.msg_required' | translate}}</div>
+    </div>
+    <!-- Error Messages on touched -->
+    <div ng-if="$ctrl.form[$ctrl.detail.name].$touched || $ctrl.form[$ctrl.detail.name].$error">
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.pattern">{{'cl.pagelayout.error.msg_pattern' | translate}}</div>
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.minlength">{{'cl.pagelayout.error.msg_minlength' | translate}}</div>
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.maxlength">{{'cl.pagelayout.error.msg_maxlength' | translate}}</div>
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.min">{{'cl.pagelayout.error.msg_min' | translate}}</div>
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.max">{{'cl.pagelayout.error.msg_max' | translate}}</div>
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.url">{{'cl.pagelayout.error.msg_url' | translate}}</div>
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.number">{{'cl.pagelayout.error.msg_number' | translate}}</div>
+        <div ng-if="$ctrl.form[$ctrl.detail.name].$error.email">
+            {{'cl.pagelayout.error.msg_email' | translate}} &nbsp; {{$ctrl.form[$ctrl.detail.name]}}
+        </div>
+    </div>
+
+    <!-- Information for test -->
+    <!--<div ng-if="$ctrl.form[$ctrl.detail.name].$invalid">
+        <code>Element Error is: {{$ctrl.form[$ctrl.detail.name].$error}}</code>
+    </div>
+    <code>Form is valid: {{$ctrl.form.$valid}}</code><br />
+    <code>Element is pristine: {{$ctrl.form[$ctrl.detail.name].$pristine}}</code><br />
+    <code>Element is touched: {{$ctrl.form[$ctrl.detail.name].$touched}}</code><br />
+    <code>Element is invalid: {{$ctrl.form[$ctrl.detail.name].$invalid}}</code><br />-->
+</div>

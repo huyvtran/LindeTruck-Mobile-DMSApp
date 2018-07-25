@@ -1,0 +1,164 @@
+{
+  "cordova-plugin-device": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-device@1.1.7"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-inappbrowser": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-inappbrowser@1.7.2"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-app-version": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-app-version@0.1.9"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-camera": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-camera@2.4.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "ionic-plugin-keyboard": {
+    "source": {
+      "type": "registry",
+      "id": "ionic-plugin-keyboard@2.2.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-network-information": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-network-information@1.3.4"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-splashscreen": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-splashscreen@4.1.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-statusbar": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-statusbar@2.3.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-file": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-file@4.3.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-dialogs": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-dialogs@1.3.4"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-compat": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-compat@1.2.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-document-viewer": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-document-viewer@0.8.1"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-x-toast": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-x-toast@2.6.0"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-actionsheet": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-actionsheet@2.3.3"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "com.oinio.cordova.plugin.PdfViewer": {
+    "source": {
+      "type": "local",
+      "path": "/Users/gw/my_project/OinioOne-Boilerplate/node_modules/com.oinio.cordova.plugin.PdfViewer"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "com.linde.scapp": {
+    "source": {
+      "type": "local",
+      "path": "/Users/gw/my_project/OinioOne-Boilerplate/node_modules/cordova-android-plugin"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "phonegap-plugin-push": {
+    "source": {
+      "type": "registry",
+      "id": "phonegap-plugin-push@1.8.4"
+    },
+    "is_top_level": true,
+    "variables": {
+      "SENDER_ID": "theIdFromGoogle"
+    }
+  },
+  "cordova.plugins.diagnostic": {
+    "source": {
+      "type": "registry",
+      "id": "cordova.plugins.diagnostic@3.6.5"
+    },
+    "is_top_level": false,
+    "variables": {}
+  },
+  "com.salesforce": {
+    "source": {
+      "type": "registry",
+      "id": "https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#83649276e2bf2abe53951ee85ea6e8aeb5159479"
+    },
+    "is_top_level": true,
+    "variables": {}
+  },
+  "cordova-plugin-whitelist": {
+    "source": {
+      "type": "registry",
+      "id": "cordova-plugin-whitelist@1.2.0"
+    },
+    "is_top_level": false,
+    "variables": {}
+  }
+}

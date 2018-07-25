@@ -1,0 +1,168 @@
+ion-content {
+  background: $background-image-blurred no-repeat center center fixed;
+  background-color: transparent;
+  -webkit-background-size: cover;
+  background-size: cover;
+  &.has-header {
+    top: 40px !important;
+    &.o-has-big-header {
+      position: static !important;
+      display: block;
+      height: 100% !important;
+      padding: 10px 0;
+    }
+    &.isw-menu-content {
+      /*position: static !important;*/
+    }
+  }
+  .avatar, .user {
+    &-shell {
+      font-size: .75em;
+      text-align: center;
+      margin: 0 !important;
+    }
+  }
+  .avatar-img {
+    color: $black;
+    font-size: 7.1em;
+    line-height: 1em;
+    margin: 5px;
+    /*border-radius: 50%;*/
+  }
+
+  .slds-card {
+    margin-top: 10px !important;
+
+    .blank {
+      background-color: #ffffff;
+    }
+  }
+
+  // Detail section header
+  .slds-card__header {
+    .slds-card__header {
+      padding: $spacing-x-small $spacing-small;
+      color: $color-text-label;
+      font-size: $font-size-medium;
+      line-height: $line-height-text;
+    }
+
+    .slds-list-card-wrapper {
+      height: 100%;
+      box-sizing: border-box;
+      padding-bottom: 90px !important;
+    }
+
+    .slds-list-card {
+      @extend .slds-card;
+
+      height: 100%;
+      margin: 0;
+      background-color: #ffffff;
+
+      ion-scroll[direction=y] {
+        height: 100%;
+      }
+    }
+
+    .slds-card-list__item {
+      @extend .slds-list__item;
+      padding: $spacing-x-small $spacing-small !important;
+    }
+
+    .detail-item {
+
+      li {
+        font-size: $font-size-medium;
+        line-height: $line-height-text;
+
+        &.item-label {
+          font-weight: $font-weight-light;
+        }
+
+        &.item-value {
+          font-weight: $font-weight-regular;
+        }
+      }
+    }
+    &.o-has-footer-action-button {
+      bottom: 60px;
+    }
+  }
+
+  .tab-content {
+    padding-top: 10px !important;
+  }
+
+  .message-list-item {
+    &.headline {
+      color: $color-text-label;
+      font-size: $font-size-medium;
+      line-height: $line-height-text;
+      font-weight: $font-weight-regular;
+    }
+
+    &.title {
+      font-size: $font-size-medium;
+      font-weight: $font-weight-light;
+    }
+
+    &.value {
+      font-size: $font-size-medium;
+      font-weight: $font-weight-regular;
+    }
+  }
+
+  .scroll-content {
+    padding: 10px 0;
+  }
+
+  .scroll-content.scroll-nopadding {
+    padding-top: 0;
+  }
+
+  ion-slide {
+    .scroll-content {
+      padding: 0;
+    }
+  }
+
+  /********************************
+  Projects
+  *********************************/
+  .project-job-status {
+    background-color: $linde-grey-1;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+    color: $white;
+    padding: 4px 10px;
+  }
+
+  .hierarchy-container {
+    background-color: $white;
+    margin: 0 10px 5px !important;
+
+    .hierarchy-item {
+      padding: 0.5em 0 0.5em 0;
+      border-bottom: $linde-grey-1 1px solid;
+
+      &:hover{
+        background: none;
+      }
+    }
+  }
+  &.o-has-footer-action-button {
+    bottom: 60px !important;
+    &.o-has-footer-sc-button {
+      bottom: 120px !important;
+    }
+  }
+  &.o-terms-conditions {
+    background: none $white !important;
+    padding: 0 15px;
+    a {
+      color: $linde-blue;
+    }
+  }
+}

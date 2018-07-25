@@ -1,0 +1,15 @@
+<div class="slds-page-header" role="banner"
+     ng-if="$ctrl.showHeader">
+    <div class="slds-media slds-media--center">
+        <div class="slds-media__figure">
+            <svg aria-hidden="true" class="slds-icon slds-icon-standard-account">
+                <use xlink:href="lib/salesforce-lightning-design-system/assets/icons/standard-sprite/svg/symbols.svg#account"></use>
+            </svg>
+        </div>
+        <div class="slds-media__body">
+            <p class="slds-page-header__title slds-truncate slds-align-middle" title="{{::$ctrl.getName()}}">{{::$ctrl.getName()}}</p>
+            <p class="slds-text-body&#45;&#45;small page-header__info">{{::$ctrl.getFormattedHeader()}}</p>
+            <!--<p class="slds-text-body&#45;&#45;small page-header__info"><ng-repeat ng-repeat="field in $ctrl.headerHighlightFields"><ng-if ng-if="!$first"> • </ng-if>{{::$ctrl.sobject[field]}}</ng-repeat></p>-->
+        </div>
+    </div>
+</div>

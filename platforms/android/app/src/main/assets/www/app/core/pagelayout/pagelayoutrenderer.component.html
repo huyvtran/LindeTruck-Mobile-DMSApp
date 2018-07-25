@@ -1,0 +1,10 @@
+<div class="slds-scrollable--y">
+    <layout-header sobject="$ctrl.sobject"
+                   show-header="$ctrl.showHeader"></layout-header>
+    <!-- create a fieldset for each section -->
+    <layout-sections layoutsections="$ctrl.pageLayout"
+                     sobject="$ctrl.sobject"
+                     rendermode="$ctrl.rendermode"
+                     collapse-sections="$ctrl.collapseSections"
+                     read-only-fields="$ctrl.readOnlyFields"></layout-sections>
+</div>

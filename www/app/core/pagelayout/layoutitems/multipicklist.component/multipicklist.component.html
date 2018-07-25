@@ -1,0 +1,37 @@
+<ng-if ng-if="$ctrl.form && $ctrl.itemEditableForUpdate"
+       ng-class="{'slds-has-error': ($ctrl.form[$ctrl.detail.name].$invalid && $ctrl.form.$submitted)
+       || ($ctrl.form[$ctrl.detail.name].$invalid && !$ctrl.form.$submitted
+       && $ctrl.form[$ctrl.detail.name].$touched && !$ctrl.form[$ctrl.detail.name].$error.required)}">
+
+    <div class="slds-select_container">
+        <select id="$picklist-{{::$ctrl.detail.name}}"
+                name="$picklist-{{::$ctrl.detail.name}}"
+                class="slds-select"
+                style="position: absolute; opacity: 0;"
+                multiple
+                ng-model="$ctrl.selectedOptions"
+                ng-model-options="{updateOn: 'blur'}"
+                ng-options="element.label for element in $ctrl.selectOptions track by element.value"
+                ng-change="$ctrl.setSelected()">
+        </select>
+        <input type="text" class="input-trigger" style="margin: 0 0rem !important;"
+               value="{{$ctrl.multiPickListLabel}}"/>
+        <input type="text"
+               ng-show="false"
+               id="{{::$ctrl.detail.name}}"
+               name="{{::$ctrl.detail.name}}"
+               ng-model="$ctrl.selectedPicklistValues"
+               ng-required="$ctrl.required"/>
+    </div>
+
+
+    <!-- Error messages are output for the form -->
+    <div static-include-without-new-scope
+         template-path="app/core/pagelayout/inline-error-messages/inline-error-messages.view.html"></div>
+
+</ng-if>
+
+<!-- Component view for the pure output -->
+<div ng-if="!$ctrl.itemEditableForUpdate" class="slds-form-element__control slds-has-divider--bottom">
+    <span class="slds-form-element__static">{{::$ctrl.value}}</span>
+</div>

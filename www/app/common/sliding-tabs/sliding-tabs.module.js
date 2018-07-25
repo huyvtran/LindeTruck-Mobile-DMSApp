@@ -1,0 +1,1 @@
+angular.module('oinio.common.sliding-tabs', ['oinio.common']);

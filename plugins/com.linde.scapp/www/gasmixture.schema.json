@@ -1,0 +1,22 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"type" : "array",
+	"minItems" : 1,
+	"items" : {
+		"type" : "object",
+		"properties" : {
+			"name" : {
+				"type" : "string"
+			},
+			"percentage" : {
+				"type" : "number",
+				"maximum" : 100,
+				"minimum" : 0.1
+			}
+		},
+		"required" : [ 
+			"name",
+			"percentage"
+		]
+	}
+}
