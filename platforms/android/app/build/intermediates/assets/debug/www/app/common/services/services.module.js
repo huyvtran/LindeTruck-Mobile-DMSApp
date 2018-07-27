@@ -1,1 +1,0 @@
-angular.module('oinio.common.services', ['oinio.common']);

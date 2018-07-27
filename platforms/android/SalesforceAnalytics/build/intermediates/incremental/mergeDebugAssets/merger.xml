@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/assets"/><source path="/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/build/generated/assets/shaders/debug"/></dataSet><dataSet config="debug"><source path="/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/SalesforceAnalytics/src/debug/assets"/></dataSet></merger>

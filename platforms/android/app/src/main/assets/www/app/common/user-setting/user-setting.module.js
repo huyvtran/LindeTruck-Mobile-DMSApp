@@ -1,1 +1,0 @@
-angular.module('oinio.common.user-setting', ['oinio.common']);

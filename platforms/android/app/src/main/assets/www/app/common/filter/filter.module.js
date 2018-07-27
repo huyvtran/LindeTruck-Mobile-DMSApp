@@ -1,1 +1,0 @@
-angular.module('oinio.common.filter', ['oinio.common']);

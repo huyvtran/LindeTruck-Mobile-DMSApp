@@ -111,7 +111,7 @@
                 cordova.plugins.Keyboard.hideKeyboardAccessoryBar(false);
             }
 
-            // OAuth loign in Salesforce
+            // OAuth loign in Salesforce //
             SalesforceLoginService.oauthLogin(function () {
 
                 Logger.initializeLogSetting().then(function () {

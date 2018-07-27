@@ -1,1 +1,0 @@
-angular.module('oinio.common.login', ['oinio.common']);

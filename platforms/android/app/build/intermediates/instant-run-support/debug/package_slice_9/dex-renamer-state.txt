@@ -1,4 +1,0 @@
-#Wed Jul 25 15:06:21 CST 2018
-base.0=/Users/gw/my_project/OinioOne-Boilerplate/platforms/android/app/build/intermediates/transforms/dexMerger/debug/9
-path.0=classes.dex
-renamed.0=classes.dex
