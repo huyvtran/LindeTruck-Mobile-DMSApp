@@ -9,6 +9,7 @@
     "prepare-android": "cordova prepare android"
   },
   "dependencies": {
+    "cordova-android": "^7.0.0",
     "gulp": "^3.5.6",
     "gulp-concat": "^2.2.0",
     "gulp-git": "^1.6.0",

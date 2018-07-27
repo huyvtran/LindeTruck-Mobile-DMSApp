@@ -114,7 +114,7 @@
   "com.oinio.cordova.plugin.PdfViewer": {
     "source": {
       "type": "local",
-      "path": "/Users/gw/my_project/OinioOne-Boilerplate/node_modules/com.oinio.cordova.plugin.PdfViewer"
+      "path": "/Users/gw/my_project/LindeTruck-Mobile-SEApp/node_modules/com.oinio.cordova.plugin.PdfViewer"
     },
     "is_top_level": true,
     "variables": {}
@@ -122,7 +122,7 @@
   "com.linde.scapp": {
     "source": {
       "type": "local",
-      "path": "/Users/gw/my_project/OinioOne-Boilerplate/node_modules/cordova-android-plugin"
+      "path": "/Users/gw/my_project/LindeTruck-Mobile-SEApp/node_modules/cordova-android-plugin"
     },
     "is_top_level": true,
     "variables": {}
