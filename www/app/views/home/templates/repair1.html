@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>repair1</title>
+	<link rel="stylesheet" href="././css/repair1.css">
+
+	<style type="text/css">
+		.back_Btn {
+			background-image: url(././img/images/back_icon.png);
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="left_Box">
+		</div>
+  		<div class="center_Box">
+  			预约报修
+		</div>
+		<div class="right_Box">
+		</div>
+	</div>
+	<div class="bodyer">
+  	<div class="change_Btn_Group">
+  		<div class="change_Btn red_Btn"></div>
+  		<div class="change_Btn"></div>
+  	</div>
+  	<div class="big_Type_Group">
+  		<div class="small_Type_Group">
+				<div class="small_Type_Title"> 报修项目：</div>
+				<select class="select_Box">
+            		<option> 报修内容1 </option>
+          	</select>
+			</div>
+			<div class="small_Type_Group">
+				<div class="small_Type_Title"> 产品描述：</div>
+				<textarea class="textarea_Box"></textarea>
+			</div>
+			<div class="small_Type_Group">
+				<div class="small_Type_Title"> 添加图片：</div>
+				<div class="add_Img_Group">
+					<div class="add_Img_Simple flex_Left">
+						<div class="add_Img_Box"></div>
+					</div>
+					<div class="add_Img_Simple flex_Center">
+						<div class="add_Img_Box"></div>
+					</div>
+					<div class="add_Img_Simple flex_Right">
+						<div class="add_Img_Box"></div>
+					</div>
+				</div>
+			</div>
+			<div class="small_Type_Group">
+				<div class="small_Type_Title"> 预约时间：</div>
+				<input type="text" class="input_Year" maxlength="4" placeholder="年"/>
+				<input type="text" class="input_MonthDay" maxlength="5" placeholder="月/日"/>
+			</div>
+			<div class="small_Type_Group">
+				<div class="small_Type_Title"> 联系方式：</div>
+				<input type="text" class="input_Text" maxlength="11" placeholder="手机号" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')" />
+			</div>
+  	</div>
+	</div>
+	<div class="footer">
+		<!-- footer_Act_Btn 信息填完亮起下一步 -->
+		<div class="footer_Btn">取消</div>
+		<div class="footer_Btn footer_Act_Btn">下一步</div>
+	</div>
+</body>
+</html>

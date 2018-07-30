@@ -28,4 +28,11 @@ angular.module('oinio.controllers', [])
                 vm.username = cachedUser.Name;
             }
         });
+
+        this.toRepair1 = function () {
+            console.log("toRepair1");
+            $state.go('app.repair1');
+          }
     });
+    
+        
