@@ -1,0 +1,243 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node',
+1 verbose cli   '/Users/gw/my_project/LindeTruck-Mobile-SEApp/node_modules/.bin/npm',
+1 verbose cli   'i',
+1 verbose cli   '-g',
+1 verbose cli   'ionic@latest' ]
+2 info using npm@2.15.12
+3 info using node@v8.9.2
+4 verbose install initial load of /usr/local/lib/package.json
+5 verbose readDependencies loading dependencies from /usr/local/lib/package.json
+6 silly cache add args [ 'ionic@latest', null ]
+7 verbose cache add spec ionic@latest
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'ionic@latest',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'ionic',
+8 silly cache add   rawSpec: 'latest',
+8 silly cache add   spec: 'latest',
+8 silly cache add   type: 'tag' }
+9 silly addNamed ionic@latest
+10 verbose addNamed "latest" is being treated as a dist-tag for ionic
+11 info addNameTag [ 'ionic', 'latest' ]
+12 silly mapToRegistry name ionic
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry data Result {
+15 silly mapToRegistry   raw: 'ionic',
+15 silly mapToRegistry   scope: null,
+15 silly mapToRegistry   name: 'ionic',
+15 silly mapToRegistry   rawSpec: '',
+15 silly mapToRegistry   spec: 'latest',
+15 silly mapToRegistry   type: 'tag' }
+16 silly mapToRegistry uri https://registry.npmjs.org/ionic
+17 verbose addNameTag registry:https://registry.npmjs.org/ionic not in flight; fetching
+18 verbose request uri https://registry.npmjs.org/ionic
+19 verbose request no auth needed
+20 info attempt registry request try #1 at 10:22:44
+21 verbose request id ac835b7398aabc4e
+22 http request GET https://registry.npmjs.org/ionic
+23 http 200 https://registry.npmjs.org/ionic
+24 verbose headers { date: 'Mon, 30 Jul 2018 02:22:44 GMT',
+24 verbose headers   'content-type': 'application/json; charset=UTF-8',
+24 verbose headers   'transfer-encoding': 'chunked',
+24 verbose headers   connection: 'keep-alive',
+24 verbose headers   'set-cookie':
+24 verbose headers    [ '__cfduid=d304e0b5135f5d0b3c564239c4e4168b61532917364; expires=Tue, 30-Jul-19 02:22:44 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
+24 verbose headers   'cache-control': 'max-age=300',
+24 verbose headers   'cf-cache-status': 'HIT',
+24 verbose headers   'cf-ray': '44245bfacb12a584-NRT',
+24 verbose headers   etag: 'W/"30c42caf84a46f0549f0d5f5b29bca80"',
+24 verbose headers   'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+24 verbose headers   'last-modified': 'Fri, 27 Jul 2018 00:23:32 GMT',
+24 verbose headers   vary: 'accept-encoding, accept',
+24 verbose headers   server: 'cloudflare',
+24 verbose headers   'content-encoding': 'gzip' }
+25 silly get cb [ 200,
+25 silly get   { date: 'Mon, 30 Jul 2018 02:22:44 GMT',
+25 silly get     'content-type': 'application/json; charset=UTF-8',
+25 silly get     'transfer-encoding': 'chunked',
+25 silly get     connection: 'keep-alive',
+25 silly get     'set-cookie':
+25 silly get      [ '__cfduid=d304e0b5135f5d0b3c564239c4e4168b61532917364; expires=Tue, 30-Jul-19 02:22:44 GMT; path=/; domain=.registry.npmjs.org; HttpOnly' ],
+25 silly get     'cache-control': 'max-age=300',
+25 silly get     'cf-cache-status': 'HIT',
+25 silly get     'cf-ray': '44245bfacb12a584-NRT',
+25 silly get     etag: 'W/"30c42caf84a46f0549f0d5f5b29bca80"',
+25 silly get     'expect-ct': 'max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"',
+25 silly get     'last-modified': 'Fri, 27 Jul 2018 00:23:32 GMT',
+25 silly get     vary: 'accept-encoding, accept',
+25 silly get     server: 'cloudflare',
+25 silly get     'content-encoding': 'gzip' } ]
+26 verbose get saving ionic to /Users/gw/.npm/registry.npmjs.org/ionic/.cache.json
+27 verbose correctMkdir /Users/gw/.npm correctMkdir not in flight; initializing
+28 silly addNameTag next cb for ionic with tag latest
+29 silly addNamed ionic@4.0.1
+30 verbose addNamed "4.0.1" is a plain semver version for ionic
+31 silly mapToRegistry name ionic
+32 silly mapToRegistry using default registry
+33 silly mapToRegistry registry https://registry.npmjs.org/
+34 silly mapToRegistry data Result {
+34 silly mapToRegistry   raw: 'ionic',
+34 silly mapToRegistry   scope: null,
+34 silly mapToRegistry   name: 'ionic',
+34 silly mapToRegistry   rawSpec: '',
+34 silly mapToRegistry   spec: 'latest',
+34 silly mapToRegistry   type: 'tag' }
+35 silly mapToRegistry uri https://registry.npmjs.org/ionic
+36 verbose addRemoteTarball https://registry.npmjs.org/ionic/-/ionic-4.0.1.tgz not in flight; adding
+37 verbose addRemoteTarball [ 'https://registry.npmjs.org/ionic/-/ionic-4.0.1.tgz',
+37 verbose addRemoteTarball   '7f184fc05a90d1167d81624cdd68b784eb862fc0' ]
+38 info retry fetch attempt 1 at 10:22:45
+39 info attempt registry request try #1 at 10:22:45
+40 http fetch GET https://registry.npmjs.org/ionic/-/ionic-4.0.1.tgz
+41 http fetch 200 https://registry.npmjs.org/ionic/-/ionic-4.0.1.tgz
+42 silly fetchAndShaCheck shasum 7f184fc05a90d1167d81624cdd68b784eb862fc0
+43 verbose addTmpTarball /var/folders/17/nrm1lkj96fg7pl5rsg1jcg7h0000gn/T/npm-37754-ae8d6ebd/registry.npmjs.org/ionic/-/ionic-4.0.1.tgz not in flight; adding
+44 verbose addTmpTarball already have metadata; skipping unpack for ionic@4.0.1
+45 verbose correctMkdir /Users/gw/.npm correctMkdir not in flight; initializing
+46 silly cache afterAdd ionic@4.0.1
+47 verbose afterAdd /Users/gw/.npm/ionic/4.0.1/package/package.json not in flight; writing
+48 verbose correctMkdir /Users/gw/.npm correctMkdir not in flight; initializing
+49 verbose afterAdd /Users/gw/.npm/ionic/4.0.1/package/package.json written
+50 silly install resolved [ { name: 'ionic',
+50 silly install resolved     version: '4.0.1',
+50 silly install resolved     description: 'A tool for creating and developing Ionic Framework mobile apps.',
+50 silly install resolved     homepage: 'https://ionicframework.com',
+50 silly install resolved     author:
+50 silly install resolved      { name: 'Ionic Team',
+50 silly install resolved        email: 'hi@ionic.io',
+50 silly install resolved        url: 'https://ionicframework.com' },
+50 silly install resolved     bin: { ionic: './bin/ionic' },
+50 silly install resolved     engines: { node: '>=6.4.0' },
+50 silly install resolved     main: './dist/index.js',
+50 silly install resolved     types: './dist/index.d.ts',
+50 silly install resolved     scripts:
+50 silly install resolved      { clean: 'rimraf dist',
+50 silly install resolved        lint: 'tslint --config tslint.js --project tsconfig.json',
+50 silly install resolved        build: 'npm run clean && tsc',
+50 silly install resolved        watch: 'tsc -w --preserveWatchOutput',
+50 silly install resolved        test: 'jest',
+50 silly install resolved        prepublishOnly: 'npm run build' },
+50 silly install resolved     files: [ 'bin/', 'dist/' ],
+50 silly install resolved     keywords:
+50 silly install resolved      [ 'ionic',
+50 silly install resolved        'ionic framework',
+50 silly install resolved        'ionicframework',
+50 silly install resolved        'mobile',
+50 silly install resolved        'app',
+50 silly install resolved        'hybrid',
+50 silly install resolved        'cordova',
+50 silly install resolved        'native',
+50 silly install resolved        'phonegap' ],
+50 silly install resolved     repository:
+50 silly install resolved      { type: 'git',
+50 silly install resolved        url: 'git+https://github.com/ionic-team/ionic-cli.git' },
+50 silly install resolved     bugs: { url: 'https://github.com/ionic-team/ionic-cli/issues' },
+50 silly install resolved     license: 'MIT',
+50 silly install resolved     dependencies:
+50 silly install resolved      { '@ionic/cli-framework': '1.0.0',
+50 silly install resolved        '@ionic/cli-utils': '2.0.1',
+50 silly install resolved        chalk: '^2.3.0',
+50 silly install resolved        debug: '^3.1.0',
+50 silly install resolved        lodash: '^4.17.5',
+50 silly install resolved        opn: '^5.2.0',
+50 silly install resolved        semver: '^5.5.0',
+50 silly install resolved        tslib: '^1.9.0',
+50 silly install resolved        'update-notifier': '^2.3.0' },
+50 silly install resolved     devDependencies:
+50 silly install resolved      { '@types/debug': '0.0.30',
+50 silly install resolved        '@types/lodash': '^4.14.104',
+50 silly install resolved        '@types/node': '^6.0.101',
+50 silly install resolved        '@types/opn': '^5.1.0',
+50 silly install resolved        '@types/update-notifier': '^2.0.0',
+50 silly install resolved        jest: '^23.0.1',
+50 silly install resolved        'jest-cli': '^23.0.1',
+50 silly install resolved        rimraf: '^2.6.2',
+50 silly install resolved        'ts-jest': '^23.0.0',
+50 silly install resolved        tslint: '^5.9.1',
+50 silly install resolved        typescript: '~2.9.1' },
+50 silly install resolved     jest:
+50 silly install resolved      { globals: [Object],
+50 silly install resolved        moduleFileExtensions: [Array],
+50 silly install resolved        transform: [Object],
+50 silly install resolved        testRegex: '/__tests__/.*\\.(ts|js)$' },
+50 silly install resolved     _id: 'ionic@4.0.1',
+50 silly install resolved     _npmVersion: '6.1.0',
+50 silly install resolved     _nodeVersion: '10.7.0',
+50 silly install resolved     _npmUser: { name: 'ionicjs', email: 'hi@ionicframework.com' },
+50 silly install resolved     dist:
+50 silly install resolved      { integrity: 'sha512-EDCcI8GrL0XluoO0cxKij/4KyK6hhIRV9X6OLAsDkz3crleI695qF5SF4UsGKTm7YLeSEkUqFcp7sOrXBFuctA==',
+50 silly install resolved        shasum: '7f184fc05a90d1167d81624cdd68b784eb862fc0',
+50 silly install resolved        tarball: 'https://registry.npmjs.org/ionic/-/ionic-4.0.1.tgz',
+50 silly install resolved        fileCount: 140,
+50 silly install resolved        unpackedSize: 335703,
+50 silly install resolved        'npm-signature': '-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.4\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJbWSmkCRA9TVsSAnZWagAAbysP/i3lU76dnMaYL7F1Se+G\npGfuECzo7VrTjLVHAHepWW8S2t4mWhk1mlcDyu6bssAMRLpMw/A+WID5mO3K\nLRKAO8u3P+Rk0H9qE3CBy5GYqCLKz3hJMrp24qyFPbacTRri7OYuoLGZYuUl\nYI2AKLSCvOfXbH8Up/+pN71k7xlzDTtwuCrfDze7bSwoes4xZ2nkYHLJ6wnl\nYnB1jF3MXYH0WHKiZlnRA14VhLSIQ/v2THCogEDATOvCIkEzVVEJj48sc6Jq\nbRQHEOBUVpbnCWGO4CoLqCg3eeknSzvH+5CuvcdhUdA1p08XwtMxGfyD0z+z\ntZE+JhwfJFytP0MTWzW1OeOGYOxM2fdR0FNht886eRKx7an3tJAWi0tASb/T\n1peKIJNSMCWxaJk7YZYin85QkoNT7662jC2AN3Pe9lOx4odIp1PQ7r1bm1Sy\n6CeZwKu5oQyTPaEbpeo7rJl6w7dy40DJykV4d8RbNupqYT5wpwDflieRo0X9\n6lCyymMU4UnGat97wsNxiHdLe9nekczuZ2HQRvp8qU1eLq8ZlkP1fHPR1Ytk\nQ8zBxJGWmk7ciquvUV7OQ4Mn0RLgfaf7NiwYXX/sWnr99rDuBlI4mT+ztlfC\nZ9yW+dqh/zmc0Ft9LqmXDnwTz9sQEDcMcTTCeERL+JQm3OcfjSwhiQQC5hsw\nQv5j\r\n=gI+/\r\n-----END PGP SIGNATURE-----\r\n' },
+50 silly install resolved     maintainers:
+50 silly install resolved      [ [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object] ],
+50 silly install resolved     directories: {},
+50 silly install resolved     _npmOperationalInternal:
+50 silly install resolved      { host: 's3://npm-registry-packages',
+50 silly install resolved        tmp: 'tmp/ionic_4.0.1_1532570020148_0.9011966355985872' },
+50 silly install resolved     _shasum: '7f184fc05a90d1167d81624cdd68b784eb862fc0',
+50 silly install resolved     _resolved: 'https://registry.npmjs.org/ionic/-/ionic-4.0.1.tgz',
+50 silly install resolved     _from: 'ionic@latest' } ]
+51 info install ionic@4.0.1 into /usr/local/lib
+52 info installOne ionic@4.0.1
+53 verbose installOne of ionic to /usr/local/lib not in flight; installing
+54 verbose correctMkdir /Users/gw/.npm/_locks correctMkdir not in flight; initializing
+55 verbose lock using /Users/gw/.npm/_locks/ionic-61c0cd50dc7a1457.lock for /usr/local/lib/node_modules/ionic
+56 silly install write writing ionic 4.0.1 to /usr/local/lib/node_modules/ionic
+57 verbose unbuild lib/node_modules/ionic
+58 info preuninstall ionic@3.20.0
+59 info uninstall ionic@3.20.0
+60 verbose unbuild rmStuff ionic@3.20.0 from /usr/local/lib/node_modules
+61 silly gentlyRm /usr/local/bin/ionic is being gently removed
+62 silly gentlyRm verifying /usr/local is an npm working directory
+63 silly gentlyRm containing path /usr/local is under npm's control, in /usr/local
+64 silly gentlyRm deletion target /usr/local/bin/ionic is under /usr/local
+65 verbose gentlyRm vacuuming from /usr/local/bin/ionic up to /usr/local
+66 silly vacuum-fs removing /usr/local/bin/ionic
+67 verbose unlock done using /Users/gw/.npm/_locks/ionic-61c0cd50dc7a1457.lock for /usr/local/lib/node_modules/ionic
+68 verbose stack Error: EACCES: permission denied, unlink '/usr/local/bin/ionic'
+69 verbose cwd /Users/gw/my_project/LindeTruck-Mobile-SEApp
+70 error Darwin 17.7.0
+71 error argv "/usr/local/bin/node" "/Users/gw/my_project/LindeTruck-Mobile-SEApp/node_modules/.bin/npm" "i" "-g" "ionic@latest"
+72 error node v8.9.2
+73 error npm  v2.15.12
+74 error path /usr/local/bin/ionic
+75 error code EACCES
+76 error errno -13
+77 error syscall unlink
+78 error Error: EACCES: permission denied, unlink '/usr/local/bin/ionic'
+78 error  { Error: EACCES: permission denied, unlink '/usr/local/bin/ionic'
+78 error   errno: -13,
+78 error   code: 'EACCES',
+78 error   syscall: 'unlink',
+78 error   path: '/usr/local/bin/ionic' }
+79 error Please try running this command again as root/Administrator.
+80 verbose exit [ -13, true ]
+81 verbose unbuild lib/node_modules/ionic
+82 info preuninstall ionic@3.20.0
+83 info uninstall ionic@3.20.0
+84 verbose unbuild rmStuff ionic@3.20.0 from /usr/local/lib/node_modules
+85 silly gentlyRm /usr/local/bin/ionic is being gently removed
+86 silly gentlyRm verifying /usr/local is an npm working directory
+87 silly gentlyRm containing path /usr/local is under npm's control, in /usr/local
+88 silly gentlyRm deletion target /usr/local/bin/ionic is under /usr/local
+89 verbose gentlyRm vacuuming from /usr/local/bin/ionic up to /usr/local
+90 silly vacuum-fs removing /usr/local/bin/ionic
+91 error error rolling back Error: EACCES: permission denied, unlink '/usr/local/bin/ionic'
+91 error error rolling back  { Error: EACCES: permission denied, unlink '/usr/local/bin/ionic'
+91 error error rolling back   errno: -13,
+91 error error rolling back   code: 'EACCES',
+91 error error rolling back   syscall: 'unlink',
+91 error error rolling back   path: '/usr/local/bin/ionic' }
