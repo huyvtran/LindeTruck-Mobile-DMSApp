@@ -44,7 +44,15 @@
                     }
                 }
             })
-
+            .state('app.repair2', {
+                url: 'app/repair2',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/repair2.html',
+                        // controller: 'repair1Controller as vm'
+                    }
+                }
+            })
             /*.state('app.searchView', {
                 url: '/searchView?objectType&searchTerm',
                 views: {

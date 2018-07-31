@@ -33,6 +33,10 @@ angular.module('oinio.controllers', [])
             console.log("toRepair1");
             $state.go('app.repair1');
           }
+         this.toRepair2 = function () {
+            console.log("toRepair2");
+            $state.go('app.repair2');
+          }
     });
     
         
