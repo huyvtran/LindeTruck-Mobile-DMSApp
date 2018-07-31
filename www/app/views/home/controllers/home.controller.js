@@ -37,11 +37,12 @@ angular.module('oinio.controllers', [])
             console.log("toRepair2");
             $state.go('app.repair2');
           }
-        
-          $scope.toRepair3 = function (){
-            console.log("toRepair3");
-            $state.go('app.repair2');
-          };
+
+        this.toDiscovery = function () {
+            console.log("toDiscovery");
+            $state.go('app.discovery');
+        }
+
     });
     
         
