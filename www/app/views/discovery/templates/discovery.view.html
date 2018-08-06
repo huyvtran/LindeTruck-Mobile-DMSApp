@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="oinio">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>homepage</title>
+
+	<style type="text/css">
+		.search_Photo_Icon {
+			background-image: url(/app/views/home/images/search-photo_icon.png);
+		}
+
+		.volume_Icon {
+			background-image: url(/app/views/home/images/volume_icon.png);
+		}
+
+		.add_Icon_White {
+			background-image: url(/app/views/home/images/add_icon_white.png);
+		}
+	</style>
+</head>
+<body>
+<div class="header">
+	<div class="left_Box">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</div>
+	<div class="search_All">
+		<input type="text" placeholder="搜索" class="search_Input" />
+		<div class="search_Photo_Icon"></div>
+	</div>
+</div>
+
+<div class="bodyer">
+
+</div>
+
+<div class="tabs footer">
+	<!-- footer_Act_Btn切换选择页面 -->
+	<div class="tab-item footer_Btn" ui-sref="app.home">首页</div>
+	<div class="tab-item footer_Btn" ui-sref="app.discovery">发现</div>
+	<div class="tab-item footer_Btn" ui-sref="app.catlog">分类</div>
+	<div class="tab-item footer_Btn" ui-sref="app.personal">个人</div>
+	<div class="tab-item volume_Group">
+		<div class="volume_Icon"></div>
+	</div>
+</div>
+
+</body>
+</html>
