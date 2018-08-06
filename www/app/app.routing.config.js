@@ -53,15 +53,6 @@
                     }
                 }
             })
-            .state('app.discovery', {
-                url: 'app/discovery',
-                views: {
-                    menuContent: {
-                        templateUrl: 'app/views/home/templates/discovery.html',
-                        // controller: 'repair1Controller as vm'
-                    }
-                }
-            })
             /*.state('app.searchView', {
                 url: '/searchView?objectType&searchTerm',
                 views: {
