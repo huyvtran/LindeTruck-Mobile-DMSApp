@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="myApp">
+<html>
 
 <head>
 	<meta charset="utf-8">
@@ -43,7 +43,6 @@
 	  	</div>
 	  </div> -->
 
-<body ng-controller="myCtrl">
 
 	<ion-content>
 
@@ -59,27 +58,12 @@
 
 		<div class="big_Box_Group">
 			<div class="small_Box_Title"> 搜索结果 </div>
-			<ion-list can-swipe="true">
-				<ion-item ng-repeat="item in items">
+			<ion-list can-swipe="true" >
+				<ion-item ng-repeat="item in items" ng-click="toRepair4()">
 					{{item}}
-					<ion-option-button class="button-calm icon ion-edit"></ion-option-button>
-					<ion-option-button class="button-energized icon ion-share"></ion-option-button>
 				</ion-item>
 			</ion-list>
 		</div>
 	</ion-content>
-</body>
 
 </html>
-<script>
-	angular.module("myApp", [])
-		.controller("myCtrl", function ($scope) {
-			// $scope.items = [];
-			$scope.items=["Chinese","English","German","Italian","Janapese","Sweden","Koeran","Russian","French"];
-			console.log("fromIndex-------------");
-
-		// 	for (var i = 0; i < 10; i++)
-		// 		$scope.items.push(["item list ", i + 1].join(""));
-		 });
-
-</script>

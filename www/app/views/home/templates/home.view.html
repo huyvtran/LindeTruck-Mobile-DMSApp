@@ -30,7 +30,7 @@
 
                 <!-- Logo in the left of top -->
                 <div class="slds-size--5-of-12 slds-medium-size--4-of-12 slds-large-size--4-of-12 o-logo-lettering-header">
-                    <img src="img/linde/linde-logo-lettering-transparent.png"/>
+                    <img src="img/linde/linde-logo-lettering-transparent.png" />
                 </div>
 
                 <!-- Setting Icon in the right of top -->
@@ -54,8 +54,7 @@
 
                 <!-- Show which User is logged in -->
                 <div class="slds-size--8-of-12 slds-medium-size--7-of-12 slds-large-size--7-of-12 o-username">
-                    <object class="o-item-linde-user" data="img/linde/icons/svg/LG_Icon_Profile_BB_CMYK_RZ_104005_w.svg"
-                            type="image/svg+xml"></object>
+                    <object class="o-item-linde-user" data="img/linde/icons/svg/LG_Icon_Profile_BB_CMYK_RZ_104005_w.svg" type="image/svg+xml"></object>
                     <span ng-if="vm.username">{{'cl.global.lb_welcome' | translate}}, {{vm.username}}!</span>
                 </div>
             </div>
@@ -66,25 +65,24 @@
     <!-- CONTENT -->
     <ion-content class="o-has-big-header">
 
-        <div ng-controller="HomeController">
-            <p class="button ion ion-home" ng-click = "toRepair1()">>go test</p>
-            
-            <p class="button ion ion-home" ng-click = "toRepair3()">>go test3</p>
+        <div>
+            <p class="button ion ion-home" ng-click="toRepair1()">>go test</p>
+
+            <p class="button ion ion-home" ng-click="toRepair3()">>go test3</p>
 
             <ion-list can-swipe="true">
-                    <ion-item ng-repeat="item in items">
+                <ion-item ng-repeat="item in items">
                     {{item}}
-                        <ion-option-button class="button-calm icon ion-edit"></ion-option-button>
-                        <ion-option-button class="button-energized icon ion-share"></ion-option-button>
-                    </ion-item>
-                </ion-list>
+                    <ion-option-button class="button-calm icon ion-edit"></ion-option-button>
+                    <ion-option-button class="button-energized icon ion-share"></ion-option-button>
+                </ion-item>
+            </ion-list>
         </div>
 
-               
-            
+
+
     </ion-content>
 
     <!-- ACTION BUTTONS - FOOTER BAR -->
 
 </ion-view>
-

@@ -40,7 +40,10 @@
             'oinio.core.detail',
             'oinio.core.components',
             'oinio.services',
-            'oinio.controllers', //add your custom module from here
+            'oinio.controllers',//add your custom module from here
+
+            'oinio.Search_1controllers'
+            
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,

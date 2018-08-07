@@ -1,0 +1,190 @@
+body {
+	margin: 0;
+	font-size: 1rem;
+    font-family: 微软雅黑, 华文黑体, sans-serif;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    background-position: 50%;
+    overflow: hidden;
+}
+img {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.to_Open {
+    display: block!important;
+}
+.to_Hide {
+    display: none!important;
+}
+.header {
+    background: #aa0020;
+    /* width: 90%; */
+    height: 96px;
+    position: relative;
+    padding: 0 5%;
+    line-height: 96px;
+}
+.left_Box {
+    display: inline-flex;
+    width: 10%;
+    vertical-align: middle;
+}
+.back_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 14px;
+    height: 24px;    
+}
+.search_All {
+    display: inline-block;
+    width: 77%;
+    position: relative;
+    vertical-align: middle;
+}
+.search_Input {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    padding: 1% 10% 1% 15%;
+    font-size: 1rem;
+    color: #D6D6D6;
+    border: 1px solid #d6d6d6;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+.search_Photo_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 21px;
+    height: 15px;
+    position: absolute;
+    top: calc(50% - 7.5px);
+    left: 5%;
+}
+.right_Box {
+    position: relative;
+    display: inline-flex;
+    width: 10%;
+    vertical-align: middle;
+}
+.add_Icon_White {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 20px;    
+    margin-left: auto;
+}
+.add_Arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ffffff;
+    top: 19px;
+    right: 25%;
+}
+.add_Group {
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0 1px 2px #aa0020;
+    top: 39px;
+    right: 0;
+    display: inline-block;
+    width: 130px;
+}
+.add_Box {
+    white-space: nowrap;
+    color: #535353;
+    padding: 8%;
+    line-height: 1.2rem;
+}
+.bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 148px);
+}
+.big_Type_Group {
+    margin: 5% 0;
+}
+.small_Type_Group {
+    margin-bottom: 2%;
+}
+.small_Type_Title_Group {
+    border-bottom: 1px solid #aa0020;
+    padding-bottom: 2%;
+    padding: 0 5%;
+}
+.OpenClose_Btn {
+    background-repeat: no-repeat;
+    background-size: cover; 
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1%;
+}
+.arrow_Left_Red {
+    width: 10px;
+    height: 18px;
+    margin-right: calc(1% + 8px);
+}
+.arrow_Down_Red {
+    width: 18px;
+    height: 10px;
+}
+.small_Type_Title {
+    color: #aa0020;
+    font-weight: bold;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 1%;
+}
+.inf_Box_Group {
+    margin: 5%;
+    background: #d8d8d8;
+    border: 1px solid #979797;
+    font-size: 0.8rem;
+    border-radius: 2px;
+}
+.inf_Box {
+    padding: 2%;
+    display: flex;
+}
+.inf_Left_Text {
+    color: #979797;
+    display: inline-flex;
+    width: 30%;
+}
+.inf_Right_Text {
+    color: #535353;
+    display: inline-flex;
+    justify-content: flex-end;
+    width: 70%;
+}
+.plan_Box_Group {
+    margin: 5%;
+}
+.plan_Box {
+    padding-bottom: 2%;
+    font-size: 0.8rem;
+    display: flex;
+    border-bottom: 1px solid #535353;
+}
+.plan_Left_Text {
+    color: #979797;
+    display: inline-flex;
+    width: 70%;
+    text-decoration: underline;
+}
+.plan_Right_Text {
+    color: #535353;
+    display: inline-flex;
+    justify-content: flex-end;
+    width: 30%;
+}

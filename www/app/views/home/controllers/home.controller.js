@@ -33,13 +33,13 @@ angular.module('oinio.controllers', [])
         $scope.toRepair1 = function () {
             console.log("search_1");
             $state.go('app.search_1');
-          }
+        }
          
         
-          $scope.toRepair3 = function (){
-            console.log("toRepair3");
-            $state.go('app.repair2');
-          };
+        //   $scope.toRepair3 = function (){
+        //     console.log("toRepair3");
+        //     $state.go('app.customDetail');
+        //   };
     });
     
         

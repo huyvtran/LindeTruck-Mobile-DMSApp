@@ -25,11 +25,21 @@
                 controller: 'SideNavigationController as vm'
             })
 
+            // .state('app.home', {
+            //     url: 'app/home',
+            //     views: {
+            //         menuContent: {
+            //             templateUrl: 'app/views/home/templates/home.view.html',
+            //             controller: 'HomeController as vm'
+            //         }
+            //     },
+            //     cache: false
+            // })
             .state('app.home', {
-                url: 'app/home',
+                url: 'app/date_Head',
                 views: {
                     menuContent: {
-                        templateUrl: 'app/views/home/templates/home.view.html',
+                        templateUrl: 'app/views/home/templates/date_Head.html',
                         controller: 'HomeController as vm'
                     }
                 },
@@ -40,15 +50,15 @@
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/search_1.html',
-                        // controller: 'Search_1Controller as vm'
+                        controller: 'Search_1Controller as vm'
                     }
                 }
             })
-            .state('app.repair2', {
-                url: 'app/repair2',
+            .state('app.customDetail', {
+                url: 'app/customDetail',
                 views: {
                     menuContent: {
-                        templateUrl: 'app/views/home/templates/repair2.html',
+                        templateUrl: 'app/views/home/templates/customDetail.html',
                         // controller: 'repair1Controller as vm'
                     }
                 }
