@@ -35,12 +35,12 @@
                 },
                 cache: false
             })
-            .state('app.repair1', {
-                url: 'app/repair1',
+            .state('app.search_1', {
+                url: 'app/search_1',
                 views: {
                     menuContent: {
-                        templateUrl: 'app/views/home/templates/repair1.html',
-                        // controller: 'repair1Controller as vm'
+                        templateUrl: 'app/views/home/templates/search_1.html',
+                        // controller: 'Search_1Controller as vm'
                     }
                 }
             })

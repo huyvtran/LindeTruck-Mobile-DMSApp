@@ -67,11 +67,21 @@
     <ion-content class="o-has-big-header">
 
         <div ng-controller="HomeController">
-            <p class="button ion ion-home" ng-click = "vm.toRepair1()">>go test</p>
+            <p class="button ion ion-home" ng-click = "toRepair1()">>go test</p>
             
             <p class="button ion ion-home" ng-click = "toRepair3()">>go test3</p>
 
+            <ion-list can-swipe="true">
+                    <ion-item ng-repeat="item in items">
+                    {{item}}
+                        <ion-option-button class="button-calm icon ion-edit"></ion-option-button>
+                        <ion-option-button class="button-energized icon ion-share"></ion-option-button>
+                    </ion-item>
+                </ion-list>
         </div>
+
+               
+            
     </ion-content>
 
     <!-- ACTION BUTTONS - FOOTER BAR -->

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width,height=device-height">
+	<title>search_1</title>
+	<link rel="stylesheet" href="././css/search_1.css">
+	<!-- <script src="././lib/ionic/js/ionic.bundle.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="././lib/ionic/css/ionic.min.css"> -->
+
+	<style type="text/css">
+		.search_Photo_Icon {
+			background-image: url(././img/images/search-photo_icon.png);
+		}
+	</style>
+</head>
+<!-- <body ng-controller="myCtrl">
+	<div class="header">
+	  	<div class="search_All">
+	  		<input type="text" placeholder="搜索" class="search_Input" />
+	  		<div class="search_Photo_Icon"></div>
+	  	</div>
+	  	<div class="search_right_Group">
+	  		<div class="text_Cancel"> 取消 </div>
+	  	</div>
+	</div>
+	<div class="bodyer" >
+	  	<div class="big_Box_Group">
+  			<div class="small_Box_Title"> 搜索结果 </div>
+  			<div class="small_Box_Text">
+  				<span> 查询订单 </span>
+  				<span> 000001 </span>
+  			</div>
+  			<div class="small_Box_Text">
+  				<span> 查询车挡 </span>
+  				<span> 000001 </span>
+			  </div>
+			 <div class="small_Box_Text" ng-click = "toRepair1()">
+				<span> 临时跳转 </span>
+				<span> 000001 </span>
+			</div>
+	  	</div>
+	  </div> -->
+
+<body ng-controller="myCtrl">
+
+	<ion-content>
+
+		<div class="header">
+			<div class="search_All">
+				<input type="text" placeholder="搜索" class="search_Input" />
+				<div class="search_Photo_Icon"></div>
+			</div>
+			<div class="search_right_Group">
+				<div class="text_Cancel"> 取消 </div>
+			</div>
+		</div>
+
+		<div class="big_Box_Group">
+			<div class="small_Box_Title"> 搜索结果 </div>
+			<ion-list can-swipe="true">
+				<ion-item ng-repeat="item in items">
+					{{item}}
+					<ion-option-button class="button-calm icon ion-edit"></ion-option-button>
+					<ion-option-button class="button-energized icon ion-share"></ion-option-button>
+				</ion-item>
+			</ion-list>
+		</div>
+	</ion-content>
+</body>
+
+</html>
+<script>
+	angular.module("myApp", [])
+		.controller("myCtrl", function ($scope) {
+			// $scope.items = [];
+			$scope.items=["Chinese","English","German","Italian","Janapese","Sweden","Koeran","Russian","French"];
+			console.log("fromIndex-------------");
+
+		// 	for (var i = 0; i < 10; i++)
+		// 		$scope.items.push(["item list ", i + 1].join(""));
+		 });
+
+</script>

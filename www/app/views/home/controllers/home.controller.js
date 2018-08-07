@@ -17,6 +17,7 @@ angular.module('oinio.controllers', [])
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
 
         });
+        $scope.items = ["Chinese","English","Russian","Japanese"];
 
         $scope.$on('$ionicView.enter', function () {
             // check if device is online/offline
@@ -29,14 +30,11 @@ angular.module('oinio.controllers', [])
             }
         });
 
-        this.toRepair1 = function () {
-            console.log("toRepair1");
-            $state.go('app.repair1');
+        $scope.toRepair1 = function () {
+            console.log("search_1");
+            $state.go('app.search_1');
           }
-         this.toRepair2 = function () {
-            console.log("toRepair2");
-            $state.go('app.repair2');
-          }
+         
         
           $scope.toRepair3 = function (){
             console.log("toRepair3");

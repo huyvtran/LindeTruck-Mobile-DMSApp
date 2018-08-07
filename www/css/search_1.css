@@ -1,0 +1,97 @@
+body {
+	margin: 0;
+	font-size: 1rem;
+    font-family: 微软雅黑, 华文黑体, sans-serif;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    background-position: 50%;
+    overflow: hidden;
+}
+img {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.to_Open {
+    display: block!important;
+}
+.to_Hide {
+    display: none!important;
+}
+.header {
+    background: #aa0020;
+    /*width: 90%;*/
+    height: 96px;
+    position: relative;
+    padding: 0 5%;
+    line-height: 96px;
+}
+.search_All {
+    display: inline-block;
+    width: 83%;
+    position: relative;
+    vertical-align: middle;
+}
+.search_right_Group {
+    display: inline-block;
+    width: 15%;
+    color: #ffffff;
+    vertical-align: middle;
+}
+.search_Input {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    padding: 1% 10% 1% 15%;
+    font-size: 1rem;
+    color: #D6D6D6;
+    border: 1px solid #d6d6d6;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+.search_Photo_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 21px;
+    height: 15px;
+    position: absolute;
+    top: calc(50% - 7.5px);
+    left: 5%;
+}
+.text_Cancel {
+    line-height: initial;
+    text-align: right;
+}
+.bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 96px);
+}
+.big_Box_Group {
+    margin: 5% 0;
+}
+.small_Box_Title {
+    color: #aa0020;
+    font-weight: bold;
+    border-bottom: 1px solid #aa0020;
+    padding-bottom: 2%;
+    margin: 0 5%;
+}
+.small_Box_Text {
+    color: #535353;
+    font-size: 0.8rem;
+    padding-bottom: 1%;
+    margin: 2% 5% 2% 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
+    border-bottom: 1px solid #535353;
+}
+.small_Box_Text span {
+    margin-right: 2%;
+}
