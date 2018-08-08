@@ -47,21 +47,26 @@
 	<ion-content>
 		<div class="header">
 			<div class="search_All">
-				<input type="text" id="search1" placeholder="搜索" class="search_Input" ng-model="searchText"/>
+				<input type="text" id="search" placeholder="搜索" class="search_Input" ng-click="change()" ng-model="searchText"/>
 				<div class="search_Photo_Icon"></div>
 			</div>
-			<div class="search_right_Group">
+			<div class="search_right_Group" id="cancleBtn" ng-click="cancle" ng-show="searchText">
 				<div class="text_Cancel"> 取消 </div>
 			</div>
 		</div>
 
 		<div class="big_Box_Group">
 			<div class="small_Box_Title"> 搜索结果 </div>
-			<ion-list can-swipe="true">
-				<ion-item id="items1" ng-repeat="item in items" ng-click="showChildInfoList()">
+			<ion-list can-swipe="true" ng-show="isShow">
+				<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-click="showChildInfoList(searchText)">
 					{{item}} {{ searchText }}
 				</ion-item>
 			</ion-list>
+            <ion-list can-swipe="true" ng-show="!isShow">
+                <ion-item id="items2" ng-repeat="item in contentItems" ng-cloak ng-click="toRepair4()">
+                    {{item}}
+                </ion-item>
+            </ion-list>
 		</div>
 	</ion-content>
 

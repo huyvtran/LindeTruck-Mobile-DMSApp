@@ -15,6 +15,7 @@
 
             $scope.$on("$ionicView.enter",function () {
                 AppUtilService.showLoading();
+                $scope.isShow=true;
                 $scope.items =  loadingData();
             });
 
@@ -22,10 +23,11 @@
 
             $scope.showChildInfoList = function () {
                 console.log("showChildInfoList");
-                $scope.searchText = '';
-                $scope.items = ["100130011","100130012","100130013"];
+                $scope.searchText = "";
+                $scope.isShow=false;
+                $scope.contentItems = ["100130011","100130012","100130013"];
                 //console.log("AccountService",AccountService.searchAccounts("查询发货单 001"));
-                $state.go('app.customDetail');
+                //$state.go('app.customDetail');
             };
 
 
