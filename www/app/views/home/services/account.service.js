@@ -46,7 +46,7 @@
                     console.error(err);
                     deferred.reject(err);
                 });
-
+                console.log('searchAccounts::', deferred.promise);
                 return deferred.promise;
             };
 
@@ -82,7 +82,7 @@
                     console.error(err);
                     deferred.reject(err);
                 });
-
+                console.log('getAccount::', deferred.promise);
                 return deferred.promise;
             };
 
@@ -109,7 +109,7 @@
                     console.error(err);
                     deferred.reject(err);
                 });
-
+                console.log('getContacts::', deferred.promise);
                 return deferred.promise;
             };
 
@@ -124,6 +124,7 @@
                     console.log('getAccountWith360.Id:%s', Id);
                     let account = await service.getAccount(Id);
                     account.Contacts = await service.getContacts(Id);
+                    console.log('getAccountWith360::', account);
                     return account;
                 } catch(err){
                     throw err;
