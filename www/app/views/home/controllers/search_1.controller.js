@@ -3,7 +3,7 @@
 
     angular.module('oinio.Search_1controllers', [])
         .controller('Search_1Controller', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-            LocalCacheService,$ionicHistory,AppUtilService,AccountService) {
+            LocalCacheService,$ionicHistory,AppUtilService) {
             var vm = this;
 
 
@@ -24,7 +24,7 @@
                 console.log("showChildInfoList");
                 $scope.searchText = '';
                 $scope.items = ["100130011","100130012","100130013"];
-                console.log("AccountService",AccountService.searchAccounts("查询发货单 001"));
+                //console.log("AccountService",AccountService.searchAccounts("查询发货单 001"));
             };
 
 
