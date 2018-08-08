@@ -45,10 +45,9 @@
 
 
 	<ion-content>
-
 		<div class="header">
 			<div class="search_All">
-				<input type="text" placeholder="搜索" class="search_Input" />
+				<input type="text" id="search1" placeholder="搜索" class="search_Input" ng-model="searchText"/>
 				<div class="search_Photo_Icon"></div>
 			</div>
 			<div class="search_right_Group">
@@ -58,9 +57,9 @@
 
 		<div class="big_Box_Group">
 			<div class="small_Box_Title"> 搜索结果 </div>
-			<ion-list can-swipe="true" >
-				<ion-item ng-repeat="item in items" ng-click="toRepair4()">
-					{{item}}
+			<ion-list can-swipe="true">
+				<ion-item id="items1" ng-repeat="item in items" ng-click="showChildInfoList()">
+					{{item}} {{ searchText }}
 				</ion-item>
 			</ion-list>
 		</div>
