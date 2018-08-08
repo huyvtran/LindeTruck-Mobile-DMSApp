@@ -59,7 +59,7 @@
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/customDetail.html',
-                        // controller: 'repair1Controller as vm'
+                        controller: 'CoustmoDetaliControllers as vm'
                     }
                 }
             })
