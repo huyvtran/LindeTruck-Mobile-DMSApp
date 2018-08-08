@@ -43,7 +43,7 @@
             'oinio.controllers',//add your custom module from here
 
             'oinio.Search_1controllers',
-            'oinio.coustmoDetaliControllers'
+            'oinio.CustomDetailController'
             
         ]);
 

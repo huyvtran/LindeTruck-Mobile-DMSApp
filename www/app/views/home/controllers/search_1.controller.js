@@ -25,6 +25,7 @@
                 $scope.searchText = '';
                 $scope.items = ["100130011","100130012","100130013"];
                 //console.log("AccountService",AccountService.searchAccounts("查询发货单 001"));
+                $state.go('app.customDetail');
             };
 
 

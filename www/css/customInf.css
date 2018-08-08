@@ -109,7 +109,7 @@ img {
 }
 .bodyer {
     overflow-y: auto;
-    height: calc(100vh - 148px);
+    height: calc(100vh - 96px);
 }
 .big_Type_Group {
     margin: 5% 0;
