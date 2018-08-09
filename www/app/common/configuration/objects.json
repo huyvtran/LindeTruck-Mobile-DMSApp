@@ -4,8 +4,8 @@
   "objects": [
     {
       "Name": "Account",
-      "MobileVizArt__Fields__c": "Id,Name,CreatedDate,IsDeleted,LastModifiedDate,OwnerId,SystemModstamp,AccountNumber,Phone,Rating,Site,AnnualRevenue,BillingCity,BillingCountry,BillingLatitude,BillingState,BillingStreet,BillingPostalCode,CreatedById,Sic,SicDesc,ShippingCity,ShippingState,ShippingPostalCode,TickerSymbol,Website",
-      "MobileVizArt__Search_Fields__c": "Name,AccountNumber,Phone,Rating,Site,AnnualRevenue",
+      "MobileVizArt__Fields__c": "Id,Name,SAP_Number__c,CreatedDate,IsDeleted,LastModifiedDate,OwnerId,SystemModstamp,AccountNumber,Phone,Rating,Site,AnnualRevenue,BillingCity,BillingCountry,BillingLatitude,BillingState,BillingStreet,BillingPostalCode,CreatedById,Sic,SicDesc,ShippingCity,ShippingState,ShippingPostalCode,TickerSymbol,Website",
+      "MobileVizArt__Search_Fields__c": "Name,AccountNumber,Phone,Rating,Site,AnnualRevenue,SAP_Number__c",
       "MobileVizArt__List_Content_Fields__c": "Name,BillingCity,BillingStreet",
       "MobileVizArt__Filter_Criteria__c": "Name != null",
       "MobileVizArt__Lookup_Mod_Stamp__c": null,

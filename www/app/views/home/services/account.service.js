@@ -20,6 +20,7 @@
              * @param {String} keyword - part of account name or account sap number
              * @returns {Promise} [Account] - Account list, including Id, Name, SAP_Number__c
              */
+
             this.searchAccounts = function(keyword){
                 console.log('searchAccounts.keyword:%s', keyword);
                 let deferred = $q.defer();
@@ -55,7 +56,7 @@
              * @desc  get Account (basic info) by Id
              * @param {String} Id - Account.Id
              * @returns {Promise} Object - Account {Id:"xxx", Name:"xxx", SAP_Number__c:"xxx", Address__c:"xxx"]}
-             */
+
             this.getAccount = function(Id) {
                 console.log('getAccount.Id:%s', Id);
                 let deferred = $q.defer();
@@ -111,14 +112,14 @@
                 });
                 console.log('getContacts::', deferred.promise);
                 return deferred.promise;
-            };
+            };*/
 
             /**
              * @func  getAccountWith360
              * @desc  get Account (basic info) with 360 view info by Id
              * @param {String} Id - Account.Id
              * @returns {Promise} Object - Account {Id:"xxx", Name:"xxx", SAP_Number__c:"xxx", Address__c:"xxx", Contacts: [{Id:"xxx", Name:"xxx"}]}
-             */
+
             this.getAccountWith360 = async function(Id) {
                 try{
                     console.log('getAccountWith360.Id:%s', Id);
@@ -129,7 +130,7 @@
                 } catch(err){
                     throw err;
                 }
-            };
+            };*/
         });
 })();
 

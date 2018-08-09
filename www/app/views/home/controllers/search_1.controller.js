@@ -3,7 +3,7 @@
 
     angular.module('oinio.Search_1controllers', [])
         .controller('Search_1Controller', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-            LocalCacheService,$ionicHistory,AppUtilService) {
+            LocalCacheService,$ionicHistory,AppUtilService,AccountService) {
             var vm = this;
 
 
@@ -17,6 +17,7 @@
                 AppUtilService.showLoading();
                 $scope.isShow=true;
                 $scope.items =  loadingData();
+                AccountService.searchAccounts("buwen");
             });
 
 
