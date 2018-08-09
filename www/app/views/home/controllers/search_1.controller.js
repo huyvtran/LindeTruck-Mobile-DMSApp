@@ -2,16 +2,14 @@
     'use strict';
 
     angular.module('oinio.Search_1controllers', [])
-        .filter('filterSearchChild',function () {
-            return function (text) {
-                    return text.indexOf($scope.searchChildText);
-            };
-        })
+        // .filter('filterSearchChild',function () {
+        //     return function (text) {
+        //             return text.indexOf($scope.searchChildText);
+        //     };
+        // })
         .controller('Search_1Controller', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
             LocalCacheService,$ionicHistory,AppUtilService,AccountService) {
             var vm = this;
-
-
 
             $scope.toRepair4 = function (){
                 console.log("toRepair4");
@@ -22,10 +20,10 @@
                 console.log("init some quantities");
                 AppUtilService.showLoading();
                 $scope.searchText ="";
-                $scope.searchChildText ="";
+                //$scope.searchChildText ="";
                 $scope.button_clicked=false;
                 $scope.isShow=true;
-                $scope.isBigTypeShow = true;
+                //$scope.isBigTypeShow = true;
                 $scope.items =  loadingData();
             });
 
@@ -33,18 +31,18 @@
                 $scope.searchText ="";
             };
             $scope.clearChildType = function(){
-                $scope.searchChildText ="";
+                //$scope.searchChildText ="";
             };
 
             $scope.showChildInfoList = function (keyWord) {
                 console.log("showChildInfoList");
                 $scope.button_clicked=true;
                 $scope.searchText = "";
-                $scope.isBigTypeShow=false;
+                //$scope.isBigTypeShow=false;
                 $scope.isShow=false;
-                
+
                  //调用接口获取结果
-                 AccountService.searchAccounts("buwen").then(function (response) {
+                 AccountService.searchAccounts(keyWord).then(function (response) {
                     console.log("AccountServicegw",response[0]);
                     console.log("AccountServicegw",response[1]);
                     console.log("AccountServicegw",response);
