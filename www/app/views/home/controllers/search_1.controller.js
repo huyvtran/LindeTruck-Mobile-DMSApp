@@ -7,8 +7,8 @@
         //             return text.indexOf($scope.searchChildText);
         //     };
         // })
-        .controller('Search_1Controller', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-            LocalCacheService,$ionicHistory,AppUtilService,AccountService) {
+        .controller('Search_1Controller', function ($scope, $rootScope, $log,$filter, $state, $stateParams, ConnectionMonitor,
+            LocalCacheService,$ionicHistory,AppUtilService,AccountService,$ionicPopup) {
             var vm = this;
 
             $scope.toRepair4 = function (){
