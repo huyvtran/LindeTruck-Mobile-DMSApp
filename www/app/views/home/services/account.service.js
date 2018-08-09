@@ -73,7 +73,9 @@
                                 Id: entry[0].Id,
                                 Name: entry[0].Name,
                                 SAP_Number__c: entry[0].SAP_Number__c,
-                                Address__c: entry[0].Address__c
+                                Address__c: entry[0].Address__c,
+                                Salesman__c: entry[0].Salesman__c,
+                                Sale_Group_Code__c: entry[0].Sale_Group_Code__c
                             };
                         });
                     }
@@ -84,6 +86,63 @@
                     deferred.reject(err);
                 });
                 console.log('getAccount::', deferred.promise);
+                return deferred.promise;
+            };
+
+            this.getUser = function(Id) {
+                console.log('getUser.Id:%s', Id);
+                let deferred = $q.defer();
+
+                let sql =  "select {User:_soup}\
+                         from {User}\
+                         where {User:Id}='"+Id+"'";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let user;
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            user = {
+                                Id: entry[0].Id,
+                                Name: entry[0].Name
+                            };
+                        });
+                    }
+                    deferred.resolve(user);
+                }, function (err) {
+                    $log.error(err);
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                console.log('getUser::', deferred.promise);
+                return deferred.promise;
+            };
+
+
+            this.getBTU = function(Id) {
+                console.log('getBTU.Id:%s', Id);
+                let deferred = $q.defer();
+
+                let sql =  "select {BTU__c:_soup}\
+                         from {BTU__c}\
+                         where {BTU__c:Id}='"+Id+"'";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let BTU;
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            BTU = {
+                                Id: entry[0].Id,
+                                Name: entry[0].Name
+                            };
+                        });
+                    }
+                    deferred.resolve(BTU);
+                }, function (err) {
+                    $log.error(err);
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                console.log('getBTU::', deferred.promise);
                 return deferred.promise;
             };
 
@@ -100,7 +159,9 @@
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             contacts.push({
                                 Id: entry[0].Id,
-                                Name: entry[0].Name
+                                Name: entry[0].Name,
+                                MobilePhone: entry[0].MobilePhone,
+                                Phone: entry[0].Phone
                             });
                         });
                     }
@@ -113,6 +174,24 @@
                 console.log('getContacts::', deferred.promise);
                 return deferred.promise;
             };
+
+
+            this.getAccountWithDetails = function(Id){
+                console.log('getAccountWithDetails:::'+Id);
+                let deferred = $q.defer();
+                service.getAccount(Id).then(function(account){
+                    account.Salesman__r = service.getUser(account.Salesman__c);
+                    account.BTU__r = service.getBTU(account.Sale_Group_Code__c);
+                    deferred.resolve(account);
+                }).catch(function(err){
+                    $log.error(err);
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                console.log('getAccountWithDetails::', deferred.promise);
+                return deferred.promise;
+            };
+
 
             /**
              * @func  getAccountWith360
