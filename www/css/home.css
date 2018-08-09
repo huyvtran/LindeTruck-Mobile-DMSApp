@@ -23,10 +23,10 @@ img {
 .header {
     background: #aa0020;
     /*width: 90%;*/
-    height: 96px;
+    height: 80px;
     position: relative;
     padding: 0 5%;
-    line-height: 96px;
+    line-height: 80px;
 }
 .left_Box {
     display: inline-flex;

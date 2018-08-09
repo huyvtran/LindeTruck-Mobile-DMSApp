@@ -10,10 +10,10 @@
         .controller('Search_1Controller', function ($scope, $rootScope, $log,$filter, $state, $stateParams, ConnectionMonitor,
             LocalCacheService,$ionicHistory,AppUtilService,AccountService,$ionicPopup) {
             var vm = this;
-
-            $scope.toRepair4 = function (){
-                console.log("toRepair4");
-                $state.go('app.customDetail');
+            let passId;
+            $scope.toRepair4 = function (item){
+                console.log("toRepair4item",item);
+                $state.go('app.customDetail', {SendPassId: item});
              };
 
             $scope.$on("$ionicView.enter",function () {
@@ -43,15 +43,17 @@
 
                  //调用接口获取结果
                  AccountService.searchAccounts(keyWord).then(function (response) {
-                    console.log("AccountServicegw",response[0]);
-                    console.log("AccountServicegw",response[1]);
                     console.log("AccountServicegw",response);
                     let accountsName = [];
+                    let accountsId = [];
                     if (response.length > 0) {
                         for (let index = 0; index < response.length; index++) {
-                            accountsName.push(response[index].Name);
+                            accountsName.push(response[index]);
+                            accountsId.push(response[index].Id);
                         }
                         $scope.contentItems = accountsName;
+                        $scope.getIds = accountsId;
+                        console.log("AccountServicegw11",accountsName);
                     }
                     else {
                         $ionicPopup.alert({

@@ -55,7 +55,7 @@
                 }
             })
             .state('app.customDetail', {
-                url: 'app/customDetail',
+                url: '/customDetail/?SendPassId',
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/customDetail.html',

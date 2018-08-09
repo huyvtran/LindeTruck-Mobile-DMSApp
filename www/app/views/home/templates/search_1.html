@@ -70,12 +70,12 @@
 			<div class="small_Box_Title"> 搜索结果 </div>
 			<ion-list can-swipe="true" ng-show="isShow">
 				<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-disabled="searchText!='' || item!='查询发货单' || button_clicked " ng-click="button_clicked || showChildInfoList(searchText)">
-					{{item}} {{ searchText }}
+					{{item}} {{ searchText }} 
 				</ion-item>
 			</ion-list>
             <ion-list can-swipe="true" ng-show="!isShow">
-                <ion-item id="items2" ng-repeat="item in contentItems" ng-cloak ng-click="toRepair4()">
-                    {{item}}
+                <ion-item id="items2" ng-repeat="item in contentItems" ng-cloak ng-click="toRepair4(item.Id)">
+                    {{item.Name}}
                 </ion-item>
             </ion-list>
 		</div>

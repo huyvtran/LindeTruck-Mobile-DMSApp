@@ -23,10 +23,10 @@ img {
 .header {
     background: #aa0020;
     /* width: 90%; */
-    height: 96px;
+    height: 64px;
     position: relative;
     padding: 0 5%;
-    line-height: 96px;
+    line-height: 64px;
 }
 .left_Box {
     display: inline-flex;
@@ -45,13 +45,13 @@ img {
     position: relative;
     vertical-align: middle;
 }
-.search_Input {
+.search_All input.search_Input {
     box-sizing: border-box;
     width: 100%;
     margin: 0 auto;
     display: block;
-    padding: 1% 10% 1% 15%;
-    font-size: 1rem;
+    padding: 0 10% 0 15%;
+    font-size: 0.8rem;
     color: #D6D6D6;
     border: 1px solid #d6d6d6;
     -moz-border-radius: 20px;
@@ -109,7 +109,7 @@ img {
 }
 .bodyer {
     overflow-y: auto;
-    height: calc(100vh - 96px);
+    height: calc(100vh - 64px);
 }
 .big_Type_Group {
     margin: 5% 0;
@@ -164,7 +164,7 @@ img {
 .inf_Right_Text {
     color: #535353;
     display: inline-flex;
-    justify-content: flex-end;
+    /* justify-content: flex-end; */
     width: 70%;
 }
 .plan_Box_Group {
