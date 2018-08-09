@@ -45,12 +45,22 @@
 
 
 	<ion-content>
-		<div class="header">
-			<div class="search_All">
-				<input type="text" id="search" placeholder="搜索" class="search_Input" ng-click="change()" ng-model="searchText"/>
+		<div class="header" ng-show="isBigTypeShow">
+			<div class="search_All" >
+				<input type="text" id="searchBig" placeholder="搜索" class="search_Input"  ng-model="searchText"/>
 				<div class="search_Photo_Icon"></div>
 			</div>
-			<div class="search_right_Group" id="cancleBtn" ng-click="cancle" ng-show="searchText">
+			<div class="search_right_Group" id="cancleBtn1" ng-click="clearParentType()" ng-show="searchText">
+				<div class="text_Cancel"> 取消 </div>
+			</div>
+		</div>
+
+		<div class="header" ng-show="!isBigTypeShow">
+			<div class="search_All">
+				<input type="text" id="searchSmall" placeholder="搜索" class="search_Input"  ng-model="searchChildText"/>
+				<div class="search_Photo_Icon"></div>
+			</div>
+			<div class="search_right_Group" id="cancleBtn2" ng-click="clearChildType()" ng-show="searchChildText">
 				<div class="text_Cancel"> 取消 </div>
 			</div>
 		</div>
@@ -58,7 +68,7 @@
 		<div class="big_Box_Group">
 			<div class="small_Box_Title"> 搜索结果 </div>
 			<ion-list can-swipe="true" ng-show="isShow">
-				<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-click="showChildInfoList(searchText)">
+				<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-disabled="searchText!='' || item!='查询发货单' || button_clicked " ng-click="button_clicked || showChildInfoList(searchText)">
 					{{item}} {{ searchText }}
 				</ion-item>
 			</ion-list>
