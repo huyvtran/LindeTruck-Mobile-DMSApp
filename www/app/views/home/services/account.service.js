@@ -56,7 +56,7 @@
              * @desc  get Account (basic info) by Id
              * @param {String} Id - Account.Id
              * @returns {Promise} Object - Account {Id:"xxx", Name:"xxx", SAP_Number__c:"xxx", Address__c:"xxx"]}
-
+             */
             this.getAccount = function(Id) {
                 console.log('getAccount.Id:%s', Id);
                 let deferred = $q.defer();
@@ -77,7 +77,7 @@
                             };
                         });
                     }
-
+                    deferred.resolve(account);
                 }, function (err) {
                     $log.error(err);
                     console.error(err);
@@ -112,7 +112,7 @@
                 });
                 console.log('getContacts::', deferred.promise);
                 return deferred.promise;
-            };*/
+            };
 
             /**
              * @func  getAccountWith360
