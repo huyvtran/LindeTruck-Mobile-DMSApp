@@ -52,7 +52,8 @@
                         templateUrl: 'app/views/home/templates/search_1.html',
                         controller: 'Search_1Controller as vm'
                     }
-                }
+                },
+                cache: false
             })
             .state('app.customDetail', {
                 url: '/customDetail/?SendPassId',
