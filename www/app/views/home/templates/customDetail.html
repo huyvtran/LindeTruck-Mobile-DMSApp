@@ -61,20 +61,20 @@
 				<div class="inf_Box_Group" id="div_baseInfo">
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 客户名称：</div>
-						<div class="inf_Right_Text " id="accountName"> </div>
+						<div class="inf_Right_Text " ng-cloak >{{accountName}}</div>
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 客户地址：</div>
-						<div class="inf_Right_Text " id="accountAddress"></div>
+						<div class="inf_Right_Text " ng-cloak >{{accountAddress}}</div>
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 服务小组：</div>
-						<div class="inf_Right_Text "id="accountSAP"></div>
+						<div class="inf_Right_Text "ng-cloak >{{accountSAP}}</div>
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 销售员：</div>
 
-						<div class="inf_Right_Text "> <a href="tel:10086">东莞沃尔玛百货有限公司</a></div>
+						<div class="inf_Right_Text "> 东莞沃尔玛百货有限公司</div>
 					</div>
 				</div>
 			</div>
@@ -116,7 +116,7 @@
 				<div class="inf_Box_Group" id="contactsInfo">
 					<ion-list can-swipe="true">
 						<ion-item id="items2" ng-repeat="item in contentItems">
-							{{item}}
+							姓名: {{item.Name}} <a href="tel:{{item.MobilePhone}}" ng-show="item.MobilePhone != null">手机号: {{item.MobilePhone}}</a>
 						</ion-item>
 					</ion-list>
 				</div>
