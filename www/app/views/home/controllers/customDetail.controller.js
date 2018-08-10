@@ -25,17 +25,33 @@
             var getBaseInfo = function(){
                 //调用接口获取结果
                 console.log("$stateParams.SendPassId", $stateParams.SendPassId);
-                AccountService.getAccount($stateParams.SendPassId).then(function (account) {
+                AccountService.getAccountWithDetails($stateParams.SendPassId).then(function (account) {
                     console.log("getAccount", account);
 
                     if (account != null) {
                         $rootScope.accountId = account.Id;
                         $scope.accountName=account.Name;
                         $scope.accountAddress=account.Address__c;
-                        // $scope.accountGroup=account.BTU__r.Name;
-                        // $scope.accountSalesMan=account.Salesman__r.Name;
-                        console.log("getAccountBtu", account.BTU__r);
-                        console.log("getAccountSalesman__r", account.Salesman__r);
+
+                        account.Salesman__r.then(function(account){
+ 
+                            if(typeof (account) != 'undefined'){
+                                $scope.accountSalesMan=account.Name;
+                            }
+                            
+                        }, function (error) {
+                            $log.error('getAccount(Id).then error ' + error);
+                        });
+
+                        account.BTU__r.then(function(account){
+                            if(typeof (account) != 'undefined'){
+                                $scope.accountGroup=account.Name;
+                            }
+
+                        }, function (error) {
+                            $log.error('getAccount(Id).then error ' + error);
+                        });
+                      
                     }
                     else {
                         $ionicPopup.alert({
