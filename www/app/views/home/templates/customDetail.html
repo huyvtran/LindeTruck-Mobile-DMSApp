@@ -31,9 +31,9 @@
 </head>
 
 <body>
-	<div class="header">
+	<div class="header" ng-click="goBack()">
 		<div class="left_Box">
-			<div class="back_Icon" ng-click="goBack()"></div>
+			<div class="back_Icon" ></div>
 		</div>
 		<!-- <div class="search_All">
 			<input type="text" placeholder="搜索" class="search_Input" />
@@ -69,12 +69,12 @@
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 服务小组：</div>
-						<div class="inf_Right_Text "ng-cloak >{{accountSAP}}</div>
+						<div class="inf_Right_Text "ng-cloak >{{accountGroup}}</div>
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 销售员：</div>
 
-						<div class="inf_Right_Text "> 东莞沃尔玛百货有限公司</div>
+						<div class="inf_Right_Text "ng-cloak >{{accountSalesMan}}</div>
 					</div>
 				</div>
 			</div>

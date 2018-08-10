@@ -32,12 +32,14 @@
                         $rootScope.accountId = account.Id;
                         $scope.accountName=account.Name;
                         $scope.accountAddress=account.Address__c;
-                        $scope.accountSAP=account.SAP_Number__c;
-                        console.log("getAccount", account.Name);
+                        // $scope.accountGroup=account.BTU__r.Name;
+                        // $scope.accountSalesMan=account.Salesman__r.Name;
+                        console.log("getAccountBtu", account.BTU__r);
+                        console.log("getAccountSalesman__r", account.Salesman__r);
                     }
                     else {
                         $ionicPopup.alert({
-                            title: "结果",
+                            title: "搜索结果",
                             template: "没有数据"
                         });
                     }
@@ -62,7 +64,7 @@
                     }
                     else {
                         $ionicPopup.alert({
-                            title: "结果",
+                            title: "搜索结果",
                             template: "联系人信息没有数据"
                         });
                     }
