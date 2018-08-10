@@ -8,7 +8,6 @@
                 $scope.accountName="";
                 $scope.accountAddress="";
                 $scope.accountSAP="";
-                $rootScope.accountId="";
             });
 
             $scope.$on("$ionicView.enter",function () {
@@ -29,7 +28,6 @@
                     console.log("getAccount", account);
 
                     if (account != null) {
-                        $rootScope.accountId = account.Id;
                         $scope.accountName=account.Name;
                         $scope.accountAddress=account.Address__c;
 
@@ -66,8 +64,8 @@
 
             //获取联系人信息
             var getContactInfo =function(){
-                //调用接口获取结果 $rootScope.accountId
-                AccountService.getContacts("001p000000Qx9m2AAB").then(function (contacts) {
+                //调用接口获取结果 $rootScope.accountId  "001p000000Qx9m2AAB"
+                AccountService.getContacts($stateParams.SendPassId).then(function (contacts) {
                     //{"Id":"003p000000MnltsAAB","Name":"吴工","MobilePhone":null}
                     console.log("getContacts", contacts);
                     //let accountsNames = [];

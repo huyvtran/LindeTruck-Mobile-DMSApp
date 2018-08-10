@@ -18,7 +18,7 @@
 
             $scope.$on("$ionicView.enter",function () {
                 console.log("init some quantities");
-                AppUtilService.showLoading();
+                //AppUtilService.showLoading();
                 $scope.searchText ="";
                 $scope.contentItems=[];
                 //$scope.searchChildText ="";
@@ -45,7 +45,7 @@
                 if (keyWord==null||keyWord==null){
                     return;
                 }
-                AppUtilService.showLoading();
+                //AppUtilService.showLoading();
                 switch (type){
                     case "查询订单":
                         getOrderList(keyWord);
@@ -53,14 +53,14 @@
                     case "查询车档":
                         getCarList(keyWord);
                         break;
-                    case "查询发货单":
+                    case "查询客户":
                         getGoodsList(keyWord);
                         break;
                 }
             };
 
             var getOrderList =function (keyWord) {
-                AppUtilService.hideLoading();
+                //AppUtilService.hideLoading();
                 var ionPop = $ionicPopup.alert({
                     title: "结果",
                     template: "没有订单数据"
@@ -71,7 +71,7 @@
             };
 
             var getCarList =function (keyWord) {
-                AppUtilService.hideLoading();
+                //AppUtilService.hideLoading();
                 var ionPop = $ionicPopup.alert({
                     title: "结果",
                     template: "没有车档数据"
@@ -99,7 +99,7 @@
                     else {
                         var ionPop = $ionicPopup.alert({
                             title: "结果",
-                            template: "没有发货单数据"
+                            template: "没有客户数据"
                         });
                         ionPop.then(function () {
                             $ionicHistory.goBack();
@@ -108,13 +108,13 @@
                 }, function (error) {
                     $log.error('AccountService.searchAccounts Error ' + error);
                 }).finally(function () {
-                    AppUtilService.hideLoading();
+                    //AppUtilService.hideLoading();
                 });
             };
             var loadingData = function () {
-                AppUtilService.hideLoading();
+                //AppUtilService.hideLoading();
                 console.log("get type data");
-                return ["查询订单", "查询车档", "查询发货单"];
+                return ["查询订单", "查询车档", "查询客户"];
             };
         });
        
