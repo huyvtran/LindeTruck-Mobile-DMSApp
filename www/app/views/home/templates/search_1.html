@@ -51,8 +51,8 @@
 				<input type="text" id="searchBig" placeholder="搜索" class="search_Input"  ng-model="searchText"/>
 				<div class="search_Photo_Icon"></div>
 			</div>
-			<div class="search_right_Group" id="cancleBtn1" ng-click="clearParentType()" ng-show="searchText">
-				<div class="text_Cancel"> 取消 </div>
+			<div class="search_right_Group" id="cancleBtn1" ng-show="searchText">
+				<div class="text_Cancel" ng-click="clearParentType()"> 取消 </div>
 			</div>
 		</div>
 
@@ -69,12 +69,12 @@
 		<div class="big_Box_Group">
 			<div class="small_Box_Title"> 搜索结果 </div>
 			<ion-list can-swipe="true" ng-show="isShow">
-				<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-disabled="searchText!='' || item!='查询发货单' || button_clicked " ng-click="button_clicked || showChildInfoList(searchText)">
+				<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-click="showChildInfoList(item,searchText)">
 					{{item}} {{ searchText }} 
 				</ion-item>
 			</ion-list>
             <ion-list can-swipe="true" ng-show="!isShow">
-                <ion-item id="items2" ng-repeat="item in contentItems" ng-cloak ng-click="toRepair4(item.Id)">
+                <ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="toRepair4(item.Id)">
                     {{item.Name}}
                 </ion-item>
             </ion-list>

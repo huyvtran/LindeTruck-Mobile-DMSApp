@@ -20,29 +20,70 @@
                 console.log("init some quantities");
                 AppUtilService.showLoading();
                 $scope.searchText ="";
+                $scope.contentItems=[];
                 //$scope.searchChildText ="";
-                $scope.button_clicked=false;
+                //$scope.button_clicked=false;
                 $scope.isShow=true;
                 //$scope.isBigTypeShow = true;
                 $scope.items =  loadingData();
             });
 
             $scope.clearParentType =function(){
-                $scope.searchText ="";
+                $scope.searchText = null;
             };
             $scope.clearChildType = function(){
                 //$scope.searchChildText ="";
             };
 
-            $scope.showChildInfoList = function (keyWord) {
+            $scope.showChildInfoList = function (type,keyWord) {
                 console.log("showChildInfoList");
-                $scope.button_clicked=true;
+                //$scope.button_clicked=true;
                 $scope.searchText = "";
                 //$scope.isBigTypeShow=false;
                 $scope.isShow=false;
 
-                 //调用接口获取结果
-                 AccountService.searchAccounts(keyWord).then(function (response) {
+                if (keyWord==null||keyWord==null){
+                    return;
+                }
+                AppUtilService.showLoading();
+                switch (type){
+                    case "查询订单":
+                        getOrderList(keyWord);
+                        break;
+                    case "查询车档":
+                        getCarList(keyWord);
+                        break;
+                    case "查询发货单":
+                        getGoodsList(keyWord);
+                        break;
+                }
+            };
+
+            var getOrderList =function (keyWord) {
+                AppUtilService.hideLoading();
+                var ionPop = $ionicPopup.alert({
+                    title: "结果",
+                    template: "没有订单数据"
+                });
+                ionPop.then(function () {
+                    $ionicHistory.goBack();
+                });
+            };
+
+            var getCarList =function (keyWord) {
+                AppUtilService.hideLoading();
+                var ionPop = $ionicPopup.alert({
+                    title: "结果",
+                    template: "没有车档数据"
+                });
+                ionPop.then(function () {
+                    $ionicHistory.goBack();
+                });
+            };
+
+            var getGoodsList =function (keyWord) {
+                //调用接口获取结果
+                AccountService.searchAccounts(keyWord).then(function (response) {
                     console.log("AccountServicegw",response);
                     let accountsName = [];
                     let accountsId = [];
@@ -56,17 +97,20 @@
                         console.log("AccountServicegw11",accountsName);
                     }
                     else {
-                        $ionicPopup.alert({
+                        var ionPop = $ionicPopup.alert({
                             title: "结果",
-                            template: "没有数据"
+                            template: "没有发货单数据"
+                        });
+                        ionPop.then(function () {
+                            $ionicHistory.goBack();
                         });
                     }
                 }, function (error) {
                     $log.error('AccountService.searchAccounts Error ' + error);
-                });    
+                }).finally(function () {
+                    AppUtilService.hideLoading();
+                });
             };
-
-
             var loadingData = function () {
                 AppUtilService.hideLoading();
                 console.log("get type data");
