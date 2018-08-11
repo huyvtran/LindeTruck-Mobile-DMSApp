@@ -78,6 +78,24 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="small_Type_Group " >
+				<div class="small_Type_Title_Group " ng-click="toDisplayContacts()">
+					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_contactsImg"></div>
+					<div class="small_Type_Title "> 联系人 </div>
+				</div>
+				
+				<div class="inf_Box_Group" id="contactsInfo" >
+					<ion-list can-swipe="true">
+						<ion-item id="items2" ng-repeat="item in contentItems">
+							{{item.Name}} <a href="tel:{{item.MobilePhone}}" ng-show="item.MobilePhone != null"> ： {{item.MobilePhone}}</a>
+						</ion-item>
+					</ion-list>
+				</div>
+			
+			</div>
+
 			<div class="small_Type_Group ">
 				<div class="small_Type_Title_Group ">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
@@ -106,22 +124,7 @@
 					<div class="small_Type_Title "> 车档 </div>
 				</div>
 			</div>
-			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group " ng-click="toDisplayContacts()">
-					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Down_Red " id="div_contactsImg"></div>
-					<div class="small_Type_Title "> 联系人 </div>
-				</div>
-				
-				<div class="inf_Box_Group" id="contactsInfo">
-					<ion-list can-swipe="true">
-						<ion-item id="items2" ng-repeat="item in contentItems">
-							{{item.Name}} <a href="tel:{{item.MobilePhone}}" ng-show="item.MobilePhone != null"> ： {{item.MobilePhone}}</a>
-						</ion-item>
-					</ion-list>
-				</div>
-			
-			</div>
+
 			<div class="small_Type_Group ">
 				<div class="small_Type_Title_Group ">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
@@ -129,13 +132,7 @@
 					<div class="small_Type_Title "> 商机 </div>
 				</div>
 			</div>
-			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group ">
-					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Left_Red "></div>
-					<div class="small_Type_Title "> 合同 </div>
-				</div>
-			</div>
+		
 			<div class="small_Type_Group ">
 				<div class="small_Type_Title_Group ">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->

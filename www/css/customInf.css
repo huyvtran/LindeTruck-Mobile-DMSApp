@@ -130,17 +130,16 @@ img {
     margin: 1%;
 }
 .arrow_Left_Red {
-    width: 10px;
-    height: 18px;
-    margin-right: calc(1% + 8px);
+    width: 6px;
+    height: 12px;
+    margin-right: calc(1% + 6px);
 }
 .arrow_Down_Red {
-    width: 18px;
-    height: 10px;
+    width: 12px;
+    height: 6px;
 }
 .small_Type_Title {
     color: #aa0020;
-    font-weight: bold;
     display: inline-block;
     vertical-align: middle;
     margin: 1%;

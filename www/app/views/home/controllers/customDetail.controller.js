@@ -87,6 +87,7 @@
                 });
             };
 
+            document.getElementById("contactsInfo").style.display = "none";//隐藏
 
             $scope.toDisplayBaseInfo = function () {
                 if (document.getElementById("div_baseInfo").style.display == "none") {

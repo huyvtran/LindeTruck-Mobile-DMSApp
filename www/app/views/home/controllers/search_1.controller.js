@@ -16,6 +16,7 @@
                 $state.go('app.customDetail', {SendPassId: item});
              };
 
+
             $scope.$on("$ionicView.enter",function () {
                 console.log("init some quantities");
                 //AppUtilService.showLoading();
@@ -26,6 +27,10 @@
                 $scope.isShow=true;
                 //$scope.isBigTypeShow = true;
                 $scope.items =  loadingData();
+
+                window.setTimeout(function () {
+                    $("input").trigger("click").focus();
+                },200);
             });
 
             $scope.clearParentType =function(){
@@ -116,6 +121,8 @@
                 console.log("get type data");
                 return ["查询订单", "查询车档", "查询客户"];
             };
+
+
         });
        
 })();
