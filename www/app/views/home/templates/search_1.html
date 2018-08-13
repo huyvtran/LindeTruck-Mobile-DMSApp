@@ -48,11 +48,11 @@
 		<div class="header">
             <!--<div class="header" ng-show="isBigTypeShow">-->
 			<div class="search_All" >
-				<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input"  ng-model="searchText"/>
+				<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchText"/>
 				<div class="search_Photo_Icon"></div>
 			</div>
-			<div class="search_right_Group" id="cancleBtn1" ng-show="searchText">
-				<div class="text_Cancel" ng-click="clearParentType()"> 取消 </div>
+			<div class="search_right_Group" id="cancleBtn1" ng-click="searchText='';isShow=true;" ng-show="searchText">
+				<div class="text_Cancel"> 取消 </div>
 			</div>
 		</div>
 

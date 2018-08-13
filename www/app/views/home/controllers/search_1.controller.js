@@ -33,12 +33,12 @@
                 },200);
             });
 
-            $scope.clearParentType =function(){
-                $scope.searchText = null;
+            $scope.searchChange =function(){
+                $scope.isShow=true;
             };
-            $scope.clearChildType = function(){
-                //$scope.searchChildText ="";
-            };
+            // $scope.clearChildType = function(){
+            //    $scope.searchChildText ="";
+            // };
 
             $scope.showChildInfoList = function (type,keyWord) {
                 console.log("showChildInfoList");
