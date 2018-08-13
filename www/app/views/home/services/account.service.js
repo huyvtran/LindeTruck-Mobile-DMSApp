@@ -75,6 +75,7 @@
                                 SAP_Number__c: entry[0].SAP_Number__c,
                                 Address__c: entry[0].Address__c,
                                 Salesman__c: entry[0].Salesman__c,
+                                Salesman_formula__c: entry[0].Salesman_formula__c,
                                 Sale_Group_Code__c: entry[0].Sale_Group_Code__c
                             };
                         });
@@ -180,7 +181,7 @@
                 console.log('getAccountWithDetails:::'+Id);
                 let deferred = $q.defer();
                 service.getAccount(Id).then(function(account){
-                    account.Salesman__r = service.getUser(account.Salesman__c);
+                    //account.Salesman__r = service.getUser(account.Salesman__c);
                     account.BTU__r = service.getBTU(account.Sale_Group_Code__c);
                     deferred.resolve(account);
                 }).catch(function(err){
