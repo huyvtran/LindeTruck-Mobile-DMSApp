@@ -29,7 +29,8 @@
                     console.log('>>>> synchronization initialized: ' + initialized);
 
                     var option = {
-                        appInitialized: initialized
+                        appInitialized: initialized,
+                        forceCleanup: true
                     };
 
                     LocalSyncService.syncBusinessSObjects(option).then(function () {
