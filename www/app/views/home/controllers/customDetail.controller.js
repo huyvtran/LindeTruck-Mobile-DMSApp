@@ -30,16 +30,17 @@
                     if (account != null) {
                         $scope.accountName=account.Name;
                         $scope.accountAddress=account.Address__c;
+                        $scope.accountSalesMan=account.Salesman_formula__c;
 
-                        account.Salesman__r.then(function(account){
+                        // account.Salesman__r.then(function(account){
  
-                            if(typeof (account) != 'undefined'){
-                                $scope.accountSalesMan=account.Name;
-                            }
+                        //     if(typeof (account) != 'undefined'){
+                        //         $scope.accountSalesMan=account.Name;
+                        //     }
                             
-                        }, function (error) {
-                            $log.error('getAccount(Id).then error ' + error);
-                        });
+                        // }, function (error) {
+                        //     $log.error('getAccount(Id).then error ' + error);
+                        // });
 
                         account.BTU__r.then(function(account){
                             if(typeof (account) != 'undefined'){
@@ -77,10 +78,10 @@
                         $scope.contentItems = contacts;
                     }
                     else {
-                        $ionicPopup.alert({
-                            title: "搜索结果",
-                            template: "联系人信息没有数据"
-                        });
+                        // $ionicPopup.alert({
+                        //     title: "搜索结果",
+                        //     template: "联系人信息没有数据"
+                        // });
                     }
                 }, function (error) {
                     $log.error('AccountService.searchAccounts Error ' + error);

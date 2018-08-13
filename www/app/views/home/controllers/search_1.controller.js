@@ -18,7 +18,7 @@
                 $scope.contentItems=[];
                 $scope.isShow=true;
                 $scope.items =  loadingData();
-
+                $scope.searchText ="";
                 window.setTimeout(function () {
                     $("input").trigger("click").focus();
                 },200);
@@ -74,7 +74,7 @@
             var getGoodsList =function (keyWord) {
                 //调用接口获取结果
                 AccountService.searchAccounts(keyWord).then(function (response) {
-                    console.log("AccountServicegw",response);
+                    console.log("AccountServicegw",keyWord);
                     let accountsName = [];
                     let accountsId = [];
                     if (response.length > 0) {
