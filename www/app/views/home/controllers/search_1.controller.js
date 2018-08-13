@@ -2,11 +2,6 @@
     'use strict';
 
     angular.module('oinio.Search_1controllers', [])
-        // .filter('filterSearchChild',function () {
-        //     return function (text) {
-        //             return text.indexOf($scope.searchChildText);
-        //     };
-        // })
         .controller('Search_1Controller', function ($scope, $rootScope, $log,$filter, $state, $stateParams, ConnectionMonitor,
             LocalCacheService,$ionicHistory,AppUtilService,AccountService,$ionicPopup) {
             var vm = this;
@@ -20,12 +15,8 @@
             $scope.$on("$ionicView.enter",function () {
                 console.log("init some quantities");
                 //AppUtilService.showLoading();
-                $scope.searchText ="";
                 $scope.contentItems=[];
-                //$scope.searchChildText ="";
-                //$scope.button_clicked=false;
                 $scope.isShow=true;
-                //$scope.isBigTypeShow = true;
                 $scope.items =  loadingData();
 
                 window.setTimeout(function () {
@@ -36,15 +27,9 @@
             $scope.searchChange =function(){
                 $scope.isShow=true;
             };
-            // $scope.clearChildType = function(){
-            //    $scope.searchChildText ="";
-            // };
-
             $scope.showChildInfoList = function (type,keyWord) {
                 console.log("showChildInfoList");
-                //$scope.button_clicked=true;
                 $scope.searchText = "";
-                //$scope.isBigTypeShow=false;
                 $scope.isShow=false;
 
                 if (keyWord==null||keyWord==null){

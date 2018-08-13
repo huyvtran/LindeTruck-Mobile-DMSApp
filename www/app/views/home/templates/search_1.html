@@ -51,21 +51,10 @@
 				<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchText"/>
 				<div class="search_Photo_Icon"></div>
 			</div>
-			<div class="search_right_Group" id="cancleBtn1" ng-click="searchText='';isShow=true;" ng-show="searchText">
+			<div class="search_right_Group" id="cancleBtn1" ng-click="searchText=''" ng-show="searchText">
 				<div class="text_Cancel"> 取消 </div>
 			</div>
 		</div>
-
-		<!--<div class="header" ng-show="!isBigTypeShow">-->
-			<!--<div class="search_All">-->
-				<!--<input type="text" id="searchSmall" placeholder="搜索" class="search_Input"  ng-model="searchChildText"/>-->
-				<!--<div class="search_Photo_Icon"></div>-->
-			<!--</div>-->
-			<!--<div class="search_right_Group" id="cancleBtn2" ng-click="clearChildType()" ng-show="searchChildText">-->
-				<!--<div class="text_Cancel"> 取消 </div>-->
-			<!--</div>-->
-		<!--</div>-->
-
 		<div class="big_Box_Group">
 			<div class="small_Box_Title"> 搜索结果 </div>
 			<ion-list can-swipe="true" ng-show="isShow">
