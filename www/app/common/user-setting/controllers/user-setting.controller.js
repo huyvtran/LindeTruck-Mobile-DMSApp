@@ -7,7 +7,7 @@
         .controller('UserSettingController', UserSettingController);
 
     function UserSettingController($scope, $state, $ionicActionSheet, $filter, $cordovaAppVersion, $log, $injector,
-                                   LocalCacheService, APP_SETTINGS, FileService, IonicLoadingService, $window, Exception, EXCEPTION_SEVERITY) {
+        LocalCacheService, APP_SETTINGS, FileService, IonicLoadingService, $window, Exception, EXCEPTION_SEVERITY) {
         var vm = this;
 
         /**
@@ -32,7 +32,7 @@
             // Show the action sheet
             $ionicActionSheet.show({
                 buttons: [
-                    {text: 'Yes, I want to switch users.'}
+                    { text: 'Yes, I want to switch users.' }
                 ],
                 titleText: 'You sure you want to switch users?',
                 cancelText: 'Cancel',
@@ -47,40 +47,35 @@
 
         // When user click "Log out"
         vm.logout = function () {
-            //Disconnect from SmartConnector
-            $injector.get('SmartConnectorService').disconnectSmartConnector().then(function () {
-                $log.info('SwitchUserController loginAsNewUser: SmartConnector disconnected');
-            }).finally(function () {
-                // should the app have a local password?
-                if (APP_SETTINGS.LOCAL_LOGIN === true) {
+            // should the app have a local password?
+            if (APP_SETTINGS.LOCAL_LOGIN === true) {
 
-                    // stop and destroy time interval for mobile data synchronisation
-                    $scope.$emit('timer-stopped', 'destroy-timer');
+                // stop and destroy time interval for mobile data synchronisation
+                $scope.$emit('timer-stopped', 'destroy-timer');
 
-                    var user = LocalCacheService.get('currentUser');
+                var user = LocalCacheService.get('currentUser');
 
-                    var platform = device.platform;
+                var platform = device.platform;
 
-                    $injector.get('LoginService').localUserExists(user.Username).then(function (exists) {
-                        if (exists === true) {
-                            if (APP_SETTINGS.TOUCH_ID === true && platform === 'iOS') {
-                                // load Touch-ID Service
-                                $injector.get('TouchIdService').touchId();
-                            }
-                            else {
-                                // local password already set
-                                $state.go('login');
-                            }
+                $injector.get('LoginService').localUserExists(user.Username).then(function (exists) {
+                    if (exists === true) {
+                        if (APP_SETTINGS.TOUCH_ID === true && platform === 'iOS') {
+                            // load Touch-ID Service
+                            $injector.get('TouchIdService').touchId();
                         }
                         else {
-                            // no local password set already
-                            $state.go('password');
+                            // local password already set
+                            $state.go('login');
                         }
-                    });
-                } else {
-                    logoutAndDrop();
-                }
-            });
+                    }
+                    else {
+                        // no local password set already
+                        $state.go('password');
+                    }
+                });
+            } else {
+                logoutAndDrop();
+            }
         };
 
         function logoutAndDrop() {
@@ -88,7 +83,7 @@
             // Show the action sheet
             $ionicActionSheet.show({
                 buttons: [
-                    {text: $filter('translate')('cl.global.btn_yes')}
+                    { text: $filter('translate')('cl.global.btn_yes') }
                 ],
                 titleText: $filter('translate')('cl.global.msg_logoutAndDropDatabase'),
                 cancelText: $filter('translate')('cl.global.btn_cancel'),

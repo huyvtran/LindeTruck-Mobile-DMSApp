@@ -4,7 +4,7 @@
  */
 angular.module('oinio.common.login')
     .controller('SwitchUserController', function ($rootScope, $scope, $location, $state, $filter, $log, LoginService, LocalCacheService,
-                                                  UtilService, SalesforceLoginService, SmartConnectorService) {
+                                                  UtilService, SalesforceLoginService) {
         var vm = this;
         vm.users = [];
 
@@ -31,25 +31,18 @@ angular.module('oinio.common.login')
          */
         vm.switchToUser = function (user) {
             var currentUser = LocalCacheService.get('currentUser');
+            console.log("currentUser.Username",currentUser.Username);
+            console.log("user.Username",user.Username);
 
-            if (currentUser.Username === user.Username) {
+            if (currentUser.Username === user.username) {
                 $state.go('login');
             } else {
-                //Disconnect from SmartConnector
-                SmartConnectorService.disconnectSmartConnector().then(function () {
-                    $log.info('SwitchUserController loginAsNewUser: SmartConnector disconnected');
-                }).finally(function () {
-                    SalesforceLoginService.switchToUser(user);
-                });
+                SalesforceLoginService.switchToUser(user);
             }
         };
 
         vm.loginAsNewUser = function () {
-            //Disconnect from SmartConnector
-            SmartConnectorService.disconnectSmartConnector().then(function () {
-                $log.info('SwitchUserController loginAsNewUser: SmartConnector disconnected');
-            }).finally(function () {
-                SalesforceLoginService.switchToUser();
-            });
+            SalesforceLoginService.switchToUser();
+
         };
     });
