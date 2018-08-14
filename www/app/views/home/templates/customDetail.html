@@ -33,7 +33,7 @@
 <body>
 	<div class="header" ng-click="goBack()">
 		<div class="left_Box">
-			<div class="back_Icon" ></div>
+			<div class="back_Icon"></div>
 		</div>
 		<!-- <div class="search_All">
 			<input type="text" placeholder="搜索" class="search_Input" />
@@ -61,85 +61,112 @@
 				<div class="inf_Box_Group" id="div_baseInfo">
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 客户名称：</div>
-						<div class="inf_Right_Text " ng-cloak >{{accountName}}</div>
+						<div class="inf_Right_Text " ng-cloak>{{accountName}}</div>
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 客户地址：</div>
-						<div class="inf_Right_Text " ng-cloak >{{accountAddress}}</div>
+						<div class="inf_Right_Text " ng-cloak>{{accountAddress}}</div>
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 服务小组：</div>
-						<div class="inf_Right_Text "ng-cloak >{{accountGroup}}</div>
+						<div class="inf_Right_Text " ng-cloak>{{accountGroup}}</div>
 					</div>
 					<div class="inf_Box ">
 						<div class="inf_Left_Text "> 销售员：</div>
 
-						<div class="inf_Right_Text "ng-cloak >{{accountSalesMan}}</div>
+						<div class="inf_Right_Text " ng-cloak>{{accountSalesMan}}</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="small_Type_Group " >
+			<div class="small_Type_Group ">
 				<div class="small_Type_Title_Group " ng-click="toDisplayContacts()">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
 					<div class="OpenClose_Btn arrow_Left_Red " id="div_contactsImg"></div>
 					<div class="small_Type_Title "> 联系人 </div>
 				</div>
-				
-				<div class="inf_Box_Group" id="contactsInfo" >
+
+				<div class="inf_Box_Group" id="contactsInfo">
 					<ion-list can-swipe="true">
 						<ion-item id="items2" ng-repeat="item in contentItems">
-							{{item.Name}} <a href="tel:{{item.MobilePhone}}" ng-show="item.MobilePhone != null"> ： {{item.MobilePhone}}</a>
+							{{item.Name}}
+							<a href="tel:{{item.MobilePhone}}" ng-show="item.MobilePhone != null"> ： {{item.MobilePhone}}</a>
 						</ion-item>
 					</ion-list>
 				</div>
-			
+
 			</div>
 
 			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group ">
+				<div class="small_Type_Title_Group " ng-click="toDisplayContract()">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Left_Red "></div>
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_ContractImg"></div>
 					<div class="small_Type_Title "> 合同 </div>
 				</div>
-			</div>
-			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group ">
-					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Left_Red "></div>
-					<div class="small_Type_Title "> 标签 </div>
-				</div>
-			</div>
-			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group ">
-					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Left_Red "></div>
-					<div class="small_Type_Title "> 报价 </div>
-				</div>
-			</div>
-			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group ">
-					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Left_Red "></div>
-					<div class="small_Type_Title "> 车档 </div>
+				<div class="inf_Box_Group" id="contractInfo">
+					<div class="inf_Box ">
+						<div class="inf_Left_Text "> 合同 </div>
+					</div>
 				</div>
 			</div>
 
 			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group ">
+				<div class="small_Type_Title_Group " ng-click="toDisplayLabel()">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Left_Red "></div>
-					<div class="small_Type_Title "> 商机 </div>
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_LabelImg"></div>
+					<div class="small_Type_Title "> 标签 </div>
+				</div>
+				<div class="inf_Box_Group" id="labelInfo">
+					<div class="inf_Box ">
+						<div class="inf_Left_Text "> 标签 </div>
+					</div>
 				</div>
 			</div>
-		
 			<div class="small_Type_Group ">
-				<div class="small_Type_Title_Group ">
+				<div class="small_Type_Title_Group " ng-click="toDisplayOffer()">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-					<div class="OpenClose_Btn arrow_Down_Red "></div>
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_OfferImg"></div>
+					<div class="small_Type_Title "> 报价 </div>
+				</div>
+				<div class="inf_Box_Group" id="offerInfo">
+					<div class="inf_Box ">
+						<div class="inf_Left_Text "> 报价 </div>
+					</div>
+				</div>
+			</div>
+			<div class="small_Type_Group ">
+				<div class="small_Type_Title_Group " ng-click="toDisplayCarstop()">
+					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_CarstopImg"></div>
+					<div class="small_Type_Title "> 车档 </div>
+				</div>
+				<div class="inf_Box_Group" id="carstopInfo">
+					<div class="inf_Box ">
+						<div class="inf_Left_Text "> 车档 </div>
+					</div>
+				</div>
+			</div>
+
+			<div class="small_Type_Group ">
+				<div class="small_Type_Title_Group " ng-click="toDisplayBusiness()">
+					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_BusinessImg"></div>
+					<div class="small_Type_Title "> 商机 </div>
+				</div>
+				<div class="inf_Box_Group" id="businessInfo">
+					<div class="inf_Box ">
+						<div class="inf_Left_Text "> 商机 </div>
+					</div>
+				</div>
+			</div>
+
+			<div class="small_Type_Group ">
+				<div class="small_Type_Title_Group "ng-click="toDisplayWorkorder()">
+					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_WorkorderImg"></div>
 					<div class="small_Type_Title "> 工单/周期性计划 </div>
 				</div>
-				<div class="plan_Box_Group ">
+				<div class="plan_Box_Group " id="workorderInfo">
 					<div class="plan_Box ">
 						<div class="plan_Left_Text "> 工单：109328984</div>
 						<div class="plan_Right_Text "> 计划中 </div>

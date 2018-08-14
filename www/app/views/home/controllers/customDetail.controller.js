@@ -32,16 +32,6 @@
                         $scope.accountAddress=account.Address__c;
                         $scope.accountSalesMan=account.Salesman_formula__c;
 
-                        // account.Salesman__r.then(function(account){
- 
-                        //     if(typeof (account) != 'undefined'){
-                        //         $scope.accountSalesMan=account.Name;
-                        //     }
-                            
-                        // }, function (error) {
-                        //     $log.error('getAccount(Id).then error ' + error);
-                        // });
-
                         account.BTU__r.then(function(account){
                             if(typeof (account) != 'undefined'){
                                 $scope.accountGroup=account.Name;
@@ -67,21 +57,9 @@
             var getContactInfo =function(){
                 //调用接口获取结果 $rootScope.accountId  "001p000000Qx9m2AAB"
                 AccountService.getContacts($stateParams.SendPassId).then(function (contacts) {
-                    //{"Id":"003p000000MnltsAAB","Name":"吴工","MobilePhone":null}
                     console.log("getContacts", contacts);
-                    //let accountsNames = [];
                     if (contacts.length > 0) {
-                        // for (let index = 0; index < contacts.length; index++) {
-                        //     accountsNames.push(contacts[index].Name);
-                        // }
-                        //$scope.contentItems = accountsNames;
                         $scope.contentItems = contacts;
-                    }
-                    else {
-                        // $ionicPopup.alert({
-                        //     title: "搜索结果",
-                        //     template: "联系人信息没有数据"
-                        // });
                     }
                 }, function (error) {
                     $log.error('AccountService.searchAccounts Error ' + error);
@@ -89,10 +67,16 @@
             };
 
             document.getElementById("contactsInfo").style.display = "none";//隐藏
+            document.getElementById("contractInfo").style.display = "none";//隐藏
+            document.getElementById("labelInfo").style.display = "none";//隐藏
+            document.getElementById("offerInfo").style.display = "none";//隐藏
+            document.getElementById("carstopInfo").style.display = "none";//隐藏
+            document.getElementById("businessInfo").style.display = "none";//隐藏
+            document.getElementById("workorderInfo").style.display = "none";//隐藏
 
             $scope.toDisplayBaseInfo = function () {
                 if (document.getElementById("div_baseInfo").style.display == "none") {
-                    document.getElementById("div_baseInfo").style.display = "";//隐藏
+                    document.getElementById("div_baseInfo").style.display = "";//显示
                     document.getElementById("div_baseInfoImg").className = "OpenClose_Btn arrow_Down_Red";
                 } else {
                     document.getElementById("div_baseInfo").style.display = "none";//隐藏
@@ -100,13 +84,73 @@
 
                 }
             };
-            $scope.toDisplayContacts = function () {
+            $scope.toDisplayContacts = function () {//联系人
                 if (document.getElementById("contactsInfo").style.display == "none") {
-                    document.getElementById("contactsInfo").style.display = "";//隐藏
+                    document.getElementById("contactsInfo").style.display = "";//显示
                     document.getElementById("div_contactsImg").className = "OpenClose_Btn arrow_Down_Red";
                 } else {
                     document.getElementById("contactsInfo").style.display = "none";//隐藏
                     document.getElementById("div_contactsImg").className = "OpenClose_Btn arrow_Left_Red";
+
+                }
+            };
+            $scope.toDisplayContract = function () {//合同
+                if (document.getElementById("contractInfo").style.display == "none") {
+                    document.getElementById("contractInfo").style.display = "";//显示
+                    document.getElementById("div_ContractImg").className = "OpenClose_Btn arrow_Down_Red";
+                } else {
+                    document.getElementById("contractInfo").style.display = "none";//隐藏
+                    document.getElementById("div_ContractImg").className = "OpenClose_Btn arrow_Left_Red";
+
+                }
+            };
+            $scope.toDisplayLabel = function () {//标签
+                if (document.getElementById("labelInfo").style.display == "none") {
+                    document.getElementById("labelInfo").style.display = "";//显示
+                    document.getElementById("div_LabelImg").className = "OpenClose_Btn arrow_Down_Red";
+                } else {
+                    document.getElementById("labelInfo").style.display = "none";//隐藏
+                    document.getElementById("div_LabelImg").className = "OpenClose_Btn arrow_Left_Red";
+
+                }
+            };
+            $scope.toDisplayOffer = function () {//报价
+                if (document.getElementById("offerInfo").style.display == "none") {
+                    document.getElementById("offerInfo").style.display = "";//显示
+                    document.getElementById("div_OfferImg").className = "OpenClose_Btn arrow_Down_Red";
+                } else {
+                    document.getElementById("offerInfo").style.display = "none";//隐藏
+                    document.getElementById("div_OfferImg").className = "OpenClose_Btn arrow_Left_Red";
+
+                }
+            };
+            $scope.toDisplayCarstop = function () {//车档
+                if (document.getElementById("carstopInfo").style.display == "none") {
+                    document.getElementById("carstopInfo").style.display = "";//显示
+                    document.getElementById("div_CarstopImg").className = "OpenClose_Btn arrow_Down_Red";
+                } else {
+                    document.getElementById("carstopInfo").style.display = "none";//隐藏
+                    document.getElementById("div_CarstopImg").className = "OpenClose_Btn arrow_Left_Red";
+
+                }
+            };
+            $scope.toDisplayBusiness = function () {//商机
+                if (document.getElementById("businessInfo").style.display == "none") {
+                    document.getElementById("businessInfo").style.display = "";//显示
+                    document.getElementById("div_BusinessImg").className = "OpenClose_Btn arrow_Down_Red";
+                } else {
+                    document.getElementById("businessInfo").style.display = "none";//隐藏
+                    document.getElementById("div_BusinessImg").className = "OpenClose_Btn arrow_Left_Red";
+
+                }
+            };
+            $scope.toDisplayWorkorder = function () {//工单
+                if (document.getElementById("workorderInfo").style.display == "none") {
+                    document.getElementById("workorderInfo").style.display = "";//显示
+                    document.getElementById("div_WorkorderImg").className = "OpenClose_Btn arrow_Down_Red";
+                } else {
+                    document.getElementById("workorderInfo").style.display = "none";//隐藏
+                    document.getElementById("div_WorkorderImg").className = "OpenClose_Btn arrow_Left_Red";
 
                 }
             };
