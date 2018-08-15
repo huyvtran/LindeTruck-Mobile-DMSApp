@@ -1,6 +1,6 @@
 angular.module('oinio.controllers', [])
     .controller('HomeController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-                                            LocalCacheService) {
+                                            LocalCacheService,$ionicTabsDelegate) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -28,6 +28,7 @@ angular.module('oinio.controllers', [])
             if (cachedUser) {
                 vm.username = cachedUser.Name;
             }
+            $ionicTabsDelegate.select(1);
         });
 
         $scope.toRepair1 = function () {
