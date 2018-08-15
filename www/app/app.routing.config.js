@@ -14,8 +14,8 @@
      * @param {object} $stateProvider
      * @param {object} $urlRouterProvider
      */
-    function routing($stateProvider, $urlRouterProvider) {
-
+    function routing($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
+        $ionicConfigProvider.tabs.position('bottom');
         $stateProvider
 
             .state('app', {
