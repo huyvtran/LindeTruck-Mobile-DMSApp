@@ -1,6 +1,13 @@
 <!-- Messages Center View-->
-<ion-view ng-init="vm.initView()" view-title="{{'cl.navigation.lb_messageCenter' | translate}}">
-    <ion-content scroll="false">
+<!--<ion-view ng-init="vm.initView()" view-title="{{'cl.navigation.lb_messageCenter' | translate}}">-->
+<ion-view  hide-nav-bar="true">
+    <div class="bar bar-header">
+        <div class="buttons">
+            <button ui-sref="app.home" class="button icon-left ion-chevron-left button-clear button-dark">{{::'cl.navigation.lb_home' | translate}}</button>
+        </div>
+        <div class="h1 title">{{::'cl.navigation.lb_messageCenter' | translate}}</div>
+    </div>
+    <ion-content scroll="false" style="top: 40px;">
         <!--<button class="button button-full button-positive" ng-click="vm.updateTestContact()">
             Update Contact
         </button>-->
