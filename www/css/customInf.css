@@ -111,7 +111,7 @@ img {
     overflow-y: auto;
     height: calc(100vh - 64px);
 }
-.big_Type_Group {
+.custominfo_big_Type_Group {
     margin: 5% 0;
 }
 .small_Type_Group {
