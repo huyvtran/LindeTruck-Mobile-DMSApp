@@ -12,8 +12,16 @@
         <ion-nav-view name="menuContent" animation="slide-right-left"></ion-nav-view>
     </ion-side-menu-content>
 
-    <ion-side-menu side="right">
-
+    <ion-side-menu side="left">
+        <div class="o-view-home">
+            <div class="slds-grid slds-wrap o-wrap-device-connection">
+                <!-- Show if device online or offline -->
+                <div class="slds-size--1-of-1 o-device-connection" ng-class="vm.isOnline === true ? 'is-online' : 'is-offline'">
+                    <span ng-if="vm.isOnline">{{'cl.global.lb_online' | translate}}</span>
+                    <span ng-if="!vm.isOnline">{{'cl.global.lb_offline' | translate}}</span>
+                </div>
+            </div>
+        </div>
         <ion-header-bar align-title="left" class="bar-positive slds-grid slds-wrap o-header-sidemenu">
 
             <!-- Logo in the left of top -->

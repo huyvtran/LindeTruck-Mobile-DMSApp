@@ -1,6 +1,13 @@
-angular.module('oinio.controllers', [])
-    .controller('HomeController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-                                            LocalCacheService) {
+(function () {
+    'use strict';
+
+
+
+});
+
+angular.module('oinio.MainController', [])
+    .controller('MainController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
+                                            LocalCacheService,$ionicTabsDelegate) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -23,7 +30,7 @@ angular.module('oinio.controllers', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
+            $ionicTabsDelegate.select(1);
         });
     });
-    
-        
+

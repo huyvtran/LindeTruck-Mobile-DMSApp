@@ -11,63 +11,38 @@
 
 	<style type="text/css">
 		.search_Photo_Icon {
-			background-image: url(././img/images/search-photo_icon.png);
+			background-image: url(./img/images/search-photo_icon.png);
 		}
 	</style>
 </head>
-<!-- <body ng-controller="myCtrl">
-	<div class="header">
-	  	<div class="search_All">
-	  		<input type="text" placeholder="搜索" class="search_Input" />
-	  		<div class="search_Photo_Icon"></div>
-	  	</div>
-	  	<div class="search_right_Group">
-	  		<div class="text_Cancel"> 取消 </div>
-	  	</div>
-	</div>
-	<div class="bodyer" >
-	  	<div class="big_Box_Group">
-  			<div class="small_Box_Title"> 搜索结果 </div>
-  			<div class="small_Box_Text">
-  				<span> 查询订单 </span>
-  				<span> 000001 </span>
-  			</div>
-  			<div class="small_Box_Text">
-  				<span> 查询车挡 </span>
-  				<span> 000001 </span>
-			  </div>
-			 <div class="small_Box_Text" ng-click = "toRepair1()">
-				<span> 临时跳转 </span>
-				<span> 000001 </span>
+	<body>
+	<ion-view>
+		<ion-content>
+			<div class="header">
+				<!--<div class="header" ng-show="isBigTypeShow">-->
+				<div class="search_All" >
+					<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchText"/>
+					<div class="search_Photo_Icon"></div>
+				</div>
+				<div class="search_right_Group" id="cancleBtn1" ng-click="searchText=''" ng-show="searchText">
+					<div class="text_Cancel"> 取消 </div>
+				</div>
 			</div>
-	  	</div>
-	  </div> -->
-
-
-	<ion-content>
-		<div class="header">
-            <!--<div class="header" ng-show="isBigTypeShow">-->
-			<div class="search_All" >
-				<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchText"/>
-				<div class="search_Photo_Icon"></div>
+			<div class="big_Box_Group">
+				<div class="small_Box_Title"> 搜索结果 </div>
+				<ion-list can-swipe="true" ng-show="isShow">
+					<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-click="showChildInfoList(item,searchText)">
+						{{item}} {{ searchText }}
+					</ion-item>
+				</ion-list>
+				<ion-list can-swipe="true" ng-show="!isShow">
+					<ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="toRepair4(item.Id)">
+						{{item.Name}}
+					</ion-item>
+				</ion-list>
 			</div>
-			<div class="search_right_Group" id="cancleBtn1" ng-click="searchText=''" ng-show="searchText">
-				<div class="text_Cancel"> 取消 </div>
-			</div>
-		</div>
-		<div class="big_Box_Group">
-			<div class="small_Box_Title"> 搜索结果 </div>
-			<ion-list can-swipe="true" ng-show="isShow">
-				<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-click="showChildInfoList(item,searchText)">
-					{{item}} {{ searchText }} 
-				</ion-item>
-			</ion-list>
-            <ion-list can-swipe="true" ng-show="!isShow">
-                <ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="toRepair4(item.Id)">
-                    {{item.Name}}
-                </ion-item>
-            </ion-list>
-		</div>
-	</ion-content>
+		</ion-content>
+	</ion-view>
+	</body>
 
 </html>

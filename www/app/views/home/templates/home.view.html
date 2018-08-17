@@ -1,88 +1,309 @@
-<!--HOME VIEW-->
-<ion-view hide-nav-bar="true" class="o-view-home">
+<!--&lt;!&ndash;HOME VIEW&ndash;&gt;-->
+<!--<ion-view hide-nav-bar="true" class="o-view-home">-->
 
-    <div class="slds-grid slds-wrap o-wrap-device-connection">
-        <!-- Show if device online or offline -->
-        <div class="slds-size--1-of-1 o-device-connection" ng-class="vm.isOnline === true ? 'is-online' : 'is-offline'">
-            <span ng-if="vm.isOnline">{{'cl.global.lb_online' | translate}}</span>
-            <span ng-if="!vm.isOnline">{{'cl.global.lb_offline' | translate}}</span>
-        </div>
-    </div>
+    <!--<div class="slds-grid slds-wrap o-wrap-device-connection">-->
+        <!--&lt;!&ndash; Show if device online or offline &ndash;&gt;-->
+        <!--<div class="slds-size&#45;&#45;1-of-1 o-device-connection" ng-class="vm.isOnline === true ? 'is-online' : 'is-offline'">-->
+            <!--<span ng-if="vm.isOnline">{{'cl.global.lb_online' | translate}}</span>-->
+            <!--<span ng-if="!vm.isOnline">{{'cl.global.lb_offline' | translate}}</span>-->
+        <!--</div>-->
+    <!--</div>-->
 
-    <!-- HEADER BAR -->
-    <div class="bar bar-header">
-        <!-- Left Buttons -->
-        <div class="buttons"></div>
-        <!-- View Title -->
-        <div class="h1 title"></div>
-        <!-- Right Buttons -->
-        <div class="buttons">
-            <!-- Toggle right side menu -->
-            <button menu-toggle="right" class="button button-icon button-clear icon ion-navicon"></button>
-        </div>
-    </div>
+    <!--&lt;!&ndash; HEADER BAR &ndash;&gt;-->
+    <!--<div class="bar bar-header">-->
+        <!--&lt;!&ndash; Left Buttons &ndash;&gt;-->
+        <!--<div class="buttons"></div>-->
+        <!--&lt;!&ndash; View Title &ndash;&gt;-->
+        <!--<div class="h1 title"></div>-->
+        <!--&lt;!&ndash; Right Buttons &ndash;&gt;-->
+        <!--<div class="buttons">-->
+            <!--&lt;!&ndash; Toggle right side menu &ndash;&gt;-->
+            <!--<button menu-toggle="right" class="button button-icon button-clear icon ion-navicon"></button>-->
+        <!--</div>-->
+    <!--</div>-->
 
-    <!-- HEADER -->
-    <ion-header-bar align-title="left" class="bar-positive slds-grid slds-wrap slds-p-horizontal--none o-header-home">
+    <!--&lt;!&ndash; HEADER &ndash;&gt;-->
+    <!--<ion-header-bar align-title="left" class="bar-positive slds-grid slds-wrap slds-p-horizontal&#45;&#45;none o-header-home">-->
 
-        <div class="slds-size--1-of-1 slds-p-around--small slds-p-top--none">
-            <div class="slds-grid slds-wrap">
+        <!--<div class="slds-size&#45;&#45;1-of-1 slds-p-around&#45;&#45;small slds-p-top&#45;&#45;none">-->
+            <!--<div class="slds-grid slds-wrap">-->
 
-                <!-- Logo in the left of top -->
-                <div class="slds-size--5-of-12 slds-medium-size--4-of-12 slds-large-size--4-of-12 o-logo-lettering-header">
-                    <img src="img/linde/linde-logo-lettering-transparent.png" />
-                </div>
+                <!--&lt;!&ndash; Logo in the left of top &ndash;&gt;-->
+                <!--<div class="slds-size&#45;&#45;5-of-12 slds-medium-size&#45;&#45;4-of-12 slds-large-size&#45;&#45;4-of-12 o-logo-lettering-header">-->
+                    <!--<img src="img/linde/linde-logo-lettering-transparent.png" />-->
+                <!--</div>-->
 
-                <!-- Setting Icon in the right of top -->
-                <!--<div class="slds-grid slds-size&#45;&#45;7-of-12 slds-medium-size&#45;&#45;8-of-12 slds-large-size&#45;&#45;8-of-12">
-                    <div class="slds-col&#45;&#45;bump-left">
-                        <a class="o-icon-setting-menu" ng-click="vm.helpHint()">
-                            <object class="o-linde-item" data="img/linde/icons/svg/LG_Icon_Help_w.svg"
-                                    type="image/svg+xml"></object>
-                        </a>
-                        <a class="o-icon-setting-menu" ui-sref="app.user-setting" nav-direction="forward">
-                            <object class="o-linde-item" data="img/linde/icons/svg/LG_Icon_Maintenance_CMYK_RZ_w.svg"
-                                    type="image/svg+xml"></object>
-                        </a>
+                <!--&lt;!&ndash; Setting Icon in the right of top &ndash;&gt;-->
+                <!--&lt;!&ndash;<div class="slds-grid slds-size&#45;&#45;7-of-12 slds-medium-size&#45;&#45;8-of-12 slds-large-size&#45;&#45;8-of-12">-->
+                    <!--<div class="slds-col&#45;&#45;bump-left">-->
+                        <!--<a class="o-icon-setting-menu" ng-click="vm.helpHint()">-->
+                            <!--<object class="o-linde-item" data="img/linde/icons/svg/LG_Icon_Help_w.svg"-->
+                                    <!--type="image/svg+xml"></object>-->
+                        <!--</a>-->
+                        <!--<a class="o-icon-setting-menu" ui-sref="app.user-setting" nav-direction="forward">-->
+                            <!--<object class="o-linde-item" data="img/linde/icons/svg/LG_Icon_Maintenance_CMYK_RZ_w.svg"-->
+                                    <!--type="image/svg+xml"></object>-->
+                        <!--</a>-->
+                    <!--</div>-->
+                <!--</div>&ndash;&gt;-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <!--<div class="slds-size&#45;&#45;1-of-1 slds-p-around&#45;&#45;small slds-p-top&#45;&#45;none slds-p-bottom&#45;&#45;none">-->
+            <!--<div class="slds-grid slds-wrap">-->
+
+                <!--&lt;!&ndash; Show which User is logged in &ndash;&gt;-->
+                <!--<div class="slds-size&#45;&#45;8-of-12 slds-medium-size&#45;&#45;7-of-12 slds-large-size&#45;&#45;7-of-12 o-username">-->
+                    <!--<object class="o-item-linde-user" data="img/linde/icons/svg/LG_Icon_Profile_BB_CMYK_RZ_104005_w.svg" type="image/svg+xml"></object>-->
+                    <!--<span ng-if="vm.username">{{'cl.global.lb_welcome' | translate}}, {{vm.username}}!</span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</ion-header-bar>-->
+
+    <!--&lt;!&ndash; CONTENT &ndash;&gt;-->
+    <!--<ion-content class="o-has-big-header">-->
+
+        <!--<div>-->
+            <!--<p class="button ion ion-home" ng-click="toRepair1()">>go test</p>-->
+
+            <!--<p class="button ion ion-home" ng-click="toRepair3()">>go test3</p>-->
+
+            <!--<ion-list can-swipe="true">-->
+                <!--<ion-item ng-repeat="item in items">-->
+                    <!--{{item}}-->
+                    <!--<ion-option-button class="button-calm icon ion-edit"></ion-option-button>-->
+                    <!--<ion-option-button class="button-energized icon ion-share"></ion-option-button>-->
+                <!--</ion-item>-->
+            <!--</ion-list>-->
+        <!--</div>-->
+    <!--</ion-content>-->
+    <!--&lt;!&ndash; ACTION BUTTONS - FOOTER BAR &ndash;&gt;-->
+<!--</ion-view>-->
+<ion-view>
+    <ion-tabs class="tabs-striped tabs-assertive">
+        <!--<ion-tab title="首页" href="#/appapp/home/main">-->
+            <!--<ion-nav-view name="main-tab"></ion-nav-view>-->
+        <!--</ion-tab>-->
+        <!--<ion-tab title="日历" href="#/appapp/home/calendar">-->
+            <!--<ion-nav-view name="calendar-tab"></ion-nav-view>-->
+        <!--</ion-tab>-->
+        <!--<ion-tab title="小组" href="#/appapp/home/group">-->
+            <!--<ion-nav-view name="group-tab"></ion-nav-view>-->
+        <!--</ion-tab>-->
+        <!--<ion-tab title="个人" href="#/appapp/home/personal">-->
+            <!--<ion-nav-view name="personal-tab"></ion-nav-view>-->
+        <!--</ion-tab>-->
+
+
+        <ion-tab title="首页" ng-controller="HomeController">
+            <ion-view>
+                <div class="header">
+                    <div class="left_Box">
+                        <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
                     </div>
-                </div>-->
-            </div>
-        </div>
-
-        <div class="slds-size--1-of-1 slds-p-around--small slds-p-top--none slds-p-bottom--none">
-            <div class="slds-grid slds-wrap">
-
-                <!-- Show which User is logged in -->
-                <div class="slds-size--8-of-12 slds-medium-size--7-of-12 slds-large-size--7-of-12 o-username">
-                    <object class="o-item-linde-user" data="img/linde/icons/svg/LG_Icon_Profile_BB_CMYK_RZ_104005_w.svg" type="image/svg+xml"></object>
-                    <span ng-if="vm.username">{{'cl.global.lb_welcome' | translate}}, {{vm.username}}!</span>
+                    <div class="search_All">
+                        <input type="text" placeholder="搜索" class="search_Input"/>
+                        <div class="search_Photo_Icon"></div>
+                    </div>
+                    <div class="right_Box">
+                        <!--<div class="add_Icon_White"></div>-->
+                        <!--<div class="add_Arrow to_Hide"></div>-->
+                        <!--<div class="add_Group to_Hide">-->
+                        <!--<div class="add_Box"> 添加客户 </div>-->
+                        <!--<div class="add_Box"> 添加工单 </div>-->
+                        <!--<div class="add_Box"> 添加报价 </div>-->
+                        <!--<div class="add_Box"> 添加联系人 </div>-->
+                        <!--</div>-->
+                    </div>
                 </div>
-            </div>
-        </div>
+                <div class="bodyer">
+                    <div class="big_Type_Group">
+                        <div class="small_Type_Group">
+                            <div class="small_Type_Title"> 工单 </div>
+                            <div class="small_Type_Box">待处理</div><div class="small_Type_Box">处理中</div><div class="small_Type_Box">已签单</div>
+                        </div>
+                        <div class="small_Type_Group">
+                            <div class="small_Type_Title"> 辅助功能 </div><div class="small_Type_Box">服务车</div><div class="small_Type_Box">备忘录</div>
+                        </div>
+                    </div>
+                </div>
+            </ion-view>
+        </ion-tab>
+        <ion-tab title="日历" ng-controller="CalendarController">
+            <ion-view>
+                <div class="header">
+                    <div class="left_Box">
+                        <div class="homeBack_Icon"></div>
+                    </div>
+                    <div class="search_All" ng-click="toRepair1()">
+                        <input type="text" readonly="readonly" placeholder="搜索" autocomplete="off" class="search_Input" />
+                        <div class="search_Photo_Icon"></div>
+                    </div>
+                    <div class="right_Box">
+                        <div class="add_Icon_White"></div>
+                        <div class="add_Arrow to_Hide"></div>
+                        <div class="add_Group to_Hide">
+                            <div class="add_Box"> 添加客户 </div>
+                            <div class="add_Box"> 添加工单 </div>
+                            <div class="add_Box"> 添加报价 </div>
+                            <div class="add_Box"> 添加联系人 </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bodyer">
+                    <div class="screen_Btn_Group">
+                        <div class="screen_Left">
+                            <select>
+                                <option>待处理</option>
+                                <option>计划中</option>
+                                <option>已完成</option>
+                            </select>
+                        </div>
+                        <div class="screen_Right">
+                            <select>
+                                <option>小王</option>
+                                <option>小张</option>
+                                <option>小李</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="datepicker"></div>
+                    <div class="big_Type_Group">
+                        <div class="small_Type_Group">
+                            <table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+                                <tr>
+                                    <td class="table_Left"> 客户名称：</td>
+                                    <td class="table_Center"> 中国某某公司</td>
+                                    <td class="table_Right info_Icon" rowspan="2">
+                                        <div class="table_Img"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table_Left"> 服务项目：</td>
+                                    <td class="table_Center state_Color"> 保养</td>
+                                </tr>
+                            </table>
+                            <table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+                                <tr>
+                                    <td class="table_Left"> 客户名称：</td>
+                                    <td class="table_Center"> 中国某某公司</td>
+                                    <td class="table_Right checkmark_Icon" rowspan="2">
+                                        <div class="table_Img"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table_Left"> 服务项目：</td>
+                                    <td class="table_Center state_Color"> 维修</td>
+                                </tr>
+                            </table>
+                            <table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+                                <tr>
+                                    <td class="table_Left"> 客户名称：</td>
+                                    <td class="table_Center"> 中国某某公司</td>
+                                    <td class="table_Right warning_Icon" rowspan="2">
+                                        <div class="table_Img"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table_Left"> 服务项目：</td>
+                                    <td class="table_Center state_Color"> 保养</td>
+                                </tr>
+                            </table>
+                            <table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+                                <tr>
+                                    <td class="table_Left"> 客户名称：</td>
+                                    <td class="table_Center"> 中国某某公司</td>
+                                    <td class="table_Right checkmark_Icon" rowspan="2">
+                                        <div class="table_Img"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table_Left"> 服务项目：</td>
+                                    <td class="table_Center state_Color"> 维修</td>
+                                </tr>
+                            </table>
+                            <table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+                                <tr>
+                                    <td class="table_Left"> 客户名称：</td>
+                                    <td class="table_Center"> 中国某某公司</td>
+                                    <td class="table_Right warning_Icon" rowspan="2">
+                                        <div class="table_Img"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table_Left"> 服务项目：</td>
+                                    <td class="table_Center state_Color"> 保养</td>
+                                </tr>
+                            </table>
+                            <table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+                                <tr>
+                                    <td class="table_Left"> 客户名称：</td>
+                                    <td class="table_Center"> 中国某某公司</td>
+                                    <td class="table_Right checkmark_Icon" rowspan="2">
+                                        <div class="table_Img"></div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="table_Left"> 服务项目：</td>
+                                    <td class="table_Center state_Color"> 维修</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ion-view>
+        </ion-tab>
+        <ion-tab title="小组" ng-controller="GroupController">
+            <ion-view>
+                <div class="header">
+                    <div class="left_Box">
+                    </div>
+                    <div class="search_All">
+                        <input type="text" placeholder="搜索" class="search_Input" />
+                        <div class="search_Photo_Icon"></div>
+                    </div>
+                    <div class="right_Box">
+                        <!--<div class="add_Icon_White"></div>-->
+                        <!--<div class="add_Arrow to_Hide"></div>-->
+                        <!--<div class="add_Group to_Hide">-->
+                        <!--<div class="add_Box"> 添加客户 </div>-->
+                        <!--<div class="add_Box"> 添加工单 </div>-->
+                        <!--<div class="add_Box"> 添加报价 </div>-->
+                        <!--<div class="add_Box"> 添加联系人 </div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="bodyer">
 
-    </ion-header-bar>
+                </div>
+            </ion-view>
+        </ion-tab>
+        <ion-tab title="个人" ng-controller="PersonalController">
+            <ion-view>
+                <div class="header">
+                    <div class="left_Box">
+                    </div>
+                    <div class="search_All">
+                        <input type="text" placeholder="搜索" class="search_Input" />
+                        <div class="search_Photo_Icon"></div>
+                    </div>
+                    <div class="right_Box">
+                        <!--<div class="add_Icon_White"></div>-->
+                        <!--<div class="add_Arrow to_Hide"></div>-->
+                        <!--<div class="add_Group to_Hide">-->
+                        <!--<div class="add_Box"> 添加客户 </div>-->
+                        <!--<div class="add_Box"> 添加工单 </div>-->
+                        <!--<div class="add_Box"> 添加报价 </div>-->
+                        <!--<div class="add_Box"> 添加联系人 </div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+                <div class="bodyer">
 
-    <!-- CONTENT -->
-    <ion-content class="o-has-big-header">
-
-        <div>
-            <p class="button ion ion-home" ng-click="toRepair1()">>go test</p>
-
-            <p class="button ion ion-home" ng-click="toRepair3()">>go test3</p>
-
-            <ion-list can-swipe="true">
-                <ion-item ng-repeat="item in items">
-                    {{item}}
-                    <ion-option-button class="button-calm icon ion-edit"></ion-option-button>
-                    <ion-option-button class="button-energized icon ion-share"></ion-option-button>
-                </ion-item>
-            </ion-list>
-        </div>
-
-
-
-    </ion-content>
-
-    <!-- ACTION BUTTONS - FOOTER BAR -->
-
+                </div>
+            </ion-view>
+        </ion-tab>
+    </ion-tabs>
 </ion-view>

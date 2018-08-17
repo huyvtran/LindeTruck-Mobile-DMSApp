@@ -1,211 +1,167 @@
-<!DOCTYPE html>
 <html>
-
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>date</title>
-	<link rel="stylesheet" href="././css/date_Head.css">
-
+	<link rel="stylesheet" href="css/date_Head.css">
 	<style type="text/css">
 		.search_Photo_Icon {
-			background-image: url(././img/images/search-photo_icon.png);
+			background-image: url(./img/images/search-photo_icon.png);
 		}
 
 		.add_Icon_White {
-			background-image: url(././img/images/add_icon_white.png);
+			background-image: url(./img/images/add_icon_white.png);
 		}
 
 		.homeBack_Icon {
-			background-image: url(././img/images/homeBack_Icon.png);
+			background-image: url(./img/images/homeBack_Icon.png);
 		}
 
 		.arrow_Down_Red {
-			background-image: url(././img/images/arrow_Down_Red.png);
+			background-image: url(./img/images/arrow_Down_Red.png);
 		}
 
 		.arrow_Left_Red {
-			background-image: url(././img/images/arrow_Left_Red.png);
+			background-image: url(./img/images/arrow_Left_Red.png);
 		}
 
 		.datepicker {
-			background-image: url(././img/images/datepicker.png);
+			background-image: url(./img/images/datepicker.png);
 		}
 
 		.checkmark_Icon .table_Img {
-			background-image: url(././img/images/checkmark_Icon.png);
+			background-image: url(./img/images/checkmark_Icon.png);
 		}
 
 		.info_Icon .table_Img {
-			background-image: url(././img/images/info_Icon.png);
+			background-image: url(./img/images/info_Icon.png);
 		}
 
 		.warning_Icon .table_Img {
-			background-image: url(././img/images/warning_Icon.png);
+			background-image: url(./img/images/warning_Icon.png);
 		}
 	</style>
 </head>
-
-<ion-tabs class="tabs-striped tabs-assertive">
-	<ion-tab title="首页">
-		<ion-view>
-			<ion-content>
-
-			</ion-content>
-		</ion-view>
-	</ion-tab>
-	<ion-tab title="日历">
-		<ion-view hide-nav-bar="true" class="o-view-home">
-
-			<!-- HEADER BAR -->
-			<!-- <div class="bar bar-header"> -->
-			<!-- Left Buttons -->
-			<!-- <div class="buttons"></div> -->
-			<!-- View Title -->
-			<!-- <div class="h1 title"></div> -->
-			<!-- Right Buttons -->
-			<!-- <div class="buttons"> -->
-			<!-- Toggle right side menu -->
-			<!-- <button menu-toggle="right" class="button button-icon button-clear icon ion-navicon"></button> -->
-			<!-- </div> -->
-			<!-- </div> -->
-
-
-			<div class="header">
-				<div class="left_Box">
-					<div class="homeBack_Icon"></div>
-				</div>
-				<div class="search_All" ng-click="toRepair1()">
-					<input type="text" readonly="readonly" placeholder="搜索" autocomplete="off" class="search_Input" />
-					<div class="search_Photo_Icon"></div>
-				</div>
-				<div class="right_Box">
-					<div class="add_Icon_White"></div>
-					<div class="add_Arrow to_Hide"></div>
-					<div class="add_Group to_Hide">
-						<div class="add_Box"> 添加客户 </div>
-						<div class="add_Box"> 添加工单 </div>
-						<div class="add_Box"> 添加报价 </div>
-						<div class="add_Box"> 添加联系人 </div>
-					</div>
-				</div>
+<body>
+<ion-view>
+	<div class="header">
+		<div class="left_Box">
+			<div class="homeBack_Icon"></div>
+		</div>
+		<div class="search_All" ng-click="toRepair1()">
+			<input type="text" readonly="readonly" placeholder="搜索" autocomplete="off" class="search_Input" />
+			<div class="search_Photo_Icon"></div>
+		</div>
+		<div class="right_Box">
+			<div class="add_Icon_White"></div>
+			<div class="add_Arrow to_Hide"></div>
+			<div class="add_Group to_Hide">
+				<div class="add_Box"> 添加客户 </div>
+				<div class="add_Box"> 添加工单 </div>
+				<div class="add_Box"> 添加报价 </div>
+				<div class="add_Box"> 添加联系人 </div>
 			</div>
-			<div class="bodyer">
-				<div class="screen_Btn_Group">
-					<div class="screen_Left">
-						<select>
-							<option>待处理</option>
-							<option>计划中</option>
-							<option>已完成</option>
-						</select>
-					</div>
-					<div class="screen_Right">
-						<select>
-							<option>小王</option>
-							<option>小张</option>
-							<option>小李</option>
-						</select>
-					</div>
-				</div>
-				<div class="datepicker"></div>
-				<div class="big_Type_Group">
-					<div class="small_Type_Group">
-						<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
-							<tr>
-								<td class="table_Left"> 客户名称：</td>
-								<td class="table_Center"> 中国某某公司</td>
-								<td class="table_Right info_Icon" rowspan="2">
-									<div class="table_Img"></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="table_Left"> 服务项目：</td>
-								<td class="table_Center state_Color"> 保养</td>
-							</tr>
-						</table>
-						<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
-							<tr>
-								<td class="table_Left"> 客户名称：</td>
-								<td class="table_Center"> 中国某某公司</td>
-								<td class="table_Right checkmark_Icon" rowspan="2">
-									<div class="table_Img"></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="table_Left"> 服务项目：</td>
-								<td class="table_Center state_Color"> 维修</td>
-							</tr>
-						</table>
-						<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
-							<tr>
-								<td class="table_Left"> 客户名称：</td>
-								<td class="table_Center"> 中国某某公司</td>
-								<td class="table_Right warning_Icon" rowspan="2">
-									<div class="table_Img"></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="table_Left"> 服务项目：</td>
-								<td class="table_Center state_Color"> 保养</td>
-							</tr>
-						</table>
-						<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
-							<tr>
-								<td class="table_Left"> 客户名称：</td>
-								<td class="table_Center"> 中国某某公司</td>
-								<td class="table_Right checkmark_Icon" rowspan="2">
-									<div class="table_Img"></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="table_Left"> 服务项目：</td>
-								<td class="table_Center state_Color"> 维修</td>
-							</tr>
-						</table>
-						<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
-							<tr>
-								<td class="table_Left"> 客户名称：</td>
-								<td class="table_Center"> 中国某某公司</td>
-								<td class="table_Right warning_Icon" rowspan="2">
-									<div class="table_Img"></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="table_Left"> 服务项目：</td>
-								<td class="table_Center state_Color"> 保养</td>
-							</tr>
-						</table>
-						<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
-							<tr>
-								<td class="table_Left"> 客户名称：</td>
-								<td class="table_Center"> 中国某某公司</td>
-								<td class="table_Right checkmark_Icon" rowspan="2">
-									<div class="table_Img"></div>
-								</td>
-							</tr>
-							<tr>
-								<td class="table_Left"> 服务项目：</td>
-								<td class="table_Center state_Color"> 维修</td>
-							</tr>
-						</table>
-					</div>
-				</div>
+		</div>
+	</div>
+	<div class="bodyer">
+		<div class="screen_Btn_Group">
+			<div class="screen_Left">
+				<select>
+					<option>待处理</option>
+					<option>计划中</option>
+					<option>已完成</option>
+				</select>
 			</div>
-		</ion-view>
-	</ion-tab>
-	<ion-tab title="小组">
-		<ion-view>
-			<ion-content>
-
-			</ion-content>
-		</ion-view>
-	</ion-tab>
-	<ion-tab title="个人">
-		<ion-view>
-			<ion-content>
-
-			</ion-content>
-		</ion-view>
-	</ion-tab>
-</ion-tabs>
+			<div class="screen_Right">
+				<select>
+					<option>小王</option>
+					<option>小张</option>
+					<option>小李</option>
+				</select>
+			</div>
+		</div>
+		<div class="datepicker"></div>
+		<div class="big_Type_Group">
+			<div class="small_Type_Group">
+				<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+					<tr>
+						<td class="table_Left"> 客户名称：</td>
+						<td class="table_Center"> 中国某某公司</td>
+						<td class="table_Right info_Icon" rowspan="2">
+							<div class="table_Img"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="table_Left"> 服务项目：</td>
+						<td class="table_Center state_Color"> 保养</td>
+					</tr>
+				</table>
+				<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+					<tr>
+						<td class="table_Left"> 客户名称：</td>
+						<td class="table_Center"> 中国某某公司</td>
+						<td class="table_Right checkmark_Icon" rowspan="2">
+							<div class="table_Img"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="table_Left"> 服务项目：</td>
+						<td class="table_Center state_Color"> 维修</td>
+					</tr>
+				</table>
+				<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+					<tr>
+						<td class="table_Left"> 客户名称：</td>
+						<td class="table_Center"> 中国某某公司</td>
+						<td class="table_Right warning_Icon" rowspan="2">
+							<div class="table_Img"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="table_Left"> 服务项目：</td>
+						<td class="table_Center state_Color"> 保养</td>
+					</tr>
+				</table>
+				<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+					<tr>
+						<td class="table_Left"> 客户名称：</td>
+						<td class="table_Center"> 中国某某公司</td>
+						<td class="table_Right checkmark_Icon" rowspan="2">
+							<div class="table_Img"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="table_Left"> 服务项目：</td>
+						<td class="table_Center state_Color"> 维修</td>
+					</tr>
+				</table>
+				<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+					<tr>
+						<td class="table_Left"> 客户名称：</td>
+						<td class="table_Center"> 中国某某公司</td>
+						<td class="table_Right warning_Icon" rowspan="2">
+							<div class="table_Img"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="table_Left"> 服务项目：</td>
+						<td class="table_Center state_Color"> 保养</td>
+					</tr>
+				</table>
+				<table cellpadding="0" cellspacing="0" border="0" class="small_Type_Table">
+					<tr>
+						<td class="table_Left"> 客户名称：</td>
+						<td class="table_Center"> 中国某某公司</td>
+						<td class="table_Right checkmark_Icon" rowspan="2">
+							<div class="table_Img"></div>
+						</td>
+					</tr>
+					<tr>
+						<td class="table_Left"> 服务项目：</td>
+						<td class="table_Center state_Color"> 维修</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</ion-view>
+</body>
 </html>
+

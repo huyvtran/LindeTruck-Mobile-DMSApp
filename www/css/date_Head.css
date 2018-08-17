@@ -133,7 +133,7 @@ img {
     width: auto;
     height: 228px;
 }
-.big_Type_Group { 
+.big_Type_Group {
     overflow-y: auto;
     height: calc(100vh - 389px);
 }

@@ -40,8 +40,12 @@
             'oinio.core.detail',
             'oinio.core.components',
             'oinio.services',
-            'oinio.controllers',//add your custom module from here
 
+            'oinio.controllers',//add your custom module from here
+            'oinio.MainController',
+            'oinio.CalendarController',
+            'oinio.GroupController',
+            'oinio.PersonalController',
             'oinio.Search_1controllers',
             'oinio.CustomDetailController'
             

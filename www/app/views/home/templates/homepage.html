@@ -1,62 +1,53 @@
-<!DOCTYPE html>
+
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>homepage</title>
-	<link rel="stylesheet" href="styles/homepage.css">
-
-	<style type="text/css">
-		.search_Photo_Icon {
-			background-image: url(./images/search-photo_icon.png);
-		}
-		.volume_Icon {
-			background-image: url(./images/volume_icon.png);
-		}
-		.add_Icon_White {
-			background-image: url(./images/add_icon_white.png);
-		}
-	</style>
+    <style type="text/css">
+        .search_Photo_Icon {
+            background-image: url(./img/images/search-photo_icon.png);
+        }
+        .volume_Icon {
+            background-image: url(./img/images/volume_icon.png);
+        }
+        .add_Icon_White {
+            background-image: url(./img/images/add_icon_white.png);
+        }
+    </style>
+    <link rel="stylesheet" href="css/homepage.css">
 </head>
 <body>
-	<div class="header">
-		<div class="left_Box">
-		</div>
-  		<div class="search_All">
-  			<input type="text" placeholder="搜索" class="search_Input" />
-	  		<div class="search_Photo_Icon"></div>
-		</div>
-		<div class="right_Box">
-			<div class="add_Icon_White"></div>
-			<div class="add_Arrow"></div>
-			<div class="add_Group">
-				<div class="add_Box"> 添加客户 </div>
-				<div class="add_Box"> 添加工单 </div>
-				<div class="add_Box"> 添加报价 </div>
-				<div class="add_Box"> 添加联系人 </div>
-			</div>
-		</div>
-	</div>
-	<div class="bodyer">	
-	  	<div class="big_Type_Group">
-	  		<div class="small_Type_Group">
-	  			<div class="small_Type_Title"> 工单 </div>
-	  			<div class="small_Type_Box">待处理</div><div class="small_Type_Box">处理中</div><div class="small_Type_Box">已签单</div>
-	  		</div>
-	  		<div class="small_Type_Group">
-	  			<div class="small_Type_Title"> 辅助功能 </div><div class="small_Type_Box">服务车</div><div class="small_Type_Box">备忘录</div>
-	  		</div>
-	  	</div>
-  	</div>
-  	<div class="footer">
-  		<!-- footer_Act_Btn切换选择页面 -->
-  		<div class="footer_Btn footer_Act_Btn">首页</div>
-  		<div class="footer_Btn">发现</div>
-  		<div class="footer_Btn">分类</div>
-  		<div class="footer_Btn">个人</div>
-  		<div class="volume_Group">
-  			<div class="volume_Icon"></div>
-  		</div>
-  	</div>
+<ion-view>
+    <div class="header">
+        <div class="left_Box">
+            <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+        </div>
+        <div class="search_All">
+            <input type="text" placeholder="搜索" class="search_Input"/>
+            <div class="search_Photo_Icon"></div>
+        </div>
+        <div class="right_Box">
+            <!--<div class="add_Icon_White"></div>-->
+            <!--<div class="add_Arrow to_Hide"></div>-->
+            <!--<div class="add_Group to_Hide">-->
+            <!--<div class="add_Box"> 添加客户 </div>-->
+            <!--<div class="add_Box"> 添加工单 </div>-->
+            <!--<div class="add_Box"> 添加报价 </div>-->
+            <!--<div class="add_Box"> 添加联系人 </div>-->
+            <!--</div>-->
+        </div>
+    </div>
+    <div class="bodyer">
+        <div class="big_Type_Group">
+            <div class="small_Type_Group">
+                <div class="small_Type_Title"> 工单 </div>
+                <div class="small_Type_Box">待处理</div><div class="small_Type_Box">处理中</div><div class="small_Type_Box">已签单</div>
+            </div>
+            <div class="small_Type_Group">
+                <div class="small_Type_Title"> 辅助功能 </div><div class="small_Type_Box">服务车</div><div class="small_Type_Box">备忘录</div>
+            </div>
+        </div>
+    </div>
+</ion-view>
 </body>
 </html>
+
+

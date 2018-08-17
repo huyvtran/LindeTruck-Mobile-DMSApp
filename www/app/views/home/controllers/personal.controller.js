@@ -1,5 +1,5 @@
-angular.module('oinio.controllers', [])
-    .controller('HomeController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
+angular.module('oinio.PersonalController', [])
+    .controller('PersonalController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
                                             LocalCacheService) {
 
         var vm = this,
@@ -25,5 +25,4 @@ angular.module('oinio.controllers', [])
             }
         });
     });
-    
-        
+

@@ -24,27 +24,52 @@
                 templateUrl: 'app/common/navigation/templates/side-navigation.view.html',
                 controller: 'SideNavigationController as vm'
             })
-
-            // .state('app.home', {
-            //     url: 'app/home',
-            //     views: {
-            //         menuContent: {
-            //             templateUrl: 'app/views/home/templates/home.view.html',
-            //             controller: 'HomeController as vm'
-            //         }
-            //     },
-            //     cache: false
-            // })
             .state('app.home', {
-                url: 'app/date_Head',
+                url: 'app/home',
                 views: {
                     menuContent: {
-                        templateUrl: 'app/views/home/templates/date_Head.html',
-                        controller: 'HomeController as vm'
+                        templateUrl: 'app/views/home/templates/home.view.html',
+                        controller: 'MainController as vm'
                     }
-                },
-                cache: false
+                }
             })
+            // .state('home.main', {
+            //     url: 'app/home/main',
+            //     views: {
+            //         'main-tab': {
+            //             templateUrl: 'app/views/home/templates/homepage.html',
+            //             //controller: 'HomeController as vm'
+            //         }
+            //     }
+            // })
+            // .state('home.calendar', {
+            //     url: 'app/home/calendar',
+            //     views: {
+            //         'calendar-tab': {
+            //             templateUrl: 'app/views/home/templates/date_Head.html',
+            //             //controller: 'HomeController as vm'
+            //         }
+            //     }
+            // })
+            // .state('home.group', {
+            //     url: 'app/home/group',
+            //     views: {
+            //         'group-tab': {
+            //             templateUrl: 'app/views/catlog/templates/catlog.view.html',
+            //             //controller: 'HomeController as vm'
+            //         }
+            //     }
+            // })
+            // .state('home.personal', {
+            //     url: 'app/home/personal',
+            //     views: {
+            //         'personal-tab': {
+            //             templateUrl: 'app/views/personal/templates/personal.view.html',
+            //             //controller: 'HomeController as vm'
+            //         }
+            //     }
+            // })
+
             .state('app.search_1', {
                 url: 'app/search_1',
                 views: {
@@ -55,6 +80,7 @@
                 },
                 cache: false
             })
+
             .state('app.customDetail', {
                 url: '/customDetail/?SendPassId',
                 views: {
@@ -64,15 +90,6 @@
                     }
                 }
             })
-            /*.state('app.searchView', {
-                url: '/searchView?objectType&searchTerm',
-                views: {
-                    menuContent: {
-                        templateUrl: 'app/core/search/templates/search.view.html',
-                        controller: 'SearchViewController as vm'
-                    }
-                }
-            })*/
 
             .state('app.synchronize', {
                 url: '/synchronize',

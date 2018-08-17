@@ -1,5 +1,5 @@
-angular.module('oinio.controllers', [])
-    .controller('HomeController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
+angular.module('oinio.CalendarController', [])
+    .controller('CalendarController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
                                             LocalCacheService) {
 
         var vm = this,
@@ -17,6 +17,7 @@ angular.module('oinio.controllers', [])
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
 
         });
+
         $scope.$on('$ionicView.enter', function () {
             // check if device is online/offline
             vm.isOnline = ConnectionMonitor.isOnline();
@@ -24,6 +25,10 @@ angular.module('oinio.controllers', [])
                 vm.username = oCurrentUser.Name;
             }
         });
+
+        $scope.toRepair1 = function () {
+            console.log("search_1");
+            $state.go('app.search_1');
+        }
     });
-    
-        
+

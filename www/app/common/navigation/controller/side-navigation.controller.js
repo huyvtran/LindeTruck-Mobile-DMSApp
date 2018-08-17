@@ -11,13 +11,12 @@
             var vm = this;
             var myTimeout = null;
             var isCountDown = false;
-
             vm.objectNavigators = [];
             vm.showMessageCenter = true;
             vm.user = null;
             vm.username = '';
             vm.version = '';
-
+            vm.isOnline = null;
             // set timer defined default value
             $scope.timer = APP_SETTINGS.SYNCHRONIZE_TIME_INTERVAL;
 
@@ -158,6 +157,7 @@
             }
 
             $scope.$on('$ionicView.enter', function () {
+                vm.isOnline = ConnectionMonitor.isOnline();
                 if (!vm.user) {
                     vm.user = LocalCacheService.get('currentUser');
                 }

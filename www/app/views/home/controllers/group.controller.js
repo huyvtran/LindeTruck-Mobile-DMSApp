@@ -1,6 +1,6 @@
-angular.module('oinio.controllers', [])
-    .controller('HomeController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-                                            LocalCacheService) {
+angular.module('oinio.GroupController', [])
+    .controller('GroupController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
+                                                LocalCacheService) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -25,5 +25,4 @@ angular.module('oinio.controllers', [])
             }
         });
     });
-    
-        
+

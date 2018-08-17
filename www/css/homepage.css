@@ -22,7 +22,7 @@ img {
 }
 .header {
     background: #aa0020;
-    width: 90%;
+    /*width: 90%;*/
     height: 96px;
     position: relative;
     padding: 0 5%;
@@ -101,13 +101,14 @@ img {
     padding: 8%;
     line-height: 1.2rem;
 }
-.bodyer {
-    overflow-y: auto;
-    height: calc(100vh - 148px);
-}
+/*.bodyer {*/
+    /*overflow-y: auto;*/
+    /*height: calc(100vh - 148px);*/
+/*}*/
 .big_Type_Group {
     margin: 5%;
 }
+
 .small_Type_Group {
     margin-bottom: 2%;
 }
