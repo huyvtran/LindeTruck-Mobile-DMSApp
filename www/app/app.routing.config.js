@@ -33,42 +33,6 @@
                     }
                 }
             })
-            // .state('home.main', {
-            //     url: 'app/home/main',
-            //     views: {
-            //         'main-tab': {
-            //             templateUrl: 'app/views/home/templates/homepage.html',
-            //             //controller: 'HomeController as vm'
-            //         }
-            //     }
-            // })
-            // .state('home.calendar', {
-            //     url: 'app/home/calendar',
-            //     views: {
-            //         'calendar-tab': {
-            //             templateUrl: 'app/views/home/templates/date_Head.html',
-            //             //controller: 'HomeController as vm'
-            //         }
-            //     }
-            // })
-            // .state('home.group', {
-            //     url: 'app/home/group',
-            //     views: {
-            //         'group-tab': {
-            //             templateUrl: 'app/views/catlog/templates/catlog.view.html',
-            //             //controller: 'HomeController as vm'
-            //         }
-            //     }
-            // })
-            // .state('home.personal', {
-            //     url: 'app/home/personal',
-            //     views: {
-            //         'personal-tab': {
-            //             templateUrl: 'app/views/personal/templates/personal.view.html',
-            //             //controller: 'HomeController as vm'
-            //         }
-            //     }
-            // })
 
             .state('app.search_1', {
                 url: 'app/search_1',
