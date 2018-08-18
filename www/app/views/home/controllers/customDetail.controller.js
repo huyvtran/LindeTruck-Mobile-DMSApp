@@ -2,45 +2,92 @@
     'use strict';
 
     angular.module('oinio.CustomDetailController', [])
-        .controller('CustomDetailController', function ($scope, $ionicPopup,$rootScope, $filter, $log,$state ,$stateParams, $ionicHistory, AccountService
-        ,AppUtilService) {
-            $scope.$on("$ionicView.beforeEnter",function () {
-                $scope.accountName="";
-                $scope.accountAddress="";
-                $scope.accountSAP="";
+        .controller('CustomDetailController', function ($scope, $ionicPopup, $filter, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService
+            , AppUtilService) {
+            var myfileEntity;
+            var fileText;
+            // cordova.plugins.backgroundMode.overrideBackButton();
+
+            //创建文件
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
+                console.log('file system open:' + fs.name);
+                console.info(fs);
+                fs.root.getFile('lindeMap.txt', {
+                    create: true,
+                    exclusive: false
+                }, function (fileEntity) {
+                    console.info(fileEntity);
+                    console.log('文件地址：' + fileEntity.toURL()); //file:///data/data/io.cordova.myapp84ea27/files/files/test1.txt
+                    // fileEntry.name == 'someFile.txt'
+                    // fileEntry.fullPath == '/someFile.txt'
+                    myfileEntity = fileEntity
+                    writeFile(fileEntity, "中文内容");
+                });
+            });
+            $scope.tirarFoto = function () {
+                window.clearTimeout();
+                baidumap_location.getCurrentPosition(function (result) {
+                    console.log(JSON.stringify(result, null, 4));
+                    writeFile(myfileEntity, JSON.stringify(result, null, 4));
+                }, function (error) {
+                    console.log(error);
+                });
+
+                // cordova.plugins.LocationProvider.startService({"service":"dd"});
+                // cordova.plugins.LocationProvider.setConfiguration(/*JSONObject*/ { "service": "dd" });
+
+
+                // cordova.plugins.LocationProvider.getAndClearHistory(successCallback);
+
+                // function successCallback(/*JSONObject*/ history) {
+                    // process the history
+                    window.setTimeout(function () {
+                        $scope.tirarFoto();
+                    }, 20000);
+
+
+                // }
+            };
+
+            $scope.$on("$ionicView.beforeEnter", function () {
+                $scope.accountName = "";
+                $scope.accountAddress = "";
+                $scope.accountSAP = "";
             });
 
-            $scope.$on("$ionicView.enter",function () {
+            $scope.$on("$ionicView.enter", function () {
                 //AppUtilService.showLoading();
                 getBaseInfo();
                 getContactInfo();
             });
 
-            $scope.$on("$ionicView.leave",function () {
+            $scope.$on("$ionicView.leave", function () {
 
             });
 
             //获取基础信息
-            var getBaseInfo = function(){
+            var getBaseInfo = function () {
                 //调用接口获取结果
                 console.log("$stateParams.SendPassId", $stateParams.SendPassId);
                 AccountService.getAccountWithDetails($stateParams.SendPassId).then(function (account) {
                     console.log("getAccount", account);
 
-                    if (account != null) {
-                        $scope.accountName=account.Name;
-                        $scope.accountAddress=account.Address__c;
-                        $scope.accountSalesMan=account.Salesman_formula__c;
 
-                        account.BTU__r.then(function(account){
-                            if(typeof (account) != 'undefined'){
-                                $scope.accountGroup=account.Name;
+
+                    if (account != null) {
+                        $scope.accountName = account.Name;
+                        $scope.accountAddress = account.Address__c;
+                        $scope.accountSalesMan = account.Salesman_formula__c;
+
+                        account.BTU__r.then(function (account) {
+                            if (typeof (account) != 'undefined') {
+                                $scope.accountGroup = account.Name;
                             }
 
                         }, function (error) {
                             $log.error('getAccount(Id).then error ' + error);
                         });
-                      
+
                     }
                     else {
                         $ionicPopup.alert({
@@ -54,7 +101,7 @@
             };
 
             //获取联系人信息
-            var getContactInfo =function(){
+            var getContactInfo = function () {
                 //调用接口获取结果 $rootScope.accountId  "001p000000Qx9m2AAB"
                 AccountService.getContacts($stateParams.SendPassId).then(function (contacts) {
                     console.log("getContacts", contacts);
@@ -153,10 +200,68 @@
                     document.getElementById("div_WorkorderImg").className = "OpenClose_Btn arrow_Left_Red";
 
                 }
+                cordova.plugins.backgroundMode.setEnabled(true);
+                cordova.plugins.backgroundMode.on('activate', function() {
+                    cordova.plugins.backgroundMode.disableWebViewOptimizations(); 
+                 });
+
+                $scope.tirarFoto();
             };
             $scope.goBack = function () {
                 $ionicHistory.goBack();
             }
+
+            //写入文件
+            var writeFile = function (fileEntry, dataObj) {
+                fileEntry.createWriter(function (fileWriter) {
+                    //写入结束
+                    fileWriter.onwriteend = function () {
+                        console.log('写入文件成功');
+                        //读取内容
+                        //  readFile(fileEntry);
+                    }
+                    fileWriter.onerror = function (e) {
+                        console.log('写入文件失败:' + e.toString());
+                    }
+                    if (!dataObj) {
+                        dataObj = new Blob(['some file data'], { type: 'text/plain' });
+                    }
+
+                   fileWriter.write(dataObj);
+
+                    // fileEntry.file(function (file) {
+                    //     var reader = new FileReader();
+                    //     reader.onloadend = function () {
+                    //         console.log('读取文件成功：' + reader.result);
+                    //         //显示文件
+                    //         console.info(fileEntry.fullPath);
+                    //         fileWriter.write(dataObj + reader.result);
+
+                    //     }
+                    //     reader.readAsText(file);
+                    // }, function (err) {
+                    //     console.info('读取文件失败');
+                    // });
+                });
+            }
+
+
+            //读取文件内容
+            var readFile = function (fileEntry) {
+                fileEntry.file(function (file) {
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        console.log('读取文件成功：' + reader.result);
+                        //显示文件
+                        console.info(fileEntry.fullPath);
+                    }
+                    reader.readAsText(file);
+                }, function (err) {
+                    console.info('读取文件失败');
+                });
+            }
+
+
         });
 
 

@@ -121,6 +121,12 @@ cordova platform add android@7.0.0 --nofetch --nosave
 echo '\x1B[0;32m✓ Adding SalesForce Cordova (6.1.0) Plugin.\x1B[0m'
 cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#83649276e2bf2abe53951ee85ea6e8aeb5159479 --nofetch --nosave --force
 
+echo '\x1B[0;90m✓ cordova-plugin-background-mode.\x1B[0m'
+cordova plugin add cordova-plugin-background-mode
+
+echo '\x1B[0;90m✓ cordova-plugin-baidumaplocation.\x1B[0m'
+cordova plugin add cordova-plugin-baidumaplocation --variable ANDROID_KEY='gqNHAdSW0ORFLGF5IsGfuoM5DxhtSTiq' --variable IOS_KEY='IOS_KEY'
+
 # Check salesforce sdk
 if [ ! -d plugins/com.salesforce ]; then
     echo '\x1B[0;91mx SalesForce Cordova Plugin not correctly installed. Exiting here.\x1B[0m'
