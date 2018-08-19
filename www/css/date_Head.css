@@ -20,13 +20,13 @@ img {
 .to_Hide {
     display: none!important;
 }
-.header {
+.calendar_header {
     background: #aa0020;
     /* width: 90%; */
-    height: 64px;
+    height: 96px;
     position: relative;
     padding: 0 5%;
-    line-height: 64px;
+    line-height: 96px;
 }
 .left_Box {
     display: inline-flex;
@@ -161,6 +161,10 @@ img {
 .table_Right {
     width: 40px;
     height: 40px;
+}
+.calendar_bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 148px);
 }
 .table_Img {
     background-repeat: no-repeat;

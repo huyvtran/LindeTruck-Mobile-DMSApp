@@ -20,7 +20,7 @@ img {
 .to_Hide {
     display: none!important;
 }
-.header {
+.group_header {
     background: #aa0020;
     /*width: 90%;*/
     height: 96px;
@@ -101,7 +101,7 @@ img {
     padding: 8%;
     line-height: 1.2rem;
 }
-.bodyer {
+.group_bodyer {
     overflow-y: auto;
     height: calc(100vh - 148px);
 }

@@ -20,7 +20,7 @@ img {
 .to_Hide {
     display: none!important;
 }
-.header {
+.personal_header {
     background: #aa0020;
     /*width: 90%;*/
     height: 96px;
@@ -108,23 +108,23 @@ img {
     height: 96px;
     background-position: 50%;
 }
-.bodyer {
+.personal_bodyer {
     overflow-y: auto;
     height: calc(100vh - 148px);
 }
 .personal_big_Type_Group {
     margin: 5%;
 }
-.small_Type_Group {
+.personal_small_Type_Group {
     margin-bottom: 2%;
 }
-.small_Type_Title {
+.personal_small_Type_Title {
     color: #aa0020;
     font-weight: bold;
     border-bottom: 1px solid #aa0020;
     padding-bottom: 2%;
 }
-.small_Type_Box {
+.personal_small_Type_Box {
     color: #ffffff;
     font-size: 0.8rem;
     border: 1px solid #979797;

@@ -99,12 +99,12 @@
 
         <ion-tab title="首页" ng-controller="HomeController">
             <ion-view>
-                <div class="header">
+                <div class="main_header">
                     <div class="left_Box">
                         <button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
                     </div>
                     <div class="search_All">
-                        <input type="text" placeholder="搜索" class="search_Input"/>
+                        <input type="text" placeholder="搜索" class="search_Input" disabled="disabled"/>
                         <div class="search_Photo_Icon"></div>
                     </div>
                     <div class="right_Box">
@@ -118,14 +118,14 @@
                         <!--</div>-->
                     </div>
                 </div>
-                <div class="bodyer">
-                    <div class="big_Type_Group">
-                        <div class="small_Type_Group">
-                            <div class="small_Type_Title"> 工单 </div>
-                            <div class="small_Type_Box">待处理</div><div class="small_Type_Box">处理中</div><div class="small_Type_Box">已签单</div>
+                <div class="main_bodyer">
+                    <div class="main_big_Type_Group">
+                        <div class="main_small_Type_Group">
+                            <div class="main_small_Type_Title"> 工单 </div>
+                            <div class="main_small_Type_Box">待处理</div><div class="main_small_Type_Box">处理中</div><div class="main_small_Type_Box">已签单</div>
                         </div>
-                        <div class="small_Type_Group">
-                            <div class="small_Type_Title"> 辅助功能 </div><div class="small_Type_Box">服务车</div><div class="small_Type_Box">备忘录</div>
+                        <div class="main_small_Type_Group">
+                            <div class="main_small_Type_Title"> 辅助功能 </div><div class="main_small_Type_Box">服务车</div><div class="main_small_Type_Box">备忘录</div>
                         </div>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
         </ion-tab>
         <ion-tab title="日历" ng-controller="CalendarController">
             <ion-view>
-                <div class="header">
+                <div class="calendar_header">
                     <div class="left_Box">
                         <div class="homeBack_Icon"></div>
                     </div>
@@ -152,7 +152,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bodyer">
+                <div class="calendar_bodyer">
                     <div class="screen_Btn_Group">
                         <div class="screen_Left">
                             <select>
@@ -257,11 +257,11 @@
         </ion-tab>
         <ion-tab title="小组" ng-controller="GroupController">
             <ion-view>
-                <div class="header">
+                <div class="group_header">
                     <div class="left_Box">
                     </div>
                     <div class="search_All">
-                        <input type="text" placeholder="搜索" class="search_Input" />
+                        <input type="text" placeholder="搜索" class="search_Input" disabled="disabled"/>
                         <div class="search_Photo_Icon"></div>
                     </div>
                     <div class="right_Box">
@@ -275,7 +275,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="bodyer">
+                <div class="group_bodyer">
                     <div class="group_Img">
                     </div>
                 </div>
@@ -283,19 +283,19 @@
         </ion-tab>
         <ion-tab title="个人" ng-controller="PersonalController">
             <ion-view>
-                <div class="header">
+                <div class="personal_header">
                     <div class="simplePerson_Head">
                     </div>
                 </div>
-                <div class="bodyer">
+                <div class="personal_bodyer">
                     <div class="personal_big_Type_Group">
-                        <div class="small_Type_Group">
-                            <div class="small_Type_Title"> 工单 </div>
-                            <div class="small_Type_Box">全部</div><div class="small_Type_Box">待处理</div><div class="small_Type_Box">处理中</div><div class="small_Type_Box">已签单</div><div class="small_Type_Box">计划中</div>
+                        <div class="personal_small_Type_Group">
+                            <div class="personal_small_Type_Title"> 工单 </div>
+                            <div class="personal_small_Type_Box">全部</div><div class="personal_small_Type_Box">待处理</div><div class="personal_small_Type_Box">处理中</div><div class="personal_small_Type_Box">已签单</div><div class="personal_small_Type_Box">计划中</div>
                         </div>
-                        <div class="small_Type_Group">
-                            <div class="small_Type_Title"> 辅助功能 </div>
-                            <div class="small_Type_Box">客户</div><div class="small_Type_Box">联系人</div><div class="small_Type_Box">服务车</div><div class="small_Type_Box">备忘录</div>
+                        <div class="personal_small_Type_Group">
+                            <div class="personal_small_Type_Title"> 辅助功能 </div>
+                            <div class="personal_small_Type_Box">客户</div><div class="personal_small_Type_Box">联系人</div><div class="personal_small_Type_Box">服务车</div><div class="personal_small_Type_Box">备忘录</div>
                         </div>
                     </div>
                 </div>
