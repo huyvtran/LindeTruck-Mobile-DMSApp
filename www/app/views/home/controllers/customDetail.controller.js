@@ -2,12 +2,11 @@
     'use strict';
 
     angular.module('oinio.CustomDetailController', [])
-        .controller('CustomDetailController', function ($scope, $ionicPopup, $filter, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService
+        .controller('CustomDetailController', function ($scope, $ionicPopup, $filter, $rootScope, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService
             , AppUtilService) {
             var myfileEntity;
-            var fileText;
+            var fileTextresult;
             // cordova.plugins.backgroundMode.overrideBackButton();
-
             //创建文件
             window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
                 console.log('file system open:' + fs.name);
@@ -24,8 +23,20 @@
                     writeFile(fileEntity, "中文内容");
                 });
             });
-            $scope.tirarFoto = function () {
-                window.clearTimeout();
+
+
+            $rootScope.tirarFoto = function () {
+                // window.clearTimeout();
+                cordova.plugins.backgroundMode.on('activate', function () {
+                    cordova.plugins.backgroundMode.disableWebViewOptimizations();
+
+                });
+                // cordova.plugins.backgroundMode.isScreenOff(function(bool) {
+                //     // cordova.plugins.backgroundMode.moveToForeground();
+                //     cordova.plugins.backgroundMode.wakeUp();
+
+                // });
+
                 baidumap_location.getCurrentPosition(function (result) {
                     console.log(JSON.stringify(result, null, 4));
                     writeFile(myfileEntity, JSON.stringify(result, null, 4));
@@ -40,10 +51,10 @@
                 // cordova.plugins.LocationProvider.getAndClearHistory(successCallback);
 
                 // function successCallback(/*JSONObject*/ history) {
-                    // process the history
-                    window.setTimeout(function () {
-                        $scope.tirarFoto();
-                    }, 20000);
+                // process the history
+                // window.setTimeout(function () {
+                //     $scope.tirarFoto();
+                // }, 20000);
 
 
                 // }
@@ -201,11 +212,15 @@
 
                 }
                 cordova.plugins.backgroundMode.setEnabled(true);
-                cordova.plugins.backgroundMode.on('activate', function() {
-                    cordova.plugins.backgroundMode.disableWebViewOptimizations(); 
-                 });
+                cordova.plugins.backgroundMode.setDefaults({ silent: true });
+                cordova.plugins.backgroundMode.setDefaults({
+                    title: 'TheTitleOfYourProcess',
+                    text: 'Executing background tasks.'
+                });
 
-                $scope.tirarFoto();
+                // $scope.tirarFoto();
+                $rootScope.SetTimerInterval = setInterval($rootScope.tirarFoto, 10000);
+
             };
             $scope.goBack = function () {
                 $ionicHistory.goBack();
@@ -227,7 +242,7 @@
                         dataObj = new Blob(['some file data'], { type: 'text/plain' });
                     }
 
-                   fileWriter.write(dataObj);
+                    fileWriter.write(dataObj);
 
                     // fileEntry.file(function (file) {
                     //     var reader = new FileReader();

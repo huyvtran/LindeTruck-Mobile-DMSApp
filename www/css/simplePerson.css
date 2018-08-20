@@ -135,7 +135,10 @@ img {
     justify-content: center;
     align-items: center;
     margin: 2% 1%;
-    border-radius: 5%;
+    border-radius: 5px;
+}
+.personal_small_Type_Box.bg_ca000d {
+    background: #ca000d;
 }
 .footer {
     position: absolute;
