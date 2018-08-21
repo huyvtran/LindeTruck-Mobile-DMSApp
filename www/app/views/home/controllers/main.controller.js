@@ -39,5 +39,6 @@ angular.module('oinio.MainController', [])
             }
             $ionicTabsDelegate.select(1);
         });
+
     });
 
