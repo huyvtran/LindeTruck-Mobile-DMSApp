@@ -9,7 +9,7 @@
   </author>
     <content src="index.html" />
     <access origin="*" />
-    <access origin="tel:*" launch-external="yes"/>
+    <access launch-external="yes" origin="tel:*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -91,7 +91,6 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <icon src="resources/android/icon/drawable-xhdpi-icon.png" />
-    <preference name="Orientation" value="default" />
     <preference name="KeyboardDisplayRequiresUserAction" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="SplashScreen" value="screen" />
@@ -99,4 +98,12 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="AndroidExtraFilesystems" value="files,files-external,sdcard,cache,cache-external" />
     <preference name="loadUrlTimeoutValue" value="99999999" />
+    <preference name="Orientation" value="portrait" />
+    <plugin name="cordova-plugin-geolocation" spec="^4.0.1" />
+    <plugin name="cordova-plugin-background-mode" spec="^0.7.2" />
+    <plugin name="cordova-plugin-baidumaplocation" spec="^4.0.2">
+        <variable name="ANDROID_KEY" value="gqNHAdSW0ORFLGF5IsGfuoM5DxhtSTiq" />
+        <variable name="IOS_KEY" value="IOS_KEY" />
+        <variable name="IOS_LOCATION_DESC" value="请点击'好'以允许访问。" />
+    </plugin>
 </widget>

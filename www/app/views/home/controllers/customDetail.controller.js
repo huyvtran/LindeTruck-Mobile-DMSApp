@@ -8,57 +8,34 @@
             var fileTextresult;
             // cordova.plugins.backgroundMode.overrideBackButton();
             //创建文件
-            window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
-                console.log('file system open:' + fs.name);
-                console.info(fs);
-                fs.root.getFile('lindeMap.txt', {
-                    create: true,
-                    exclusive: false
-                }, function (fileEntity) {
-                    console.info(fileEntity);
-                    console.log('文件地址：' + fileEntity.toURL()); //file:///data/data/io.cordova.myapp84ea27/files/files/test1.txt
-                    // fileEntry.name == 'someFile.txt'
-                    // fileEntry.fullPath == '/someFile.txt'
-                    myfileEntity = fileEntity
-                    writeFile(fileEntity, "中文内容");
-                });
-            });
+            // window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
+            //     console.log('file system open:' + fs.name);
+            //     console.info(fs);
+            //     fs.root.getFile('lindeMap.txt', {
+            //         create: true,
+            //         exclusive: false
+            //     }, function (fileEntity) {
+            //         console.info(fileEntity);
+            //         console.log('文件地址：' + fileEntity.toURL()); //file:///data/data/io.cordova.myapp84ea27/files/files/test1.txt
+            //         // fileEntry.name == 'someFile.txt'
+            //         // fileEntry.fullPath == '/someFile.txt'
+            //         myfileEntity = fileEntity
+            //         writeFile(fileEntity, "中文内容");
+            //     });
+            // });
 
 
-            $rootScope.tirarFoto = function () {
-                // window.clearTimeout();
-                cordova.plugins.backgroundMode.on('activate', function () {
-                    cordova.plugins.backgroundMode.disableWebViewOptimizations();
+            // $rootScope.tirarFoto = function () {
+            //     // window.clearTimeout();
 
-                });
-                // cordova.plugins.backgroundMode.isScreenOff(function(bool) {
-                //     // cordova.plugins.backgroundMode.moveToForeground();
-                //     cordova.plugins.backgroundMode.wakeUp();
+            //     baidumap_location.getCurrentPosition(function (result) {
+            //         console.log(JSON.stringify(result, null, 4));
+            //         writeFile(myfileEntity, JSON.stringify(result, null, 4));
+            //     }, function (error) {
+            //         console.log(error);
+            //     });
 
-                // });
-
-                baidumap_location.getCurrentPosition(function (result) {
-                    console.log(JSON.stringify(result, null, 4));
-                    writeFile(myfileEntity, JSON.stringify(result, null, 4));
-                }, function (error) {
-                    console.log(error);
-                });
-
-                // cordova.plugins.LocationProvider.startService({"service":"dd"});
-                // cordova.plugins.LocationProvider.setConfiguration(/*JSONObject*/ { "service": "dd" });
-
-
-                // cordova.plugins.LocationProvider.getAndClearHistory(successCallback);
-
-                // function successCallback(/*JSONObject*/ history) {
-                // process the history
-                // window.setTimeout(function () {
-                //     $scope.tirarFoto();
-                // }, 20000);
-
-
-                // }
-            };
+            // };
 
             $scope.$on("$ionicView.beforeEnter", function () {
                 $scope.accountName = "";
@@ -211,15 +188,14 @@
                     document.getElementById("div_WorkorderImg").className = "OpenClose_Btn arrow_Left_Red";
 
                 }
-                cordova.plugins.backgroundMode.setEnabled(true);
-                cordova.plugins.backgroundMode.setDefaults({ silent: true });
-                cordova.plugins.backgroundMode.setDefaults({
-                    title: 'TheTitleOfYourProcess',
-                    text: 'Executing background tasks.'
-                });
+               
+                // cordova.plugins.backgroundMode.setDefaults({ silent: true });
+                // cordova.plugins.backgroundMode.setDefaults({
+                //     title: 'TheTitleOfYourProcess',
+                //     text: 'Executing background tasks.'
+                // });
 
-                // $scope.tirarFoto();
-                $rootScope.SetTimerInterval = setInterval($rootScope.tirarFoto, 10000);
+                // $rootScope.SetTimerInterval = setInterval($rootScope.tirarFoto, 10000);
 
             };
             $scope.goBack = function () {
@@ -245,19 +221,6 @@
 
                     fileWriter.write(dataObj);
 
-                    // fileEntry.file(function (file) {
-                    //     var reader = new FileReader();
-                    //     reader.onloadend = function () {
-                    //         console.log('读取文件成功：' + reader.result);
-                    //         //显示文件
-                    //         console.info(fileEntry.fullPath);
-                    //         fileWriter.write(dataObj + reader.result);
-
-                    //     }
-                    //     reader.readAsText(file);
-                    // }, function (err) {
-                    //     console.info('读取文件失败');
-                    // });
                 });
             }
 

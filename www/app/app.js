@@ -93,7 +93,7 @@
             if ($ionicHistory.currentView().stateName.indexOf('app.')>-1){
                 //window.history.back();
             }else{
-                ionic.Platform.exitApp();
+                // ionic.Platform.exitApp();
             }
         },101);
         $ionicPlatform.ready(function () {

@@ -13,7 +13,14 @@ angular.module('oinio.MainController', [])
             oCurrentUser = LocalCacheService.get('currentUser') || {};
 
         vm.isOnline = null;
+        cordova.plugins.backgroundMode.on('activate', function () {
+            cordova.plugins.backgroundMode.disableWebViewOptimizations();
 
+        });
+        cordova.plugins.backgroundMode.setEnabled(true);
+        // cordova.plugins.backgroundMode.overrideBackButton();
+    
+  
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc

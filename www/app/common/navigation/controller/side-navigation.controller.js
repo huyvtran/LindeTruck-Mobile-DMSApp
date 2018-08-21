@@ -4,10 +4,10 @@
 
     angular.module('oinio.common.navigation')
         .controller('SideNavigationController', function ($scope, $rootScope, $filter, $ionicPopup, $ionicSideMenuDelegate,
-                                                          $log, $ionicActionSheet, $cordovaAppVersion, $timeout, LocalCacheService,
-                                                          ModalService, APP_SETTINGS, $state, TouchIdService, LoginService,
-                                                          LocalDataService, LocalSyncService, IonicLoadingService,
-                                                          ConnectionMonitor, UserAssignmentService) {
+            $log, $ionicActionSheet, $cordovaAppVersion, $timeout, LocalCacheService,
+            ModalService, APP_SETTINGS, $state, TouchIdService, LoginService,
+            LocalDataService, LocalSyncService, IonicLoadingService,
+            ConnectionMonitor, UserAssignmentService) {
             var vm = this;
             var myTimeout = null;
             var isCountDown = false;
@@ -23,7 +23,7 @@
             $scope.toggleLeft = function () {
                 $ionicSideMenuDelegate.toggleLeft();
             };
-
+            
             /**
              * @desc Returns JSON's help section for application parts where user is currently in
              *
@@ -254,7 +254,7 @@
                 // Show the action sheet
                 $ionicActionSheet.show({
                     buttons: [
-                        {text: $filter('translate')('cl.global.btn_yes')}
+                        { text: $filter('translate')('cl.global.btn_yes') }
                     ],
                     titleText: $filter('translate')('cl.global.msg_logoutAndDropDatabase'),
                     cancelText: $filter('translate')('cl.global.btn_cancel'),
