@@ -56,8 +56,14 @@
                     template: "没有订单数据"
                 });
                 ionPop.then(function () {
-                    $ionicHistory.goBack();
+                    //$ionicHistory.goBack();
+                    window.history.back();
                 });
+            };
+
+            $scope.goBack = function () {
+                //$ionicHistory.goBack();
+                window.history.back();
             };
 
             var getCarList =function (keyWord) {
@@ -67,7 +73,8 @@
                     template: "没有车档数据"
                 });
                 ionPop.then(function () {
-                    $ionicHistory.goBack();
+                    //$ionicHistory.goBack();
+                    window.history.back();
                 });
             };
 
@@ -92,7 +99,8 @@
                             template: "没有客户数据"
                         });
                         ionPop.then(function () {
-                            $ionicHistory.goBack();
+                            //$ionicHistory.goBack();
+                            $state.go("app.home");
                         });
                     }
                 }, function (error) {

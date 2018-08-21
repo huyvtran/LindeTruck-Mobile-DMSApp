@@ -13,13 +13,18 @@
 		.search_Photo_Icon {
 			background-image: url(./img/images/search-photo_icon.png);
 		}
+		.back_Icon {
+			background-image: url(././img/images/back_icon.png);
+		}
 	</style>
 </head>
 	<body>
 	<ion-view>
 		<ion-content>
 			<div class="header">
-				<!--<div class="header" ng-show="isBigTypeShow">-->
+				<div class="left_Box" ng-click="goBack()">
+					<div class="back_Icon"></div>
+				</div>
 				<div class="search_All" >
 					<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchText"/>
 					<div class="search_Photo_Icon"></div>

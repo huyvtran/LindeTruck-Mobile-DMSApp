@@ -28,6 +28,17 @@ img {
     padding: 0 5%;
     line-height: 64px;
 }
+.left_Box {
+    display: inline-flex;
+    width: 10%;
+    vertical-align: middle;
+}
+.back_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 14px;
+    height: 24px;
+}
 .search_All {
     display: inline-block;
     width: 83%;

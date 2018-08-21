@@ -54,7 +54,7 @@
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,
                               LoginService, LocalCacheService, SmartStoreService, MetaService, TouchIdService,
                               LocalDataService, $translate, LocalSyncService, LocalesService, ConnectionMonitor, FileService,
-                              $ionicPopup, Logger, $injector, UserAssignmentService) {
+                              $ionicPopup, Logger, $injector, UserAssignmentService,$ionicHistory) {
 
         console.log('>>>> App is starting');
 
@@ -89,6 +89,13 @@
             });
         }
 //
+        $ionicPlatform.registerBackButtonAction(function () {
+            if ($ionicHistory.currentView().stateName.indexOf('app.')>-1){
+                //window.history.back();
+            }else{
+                ionic.Platform.exitApp();
+            }
+        },101);
         $ionicPlatform.ready(function () {
 
             ConnectionMonitor.startWatching();

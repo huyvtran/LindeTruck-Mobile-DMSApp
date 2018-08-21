@@ -23,10 +23,10 @@ img {
 .calendar_header {
     background: #aa0020;
     /* width: 90%; */
-    height: 96px;
+    height: 64px;
     position: relative;
     padding: 0 5%;
-    line-height: 96px;
+    line-height: 64px;
 }
 .left_Box {
     display: inline-flex;
@@ -164,7 +164,7 @@ img {
 }
 .calendar_bodyer {
     overflow-y: auto;
-    height: calc(100vh - 148px);
+    /*height: calc(100vh - 148px);*/
 }
 .table_Img {
     background-repeat: no-repeat;

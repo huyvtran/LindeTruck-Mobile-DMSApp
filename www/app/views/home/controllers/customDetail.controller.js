@@ -223,7 +223,8 @@
 
             };
             $scope.goBack = function () {
-                $ionicHistory.goBack();
+                // $ionicHistory.goBack();
+                window.history.back();
             }
 
             //写入文件

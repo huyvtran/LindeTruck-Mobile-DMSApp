@@ -23,10 +23,10 @@ img {
 .main_header {
     background: #aa0020;
     /*width: 90%;*/
-    height: 96px;
+    height: 64px;
     position: relative;
     padding: 0 5%;
-    line-height: 96px;
+    line-height: 64px;
 }
 .left_Box {
     display: inline-flex;
@@ -103,7 +103,7 @@ img {
 }
 .main_bodyer {
     overflow-y: auto;
-    height: calc(100vh - 148px);
+    /*height: calc(100vh - 148px);*/
 }
 .main_big_Type_Group {
     margin: 5%;
