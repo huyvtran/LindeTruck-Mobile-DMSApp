@@ -34,6 +34,17 @@
       "MobileVizArt__Level__c": 10,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "Service_Order__c",
+      "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Service_Order_Type__c,Status__c",
+      "MobileVizArt__Search_Fields__c": "Status__c",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
     }
   ]
 }
