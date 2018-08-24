@@ -26,7 +26,8 @@ angular.module('oinio.services', [])
                             Account_Name_Ship_to__c: accId,
                             Service_Order_Type__c: entry[0].Service_Order_Type__c,
                             Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
-                            Status__c: entry[0].Status__c
+                            Status__c: entry[0].Status__c,
+                            Plan_Date__c: entry[0].Plan_Date__c
                         });
                         if (accIds.indexOf(accId) == -1) {
                             accIds.push(accId);

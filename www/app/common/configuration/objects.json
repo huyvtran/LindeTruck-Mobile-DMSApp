@@ -48,7 +48,7 @@
     },
     {
       "Name": "Service_Order__c",
-      "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c",
+      "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
