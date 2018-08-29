@@ -28,18 +28,18 @@ img {
     padding: 0 5%;
     line-height: 64px;
 }
-.left_Box {
+.group_header .left_Box {
     display: inline-flex;
     width: 10%;
     vertical-align: middle;
 }
-.search_All {
+.group_header .search_All {
     display: inline-block;
     width: 77%;
     position: relative;
     vertical-align: middle;
 }
-.search_Input {
+.group_header .search_Input {
     box-sizing: border-box;
     width: 100%;
     margin: 0 auto;
@@ -53,7 +53,7 @@ img {
     border-radius: 20px;
     text-align: center;
 }
-.search_Photo_Icon {
+.group_header .search_Photo_Icon {
     background-repeat: no-repeat;
     background-size: cover;
     width: 21px;
@@ -62,20 +62,20 @@ img {
     top: calc(50% - 7.5px);
     left: 5%;
 }
-.right_Box {
+.group_header .right_Box {
     position: relative;
     display: inline-flex;
     width: 10%;
     vertical-align: middle;
 }
-.add_Icon_White {
+.group_header .add_Icon_White {
     background-repeat: no-repeat;
     background-size: cover;
     width: 20px;
     height: 20px;    
     margin-left: auto;
 }
-.add_Arrow {
+.group_header .add_Arrow {
     position: absolute;
     width: 0;
     height: 0;
@@ -86,7 +86,7 @@ img {
     top: 19px;
     right: 25%;
 }
-.add_Group {
+.group_header .add_Group {
     position: absolute;
     background: #ffffff;
     box-shadow: 0 1px 2px #aa0020;
@@ -95,7 +95,7 @@ img {
     display: inline-block;
     width: 130px;
 }
-.add_Box {
+.group_header .add_Box {
     white-space: nowrap;
     color: #535353;
     padding: 8%;
@@ -103,34 +103,11 @@ img {
 }
 .group_bodyer {
     overflow-y: auto;
-    height: calc(100vh - 148px);
+    height: calc(100vh - 114px);
 }
 .group_Img {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     width: 100%;
-    height: calc(100vh - 148px);
-}
-.footer {
-    position: absolute;
-    bottom: 0;
-    text-align: center;
-    margin: 0;
-    width: 100%;
-    display: flex;
-    border-top: 1px solid #535353;
-}
-.footer_Btn {
-    padding-top: 4%;
-    padding-bottom: 4%;
-    font-size: 1rem;
-    color: #535353;
-    background: #ffffff;
-    display: inline-flex;
-    width: calc(100% / 4);
-    justify-content: center;
-}
-.footer_Btn.footer_Act_Btn {
-    color: #ffffff;
-    background: #aa0020;
+    height: calc(100vh - 114px);
 }

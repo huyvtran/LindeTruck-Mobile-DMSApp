@@ -8,34 +8,34 @@
             var fileTextresult;
             // cordova.plugins.backgroundMode.overrideBackButton();
             //创建文件
-            // window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
-            //     console.log('file system open:' + fs.name);
-            //     console.info(fs);
-            //     fs.root.getFile('lindeMap.txt', {
-            //         create: true,
-            //         exclusive: false
-            //     }, function (fileEntity) {
-            //         console.info(fileEntity);
-            //         console.log('文件地址：' + fileEntity.toURL()); //file:///data/data/io.cordova.myapp84ea27/files/files/test1.txt
-            //         // fileEntry.name == 'someFile.txt'
-            //         // fileEntry.fullPath == '/someFile.txt'
-            //         myfileEntity = fileEntity
-            //         writeFile(fileEntity, "中文内容");
-            //     });
-            // });
+            window.requestFileSystem(LocalFileSystem.PERSISTENT, 1024 * 1024, function (fs) {
+                console.log('file system open:' + fs.name);
+                console.info(fs);
+                fs.root.getFile('lindeMapgw.txt', {
+                    create: true,
+                    exclusive: false
+                }, function (fileEntity) {
+                    console.info(fileEntity);
+                    console.log('文件地址：' + fileEntity.toURL()); //file:///data/data/io.cordova.myapp84ea27/files/files/test1.txt
+                    // fileEntry.name == 'someFile.txt'
+                    // fileEntry.fullPath == '/someFile.txt'
+                    myfileEntity = fileEntity
+                    writeFile(fileEntity, "中文内容");
+                });
+            });
 
 
-            // $rootScope.tirarFoto = function () {
-            //     // window.clearTimeout();
+            $rootScope.tirarFoto = function () {
+                // window.clearTimeout();
 
-            //     baidumap_location.getCurrentPosition(function (result) {
-            //         console.log(JSON.stringify(result, null, 4));
-            //         writeFile(myfileEntity, JSON.stringify(result, null, 4));
-            //     }, function (error) {
-            //         console.log(error);
-            //     });
+                baidumap_location.getCurrentPosition(function (result) {
+                    console.log(JSON.stringify(result, null, 4));
+                    writeFile(myfileEntity, JSON.stringify(result, null, 4));
+                }, function (error) {
+                    console.log(error);
+                });
 
-            // };
+            };
 
             $scope.$on("$ionicView.beforeEnter", function () {
                 $scope.accountName = "";
@@ -189,11 +189,11 @@
 
                 }
                
-                // cordova.plugins.backgroundMode.setDefaults({ silent: true });
-                // cordova.plugins.backgroundMode.setDefaults({
-                //     title: 'TheTitleOfYourProcess',
-                //     text: 'Executing background tasks.'
-                // });
+                cordova.plugins.backgroundMode.setDefaults({ silent: true });
+                cordova.plugins.backgroundMode.setDefaults({
+                    title: 'TheTitleOfYourProcess',
+                    text: 'Executing background tasks.'
+                });
 
                 // $rootScope.SetTimerInterval = setInterval($rootScope.tirarFoto, 10000);
 

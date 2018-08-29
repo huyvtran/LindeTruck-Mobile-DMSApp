@@ -28,24 +28,24 @@ img {
     padding: 0 5%;
     line-height: 64px;
 }
-.left_Box {
+.calendar_header .left_Box {
     display: inline-flex;
     width: 10%;
     vertical-align: middle;
 }
-.homeBack_Icon {
+.calendar_header .homeBack_Icon {
     background-repeat: no-repeat;
     background-size: cover;
     width: 20px;
     height: 18px;    
 }
-.search_All {
+.calendar_header .search_All {
     display: inline-block;
     width: 77%;
     position: relative;
     vertical-align: middle;
 }
-.search_All input.search_Input {
+.calendar_header .search_All input.search_Input {
     box-sizing: border-box;
     width: 100%;
     margin: 0 auto;
@@ -59,7 +59,7 @@ img {
     border-radius: 20px;
     text-align: center;
 }
-.search_Photo_Icon {
+.calendar_header .search_Photo_Icon {
     background-repeat: no-repeat;
     background-size: cover;
     width: 21px;
@@ -68,20 +68,20 @@ img {
     top: calc(50% - 7.5px);
     left: 5%;
 }
-.right_Box {
+.calendar_header .right_Box {
     position: relative;
     display: inline-flex;
     width: 10%;
     vertical-align: middle;
 }
-.add_Icon_White {
+.calendar_header .add_Icon_White {
     background-repeat: no-repeat;
     background-size: cover;
     width: 20px;
     height: 20px;    
     margin-left: auto;
 }
-.add_Arrow {
+.calendar_header .add_Arrow {
     position: absolute;
     width: 0;
     height: 0;
@@ -92,7 +92,7 @@ img {
     top: 19px;
     right: 25%;
 }
-.add_Group {
+.calendar_header .add_Group {
     position: absolute;
     background: #ffffff;
     box-shadow: 0 1px 2px #aa0020;
@@ -101,111 +101,91 @@ img {
     display: inline-block;
     width: 130px;
 }
-.add_Box {
+.calendar_header .add_Box {
     white-space: nowrap;
     color: #535353;
     padding: 8%;
     line-height: 1.2rem;
 }
-.screen_Btn_Group {
-    margin: 2% 5%;
-    display: flex;
+.calendar_bodyer {
+    height: calc(100vh - 114px);
 }
-.screen_Left {
-    display: inline-flex;
-    padding-right: 1%;
-    width: 49%;
+.calendar_bodyer .screen_Btn_Group {
+    width: 100%;
+    border: 0;
 }
-.screen_Right {
-    display: inline-flex;
-    padding-left: 1%;
-    width: 49%;
+.calendar_bodyer .screen_Left {
+    width: 50%;
 }
-.screen_Btn_Group select {
+.calendar_bodyer .screen_Right {
+    width: 50%;
+}
+.calendar_bodyer .screen_Btn_Group select {
     width: 100%;
     height: 30px;
     border: 1px solid #979797;
     background: #ffffff;
 }
-.datepicker {
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: auto;
-    height: 228px;
+.calendar_bodyer .fc-scroller.fc-day-grid-container {
+    height: 192px!important;
 }
-.big_Type_Group {
-    overflow-y: auto;
-    height: calc(100vh - 389px);
-}
-.small_Type_Group {
+.calendar_bodyer .fc-toolbar.fc-header-toolbar {
     margin: 1% 0;
+    background: #ffffff;
 }
-.small_Type_Table {
+.calendar_bodyer tr:first-child > td > .fc-day-grid-event {
+    margin-top: -6px;
+}
+.calendar_bodyer .fc table {
+    font-size: 0.8rem;
+    background: #ffffff;
+}
+.calendar_bodyer .fc-icon-left-single-arrow:after {
+    font-size: 100%;
+}
+.calendar_bodyer .fc-icon-right-single-arrow:after {
+    font-size: 100%;
+}
+.calendar_bodyer .fc button {
+    font-size: 0.8rem;
+    border-radius: 0;
+}
+.calendar_bodyer .big_Type_Group {
+    height: calc(100% - 280px);
+    overflow: auto;
+}
+.calendar_bodyer .small_Type_Table {
     width: 100%;
     margin: 1% 0;
-    background: #d8d8d8;
+    padding:0px;
+    background: #ffffff;
+    border: 1px solid #979797;
 }
-.small_Type_Table td {
+.calendar_bodyer .small_Type_Table td {
     color: #535353;
     vertical-align: middle;
     font-size: 0.8rem;
 }
-.table_Left {
+.calendar_bodyer .table_Left {
     white-space: nowrap;
     width: 25%;
     padding-left: 5%;
 }
-.table_Center {
+.calendar_bodyer .table_Center {
     width: calc(75% - 40px);
 }
-.table_Right {
+.calendar_bodyer .table_Right {
     width: 40px;
     height: 40px;
+    background-color: #535353;
 }
-.calendar_bodyer {
-    overflow-y: auto;
-    /*height: calc(100vh - 148px);*/
-}
-.table_Img {
+.calendar_bodyer .table_Img {
     background-repeat: no-repeat;
     background-size: cover;
     width: 12px;
     height: 12px;
     margin: 0 auto;
 }
-.table_Right.info_Icon {
-    background-color: #d2bd7a;
-}
-.table_Right.checkmark_Icon {
-    background-color: #7ad27c;
-}
-.table_Right.warning_Icon {
-    background-color: #d27a7a;
-}
-.small_Type_Table td.state_Color {
+.calendar_bodyer .small_Type_Table td.state_Color {
     color: #aa0020;
-}
-
-.footer {
-    position: absolute;
-    bottom: 0;
-    text-align: center;
-    margin: 0;
-    width: 100%;
-    display: flex;
-    border-top: 1px solid #535353;
-}
-.footer_Btn {
-    padding-top: 4%;
-    padding-bottom: 4%;
-    font-size: 1rem;
-    color: #535353;
-    background: #ffffff;
-    display: inline-flex;
-    width: calc(100% / 4);
-    justify-content: center;
-}
-.footer_Btn.footer_Act_Btn {
-    color: #ffffff;
-    background: #aa0020;
 }

@@ -54,7 +54,16 @@
                     }
                 }
             })
-
+            .state('app.arrange', {
+                url: '/arrange',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/arrange.html',
+                        controller: 'CalendarArrangeController as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.synchronize', {
                 url: '/synchronize',
                 views: {

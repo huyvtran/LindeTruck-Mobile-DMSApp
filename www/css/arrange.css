@@ -15,67 +15,54 @@ img {
     vertical-align: middle;
 }
 .to_Open {
-    display: block!important;
+    display: block;
 }
 .to_Hide {
-    display: none!important;
+    display: none;
 }
-.personal_header {
+.header {
     background: #aa0020;
-    /*width: 90%;*/
+    /* width: 90%; */
     height: 64px;
     position: relative;
     padding: 0 5%;
     line-height: 64px;
 }
-.personal_header .left_Box {
+.back_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 14px;
+    height: 24px;
+}
+.left_Box {
     display: inline-flex;
     width: 10%;
     vertical-align: middle;
 }
-.personal_header .search_All {
+.center_Box {
     display: inline-block;
     width: 77%;
     position: relative;
     vertical-align: middle;
 }
-.personal_header .search_Input {
-    box-sizing: border-box;
-    width: 100%;
-    margin: 0 auto;
-    display: block;
-    padding: 1% 10% 1% 15%;
-    font-size: 1rem;
-    color: #D6D6D6;
-    border: 1px solid #d6d6d6;
-    -moz-border-radius: 20px;
-    -webkit-border-radius: 20px;
-    border-radius: 20px;
+.center_Title {
     text-align: center;
+    color: #ffffff;
 }
-.personal_header .search_Photo_Icon {
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 21px;
-    height: 15px;
-    position: absolute;
-    top: calc(50% - 7.5px);
-    left: 5%;
-}
-.personal_header .right_Box {
+.right_Box {
     position: relative;
     display: inline-flex;
     width: 10%;
     vertical-align: middle;
 }
-.personal_header .add_Icon_White {
+.add_Icon_White {
     background-repeat: no-repeat;
     background-size: cover;
     width: 20px;
     height: 20px;    
     margin-left: auto;
 }
-.personal_header .add_Arrow {
+.add_Arrow {
     position: absolute;
     width: 0;
     height: 0;
@@ -86,7 +73,7 @@ img {
     top: 19px;
     right: 25%;
 }
-.personal_header .add_Group {
+.add_Group {
     position: absolute;
     background: #ffffff;
     box-shadow: 0 1px 2px #aa0020;
@@ -95,43 +82,77 @@ img {
     display: inline-block;
     width: 130px;
 }
-.personal_header .add_Box {
+.add_Box {
     white-space: nowrap;
     color: #535353;
     padding: 8%;
     line-height: 1.2rem;
 }
-.personal_header .simplePerson_Head {
-    background-repeat: no-repeat;
-    background-size: 100% 50%;
-    width: 100%;
-    height: 64px;
-    background-position: 50%;
-}
-.personal_bodyer {
+.arrange_bodyer {
     overflow-y: auto;
     height: calc(100vh - 114px);
 }
-.personal_big_Type_Group {
+.arrange_bodyer .big_Type_Group_1 {
     margin: 5% 0;
 }
-.personal_small_Type_Group {
+.arrange_bodyer .small_Type_Group {
     margin-bottom: 5%;
 }
-.personal_small_Type_Title {
-    color: #535353;
-    font-weight: bold;
-    padding-bottom: 2%;
-    padding-left: 5%;
-    padding-right: 5%;
-}
-.personal_small_Type_Box {
-    color: #535353;
+.arrange_bodyer .small_Type_Title {
+    color: #979797;
     font-size: 0.8rem;
-    border: 1px solid #979797;
-    background: #ffffff;
-    width: calc(100% / 3);
-    height: 80px;
+    font-weight: bold;
+    margin-bottom: 2%;
+    padding: 0 5%;
+}
+.arrange_bodyer .small_Type_Box {
+    padding: 0 5%;
+}
+.arrange_bodyer .small_Type_Box_2 {
+    padding: 0;
+}
+.arrange_bodyer .small_Type_Input {
+    color: #535353;
+    width: 90%;
+    height: 40px;
+    border-bottom: 1px solid #535353;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 0 5%;
+    font-size: 1rem;
+}
+.arrange_bodyer .small_Type_Select {
+    color: #535353;
+    width: 100%;
+    height: 40px;
+    padding: 0 5%;
+    font-size: 1rem;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
     text-align: center;
-    vertical-align: middle;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    border-top: 1px solid #535353;
+}
+.footer_Btn {
+    padding-top: 4%;
+    padding-bottom: 4%;
+    font-size: 1rem;
+    color: #535353;
+    background: #ffffff;
+    display: inline-flex;
+    width: calc(100% / 2);
+    justify-content: center;
+}
+.footer_Btn.Save_Btn_Act {
+    color: #ffffff;
+    background: #aa0020;
+}
+.footer_Btn.Save_Btn_Uact {
+    color: #ffffff;
+    background: #979797;
 }
