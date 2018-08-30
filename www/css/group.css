@@ -44,8 +44,8 @@ img {
     width: 100%;
     margin: 0 auto;
     display: block;
-    padding: 1% 10% 1% 15%;
-    font-size: 1rem;
+    padding: 0 10% 0 15%;
+    font-size: 0.8rem;
     color: #D6D6D6;
     border: 1px solid #d6d6d6;
     -moz-border-radius: 20px;

@@ -16,6 +16,11 @@
 		.back_Icon {
 			background-image: url(././img/images/back_icon.png);
 		}
+		.search_bodyer {
+            background-image: url(././img/images/bg_img.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
 	</style>
 </head>
 	<body>
@@ -33,18 +38,20 @@
 					<div class="text_Cancel"> 取消 </div>
 				</div>
 			</div>
-			<div class="big_Box_Group">
-				<div class="small_Box_Title"> 搜索结果 </div>
-				<ion-list can-swipe="true" ng-show="isShow">
-					<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-click="showChildInfoList(item,searchText)">
-						{{item}} {{ searchText }}
-					</ion-item>
-				</ion-list>
-				<ion-list can-swipe="true" ng-show="!isShow">
-					<ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="toRepair4(item.Id)">
-						{{item.Name}}
-					</ion-item>
-				</ion-list>
+			<div class="search_bodyer">
+				<div class="big_Box_Group">
+					<div class="small_Box_Title"> 搜索结果 </div>
+					<ion-list can-swipe="true" ng-show="isShow">
+						<ion-item id="items1" ng-repeat="item in items" ng-cloak ng-click="showChildInfoList(item,searchText)" class="small_Box_Text">
+							{{item}} {{ searchText }}
+						</ion-item>
+					</ion-list>
+					<ion-list can-swipe="true" ng-show="!isShow">
+						<ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="toRepair4(item.Id)" class="small_Box_Text">
+							{{item.Name}}
+						</ion-item>
+					</ion-list>
+				</div>
 			</div>
 		</ion-content>
 	</ion-view>

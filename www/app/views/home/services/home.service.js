@@ -331,9 +331,15 @@ angular.module('oinio.services', [])
          * @func  save new service order
          * @desc  save Service_Order__c with recordType Work_Order to Salesforce
          * @param {Service_Order__c[]} adrs - the data which should be create and save objects for,
-         *      the data should contain Service_Order__c.Account_Name_Ship_to__c, Service_Order__c.Service_Order_Owner__c,
-         *      Service_Order__c.Plan_Date__c,Service_Order__c.Account_Name_Ship_to__r._soupEntryId,
-         *      Service_Order__c.Service_Order_Owner__r._soupEntryId
+         *      the data should contain 
+         *  Service_Order__c.Service_Order_Owner__c,
+         *  Service_Order__c.Service_Order_Owner__r._soupEntryId  // wai
+         * 
+         * 
+         *  Service_Order__c.Account_Name_Ship_to__c,           //order
+         *  Service_Order__c.Plan_Date__c,
+         *  Service_Order__c.Account_Name_Ship_to__r._soupEntryId,
+         * 
          * @returns {Promise} an array of Service_Order__c objects containing like
          *   "_soupId": 1234567890,
          */
@@ -352,15 +358,15 @@ angular.module('oinio.services', [])
                     adr = adrs[i];
                     // if (!UtilsService.isUndefinedOrNull(adr.Account_Name_Ship_to__c)) {
                     newItem = _.clone(sobject);
-                    newItem['Account_Name_Ship_to__c'] = adr.Account_Name_Ship_to__c;
-                    newItem['Account_Name_Ship_to__c_sid'] = adr.Account_Name_Ship_to__r._soupEntryId;
+                    newItem['Account_Name_Ship_to__c'] = adr.Account_Name_Ship_to__c;///*** */
+                    newItem['Account_Name_Ship_to__c_sid'] = adr.Account_Name_Ship_to__r._soupEntryId;///*** */
                     newItem['Account_Name_Ship_to__c_type'] = 'Account';
                     newItem['Service_Order_Type__c'] = 'Work Order';
-                    newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;
-                    newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;
+                    newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;///*** */
+                    newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;///*** */
                     newItem['Service_Order_Owner__c_type'] = 'User';
                     newItem['RecordTypeId'] = adrRecordType.Id;
-                    newItem['Plan_Date__c'] = adr.Plan_Date__c;
+                    newItem['Plan_Date__c'] = adr.Plan_Date__c;  ///*** */
                     //newItem['Status__c'] = adr.Status__c;
                     adrsToSave.push(newItem);
                     console.log('newItem::' + newItem);

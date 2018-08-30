@@ -44,8 +44,8 @@ img {
     width: 100%;
     margin: 0 auto;
     display: block;
-    padding: 1% 10% 1% 15%;
-    font-size: 1rem;
+    padding: 0 10% 0 15%;
+    font-size: 0.8rem;
     color: #D6D6D6;
     border: 1px solid #d6d6d6;
     -moz-border-radius: 20px;
@@ -116,13 +116,11 @@ img {
     color: #535353;
     font-weight: bold;
     padding-bottom: 2%;
-    padding-left: 5%;
-    padding-right: 5%;
 }
 .main_small_Type_Box {
     color: #535353;
     font-size: 0.8rem;
-    border: 1px solid #979797;
+    border: 1px solid #e8e8e8;
     background: #ffffff;
     width: calc(100% / 3);
     height: 80px;

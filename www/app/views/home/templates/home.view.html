@@ -13,6 +13,7 @@
         <script src='app/core/lib/jquery.min.js'></script>
         <script src='app/core/lib/fullcalendar.js'></script>
     <style type="text/css">
+    
         .search_Photo_Icon {
             background-image: url(././img/images/search-photo_icon.png);
         }
@@ -129,9 +130,8 @@
             <ion-tab title="日历" ng-controller="CalendarController">
                 <ion-view>
                     <div class="calendar_header">
-                        <div class="left_Box">
-                            <div class="homeBack_Icon"></div>
-                        </div>
+                        <div class="left_Box"></div>
+
                         <div class="search_All" ng-click="toRepair1()">
                             <input type="text" readonly="readonly" placeholder="搜索" autocomplete="off" class="search_Input" />
                             <div class="search_Photo_Icon"></div>
@@ -149,7 +149,7 @@
                     </div>
                     <div class="calendar_bodyer">
                         <!-- 日历 -->
-                        <div id="calendar"></div>
+                        <div id="calendarAll"></div>
                         <table class="screen_Btn_Group">
                             <tr>
                                 <td class="screen_Left">
@@ -237,7 +237,7 @@
                                     <tr>
                                         <td class="personal_small_Type_Box">已签单(5)</td>
                                         <td class="personal_small_Type_Box">计划中(4)</td>
-                                        <td class="personal_small_Type_Box" style="opacity: 0.7;"> &nbsp;</td>
+                                        <td class="personal_small_Type_Box" style="opacity: 0.3;"> &nbsp;</td>
                                     </tr>
                                 </table>
                             </div>
@@ -247,10 +247,10 @@
                                     <tr>
                                         <td class="personal_small_Type_Box" style="background: #53A0F8;color:#ffffff;">服务车管理 </td>
                                         <td class="personal_small_Type_Box" style="background: #A253F8;color:#ffffff;">叉车问题反馈</td>
-                                        <td class="personal_small_Type_Box" style="opacity: 0.7;">&nbsp;</td>
+                                        <td class="personal_small_Type_Box" style="opacity: 0.3;">&nbsp;</td>
                                     </tr>
                                     <tr>
-                                        <td class="personal_small_Type_Box" style="opacity: 0.7;">&nbsp;</td>
+                                        <td class="personal_small_Type_Box" style="opacity: 0.3;">&nbsp;</td>
                                         <td class="personal_small_Type_Box" style="background: #F85360;color:#ffffff;">故障代码查询</td>
                                         <td class="personal_small_Type_Box" style="background: #F85383;color:#ffffff;"> 应收账款查询</td>
                                     </tr>

@@ -129,8 +129,11 @@ img {
 .calendar_bodyer .fc-scroller.fc-day-grid-container {
     height: 192px!important;
 }
+.calendar_bodyer .fc-scroller.fc-time-grid-container {
+    height: 192px!important;
+}
 .calendar_bodyer .fc-toolbar.fc-header-toolbar {
-    margin: 1% 0;
+    margin: 1% 0 0 0;
     background: #ffffff;
 }
 .calendar_bodyer tr:first-child > td > .fc-day-grid-event {
@@ -138,7 +141,7 @@ img {
 }
 .calendar_bodyer .fc table {
     font-size: 0.8rem;
-    background: #ffffff;
+    background: transparent;
 }
 .calendar_bodyer .fc-icon-left-single-arrow:after {
     font-size: 100%;
@@ -149,6 +152,9 @@ img {
 .calendar_bodyer .fc button {
     font-size: 0.8rem;
     border-radius: 0;
+}
+.calendar_bodyer .fc-toolbar h2 {
+    font-size: 0.8rem;
 }
 .calendar_bodyer .big_Type_Group {
     height: calc(100% - 280px);

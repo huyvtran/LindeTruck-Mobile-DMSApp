@@ -41,7 +41,7 @@ img {
 }
 .search_All {
     display: inline-block;
-    width: 83%;
+    width: 72%;
     position: relative;
     vertical-align: middle;
 }
@@ -78,21 +78,21 @@ img {
     line-height: initial;
     text-align: right;
 }
-.bodyer {
+.search_bodyer {
     overflow-y: auto;
     height: calc(100vh - 64px);
 }
-.big_Box_Group {
+.search_bodyer .big_Box_Group {
     margin: 5% 0;
 }
-.small_Box_Title {
+.search_bodyer .small_Box_Title {
     color: #aa0020;
     font-weight: bold;
     border-bottom: 1px solid #aa0020;
     padding-bottom: 2%;
     margin: 0 5%;
 }
-.small_Box_Text {
+.search_bodyer .small_Box_Text {
     color: #535353;
     font-size: 0.8rem;
     padding-bottom: 1%;
@@ -102,7 +102,11 @@ img {
     text-overflow: ellipsis;
     width: 90%;
     border-bottom: 1px solid #535353;
+    border-top: 0px solid #535353;
+    border-left: 0px solid #535353;
+    border-right: 0px solid #535353;
+    background-color: transparent;
 }
-.small_Box_Text span {
+.search_bodyer .small_Box_Text span {
     margin-right: 2%;
 }

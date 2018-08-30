@@ -1,5 +1,7 @@
 angular.module('oinio.CalendarArrangeController', [])
-    .controller('CalendarArrangeController', function ($scope) {
+    .controller('CalendarArrangeController', function ($scope,$stateParams) {
+        // $scope.allUser = $stateParams.SendAllUser;
+
         $scope.goBack = function () {
             window.history.back();
         };
@@ -26,9 +28,9 @@ angular.module('oinio.CalendarArrangeController', [])
                     //     // Events that have no end date specified (null) end that day, so check if start = date
                     //     return (eventStart <= theDate && (eventEnd >= theDate) && !(eventStart < theDate && (eventEnd == theDate))) || (eventStart == theDate && (eventEnd === null));
                     // });
-                    $(this).css('background-color', 'red');  
                     console.log("↓↓↓dayClick↓↓↓");
                     console.log('date: ' + date.format('YYYY-MM-DD'));
+                    $scope.currentDate = date.format('YYYY-MM-DD');
                     console.log('jsEvent: ' + jsEvent);
                     console.log('view: ' + view);
                 }

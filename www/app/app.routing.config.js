@@ -55,7 +55,7 @@
                 }
             })
             .state('app.arrange', {
-                url: '/arrange',
+                url: '/arrange/?SendAllUser',
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/arrange.html',
