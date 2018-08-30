@@ -27,7 +27,8 @@ angular.module('oinio.services', [])
                             Service_Order_Type__c: entry[0].Service_Order_Type__c,
                             Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
                             Status__c: entry[0].Status__c,
-                            Plan_Date__c: entry[0].Plan_Date__c
+                            Plan_Date__c: entry[0].Plan_Date__c,
+                            _soupEntryId: entry[0]._soupEntryId
                         });
                         if (accIds.indexOf(accId) == -1) {
                             accIds.push(accId);
@@ -74,7 +75,8 @@ angular.module('oinio.services', [])
                             if(order.Account_Name_Ship_to__c == entry[0].Id){
                                 account = {
                                     Id: entry[0].Id,
-                                    Name: entry[0].Name
+                                    Name: entry[0].Name,
+                                    _soupEntryId: entry[0]._soupEntryId
                                 };
                                 order.Account_Name_Ship_to__r = account;
                             }
@@ -173,7 +175,8 @@ angular.module('oinio.services', [])
                             if(btu.Manager__c == entry[0].Id){
                                 user = {
                                     Id: entry[0].Id,
-                                    Name: entry[0].Name
+                                    Name: entry[0].Name,
+                                    _soupEntryId: entry[0]._soupEntryId
                                 };
                                 btu.Manager__r = user;
                             }
@@ -320,6 +323,320 @@ angular.module('oinio.services', [])
             });
             return deferred.promise;
         };
+
+
+
+        /**
+         * @func  save new service order
+         * @desc  save Service_Order__c with recordType Work_Order to Salesforce
+         * @param {Service_Order__c[]} adrs - the data which should be create and save objects for,
+         *      the data should contain Service_Order__c.Account_Name_Ship_to__c, Service_Order__c.Service_Order_Owner__c,
+         *      Service_Order__c.Plan_Date__c,Service_Order__c.Account_Name_Ship_to__r._soupEntryId,
+         *      Service_Order__c.Service_Order_Owner__r._soupEntryId
+         * @returns {Promise} an array of Service_Order__c objects containing like
+         *   "_soupId": 1234567890,
+         */
+        this.addServiceOrders = function (adrs) {
+            $log.debug('saveServiceOrders:: '+adrs);
+            var deferred = $q.defer();
+            console.log(service.recordTypes);
+            var adrRecordType = _.find(service.recordTypes, {
+                'DeveloperName': 'Work_Order'
+            });
+            console.log(adrRecordType);
+            LocalDataService.createSObject('Service_Order__c').then(function(sobject) {
+                var newItem, adr;
+                var adrsToSave = [];
+                for (var i=0;i<adrs.length;i++){
+                    adr = adrs[i];
+                    // if (!UtilsService.isUndefinedOrNull(adr.Account_Name_Ship_to__c)) {
+                    newItem = _.clone(sobject);
+                    newItem['Account_Name_Ship_to__c'] = adr.Account_Name_Ship_to__c;
+                    newItem['Account_Name_Ship_to__c_sid'] = adr.Account_Name_Ship_to__r._soupEntryId;
+                    newItem['Account_Name_Ship_to__c_type'] = 'Account';
+                    newItem['Service_Order_Type__c'] = 'Work Order';
+                    newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;
+                    newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;
+                    newItem['Service_Order_Owner__c_type'] = 'User';
+                    newItem['RecordTypeId'] = adrRecordType.Id;
+                    newItem['Plan_Date__c'] = adr.Plan_Date__c;
+                    //newItem['Status__c'] = adr.Status__c;
+                    adrsToSave.push(newItem);
+                    console.log('newItem::' + newItem);
+                    // }
+                }
+                LocalDataService.saveSObjects('Service_Order__c', adrsToSave).then(function(result) {
+                    if (!result){
+                        //console.error("!result");
+                        deferred.reject('Failed to get result.');
+                        return;
+                    }
+                    for (var i=0;i<result.length;i++){
+                        if (result.success){
+                            adrs[i]._soupEntryId = result[i]._soupEntryId;
+                        }
+                    }
+
+                    deferred.resolve(adrs);
+                    // synchronize().then(function () {
+                    //     deferred.resolve('done');
+                    // });
+                }, function (error) {
+                    // log error
+                    console.log(error);
+                });
+
+            }, angular.noop);
+
+            return deferred.promise;
+        };
+
+
+
+        /**
+         * @func  saveServiceOrder
+         * @desc  update a Service_Order__c object
+         * @param object
+         * @returns {Promise}
+         */
+        this.saveServiceOrder = function(od) {
+            var _this = this;
+            var deferred = $q.defer();
+
+            LocalDataService.updateSObjects('Service_Order__c', [od]).then(function(success) {
+
+                // _this.synchronize().then(function() {
+                deferred.resolve();
+                // }, function(err) {
+                //     deferred.reject(err);
+                // });
+
+            }, function(error) {
+                $log.error('>>>> error while saving ServiceOrder', error);
+
+                deferred.reject(error);
+            });
+
+            return deferred.promise;
+        };
+
+
+        /**
+         * @func  saveServiceOrders
+         * @desc  update an array of Service_Order__c
+         * @param object[]
+         * @returns {Promise}
+         */
+        this.saveServiceOrders = function(ods) {
+            var _this = this;
+            var deferred = $q.defer();
+
+            LocalDataService.updateSObjects('Service_Order__c', ods).then(function(success) {
+
+                // _this.synchronize().then(function() {
+                deferred.resolve();
+                // }, function(err) {
+                //     deferred.reject(err);
+                // });
+
+            }, function(error) {
+                $log.error('>>>> error while saving ServiceOrders', error);
+
+                deferred.reject(error);
+            });
+
+            return deferred.promise;
+        };
+
+
+
+        /**
+         * @func  getAccountObjectBySid
+         * @desc  get Account with all fields by _soupEntryId
+         * @param _soupEntryId(String)
+         * @returns {Promise} an array of Account objects containing like
+         *   "_soupEntryId": 1234567890,
+         */
+        this.getAccountObjectBySid = function(sid) {
+            var deferred = $q.defer();
+            LocalDataService.getSObject('Account', sid).then(function(res) {
+                deferred.resolve(res);
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+
+        /**
+         * @func  getAccountObjectById
+         * @desc  get Account with all fields by ID
+         * @param id(String)
+         * @returns {Promise} an array of Account objects containing like
+         *   "_soupEntryId": 1234567890,
+         */
+        this.getAccountObjectById = function(Id) {
+            console.log('getAccountObjectById.Id:%s', Id);
+            let deferred = $q.defer();
+
+            let sql =  "select {Account:_soup}\
+                         from {Account}\
+                         where {Account:Id}='"+Id+"'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let user;
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        user = {
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            _soupEntryId: entry[0]._soupEntryId
+                        };
+                    });
+                }
+                deferred.resolve(user);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getAccountObjectById::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+        /**
+         * @func  getAccountObjectByName
+         * @desc  get Account with all fields by name
+         * @param name(String)
+         * @returns {Promise} an array of Account objects containing like
+         *   "_soupEntryId": 1234567890,
+         */
+        this.getAccountObjectByName = function(str_name) {
+            console.log('getAccountObjectByName.Name:%s', str_name);
+            let deferred = $q.defer();
+
+            let sql =  "select {Account:_soup}\
+                         from {Account}\
+                         where {Account:Name} like '%"+str_name+"%' limit 1";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let user;
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        user = {
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            _soupEntryId: entry[0]._soupEntryId
+                        };
+                    });
+                }
+                deferred.resolve(user);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getAccountObjectByName::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+        /**
+         * @func  getUserObjectBySid
+         * @desc  get User with all fields by _soupEntryId
+         * @param _soupEntryId(String)
+         * @returns {Promise} an array of User objects containing like
+         *   "_soupEntryId": 1234567890,
+         */
+        this.getUserObjectBySid = function(sid) {
+            var deferred = $q.defer();
+            LocalDataService.getSObject('User', sid).then(function(res) {
+                deferred.resolve(res);
+            }, function(err) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        };
+
+
+        /**
+         * @func  getUserObjectById
+         * @desc  get User with all fields by Id
+         * @param Id(String)
+         * @returns {Promise} an array of User objects containing like
+         *   "_soupEntryId": 1234567890,
+         */
+        this.getUserObjectById = function(Id) {
+            console.log('getUserObjectById.Id:%s', Id);
+            let deferred = $q.defer();
+
+            let sql =  "select {User:_soup}\
+                         from {User}\
+                         where {User:Id}='"+Id+"'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let user;
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        user = {
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            _soupEntryId: entry[0]._soupEntryId
+                        };
+                    });
+                }
+                deferred.resolve(user);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getUserObjectById::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+
+        /**
+         * @func  getUserObjectByName
+         * @desc  get User with all fields by name
+         * @param name(String)
+         * @returns {Promise} an array of User objects containing like
+         *   "_soupEntryId": 1234567890,
+         */
+        this.getUserObjectByName = function(str_name) {
+            console.log('getUserObjectByName.Name:%s', str_name);
+            let deferred = $q.defer();
+
+            let sql =  "select {User:_soup}\
+                         from {User}\
+                         where {User:Name} like '%"+str_name+"%' limit 1";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let user;
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        user = {
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            _soupEntryId: entry[0]._soupEntryId
+                        };
+                    });
+                }
+                deferred.resolve(user);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getUserObjectByName::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+
+
 
 
     });
