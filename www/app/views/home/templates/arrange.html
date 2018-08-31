@@ -42,7 +42,7 @@
 				<div class="small_Type_Title">工程师:</div>
 				<div class="small_Type_Box">
 					<select class="small_Type_Select">
-						<option ng-repeat="itemuser in allUser">{{itemuser.userName}} </option>
+						<option ng-repeat="itemuser in allUser track by $index">{{itemuser.userName}} </option>
 					</select>
 				</div>
 			</div>

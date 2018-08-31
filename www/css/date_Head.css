@@ -129,15 +129,19 @@ img {
 .calendar_bodyer .fc-scroller.fc-day-grid-container {
     height: 192px!important;
 }
-.calendar_bodyer .fc-scroller.fc-time-grid-container {
-    height: 192px!important;
+.calendar_bodyer .fc-basicWeek-view .fc-scroller.fc-day-grid-container {
+    height: 32px!important;
 }
+
 .calendar_bodyer .fc-toolbar.fc-header-toolbar {
     margin: 1% 0 0 0;
     background: #ffffff;
 }
-.calendar_bodyer tr:first-child > td > .fc-day-grid-event {
-    margin-top: -6px;
+.calendar_bodyer .fc-month-view tr:first-child > td > .fc-day-grid-event {
+    margin-top: -7px;
+}
+.calendar_bodyer .fc-basicWeek-view tr:first-child > td > .fc-day-grid-event {
+    margin-top: 15px;
 }
 .calendar_bodyer .fc table {
     font-size: 0.8rem;

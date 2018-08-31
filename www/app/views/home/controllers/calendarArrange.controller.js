@@ -1,11 +1,13 @@
 angular.module('oinio.CalendarArrangeController', [])
     .controller('CalendarArrangeController', function ($scope,$stateParams) {
-        // $scope.allUser = $stateParams.SendAllUser;
 
         $scope.goBack = function () {
             window.history.back();
         };
         $(function () {
+            console.log("$stateParams.SendAllUser:",$stateParams.SendAllUser);
+             $scope.allUser = angular.fromJson($stateParams.SendAllUser);
+
             $('#calendarA').fullCalendar({
                 titleFormat : "MM", 
                 buttonText: {

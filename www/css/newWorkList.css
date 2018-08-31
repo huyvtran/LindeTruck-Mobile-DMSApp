@@ -22,11 +22,11 @@ img {
 }
 .header {
     background: #aa0020;
-    width: 90%;
-    height: 96px;
+    /* width: 90%; */
+    height: 64px;
     position: relative;
     padding: 0 5%;
-    line-height: 96px;
+    line-height: 64px;
 }
 .left_Box {
     display: inline-flex;

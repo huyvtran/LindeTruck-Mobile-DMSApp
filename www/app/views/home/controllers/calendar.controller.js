@@ -10,7 +10,6 @@ angular.module('oinio.CalendarController', [])
 
         var allUser = [];
         var allOrders = [];
-        var allOrdersDate = [];
         var allUserName = [];
         let events = [];
         var currentOrder = [];
@@ -21,7 +20,7 @@ angular.module('oinio.CalendarController', [])
 
             // 自定义弹窗
             var myPopup = $ionicPopup.show({
-                title: item.Name,
+                title: item.Account_Name_Ship_to__r.Name,
                 // subTitle: 'Please use normal things',
                 scope: $scope,
                 buttons: [
@@ -31,7 +30,10 @@ angular.module('oinio.CalendarController', [])
                         type: 'button-positive',
                         onTap: function (e) {
                             {
-                                $state.go('app.arrange', {SendAllUser: allUser});
+                                console.log('Tapped！!', allUser);
+                                var listDataAll = angular.toJson(allUser);
+
+                                $state.go('app.arrange', {SendAllUser: listDataAll});
                                 return "anpai";
                             }
                         }
@@ -101,13 +103,31 @@ angular.module('oinio.CalendarController', [])
             }
             return forNowlist;
         };
+        var getServiceOrderType = function (array) {
+            for (let index = 0; index < array.length; index++) {
+                const element = array[index].Service_Order_Type__c;
+                if (element == "Work Order") {
+                    array[index].Service_Order_Type__c = "工单";
+                }else if (element == "Customer Consult") {
+                    array[index].Service_Order_Type__c = "客户咨询";
+                }else if (element == "Customer Complaint") {
+                    array[index].Service_Order_Type__c = "客户投诉";
+                }
+            }
+            return array;
+        };
         //使用对象记录重复的元素，以及出现的次数
         var getCount = function (arr) {
+            var plan_Date_List =[];
+            for (let index = 0; index < arr.length; index++) {
+                var plan_Date__c = arr[index].Plan_Date__c;
+                plan_Date_List.push(plan_Date__c);
+            }
             events = [];//清空数组
             var obj = {},
                 k, arr1 = [];
-            for (var i = 0, len = arr.length; i < len; i++) {
-                k = arr[i];
+            for (var i = 0, len = plan_Date_List.length; i < len; i++) {
+                k = plan_Date_List[i];
                 if (obj[k])
                     obj[k]++;
                 else
@@ -122,13 +142,10 @@ angular.module('oinio.CalendarController', [])
             }
             for (let index = 0; index < arr1.length; index++) {
                 var item = arr1[index];
-                var date = $filter('date')(item, 'yyyyMMdd');
-                console.log('itemcount]!',date);
-
                 events.push({
                     // 标题，即你想展示的内容
                     title: item['count'],
-                    start: date
+                    start: item['el']
                 });
                 //它可以将刚刚获取到的events数据渲染到日历中
             }
@@ -155,10 +172,9 @@ angular.module('oinio.CalendarController', [])
                     // console.log('Service_Order_Type__c: ' + allOrders[index].Service_Order_Type__c);
 
                 }
-                $scope.currentOrder = allOrders;
+                $scope.currentOrder = getServiceOrderType(allOrders);
                 calendarAll.fullCalendar("removeEvents");
                 calendarAll.fullCalendar("addEventSource", getCount(currentOrder));
-
             }, function (error) {
                 console.log('getEachOrder Error ' + error);
             });
@@ -166,7 +182,7 @@ angular.module('oinio.CalendarController', [])
             var calendarAll = $('#calendarAll').fullCalendar({
                 displayEventTime: false,
                 titleFormat : "MM", 
-                allDaySlot : false,
+                // allDaySlot : false,
                 // allDayText:'今天的任务',
                 buttonText: {
                     today: '今天',
@@ -179,22 +195,26 @@ angular.module('oinio.CalendarController', [])
                 header: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'month,agendaWeek'
+                    right: 'month,basicWeek'
                 },
                 dayClick: function (date, jsEvent, view) {
-                    // var events = $('#calendar').fullCalendar('clientEvents', function(event) {
-                    //     var eventStart = event.start.format('YYYY-MM-DD');
-                    //     var eventEnd = event.end ? event.end.format('YYYY-MM-DD') : null;
-                    //     var theDate = date.format('YYYY-MM-DD');
-                    //     // Make sure the event starts on or before date and ends afterward
-                    //     // Events that have no end date specified (null) end that day, so check if start = date
-                    //     return (eventStart <= theDate && (eventEnd >= theDate) && !(eventStart < theDate && (eventEnd == theDate))) || (eventStart == theDate && (eventEnd === null));
-                    // });
+
                     console.log("↓↓↓dayClick↓↓↓");
                     console.log('date: ' + date);
                     console.log('jsEvent: ' + jsEvent);
                     console.log('view: ' + view);
                     // $("tr:even").css("background-color", "#000");
+                    var currentClickDate = date.format('YYYY-MM-DD');
+                    var selectDateOrders = [];
+                    for (let index = 0; index < currentOrder.length; index++) {//显示点击日期的工单
+                      var indexDate = currentOrder[index].Plan_Date__c;
+                      if (currentClickDate == indexDate) {
+                        selectDateOrders.push(currentOrder[index]);
+                      }
+                    }
+                    if (selectDateOrders.count>0) {
+                        $scope.currentOrder = getServiceOrderType(selectDateOrders);
+                    }
                 },
                 events: function (start, end, timezone, callback) {
 
@@ -207,10 +227,10 @@ angular.module('oinio.CalendarController', [])
                 },
                 eventClick : function(event, jsEvent, view) {
                     // 此处可添加修改日程的代码
-                    var red = Math.round(255 * Math.random());
-                    var green = Math.round(255 * Math.random());
-                    var blue = Math.round(255 * Math.random());
-                    $(this).css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
+                    // var red = Math.round(255 * Math.random());
+                    // var green = Math.round(255 * Math.random());
+                    // var blue = Math.round(255 * Math.random());
+                    // $(this).css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
                    }
 
             });
@@ -228,11 +248,13 @@ angular.module('oinio.CalendarController', [])
                 // console.log(item[0].title);
                 // item[0].start = '2018-08-29';
                 // $('#calendar').fullCalendar('updateEvent',item[0]);
-                $scope.currentOrder =allUser[index].orders;
+                
+                $scope.currentOrder = getServiceOrderType(allUser[index].orders);
                 calendarAll.fullCalendar("removeEvents");
                 calendarAll.fullCalendar("addEventSource", getCount(allUser[index].orders));
-
             }
+
+            
 
             //////选择状态
             var selectStatus = document.getElementById("selectStatusId");
@@ -259,7 +281,7 @@ angular.module('oinio.CalendarController', [])
                     default:
                         break;
                 }
-                $scope.currentOrder = selectStatusUser;
+                $scope.currentOrder = getServiceOrderType(selectStatusUser);
                 calendarAll.fullCalendar("removeEvents");
                 calendarAll.fullCalendar("addEventSource", getCount(selectStatusUser));
             }
