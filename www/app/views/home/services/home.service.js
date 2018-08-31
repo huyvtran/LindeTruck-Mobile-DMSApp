@@ -28,6 +28,7 @@ angular.module('oinio.services', [])
                             Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
                             Status__c: entry[0].Status__c,
                             Plan_Date__c: entry[0].Plan_Date__c,
+                            Truck_Serial_Number__c: entry[0].Truck_Serial_Number__c,
                             _soupEntryId: entry[0]._soupEntryId
                         });
                         if (accIds.indexOf(accId) == -1) {
@@ -335,10 +336,13 @@ angular.module('oinio.services', [])
          *  Service_Order__c.Service_Order_Owner__c,
          *  Service_Order__c.Service_Order_Owner__r._soupEntryId  // wai
          * 
-         * 
-         *  Service_Order__c.Account_Name_Ship_to__c,           //order
          *  Service_Order__c.Plan_Date__c,
+         *
+         *  Service_Order__c.Account_Name_Ship_to__c,           //order
          *  Service_Order__c.Account_Name_Ship_to__r._soupEntryId,
+         *
+         *  Service_Order__c.Truck_Serial_Number__c,
+         *  Service_Order__c.Truck_Serial_Number__r._soupEntryId,    //truck
          * 
          * @returns {Promise} an array of Service_Order__c objects containing like
          *   "_soupId": 1234567890,
@@ -368,6 +372,12 @@ angular.module('oinio.services', [])
                     newItem['RecordTypeId'] = adrRecordType.Id;
                     newItem['Plan_Date__c'] = adr.Plan_Date__c;  ///*** */
                     //newItem['Status__c'] = adr.Status__c;
+
+                    if(adr.Truck_Serial_Number__c != null && adr.Truck_Serial_Number__c !=''){
+                        newItem['Truck_Serial_Number__c'] = adr.Truck_Serial_Number__c;
+                        newItem['Truck_Serial_Number__c_sid'] = adr.Truck_Serial_Number__r._soupEntryId;
+                        newItem['Truck_Serial_Number__c_type'] = 'Truck_Fleet__c';
+                    }
                     adrsToSave.push(newItem);
                     console.log('newItem::' + newItem);
                     // }
@@ -642,8 +652,160 @@ angular.module('oinio.services', [])
         };
 
 
+        this.searchAccounts = function(keyword){
+            console.log('searchAccounts.keyword:%s', keyword);
+            let deferred = $q.defer();
+
+            let sql =  "select {Account:_soup}\
+                         from {Account}\
+                         where {Account:Name} like '%"+keyword+"%'\
+                             or {Account:Customer_Number__c} like '%"+keyword+"%'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let accounts = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        accounts.push({
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Customer_Number__c: entry[0].Customer_Number__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        });
+                    });
+                }
+                deferred.resolve(accounts);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('searchAccounts::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+        this.searchOrder = function(Id){
+            console.log('searchOrder.keyword:%s');
+            let deferred = $q.defer();
+
+            let sql =  "select {Service_Order__c:_soup}\
+                         from {Service_Order__c}\
+                         where {Service_Order__c:_soupEntryId} ='"+Id+" '\
+                            or {Service_Order__c:Id} = '"+Id+"'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let result = new Object();
+                let orders = [];
+                let accIds = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        let accId = entry[0].Account_Name_Ship_to__c;
+                        orders.push({
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Account_Name_Ship_to__c: accId,
+                            Service_Order_Type__c: entry[0].Service_Order_Type__c,
+                            Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
+                            Status__c: entry[0].Status__c,
+                            Plan_Date__c: entry[0].Plan_Date__c,
+                            Truck_Serial_Number__c: entry[0].Truck_Serial_Number__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        });
+                        if (accIds.indexOf(accId) == -1) {
+                            accIds.push(accId);
+                        }
+                    });
+                    result.orders = orders;
+                    result.accIds = accIds;
+                }
+                deferred.resolve(result);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('searchOrder::', deferred.promise);
+            return deferred.promise;
+        };
+
+        this.getOrder = function() {
+            let deferred = $q.defer();
+            let ret;
+            console.log('getOrder::');
+            service.searchOrder().then(function (res){
+                ret = res;
+                return service.getAccountForAccIds(res);
+            }).then(function (orders) {
+                ret = orders;
+                deferred.resolve(ret);
+            }).catch(function (error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        };
+
+
+        this.searchTrucks = function(keyword){
+            console.log('searchTrucks.keyword:%s', keyword);
+            let deferred = $q.defer();
+
+            let sql =  "select {Truck_Fleet__c:_soup}\
+                         from {Truck_Fleet__c}\
+                         where {Truck_Fleet__c:Name} like '%"+keyword+"%'\
+                             or {Truck_Fleet__c:Model__c} like '%"+keyword+"%'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let trucks = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        trucks.push({
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Model__c: entry[0].Model__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        });
+                    });
+                }
+                deferred.resolve(trucks);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('searchTrucks::', deferred.promise);
+            return deferred.promise;
+        };
 
 
 
 
+        this.getTruckObjectById = function(Id) {
+            console.log('getTruckObjectById.Id:%s', Id);
+            let deferred = $q.defer();
+
+            let sql =  "select {Truck_Fleet__c:_soup}\
+                         from {Truck_Fleet__c}\
+                         where {Truck_Fleet__c:Id}='"+Id+"'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let truck;
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        truck = {
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Model__c: entry[0].Model__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        };
+                    });
+                }
+                deferred.resolve(trucks);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getTruckObjectById::', deferred.promise);
+            return deferred.promise;
+        };
     });

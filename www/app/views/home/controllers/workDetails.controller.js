@@ -1,6 +1,6 @@
-angular.module('oinio.controllers', [])
-    .controller('HomeController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-        LocalCacheService) {
+angular.module('oinio.workDetailsControllers', [])
+    .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
+                                                   LocalCacheService) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -29,22 +29,7 @@ angular.module('oinio.controllers', [])
         // document.getElementById("add_contactsImg").style.display = "none";//隐藏
 
         $scope.toDisplayBox = function () {
-            if (document.getElementById("add_bgbox").style.display == "none") {
-                document.getElementById("add_bgbox").style.display = "";//显示
-                document.getElementById("add_contactsImg").style.display = "";
-
-            } else {
-                document.getElementById("add_bgbox").style.display = "none";//隐藏
-                document.getElementById("add_contactsImg").style.display = "none";//隐藏
-
-
-            }
+            alert("ssss");
         };
-
-
-        $scope.addNewWork = function () {
-            $state.go('app.newWork');
-        };
-
     });
 

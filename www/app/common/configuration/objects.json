@@ -15,8 +15,8 @@
     },
     {
       "Name": "Account",
-      "MobileVizArt__Fields__c": "Id,Name,Address__c,SAP_Number__c,Salesman__c,Salesman_formula__c,Sale_Group_Code__c,CreatedDate,IsDeleted,LastModifiedDate,OwnerId,SystemModstamp,AccountNumber,Phone,Rating,Site,AnnualRevenue,BillingCity,BillingCountry,BillingLatitude,BillingState,BillingStreet,BillingPostalCode,CreatedById,Sic,SicDesc,ShippingCity,ShippingState,ShippingPostalCode,TickerSymbol,Website",
-      "MobileVizArt__Search_Fields__c": "Name,AccountNumber,Phone,Rating,Site,AnnualRevenue,SAP_Number__c",
+      "MobileVizArt__Fields__c": "Id,Name,Address__c,Customer_Number__c,SAP_Number__c,Salesman__c,Salesman_formula__c,Sale_Group_Code__c,CreatedDate,IsDeleted,LastModifiedDate,OwnerId,SystemModstamp,AccountNumber,Phone,Rating,Site,AnnualRevenue,BillingCity,BillingCountry,BillingLatitude,BillingState,BillingStreet,BillingPostalCode,CreatedById,Sic,SicDesc,ShippingCity,ShippingState,ShippingPostalCode,TickerSymbol,Website",
+      "MobileVizArt__Search_Fields__c": "Name,AccountNumber,Phone,Rating,Site,AnnualRevenue,SAP_Number__c,Customer_Number__c",
       "MobileVizArt__List_Content_Fields__c": "Name,BillingCity,BillingStreet",
       "MobileVizArt__Filter_Criteria__c": "Name != null",
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
@@ -48,12 +48,23 @@
     },
     {
       "Name": "Service_Order__c",
-      "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c",
+      "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
       "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "Truck_Fleet__c",
+      "MobileVizArt__Fields__c": "Id,Name,Model__c",
+      "MobileVizArt__Search_Fields__c": "Name,Model__c",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 9,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true
     }

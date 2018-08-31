@@ -54,6 +54,28 @@
                     }
                 }
             })
+
+            .state('app.newWork', {
+                url: 'app/newWork',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/newWorkList.html',
+                        controller: 'newWorkListController as vm'
+                    }
+                },
+                cache: false
+            })
+
+            .state('app.workDetails', {
+                url: 'app/workDetails',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/workDetails.html',
+                        controller: 'workDetailsController as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.arrange', {
                 url: '/arrange/?SendAllUser',
                 views: {

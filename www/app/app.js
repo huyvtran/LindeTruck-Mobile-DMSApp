@@ -48,7 +48,9 @@
             'oinio.PersonalController',
             'oinio.Search_1controllers',
             'oinio.CustomDetailController',
-            'oinio.CalendarArrangeController'
+            'oinio.CalendarArrangeController',
+            'oinio.newWorkListControllers',
+            'oinio.workDetailsControllers'
             
         ]);
 
