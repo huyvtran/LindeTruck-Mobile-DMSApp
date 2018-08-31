@@ -369,7 +369,7 @@ angular.module('oinio.services', [])
                     newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;///*** */
                     newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;///*** */
                     newItem['Service_Order_Owner__c_type'] = 'User';
-                    newItem['RecordTypeId'] = adrRecordType.Id;
+                    if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
                     newItem['Plan_Date__c'] = adr.Plan_Date__c;  ///*** */
                     //newItem['Status__c'] = adr.Status__c;
 
@@ -383,17 +383,18 @@ angular.module('oinio.services', [])
                     // }
                 }
                 LocalDataService.saveSObjects('Service_Order__c', adrsToSave).then(function(result) {
+                    console.log('localSave:::',result);
                     if (!result){
                         //console.error("!result");
                         deferred.reject('Failed to get result.');
                         return;
                     }
                     for (var i=0;i<result.length;i++){
-                        if (result.success){
+                        if (result[i].success){
                             adrs[i]._soupEntryId = result[i]._soupEntryId;
                         }
                     }
-
+                    console.log('localSave222:::',adrs);
                     deferred.resolve(adrs);
                     // synchronize().then(function () {
                     //     deferred.resolve('done');

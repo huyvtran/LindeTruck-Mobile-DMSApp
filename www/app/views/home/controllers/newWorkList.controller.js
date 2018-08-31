@@ -204,8 +204,8 @@ angular.module('oinio.newWorkListControllers', [])
                         order2Save.Service_Order_Owner__c = userId.Id;
                         order2Save.Service_Order_Owner__r = response;
 
-                        HomeService.addServiceOrders(order2Save).then(function (addResult) {
-                            console.log('HAHAHAHA!!!');
+                        HomeService.addServiceOrders([order2Save]).then(function (addResult) {
+                            console.log('HAHAHAHA!!!',addResult);
                         }, function (error) {
                             $log.error('HomeService.addServiceOrders Error ' + error);
                         });
@@ -214,8 +214,8 @@ angular.module('oinio.newWorkListControllers', [])
                     $log.error('HomeService.getUserObjectById Error ' + error);
                 });
             }else{
-                HomeService.addServiceOrders(order2Save).then(function (addResult) {
-                    console.log('HAHAHAHA!222!!');
+                HomeService.addServiceOrders([order2Save]).then(function (addResult) {
+                    console.log('HAHAHAHA!222!!',addResult);
                 }, function (error) {
                     $log.error('HomeService.addServiceOrders Error ' + error);
                 });

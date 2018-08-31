@@ -23,6 +23,7 @@ angular.module('oinio.controllers', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
+
         });
         //加号“+”菜单
         // document.getElementById("add_bgbox").style.display = "none";//隐藏
