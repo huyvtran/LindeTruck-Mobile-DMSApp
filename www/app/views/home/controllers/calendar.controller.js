@@ -40,7 +40,7 @@ angular.module('oinio.CalendarController', [])
                     },
                     {
                         text: '<b>详情</b>',
-                        type: 'button-positive',
+                        type: 'button-positive'
                     }
                 ]
             });

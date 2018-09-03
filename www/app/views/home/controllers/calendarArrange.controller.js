@@ -1,5 +1,5 @@
 angular.module('oinio.CalendarArrangeController', [])
-    .controller('CalendarArrangeController', function ($scope,$stateParams) {
+    .controller('CalendarArrangeController', function ($scope,$state,$stateParams) {
 
         $scope.goBack = function () {
             window.history.back();
