@@ -131,14 +131,38 @@ angular.module('oinio.newWorkListControllers', [])
             $scope.searchResultAcctId =acct.Id;
             $scope.searchResultAcctSoupId =acct._soupEntryId;
 
-            $scope.closeSelectPage();
+            //$scope.closeSelectPage();
+            $scope.init20Trucks(acct.Id);
+        };
+
+
+        $scope.init20Trucks = function (keyWord) {
+            $scope.contentTruckItems = [];
+            console.log("init20Trucks1::",keyWord);
+
+            HomeService.init20AcctTrucks(keyWord).then(function (response) {
+                console.log("init20Trucks2::",keyWord);
+                let trucks = [];
+                if (response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        trucks.push(response[index]);
+                    }
+                    $scope.contentTruckItems = trucks;
+                    console.log("init20Trucks",trucks);
+                }
+            }, function (error) {
+                $log.error('HomeService.init20Trucks Error ' + error);
+            }).finally(function () {
+                //AppUtilService.hideLoading();
+                $scope.closeSelectPage();
+            });
         };
 
 
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
 
-            HomeService.searchTrucks(keyWord).then(function (response) {
+            HomeService.searchTrucks(keyWord,$scope.searchResultAcctId).then(function (response) {
                 console.log("getTrucks::",keyWord);
                 let trucks = [];
                 if (response.length > 0) {
@@ -195,6 +219,9 @@ angular.module('oinio.newWorkListControllers', [])
             order2Save.Truck_Serial_Number__r = new Object();
             order2Save.Truck_Serial_Number__r._soupEntryId = $scope.searchResultTruckSoupId;
 
+            let orderType = $("#select_serviceorder_type").val();
+            if(orderType != null && orderType != ''){order2Save.Service_Order_Type__c = orderType;}
+
             order2Save.Plan_Date__c = new Date();
 
             if(userId != null && userId.Id != null) {
@@ -216,12 +243,16 @@ angular.module('oinio.newWorkListControllers', [])
             }else{
                 HomeService.addServiceOrders([order2Save]).then(function (addResult) {
                     console.log('HAHAHAHA!222!!',addResult);
+                    if(addResult != null && addResult.length != 0) {
+                        $state.go('app.workDetails', {SendInfo: addResult[0]._soupEntryId});
+                    }
                 }, function (error) {
                     $log.error('HomeService.addServiceOrders Error ' + error);
                 });
             }
         };
-        
+
+
         
     });
 

@@ -343,6 +343,8 @@ angular.module('oinio.services', [])
          *
          *  Service_Order__c.Truck_Serial_Number__c,
          *  Service_Order__c.Truck_Serial_Number__r._soupEntryId,    //truck
+         *
+         *  Service_Order__c.Service_Order_Type__c            //unnecessary,default value 'work order'
          * 
          * @returns {Promise} an array of Service_Order__c objects containing like
          *   "_soupId": 1234567890,
@@ -366,6 +368,7 @@ angular.module('oinio.services', [])
                     newItem['Account_Name_Ship_to__c_sid'] = adr.Account_Name_Ship_to__r._soupEntryId;///*** */
                     newItem['Account_Name_Ship_to__c_type'] = 'Account';
                     newItem['Service_Order_Type__c'] = 'Work Order';
+                    if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){newItem['Service_Order_Type__c'] = adr.Service_Order_Type__c;}
                     newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;///*** */
                     newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;///*** */
                     newItem['Service_Order_Owner__c_type'] = 'User';
@@ -729,11 +732,14 @@ angular.module('oinio.services', [])
             return deferred.promise;
         };
 
-        this.getOrder = function() {
+
+
+
+        this.getOrder = function(Id) {
             let deferred = $q.defer();
             let ret;
             console.log('getOrder::');
-            service.searchOrder().then(function (res){
+            service.searchOrder(Id).then(function (res){
                 ret = res;
                 return service.getAccountForAccIds(res);
             }).then(function (orders) {
@@ -746,14 +752,18 @@ angular.module('oinio.services', [])
         };
 
 
-        this.searchTrucks = function(keyword){
-            console.log('searchTrucks.keyword:%s', keyword);
+        this.searchTrucks = function(keyword,acctId){
+            console.log('searchTrucks.keyword:%s', keyword,acctId);
             let deferred = $q.defer();
 
             let sql =  "select {Truck_Fleet__c:_soup}\
                          from {Truck_Fleet__c}\
-                         where {Truck_Fleet__c:Name} like '%"+keyword+"%'\
-                             or {Truck_Fleet__c:Model__c} like '%"+keyword+"%'";
+                         where ({Truck_Fleet__c:Name} like '%"+keyword+"%'\
+                             or {Truck_Fleet__c:Model__c} like '%"+keyword+"%')";
+
+            if(acctId != null && acctId != ''){
+                sql = sql + " and {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"'";
+            }
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let trucks = [];
@@ -763,6 +773,7 @@ angular.module('oinio.services', [])
                             Id: entry[0].Id,
                             Name: entry[0].Name,
                             Model__c: entry[0].Model__c,
+                            Ship_To_CS__c: entry[0].Ship_To_CS__c,
                             _soupEntryId: entry[0]._soupEntryId
                         });
                     });
@@ -774,6 +785,41 @@ angular.module('oinio.services', [])
                 deferred.reject(err);
             });
             console.log('searchTrucks::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+
+        this.init20AcctTrucks = function(acctId){
+            console.log('initTrucks.keyword:%s',acctId);
+            let deferred = $q.defer();
+
+            let sql =  "select {Truck_Fleet__c:_soup}\
+                         from {Truck_Fleet__c}\
+                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' limit 20";
+
+
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let trucks = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        trucks.push({
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Model__c: entry[0].Model__c,
+                            Ship_To_CS__c: entry[0].Ship_To_CS__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        });
+                    });
+                }
+                deferred.resolve(trucks);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('initTrucks::', deferred.promise);
             return deferred.promise;
         };
 
@@ -796,6 +842,7 @@ angular.module('oinio.services', [])
                             Id: entry[0].Id,
                             Name: entry[0].Name,
                             Model__c: entry[0].Model__c,
+                            Ship_To_CS__c: entry[0].Ship_To_CS__c,
                             _soupEntryId: entry[0]._soupEntryId
                         };
                     });
