@@ -847,7 +847,7 @@ angular.module('oinio.services', [])
                         };
                     });
                 }
-                deferred.resolve(trucks);
+                deferred.resolve(truck);
             }, function (err) {
                 $log.error(err);
                 console.error(err);
