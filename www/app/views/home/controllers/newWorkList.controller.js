@@ -233,6 +233,9 @@ angular.module('oinio.newWorkListControllers', [])
 
                         HomeService.addServiceOrders([order2Save]).then(function (addResult) {
                             console.log('HAHAHAHA!!!',addResult);
+                            if(addResult != null && addResult.length != 0) {
+                                $state.go('app.workDetails', {SendInfo: addResult[0]._soupEntryId});
+                            }
                         }, function (error) {
                             $log.error('HomeService.addServiceOrders Error ' + error);
                         });
