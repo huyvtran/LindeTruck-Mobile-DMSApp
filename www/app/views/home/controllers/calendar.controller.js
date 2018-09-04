@@ -14,6 +14,25 @@ angular.module('oinio.CalendarController', [])
         let events = [];
         var currentOrder = [];
         vm.isOnline = null;
+
+        $scope.toDisplayBox = function () {
+            if (document.getElementById("add_bgbox").style.display == "none") {
+                document.getElementById("add_bgbox").style.display = "";//显示
+                document.getElementById("add_contactsImg").style.display = "";
+
+            } else {
+                document.getElementById("add_bgbox").style.display = "none";//隐藏
+                document.getElementById("add_contactsImg").style.display = "none";//隐藏
+
+
+            }
+        };
+
+
+        $scope.addNewWork = function () {
+            $state.go('app.newWork');
+        };
+        
         // Triggered on a button click, or some other target
         $scope.showPopup = function (item) {
             $scope.data = {}
@@ -49,13 +68,6 @@ angular.module('oinio.CalendarController', [])
                 
             });
         };
-
-        // $scope.selectUser = function () {
-        //     var objS = document.getElementById("selectUserId");
-        //     var grade = objS.options[objS.selectedIndex].grade;
-        //     console.log('selectUser!:'+ grade +objS.selectedIndex);
-
-        // };
 
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
@@ -161,17 +173,24 @@ angular.module('oinio.CalendarController', [])
                 }
                 allUser = res;
                 $scope.allUser = res;
-
-                currentOrder = getOrderById(oCurrentUser.Id).orders;//当前选择组员的订单
+                console.log('getEachOrder Error ' + "1");
+                var newArray = [];
+                if (getOrderById(oCurrentUser.Id).orders == undefined) {
+                    newArray = [];
+                }else{
+                    newArray = getOrderById(oCurrentUser.Id).orders;
+                }
+                currentOrder = newArray;//当前选择组员的订单
 
                 //日历下方列表
-                allOrders = getOrderById(oCurrentUser.Id).orders;
-                for (let index = 0; index < allOrders.length; index++) {
+                allOrders = newArray;
+                // for (let index = 0; index < allOrders.length; index++) {
                     // currentOrder.push(allOrders[index]);
                     // console.log('Name: ' + allOrders[index].Name);
                     // console.log('Service_Order_Type__c: ' + allOrders[index].Service_Order_Type__c);
 
-                }
+                // }
+                
                 $scope.currentOrder = getServiceOrderType(allOrders);
                 calendarAll.fullCalendar("removeEvents");
                 calendarAll.fullCalendar("addEventSource", getCount(currentOrder));
@@ -248,7 +267,6 @@ angular.module('oinio.CalendarController', [])
                 // console.log(item[0].title);
                 // item[0].start = '2018-08-29';
                 // $('#calendar').fullCalendar('updateEvent',item[0]);
-                
                 $scope.currentOrder = getServiceOrderType(allUser[index].orders);
                 calendarAll.fullCalendar("removeEvents");
                 calendarAll.fullCalendar("addEventSource", getCount(allUser[index].orders));

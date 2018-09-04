@@ -70,7 +70,7 @@
     <ion-view>
         <ion-tabs class="tabs-striped tabs-assertive ion_change_style">
 
-            <ion-tab title="首页" ng-controller="HomeController">
+            <ion-tab title="首页" ng-controller="HomeController" ng-click="selectTabWithIndex(0)">
                 <ion-view>
                     <div class="main_header">
                         <div class="left_Box">
@@ -80,13 +80,13 @@
                             <input type="text" placeholder="搜索" class="search_Input" disabled="disabled" />
                             <div class="search_Photo_Icon"></div>
                         </div>
-                        <div class="right_Box" ng-click="toDisplayBox()">
+                        <div class="right_Box" ng-click="toDisplayBox1()">
                             <div class="add_Icon_White"></div>
-                            <div class="add_Arrow " id="add_contactsImg" style="display: none;"></div>
-                            <div class="add_Group " id="add_bgbox" style="display: none;">
+                            <div class="add_Arrow " id="add_contactsImg1" style="display: none;"></div>
+                            <div class="add_Group " id="add_bgbox1" style="display: none;">
                                 <div class="add_Box"> 添加客户 </div>
                                 <div class="add_Box"> 添加联系人 </div>
-                                <div class="add_Box" ng-click="addNewWork();"> 添加工单 </div>
+                                <div class="add_Box" ng-click="addNewWork1();"> 添加工单 </div>
                                 <div class="add_Box"> 添加报价 </div>
                             </div>
                         </div>
@@ -97,13 +97,13 @@
                                         <div class="main_small_Type_Title"> 工单 </div>
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td class="main_small_Type_Box" style="color: #F85360;">全部(20) </td>
-                                                <td class="main_small_Type_Box">待处理(1)</td>
-                                                <td class="main_small_Type_Box">处理中(10)</td>
+                                                <td class="main_small_Type_Box" style="color: #F85360;">全部({{AllCount}}) </td>
+                                                <td class="main_small_Type_Box">未安排({{NotPlannedCount}})</td>
+                                                <td class="main_small_Type_Box">未开始({{NotStartedCount}})</td>
                                             </tr>
                                             <tr>
-                                                <td class="main_small_Type_Box">已签单(5)</td>
-                                                <td class="main_small_Type_Box">计划中(4)</td>
+                                                <td class="main_small_Type_Box">进行中({{NotCompletedCount}})</td>
+                                                <td class="main_small_Type_Box">已完成({{ServiceCompletedCount}})</td>
                                                 <td class="main_small_Type_Box" style="opacity: 0.3;"> &nbsp;</td>
                                             </tr>
                                         </table>
@@ -136,16 +136,16 @@
                             <input type="text" readonly="readonly" placeholder="搜索" autocomplete="off" class="search_Input" />
                             <div class="search_Photo_Icon"></div>
                         </div>
-                        <div class="right_Box">
-                            <div class="add_Icon_White"></div>
-                            <div class="add_Arrow to_Hide"></div>
-                            <div class="add_Group to_Hide">
-                                <div class="add_Box"> 添加客户 </div>
-                                <div class="add_Box"> 添加联系人 </div>
-                                <div class="add_Box"> 添加工单 </div>
-                                <div class="add_Box"> 添加报价 </div>
+                        <div class="right_Box" ng-click="toDisplayBox()">
+                                <div class="add_Icon_White"></div>
+                                <div class="add_Arrow " id="add_contactsImg" style="display: none;"></div>
+                                <div class="add_Group " id="add_bgbox" style="display: none;">
+                                    <div class="add_Box"> 添加客户 </div>
+                                    <div class="add_Box"> 添加联系人 </div>
+                                    <div class="add_Box" ng-click="addNewWork();"> 添加工单 </div>
+                                    <div class="add_Box"> 添加报价 </div>
+                                </div>
                             </div>
-                        </div>
                     </div>
                     <div class="calendar_bodyer">
                         <!-- 日历 -->
@@ -231,7 +231,7 @@
                                 <table cellpadding="0" cellspacing="0">
                                     <tr>
                                         <td class="personal_small_Type_Box" style="color: #F85360;">全部(20) </td>
-                                        <td class="personal_small_Type_Box">待处理(1)</td>
+                                        <td class="personal_small_Type_Box">待处理(11)</td>
                                         <td class="personal_small_Type_Box">处理中(10)</td>
                                     </tr>
                                     <tr>

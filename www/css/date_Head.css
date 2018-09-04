@@ -91,6 +91,7 @@ img {
     border-bottom: 10px solid #ffffff;
     top: 19px;
     right: 25%;
+    z-index: 999;
 }
 .calendar_header .add_Group {
     position: absolute;
@@ -100,6 +101,7 @@ img {
     right: 0;
     display: inline-block;
     width: 130px;
+    z-index: 999;
 }
 .calendar_header .add_Box {
     white-space: nowrap;

@@ -29,6 +29,8 @@ angular.module('oinio.MainController', [])
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
+            $ionicTabsDelegate.select(1);
+            console.log("mainController.$ionicView.beforeEnter");
 
         });
         $scope.$on('$ionicView.enter', function () {
@@ -37,7 +39,7 @@ angular.module('oinio.MainController', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
-            $ionicTabsDelegate.select(1);
+            console.log("mainController.$ionicView.enter");
         });
 
     });
