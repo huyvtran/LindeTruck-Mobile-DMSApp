@@ -7,14 +7,17 @@ angular.module('oinio.CalendarArrangeController', [])
 
 
         $scope.submitOrder = function () {
+            var mobi = $("#currentDate").val();
+
             if (!mobi) {
                 $ionicPopup.alert({
                     title: "请选择日期"
                 });
+                return;
             }
             // window.history.back();
-            var mobi = $("#currentDate").val();
-            console.log(mobi+$("#selectUserId1").get(0).selectedIndex+"index:");
+            var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex
+            console.log("selectUserGroup:",selectUserGroup);
             
         };
         
@@ -23,7 +26,9 @@ angular.module('oinio.CalendarArrangeController', [])
 			calendar.init({
 				'trigger': '#currentDate',
 				'type': 'date'
-			});
+            });
+            
+           
             // console.log("$stateParams.SendAllUser:",$stateParams.SendAllUser);
              $scope.allUser = angular.fromJson($stateParams.SendAllUser);
             

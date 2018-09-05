@@ -75,7 +75,7 @@
          * @desc
          */
         $ionicConfigProvider.backButton.text('').icon('ion-chevron-left').previousTitleText(false);
-        $ionicConfigProvider.views.swipeBackEnabled(false);
+        $ionicConfigProvider.views.swipeBackEnabled(true);
 
     }
 
