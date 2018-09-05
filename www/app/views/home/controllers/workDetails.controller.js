@@ -24,21 +24,29 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("$stateParams.SendInfo",$stateParams.SendInfo);
             var userInfoId = $stateParams.SendInfo;
             HomeService.getOrder(userInfoId).then(function (response) {
-                $scope.busyerName = response[0].Account_Name_Ship_to__r.Name;
-                $scope.busyerType = response[0].Service_Order_Type__c;
-                console.log('resp::',response);
-                HomeService.getUserObjectById(response[0].Service_Order_Owner__c).then(function (resp1) {
-                    $scope.OwnerId = response[0].Service_Order_Owner__r = resp1.Id;
-                    console.log('Step1::',response[0].Service_Order_Owner__r);
-                    HomeService.getTruckObjectById(response[0].Truck_Serial_Number__c).then(function (resp2) {
-                        $scope.TruckId = response[0].Truck_Serial_Number__r = resp2.Id;
-                        console.log('Step2::',response[0].Truck_Serial_Number__r);
-                    },function (e2) {
-                        console.log(e2);
+                if(response.length>0){
+                    $scope.busyerName = response[0].Account_Name_Ship_to__r.Name;
+                    $scope.busyerType = response[0].Service_Order_Type__c;
+                    console.log('resp::',response);
+                    HomeService.getUserObjectById(response[0].Service_Order_Owner__c).then(function (resp1) {
+                        $scope.OwnerId = response[0].Service_Order_Owner__r = resp1.Id;
+                        console.log('Step1::',response[0].Service_Order_Owner__r);
+                        HomeService.getTruckObjectById(response[0].Truck_Serial_Number__c).then(function (resp2) {
+                            $scope.TruckId = response[0].Truck_Serial_Number__r = resp2.Id;
+                            console.log('Step2::',response[0].Truck_Serial_Number__r);
+                        },function (e2) {
+                            console.log(e2);
+                        });
+                    },function (e1) {
+                        console.log(e1);
                     });
-                },function (e1) {
-                    console.log(e1);
-                });
+                }else{
+                    $scope.busyerName ="";
+                    $scope.busyerType="";
+                    $scope.OwnerId="";
+                    $scope.TruckId-"";
+                }
+
 
 
                 //console.log("response.Service_Order_Owner__r:",response[0].Service_Order_Owner__r);
