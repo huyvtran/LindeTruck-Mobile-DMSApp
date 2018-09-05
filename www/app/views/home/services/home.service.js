@@ -77,6 +77,7 @@ angular.module('oinio.services', [])
                                 account = {
                                     Id: entry[0].Id,
                                     Name: entry[0].Name,
+                                    Customer_Number__c: entry[0].Customer_Number__c,
                                     _soupEntryId: entry[0]._soupEntryId
                                 };
                                 order.Account_Name_Ship_to__r = account;
