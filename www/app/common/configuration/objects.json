@@ -26,7 +26,7 @@
     },
     {
       "Name": "Contact",
-      "MobileVizArt__Fields__c": "Id,CreatedDate,IsDeleted,Name,LastModifiedDate,OwnerId,SystemModstamp,AccountId,MobilePhone,phone,CreatedById,FirstName,LastModifiedById,LastName",
+      "MobileVizArt__Fields__c": "Id,Contact_State__c,Position_Type__c,CreatedDate,IsDeleted,Name,Email,LastModifiedDate,OwnerId,SystemModstamp,AccountId,MobilePhone,phone,CreatedById,FirstName,LastModifiedById,LastName",
       "MobileVizArt__Search_Fields__c": "Name",
       "MobileVizArt__List_Content_Fields__c": "Account.Name,CreatedBy.Name",
       "MobileVizArt__Filter_Criteria__c": null,
