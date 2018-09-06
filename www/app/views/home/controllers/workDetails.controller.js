@@ -25,21 +25,40 @@ angular.module('oinio.workDetailsControllers', [])
             var userInfoId = $stateParams.SendInfo;
             HomeService.getOrder(userInfoId).then(function (response) {
                 if(response.length>0){
-                    $scope.busyerName = response[0].Account_Name_Ship_to__r.Name;
-                    $scope.busyerType = response[0].Service_Order_Type__c;
+                    $scope.busyerName = response[0].Account_Name_Ship_to__r.Name!=null?response[0].Account_Name_Ship_to__r.Name:"";
+                    $scope.OwnerId = response[0].Account_Name_Ship_to__r.Customer_Number__c !=null ? response[0].Account_Name_Ship_to__r.Customer_Number__c:"";
+                    var busyType = response[0].Service_Order_Type__c;
+                    if (busyType!=null){
+                         if (busyType == "Work Order"){
+                             $scope.busyerType ='工单';
+                         }else if (busyType =="Customer Consult"){
+                            $scope.busyerType ='客户咨询';
+                        }else if (busyType =="Customer Complaint"){
+                            $scope.busyerType ='客户投诉';
+                        }
+                    }else {
+                        $scope.busyerType ='';
+                    }
                     console.log('resp::',response);
-                    HomeService.getUserObjectById(response[0].Service_Order_Owner__c).then(function (resp1) {
-                        $scope.OwnerId = response[0].Service_Order_Owner__r = resp1.Id;
-                        console.log('Step1::',response[0].Service_Order_Owner__r);
-                        HomeService.getTruckObjectById(response[0].Truck_Serial_Number__c).then(function (resp2) {
-                            $scope.TruckId = response[0].Truck_Serial_Number__r = resp2.Id;
-                            console.log('Step2::',response[0].Truck_Serial_Number__r);
-                        },function (e2) {
-                            console.log(e2);
+                    if (response[0].Service_Order_Owner__c != null){
+                        HomeService.getUserObjectById(response[0].Service_Order_Owner__c).then(function (resp1) {
+                            if (response[0].Truck_Serial_Number__c!=null){
+                                HomeService.getTruckObjectById(response[0].Truck_Serial_Number__c).then(function (resp2) {
+                                    $scope.TruckId = response[0].Truck_Serial_Number__r = resp2.Name !=null?resp2.Name:"";
+                                },function (e2) {
+                                    console.log(e2);
+                                });
+                            }else {
+                                $scope.TruckId="";
+                            }
+                        },function (e1) {
+                            console.log(e1);
                         });
-                    },function (e1) {
-                        console.log(e1);
-                    });
+                    }else {
+                        $scope.OwnerId ="";
+                        $scope.TruckId="";
+                    }
+
                 }else{
                     $scope.busyerName ="";
                     $scope.busyerType="";

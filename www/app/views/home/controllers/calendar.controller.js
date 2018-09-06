@@ -60,7 +60,10 @@
                         },
                         {
                             text: '<b>详情</b>',
-                            type: 'button-positive'
+                            type: 'button-positive',
+                            onTap:function (e) {
+                                $state.go('app.workDetails',{SendInfo:item._soupEntryId});
+                            }
                         }
                     ]
                 });
