@@ -4,13 +4,13 @@
 
     /**
      * @ngdoc service
-     * @name oinio.services:AccountService
+     * @name oinio.services:ContactService
      *
      * @description
      */
     angular
         .module('oinio.services')
-        .service('AccountService', function($q, $log, LocalDataService, SMARTSTORE_COMMON_SETTING) {
+        .service('ContactService', function($q, $log, LocalDataService, SMARTSTORE_COMMON_SETTING) {
 
             let service = this;
 
