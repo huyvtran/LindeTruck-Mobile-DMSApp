@@ -77,7 +77,8 @@
                 cache: false
             })
             .state('app.arrange', {
-                url: '/arrange/?SendAllUser',
+                url: '/arrange',
+                params:{'SendAllUser':null,'SendSoupEntryId':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/arrange.html',

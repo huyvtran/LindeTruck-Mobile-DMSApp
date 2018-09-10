@@ -40,7 +40,7 @@
 
                 // 自定义弹窗
                 var myPopup = $ionicPopup.show({
-                    title: item.Account_Name_Ship_to__r.Name,
+                    title: item.Account_Ship_to__r.Name,
                     // subTitle: 'Please use normal things',
                     scope: $scope,
                     buttons: [
@@ -53,7 +53,7 @@
                                     console.log('Tapped！!', allUser);
                                     var listDataAll = angular.toJson(allUser);
 
-                                    $state.go('app.arrange', { SendAllUser: listDataAll });
+                                    $state.go('app.arrange', { SendAllUser: listDataAll ,SendSoupEntryId:item._soupEntryId});
                                     return "anpai";
                                 }
                             }
@@ -183,7 +183,6 @@
                     }
                     allUser = res;
                     $scope.allUser = res;
-                    console.log('getEachOrder Error ' + "1");
                     var newArray = [];
                     if (getOrderById(oCurrentUser.Id).orders == undefined) {
                         newArray = [];
@@ -194,8 +193,6 @@
 
                     //日历下方列表
                     allOrders = newArray;
-
-
                     $scope.currentOrder = getServiceOrderType(allOrders);
                     calendarAll.fullCalendar("addEventSource", getCount(currentOrder));
                 }, function (error) {
