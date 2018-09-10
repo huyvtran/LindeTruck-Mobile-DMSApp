@@ -19,7 +19,7 @@ angular.module('oinio.CalendarArrangeController', [])
             var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index           
             var selectUserEntryId = $scope.allUser[selectUserGroup].userSoupEntryId;//所有用户数组
             // 提交请求
-            console.log("selectUserEntryId:",selectUserEntryId+"   SendSoupEntryId:"+$stateParams.SendSoupEntryId +"   mobiDate :"+mobiDate);
+            // console.log("selectUserEntryId:",selectUserEntryId+"   SendSoupEntryId:"+$stateParams.SendSoupEntryId +"   mobiDate :"+mobiDate);
 
             var userSoupEntryId = new Object(); 
             userSoupEntryId._soupEntryId = selectUserEntryId;
@@ -27,10 +27,14 @@ angular.module('oinio.CalendarArrangeController', [])
             orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
 
             HomeService.modifyWorkOrder(orderSoupEntryId,userSoupEntryId,mobiDate).then(function (sobject) {
-                console.log("modifyWorkOrder_sobject:",sobject);
+                // console.log("modifyWorkOrder_sobject:",sobject);
+                window.history.back();
 
             }, function (error) {
                 console.log('modifyWorkOrder Error ' + error);
+                $ionicPopup.alert({
+                    title: "数据错误"
+                });
             });
             
         };

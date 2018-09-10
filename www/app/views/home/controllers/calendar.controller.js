@@ -82,7 +82,7 @@
                 LocalCacheService.set('previousStateForSCReady', $state.current.name);
                 LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
                 console.log('$ionicView.beforeEnter');
-
+                
             });
 
             $scope.$on('$i', function () {
@@ -177,15 +177,17 @@
             };
 
                 // 这里是ajax请求，替换为你正在使用的ajax方式就可以
-                HomeService.getEachOrder().then(function (res) {
+                var getHomeService = HomeService.getEachOrder().then(function (res) {
                     for (let index = 0; index < res.length; index++) {
                         // allUser.push(res[index]);
                     }
                     allUser = res;
                     $scope.allUser = res;
                     var newArray = [];
-                    if (getOrderById(oCurrentUser.Id).orders == undefined) {
-                        newArray = [];
+                     console.log("getOrderById(oCurrentUser.Id):",getOrderById(oCurrentUser.Id));
+
+                    if (typeof(getOrderById(oCurrentUser.Id))  === 'undefined') {
+                        newArray =  allUser[0].orders
                     } else {
                         newArray = getOrderById(oCurrentUser.Id).orders;
                     }
