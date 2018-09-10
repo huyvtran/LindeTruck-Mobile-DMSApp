@@ -508,22 +508,22 @@ angular.module('oinio.services', [])
 
 
 
-        this.modifyWorkOrder = function(order,account,day){
+        this.modifyWorkOrder = function(order,user,day){
             let deferred = $q.defer();
             let ret;
             console.log('modifyWorkOrder::');
 
             LocalDataService.createSObject('Service_Order_Overview__c').then(function(sobject) {
                 sobject._soupEntryId = order._soupEntryId;
-                sobject['Account_Ship_to__c_sid'] = account._soupEntryId;
-                sobject['Account_Ship_to__c_type'] = 'Account';
+                sobject['Service_Order_Owner__c_sid'] = user._soupEntryId;
+                sobject['Service_Order_Owner__c_type'] = 'User';
                 sobject['Plan_Date__c'] = day;
 
                 ret = sobject;
                 return LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]);
             }).then(function(sorderoverview) {
                 ret = sorderoverview;
-                return service.modifyChildWorkOrder(order._soupEntryId,account,day);
+                return service.modifyChildWorkOrder(order._soupEntryId,user,day);
             }).then(function (corders) {
                 ret = corders;
                 deferred.resolve(ret);
@@ -574,13 +574,13 @@ angular.module('oinio.services', [])
 
 
 
-        this.modifyChildWorkOrder = function(parentsid,account,day){
+        this.modifyChildWorkOrder = function(parentsid,user,day){
             let deferred = $q.defer();
             let res = [];
             service.searchChildOrderForParent(parentsid).then(function(orders){
                 angular.forEach(orders, function (order) {
-                    order['Account_Ship_to__c_sid'] = account._soupEntryId;
-                    order['Account_Ship_to__c_type'] = 'Account';
+                    order['Service_Order_Owner__c_sid'] = user._soupEntryId;
+                    order['Service_Order_Owner__c_type'] = 'User';
 
                     order['Plan_Date__c'] = day;
                     res.push(order);
