@@ -9,9 +9,9 @@ angular.module('oinio.services', [])
             console.log('searchUnplannedOrders.keyword:%s');
             let deferred = $q.defer();
 
-            let sql =  "select {Service_Order__c:_soup}\
-                         from {Service_Order__c}\
-                         where {Service_Order__c:Status__c} != 'Not Planned'";
+            let sql =  "select {Service_Order_Overview__c:_soup}\
+                         from {Service_Order_Overview__c}\
+                         where {Service_Order_Overview__c:Status__c} != 'Not Planned'";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let result = new Object();
@@ -19,11 +19,11 @@ angular.module('oinio.services', [])
                 let accIds = [];
                 if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                     angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
-                        let accId = entry[0].Account_Name_Ship_to__c;
+                        let accId = entry[0].Account_Ship_to__c;
                         orders.push({
                             Id: entry[0].Id,
                             Name: entry[0].Name,
-                            Account_Name_Ship_to__c: accId,
+                            Account_Ship_to__c: accId,
                             Service_Order_Type__c: entry[0].Service_Order_Type__c,
                             Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
                             Status__c: entry[0].Status__c,
@@ -73,14 +73,14 @@ angular.module('oinio.services', [])
                 if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                     angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                         angular.forEach(Ids.orders, function (order) {
-                            if(order.Account_Name_Ship_to__c == entry[0].Id){
+                            if(order.Account_Ship_to__c == entry[0].Id){
                                 account = {
                                     Id: entry[0].Id,
                                     Name: entry[0].Name,
                                     Customer_Number__c: entry[0].Customer_Number__c,
                                     _soupEntryId: entry[0]._soupEntryId
                                 };
-                                order.Account_Name_Ship_to__r = account;
+                                order.Account_Ship_to__r = account;
                             }
                         });
                     });
@@ -330,27 +330,30 @@ angular.module('oinio.services', [])
 
 
         /**
-         * @func  save new service order
-         * @desc  save Service_Order__c with recordType Work_Order to Salesforce
-         * @param {Service_Order__c[]} adrs - the data which should be create and save objects for,
+         * @func  save new service order overview
+         * @desc  save Service_Order_Overview__c with recordType Work_Order to Salesforce
+         * @param {Service_Order_Overview__c[]} adrs - the data which should be create and save objects for,
          *      the data should contain 
-         *  Service_Order__c.Service_Order_Owner__c,
-         *  Service_Order__c.Service_Order_Owner__r._soupEntryId  // wai
+         *  Service_Order_Overview__c.Service_Order_Owner__c,
+         *  Service_Order_Overview__c.Service_Order_Owner__r._soupEntryId  // wai
          * 
-         *  Service_Order__c.Plan_Date__c,
+         *  Service_Order_Overview__c.Plan_Date__c,
          *
-         *  Service_Order__c.Account_Name_Ship_to__c,           //order
-         *  Service_Order__c.Account_Name_Ship_to__r._soupEntryId,
+         *  Service_Order_Overview__c.Account_Ship_to__c,           //order
+         *  Service_Order_Overview__c.Account_Ship_to__c._soupEntryId,
+         *
+         *  Service_Order_Overview__c.Service_Order_Type__c            //unnecessary,default value 'work order'
+         *
+         *  {Truck_Fleet__c[]} trucks - the truck data which should be saved in each child service order
+         *  //unnecessary param
          *
          *  Service_Order__c.Truck_Serial_Number__c,
          *  Service_Order__c.Truck_Serial_Number__r._soupEntryId,    //truck
-         *
-         *  Service_Order__c.Service_Order_Type__c            //unnecessary,default value 'work order'
          * 
          * @returns {Promise} an array of Service_Order__c objects containing like
          *   "_soupId": 1234567890,
          */
-        this.addServiceOrders = function (adrs) {
+        this.addServiceOrders = function (adrs,trucks) {
             $log.debug('saveServiceOrders:: '+adrs);
             var deferred = $q.defer();
             console.log(service.recordTypes);
@@ -358,36 +361,34 @@ angular.module('oinio.services', [])
                 'DeveloperName': 'Work_Order'
             });
             console.log(adrRecordType);
-            LocalDataService.createSObject('Service_Order__c').then(function(sobject) {
+            LocalDataService.createSObject('Service_Order_Overview__c').then(function(sobject) {
                 var newItem, adr;
                 var adrsToSave = [];
                 for (var i=0;i<adrs.length;i++){
                     adr = adrs[i];
-                    // if (!UtilsService.isUndefinedOrNull(adr.Account_Name_Ship_to__c)) {
                     newItem = _.clone(sobject);
-                    newItem['Account_Name_Ship_to__c'] = adr.Account_Name_Ship_to__c;///*** */
-                    newItem['Account_Name_Ship_to__c_sid'] = adr.Account_Name_Ship_to__r._soupEntryId;///*** */
-                    newItem['Account_Name_Ship_to__c_type'] = 'Account';
+
+                    newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;
+                    newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;
+                    newItem['Service_Order_Owner__c_type'] = 'User';
+
+                    newItem['Account_Ship_to__c'] = adr.Account_Ship_to__c;
+                    newItem['Account_Ship_to__c_sid'] = adr.Account_Ship_to__r._soupEntryId;
+                    newItem['Account_Ship_to__c_type'] = 'Account';
+
                     newItem['Service_Order_Type__c'] = 'Work Order';
                     if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){newItem['Service_Order_Type__c'] = adr.Service_Order_Type__c;}
-                    newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;///*** */
-                    newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;///*** */
-                    newItem['Service_Order_Owner__c_type'] = 'User';
+
                     if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
-                    newItem['Plan_Date__c'] = adr.Plan_Date__c;  ///*** */
+
+                    newItem['Plan_Date__c'] = adr.Plan_Date__c;
                     //newItem['Status__c'] = adr.Status__c;
 
-                    if(adr.Truck_Serial_Number__c != null && adr.Truck_Serial_Number__c !=''){
-                        newItem['Truck_Serial_Number__c'] = adr.Truck_Serial_Number__c;
-                        newItem['Truck_Serial_Number__c_sid'] = adr.Truck_Serial_Number__r._soupEntryId;
-                        newItem['Truck_Serial_Number__c_type'] = 'Truck_Fleet__c';
-                    }
                     adrsToSave.push(newItem);
                     console.log('newItem::' + newItem);
-                    // }
                 }
-                LocalDataService.saveSObjects('Service_Order__c', adrsToSave).then(function(result) {
-                    console.log('localSave:::',result);
+                LocalDataService.saveSObjects('Service_Order_Overview__c', adrsToSave).then(function(result) {
+                    console.log('addServiceOrders1:::',result);
                     if (!result){
                         //console.error("!result");
                         deferred.reject('Failed to get result.');
@@ -398,7 +399,7 @@ angular.module('oinio.services', [])
                             adrs[i]._soupEntryId = result[i]._soupEntryId;
                         }
                     }
-                    console.log('localSave222:::',adrs);
+                    console.log('addServiceOrders2:::',adrs);
                     deferred.resolve(adrs);
                     // synchronize().then(function () {
                     //     deferred.resolve('done');
@@ -413,6 +414,186 @@ angular.module('oinio.services', [])
             return deferred.promise;
         };
 
+
+
+        this.addChildServiceOrders = function (adrs,trucks) {
+            $log.debug('addChildServiceOrders:: '+ adrs);
+            var deferred = $q.defer();
+
+            // console.log(service.recordTypes);
+            // var adrRecordType = _.find(service.recordTypes, {s
+            //     'DeveloperName': 'Work_Order'
+            // });
+            // console.log(adrRecordType);
+            LocalDataService.createSObject('Service_Order__c').then(function(sobject) {
+                var newItem;
+                var adr = adrs[0];
+                var adrsToSave = [];
+
+                for (var i=0;i<trucks.length;i++){
+                    newItem = _.clone(sobject);
+
+                    newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;
+                    newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;
+                    newItem['Service_Order_Owner__c_type'] = 'User';
+
+                    newItem['Account_Name_Ship_to__c'] = adr.Account_Ship_to__c;
+                    newItem['Account_Name_Ship_to__c_sid'] = adr.Account_Ship_to__r._soupEntryId;
+                    newItem['Account_Name_Ship_to__c_type'] = 'Account';
+
+                    newItem['Service_Order__c_sid'] = adr._soupEntryId;
+                    newItem['Service_Order__c_type'] = 'Service_Order_Overview__c';
+
+                    newItem['Service_Order_Type__c'] = 'Work Order';
+                    if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){newItem['Service_Order_Type__c'] = adr.Service_Order_Type__c;}
+
+                    //if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
+
+                    newItem['Plan_Date__c'] = adr.Plan_Date__c;
+                    //newItem['Status__c'] = adr.Status__c;
+
+                    if(trucks[i].Truck_Serial_Number__c != null && trucks[i].Truck_Serial_Number__c !=''){
+                        newItem['Truck_Serial_Number__c'] = adr.Truck_Serial_Number__c;
+                        newItem['Truck_Serial_Number__c_sid'] = adr.Truck_Serial_Number__r._soupEntryId;
+                        newItem['Truck_Serial_Number__c_type'] = 'Truck_Fleet__c';
+                    }
+
+                    adrsToSave.push(newItem);
+                    console.log('newItem::' + newItem);
+                }
+                LocalDataService.saveSObjects('Service_Order__c', adrsToSave).then(function(result) {
+                    console.log('addChildServiceOrders1:::',result);
+                    if (!result){
+                        //console.error("!result");
+                        deferred.reject('Failed to get result.');
+                        return;
+                    }
+                    for (var i=0;i<result.length;i++){
+                        if (result[i].success){
+                            adrsToSave[i]._soupEntryId = result[i]._soupEntryId;
+                        }
+
+                    }
+                    console.log('addChildServiceOrders2:::',adrsToSave);
+                    deferred.resolve(adrsToSave);
+                    // synchronize().then(function () {
+                    //     deferred.resolve('done');
+                    // });
+                }, function (error) {
+                    // log error
+                    console.log(error);
+                });
+
+            }, angular.noop);
+
+            return deferred.promise;
+        };
+
+
+        this.addWorkOrder = function(adrs,trucks) {
+            let deferred = $q.defer();
+            let ret;
+            console.log('addWorkOrder::');
+            service.addServiceOrders(adrs,trucks).then(function (res){
+                ret = res;
+                return service.addChildServiceOrders(res,trucks);
+            }).then(function (corders) {
+                ret = corders;
+                deferred.resolve(ret);
+            }).catch(function (error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        };
+
+
+
+        this.modifyWorkOrder = function(order,account,day){
+            let deferred = $q.defer();
+            let ret;
+            console.log('modifyWorkOrder::');
+
+            LocalDataService.createSObject('Service_Order_Overview__c').then(function(sobject) {
+                sobject._soupEntryId = order._soupEntryId;
+                sobject['Account_Ship_to__c_sid'] = account._soupEntryId;
+                sobject['Account_Ship_to__c_type'] = 'Account';
+                sobject['Plan_Date__c'] = day;
+
+                ret = sobject;
+                return LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]);
+            }).then(function(sorderoverview) {
+                ret = sorderoverview;
+                return service.modifyChildWorkOrder(order._soupEntryId,account,day);
+            }).then(function (corders) {
+                ret = corders;
+                deferred.resolve(ret);
+            }).catch(function (error) {
+                deferred.reject(error);
+            });
+
+            return deferred.promise;
+        };
+
+
+        this.searchChildOrderForParent = function(sid){
+            console.log('searchChildOrderForParent.keyword:%s');
+            let deferred = $q.defer();
+
+            let sql =  "select {Service_Order__c:_soup}\
+                         from {Service_Order__c}\
+                         where {Service_Order__c:Service_Order__c_sid} ='"+sid+"'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let orders = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        let accId = entry[0].Account_Ship_to__c;
+                        orders.push({
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Account_Ship_to__c: accId,
+                            Service_Order__c: entry[0].Service_Order__c,
+                            Service_Order_Type__c: entry[0].Service_Order_Type__c,
+                            Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
+                            Status__c: entry[0].Status__c,
+                            Plan_Date__c: entry[0].Plan_Date__c,
+                            Truck_Serial_Number__c: entry[0].Truck_Serial_Number__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        });
+                    });
+                }
+                deferred.resolve(orders);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('searchChildOrderForParent::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+
+        this.modifyChildWorkOrder = function(parentsid,account,day){
+            let deferred = $q.defer();
+            let res = [];
+            service.searchChildOrderForParent(parentsid).then(function(orders){
+                angular.forEach(orders, function (order) {
+                    order['Account_Ship_to__c_sid'] = account._soupEntryId;
+                    order['Account_Ship_to__c_type'] = 'Account';
+
+                    order['Plan_Date__c'] = day;
+                    res.push(order);
+                });
+                return service.saveServiceOrders(res);
+            }).then(function (corders) {
+                ret = corders;
+                deferred.resolve(ret);
+            }).catch(function (error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        };
 
 
         /**
@@ -693,10 +874,10 @@ angular.module('oinio.services', [])
             console.log('searchOrder.keyword:%s');
             let deferred = $q.defer();
 
-            let sql =  "select {Service_Order__c:_soup}\
-                         from {Service_Order__c}\
-                         where {Service_Order__c:_soupEntryId} ='"+Id+" '\
-                            or {Service_Order__c:Id} = '"+Id+"'";
+            let sql =  "select {Service_Order_Overview__c:_soup}\
+                         from {Service_Order_Overview__c}\
+                         where {Service_Order_Overview__c:_soupEntryId} ='"+Id+" '\
+                            or {Service_Order_Overview__c:Id} = '"+Id+"'";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let result = new Object();
@@ -704,11 +885,11 @@ angular.module('oinio.services', [])
                 let accIds = [];
                 if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                     angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
-                        let accId = entry[0].Account_Name_Ship_to__c;
+                        let accId = entry[0].Account_Ship_to__c;
                         orders.push({
                             Id: entry[0].Id,
                             Name: entry[0].Name,
-                            Account_Name_Ship_to__c: accId,
+                            Account_Ship_to__c: accId,
                             Service_Order_Type__c: entry[0].Service_Order_Type__c,
                             Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
                             Status__c: entry[0].Status__c,
