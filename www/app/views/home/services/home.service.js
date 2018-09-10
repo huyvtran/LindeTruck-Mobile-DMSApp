@@ -11,7 +11,7 @@ angular.module('oinio.services', [])
 
             let sql =  "select {Service_Order_Overview__c:_soup}\
                          from {Service_Order_Overview__c}\
-                         where {Service_Order_Overview__c:Status__c} != 'Not Planned'";
+                         where {Service_Order_Overview__c:Status__c} != ''";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let result = new Object();
