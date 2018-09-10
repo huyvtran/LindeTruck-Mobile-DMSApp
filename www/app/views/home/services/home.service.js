@@ -507,7 +507,21 @@ angular.module('oinio.services', [])
         };
 
 
-
+        /**
+         * @func  modify service order overview
+         *
+         * @param {order} order - the data which should be create and save objects for,
+         *      the data should contain
+         *  Service_Order_Overview__c._soupEntryId,
+         *
+         *  {user} user - who should do the service order，the data should contain
+         *  user._soupEntryId
+         *
+         *  {date} day - which day should applied
+         *
+         * @returns {Promise} an array of Service_Order__c objects containing like
+         *   "_soupId": 1234567890,
+         */
         this.modifyWorkOrder = function(order,user,day){
             let deferred = $q.defer();
             let ret;
