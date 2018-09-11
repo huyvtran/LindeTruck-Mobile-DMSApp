@@ -48,7 +48,9 @@
 					</ion-list>
 					<ion-list can-swipe="true" ng-show="!isShow">
 						<ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="toRepair4(item.Id)" class="small_Box_Text">
-							{{item.Name}}
+							<p>公司名称：{{item.Name}}</p>
+							<br>
+							<p>公司地址：{{item.Address__c}}</p>
 						</ion-item>
 					</ion-list>
 				</div>
