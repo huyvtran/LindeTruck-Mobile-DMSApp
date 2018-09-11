@@ -154,7 +154,8 @@
                         adr = adrs[i];
 
                         newItem = _.clone(sobject);
-                        newItem['Name'] = adr.Name;
+                        //newItem['Name'] = adr.Name;
+                        newItem['LastName'] = adr.Name;
                         newItem['AccountId'] = adr.Account.Id;
                         newItem['AccountId_sid'] = adr.Account._soupEntryId;
                         newItem['AccountId_type'] = 'Account';
