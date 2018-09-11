@@ -131,6 +131,7 @@
              *  Contact.Account._soupEntryId
              *
              *  Contact.Phone,           //Contact Info
+             *  Contact.MobilePhone,
              *  Contact.Email,
              *
              *  Contact.Contact_State__c,       //Contact State
@@ -160,7 +161,8 @@
                         newItem['AccountId_sid'] = adr.Account._soupEntryId;
                         newItem['AccountId_type'] = 'Account';
 
-                        newItem['phone'] = adr.Phone;
+                        newItem['Phone'] = adr.Phone;
+                        newItem['MobilePhone'] = adr.MobilePhone;
                         newItem['Email'] = adr.Email;
 
                         if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
