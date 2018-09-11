@@ -8,7 +8,7 @@ echo '\x1B[0;94m**********************************************************\x1B[0
 echo '\x1B[0;91mx PLEASE SET UP YOUR ANDROID_HOME PATH\x1B[0m'
    # exit
 # after setting up your ANDROID_HOME, please disable until here
-export ANDROID_HOME=/Users/gw/Library/Android/sdk >/dev/null 2>/dev/null
+export ANDROID_HOME=/Users/jiawei/Library/Android/sdk >/dev/null 2>/dev/null
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools >/dev/null 2>/dev/null
 
 # ANDROID_HOME
@@ -124,8 +124,12 @@ cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlu
 echo '\x1B[0;90m✓ cordova-plugin-background-mode.\x1B[0m'
 cordova plugin add cordova-plugin-background-mode
 
-echo '\x1B[0;90m✓ cordova-plugin-baidumaplocation.\x1B[0m'
-cordova plugin add cordova-plugin-baidumaplocation --variable ANDROID_KEY='gqNHAdSW0ORFLGF5IsGfuoM5DxhtSTiq' --variable IOS_KEY='IOS_KEY'
+#echo '\x1B[0;90m✓ cordova-plugin-baidumaplocation.\x1B[0m'
+#cordova plugin add cordova-plugin-baidumaplocation --variable ANDROID_KEY='gqNHAdSW0ORFLGF5IsGfuoM5DxhtSTiq' --variable IOS_KEY='IOS_KEY'
+＃cordova plugin remove cordova-plugin-baidumaplocation
+
+echo '\x1B[0;90m✓ cordova-plugin-contacts.\x1B[0m'
+cordova plugin add cordova-plugin-contacts
 
 # Check salesforce sdk
 if [ ! -d plugins/com.salesforce ]; then
