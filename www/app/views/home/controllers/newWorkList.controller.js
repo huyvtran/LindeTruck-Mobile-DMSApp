@@ -82,8 +82,6 @@ angular.module('oinio.newWorkListControllers', [])
                     opacity:'1'
                 },'normal').show();
             });
-
-
         };
 
         $scope.cancleButton = function () {

@@ -77,6 +77,16 @@
                 },
                 cache: false
             })
+            .state('app.newLinkMan', {
+                url: 'app/newLinkMan',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/newLinkMan.html',
+                        controller: 'NewLinkManController as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.arrange', {
                 url: '/arrange',
                 params:{'SendAllUser':null,'SendSoupEntryId':null},

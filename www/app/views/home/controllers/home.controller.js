@@ -23,6 +23,7 @@ angular.module('oinio.controllers', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
+            getOrderBySelectTabs();
             console.log("homeController$ionicView.enter");
         });
         //加号“+”菜单
@@ -44,10 +45,14 @@ angular.module('oinio.controllers', [])
         $scope.addNewWork1 = function () {
             $state.go('app.newWork');
         };
+
+        $scope.addNewLinkMan = function () {
+            $state.go('app.newLinkMan');
+        };
+
         $scope.selectTabWithIndex = function (index) {
             $ionicTabsDelegate.select(index);
-            getOrderBySelectTabs();
-        }
+        };
 
 
         var getOrderByStates = function (status) {

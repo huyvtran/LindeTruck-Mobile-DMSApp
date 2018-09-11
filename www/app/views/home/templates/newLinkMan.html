@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> new work list </title>
+    <style type="text/css">
+        body {
+            margin: 0;
+            font-size: 1rem;
+            font-family: 微软雅黑, 华文黑体, sans-serif;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            height: 100vh;
+            background-position: 50%;
+            overflow: hidden;
+        }
+        img {
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        .to_Open {
+            display: block;
+        }
+        .to_Hide {
+            display: none;
+        }
+        .header {
+            background: #aa0020;
+            width: 100%;
+            height: 64px;
+            position: relative;
+            padding-left:  5%;
+            padding-right:  5%;
+            line-height: 64px;
+        }
+        .header2 {
+            background: #aa0020;
+            /* width: 90%; */
+            height: 64px;
+            position: relative;
+            padding: 0 5%;
+            line-height: 64px;
+
+        }
+        .left_Box {
+            display: inline-flex;
+            width: 10%;
+            vertical-align: middle;
+        }
+        .back_Icon {
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 14px;
+            height: 24px;
+        }
+        .search_All {
+            display: inline-block;
+            width: 72%;
+            position: relative;
+            vertical-align: middle;
+        }
+        .search_right_Group {
+            display: inline-block;
+            width: 15%;
+            color: #ffffff;
+            vertical-align: middle;
+        }
+        .search_All input.search_Input {
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0 auto;
+            display: block;
+            padding: 0 10% 0 15%;
+            font-size: 0.8rem;
+            color: #D6D6D6;
+            border: 1px solid #d6d6d6;
+            -moz-border-radius: 20px;
+            -webkit-border-radius: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+        .search_Photo_Icon {
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 21px;
+            height: 15px;
+            position: absolute;
+            top: calc(50% - 7.5px);
+            left: 5%;
+        }
+        .text_Cancel {
+            line-height: initial;
+            text-align: right;
+        }
+        .center_Box {
+            display: inline-block;
+            width: 77%;
+            position: relative;
+            vertical-align: middle;
+        }
+        .center_Title {
+            text-align: center;
+            color: #ffffff;
+        }
+        .right_Box {
+            position: relative;
+            display: inline-flex;
+            width: 10%;
+            vertical-align: middle;
+        }
+        .add_Icon_White {
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 20px;
+            height: 20px;
+            margin-left: auto;
+        }
+        .bodyer {
+            overflow-y: auto;
+            height: calc(100vh - 148px);
+        }
+        .bodyer_nofooter{
+            overflow-y: auto;
+            height: calc(100vh - 96px);
+        }
+        .newwork_big_Type_Group {
+            margin: 7%;
+        }
+        .small_Type_Group {
+            margin-bottom: 5%;
+        }
+        .small_Type_Title {
+            color: #979797;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 2%;
+        }
+        .small_Type_Box {
+
+        }
+        .small_Type_Input {
+            color: #535353;
+            width: 100%;
+            height: 30px;
+            border-bottom: 1px solid #535353;
+            border-top: 0;
+            border-left: 0;
+            border-right: 0;
+            padding: 0 5%;
+            font-size: 1rem;
+        }
+        .small_Type_Select {
+            color: #535353;
+            width: 100%;
+            height: 40px;
+            padding: 0 5%;
+            font-size: 1rem;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+            margin: 0;
+            width: 100%;
+            display: flex;
+            border-top: 1px solid #535353;
+        }
+        .footer_Btn {
+            padding-top: 4%;
+            padding-bottom: 4%;
+            font-size: 1rem;
+            color: #535353;
+            background: #ffffff;
+            display: inline-flex;
+            width: calc(100% / 2);
+            justify-content: center;
+        }
+        .footer_Btn.Save_Btn_Act {
+            color: #ffffff;
+            background: #aa0020;
+        }
+        .footer_Btn.Save_Btn_Uact {
+            color: #ffffff;
+            background: #979797;
+        }
+        .volume_Icon {
+            background-image: url(./images/volume_icon.png);
+        }
+        .add_Icon_White {
+            background-image: url(./images/add_icon_white.png);
+        }
+
+        .small_Box_Title {
+            color: #aa0020;
+            font-weight: bold;
+            border-bottom: 1px solid #aa0020;
+            padding-bottom: 2%;
+            margin: 0 5%;
+        }
+        .search_Photo_Icon {
+            background-image: url(./img/images/search-photo_icon.png);
+        }
+        .back_Icon {
+            background-image: url(././img/images/back_icon.png);
+        }
+        .search_bodyer {
+            background-image: url(././img/images/bg_img.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow-y: auto;
+            height: calc(100vh - 64px);
+
+        }
+        .search_bodyer .big_Box_Group {
+            margin: 5% 0;
+        }
+        .search_bodyer .small_Box_Title {
+            color: #aa0020;
+            font-weight: bold;
+            border-bottom: 1px solid #aa0020;
+            padding-bottom: 2%;
+            margin: 0 5%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="newLinkMan_Select" style="height:100vh;width:100vw;position:absolute;opacity:0;">
+    <div id="selectCustomer" style="">
+        <div class="header2">
+            <div class="left_Box" ng-click="closeSelectPage();">
+                <div class="back_Icon"></div>
+            </div>
+            <div class="search_All" >
+                <input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAcctText"/>
+                <!--<div class="search_Photo_Icon"></div>-->
+            </div>
+            <div class="search_right_Group" id="cancleBtn1" ng-click="getAccts(searchAcctText);" ng-show="searchAcctText">
+                <div class="text_Cancel"> 搜索 </div>
+            </div>
+        </div>
+        <div class="bodyer_nofooter search_bodyer" style="background-color: white;">
+            <div class="big_Box_Group">
+                <div class="small_Box_Title"> 查询客户 </div>
+                <ion-list can-swipe="true">
+                    <ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="selectAccount(item);" class="small_Box_Text">
+                        {{item.Name}}
+                    </ion-item>
+                </ion-list>
+            </div>
+        </div>
+    </div>
+    <div id="selectContact" style="">
+        <div class="header2">
+            <div class="left_Box" ng-click="closeSelectPage()">
+                <div class="back_Icon"></div>
+            </div>
+            <div class="center_Box">
+                <div class="center_Title">联系人列表</div>
+            </div>
+            <div class="right_Box">
+                <div class="add_Icon_White"></div>
+            </div>
+        </div>
+        <div class="bodyer_nofooter search_bodyer" style="background-color: white;">
+            <div class="big_Box_Group">
+                <div class="small_Box_Title">选择联系人</div>
+                <ion-list can-swipe="true">
+                    <ion-item  ng-repeat="contact in contacts" ng-click="selectContact(contact)" class="small_Box_Text">
+                        <P>姓名：{{contact.displayName}} </P> <br/>
+                        <P>手机号：{{contact.phoneNumber}} </P>
+
+                    </ion-item>
+                </ion-list>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="newWorkList_main" style="height:100vh;width:100vw;position:absolute;background-color: white;opacity:1;">
+    <div class="header">
+        <div class="left_Box">
+        </div>
+        <div class="center_Box">
+            <div class="center_Title">新建联系人</div>
+        </div>
+        <div class="right_Box">
+            <div class="add_Icon_White"></div>
+        </div>
+    </div>
+    <div class="bodyer">
+        <div class="newwork_big_Type_Group">
+            <div class="small_Type_Group">
+                <div class="small_Type_Title">姓名:</div>
+                <div class="small_Type_Box">
+                    <input type="button" id="chooseLinkManName" value={{chooseLinkManName}} style="background-color:white;" ng-click="openSelectPage('linkMan');" class="small_Type_Input"/>
+                </div>
+            </div>
+            <div class="small_Type_Group">
+                <div class="small_Type_Title">客户名:</div>
+                <div class="small_Type_Box">
+                    <input type="button" id="searchResultAcctName" value={{searchResultAcctName}} style="background-color:white;" ng-click="openSelectPage('customer');" class="small_Type_Input"/>
+                </div>
+            </div>
+            <div class="small_Type_Group">
+                <div class="small_Type_Title">电话:</div>
+                <div class="small_Type_Box">
+                    <input type="button" id="chooseLinkManPhoneNumber" value={{chooseLinkManPhoneNumber}} style="background-color:white;" ng-click="openSelectPage('linkMan');" class="small_Type_Input"/>
+                </div>
+            </div>
+            <div class="small_Type_Group">
+                <div class="small_Type_Title">邮件:</div>
+                <div class="small_Type_Box">
+                    <input type="text" id="chooseLinkManEmail" style="background-color:white;"  class="small_Type_Input"/>
+                </div>
+            </div>
+            <div class="small_Type_Group">
+                <div class="small_Type_Title">状态:</div>
+                <div class="small_Type_Box">
+                    <select id="select_status_type" class="small_Type_Select">
+                        <option ng-repeat="status in vm.allStatus" id="chooseLinkManStatus" value={{status.value}}>{{status.label}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="small_Type_Group">
+                <div class="small_Type_Title">职位类型:</div>
+                <div class="small_Type_Box">
+                    <select id="select_position_type" class="small_Type_Select">
+                        <option ng-repeat="postionType in vm.postionTypes" id="chooseLinkManPostionType" value={{postionType.value}}>{{postionType.label}} </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer_Btn" ng-click="goBack();">取消</div>
+        <div class="footer_Btn Save_Btn_Act" ng-click="saveContactData();">保存</div>
+    </div>
+</div>
+
+</body>
+</html>

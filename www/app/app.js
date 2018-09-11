@@ -50,7 +50,8 @@
             'oinio.CustomDetailController',
             'oinio.CalendarArrangeController',
             'oinio.newWorkListControllers',
-            'oinio.workDetailsControllers'
+            'oinio.workDetailsControllers',
+            'oinio.NewLinkManController'
             
         ]);
 
