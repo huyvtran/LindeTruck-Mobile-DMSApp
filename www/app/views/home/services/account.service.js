@@ -37,7 +37,9 @@
                             accounts.push({
                                 Id: entry[0].Id,
                                 Name: entry[0].Name,
-                                SAP_Number__c: entry[0].SAP_Number__c
+                                Address__c: entry[0].Address__c,
+                                SAP_Number__c: entry[0].SAP_Number__c,
+                                _soupEntryId: entry[0]._soupEntryId
                             });
                         });
                     }
@@ -76,7 +78,8 @@
                                 Address__c: entry[0].Address__c,
                                 Salesman__c: entry[0].Salesman__c,
                                 Salesman_formula__c: entry[0].Salesman_formula__c,
-                                Sale_Group_Code__c: entry[0].Sale_Group_Code__c
+                                Sale_Group_Code__c: entry[0].Sale_Group_Code__c,
+                                _soupEntryId: entry[0]._soupEntryId
                             };
                         });
                     }
@@ -104,7 +107,8 @@
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             user = {
                                 Id: entry[0].Id,
-                                Name: entry[0].Name
+                                Name: entry[0].Name,
+                                _soupEntryId: entry[0]._soupEntryId
                             };
                         });
                     }
@@ -133,7 +137,8 @@
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             BTU = {
                                 Id: entry[0].Id,
-                                Name: entry[0].Name
+                                Name: entry[0].Name,
+                                _soupEntryId: entry[0]._soupEntryId
                             };
                         });
                     }
@@ -162,7 +167,8 @@
                                 Id: entry[0].Id,
                                 Name: entry[0].Name,
                                 MobilePhone: entry[0].MobilePhone,
-                                Phone: entry[0].Phone
+                                Phone: entry[0].Phone,
+                                _soupEntryId: entry[0]._soupEntryId
                             });
                         });
                     }
