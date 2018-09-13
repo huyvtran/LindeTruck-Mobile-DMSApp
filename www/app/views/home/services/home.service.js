@@ -515,6 +515,7 @@ angular.module('oinio.services', [])
          *  Service_Order_Overview__c._soupEntryId,
          *
          *  {user} user - who should do the service order，the data should contain
+         *  user.Id
          *  user._soupEntryId
          *
          *  {date} day - which day should applied
@@ -525,17 +526,19 @@ angular.module('oinio.services', [])
         this.modifyWorkOrder = function(order,user,day){
             let deferred = $q.defer();
             let ret;
-            console.log('modifyWorkOrder::');
 
-            LocalDataService.createSObject('Service_Order_Overview__c').then(function(sobject) {
-                sobject._soupEntryId = order._soupEntryId;
+
+            LocalDataService.getSObject('Service_Order_Overview__c',order._soupEntryId).then(function(sobject) {
+                sobject['Service_Order_Owner__c'] = user.Id;
                 sobject['Service_Order_Owner__c_sid'] = user._soupEntryId;
                 sobject['Service_Order_Owner__c_type'] = 'User';
                 sobject['Plan_Date__c'] = day;
 
                 ret = sobject;
+                console.log('modifyWorkOrder::'+order._soupEntryId+'::',sobject);
                 return LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]);
             }).then(function(sorderoverview) {
+                console.log('modifyWorkOrder::11',sorderoverview);
                 ret = sorderoverview;
                 return service.modifyChildWorkOrder(order._soupEntryId,user,day);
             }).then(function (corders) {
@@ -593,6 +596,7 @@ angular.module('oinio.services', [])
             let res = [];
             service.searchChildOrderForParent(parentsid).then(function(orders){
                 angular.forEach(orders, function (order) {
+                    order['Service_Order_Owner__c'] = user.Id;
                     order['Service_Order_Owner__c_sid'] = user._soupEntryId;
                     order['Service_Order_Owner__c_type'] = 'User';
 
