@@ -166,6 +166,10 @@ img {
     height: calc(100% - 280px);
     overflow: auto;
 }
+.calendar_bodyer .big_Type_Group.changeHeight {
+    height: calc(100% - 115px);
+    overflow: auto;
+}
 .calendar_bodyer .small_Type_Table {
     width: 100%;
     margin: 1% 0;
@@ -175,21 +179,24 @@ img {
 }
 .calendar_bodyer .small_Type_Table td {
     color: #535353;
-    vertical-align: middle;
     font-size: 0.8rem;
 }
 .calendar_bodyer .table_Left {
     white-space: nowrap;
     width: 25%;
     padding-left: 5%;
+    vertical-align: top;
 }
 .calendar_bodyer .table_Center {
     width: calc(75% - 40px);
+    white-space: normal;
+    vertical-align: top;
 }
 .calendar_bodyer .table_Right {
     width: 40px;
     height: 40px;
     background-color: #535353;
+    vertical-align: middle;
 }
 .calendar_bodyer .table_Img {
     background-repeat: no-repeat;

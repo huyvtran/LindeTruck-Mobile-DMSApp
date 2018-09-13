@@ -23,7 +23,7 @@ angular.module('oinio.controllers', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
-            getOrderBySelectTabs();
+            
             console.log("homeController$ionicView.enter");
         });
         //加号“+”菜单
@@ -50,6 +50,9 @@ angular.module('oinio.controllers', [])
 
         $scope.selectTabWithIndex = function (index) {
             $ionicTabsDelegate.select(index);
+            if (index == 0) {
+                getOrderBySelectTabs();
+            }
         };
 
 
@@ -70,7 +73,7 @@ angular.module('oinio.controllers', [])
             for (let index = 0; index < allUser.length; index++) {
                 var userId = allUser[index].userId;
                 if (userId == sendId) {
-                    console.log("getOrderById_UserId:",userId);
+                    // console.log("getOrderById_UserId:",userId);
 
                     return allUser[index];
                 }
@@ -81,8 +84,8 @@ angular.module('oinio.controllers', [])
             // 这里是获取全部工单的请求
             HomeService.getEachOrder().then(function (res) {
                 allUser = res;
-                if (getOrderById(oCurrentUser.Id).orders == undefined) {
-                    currentOrder = [];
+                if (typeof(getOrderById(oCurrentUser.Id))  === 'undefined') {
+                    newArray =  allUser[0].orders
                 } else {
                     currentOrder = getOrderById(oCurrentUser.Id).orders;
                 }

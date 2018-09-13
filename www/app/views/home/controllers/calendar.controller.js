@@ -25,7 +25,6 @@
                     document.getElementById("add_bgbox").style.display = "none";//隐藏
                     document.getElementById("add_contactsImg").style.display = "none";//隐藏
 
-
                 }
             };
 
@@ -37,14 +36,11 @@
             // Triggered on a button click, or some other target
             $scope.showPopup = function (item) {
                 $scope.data = {}
-
-                // 自定义弹窗
-                var myPopup = $ionicPopup.show({
-                    title: item.Account_Ship_to__r.Name,
-                    // subTitle: 'Please use normal things',
-                    scope: $scope,
-                    buttons: [
+                var setButtons = [];
+                if (item.Status__c =="Not Planned") {
+                    setButtons =[
                         { text: 'Cancel' },
+                        
                         {
                             text: '<b>安排</b>',
                             type: 'button-positive',
@@ -52,8 +48,8 @@
                                 {
                                     console.log('Tapped！!', allUser);
                                     var listDataAll = angular.toJson(allUser);
-
-                                    $state.go('app.arrange', { SendAllUser: listDataAll ,SendSoupEntryId:item._soupEntryId});
+    
+                                    $state.go('app.arrange', { SendAllUser: listDataAll, SendSoupEntryId: item._soupEntryId });
                                     return "anpai";
                                 }
                             }
@@ -61,11 +57,30 @@
                         {
                             text: '<b>详情</b>',
                             type: 'button-positive',
-                            onTap:function (e) {
-                                $state.go('app.workDetails',{SendInfo:item._soupEntryId});
+                            onTap: function (e) {
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId });
                             }
                         }
-                    ]
+                    ];
+                }else{
+                    setButtons =[
+                        { text: 'Cancel' },
+                        {
+                            text: '<b>详情</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId });
+                            }
+                        }
+                    ];
+                }
+            
+                // 自定义弹窗
+                var myPopup = $ionicPopup.show({
+                    title: item.Account_Ship_to__r.Name,
+                    // subTitle: 'Please use normal things',
+                    scope: $scope,
+                    buttons: setButtons
                 });
                 myPopup.then(function (res) {
                     console.log('Tapped!', res);
@@ -82,7 +97,7 @@
                 LocalCacheService.set('previousStateForSCReady', $state.current.name);
                 LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
                 console.log('$ionicView.beforeEnter');
-                
+
             });
 
             $scope.$on('$i', function () {
@@ -94,7 +109,10 @@
                 console.log('onicView.enter');
 
             });
-
+            $rootScope.getSomeData = function () {
+                $scope.getHomeService();
+                document.getElementById("selectStatusId")[0].selected = true;
+            }
             $scope.toRepair1 = function () {
                 $state.go('app.search_1');
 
@@ -132,75 +150,71 @@
                 }
                 return array;
             };
-         
+
 
             $(document).ready(function () {
-                   //使用对象记录重复的元素，以及出现的次数
-            var getCount = function (arr) {
-                if (firstRunFun) {
-                    calendarAll.fullCalendar("removeEvents");
-                }else{
-                    firstRunFun = true;
-                }
-                var plan_Date_List = [];
-                for (let index = 0; index < arr.length; index++) {
-                    var plan_Date__c = arr[index].Plan_Date__c;
-                    plan_Date_List.push(plan_Date__c);
-                }
-                events = [];//清空数组
-                var obj = {},
-                    k, arr1 = [];
-                for (var i = 0, len = plan_Date_List.length; i < len; i++) {
-                    k = plan_Date_List[i];
-                    if (obj[k])
-                        obj[k]++;
-                    else
-                        obj[k] = 1;
-                }
-                //保存结果{el-'元素'，count-出现次数}
-                for (var o in obj) {
-                    arr1.push({
-                        el: o,
-                        count: obj[o]
-                    });
-                }
-                for (let index = 0; index < arr1.length; index++) {
-                    var item = arr1[index];
-                    events.push({
-                        // 标题，即你想展示的内容
-                        title: item['count'],
-                        start: item['el']
-                    });
-                    //它可以将刚刚获取到的events数据渲染到日历中
-                }
-                return events;
-            };
+                //使用对象记录重复的元素，以及出现的次数
+                var getCount = function (arr) {
+                    if (firstRunFun) {
+                        calendarAll.fullCalendar("removeEvents");
+                    } else {
+                        firstRunFun = true;
+                    }
+                    var plan_Date_List = [];
+                    for (let index = 0; index < arr.length; index++) {
+                        var plan_Date__c = arr[index].Plan_Date__c;
+                        plan_Date_List.push(plan_Date__c);
+                    }
+                    events = [];//清空数组
+                    var obj = {},
+                        k, arr1 = [];
+                    for (var i = 0, len = plan_Date_List.length; i < len; i++) {
+                        k = plan_Date_List[i];
+                        if (obj[k])
+                            obj[k]++;
+                        else
+                            obj[k] = 1;
+                    }
+                    //保存结果{el-'元素'，count-出现次数}
+                    for (var o in obj) {
+                        arr1.push({
+                            el: o,
+                            count: obj[o]
+                        });
+                    }
+                    for (let index = 0; index < arr1.length; index++) {
+                        var item = arr1[index];
+                        events.push({
+                            // 标题，即你想展示的内容
+                            title: item['count'],
+                            start: item['el']
+                        });
+                        //它可以将刚刚获取到的events数据渲染到日历中
+                    }
+                    return events;
+                };
 
                 // 这里是ajax请求，替换为你正在使用的ajax方式就可以
-                var getHomeService = HomeService.getEachOrder().then(function (res) {
-                    for (let index = 0; index < res.length; index++) {
-                        // allUser.push(res[index]);
-                    }
-                    allUser = res;
-                    $scope.allUser = res;
-                    var newArray = [];
-                     console.log("getOrderById(oCurrentUser.Id):",getOrderById(oCurrentUser.Id));
+                $scope.getHomeService = function () {
+                    HomeService.getEachOrder().then(function (res) {
+                        
+                        allUser = res;
+                        $scope.allUser = res;
 
-                    if (typeof(getOrderById(oCurrentUser.Id))  === 'undefined') {
-                        newArray =  allUser[0].orders
-                    } else {
-                        newArray = getOrderById(oCurrentUser.Id).orders;
-                    }
-                    currentOrder = newArray;//当前选择组员的订单
-
-                    //日历下方列表
-                    allOrders = newArray;
-                    $scope.currentOrder = getServiceOrderType(allOrders);
-                    calendarAll.fullCalendar("addEventSource", getCount(currentOrder));
-                }, function (error) {
-                    console.log('getEachOrder Error ' + error);
-                });
-
+                        if (typeof (getOrderById(oCurrentUser.Id)) === 'undefined') {
+                            currentOrder = allUser[0].orders
+                        } else {
+                            currentOrder = getOrderById(oCurrentUser.Id).orders;
+                        }
+                        //日历下方列表
+                        allOrders = currentOrder;
+                        $scope.currentOrder = getServiceOrderType(allOrders);
+                        calendarAll.fullCalendar("addEventSource", getCount(currentOrder));
+                    }, function (error) {
+                        console.log('getEachOrder Error ' + error);
+                    });
+                };
+                $scope.getHomeService();
                 var calendarAll = $('#calendarAll').fullCalendar({
                     displayEventTime: false,
                     titleFormat: "MM",
@@ -247,6 +261,7 @@
 
                     },
                     eventClick: function (event, jsEvent, view) {
+
                         // 此处可添加修改日程的代码
                         // var red = Math.round(255 * Math.random());
                         // var green = Math.round(255 * Math.random());
@@ -256,13 +271,19 @@
 
                 });
 
+                $('.fc-month-button').on('click', function () {
+                    var div = document.getElementById("orderListClassType"); 
+                    div.className= 'big_Type_Group'; 
 
+                });
+                $('.fc-basicWeek-button').on('click', function () {
+                    var div = document.getElementById("orderListClassType"); 
+                    div.className= 'big_Type_Group changeHeight';
+                });
                 $scope.onSwipeRight = function () {
-                    console.log("onSwipeRight");
                     calendarAll.fullCalendar('prev');
                 };
                 $scope.onSwipeLeft = function () {
-                    console.log("onSwipeLeft");
                     calendarAll.fullCalendar('next');
 
                 };
@@ -272,14 +293,7 @@
                 province.onchange = function () {
                     var index = province.options.selectedIndex;
                     currentOrder = allUser[index].orders;//当前选择组员的订单
-
                     document.getElementById("selectStatusId")[0].selected = true;
-
-
-                    // var item = $("#calendar").fullCalendar( 'clientEvents', 999 );
-                    // console.log(item[0].title);
-                    // item[0].start = '2018-08-29';
-                    // $('#calendar').fullCalendar('updateEvent',item[0]);
                     $scope.currentOrder = getServiceOrderType(allUser[index].orders);
                     calendarAll.fullCalendar("addEventSource", getCount(allUser[index].orders));
                 }

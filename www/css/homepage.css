@@ -173,6 +173,7 @@ img {
     font-size: 1rem;
     color: #535353;
     background: #ffffff;
+    padding-top: 0;
 }
 .tabs-striped.tabs-assertive.ion_change_style .tab-item {
     color: #535353;

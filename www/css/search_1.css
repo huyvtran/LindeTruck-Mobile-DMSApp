@@ -79,11 +79,15 @@ img {
     text-align: right;
 }
 .search_bodyer {
-    overflow-y: auto;
+    overflow-y: hidden;
     height: calc(100vh - 64px);
 }
 .search_bodyer .big_Box_Group {
     margin: 5% 0;
+}
+.search_bodyer .big_Box_Group .list {
+    overflow: auto;
+    height: calc(100vh - 128px);
 }
 .search_bodyer .small_Box_Title {
     color: #aa0020;

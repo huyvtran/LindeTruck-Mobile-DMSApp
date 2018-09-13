@@ -1,8 +1,8 @@
 angular.module('oinio.CalendarArrangeController', [])
-    .controller('CalendarArrangeController', function ($scope,$ionicPopup,$stateParams,HomeService) {
+    .controller('CalendarArrangeController', function ($scope,$ionicPopup,$stateParams,HomeService, $state,$rootScope) {
 
         $scope.goBack = function () {
-            window.history.back();
+            window.history.go(-1);
         };
 
 
@@ -15,21 +15,21 @@ angular.module('oinio.CalendarArrangeController', [])
                 });
                 return;
             }
-            // window.history.back();
             var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index           
             var selectUserEntryId = $scope.allUser[selectUserGroup].userSoupEntryId;//所有用户数组
             // 提交请求
-            // console.log("selectUserEntryId:",selectUserEntryId+"   SendSoupEntryId:"+$stateParams.SendSoupEntryId +"   mobiDate :"+mobiDate);
-
             var userSoupEntryId = new Object(); 
             userSoupEntryId._soupEntryId = selectUserEntryId;
             var orderSoupEntryId = new Object(); 
             orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
 
-            HomeService.modifyWorkOrder(orderSoupEntryId,userSoupEntryId,mobiDate).then(function (sobject) {
-                // console.log("modifyWorkOrder_sobject:",sobject);
-                window.history.back();
-
+            HomeService.modifyWorkOrder(orderSoupEntryId,userSoupEntryId,mobiDate).then(function (sobject) {                
+                $state.go('app.home', {}, {reload: false})
+                .then(function(){
+                    setTimeout(function() {
+                        $rootScope.getSomeData();
+                 },100);
+             })
             }, function (error) {
                 console.log('modifyWorkOrder Error ' + error);
                 $ionicPopup.alert({
@@ -46,8 +46,6 @@ angular.module('oinio.CalendarArrangeController', [])
 				'type': 'date'
             });
             
-           
-            // console.log("$stateParams.SendAllUser:",$stateParams.SendAllUser+"  SendSoupEntryId:"+$stateParams.SendSoupEntryId);
              $scope.allUser = angular.fromJson($stateParams.SendAllUser);
             
             // $('#calendarA').fullCalendar({

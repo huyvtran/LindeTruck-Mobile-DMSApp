@@ -91,7 +91,7 @@
                         }
                         $scope.contentItems = accountsName;
                         $scope.getIds = accountsId;
-                        console.log("AccountServicegw11",accountsName);
+                        console.log("AccountServicegw11",response.length);
                     }
                     else {
                         var ionPop = $ionicPopup.alert({

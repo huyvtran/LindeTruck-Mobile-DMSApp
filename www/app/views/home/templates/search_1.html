@@ -13,25 +13,29 @@
 		.search_Photo_Icon {
 			background-image: url(./img/images/search-photo_icon.png);
 		}
+
 		.back_Icon {
 			background-image: url(././img/images/back_icon.png);
 		}
+
 		.search_bodyer {
-            background-image: url(././img/images/bg_img.png);
-            background-repeat: no-repeat;
-            background-size: cover;
-        }
+			background-image: url(././img/images/bg_img.png);
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
 	</style>
 </head>
-	<body>
+
+<body>
 	<ion-view>
 		<ion-content overflow-scroll="true">
 			<div class="header">
 				<div class="left_Box" ng-click="goBack()">
 					<div class="back_Icon"></div>
 				</div>
-				<div class="search_All" >
-					<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchText"/>
+				<div class="search_All">
+					<input type="text" id="searchBig" autofocus="autofocus" placeholder="搜索" class="search_Input" ng-change="searchChange()"
+					 ng-model="searchText" />
 					<div class="search_Photo_Icon"></div>
 				</div>
 				<div class="search_right_Group" id="cancleBtn1" ng-click="searchText=''" ng-show="searchText">
@@ -47,9 +51,8 @@
 						</ion-item>
 					</ion-list>
 					<ion-list can-swipe="true" ng-show="!isShow">
-						<ion-item id="items2" ng-repeat="item in contentItems"  ng-cloak ng-click="toRepair4(item.Id)" class="small_Box_Text">
+						<ion-item id="items2" ng-repeat="item in contentItems" ng-cloak ng-click="toRepair4(item.Id)" class="small_Box_Text">
 							<p>公司名称：{{item.Name}}</p>
-							<br>
 							<p>公司地址：{{item.Address__c}}</p>
 						</ion-item>
 					</ion-list>
@@ -57,6 +60,6 @@
 			</div>
 		</ion-content>
 	</ion-view>
-	</body>
+</body>
 
 </html>
