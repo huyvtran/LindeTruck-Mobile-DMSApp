@@ -25,8 +25,8 @@ angular.module('oinio.workDetailsControllers', [])
             var userInfoId = $stateParams.SendInfo;
             HomeService.getOrder(userInfoId).then(function (response) {
                 if(response.length>0){
-                    $scope.busyerName = response[0].Account_Name_Ship_to__r.Name!=null?response[0].Account_Name_Ship_to__r.Name:"";
-                    $scope.OwnerId = response[0].Account_Name_Ship_to__r.Customer_Number__c !=null ? response[0].Account_Name_Ship_to__r.Customer_Number__c:"";
+                    $scope.busyerName = response[0].Account_Ship_to__r.Name!=null?response[0].Account_Ship_to__r.Name:"";
+                    $scope.OwnerId = response[0].Account_Ship_to__r.Customer_Number__c !=null ? response[0].Account_Ship_to__r.Customer_Number__c:"";
                     var busyType = response[0].Service_Order_Type__c;
                     if (busyType!=null){
                          if (busyType == "Work Order"){

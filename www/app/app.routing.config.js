@@ -31,8 +31,7 @@
                         templateUrl: 'app/views/home/templates/home.view.html',
                         controller: 'MainController as vm'
                     }
-                },
-                cache: false
+                }
             })
 
             .state('app.search_1', {

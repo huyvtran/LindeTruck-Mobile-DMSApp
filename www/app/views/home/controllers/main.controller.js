@@ -33,6 +33,11 @@ angular.module('oinio.MainController', [])
             console.log("mainController.$ionicView.beforeEnter");
 
         });
+
+        $scope.addNewLinkMan = function () {
+            $state.go('app.newLinkMan');
+        };
+
         $scope.$on('$ionicView.enter', function () {
             // check if device is online/offline
             vm.isOnline = ConnectionMonitor.isOnline();

@@ -46,9 +46,7 @@ angular.module('oinio.controllers', [])
             $state.go('app.newWork');
         };
 
-        $scope.addNewLinkMan = function () {
-            $state.go('app.newLinkMan');
-        };
+
 
         $scope.selectTabWithIndex = function (index) {
             $ionicTabsDelegate.select(index);
