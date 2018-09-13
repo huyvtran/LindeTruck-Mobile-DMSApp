@@ -235,20 +235,25 @@
                     },
                     dayClick: function (date, jsEvent, view) {
 
-                        // console.log("↓↓↓dayClick↓↓↓");
-                        // console.log('date: ' + date);
+                        console.log("↓↓↓dayClick↓↓↓");
+                        console.log('date: ' + date);
                         // console.log('jsEvent: ' + jsEvent);
                         // console.log('view: ' + view);
                         // $("tr:even").css("background-color", "#000");
                         var currentClickDate = date.format('YYYY-MM-DD');
                         var selectDateOrders = [];
                         for (let index = 0; index < currentOrder.length; index++) {//显示点击日期的工单
+
                             var indexDate = currentOrder[index].Plan_Date__c;
+                            console.log("currentClickDate：",currentClickDate +"  indexDate:"+indexDate);
+
                             if (currentClickDate == indexDate) {
                                 selectDateOrders.push(currentOrder[index]);
                             }
                         }
-                        if (selectDateOrders.count > 0) {
+                        console.log("selectDateOrders.count",selectDateOrders.length+"   selectDateOrders:"+selectDateOrders);
+
+                        if (selectDateOrders.length > 0) {
                             $scope.currentOrder = getServiceOrderType(selectDateOrders);
                         }
                     },

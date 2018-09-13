@@ -17,8 +17,11 @@ angular.module('oinio.CalendarArrangeController', [])
             }
             var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index           
             var selectUserEntryId = $scope.allUser[selectUserGroup].userSoupEntryId;//所有用户数组
+            var selectUserId = $scope.allUser[selectUserGroup].userId;//所有用户ID
+
             // 提交请求
             var userSoupEntryId = new Object(); 
+            userSoupEntryId.Id = selectUserId;
             userSoupEntryId._soupEntryId = selectUserEntryId;
             var orderSoupEntryId = new Object(); 
             orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
