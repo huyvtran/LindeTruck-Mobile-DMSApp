@@ -169,7 +169,7 @@ angular.module('oinio.NewLinkManController', [])
                             console.log(result);
                             var phoneAll = [];
                             for(var i =0;i<result.length;i++){
-                                phoneAll.push(result.Phone);
+                                phoneAll.push(result[i].Phone);
                             }
                             if (phoneAll.indexOf(linkManPhoneNumber)== -1){
                                 var obj = {};
