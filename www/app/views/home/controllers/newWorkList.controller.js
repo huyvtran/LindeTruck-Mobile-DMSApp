@@ -209,9 +209,9 @@ angular.module('oinio.newWorkListControllers', [])
             let order2Save = new Object();
             let userId = LocalCacheService.get('currentUser');
 
-            order2Save.Account_Name_Ship_to__c = $scope.searchResultAcctId;
-            order2Save.Account_Name_Ship_to__r = new Object();
-            order2Save.Account_Name_Ship_to__r._soupEntryId = $scope.searchResultAcctSoupId;
+            order2Save.Account_Ship_to__c = $scope.searchResultAcctId;
+            order2Save.Account_Ship_to__r = new Object();
+            order2Save.Account_Ship_to__r._soupEntryId = $scope.searchResultAcctSoupId;
 
             order2Save.Truck_Serial_Number__c = $scope.searchResultTruckId;
             order2Save.Truck_Serial_Number__r = new Object();

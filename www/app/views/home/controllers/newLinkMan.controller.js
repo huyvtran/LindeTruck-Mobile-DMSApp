@@ -155,7 +155,7 @@ angular.module('oinio.NewLinkManController', [])
          * 保存
          */
         $scope.saveContactData = function(){
-            var re = /^[A-Za-z\\d]+([-_.][A-Za-z\\d]+)*@([A-Za-z\\d]+[-.])+[A-Za-z\\d]{2,4}$/,
+            var re = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/,
                 linManName =  $("#chooseLinkManName").val(),
                 acctName = $("#searchResultAcctName").val(),
                 linkManPhoneNumber =$("#chooseLinkManPhoneNumber").val(),
@@ -164,7 +164,7 @@ angular.module('oinio.NewLinkManController', [])
                 linkManPostionType = $("#chooseLinkManPostionType").val();
             if (linManName != null && linManName != "" && linkManPhoneNumber != null){
                 if (acctName != null && acctName != "" && selectAccountId!=null && selectAccountId!=""){
-                        // if (linkManEmail != null && re.test(linkManEmail)){
+                        if (linkManEmail != null && re.test(linkManEmail)){
                         ContactService.getContacts(selectAccountId).then(function (result) {
                             console.log(result);
                             var phoneAll = [];
@@ -199,14 +199,14 @@ angular.module('oinio.NewLinkManController', [])
                         },function (err) {
                             $log.error(err);
                         });
-                    // }else{
-                    //     var inoicPop = $ionicPopup.alert({
-                    //         title: "请输入正确格式的邮箱"
-                    //     });
-                    //     inoicPop.then(function () {
-                    //         $("#linkManEmail").focus();
-                    //     });
-                    // }
+                    }else{
+                        var inoicPop = $ionicPopup.alert({
+                            title: "请输入正确格式的邮箱"
+                        });
+                        inoicPop.then(function () {
+                            $("#linkManEmail").focus();
+                        });
+                    }
                 }else{
                     var inoicPop = $ionicPopup.alert({
                         title: "请选择客户"
