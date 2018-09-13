@@ -533,7 +533,9 @@ angular.module('oinio.services', [])
                 sobject['Service_Order_Owner__c_sid'] = user._soupEntryId;
                 sobject['Service_Order_Owner__c_type'] = 'User';
                 sobject['Plan_Date__c'] = day;
-
+                if(sobject['Status__c'] == null || sobject['Status__c'] == '' || sobject['Status__c'] == 'Not Planned'){
+                    sobject['Status__c'] = 'Not Started';
+                }
                 ret = sobject;
                 console.log('modifyWorkOrder::'+order._soupEntryId+'::',sobject);
                 return LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]);
@@ -599,7 +601,9 @@ angular.module('oinio.services', [])
                     order['Service_Order_Owner__c'] = user.Id;
                     order['Service_Order_Owner__c_sid'] = user._soupEntryId;
                     order['Service_Order_Owner__c_type'] = 'User';
-
+                    if(order['Status__c'] == null || order['Status__c'] == '' || order['Status__c'] == 'Not Planned'){
+                        order['Status__c'] = 'Not Started';
+                    }
                     order['Plan_Date__c'] = day;
                     res.push(order);
                 });
