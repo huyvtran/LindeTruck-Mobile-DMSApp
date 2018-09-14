@@ -339,6 +339,8 @@ angular.module('oinio.services', [])
          * 
          *  Service_Order_Overview__c.Plan_Date__c,
          *
+         *  Service_Order_Overview__c.Description__c,
+         *
          *  Service_Order_Overview__c.Account_Ship_to__c,           //order
          *  Service_Order_Overview__c.Account_Ship_to__c._soupEntryId,
          *
@@ -382,7 +384,8 @@ angular.module('oinio.services', [])
                     if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
 
                     newItem['Plan_Date__c'] = adr.Plan_Date__c;
-                    //newItem['Status__c'] = adr.Status__c;
+                    newItem['Description__c'] = adr.Description__c;
+                    newItem['Status__c'] = 'Not Planned';
 
                     adrsToSave.push(newItem);
                     console.log('newItem::' + newItem);
@@ -450,11 +453,12 @@ angular.module('oinio.services', [])
                     //if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
 
                     newItem['Plan_Date__c'] = adr.Plan_Date__c;
-                    //newItem['Status__c'] = adr.Status__c;
+                    newItem['Description__c'] = adr.Description__c;
+                    newItem['Status__c'] = 'Not Planned';
 
-                    if(trucks[i].Truck_Serial_Number__c != null && trucks[i].Truck_Serial_Number__c !=''){
-                        newItem['Truck_Serial_Number__c'] = adr.Truck_Serial_Number__c;
-                        newItem['Truck_Serial_Number__c_sid'] = adr.Truck_Serial_Number__r._soupEntryId;
+                    if(trucks[i].Id != null && trucks[i].Id !=''){
+                        newItem['Truck_Serial_Number__c'] = trucks[i].Id;
+                        newItem['Truck_Serial_Number__c_sid'] = trucks[i]._soupEntryId;
                         newItem['Truck_Serial_Number__c_type'] = 'Truck_Fleet__c';
                     }
 
@@ -1058,6 +1062,45 @@ angular.module('oinio.services', [])
                 deferred.reject(err);
             });
             console.log('getTruckObjectById::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+
+        this.getLatest3ServiceOrders = function(){
+            console.log('getLatest3ServiceOrders.keyword:%s');
+            let deferred = $q.defer();
+
+            let sql =  "select {Service_Order_Overview__c:_soup}\
+                         from {Service_Order_Overview__c}\
+                         order by {Service_Order_Overview__c:_soupEntryId} desc limit 3";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let orders = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        let accId = entry[0].Account_Ship_to__c;
+                        orders.push({
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Account_Ship_to__c: accId,
+                            Service_Order_Type__c: entry[0].Service_Order_Type__c,
+                            Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
+                            Status__c: entry[0].Status__c,
+                            Plan_Date__c: entry[0].Plan_Date__c,
+                            Truck_Serial_Number__c: entry[0].Truck_Serial_Number__c,
+                            Description__c: entry[0].Description__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        });
+                    });
+                }
+                deferred.resolve(orders);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getLatest3ServiceOrders::', deferred.promise);
             return deferred.promise;
         };
     });

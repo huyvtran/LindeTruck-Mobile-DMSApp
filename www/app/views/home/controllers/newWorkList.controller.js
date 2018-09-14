@@ -45,6 +45,41 @@ angular.module('oinio.newWorkListControllers', [])
             $scope.searchResultTruckNum ='';
             $scope.searchResultTruckId ='';
             $scope.searchResultTruckSoupId ='';
+
+            $scope.selectedTruckItems=[];
+
+
+            $scope.initLatest3Orders=[];
+
+            HomeService.getLatest3ServiceOrders().then(function (response) {
+                console.log("getLatest3ServiceOrders",response);
+
+                if (response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        if(response[index].Status__c == 'Not Started'){
+                            response[index].Status__c = '未开始';
+                        }
+                        if(response[index].Status__c == 'Not Completed'){
+                            response[index].Status__c = '未完成';
+                        }
+                        if(response[index].Status__c == 'Service Completed'){
+                            response[index].Status__c = '已完成';
+                        }
+                        if(response[index].Status__c == 'End'){
+                            response[index].Status__c = '已结束';
+                        }
+                        if(response[index].Status__c == 'Not Planned'){
+                            response[index].Status__c = '未安排';
+                        }
+                    }
+                    $scope.initLatest3Orders = response;
+                    //console.log("getLatest3ServiceOrders",accountsName);
+                }
+            }, function (error) {
+                $log.error('HomeService.getLatest3ServiceOrders Error ' + error);
+            }).finally(function () {
+                //AppUtilService.hideLoading();
+            });
         });
         //加号“+”菜单
         // document.getElementById("add_bgbox").style.display = "none";//隐藏
@@ -177,7 +212,7 @@ angular.module('oinio.newWorkListControllers', [])
                     });
                     ionPop.then(function () {
                         //$ionicHistory.goBack();
-                        $state.go("app.home");
+                        //$state.go("app.home");
                     });
                 }
             }, function (error) {
@@ -188,16 +223,6 @@ angular.module('oinio.newWorkListControllers', [])
         };
         
         
-        $scope.checkboxTrucks = function (truck) {
-            //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
-
-            $scope.searchResultTruckName =truck.Name;
-            $scope.searchResultTruckNum =truck.Model__c;
-            $scope.searchResultTruckId =truck.Id;
-            $scope.searchResultTruckSoupId =truck._soupEntryId;
-
-            $scope.closeSelectPage();
-        };
 
 
         $scope.searchChange = function () {
@@ -213,9 +238,11 @@ angular.module('oinio.newWorkListControllers', [])
             order2Save.Account_Ship_to__r = new Object();
             order2Save.Account_Ship_to__r._soupEntryId = $scope.searchResultAcctSoupId;
 
-            order2Save.Truck_Serial_Number__c = $scope.searchResultTruckId;
-            order2Save.Truck_Serial_Number__r = new Object();
-            order2Save.Truck_Serial_Number__r._soupEntryId = $scope.searchResultTruckSoupId;
+            // order2Save.Truck_Serial_Number__c = $scope.searchResultTruckId;
+            // order2Save.Truck_Serial_Number__r = new Object();
+            // order2Save.Truck_Serial_Number__r._soupEntryId = $scope.searchResultTruckSoupId;
+
+            order2Save.Description__c = $("#textarea_desc").val();
 
             let orderType = $("#select_serviceorder_type").val();
             if(orderType != null && orderType != ''){order2Save.Service_Order_Type__c = orderType;}
@@ -229,7 +256,7 @@ angular.module('oinio.newWorkListControllers', [])
                         order2Save.Service_Order_Owner__c = userId.Id;
                         order2Save.Service_Order_Owner__r = response;
 
-                        HomeService.addServiceOrders([order2Save]).then(function (addResult) {
+                        HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
                             console.log('HAHAHAHA!!!',addResult);
                             if(addResult != null && addResult.length != 0) {
                                 $state.go('app.workDetails', {SendInfo: addResult[0]._soupEntryId});
@@ -242,7 +269,7 @@ angular.module('oinio.newWorkListControllers', [])
                     $log.error('HomeService.getUserObjectById Error ' + error);
                 });
             }else{
-                HomeService.addServiceOrders([order2Save]).then(function (addResult) {
+                HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
                     console.log('HAHAHAHA!222!!',addResult);
                     if(addResult != null && addResult.length != 0) {
                         $state.go('app.workDetails', {SendInfo: addResult[0]._soupEntryId});
@@ -253,7 +280,96 @@ angular.module('oinio.newWorkListControllers', [])
             }
         };
 
+        $scope.changeTruckTab = function (index) {
+            console.log('cssss:::',$('#selectCustomer'));
+            if(index === '1') {
+                $("#selectTruck_Tab_1").addClass("selectTruck_Tab_Active");
+                $("#selectTruck_Tab_2").removeClass("selectTruck_Tab_Active");
 
-        
-    });
+                $('#selectTruck_result').css('display', 'block');
+                $('#selectTruck_checked').css('display', 'none');
+            }else if (index === '2') {
+                $("#selectTruck_Tab_1").removeClass("selectTruck_Tab_Active");
+                $("#selectTruck_Tab_2").addClass("selectTruck_Tab_Active");
+
+                $('#selectTruck_result').css('display', 'none');
+                $('#selectTruck_checked').css('display', 'block');
+            }
+        };
+
+        $scope.checkAllSearchResults = function () {
+            let ele = $("#ckbox_truck_searchresult_all");
+
+            console.log('checkAllSearchResults:::',ele.prop("checked"));
+            if(ele.prop("checked")) {
+                $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                    $(this).prop("checked", true);
+                });
+            }else{
+
+                $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                    console.log('666:::',element.checked);
+                    element.checked = false;
+                });
+            }
+        };
+
+
+        $scope.checkSearchResults = function (ele) {
+            let existFlag = false;
+            for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                if(ele.Id == $scope.selectedTruckItems[i].Id){
+                    existFlag = true;
+                }
+            }
+            if(!existFlag) {
+                $scope.selectedTruckItems.push(ele);
+                $scope.updateTruckString();
+            }
+        };
+
+        $scope.checkboxTrucks = function (truck) {
+            //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
+
+            $scope.searchResultTruckName = truck.Name;
+            $scope.searchResultTruckNum = truck.Model__c;
+            $scope.searchResultTruckId = truck.Id;
+            $scope.searchResultTruckSoupId = truck._soupEntryId;
+
+            $scope.closeSelectPage();
+        };
+
+
+
+
+        $scope.delSelectedItem = function (ele) {
+            //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
+            let new_temp = [];
+
+            for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                if(ele.Id != $scope.selectedTruckItems[i].Id){
+                    new_temp.push($scope.selectedTruckItems[i]);
+                }
+            }
+
+            $scope.selectedTruckItems = new_temp;
+            $scope.updateTruckString();
+
+        };
+
+        $scope.updateTruckString = function () {
+            let new_temp = '';
+
+            for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                new_temp = new_temp + $scope.selectedTruckItems[i].Name + ';';
+            }
+
+            $scope.searchResultTruckName = new_temp;
+
+        };
+
+
+
+
+});
 
