@@ -502,7 +502,7 @@ angular.module('oinio.services', [])
                 ret = res;
                 return service.addChildServiceOrders(res,trucks);
             }).then(function (corders) {
-                ret = corders;
+                //ret = corders;
                 deferred.resolve(ret);
             }).catch(function (error) {
                 deferred.reject(error);
@@ -1103,4 +1103,90 @@ angular.module('oinio.services', [])
             console.log('getLatest3ServiceOrders::', deferred.promise);
             return deferred.promise;
         };
+
+
+
+        this.getTrucksForParentOrder = function(sid){
+            console.log('getTrucksForParentOrder.keyword:%s'+sid);
+            let deferred = $q.defer();
+
+            let sql =  "select {Service_Order__c:_soup}\
+                         from {Service_Order__c}\
+                         where {Service_Order__c:Service_Order__c_sid}='"+sid+"'";
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let trucksids = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        trucksids.push(entry[0].Truck_Serial_Number__c_sid);
+                    });
+                }
+                deferred.resolve(trucksids);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getTrucksForParentOrder::', deferred.promise);
+            return deferred.promise;
+        };
+
+        this.getTrucksForTruckSids = function(sids){
+            console.log('getTrucksForTruckSids.keyword:%s'+sid);
+            let deferred = $q.defer();
+
+            if(sids == null || sids.length < 1){
+                console.log('getTrucksForTruckSids::NULL');
+                deferred.resolve(null);
+                return deferred.promise;
+            }
+
+            let sqlInString = "'"+sids.join("','")+"'";
+
+            let sql =  "select {Truck_Fleet__c:_soup}\
+                         from {Truck_Fleet__c}\
+                         where {Truck_Fleet__c:_soupEntryId} in (" +sqlInString+ ")";
+
+            let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+            navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                let trucks = [];
+                if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                    angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                        trucks.push({
+                            Id: entry[0].Id,
+                            Name: entry[0].Name,
+                            Model__c: entry[0].Model__c,
+                            Ship_To_CS__c: entry[0].Ship_To_CS__c,
+                            _soupEntryId: entry[0]._soupEntryId
+                        });
+                    });
+                }
+                deferred.resolve(trucks);
+            }, function (err) {
+                $log.error(err);
+                console.error(err);
+                deferred.reject(err);
+            });
+            console.log('getTrucksForTruckSids::', deferred.promise);
+            return deferred.promise;
+        };
+
+
+        this.getTrucksForParentOrderSid = function(sId) {
+            let deferred = $q.defer();
+            let ret;
+            console.log('getTrucksForParentOrderSid::');
+            service.getTrucksForParentOrder(sId).then(function (res){
+                ret = res;
+                return service.getTrucksForTruckSids(res);
+            }).then(function (trucks) {
+                ret = trucks;
+                deferred.resolve(ret);
+            }).catch(function (error) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        };
+
+
     });
