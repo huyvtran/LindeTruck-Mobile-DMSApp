@@ -1132,7 +1132,7 @@ angular.module('oinio.services', [])
         };
 
         this.getTrucksForTruckSids = function(sids){
-            console.log('getTrucksForTruckSids.keyword:%s'+sid);
+            console.log('getTrucksForTruckSids.keyword:%s'+sids);
             let deferred = $q.defer();
 
             if(sids == null || sids.length < 1){
