@@ -15,6 +15,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
+            $scope.TruckId ="";
         });
         $scope.$on('$ionicView.enter', function () {
             vm.isOnline = ConnectionMonitor.isOnline();
@@ -27,6 +28,7 @@ angular.module('oinio.workDetailsControllers', [])
                 if(response.length>0){
                     $scope.busyerName = response[0].Account_Ship_to__r.Name!=null?response[0].Account_Ship_to__r.Name:"";
                     $scope.OwnerId = response[0].Account_Ship_to__r.Customer_Number__c !=null ? response[0].Account_Ship_to__r.Customer_Number__c:"";
+                    $scope.workAccountId=response[0]._soupEntryId;
                     var busyType = response[0].Service_Order_Type__c;
                     if (busyType!=null){
                          if (busyType == "Work Order"){
@@ -40,24 +42,34 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.busyerType ='';
                     }
                     console.log('resp::',response);
-                    if (response[0].Service_Order_Owner__c != null){
-                        HomeService.getUserObjectById(response[0].Service_Order_Owner__c).then(function (resp1) {
-                            if (response[0].Truck_Serial_Number__c!=null){
-                                HomeService.getTruckObjectById(response[0].Truck_Serial_Number__c).then(function (resp2) {
-                                    $scope.TruckId = response[0].Truck_Serial_Number__r = resp2.Name !=null?resp2.Name:"";
-                                },function (e2) {
-                                    console.log(e2);
-                                });
-                            }else {
-                                $scope.TruckId="";
-                            }
-                        },function (e1) {
-                            console.log(e1);
+                    HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
+                        var str= "";
+                        angular.forEach(res,function (item) {
+                            str += item.Name+";\n";
                         });
-                    }else {
-                        $scope.OwnerId ="";
-                        $scope.TruckId="";
-                    }
+                        $scope.TruckId = str;
+                    },function (error) {
+                        $log.error('Error ' + error);
+                        $scope.TruckId ="";
+                    });
+                    // if (response[0].Service_Order_Owner__c != null){
+                    //     HomeService.getUserObjectById(response[0].Service_Order_Owner__c).then(function (resp1) {
+                    //         if (response[0].Truck_Serial_Number__c!=null){
+                    //             HomeService.getTruckObjectById(response[0].Truck_Serial_Number__c).then(function (resp2) {
+                    //                 $scope.TruckId = response[0].Truck_Serial_Number__r = resp2.Name !=null?resp2.Name:"";
+                    //             },function (e2) {
+                    //                 console.log(e2);
+                    //             });
+                    //         }else {
+                    //             $scope.TruckId="";
+                    //         }
+                    //     },function (e1) {
+                    //         console.log(e1);
+                    //     });
+                    // }else {
+                    //     $scope.OwnerId ="";
+                    //     $scope.TruckId="";
+                    // }
 
                 }else{
                     $scope.busyerName ="";
