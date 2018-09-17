@@ -53,12 +53,12 @@
   		<div class="center_Box">
 	  		<div class="center_Title">创建报价</div>
 		</div>
-		<div class="right_Box">
+		<div class="right_Box" ng-click="goSearch()">
 			<div class="search_white"></div>
 		</div>
 	</div>
 	<div class="bodyer">
-		<div class="search_Group to_Hide">
+		<div id="searchGroupDiv" class="search_Group to_Hide">
 			<div class="search_Type_Title"> 客户号：</div>
 			<div class="search_Type_Box">
   				<input class="search_Type_Input"/>
@@ -143,7 +143,7 @@
 	  						</tr>
 	  					</table>
 	  				</div>
-	  				<div class="addDelCar_Div_Right">
+	  				<div id="tabExampleDiv" class="addDelCar_Div_Right">
 	  					<table id="tabExample" cellpadding="0" cellspacing="0" border="0" class="ad_Right_Table">
 	  						<tr>
 	  							<td class="ad_Right_Td"> 
@@ -185,7 +185,7 @@
 	  						</tr>
 	  					</table>
 	  					
-	  					<table cellpadding="0" cellspacing="0" border="0" class="ad_Right_Table bgWhite">
+	  					<table id="tabExampleAdd" cellpadding="0" cellspacing="0" border="0" class="ad_Right_Table bgWhite">
 	  						<tr>
 	  							<td class="ad_Right_Td"> 
 	  								<div class="pos_rel"> 
@@ -371,7 +371,7 @@
   	<div class="footer">
   		<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
   		<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
-  		<div class="footer_Btn">取消</div>
+  		<div class="footer_Btn" ng-click="goBack()">取消</div>
   		<div class="footer_Btn Save_Btn_Act">保存</div>
   		<div class="footer_Btn Submit_Btn_Act">提交审批</div>
   	</div>
