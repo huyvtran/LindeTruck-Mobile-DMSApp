@@ -16,6 +16,7 @@ angular.module('oinio.workDetailsControllers', [])
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
             $scope.TruckId ="";
+            $scope.HasTruckNum = 0;
         });
         $scope.$on('$ionicView.enter', function () {
             vm.isOnline = ConnectionMonitor.isOnline();
@@ -47,6 +48,7 @@ angular.module('oinio.workDetailsControllers', [])
                         angular.forEach(res,function (item) {
                             str += item.Name+";\n";
                         });
+                        $scope.HasTruckNum = res.length !=null ? res.length: 0;
                         $scope.TruckId = str;
                     },function (error) {
                         $log.error('Error ' + error);
