@@ -51,6 +51,7 @@
             'oinio.CalendarArrangeController',
             'oinio.newWorkListControllers',
             'oinio.workDetailsControllers',
+            'oinio.NewOfferController',
             'oinio.NewLinkManController'
             
         ]);

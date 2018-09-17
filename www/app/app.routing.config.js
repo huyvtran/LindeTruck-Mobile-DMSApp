@@ -65,7 +65,16 @@
                 },
                 cache: false
             })
-
+            .state('app.newOffer', {
+                url: 'app/newOffer',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/newOffer.html',
+                        controller: 'NewOfferController as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.workDetails', {
                 url: 'app/workDetails/?SendInfo',
                 views: {

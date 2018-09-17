@@ -32,7 +32,9 @@
             $scope.addNewWork = function () {
                 $state.go('app.newWork');
             };
-
+            $scope.addNewOffer = function () {
+                $state.go('app.newOffer');
+            };
             // Triggered on a button click, or some other target
             $scope.showPopup = function (item) {
                 $scope.data = {}

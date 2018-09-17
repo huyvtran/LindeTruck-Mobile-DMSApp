@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> new offer </title>
+	<link rel="stylesheet" href="././css/newOffer.css">
+
+	<style type="text/css">
+		.volume_Icon {
+			background-image: url(././img/images/volume_icon.png);
+		}
+		.bodyer {
+			background-image: url(././img/images/bg_img.png);
+		}
+		.arrow_Down_White {
+			background-image: url(././img/images/arrow_Down_White.png);
+		}
+		.arrow_Left_White {
+			background-image: url(././img/images/arrow_Left_White.png);
+		}
+		.search_small_black, .search_type_black {
+			background-image: url(././img/images/search_small_black.png);
+		}
+		.search_white {
+			background-image: url(././img/images/search_white.png);
+		}
+		.oc_up_icon {
+			background-image: url(././img/images/oc_up_icon.png);
+		}
+		.oc_down_icon {
+			background-image: url(././img/images/oc_down_icon.png);
+		}
+		.refresh_icon {
+			background-image: url(././img/images/refresh_icon.png);
+		}
+		.del_red_icon {
+			background-image: url(././img/images/del_red_icon.png);
+		}
+		.input_confirm_icon {
+			background-image: url(././img/images/input_confirm_icon.png);
+		}
+		.back_Icon {
+			background-image: url(././img/images/back_icon.png);
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="left_Box_Arrorw" ng-click="goBack()">
+				<div class="back_Icon"></div>
+		</div>
+  		<div class="center_Box">
+	  		<div class="center_Title">创建报价</div>
+		</div>
+		<div class="right_Box">
+			<div class="search_white"></div>
+		</div>
+	</div>
+	<div class="bodyer">
+		<div class="search_Group to_Hide">
+			<div class="search_Type_Title"> 客户号：</div>
+			<div class="search_Type_Box">
+  				<input class="search_Type_Input"/>
+  				<div class="search_type_black"></div>
+  			</div>
+  			<div class="search_Type_Title"> 客户名称：</div>
+			<div class="search_Type_Box">
+  				<input class="search_Type_Input"/>
+  				<div class="search_type_black"></div>
+  			</div>
+  			<div class="search_Type_Title"> 车体号：</div>
+			<div class="search_Type_Box">
+  				<input class="search_Type_Input"/>
+  			</div>
+  			<!-- 切换搜索样式，有内容搜索中去掉no_search_Style -->
+  			<div class="search_Btn no_search_Style"> 搜索 </div>
+		</div>	
+	  	<div class="big_Type_Group">
+	  		<div>
+	  			<div class="small_Type_Title_Group">
+	  				<div class="small_Type_Title_G"> 基本信息 </div>
+	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+	  				<div class="OpenClose_Btn arrow_Down_White"></div>
+	  			</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title">客户名称:</div>
+		  			<div class="small_Type_Box">
+		  				<input class="small_Type_Input"/>
+		  				<div class="search_small_black"></div>
+		  			</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title">地址:</div>
+		  			<div class="small_Type_Box">
+		  				<input class="small_Type_Input"/>
+		  			</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title">联系人:</div>
+		  			<div class="small_Type_Box">
+		  				<input class="small_Type_Input"/>
+		  				<div class="search_small_black"></div>
+		  			</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title">报价描述:</div>
+		  			<div class="small_Type_Box">
+		  				<textarea class="small_Type_Textarea"></textarea>
+		  			</div>
+		  		</div>
+		  	</div>
+		  	<div>
+	  			<div class="small_Type_Title_Group" ng-click="toDisplayDelCarView()">
+	  				<div class="small_Type_Title_G"> 车辆添加/删除 </div>
+	  				<div class="refresh_icon" style="left: 36%;"></div>
+	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+	  				<div class="OpenClose_Btn arrow_Down_White" id="OpenClose_Arrow"></div>
+	  			</div>
+		  		<div class="addDelCar_Div" id="addDelCarView">
+	  				<div class="addDelCar_Div_Left" >
+	  					<table cellpadding="0" cellspacing="0" border="0" class="ad_Left_Table" >
+	  						<tr>
+	  							<td class="ad_Left_Td"> 车体号 </td> 
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Left_Td"> 服务类型 </td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Left_Td "> 车型 </td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Left_Td "> 车系 </td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Left_Td "> 保养级别 </td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Left_Td "> 保养任务 </td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Left_Td "> 工时 </td>
+	  						</tr>
+	  					</table>
+	  				</div>
+	  				<div class="addDelCar_Div_Right">
+	  					<table id="tabExample" cellpadding="0" cellspacing="0" border="0" class="ad_Right_Table">
+	  						<tr>
+	  							<td class="ad_Right_Td"> 
+	  								<div class="pos_rel"> 
+	  									<div> 车体号1 </div>
+	  									<div class="del_red_icon"></div>
+	  								</div> 
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td">
+	  								<input class="ad_Input"/>
+  							 	</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> 车型1 </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> 车系1 </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td ">
+	  								<input class="ad_Input"/>
+  							 	</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> 保养任务1 </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td">
+	  								<input class="ad_Input"/>
+  							 	</td>
+	  						</tr>
+	  					</table>
+	  					<!-- <table cellpadding="0" cellspacing="0" border="0" class="ad_Right_Table">
+	  						<tr>
+	  							<td class="ad_Right_Td"> 
+	  								<div class="pos_rel"> 
+	  									<div> 车体号2 </div>
+	  								</div> 
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td">
+	  								<input class="ad_Input"/>
+  							 	</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> 车型2 </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> 车系2 </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td ">
+	  								<input class="ad_Input"/>
+  							 	</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> 保养任务2 </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td ">
+	  								<input class="ad_Input"/>
+  							 	</td>
+	  						</tr>
+	  					</table> -->
+	  					<table cellpadding="0" cellspacing="0" border="0" class="ad_Right_Table bgWhite">
+	  						<tr>
+	  							<td class="ad_Right_Td"> 
+	  								<div class="pos_rel"> 
+	  									<input class="ad_Input input_confirm"/>
+	  									<!-- input_uc_Group 有数值转变为input_c_Group -->
+	  									<div class="input_uc_Group" ng-click="toAddTableView()">
+	  										<div class="input_confirm_icon"></div>
+	  									</div>
+	  								</div> 
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td">
+	  								<div> &nbsp; </div>
+  							 	</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> &nbsp; </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> &nbsp; </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td ">
+	  								<div> &nbsp; </div>
+  							 	</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td "> 
+  									<div> &nbsp; </div>
+	  							</td>
+	  						</tr>
+	  						<tr>
+	  							<td class="ad_Right_Td ">
+	  								<div> &nbsp; </div>
+  							 	</td>
+	  						</tr>
+	  					</table>
+	  				</div>
+		  		</div>
+		  	</div>
+		  	<div>
+	  			<div class="small_Type_Title_Group">
+	  				<div class="small_Type_Title_G"> 配件报价 </div>
+	  				<div class="refresh_icon" style="left: 25%;"></div>
+	  				<div class="price_Group">
+	  					<div class="price_Title"> 合计</div>
+	  					<input class="price_Input"/>
+	  				</div>
+	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+	  				<div class="OpenClose_Btn arrow_Left_White"></div>
+	  			</div>
+	  		</div>
+	  		<div>
+	  			<div class="small_Type_Title_Group">
+	  				<div class="small_Type_Title_G"> 劳务费添加 </div>
+	  				<div class="refresh_icon" style="left: 30%;"></div>
+	  				<div class="price_Group">
+	  					<div class="price_Title"> 合计</div>
+	  					<input class="price_Input"/>
+	  				</div>
+	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+	  				<div class="OpenClose_Btn arrow_Down_White"></div>
+	  			</div>
+	  			<table cellpadding="0" cellspacing="0" border="0" class="service_Table">
+					<tr>
+						<th class="sv_Td sv_Left_Td"> 
+							<div> 劳务项目 </div>
+						</th>
+						<th class="sv_Td"> 
+							<div> 单价 </div>
+						</th>
+						<th class="sv_Td"> 
+							<div> 数量 </div>
+						</th>
+						<th class="sv_Td"> 
+							<div> 总价 </div>
+						</th>
+						<th class="sv_Td"> 
+							<div> 折扣 </div>
+						</th>
+						<th class="sv_Td sv_Right_Td"> 
+							<div> 优惠总价 </div>
+						</th>
+					</tr>
+					<tr>
+						<td class="sv_Td sv_Left_Td"> 
+							<div> 人工 </div>
+						</td>
+						<td class="sv_Td"> 
+							<div> 100 </div>
+						</td>
+						<td class="sv_Td"> 
+							<input class="sv_Input"/>
+						</td>
+						<td class="sv_Td"> 
+							<div> 总价 </div>
+						</td>
+						<td class="sv_Td"> 
+							<input class="sv_Input"/>
+						</td>
+						<td class="sv_Td sv_Right_Td"> 
+							<input class="sv_Input"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="sv_Td sv_Left_Td"> 
+							<div> 交通 </div>
+						</td>
+						<td class="sv_Td"> 
+							<div> 100 </div>
+						</td>
+						<td class="sv_Td"> 
+							<input class="sv_Input"/>
+						</td>
+						<td class="sv_Td"> 
+							<div> 总价 </div>
+						</td>
+						<td class="sv_Td"> 
+							<input class="sv_Input"/>
+						</td>
+						<td class="sv_Td sv_Right_Td"> 
+							<input class="sv_Input"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="sv_Td sv_Left_Td"> 
+							<div class="pos_rel">
+								<div> 其他 </div>
+								<div class="del_red_icon"></div>
+							</div>
+						</td>
+						<td class="sv_Td"> 
+							<div> 100 </div>
+						</td>
+						<td class="sv_Td"> 
+							<input class="sv_Input"/>
+						</td>
+						<td class="sv_Td"> 
+							<div> 总价 </div>
+						</td>
+						<td class="sv_Td"> 
+							<input class="sv_Input"/>
+						</td>
+						<td class="sv_Td sv_Right_Td"> 
+							<input class="sv_Input"/>
+						</td>
+					</tr>
+					<tr>
+						<td class="sv_Td sv_Left_Td sv_add_Td"> 
+							<div class="pos_rel"> 
+								<input class="sv_Input input_confirm"/>
+								<!-- input_uc_Group 有数值转变为input_c_Group -->
+								<div class="input_uc_Group">
+									<div class="input_confirm_icon"></div>
+								</div>
+							</div> 
+						</td>
+						<td class="sv_Td sv_add_Td"> 
+							<div> &nbsp; </div>
+						</td>
+						<td class="sv_Td sv_add_Td"> 
+							<div> &nbsp; </div>
+						</td>
+						<td class="sv_Td sv_add_Td"> 
+							<div> &nbsp; </div>
+						</td>
+						<td class="sv_Td sv_add_Td"> 
+							<div> &nbsp; </div>
+						</td>
+						<td class="sv_Td sv_Right_Td sv_add_Td"> 
+							<div> &nbsp; </div>
+						</td>
+					</tr>
+				</table>
+	  		</div>
+	  	</div>
+  	</div>
+  	<div class="footer">
+  		<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+  		<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
+  		<div class="footer_Btn">取消</div>
+  		<div class="footer_Btn Save_Btn_Act">保存</div>
+  		<div class="footer_Btn Submit_Btn_Act">提交审批</div>
+  	</div>
+</body>
+</html>
