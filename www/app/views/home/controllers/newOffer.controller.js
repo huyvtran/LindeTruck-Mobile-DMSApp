@@ -30,6 +30,9 @@ angular.module('oinio.NewOfferController', [])
             count = 1;
             // var txtTDLastIndex = findObj("txtTDLastIndex", document);
             // var columnID = parseInt(txtTDLastIndex.value);
+            var div = document.getElementById("tabExample");
+            div.style.height = (count*80)+'px';
+            count++;
             var columnID = "1";
 
             var tab = document.getElementById("tabExample");
@@ -38,10 +41,10 @@ angular.module('oinio.NewOfferController', [])
             console.log("columnLength:", columnLength);
             for (var i = 0; i < rowLength; i++) {
                 if (i == 0) {
-                    var oTd = tab.rows[0].insertCell(count);
-                    oTd.innerHTML = "<tr> <td style='border: 1px solid #979797'>  <div> 车体号1 </div> </td></tr> ";
+                    var oTd = tab.rows[0].insertCell(columnLength);
+                    oTd.innerHTML = "<tr> <td style='border: 1px solid #979797 background: #eee9e9;padding: 0 1%;font-size: 0.8rem; height: 40px;width: 80px;'>  <div> 车体号1 </div> </td></tr> ";
                 } else if (i == 1) {//第一列:序号
-                    var oTd = tab.rows[1].insertCell(count);
+                    var oTd = tab.rows[1].insertCell(columnLength);
                     oTd.innerHTML = "<tr> <td style='border: 1px solid #979797'>  <input class='ad_Input'/> </td></tr> ";
                 } else if (i > 1) {
                     var oTd = tab.rows[i].insertCell(columnLength);
