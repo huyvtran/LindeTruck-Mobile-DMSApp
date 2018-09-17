@@ -375,12 +375,12 @@
                             <!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
                         <!--</ion-item>-->
                         <ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak  class="small_Box_Text">
-                            <input class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);" type="checkbox"/> {{titem.Name}}
+                            <input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);" type="checkbox"/> {{titem.Name}}
                         </ion-item>
                     </ion-list>
                 </div>
                 <div id="selectTruck_checked" class="big_Box_Group" style="display: none;">
-                    <div class="small_Box_Title"> 全选删除 </div>
+                    <div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png"/> 全选删除 </div>
                     <ion-list can-swipe="true">
                         <!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
                         <!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->

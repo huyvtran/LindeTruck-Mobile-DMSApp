@@ -89,21 +89,25 @@ angular.module('oinio.newWorkListControllers', [])
 
         $scope.openSelectPage = function (ele) {
             console.log('cssss:::',$('#selectCustomer'));
-            if(ele === 'customer') {
-                $('#selectCustomer').css('display', 'block');
-                $('#selectTruck').css('display', 'none');
-            }else{
-                $('#selectTruck').css('display', 'block');
-                $('#selectCustomer').css('display', 'none');
-            }
+
             $('div.newWorkList_main').animate({
                 opacity:'0.6'
-            },'slow',function () {
+            },'slow','swing',function () {
                 $('div.newWorkList_main').hide();
                 $('div.newWorkList_truckSelect').animate({
                     opacity:'1'
                 },'normal').show();
+
+                if(ele === 'customer') {
+                    $('#selectCustomer').css('display', 'block');
+                    $('#selectTruck').css('display', 'none');
+                }else{
+                    $('#selectTruck').css('display', 'block');
+                    $('#selectCustomer').css('display', 'none');
+                }
             });
+
+
 
         };
 
@@ -305,26 +309,73 @@ angular.module('oinio.newWorkListControllers', [])
                 $("input.ckbox_truck_searchresult_item").each(function (index, element) {
                     $(this).prop("checked", true);
                 });
+
+                angular.forEach($scope.contentTruckItems, function (searchResult) {
+                    let existFlag = false;
+                    angular.forEach($scope.selectedTruckItems, function (selected) {
+                        if(searchResult.Id == selected.Id){
+                            existFlag = true;
+                        }
+                    });
+                    if(!existFlag){
+                        $scope.selectedTruckItems.push(searchResult);
+                        $scope.updateTruckString();
+                    }
+                });
             }else{
 
                 $("input.ckbox_truck_searchresult_item").each(function (index, element) {
                     console.log('666:::',element.checked);
                     element.checked = false;
                 });
+
+                let arr_temp = [];
+                angular.forEach($scope.selectedTruckItems, function (selected) {
+                    let existFlag = false;
+                    angular.forEach($scope.contentTruckItems, function (searchResult) {
+                        if(searchResult.Id == selected.Id){
+                            existFlag = true;
+                        }
+                    });
+                    if(!existFlag){
+                        arr_temp.push(selected);
+                    }
+                });
+                $scope.selectedTruckItems = arr_temp;
+                $scope.updateTruckString();
+
             }
         };
 
 
         $scope.checkSearchResults = function (ele) {
-            let existFlag = false;
-            for (var i=0;i<$scope.selectedTruckItems.length;i++){
-                if(ele.Id == $scope.selectedTruckItems[i].Id){
-                    existFlag = true;
+            let element = $("input.ckbox_truck_searchresult_item[data-recordid*='"+ele.Id+"']");
+            console.log('checkSearchResults::',element);
+
+            if(element != null && element.length > 0) {
+                if(element[0].checked) {
+                    let existFlag = false;
+                    for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
+                        if (ele.Id == $scope.selectedTruckItems[i].Id) {
+                            existFlag = true;
+                        }
+                    }
+                    if (!existFlag) {
+                        $scope.selectedTruckItems.push(ele);
+                        $scope.updateTruckString();
+                    }
+                }else{
+                    let temp = [];
+                    for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
+                        if (ele.Id != $scope.selectedTruckItems[i].Id) {
+                            temp.push($scope.selectedTruckItems[i]);
+                        }
+                    }
+                    $scope.selectedTruckItems = temp;
+                    $scope.updateTruckString();
                 }
-            }
-            if(!existFlag) {
-                $scope.selectedTruckItems.push(ele);
-                $scope.updateTruckString();
+            }else{
+                console.log('checkSearchResults::error');
             }
         };
 
@@ -352,9 +403,26 @@ angular.module('oinio.newWorkListControllers', [])
                 }
             }
 
+            $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                if($(element).attr("data-recordid") == ele.Id && element.checked) {
+                    element.checked = false;
+                }
+            });
+            document.getElementById("ckbox_truck_searchresult_all").checked = false;
+
             $scope.selectedTruckItems = new_temp;
             $scope.updateTruckString();
 
+        };
+
+        $scope.delAllSelectedItem = function () {
+            $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                element.checked = false;
+            });
+            document.getElementById("ckbox_truck_searchresult_all").checked = false;
+
+            $scope.selectedTruckItems = [];
+            $scope.updateTruckString();
         };
 
         $scope.updateTruckString = function () {
