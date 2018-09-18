@@ -150,7 +150,7 @@ angular.module('oinio.newWorkListControllers', [])
                     });
                     ionPop.then(function () {
                         //$ionicHistory.goBack();
-                        $state.go("app.home");
+                        //$state.go("app.home");
                     });
                 }
             }, function (error) {
@@ -251,7 +251,7 @@ angular.module('oinio.newWorkListControllers', [])
             let orderType = $("#select_serviceorder_type").val();
             if(orderType != null && orderType != ''){order2Save.Service_Order_Type__c = orderType;}
 
-            order2Save.Plan_Date__c = new Date();
+            order2Save.Plan_Date__c = $scope.getCurrentDateString();
 
             if(userId != null && userId.Id != null) {
                 HomeService.getUserObjectById(userId.Id).then(function (response) {
@@ -436,7 +436,19 @@ angular.module('oinio.newWorkListControllers', [])
 
         };
 
+        $scope.getCurrentDateString = function () {
+            let d = new Date().getDate();
+            let m = new Date().getMonth();
+            let y = new Date().getFullYear();
 
+            if(d<10){
+                d = '0' + d;
+            }
+            if(m<10){
+                m = '0' + m;
+            }
+            return y+'-'+m+'-'+d;
+        };
 
 
 });

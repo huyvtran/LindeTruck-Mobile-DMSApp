@@ -10,7 +10,7 @@
      */
     angular
         .module('oinio.services')
-        .service('ContactService', function($q, $log, LocalDataService, SMARTSTORE_COMMON_SETTING) {
+        .service('ContactService', function($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, SMARTSTORE_COMMON_SETTING) {
 
             let service = this;
 
@@ -143,18 +143,20 @@
             this.addContacts = function (adrs) {
                 $log.debug('addContacts:: '+adrs);
                 var deferred = $q.defer();
-                console.log(service.recordTypes);
-                var adrRecordType = _.find(service.recordTypes, {
-                    'DeveloperName': 'Service_Contact'
-                });
-                console.log(adrRecordType);
-                LocalDataService.createSObject('Contact').then(function(sobject) {
+
+                // console.log(service.recordTypes);
+                // var adrRecordType = _.find(service.recordTypes, {
+                //     'DeveloperName': 'Service_Contact'
+                // });
+                // console.log(adrRecordType);
+
+                LocalDataService.createSObject('Contact','Service_Contact').then(function(sobject) {
                     var newItem, adr;
                     var adrsToSave = [];
                     for (var i=0;i<adrs.length;i++){
                         adr = adrs[i];
+                        newItem = service.cloneObj(sobject);
 
-                        newItem = _.clone(sobject);
                         //newItem['Name'] = adr.Name;
                         newItem['LastName'] = adr.Name;
                         newItem['AccountId'] = adr.Account.Id;
@@ -187,9 +189,9 @@
                         }
                         console.log('localSave222:::',adrs);
                         deferred.resolve(adrs);
-                        // synchronize().then(function () {
-                        //     deferred.resolve('done');
-                        // });
+                        service.synchronize().then(function () {
+                            deferred.resolve('done');
+                        });
                     }, function (error) {
                         // log error
                         console.log(error);
@@ -198,6 +200,40 @@
                 }, angular.noop);
 
                 return deferred.promise;
+            };
+
+
+            /**
+             * synchronize to salesforce if device is online
+             */
+            this.synchronize = function () {
+                var deferred = $q.defer();
+
+                if (ConnectionMonitor.isOnline()) {
+                    IonicLoadingService.show($filter('translate')('cl.sync.lb_synchronizing'));
+                    LocalSyncService.syncUpObjectByAll().then(function () {
+                        IonicLoadingService.hide();
+                        deferred.resolve();
+                    });
+                } else {
+                    deferred.resolve();
+                }
+
+                return deferred.promise;
+            };
+
+
+            /**
+             * Deep clone for js object
+             */
+            this.cloneObj = function (obj) {
+                var newObj = new Object();
+                if(obj.RecordTypeId != null && obj.RecordTypeId != '') {
+                    newObj['RecordTypeId'] = obj.RecordTypeId;
+                    newObj['RecordTypeId_sid'] = obj.RecordTypeId_sid;
+                    newObj['RecordTypeId_type'] = 'RecordType';
+                }
+                return newObj;
             };
 
 

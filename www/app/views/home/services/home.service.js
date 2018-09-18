@@ -2,7 +2,7 @@
  * Module oinio.services HomeService
  */
 angular.module('oinio.services', [])
-    .service('HomeService', function HomeService($q, $log, LocalDataService, SMARTSTORE_COMMON_SETTING){
+    .service('HomeService', function HomeService($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, SMARTSTORE_COMMON_SETTING){
         let service = this;
 
         this.searchUnplannedOrders = function(){
@@ -358,17 +358,26 @@ angular.module('oinio.services', [])
         this.addServiceOrders = function (adrs,trucks) {
             $log.debug('saveServiceOrders:: '+adrs);
             var deferred = $q.defer();
-            console.log(service.recordTypes);
-            var adrRecordType = _.find(service.recordTypes, {
-                'DeveloperName': 'Work_Order'
-            });
-            console.log(adrRecordType);
-            LocalDataService.createSObject('Service_Order_Overview__c').then(function(sobject) {
+
+            let str_recTypeDevName = '';
+
+            if(adrs != null && adrs[0] != null && adrs[0].Service_Order_Type__c != null && adrs[0].Service_Order_Type__c != '') {
+                if (adrs[0].Service_Order_Type__c == 'Work Order') {
+                    str_recTypeDevName = 'Work_Order';
+                } else if (adrs[0].Service_Order_Type__c == 'Customer Consult') {
+                    str_recTypeDevName = 'Customer_Inquiry';
+                } else if (adrs[0].Service_Order_Type__c == 'Customer Complaint') {
+                    str_recTypeDevName = 'Customer_Complaint';
+                }
+            }
+
+            LocalDataService.createSObject('Service_Order_Overview__c',str_recTypeDevName).then(function(sobject) {
                 var newItem, adr;
                 var adrsToSave = [];
+                console.log('newItem::sobject:soo:',sobject);
                 for (var i=0;i<adrs.length;i++){
                     adr = adrs[i];
-                    newItem = _.clone(sobject);
+                    newItem = service.cloneObj(sobject);
 
                     newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;
                     newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;
@@ -381,14 +390,12 @@ angular.module('oinio.services', [])
                     newItem['Service_Order_Type__c'] = 'Work Order';
                     if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){newItem['Service_Order_Type__c'] = adr.Service_Order_Type__c;}
 
-                    if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
-
                     newItem['Plan_Date__c'] = adr.Plan_Date__c;
                     newItem['Description__c'] = adr.Description__c;
                     newItem['Status__c'] = 'Not Planned';
 
                     adrsToSave.push(newItem);
-                    console.log('newItem::' + newItem);
+                    console.log('newItem::',newItem);
                 }
                 LocalDataService.saveSObjects('Service_Order_Overview__c', adrsToSave).then(function(result) {
                     console.log('addServiceOrders1:::',result);
@@ -423,18 +430,26 @@ angular.module('oinio.services', [])
             $log.debug('addChildServiceOrders:: '+ adrs);
             var deferred = $q.defer();
 
-            // console.log(service.recordTypes);
-            // var adrRecordType = _.find(service.recordTypes, {s
-            //     'DeveloperName': 'Work_Order'
-            // });
-            // console.log(adrRecordType);
-            LocalDataService.createSObject('Service_Order__c').then(function(sobject) {
+            let str_recTypeDevName = '';
+
+            if(adrs != null && adrs[0] != null && adrs[0].Service_Order_Type__c != null && adrs[0].Service_Order_Type__c != '') {
+                if (adrs[0].Service_Order_Type__c == 'Work Order') {
+                    str_recTypeDevName = 'Work_Order';
+                } else if (adrs[0].Service_Order_Type__c == 'Customer Consult') {
+                    str_recTypeDevName = 'Customer_Inquiry';
+                } else if (adrs[0].Service_Order_Type__c == 'Customer Complaint') {
+                    str_recTypeDevName = 'Customer_Complaint';
+                }
+            }
+
+            LocalDataService.createSObject('Service_Order__c',str_recTypeDevName).then(function(sobject) {
                 var newItem;
                 var adr = adrs[0];
                 var adrsToSave = [];
+                console.log('newItem::sobject:so:',sobject);
 
                 for (var i=0;i<trucks.length;i++){
-                    newItem = _.clone(sobject);
+                    newItem = service.cloneObj(sobject);
 
                     newItem['Service_Order_Owner__c'] = adr.Service_Order_Owner__c;
                     newItem['Service_Order_Owner__c_sid'] = adr.Service_Order_Owner__r._soupEntryId;
@@ -463,7 +478,7 @@ angular.module('oinio.services', [])
                     }
 
                     adrsToSave.push(newItem);
-                    console.log('newItem::' + newItem);
+                    console.log('newItem::',newItem);
                 }
                 LocalDataService.saveSObjects('Service_Order__c', adrsToSave).then(function(result) {
                     console.log('addChildServiceOrders1:::',result);
@@ -480,9 +495,9 @@ angular.module('oinio.services', [])
                     }
                     console.log('addChildServiceOrders2:::',adrsToSave);
                     deferred.resolve(adrsToSave);
-                    // synchronize().then(function () {
-                    //     deferred.resolve('done');
-                    // });
+                    service.synchronize().then(function () {
+                        deferred.resolve('done');
+                    });
                 }, function (error) {
                     // log error
                     console.log(error);
@@ -663,10 +678,14 @@ angular.module('oinio.services', [])
             LocalDataService.updateSObjects('Service_Order__c', ods).then(function(success) {
 
                 // _this.synchronize().then(function() {
-                deferred.resolve();
+                //deferred.resolve();
                 // }, function(err) {
                 //     deferred.reject(err);
                 // });
+
+                service.synchronize().then(function () {
+                    deferred.resolve('done');
+                });
 
             }, function(error) {
                 $log.error('>>>> error while saving ServiceOrders', error);
@@ -1189,4 +1208,36 @@ angular.module('oinio.services', [])
         };
 
 
+        /**
+         * synchronize to salesforce if device is online
+         */
+        this.synchronize = function () {
+            var deferred = $q.defer();
+
+            if (ConnectionMonitor.isOnline()) {
+                IonicLoadingService.show($filter('translate')('cl.sync.lb_synchronizing'));
+                LocalSyncService.syncUpObjectByAll().then(function () {
+                    IonicLoadingService.hide();
+                    deferred.resolve();
+                });
+            } else {
+                deferred.resolve();
+            }
+
+            return deferred.promise;
+        };
+
+
+        /**
+         * Deep clone for js object
+         */
+        this.cloneObj = function (obj) {
+            var newObj = new Object();
+            if(obj.RecordTypeId != null && obj.RecordTypeId != '') {
+                newObj['RecordTypeId'] = obj.RecordTypeId;
+                newObj['RecordTypeId_sid'] = obj.RecordTypeId_sid;
+                newObj['RecordTypeId_type'] = 'RecordType';
+            }
+            return newObj;
+        };
     });
