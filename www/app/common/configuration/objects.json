@@ -36,6 +36,28 @@
       "MobileVizArt__Active__c": true
     },
     {
+      "Name": "Maintenance_Key_Level_Parts__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Maintenance_Description__c,Maintenance_Level__c,Maintenance_Strategy__c,Part_Number__c,Quantity__c,Work_Hour__c",
+      "MobileVizArt__Search_Fields__c": "Name,Maintenance_Description__c,Maintenance_Level__c,Maintenance_Strategy__c,Part_Number__c,Quantity__c,Work_Hour__c",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 3,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "Truck_Fleet__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Family__c,Model__c,Ship_To_CS__c,Maintenance_Key__c",
+      "MobileVizArt__Search_Fields__c": "Name,Model__c,Ship_To_CS__c,Family__c,Maintenance_Key__c",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 8,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
+    },
+    {
       "Name": "Service_Order_Overview__c",
       "MobileVizArt__Fields__c": "Id,Name,Account_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,RecordTypeId",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c",
@@ -47,9 +69,9 @@
       "MobileVizArt__Active__c": true
     },
     {
-      "Name": "Truck_Fleet__c",
-      "MobileVizArt__Fields__c": "Id,Name,Model__c,Ship_To_CS__c,RecordTypeId",
-      "MobileVizArt__Search_Fields__c": "Name,Model__c,Ship_To_CS__c",
+      "Name": "Service_Quote_Overview__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Subject__c,Ship_To__c,Contact__c,Service_Type__c",
+      "MobileVizArt__Search_Fields__c": "Ship_To__c,Contact__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
@@ -72,6 +94,17 @@
       "Name": "Service_Order__c",
       "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Service_Order__c,Description__c,RecordTypeId",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Service_Order__c",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "Service_Quote__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Truck_Fleet__c,Service_Type__c,Service_Quote_Overview__c,Model__c,Family__c,Maintenance_Level__c,Work_Time__c",
+      "MobileVizArt__Search_Fields__c": "Status__c,Service_Quote_Overview__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
