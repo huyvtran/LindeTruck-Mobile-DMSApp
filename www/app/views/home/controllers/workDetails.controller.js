@@ -54,40 +54,60 @@ angular.module('oinio.workDetailsControllers', [])
                         $log.error('Error ' + error);
                         $scope.TruckId ="";
                     });
-                    // if (response[0].Service_Order_Owner__c != null){
-                    //     HomeService.getUserObjectById(response[0].Service_Order_Owner__c).then(function (resp1) {
-                    //         if (response[0].Truck_Serial_Number__c!=null){
-                    //             HomeService.getTruckObjectById(response[0].Truck_Serial_Number__c).then(function (resp2) {
-                    //                 $scope.TruckId = response[0].Truck_Serial_Number__r = resp2.Name !=null?resp2.Name:"";
-                    //             },function (e2) {
-                    //                 console.log(e2);
-                    //             });
-                    //         }else {
-                    //             $scope.TruckId="";
-                    //         }
-                    //     },function (e1) {
-                    //         console.log(e1);
-                    //     });
-                    // }else {
-                    //     $scope.OwnerId ="";
-                    //     $scope.TruckId="";
-                    // }
-
                 }else{
                     $scope.busyerName ="";
                     $scope.busyerType="";
                     $scope.OwnerId="";
                     $scope.TruckId-"";
                 }
-
-
-
                 //console.log("response.Service_Order_Owner__r:",response[0].Service_Order_Owner__r);
 
             },function (error) {
                 $log.error('Error ' + error);
             });
         });
+
+        $scope.toDetailInfo = function(){
+            if (document.getElementById("detailContent").style.display == "none") {
+                document.getElementById("detailContent").style.display = "";//显示
+                document.getElementById("detailImg").className = "OpenClose_Btn arrow_Down_White";
+            } else {
+                document.getElementById("detailContent").style.display = "none";//隐藏
+                document.getElementById("detailImg").className = "OpenClose_Btn arrow_Down_White";
+
+            }
+        };
+        $scope.toWorkInfo = function(){
+            if (document.getElementById("workContent").style.display == "none") {
+                document.getElementById("workContent").style.display = "";//显示
+                document.getElementById("workImg").className = "OpenClose_Btn arrow_Down_White";
+            } else {
+                document.getElementById("workContent").style.display = "none";//隐藏
+                document.getElementById("workImg").className = "OpenClose_Btn arrow_Down_White";
+
+            }
+        };
+        $scope.toPartsInfo = function(){
+            if (document.getElementById("partContent").style.display == "none") {
+                document.getElementById("partContent").style.display = "";//显示
+                document.getElementById("partImg").className = "OpenClose_Btn arrow_Down_White";
+            } else {
+                document.getElementById("partContent").style.display = "none";//隐藏
+                document.getElementById("partImg").className = "OpenClose_Btn arrow_Down_White";
+
+            }
+        };
+        $scope.toServiceInfo = function(){
+            if (document.getElementById("serviceContent").style.display == "none") {
+                document.getElementById("serviceContent").style.display = "";//显示
+                document.getElementById("serviceImg").className ="OpenClose_Btn arrow_Down_White";
+            } else {
+                document.getElementById("serviceContent").style.display = "none";//隐藏
+                document.getElementById("serviceImg").className = "OpenClose_Btn arrow_Down_White";
+
+            }
+        };
+
         $scope.goBack = function () {
             window.history.back();
         };
@@ -96,18 +116,5 @@ angular.module('oinio.workDetailsControllers', [])
             $state.go("app.home");
         };
 
-        $scope.toDisplayMoreInfo = function () {
-            if (document.getElementById("div_moreInfo").style.display == "none") {
-                document.getElementById("div_moreInfo").style.display = "";//显示
-                document.getElementById("div_moreInfoImg").className = "OpenClose_Btn arrow_Down_Red";
-            } else {
-                document.getElementById("div_moreInfo").style.display = "none";//隐藏
-                document.getElementById("div_moreInfoImg").className = "OpenClose_Btn arrow_Left_Red";
-
-            }
-        };
-        $scope.toDisplayBox = function () {
-
-        };
     });
 

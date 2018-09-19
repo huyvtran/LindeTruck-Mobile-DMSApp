@@ -2,16 +2,298 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> Arrange Details </title>
-
-	<link rel="stylesheet" href="././css/workDetails.css">
-	<script src='app/core/lib/jquery.min.js'></script>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width,height=device-height">
+	<title> work list details </title>
+	<!--<link rel="stylesheet" href="././css/workDetails.css">-->
 
 	<style type="text/css">
-		.back_Icon {
-			background-image: url(././img/images/back_icon.png);
+		body {
+			margin: 0;
+			font-size: 1rem;
+			font-family: 微软雅黑, 华文黑体, sans-serif;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: relative;
+			height: 100vh;
+			background-position: 50%;
+			overflow: hidden;
 		}
+		img {
+			cursor: pointer;
+			vertical-align: middle;
+		}
+		.to_Open {
+			display: block;
+		}
+		.to_Hide {
+			display: none;
+		}
+		.header {
+			background: #aa0020;
+			width: 100%;
+			height: 64px;
+			position: relative;
+			padding-left:  5%;
+			padding-right:  5%;
+			line-height: 64px;
+		}
+		.left_Box {
+			display: inline-flex;
+			width: 10%;
+			vertical-align: middle;
+		}
+		.center_Box {
+			display: inline-block;
+			width: 77%;
+			position: relative;
+			vertical-align: middle;
+		}
+		.center_Title {
+			text-align: center;
+			color: #ffffff;
+		}
+		.right_Box {
+			position: relative;
+			display: inline-flex;
+			width: 10%;
+			vertical-align: middle;
+		}
+		.add_Icon_White {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 20px;
+			height: 20px;
+			margin-left: auto;
+		}
+		.add_Arrow {
+			position: absolute;
+			width: 0;
+			height: 0;
+			border-top: 10px solid transparent;
+			border-left: 10px solid transparent;
+			border-right: 10px solid transparent;
+			border-bottom: 10px solid #ffffff;
+			top: 19px;
+			right: 25%;
+		}
+		.add_Group {
+			position: absolute;
+			background: #ffffff;
+			box-shadow: 0 1px 2px #aa0020;
+			top: 39px;
+			right: 0;
+			display: inline-block;
+			width: 130px;
+		}
+		.add_Box {
+			white-space: nowrap;
+			color: #535353;
+			padding: 8%;
+			line-height: 1.2rem;
+		}
+		.bodyer {
+			overflow-y: auto;
+			height: calc(100vh - 190px);
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 100%;
+		}
+		.big_Type_Group {
+			margin-bottom: 5%;
+		}
+		.displayQuantity {
+			margin: 2% 0;
+			font-size: 0.8rem;
+			text-align: center;
+		}
+		.small_Type_Title_Group {
+			background: #535353;
+			padding: 2% 0;
+			display: flex;
+			align-items: center;
+		}
+		.small_Type_Title_G {
+			color: #ffffff;
+			padding: 0 5%;
+			display: flex;
+			width: calc(100% - 18px);
+		}
+		.OpenClose_Btn {
+			background-repeat: no-repeat;
+			background-size: cover;
+			display: inline-flex;
+			width: 18px;
+			height: 10px;
+			margin-right: 5%;
+		}
+		.small_Type_Group {
+			margin: 2% 5%;
+		}
+		.small_Type_Title {
+			color: #535353;
+			font-size: 0.8rem;
+			margin-bottom: 2%;
+		}
+		.small_Type_Box {
+			position: relative;
+		}
+		.small_Type_Input {
+			color: #535353;
+			width: 100%;
+			height: 40px;
+			border-bottom: 1px solid #535353;
+			border-top: 0;
+			border-left: 0;
+			border-right: 0;
+			padding: 0 5%;
+			font-size: 1rem;
+		}
+		.search_small_black {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 16px;
+			height: 16px;
+			position: absolute;
+			top: calc(50% - 8px);
+			right: 0;
+		}
+		.search_small_black {
+			background-image: url(././img/images/search_small_black.png);
+		}
+		.small_Type_Select {
+			color: #535353;
+			width: 100%;
+			height: 40px;
+			padding: 0 5%;
+			font-size: 1rem;
+		}
+		.small_Type_Textarea {
+			resize: none;
+			width: 89%;
+			border: 1px solid #535353;
+			font-size: 1rem;
+			height: 40px;
+			padding: 5%;
+		}
+		.img_Group {
+			margin-bottom: 1%;
+		}
+		.img_Group .left_Img, .img_Group .center_Img, .img_Group .right_Img {
+			display: inline-flex;
+			width: calc(97% / 3);
+		}
+		.center_Img {
+			justify-content: center;
+		}
+		.right_Img {
+			justify-content: flex-end;
+		}
+		.has_Add_Img {
+			width: 80px;
+			height: 80px;
+			border: 1px dotted #979797;
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: relative;
+		}
+		.will_Add_Img {
+			width: 80px;
+			height: 80px;
+			border: 1px dotted #979797;
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: relative;
+		}
+		.no_Img {
+			width: 80px;
+			height: 80px;
+			border: 0px dotted #979797;
+		}
+		.onlyread_Img_2 {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 100%;
+			height: 227px;
+		}
+		.has_Add_Img .del_Img {
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: absolute;
+			right: -8px;
+			top: -8px;
+			width: 16px;
+			height: 16px;
+		}
+		.next_Footer {
+			position: absolute;
+			bottom: 50px;
+			width: 100%;
+			background: #ffffff;
+		}
+		.schedule_Group {
+			display: flex;
+			width: 100%;
+			align-items: center;
+			justify-content: center;
+			border-top: 1px solid #535353;
+			padding: 10px 0;
+		}
+		.schedule_Group div {
+			display: inline-flex;
+			margin: 1%;
+		}
+		.schedule_Btn {
+			background: #ffffff;
+			border: 1px solid #979797;
+			padding: 2% 4%;
+		}
+		.next_Schedule_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 12px;
+			height: 20px;
+		}
+		.footer {
+			position: absolute;
+			bottom: 0;
+			text-align: center;
+			margin: 0;
+			width: 100%;
+			display: flex;
+			border-top: 1px solid #535353;
+		}
+		.footer_Btn {
+			padding-top: 4%;
+			padding-bottom: 4%;
+			font-size: 1rem;
+			color: #535353;
+			background: #ffffff;
+			display: inline-flex;
+			width: calc(100% / 2);
+			justify-content: center;
+		}
+		.footer_Btn.Save_Btn_Act {
+			color: #ffffff;
+			background: #aa0020;
+		}
+		.footer_Btn.Save_Btn_Uact {
+			color: #ffffff;
+			background: #979797;
+		}
+		.volume_Icon {
+			background-image: url(././img/images/volume_icon.png);
+		}
+		.bodyer {
+			background-image: url(././img/images/bg_img.png);
+		}
+		.arrow_Down_White {
+			background-image: url(././img/images/arrow_Down_White.png);
+		}
+		.arrow_Left_White {
+			background-image: url(././img/images/arrow_Left_White.png);
+		}
+
 		.arrow_Down_Red {
 			background-image: url(././img/images/arrow_Down_Red.png);
 		}
@@ -21,53 +303,156 @@
 		.next_Schedule_Icon {
 			background-image: url(././img/images/next_Schedule_Icon.png);
 		}
+		.has_Add_Img {
+			background-image: url(././img/images/has_add_img.png);
+		}
+		.will_Add_Img {
+			background-image: url(././img/images/will_add_img.png);
+		}
+		.onlyread_Img_2 {
+			background-image: url(././img/images/onlyread_Img_2.jpg);
+		}
+		.del_Img {
+			background-image: url(././img/images/del_red_icon.png);
+		}
 	</style>
 </head>
 <body>
 <div class="header">
-	<div class="left_Box" ng-click="goBack()">
-		<div class="back_Icon"></div>
+	<div class="left_Box">
 	</div>
 	<div class="center_Box">
-		<div class="center_Title">工单号 : {{workAccountId}}</div>
+		<div class="center_Title">工单详情</div>
+	</div>
+	<div class="right_Box">
 	</div>
 </div>
 <div class="bodyer">
 	<div class="big_Type_Group">
-		<div class="chose_Num"> 已选共 {{HasTruckNum}} 台</div>
-		<div class="small_Type_Group">
-			<div class="small_Type_Title_Group" ng-click="toDisplayMoreInfo()" >
-				<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-				<div class="OpenClose_Btn arrow_Down_Red" id="div_moreInfoImg"></div>
-				<div class="small_Type_Title"> 详细信息 </div>
+		<div class="displayQuantity"> 已选共{{HasTruckNum}}台 </div>
+		<div>
+			<div class="small_Type_Title_Group" ng-click="toDetailInfo();">
+				<div class="small_Type_Title_G"> 详细信息 </div>
+				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+				<div class="OpenClose_Btn arrow_Down_White" id="detailImg"></div>
 			</div>
-			<div class="inf_Box_Group" id="div_moreInfo">
-				<div class="inf_Box">
-					<div class="inf_Left_Text"> 客户名称：</div><div class="inf_Right_Text" ng-cloak> {{busyerName}}</div>
+			<div id="detailContent">
+				<div class="small_Type_Group" >
+					<div class="small_Type_Title">派工单号:</div>
+					<div class="small_Type_Box">
+						<input class="small_Type_Input" style="background-color:transparent;"/>
+						<div class="search_small_black"></div>
+					</div>
 				</div>
-				<div class="inf_Box">
-					<div class="inf_Left_Text"> 客户号：</div><div class="inf_Right_Text" ng-cloak> {{OwnerId}}</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">通知单号:</div>
+					<div class="small_Type_Box">
+						<input class="small_Type_Input" style="background-color:transparent;"/>
+						<div class="search_small_black"></div>
+					</div>
 				</div>
-				<div class="inf_Box">
-					<div class="inf_Left_Text"> 车体号：</div><div class="inf_Right_Text" ng-cloak style="word-break:break-all"> {{TruckId}}</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">工单类型:</div>
+					<div class="small_Type_Box">
+						<input class="small_Type_Input" style="background-color:transparent;"/>
+						<div class="search_small_black"></div>
+					</div>
 				</div>
-				<div class="inf_Box">
-					<div class="inf_Left_Text"> 工单类型：</div><div class="inf_Right_Text" ng-cloak> {{busyerType}}</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">服务类型:</div>
+					<div class="small_Type_Box">
+						<select class="small_Type_Select">
+							<option> 保养 </option>
+						</select>
+					</div>
+				</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">保养级别:</div>
+					<div class="small_Type_Box">
+						<select class="small_Type_Select">
+							<option> 1 </option>
+						</select>
+					</div>
+				</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">来电事由:</div>
+					<div class="small_Type_Box">
+						<textarea class="small_Type_Textarea"></textarea>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="small_Type_Group">
-			<div class="small_Type_Title_Group">
-				<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-				<div class="OpenClose_Btn arrow_Left_Red"></div>
-				<div class="small_Type_Title"> 工作信息 </div>
+		<div>
+			<div class="small_Type_Title_Group" ng-click="toWorkInfo();">
+				<div class="small_Type_Title_G"> 工作信息 </div>
+				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+				<div class="OpenClose_Btn arrow_Down_White" id="workImg"></div>
+			</div>
+			<div id="workContent">
+				<div class="small_Type_Group" >
+					<div class="small_Type_Box">
+						<textarea class="small_Type_Textarea"></textarea>
+					</div>
+				</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">上传图片:</div>
+					<div class="small_Type_Box">
+						<div class="img_Group">
+							<div class="left_Img">
+								<div class="has_Add_Img">
+									<div class="del_Img"></div>
+								</div>
+							</div>
+							<div class="center_Img">
+								<div class="has_Add_Img">
+									<div class="del_Img"></div>
+								</div>
+							</div>
+							<div class="right_Img">
+								<div class="has_Add_Img">
+									<div class="del_Img"></div>
+								</div>
+							</div>
+						</div>
+						<div class="img_Group">
+							<div class="left_Img">
+								<div class="will_Add_Img"> </div>
+							</div>
+							<div class="center_Img">
+								<div class="no_Add_Img"></div>
+							</div>
+							<div class="right_Img">
+								<div class="no_Add_Img"></div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		<div class="small_Type_Group">
-			<div class="small_Type_Title_Group">
-				<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
-				<div class="OpenClose_Btn arrow_Left_Red"></div>
-				<div class="small_Type_Title"> 配送信息 </div>
+		<div>
+			<div class="small_Type_Title_Group" ng-click="toPartsInfo();">
+				<div class="small_Type_Title_G"> 配件需求 </div>
+				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+				<div class="OpenClose_Btn arrow_Down_White" id="partImg"></div>
+			</div>
+			<div id="partContent">
+				<div class="small_Type_Box" >
+					<div class="onlyread_Img_2"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="small_Type_Title_Group" ng-click="toServiceInfo();">
+				<div class="small_Type_Title_G"> 服务建议 </div>
+				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+				<div class="OpenClose_Btn arrow_Down_White" id="serviceImg"></div>
+			</div>
+			<div id="serviceContent">
+				<div class="small_Type_Group" >
+					<div class="small_Type_Box">
+						<textarea class="small_Type_Textarea"></textarea>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -85,8 +470,8 @@
 </div>
 <div class="footer">
 	<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-	<div class="footer_Btn" ng-click="goBack()">取消</div>
-	<div class="footer_Btn Save_Btn_Act" ng-click="goSave()">保存</div>
+	<div class="footer_Btn" ng-click="goBack();">取消</div>
+	<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
 </div>
 </body>
 </html>
