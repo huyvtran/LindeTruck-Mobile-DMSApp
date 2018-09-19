@@ -304,6 +304,8 @@
              *  Contact.Contact_State__c,       //Contact State
              *  Contact.Position_Type__c,       //Job Type
              *
+             *  Ship_To__c
+             *
              * @returns {Promise} an array of Contact objects containing like
              *   "_soupId": 1234567890,
              */
