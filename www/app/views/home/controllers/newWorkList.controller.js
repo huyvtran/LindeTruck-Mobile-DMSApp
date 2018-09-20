@@ -489,11 +489,10 @@ angular.module('oinio.newWorkListControllers', [])
             //console.log('attr::',attr);
             //console.log('controller::',controller);
 
-            scope.$parent.defaultHistoryWorkHeight = document.querySelector("#newwork_historyWork").scrollHeight + 'px';
-            document.querySelector("#newwork_historyWork").style.height = scope.$parent.defaultHistoryWorkHeight;
-
             if(scope.$last == true){
                 console.log('ng-repeat执行完毕');
+                scope.$parent.defaultHistoryWorkHeight = document.querySelector("#newwork_historyWork").scrollHeight + 'px';
+                document.querySelector("#newwork_historyWork").style.height = scope.$parent.defaultHistoryWorkHeight;
             }
         }
     }

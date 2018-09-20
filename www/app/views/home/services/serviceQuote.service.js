@@ -289,6 +289,52 @@
 
 
             /**
+             * @func  getDefaultUnitPrice
+             * @desc  get default unit price for service fee.
+             * @param no param needed
+             * @returns {Promise} Object
+             *      labour：labour cost
+             *      trans：transportation cost
+             *
+             */
+
+            this.getDefaultUnitPrice = function(){
+                console.log('getDefaultUnitPrice.:');
+                let deferred = $q.defer();
+
+                let sql =  "select {Price_Term__c:_soup}\
+                         from {Price_Term__c}\
+                         where {Price_Term__c:Sap_Table__c} = 'A911'";
+
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let result = new Object();
+                    result.labour = 0;
+                    result.trans = 0;
+
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            if(entry[0].Material__c == '7990110000'){
+                                result.labour = entry[0].Amount__c;
+                            }
+                            if(entry[0].Material__c == '7990110003'){
+                                result.trans = entry[0].Amount__c;
+                            }
+                        });
+                    }
+                    deferred.resolve(result);
+                }, function (err) {
+                    $log.error(err);
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                console.log('getDefaultUnitPrice::', deferred.promise);
+                return deferred.promise;
+            };
+
+
+
+            /**
              * @func  save new Contacts
              * @desc  save Contacts with recordType Service_Contact to Salesforce
              * @param {Contact[]} adrs - the data which should be create and save objects for,
