@@ -48,7 +48,7 @@ angular.module('oinio.workDetailsControllers', [])
                         angular.forEach(res,function (item) {
                             str += item.Name+";\n";
                         });
-                        $scope.HasTruckNum = res.length !=null ? res.length: 0;
+                        $scope.HasTruckNum = res !=null ? res.length: 0;
                         $scope.TruckId = str;
                     },function (error) {
                         $log.error('Error ' + error);
