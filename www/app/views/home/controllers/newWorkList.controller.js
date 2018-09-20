@@ -51,6 +51,11 @@ angular.module('oinio.newWorkListControllers', [])
 
             $scope.initLatest3Orders=[];
 
+            $scope.displayStandardInfo = true;
+            $scope.displayHistory = true;
+            $scope.defaultStandardInfoHeight = 0;
+            $scope.defaultHistoryWorkHeight = 0;
+
             HomeService.getLatest3ServiceOrders().then(function (response) {
                 console.log("getLatest3ServiceOrders",response);
 
@@ -80,10 +85,15 @@ angular.module('oinio.newWorkListControllers', [])
             }).finally(function () {
                 //AppUtilService.hideLoading();
             });
+
+            console.log('Begin::init animate node::');
+            $scope.defaultStandardInfoHeight = document.querySelector("#newwork_standardInfo").scrollHeight + 'px';
+            document.querySelector("#newwork_standardInfo").style.height = $scope.defaultStandardInfoHeight;
+            $scope.defaultHistoryWorkHeight = document.querySelector("#newwork_historyWork").scrollHeight + 'px';
+            document.querySelector("#newwork_historyWork").style.height = $scope.defaultHistoryWorkHeight;
         });
-        //加号“+”菜单
-        // document.getElementById("add_bgbox").style.display = "none";//隐藏
-        // document.getElementById("add_contactsImg").style.display = "none";//隐藏
+
+
 
 
 
@@ -450,6 +460,42 @@ angular.module('oinio.newWorkListControllers', [])
             return y+'-'+m+'-'+d;
         };
 
+        $scope.showStandardInfo = function () {
+            $scope.displayStandardInfo = !$scope.displayStandardInfo;
+            if($scope.displayStandardInfo){
+                document.querySelector("#newwork_standardInfo").style.height = $scope.defaultStandardInfoHeight;
+            }else{
+                document.querySelector("#newwork_standardInfo").style.height = '0px';
+            }
+        }
 
+        $scope.showHistoryWork = function () {
+            $scope.displayHistory = !$scope.displayHistory;
+            if($scope.displayHistory){
+                document.querySelector("#newwork_historyWork").style.height = $scope.defaultHistoryWorkHeight;
+            }else{
+                document.querySelector("#newwork_historyWork").style.height = '0px';
+            }
+        }
+
+}).directive('repeatFinish',function(){
+    return {
+        controller: function ($scope, $element, $attrs) {
+
+        },
+        link: function(scope,element,attr,controller){
+            console.log('scope::',scope);
+            //console.log('element::',element);
+            //console.log('attr::',attr);
+            //console.log('controller::',controller);
+
+            scope.$parent.defaultHistoryWorkHeight = document.querySelector("#newwork_historyWork").scrollHeight + 'px';
+            document.querySelector("#newwork_historyWork").style.height = scope.$parent.defaultHistoryWorkHeight;
+
+            if(scope.$last == true){
+                console.log('ng-repeat执行完毕');
+            }
+        }
+    }
 });
 
