@@ -179,7 +179,7 @@
 		.img_Group {
 			margin-bottom: 1%;
 		}
-		.img_Group .left_Img, .img_Group .center_Img, .img_Group .right_Img {
+		.img_Group .item_Img {
 			display: inline-flex;
 			width: calc(97% / 3);
 		}
@@ -196,6 +196,7 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			position: relative;
+			background-image: url(././img/images/has_add_img.png);
 		}
 		.will_Add_Img {
 			width: 80px;
@@ -204,6 +205,7 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			position: relative;
+			background-image: url(././img/images/will_add_img.png);
 		}
 		.no_Img {
 			width: 80px;
@@ -292,6 +294,8 @@
 		}
 		.arrow_Left_White {
 			background-image: url(././img/images/arrow_Left_White.png);
+			width: 10px;
+			height: 18px;
 		}
 
 		.arrow_Down_Red {
@@ -303,12 +307,7 @@
 		.next_Schedule_Icon {
 			background-image: url(././img/images/next_Schedule_Icon.png);
 		}
-		.has_Add_Img {
-			background-image: url(././img/images/has_add_img.png);
-		}
-		.will_Add_Img {
-			background-image: url(././img/images/will_add_img.png);
-		}
+
 		.onlyread_Img_2 {
 			background-image: url(././img/images/onlyread_Img_2.jpg);
 		}
@@ -340,19 +339,18 @@
 				<div class="small_Type_Group" >
 					<div class="small_Type_Title">派工单号:</div>
 					<div class="small_Type_Box">
-						<input class="small_Type_Input" style="background-color:transparent;"/>
-						<div class="search_small_black"></div>
+						<input class="small_Type_Input" style="background-color:transparent;" disabled="disabled"/>
 					</div>
 				</div>
+				<!--<div class="small_Type_Group">-->
+					<!--<div class="small_Type_Title">通知单号:</div>-->
+					<!--<div class="small_Type_Box">-->
+						<!--<input class="small_Type_Input" style="background-color:transparent;"/>-->
+						<!--<div class="search_small_black"></div>-->
+					<!--</div>-->
+				<!--</div>-->
 				<div class="small_Type_Group">
-					<div class="small_Type_Title">通知单号:</div>
-					<div class="small_Type_Box">
-						<input class="small_Type_Input" style="background-color:transparent;"/>
-						<div class="search_small_black"></div>
-					</div>
-				</div>
-				<div class="small_Type_Group">
-					<div class="small_Type_Title">工单类型:</div>
+					<div class="small_Type_Title">作业类型:</div>
 					<div class="small_Type_Box">
 						<input class="small_Type_Input" style="background-color:transparent;"/>
 						<div class="search_small_black"></div>
@@ -362,7 +360,9 @@
 					<div class="small_Type_Title">服务类型:</div>
 					<div class="small_Type_Box">
 						<select class="small_Type_Select">
-							<option> 保养 </option>
+							<option>保养</option>
+							<option>维修</option>
+							<option>服务</option>
 						</select>
 					</div>
 				</div>
@@ -397,32 +397,11 @@
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">上传图片:</div>
 					<div class="small_Type_Box">
-						<div class="img_Group">
-							<div class="left_Img">
-								<div class="has_Add_Img">
-									<div class="del_Img"></div>
+						<div class="img_Group" id="photoGroup" ng-repeat="itemUri in imgUris">
+							<div class="item_Img">
+								<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;background-image: url({{itemUri}});" id="{{itemUri}}" ng-click="getPhoto(this);">
+									<div class="del_Img" ng-show="itemUri!='././img/images/will_add_img.png'"></div>
 								</div>
-							</div>
-							<div class="center_Img">
-								<div class="has_Add_Img">
-									<div class="del_Img"></div>
-								</div>
-							</div>
-							<div class="right_Img">
-								<div class="has_Add_Img">
-									<div class="del_Img"></div>
-								</div>
-							</div>
-						</div>
-						<div class="img_Group">
-							<div class="left_Img">
-								<div class="will_Add_Img"> </div>
-							</div>
-							<div class="center_Img">
-								<div class="no_Add_Img"></div>
-							</div>
-							<div class="right_Img">
-								<div class="no_Add_Img"></div>
 							</div>
 						</div>
 					</div>
