@@ -131,6 +131,8 @@ cordova plugin add cordova-plugin-background-mode
 echo '\x1B[0;90m✓ cordova-plugin-contacts.\x1B[0m'
 cordova plugin add cordova-plugin-contacts
 
+cordova plugin add cordova-plugin-file-transfer
+
 # Check salesforce sdk
 if [ ! -d plugins/com.salesforce ]; then
     echo '\x1B[0;91mx SalesForce Cordova Plugin not correctly installed. Exiting here.\x1B[0m'
