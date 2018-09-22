@@ -136,9 +136,9 @@ angular.module('oinio.workDetailsControllers', [])
                                                 i--;
                                             }
                                         }
-                                        localUris.push(imgUri);
-                                        localUris.push("././img/images/will_add_img.png")
                                         $scope.imgUris.push(imgUri);
+                                        $scope.imgUris.push("././img/images/will_add_img.png");
+                                        console.log(imgUri);
                                     },
                                     function onError(error) {
                                         return;
