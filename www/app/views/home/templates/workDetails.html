@@ -170,10 +170,10 @@
 		}
 		.small_Type_Textarea {
 			resize: none;
-			width: 89%;
+			width: 100%;
 			border: 1px solid #535353;
 			font-size: 1rem;
-			height: 40px;
+			height: 80px;
 			padding: 5%;
 		}
 		.img_Group {
@@ -218,7 +218,7 @@
 			width: 100%;
 			height: 227px;
 		}
-		.has_Add_Img .del_Img {
+		.del_Img {
 			background-repeat: no-repeat;
 			background-size: cover;
 			position: absolute;
@@ -226,6 +226,7 @@
 			top: -8px;
 			width: 16px;
 			height: 16px;
+			background-image: url(././img/images/del_red_icon.png);
 		}
 		.next_Footer {
 			position: absolute;
@@ -311,9 +312,6 @@
 		.onlyread_Img_2 {
 			background-image: url(././img/images/onlyread_Img_2.jpg);
 		}
-		.del_Img {
-			background-image: url(././img/images/del_red_icon.png);
-		}
 	</style>
 </head>
 <body>
@@ -352,17 +350,16 @@
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">作业类型:</div>
 					<div class="small_Type_Box">
-						<input class="small_Type_Input" style="background-color:transparent;"/>
-						<div class="search_small_black"></div>
+						<select class="small_Type_Select">
+							<option ng-repeat="itemWorkType in workTypes" value="{{itemWorkType.label}}">{{itemWorkType.value}}</option>
+						</select>
 					</div>
 				</div>
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">服务类型:</div>
 					<div class="small_Type_Box">
 						<select class="small_Type_Select">
-							<option>保养</option>
-							<option>维修</option>
-							<option>服务</option>
+							<option ng-repeat="carService in carServices" value="{{carService.label}}">{{carService.value}}</option>
 						</select>
 					</div>
 				</div>
@@ -370,7 +367,6 @@
 					<div class="small_Type_Title">保养级别:</div>
 					<div class="small_Type_Box">
 						<select class="small_Type_Select">
-							<option> 1 </option>
 						</select>
 					</div>
 				</div>
@@ -397,10 +393,10 @@
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">上传图片:</div>
 					<div class="small_Type_Box">
-						<div class="img_Group" id="photoGroup" ng-repeat="itemUri in imgUris">
-							<div class="item_Img">
-								<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;background-image: url({{itemUri}});" id="{{itemUri}}" ng-click="getPhoto(this);">
-									<div class="del_Img" ng-show="itemUri!='././img/images/will_add_img.png'"></div>
+						<div class="img_Group" id="photoGroup">
+							<div class="item_Img" ng-repeat="itemUri in imgUris">
+								<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});" id="{{itemUri}}" ng-click="getPhoto($event);">
+									<div class="del_Img" ng-show="itemUri!='././img/images/will_add_img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
 								</div>
 							</div>
 						</div>
