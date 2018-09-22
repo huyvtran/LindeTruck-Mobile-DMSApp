@@ -75,7 +75,7 @@ img {
 .search_Group {
     position: absolute;
     top: 0;
-    width: 90%;
+    width: 100%;
     background: #f85360;
     padding: 2% 5%;
     z-index: 999;
@@ -94,7 +94,7 @@ img {
 .search_Type_Input {
     color: #535353;
     background: #ffffff;
-    width: 85%;
+    width: 100%;
     height: 30px;
     border: 1px solid #979797;
     padding: 0 10% 0 5%;
@@ -145,12 +145,13 @@ img {
     right: 12%;
     display: flex;
     align-items: center;
+    width: 20%;
 }
 .price_Title {
     display: inline-flex;
     font-size: 0.8rem;
     color: #ffffff;
-    margin-right: 1%;
+    margin-right: 2%;
 }
 .price_Input {
     display: inline-flex;
@@ -193,7 +194,7 @@ img {
 .small_Type_Input {
     color: #535353;
     background: transparent;
-    width: 85%;
+    width: 100%;
     height: 30px;
     border-bottom: 1px solid #535353;
     border-top: 0;
@@ -220,7 +221,7 @@ img {
 }
 .small_Type_Textarea {
     resize: none;
-    width: 89%;
+    width: 100%;
     border: 1px solid #535353;
     font-size: 1rem;
     height: 60px;
@@ -279,7 +280,7 @@ img {
 }
 .ad_Right_Table {
     border-collapse: collapse;
-    width: 50%;
+    width: calc(100vw * 0.4);
 }
 .ad_Right_Table .td_Hide {
     display: none;  
@@ -291,6 +292,14 @@ img {
     font-size: 0.8rem;
     height: 40px;
     text-align: center;
+    vertical-align: middle;
+}
+.ad_Right_Table_Group {
+    width: 100%;
+}
+.ad_Right_Td_Group {
+    vertical-align: middle;
+    text-align: center;
 }
 .ad_Right_Td {
     border: 1px solid #979797;
@@ -298,7 +307,8 @@ img {
     padding: 0 1%;
     font-size: 0.8rem;
     height: 40px;
-    width: 50%;
+    vertical-align: middle;
+    text-align: center;
 }
 .ad_Right_Table.bgWhite .ad_Right_Td {
     background: #ffffff;
@@ -311,7 +321,7 @@ img {
     width: 10%;
     vertical-align: middle;
 }
-.ad_Right_Talbe .del_red_icon {
+.ad_Right_Table .del_red_icon {
     position: absolute;
     right: 1%;
     top: calc(50% - 8px);
@@ -338,15 +348,15 @@ img {
 .input_c_Group {
     position: absolute;
     right: 3%;
-    top: calc(50% - 16px);
-    height: 32px;
+    top: calc(50% - 14px);
+    height: 28px;
     background: #f85360;
 }
 .input_confirm_icon {
     background-repeat: no-repeat;
     background-size: cover;
-    width: 16px;
-    height: 16px; 
+    width: 14px;
+    height: 14px; 
     margin: 8px 3px;
 }
 .service_Table {
@@ -364,6 +374,7 @@ img {
     font-size: 0.8rem;
     height: 40px;
     text-align: center;
+    vertical-align: middle;
 }
 .sv_Td.sv_Left_Td {
     width: 20%;
@@ -394,6 +405,12 @@ img {
 }
 .sv_Td.sv_add_Td .sv_Input {
     width: 61%;
+}
+.readonly_img_1 {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 409px; 
 }
 .footer {
     position: absolute;
