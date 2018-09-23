@@ -152,6 +152,25 @@
 			width: 14px;
 			height: 24px;
 		}
+		.selectTruck_Tabs{
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            width:100%;
+            height:50px;
+            background-color:#d8d8d8;
+        }
+        .selectTruck_Tab{
+            flex-grow:1;
+            text-align:center;
+        }
+        .selectTruck_Tab_Text{
+            line-height:50px;
+            font-size:16px;
+        }
+        .selectTruck_Tab_Active{
+            background-color:#535353;
+        }
 	</style>
 </head>
 
@@ -184,34 +203,80 @@
 					</div>
 				</div>
 			</div>
+			<div id="selectContactsDiv" style="">
+				<div class="header2">
+					<div class="left_Box_Offer" ng-click="closeSelectPage();">
+						<div class="back_Icon"></div>
+					</div>
+					<div class="search_All">
+						<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAcctText1"
+						/>
+						<!--<div class="search_Photo_Icon"></div>-->
+					</div>
+					<div class="search_right_Group" id="cancleBtn1" ng-click="selectAccountOfContacts();" ng-show="searchAcctText1">
+						<div class="text_Cancel"> 搜索 </div>
+					</div>
+				</div>
+				<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
+					<div class="big_Box_Group">
+						<div class="small_Box_Title"> 查询联系人 </div>
+						<ion-list can-swipe="true">
+							<ion-item id="items2" ng-repeat="item in contactsItems" ng-cloak ng-click="selectContacts(item);" class="small_Box_Text">
+								<P>姓名：{{item.Name}} </P> <br/>
+								<P>手机号：{{item.Phone}} </P>
+							</ion-item>
+						</ion-list>
+					</div>
+				</div>
+			</div>
 			<div id="selectTruck" style="">
 					<div class="header2">
-						<div class="left_Box_Offer" ng-click="closeSelectPage();">
+						<div class="left_Box" ng-click="closeSelectPage();">
 							<div class="back_Icon"></div>
 						</div>
-						<div class="search_All">
-							<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAcctText1"
-							/>
+						<div class="search_All" >
+							<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText"/>
 							<!--<div class="search_Photo_Icon"></div>-->
 						</div>
-						<div class="search_right_Group" id="cancleBtn1" ng-click="selectAccountOfContacts();" ng-show="searchAcctText1">
+						<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);" ng-show="searchTruckText">
 							<div class="text_Cancel"> 搜索 </div>
 						</div>
 					</div>
 					<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
-						<div class="big_Box_Group">
-							<div class="small_Box_Title"> 查询联系人 </div>
+						<div class="selectTruck_Tabs" style="">
+							<div id="selectTruck_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeTruckTab('1');" style="">
+								<span class="selectTruck_Tab_Text" style="">搜索结果</span>
+							</div>
+							<div id="selectTruck_Tab_2" class="selectTruck_Tab" ng-click="changeTruckTab('2');" style="">
+								<span class="selectTruck_Tab_Text" style="">已选车体</span>
+							</div>
+						</div>
+						<div id="selectTruck_result" class="big_Box_Group" style="display: block;">
+							<div class="small_Box_Title"> <input id="ckbox_truck_searchresult_all" style="" type="checkbox" ng-click="checkAllSearchResults();"/> 全选 </div>
 							<ion-list can-swipe="true">
-								<ion-item id="items2" ng-repeat="item in contactsItems" ng-cloak ng-click="selectContacts(item);" class="small_Box_Text">
-									<P>姓名：{{item.Name}} </P> <br/>
-                       				 <P>手机号：{{item.Phone}} </P>
+								<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
+									<!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
+								<!--</ion-item>-->
+								<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak  class="small_Box_Text">
+									<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);" type="checkbox"/> {{titem.Name}}
+								</ion-item>
+							</ion-list>
+						</div>
+						<div id="selectTruck_checked" class="big_Box_Group" style="display: none;">
+							<div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png"/> 全选删除 </div>
+							<ion-list can-swipe="true">
+								<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
+								<!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
+								<!--</ion-item>-->
+								<ion-item id="items3" ng-repeat="ckitem in selectedTruckItems"  ng-cloak  class="small_Box_Text">
+									<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png"/></span> {{ckitem.Name}}
 								</ion-item>
 							</ion-list>
 						</div>
 					</div>
 				</div>
 		</div>
-		
+
 		<div class="newWorkList_main">
 			<div class="header">
 				<div class="left_Box_Arrorw" ng-click="goBack()">
@@ -243,8 +308,8 @@
 					<div class="small_Type_Group">
 						<div class="small_Type_Title">联系人:</div>
 						<div class="small_Type_Box">
-							<input type="button" value={{selectContactsName}} style="background-color:transparent;" ng-click="openSelectPage('truck');"
-								class="small_Type_Input" />
+							<input type="button" value={{selectContactsName}} style="background-color:transparent;" ng-click="openSelectPage('selectContactsDiv');"
+							 class="small_Type_Input" />
 							<div class="search_small_black"></div>
 						</div>
 					</div>
@@ -345,7 +410,7 @@
 									<input class="sv_Input input_confirm" />
 									<!-- input_uc_Group 有数值转变为input_c_Group -->
 									<div class="input_uc_Group">
-										<div class="input_confirm_icon" ng-click="toAddSVView()"></div>
+										<div class="input_confirm_icon" ng-click="openSelectPage('selectTruck');"></div>
 									</div>
 								</div>
 							</td>
