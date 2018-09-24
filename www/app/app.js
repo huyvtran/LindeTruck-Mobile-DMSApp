@@ -52,6 +52,7 @@
             'oinio.newWorkListControllers',
             'oinio.workDetailsControllers',
             'oinio.NewOfferController',
+            'oinio.NewOfferFittingsController',
             'oinio.NewLinkManController'
             
         ]);

@@ -14,6 +14,10 @@ angular.module('oinio.NewOfferController', [])
         $scope.goBack = function () {
             window.history.back();
         };
+        $scope.goNextPage = function () {
+            $state.go('app.newOfferFittings');
+        };
+        
         $scope.openSelectPage = function (ele) {
             console.log('cssss:::',$('#selectCustomer'));
 
@@ -99,15 +103,46 @@ angular.module('oinio.NewOfferController', [])
             $scope.closeSelectPage();
         };
         
+        $scope.getMainLevelsAndDesc = function (keyWord) {
+            SQuoteService.getMaintenanceLevelsAndDescriptions(keyWord).then(function (response) {
+                console.log("getMainLevelsAndDesc",response);
+                let trucks = [];
+                if (response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+
+                        
+
+                    }
+                    console.log("getTrucks",trucks);
+                }
+                else {
+                    var ionPop = $ionicPopup.alert({
+                        title: "结果",
+                        template: "没有数据"
+                    });
+                    ionPop.then(function () {
+                        //$ionicHistory.goBack();
+                        //$state.go("app.home");
+                    });
+                }
+            }, function (error) {
+                $log.error('HomeService.searchTrucks Error ' + error);
+            }).finally(function () {
+                //AppUtilService.hideLoading();
+            });
+        }
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
             console.log("getTrucks::",keyWord);
 
-            HomeService.searchTrucks(keyWord,$scope.searchResultAcctId).then(function (response) {
+            SQuoteService.searchTrucks(keyWord).then(function (response) {
                 let trucks = [];
                 if (response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
+
                         trucks.push(response[index]);
+                        let searchTrucksRes = response[index];
+                        // $scope.getMainLevelsAndDesc(searchTrucksRes);
                     }
                     $scope.contentTruckItems = trucks;
                     console.log("getTrucks",trucks);
@@ -388,41 +423,6 @@ angular.module('oinio.NewOfferController', [])
 
         }
 
-        $scope.submitOrder = function () {
-            var mobiDate = $("#currentDate").val();
-
-            if (!mobiDate) {
-                $ionicPopup.alert({
-                    title: "请选择日期"
-                });
-                return;
-            }
-            var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index           
-            var selectUserEntryId = $scope.allUser[selectUserGroup].userSoupEntryId;//所有用户数组
-            var selectUserId = $scope.allUser[selectUserGroup].userId;//所有用户ID
-
-            // 提交请求
-            var userSoupEntryId = new Object();
-            userSoupEntryId.Id = selectUserId;
-            userSoupEntryId._soupEntryId = selectUserEntryId;
-            var orderSoupEntryId = new Object();
-            orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
-
-            HomeService.modifyWorkOrder(orderSoupEntryId, userSoupEntryId, mobiDate).then(function (sobject) {
-                $state.go('app.home', {}, { reload: false })
-                    .then(function () {
-                        setTimeout(function () {
-                            $rootScope.getSomeData();
-                        }, 100);
-                    })
-            }, function (error) {
-                console.log('modifyWorkOrder Error ' + error);
-                $ionicPopup.alert({
-                    title: "数据错误"
-                });
-            });
-
-        };
 
     });
 

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> new offer </title>
+	<link rel="stylesheet" href="././css/newOffer.css">
+
+	<style type="text/css">
+		.volume_Icon {
+			background-image: url(././img/images/volume_icon.png);
+		}
+
+		.bodyer {
+			background-image: url(././img/images/bg_img.png);
+		}
+
+		.arrow_Down_White {
+			background-image: url(././img/images/arrow_Down_White.png);
+		}
+
+		.arrow_Left_White {
+			background-image: url(././img/images/arrow_Left_White.png);
+		}
+
+		.search_small_black,
+		.search_type_black {
+			background-image: url(././img/images/search_small_black.png);
+		}
+
+		.search_white {
+			background-image: url(././img/images/search_white.png);
+		}
+
+		.oc_up_icon {
+			background-image: url(././img/images/oc_up_icon.png);
+		}
+
+		.oc_down_icon {
+			background-image: url(././img/images/oc_down_icon.png);
+		}
+
+		.refresh_icon {
+			background-image: url(././img/images/refresh_icon.png);
+		}
+
+		.del_red_icon {
+			background-image: url(././img/images/del_red_icon.png);
+		}
+
+		.input_confirm_icon {
+			background-image: url(././img/images/input_confirm_icon.png);
+		}
+
+		.back_Icon {
+			background-image: url(././img/images/back_icon.png);
+		}
+
+		.readonly_img_1 {
+			background-image: url(././img/images/onlyread_Img_1.jpg);
+		}
+
+		.header2 {
+			background: #aa0020;
+			/* width: 90%; */
+			height: 64px;
+			position: relative;
+			padding: 0 5%;
+			line-height: 64px;
+
+		}
+
+		.bodyer_nofooter {
+			overflow-y: auto;
+			height: calc(100vh - 96px);
+		}
+
+		.search_bodyer {
+			background-color: white;
+			background-repeat: no-repeat;
+			background-size: cover;
+			overflow-y: auto;
+			height: calc(100vh - 64px);
+
+		}
+
+		.text_Cancel {
+			line-height: initial;
+			text-align: right;
+		}
+
+		.left_Box_Offer {
+			display: inline-flex;
+			width: 10%;
+			vertical-align: middle;
+		}
+
+		.search_All {
+			display: inline-block;
+			width: 72%;
+			position: relative;
+			vertical-align: middle;
+		}
+
+		.search_bodyer {
+			background-color: white;
+			background-repeat: no-repeat;
+			background-size: cover;
+			overflow-y: auto;
+			height: calc(100vh - 64px);
+
+		}
+
+		.search_bodyer .big_Box_Group {
+			margin: 5% 0;
+		}
+
+		.search_right_Group {
+			display: inline-block;
+			width: 15%;
+			color: #ffffff;
+			vertical-align: middle;
+		}
+
+		.small_Box_Title {
+			color: #aa0020;
+			font-weight: bold;
+			border-bottom: 1px solid #aa0020;
+			padding-bottom: 2%;
+			margin: 0 5%;
+		}
+
+		.search_All input.search_Input {
+			box-sizing: border-box;
+			width: 100%;
+			margin: 0 auto;
+			display: block;
+			padding: 0 10% 0 15%;
+			font-size: 0.8rem;
+			color: #D6D6D6;
+			border: 1px solid #d6d6d6;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			border-radius: 20px;
+			text-align: center;
+		}
+
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+		}
+		.selectTruck_Tabs{
+            display: flex;
+            align-items:center;
+            justify-content:center;
+            width:100%;
+            height:50px;
+            background-color:#d8d8d8;
+        }
+        .selectTruck_Tab{
+            flex-grow:1;
+            text-align:center;
+        }
+        .selectTruck_Tab_Text{
+            line-height:50px;
+            font-size:16px;
+        }
+        .selectTruck_Tab_Active{
+            background-color:#535353;
+        }
+	</style>
+</head>
+
+<body>
+
+	<div class="bodyer">
+
+		<div class="newWorkList_main">
+			<div class="header">
+				<div class="left_Box_Arrorw" ng-click="goBack()">
+					<div class="back_Icon"></div>
+				</div>
+
+			</div>
+			<div class="big_Type_Group">
+					<div class="small_Type_Title_Group">
+						<div class="small_Type_Title_G"> 配件报价 </div>
+						<div class="refresh_icon" style="left: 25%;"></div>
+						<div class="price_Group">
+							<div class="price_Title"> 合计</div>
+							<input class="price_Input" />
+						</div>
+						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+						<div class="OpenClose_Btn arrow_Left_White"></div>
+					</div>
+					<div class="small_Type_Box">
+						<div class="readonly_img_1"></div>
+					</div>
+				</div>
+				<div>
+					<div class="small_Type_Title_Group">
+						<div class="small_Type_Title_G"> 劳务费添加 </div>
+						<div class="refresh_icon" style="left: 30%;"></div>
+						<div class="price_Group">
+							<div class="price_Title"> 合计</div>
+							<input class="price_Input" />
+						</div>
+						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+						<div class="OpenClose_Btn arrow_Down_White"></div>
+					</div>
+					<table cellpadding="0" cellspacing="0" border="0" class="service_Table">
+						<tr>
+							<th class="sv_Td sv_Left_Td">
+								<div> 劳务项目 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 单价 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 数量 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 总价 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 折扣 </div>
+							</th>
+							<th class="sv_Td sv_Right_Td">
+								<div> 优惠总价 </div>
+							</th>
+						</tr>
+						<tr>
+							<td class="sv_Td sv_Left_Td">
+								<div> 人工 </div>
+							</td>
+							<td class="sv_Td">
+								<div> 100 </div>
+							</td>
+							<td class="sv_Td">
+								<input class="sv_Input" />
+							</td>
+							<td class="sv_Td">
+								<div> 总价 </div>
+							</td>
+							<td class="sv_Td">
+								<input class="sv_Input" />
+							</td>
+							<td class="sv_Td sv_Right_Td">
+								<input class="sv_Input" />
+							</td>
+						</tr>
+						<tr>
+							<td class="sv_Td sv_Left_Td">
+								<div> 交通 </div>
+							</td>
+							<td class="sv_Td">
+								<div> 100 </div>
+							</td>
+							<td class="sv_Td">
+								<input class="sv_Input" />
+							</td>
+							<td class="sv_Td">
+								<div> 总价 </div>
+							</td>
+							<td class="sv_Td">
+								<input class="sv_Input" />
+							</td>
+							<td class="sv_Td sv_Right_Td">
+								<input class="sv_Input" />
+							</td>
+						</tr>
+					</table>
+					<ion-list can-swipe="true">
+						<ion-item ng-repeat="item in currentOrdertest" ng-cloak ng-click="showPopup(item)">
+							<table cellpadding="0" cellspacing="0" border="0">
+
+								<tr id="tabExampleSV"></tr>
+
+								<td class="sv_Td sv_Left_Td">
+									<div class="pos_rel">
+										<div> 其他 </div>
+										<div class="del_red_icon" ng-click="toDelSVView()"></div>
+									</div>
+								</td>
+								<td class="sv_Td">
+									<div> 100 </div>
+								</td>
+								<td class="sv_Td">
+									<input class="sv_Input" />
+								</td>
+								<td class="sv_Td">
+									<div> 总价 </div>
+								</td>
+								<td class="sv_Td">
+									<input class="sv_Input" />
+								</td>
+								<td class="sv_Td sv_Right_Td">
+									<input class="sv_Input" />
+								</td>
+								</tr>
+							</table>
+						</ion-item>
+
+					</ion-list>
+
+					<table cellpadding="0" cellspacing="0" border="0" class="service_Table">
+
+						<tr id="tabExampleSVAdd">
+							<td class="sv_Td sv_Left_Td sv_add_Td">
+								<div class="pos_rel">
+									<input class="sv_Input input_confirm" />
+									<!-- input_uc_Group 有数值转变为input_c_Group -->
+									<div class="input_uc_Group">
+										<div class="input_confirm_icon" ng-click="toAddSVView()"></div>
+									</div>
+								</div>
+							</td>
+							<td class="sv_Td sv_add_Td">
+								<div> &nbsp; </div>
+							</td>
+							<td class="sv_Td sv_add_Td">
+								<div> &nbsp; </div>
+							</td>
+							<td class="sv_Td sv_add_Td">
+								<div> &nbsp; </div>
+							</td>
+							<td class="sv_Td sv_add_Td">
+								<div> &nbsp; </div>
+							</td>
+							<td class="sv_Td sv_Right_Td sv_add_Td">
+								<div> &nbsp; </div>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="footer">
+		<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+		<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
+		
+		<div class="footer_Btn" ng-click="goBack()">取消</div>
+		<div class="footer_Btn Save_Btn_Act">保存</div>
+		<div class="footer_Btn Submit_Btn_Act">提交审批</div>
+	</div>
+
+</body>
+
+</html>

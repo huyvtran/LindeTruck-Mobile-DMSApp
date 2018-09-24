@@ -428,7 +428,7 @@ img {
     color: #535353;
     background: #ffffff;
     display: inline-flex;
-    width: calc(100% / 3);
+    width: calc(100% / 2);
     justify-content: center;
 }
 .footer_Btn.Save_Btn_Act {
