@@ -21,7 +21,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.HasTruckNum = 0;
             $scope.workTypes = [];
             $scope.carServices = [];
-            $scope.imgUris = ["././img/images/will_add_img.png"];
+            $scope.imgUris = ["././img/images/will_add_Img.png"];
         });
         $scope.$on('$ionicView.enter', function () {
             vm.isOnline = ConnectionMonitor.isOnline();
@@ -119,7 +119,7 @@ angular.module('oinio.workDetailsControllers', [])
          * 2.从相册取
          */
         $scope.getPhoto = function ($event) {
-            if($event.target.getAttribute("id") != "././img/images/will_add_img.png"){
+            if($event.target.getAttribute("id") != "././img/images/will_add_Img.png"){
                 return false;
             }
             $ionicPopup.show({
@@ -131,13 +131,13 @@ angular.module('oinio.workDetailsControllers', [])
                             try {
                                 navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
                                         for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_img.png' || $scope.imgUris[i] == imgUri) {
+                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
                                                 $scope.imgUris.splice(i, 1);
                                                 i--;
                                             }
                                         }
                                         $scope.imgUris.push(imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_img.png");
+                                        $scope.imgUris.push("././img/images/will_add_Img.png");
                                         console.log(imgUri);
                                     },
                                     function onError(error) {
@@ -162,13 +162,13 @@ angular.module('oinio.workDetailsControllers', [])
                             try {
                                 navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
                                         for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_img.png' || $scope.imgUris[i] == imgUri) {
+                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
                                                 $scope.imgUris.splice(i, 1);
                                                 i--;
                                             }
                                         }
                                         $scope.imgUris.push(imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_img.png");
+                                        $scope.imgUris.push("././img/images/will_add_Img.png");
                                         console.log(imgUri);
                                     },
                                     function onFail(error) {
