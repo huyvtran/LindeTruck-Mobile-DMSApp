@@ -133,8 +133,9 @@
       "MobileVizArt__Level__c": 10,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true,
-      "MobileVizArt__Enable_NotesAndAttachments__c": true,
-      "MobileVizArt__Attachments_Encrypted__c": true
+      "MobileVizArt__Enable_Activity__c": false,
+      "MobileVizArt__Enable_NotesAndAttachments__c": false,
+      "MobileVizArt__Attachments_Encrypted__c": false
     },
     {
       "Name": "Attachment",

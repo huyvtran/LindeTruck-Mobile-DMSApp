@@ -69,7 +69,7 @@
             };
 
 
-            
+
 
 
             this.getDetails = function(sid){
