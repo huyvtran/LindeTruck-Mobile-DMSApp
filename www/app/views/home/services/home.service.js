@@ -459,8 +459,8 @@ angular.module('oinio.services', [])
                     newItem['Account_Name_Ship_to__c_sid'] = adr.Account_Ship_to__r._soupEntryId;
                     newItem['Account_Name_Ship_to__c_type'] = 'Account';
 
-                    newItem['Service_Order__c_sid'] = adr._soupEntryId;
-                    newItem['Service_Order__c_type'] = 'Service_Order_Overview__c';
+                    newItem['Service_Order_Overview__c_sid'] = adr._soupEntryId;
+                    newItem['Service_Order_Overview__c_type'] = 'Service_Order_Overview__c';
 
                     newItem['Service_Order_Type__c'] = 'Work Order';
                     if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){newItem['Service_Order_Type__c'] = adr.Service_Order_Type__c;}
@@ -579,7 +579,7 @@ angular.module('oinio.services', [])
 
             let sql =  "select {Service_Order__c:_soup}\
                          from {Service_Order__c}\
-                         where {Service_Order__c:Service_Order__c_sid} ='"+sid+"'";
+                         where {Service_Order__c:Service_Order_Overview__c_sid} ='"+sid+"'";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let orders = [];
@@ -590,7 +590,7 @@ angular.module('oinio.services', [])
                             Id: entry[0].Id,
                             Name: entry[0].Name,
                             Account_Ship_to__c: accId,
-                            Service_Order__c: entry[0].Service_Order__c,
+                            Service_Order_Overview__c: entry[0].Service_Order_Overview__c,
                             Service_Order_Type__c: entry[0].Service_Order_Type__c,
                             Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
                             Status__c: entry[0].Status__c,
@@ -1131,7 +1131,7 @@ angular.module('oinio.services', [])
 
             let sql =  "select {Service_Order__c:_soup}\
                          from {Service_Order__c}\
-                         where {Service_Order__c:Service_Order__c_sid}='"+sid+"'";
+                         where {Service_Order__c:Service_Order_Overview__c_sid}='"+sid+"'";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let trucksids = [];

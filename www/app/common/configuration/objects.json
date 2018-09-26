@@ -59,12 +59,12 @@
     },
     {
       "Name": "Service_Order_Overview__c",
-      "MobileVizArt__Fields__c": "Id,Name,Account_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,RecordTypeId",
-      "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c",
+      "MobileVizArt__Fields__c": "Id,Name,Account_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId",
+      "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Mobile_Offline_Name__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
-      "MobileVizArt__Level__c": 9,
+      "MobileVizArt__Level__c": 8,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true
     },
@@ -92,12 +92,12 @@
     },
     {
       "Name": "Service_Order__c",
-      "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Service_Order__c,Description__c,RecordTypeId",
-      "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Service_Order__c",
+      "MobileVizArt__Fields__c": "Id,Name,Account_Name_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Service_Order_Overview__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId",
+      "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Service_Order_Overview__c,Mobile_Offline_Name__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
-      "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Level__c": 9,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true
     },
@@ -120,6 +120,30 @@
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
       "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "Work_Item__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Arrival_Time__c,Departure_Time__c,Start_Time__c,Finish_Time__c,Service_Advice__c,Service_Order__c,Service_Suggestion__c",
+      "MobileVizArt__Search_Fields__c": "Service_Order__c",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true,
+      "MobileVizArt__Enable_NotesAndAttachments__c": true,
+      "MobileVizArt__Attachments_Encrypted__c": true
+    },
+    {
+      "Name": "Attachment",
+      "MobileVizArt__Fields__c": "BodyLength,ContentType,CreatedById,CreatedDate,Description,Id,IsDeleted,IsPrivate,LastModifiedById,LastModifiedDate,Name,OwnerId,ParentId,SystemModstamp",
+      "MobileVizArt__Search_Fields__c": "LastModifiedDate,ParentId,Name",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 11,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true
     }
