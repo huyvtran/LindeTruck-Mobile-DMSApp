@@ -3,6 +3,9 @@ angular.module('oinio.NewOfferController', [])
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
+        let trucksDescriptions = [];
+            let trucksLevels = [];
+
         $scope.currentOrdertest = [1,2,3,4];
         $(document).ready(function () {
         });
@@ -10,12 +13,10 @@ angular.module('oinio.NewOfferController', [])
             console.log("NewOfferController");
             $scope.contentTruckItems=[];
             $scope.selectedTruckItems=[];
+            
         });
         $scope.goBack = function () {
             window.history.back();
-        };
-        $scope.goNextPage = function () {
-            $state.go('app.newOfferFittings');
         };
         
         $scope.openSelectPage = function (ele) {
@@ -103,28 +104,17 @@ angular.module('oinio.NewOfferController', [])
             $scope.closeSelectPage();
         };
         
-        $scope.getMainLevelsAndDesc = function (keyWord) {
-            SQuoteService.getMaintenanceLevelsAndDescriptions(keyWord).then(function (response) {
+        $scope.getMainLevelsAndDesc = function (obj) {
+            SQuoteService.getMaintenanceLevelsAndDescriptions(obj.Maintenance_Key__c).then(function (response) {
                 console.log("getMainLevelsAndDesc",response);
-                let trucks = [];
-                if (response.length > 0) {
-                    for (let index = 0; index < response.length; index++) {
-
-                        
-
-                    }
-                    console.log("getTrucks",trucks);
+                
+                if (response.levels.length > 0) {
+                    obj["levels"] = response.levels;
                 }
-                else {
-                    var ionPop = $ionicPopup.alert({
-                        title: "结果",
-                        template: "没有数据"
-                    });
-                    ionPop.then(function () {
-                        //$ionicHistory.goBack();
-                        //$state.go("app.home");
-                    });
+                if (response.descriptions.length > 0) {
+                    obj["descriptions"] = response.descriptions;
                 }
+                console.log("getMainLevelsAndDescobj",obj);
             }, function (error) {
                 $log.error('HomeService.searchTrucks Error ' + error);
             }).finally(function () {
@@ -141,8 +131,7 @@ angular.module('oinio.NewOfferController', [])
                     for (let index = 0; index < response.length; index++) {
 
                         trucks.push(response[index]);
-                        let searchTrucksRes = response[index];
-                        // $scope.getMainLevelsAndDesc(searchTrucksRes);
+                        
                     }
                     $scope.contentTruckItems = trucks;
                     console.log("getTrucks",trucks);
@@ -324,14 +313,12 @@ angular.module('oinio.NewOfferController', [])
         };
 
         $scope.updateTruckString = function () {
-            let new_temp = '';
-
             for (var i=0;i<$scope.selectedTruckItems.length;i++){
-                new_temp = new_temp + $scope.selectedTruckItems[i].Name + ';';
+                //更新选择的车体号
+                let searchTrucksRes = $scope.selectedTruckItems[i];
+                $scope.getMainLevelsAndDesc(searchTrucksRes);
             }
-
-            $scope.searchResultTruckName = new_temp;
-
+            
         };
 
         $scope.toDisplayDelCarView = function () {
@@ -418,11 +405,18 @@ angular.module('oinio.NewOfferController', [])
             }
 
         }
-        $scope.toDelSVView = function () {
+        $scope.goNextPage = function () {
+            // $state.go('app.newOfferFittings');
+            // let selectStatusId2 = $("#selectStatusId2").val();
+            // let selectStatusId3 = $("#selectStatusId3").val();
+            // console.log("selectStatusId2",selectStatusId2+" selectStatusId3:"+selectStatusId3);
+            $('select.selectStatusIdClass2').each(function (index, element) {
+                // var optionValue = document.getElementById("sel").options[document.getElementById("sel").options.selectedIndex].value;
+                // $('#test option:selected').val(); 
 
+                console.log('selectStatusIdClass2:::',element.value+"  index"+index);
 
-        }
-
-
+            });
+        };
     });
 
