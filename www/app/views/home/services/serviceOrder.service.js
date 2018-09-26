@@ -88,7 +88,7 @@
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             result['Mobile_Offline_Name__c'] = entry[0].Mobile_Offline_Name__c;
                             result['Work_Order_Type__c'] = entry[0].Work_Order_Type__c;
-                            result['Subject__c'] = entry[0].Subject__c;
+                            result['Description__c'] = entry[0].Description__c;
                             result['Service_Suggestion__c'] = entry[0].Service_Suggestion__c;
 
                             result.Account_Ship_to__c = entry[0].Account_Ship_to__c;
@@ -97,7 +97,7 @@
                             result.Service_Order_Owner__c = entry[0].Service_Order_Owner__c;
                             result.Plan_Date__c = entry[0].Plan_Date__c;
                             result.Truck_Serial_Number__c = entry[0].Truck_Serial_Number__c;
-                            result.Description__c = entry[0].Description__c;
+                            result.Subject__c = entry[0].Subject__c;
                             result._soupEntryId = entry[0]._soupEntryId;
                         });
                     }
@@ -187,7 +187,7 @@
              *      the data should contain
              *  Service_Order_Overview__c.Mobile_Offline_Name__c
              *  Service_Order_Overview__c.Work_Order_Type__c
-             *  Service_Order_Overview__c.Subject__c
+             *  Service_Order_Overview__c.Description__c
              *  Service_Order_Overview__c。Service_Suggestion__c
              *
              *
@@ -229,7 +229,7 @@
                 LocalDataService.getSObject('Service_Order_Overview__c',order._soupEntryId).then(function(sobject) {
                     sobject['Mobile_Offline_Name__c'] = order.Mobile_Offline_Name__c;
                     sobject['Work_Order_Type__c'] = order.Work_Order_Type__c;
-                    sobject['Subject__c'] = order.Subject__c;
+                    sobject['Description__c'] = order.Description__c;
                     sobject['Service_Suggestion__c'] = order.Service_Suggestion__c;
 
 
@@ -288,7 +288,7 @@
                     angular.forEach(sobjects, function (sobject) {
                         sobject['Mobile_Offline_Name__c'] = parent.Mobile_Offline_Name__c;
                         sobject['Work_Order_Type__c'] = parent.Work_Order_Type__c;
-                        sobject['Subject__c'] = parent.Subject__c;
+                        sobject['Description__c'] = parent.Description__c;
                         sobject['Service_Suggestion__c'] = parent.Service_Suggestion__c;
                     });
 
