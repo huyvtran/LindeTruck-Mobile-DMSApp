@@ -337,7 +337,7 @@
 				<div class="small_Type_Group" >
 					<div class="small_Type_Title">派工单号:</div>
 					<div class="small_Type_Box">
-						<input class="small_Type_Input" style="background-color:transparent;" disabled="disabled"/>
+						<input class="small_Type_Input" style="background-color:transparent;" disabled="disabled" value="{{mobileName}}"/>
 					</div>
 				</div>
 				<!--<div class="small_Type_Group">-->
@@ -350,7 +350,7 @@
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">作业类型:</div>
 					<div class="small_Type_Box">
-						<select class="small_Type_Select">
+						<select class="small_Type_Select" id="select_work_type">
 							<option ng-repeat="itemWorkType in workTypes" value="{{itemWorkType.label}}">{{itemWorkType.value}}</option>
 						</select>
 					</div>
@@ -358,7 +358,7 @@
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">服务类型:</div>
 					<div class="small_Type_Box">
-						<select class="small_Type_Select">
+						<select class="small_Type_Select" id="select_service_type">
 							<option ng-repeat="carService in carServices" value="{{carService.label}}">{{carService.value}}</option>
 						</select>
 					</div>
@@ -366,14 +366,14 @@
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">保养级别:</div>
 					<div class="small_Type_Box">
-						<select class="small_Type_Select">
+						<select class="small_Type_Select" id="select_care_type">
 						</select>
 					</div>
 				</div>
 				<div class="small_Type_Group">
 					<div class="small_Type_Title">来电事由:</div>
 					<div class="small_Type_Box">
-						<textarea class="small_Type_Textarea"></textarea>
+						<textarea class="small_Type_Textarea" id="call_str">{{callPhoneContent}}</textarea>
 					</div>
 				</div>
 			</div>
@@ -387,7 +387,7 @@
 			<div id="workContent">
 				<div class="small_Type_Group" >
 					<div class="small_Type_Box">
-						<textarea class="small_Type_Textarea"></textarea>
+						<textarea class="small_Type_Textarea" id="workContentStr"></textarea>
 					</div>
 				</div>
 				<div class="small_Type_Group">
@@ -425,7 +425,7 @@
 			<div id="serviceContent">
 				<div class="small_Type_Group" >
 					<div class="small_Type_Box">
-						<textarea class="small_Type_Textarea"></textarea>
+						<textarea class="small_Type_Textarea" id="serviceSuggest">{{suggestStr}}</textarea>
 					</div>
 				</div>
 			</div>

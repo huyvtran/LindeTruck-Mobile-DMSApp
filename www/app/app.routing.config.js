@@ -86,7 +86,7 @@
                 cache: false
             })
             .state('app.workDetails', {
-                url: 'app/workDetails/?SendInfo',
+                url: 'app/workDetails/?SendInfo&?workDescription',
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetails.html',

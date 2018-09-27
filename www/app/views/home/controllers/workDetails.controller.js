@@ -1,9 +1,11 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService, HomeService) {
+                                                   LocalCacheService, HomeService, SOrderService) {
 
         var vm = this,
-            destinationType,
+            workDescription="",
+            userInfoId ="",
+            localSoupEntryId="",
             localUris = [],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
 
@@ -17,7 +19,6 @@ angular.module('oinio.workDetailsControllers', [])
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
-            $scope.TruckId = "";
             $scope.HasTruckNum = 0;
             $scope.workTypes = [];
             $scope.carServices = [];
@@ -28,89 +29,91 @@ angular.module('oinio.workDetailsControllers', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
-            $scope.carServices.push({lable: '1', value: '保养'});
-            $scope.carServices.push({lable: '2', value: '维修'});
-            $scope.carServices.push({lable: '3', value: '服务'});
+            $scope.carServices.push({label: '1', value: '保养'});
+            $scope.carServices.push({label: '2', value: '维修'});
+            $scope.carServices.push({label: '3', value: '服务'});
 
-            $scope.workTypes.push({lable: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service'});
-            $scope.workTypes.push({lable: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg'});
-            $scope.workTypes.push({lable: 'ZS02_Z20', value: 'Z20 Service contract job\t'});
-            $scope.workTypes.push({lable: 'ZS02_Z21', value: 'Z21 LTR service with Contract'});
-            $scope.workTypes.push({lable: 'ZS02_Z22', value: 'Z22 LTR service with contract(RE)'});
-            $scope.workTypes.push({lable: 'ZS03_Z30', value: 'Z30 Asset (STR) service'});
-            $scope.workTypes.push({lable: 'ZS03_Z31', value: 'Z31 In-Stock Truck(cost only)'});
-            $scope.workTypes.push({lable: 'ZS03_Z33', value: 'Z33 Support job for Service'});
-            $scope.workTypes.push({lable: 'ZS03_Z35', value: 'Z35 Service Engineer Training'});
-            $scope.workTypes.push({lable: 'ZS03_Z36', value: 'Z36 Service Marketing Campaign\t'});
+            $scope.workTypes.push({label: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service'});
+            $scope.workTypes.push({label: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg'});
+            $scope.workTypes.push({label: 'ZS02_Z20', value: 'Z20 Service contract job\t'});
+            $scope.workTypes.push({label: 'ZS02_Z21', value: 'Z21 LTR service with Contract'});
+            $scope.workTypes.push({label: 'ZS02_Z22', value: 'Z22 LTR service with contract(RE)'});
+            $scope.workTypes.push({label: 'ZS03_Z30', value: 'Z30 Asset (STR) service'});
+            $scope.workTypes.push({label: 'ZS03_Z31', value: 'Z31 In-Stock Truck(cost only)'});
+            $scope.workTypes.push({label: 'ZS03_Z33', value: 'Z33 Support job for Service'});
+            $scope.workTypes.push({label: 'ZS03_Z35', value: 'Z35 Service Engineer Training'});
+            $scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 Service Marketing Campaign\t'});
             $scope.workTypes.push({
-                lable: 'ZS03_Z37',
+                label: 'ZS03_Z37',
                 value: 'Z37 Internal maintenance for in-Stock Truck(value change)'
             });
-            $scope.workTypes.push({lable: 'ZS03_Z38', value: 'Z38 Internal Cross-region billing'});
-            $scope.workTypes.push({lable: 'ZS03_Z39', value: 'Z39 Asset (STR) service(RE)'});
-            $scope.workTypes.push({lable: 'ZS03_Z3A', value: 'Z3A FOC Service from Truck Sales'});
-            $scope.workTypes.push({lable: 'ZS03_ZH1', value: 'ZH1 HQ Truck maintenance'});
-            $scope.workTypes.push({lable: 'ZS03_ZH2', value: 'ZH2 Testing truck event'});
-            $scope.workTypes.push({lable: 'ZS03_ZH3', value: 'ZH3 QM analyses'});
-            $scope.workTypes.push({lable: 'ZS03_ZH4', value: 'ZH4 anti-explosion truck reproduct'});
-            $scope.workTypes.push({lable: 'ZS03_ZOC', value: 'ZOC aftersales order changed\t'});
+            $scope.workTypes.push({label: 'ZS03_Z38', value: 'Z38 Internal Cross-region billing'});
+            $scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 Asset (STR) service(RE)'});
+            $scope.workTypes.push({label: 'ZS03_Z3A', value: 'Z3A FOC Service from Truck Sales'});
+            $scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 HQ Truck maintenance'});
+            $scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 Testing truck event'});
+            $scope.workTypes.push({label: 'ZS03_ZH3', value: 'ZH3 QM analyses'});
+            $scope.workTypes.push({label: 'ZS03_ZH4', value: 'ZH4 anti-explosion truck reproduct'});
+            $scope.workTypes.push({label: 'ZS03_ZOC', value: 'ZOC aftersales order changed\t'});
             $scope.workTypes.push({
-                lable: 'ZS03_ZR1',
+                label: 'ZS03_ZR1',
                 value: 'ZR1 Internal maintenance for rental truck refurbishment'
             });
-            $scope.workTypes.push({lable: 'ZS03_ZR2', value: 'ZR2 LRental truck refurbishment'});
-            $scope.workTypes.push({lable: 'ZS03_ZR3', value: 'ZR3 SRental truck refurbishment\t'});
-            $scope.workTypes.push({lable: 'ZS03_ZSS', value: 'ZSS sales support service'});
-            $scope.workTypes.push({lable: 'ZS03_ZTD', value: 'ZTD shipping damage'});
-            $scope.workTypes.push({lable: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service\t'});
-            $scope.workTypes.push({lable: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)'});
-            $scope.workTypes.push({lable: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment'});
-            $scope.workTypes.push({lable: 'ZS08_Z80', value: 'Z80 Warranty'});
-            $scope.workTypes.push({lable: 'ZS08_Z81', value: 'Z81 Warranty job1'});
-            $scope.workTypes.push({lable: 'ZS08_Z82', value: 'Z82 Warranty job2'});
-            $scope.workTypes.push({lable: 'ZS08_Z83', value: 'Z83 Warranty job3'});
+            $scope.workTypes.push({label: 'ZS03_ZR2', value: 'ZR2 LRental truck refurbishment'});
+            $scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 SRental truck refurbishment\t'});
+            $scope.workTypes.push({label: 'ZS03_ZSS', value: 'ZSS sales support service'});
+            $scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD shipping damage'});
+            $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service\t'});
+            $scope.workTypes.push({label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)'});
+            $scope.workTypes.push({label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment'});
+            $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 Warranty'});
+            $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 Warranty job1'});
+            $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 Warranty job2'});
+            $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 Warranty job3'});
             console.log("$stateParams.SendInfo", $stateParams.SendInfo);
-            var userInfoId = $stateParams.SendInfo;
-            HomeService.getOrder(userInfoId).then(function (response) {
-                if (response.length > 0) {
-                    $scope.busyerName = response[0].Account_Ship_to__r.Name != null ? response[0].Account_Ship_to__r.Name : "";
-                    $scope.OwnerId = response[0].Account_Ship_to__r.Customer_Number__c != null ? response[0].Account_Ship_to__r.Customer_Number__c : "";
-                    $scope.workAccountId = response[0]._soupEntryId;
-                    var busyType = response[0].Service_Order_Type__c;
-                    if (busyType != null) {
-                        if (busyType == "Work Order") {
-                            $scope.busyerType = '工单';
-                        } else if (busyType == "Customer Consult") {
-                            $scope.busyerType = '客户咨询';
-                        } else if (busyType == "Customer Complaint") {
-                            $scope.busyerType = '客户投诉';
-                        }
+            console.log("$stateParams.workDescription", $stateParams.workDescription);
+            userInfoId = $stateParams.SendInfo;
+            workDescription = $stateParams.workDescription;
+            /**
+             * 初始化
+             */
+            SOrderService.getDetails(userInfoId).then(function success(result) {
+                if (result != null) {
+                    localSoupEntryId = result._soupEntryId;
+                    if (result.Mobile_Offline_Name__c == null) {
+                        SOrderService.getOfflineName(userInfoId).then(function success(response) {
+                            $scope.mobileName = response;
+                        }, function error(error) {
+                            $scope.mobileName = "";
+                            $log.error(error);
+                        });
                     } else {
-                        $scope.busyerType = '';
+                        $scope.mobileName = result.Mobile_Offline_Name__c;
                     }
-                    console.log('resp::', response);
-                    // HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
-                    //     var str= "";
-                    //     angular.forEach(res,function (item) {
-                    //         str += item.Name+";\n";
-                    //     });
-                    //     $scope.HasTruckNum = res !=null ? res.length: 0;
-                    //     $scope.TruckId = str;
-                    // },function (error) {
-                    //     $log.error('Error ' + error);
-                    //     $scope.TruckId ="";
-                    // });
-                } else {
-                    $scope.busyerName = "";
-                    $scope.busyerType = "";
-                    $scope.OwnerId = "";
-                    $scope.TruckId - "";
-                }
-                //console.log("response.Service_Order_Owner__r:",response[0].Service_Order_Owner__r);
+                    var workType = result.Work_Order_Type__c;
+                    if (workType != null) {
+                        $("#select_work_type").find("option[value = workType]").attr("selected",true);
+                    }
+                    $scope.callPhoneContent = result.Description__c != null ? result.Description__c : "";
 
-            }, function (error) {
-                $log.error('Error ' + error);
-            });
+                    $scope.suggestStr = result.Service_Suggestion__c != null ? result.Service_Suggestion__c : "";
+                }
+
+            }, function error(error) {
+                $log.error(error);
+            })
+            // .then(SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
+            //         console.log(result);
+            //     },function (error) {
+            //         console.log(error);
+            //         $log.error(error);
+            //     }))
+            .then(HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
+            $scope.HasTruckNum = res != null ? res.length : 0;
+                }, function (error) {
+                 $log.error('Error ' + error);
+                }));
+
         });
 
         /**
@@ -119,7 +122,7 @@ angular.module('oinio.workDetailsControllers', [])
          * 2.从相册取
          */
         $scope.getPhoto = function ($event) {
-            if($event.target.getAttribute("id") != "././img/images/will_add_Img.png"){
+            if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
                 return false;
             }
             $ionicPopup.show({
@@ -136,7 +139,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris.push(imgUri);
+                                        $scope.imgUris.push("data:image/jpeg;base64,"+imgUri);
                                         $scope.imgUris.push("././img/images/will_add_Img.png");
                                         console.log(imgUri);
                                     },
@@ -146,7 +149,7 @@ angular.module('oinio.workDetailsControllers', [])
                                     , {
                                         quality: 50,
                                         saveToPhotoAlbum: false,
-                                        destinationType: navigator.camera.DestinationType.FILE_URI,
+                                        destinationType: navigator.camera.DestinationType.DATA_URL,
                                         mediaType: Camera.MediaType.PICTURE,
                                         encodingType: Camera.EncodingType.JPEG
                                     }
@@ -167,7 +170,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris.push(imgUri);
+                                        $scope.imgUris.push("data:image/jpeg;base64,"+imgUri);
                                         $scope.imgUris.push("././img/images/will_add_Img.png");
                                         console.log(imgUri);
                                     },
@@ -177,7 +180,7 @@ angular.module('oinio.workDetailsControllers', [])
                                     {
                                         quality: 50,
                                         saveToPhotoAlbum: false,
-                                        destinationType: navigator.camera.DestinationType.FILE_URI,
+                                        destinationType: navigator.camera.DestinationType.DATA_URL,
                                         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
                                         mediaType: Camera.MediaType.PICTURE,
                                         encodingType: Camera.EncodingType.JPEG
@@ -266,8 +269,30 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.goSave = function () {
-            $state.go("app.home");
+
+            for (var i = 0; i < $scope.imgUris.length; i++) {
+                if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
+                    localUris.push($scope.imgUris[i]);
+                }
+            }
+            console.log(localUris);
+            var order = {
+                _soupEntryId:localSoupEntryId,
+                Mobile_Offline_Name__c: $scope.mobileName,
+                Work_Order_Type__c: $('#select_work_type option:selected').val(),
+                Description__c: $('#call_str').val(),
+                Service_Suggestion__c: $('#serviceSuggest').val()
+            };
+
+            SOrderService.workDetailSaveButton(order, $('#workContentStr').val(),localUris).then(function success(result) {
+                console.log(result);
+                $state.go("app.home");
+            }, function error(error) {
+                $log.error(error);
+            });
+
         };
+
 
     });
 
