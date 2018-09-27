@@ -240,7 +240,7 @@
                             return;
                         }
                         console.log('localSave222:::',result);
-                        deferred.resolve(adrs);
+                        deferred.resolve(result);
                         // service.synchronize().then(function () {
                         //     deferred.resolve('done');
                         // });
@@ -300,7 +300,7 @@
                             return;
                         }
                         console.log('localSave222:::',result);
-                        deferred.resolve(adrs);
+                        deferred.resolve(result);
                         // service.synchronize().then(function () {
                         //     deferred.resolve('done');
                         // });
@@ -413,7 +413,7 @@
 
 
             this.saveImages2Attachments = function (images,sids) {
-                $log.debug('saveImages2Attachments:: '+adrs);
+                $log.debug('saveImages2Attachments:: '+images);
                 var deferred = $q.defer();
                 let array_params = [];
 
