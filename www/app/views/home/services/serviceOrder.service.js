@@ -205,7 +205,7 @@
                 let sids_childOrder = [];
 
                 service.saveWorkOrderOverview(order).then(function (soo) {
-                    return service.searchChildOrderSidsForParent(soo._soupEntryId);
+                    return service.searchChildOrderSidsForParent(soo[0]._soupEntryId);
                 }).then(function (sosids) {
                     sids_childOrder = sosids;
                     return service.saveChildWorkOrder(sosids,order);
@@ -213,6 +213,10 @@
                     return service.saveWorkItems(sids_childOrder,str_suggest);
                 }).then(function (wiSids) {
                     return service.saveAttachments(images,wiSids);
+                }).then(function (res) {
+                    return service.synchronize();
+                }).then(function () {
+                    deferred.resolve('done');
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
@@ -223,7 +227,7 @@
 
 
             this.saveWorkOrderOverview = function (order) {
-                $log.debug('saveWorkOrder:: '+order);
+                console.log('saveWorkOrder:: '+order);
                 var deferred = $q.defer();
 
                 LocalDataService.getSObject('Service_Order_Overview__c',order._soupEntryId).then(function(sobject) {
@@ -254,7 +258,7 @@
             };
 
             this.searchChildOrderSidsForParent = function(sid){
-                console.log('searchChildOrderSidsForParent.keyword:%s');
+                console.log('searchChildOrderSidsForParent.keyword:%s',sid);
                 let deferred = $q.defer();
 
                 let sql =  "select {Service_Order__c:_soup}\
@@ -264,10 +268,13 @@
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                     let orders = [];
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        console.log('searchChildOrderSidsForParent::sql::', cursor.currentPageOrderedEntries);
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             orders.push(entry[0]._soupEntryId);
                         });
                     }
+
+                    console.log('searchChildOrderSidsForParent::orders::', orders);
                     deferred.resolve(orders);
                 }, function (err) {
                     $log.error(err);
@@ -280,7 +287,7 @@
 
 
             this.saveChildWorkOrder = function (orderSids,parent) {
-                $log.debug('saveWorkOrder:: '+orderSids);
+                console.log('saveWorkOrder:: '+orderSids);
                 var deferred = $q.defer();
 
                 LocalDataService.getSObjects('Service_Order__c',orderSids).then(function(sobjects) {
@@ -317,7 +324,7 @@
 
 
             this.saveWorkItems = function (adrs,str_suggestion) {
-                $log.debug('saveWorkItems:: '+adrs);
+                console.log('saveWorkItems:: '+adrs);
                 var deferred = $q.defer();
 
                 LocalDataService.createSObject('Work_Item__c').then(function(sobject) {
@@ -350,7 +357,7 @@
                         }
                         for (var i=0;i<result.length;i++){
                             if (result[i].success){
-                                adrs[i]._soupEntryId = result[i]._soupEntryId;
+                                //adrs[i]._soupEntryId = result[i]._soupEntryId;
 
                                 let existFlag = false;
                                 angular.forEach(arr_sids, function (s) {
@@ -363,7 +370,7 @@
                                 }
                             }
                         }
-                        console.log('saveWorkItems3:::',adrs);
+                        console.log('saveWorkItems3:::',arr_sids);
                         deferred.resolve(arr_sids);
                         // synchronize().then(function () {
                         //     deferred.resolve('done');
@@ -397,10 +404,11 @@
 
                     if ( x < params.length ) {
                         console.log("当前异步完成，进行下次循环");
-                        loopArray(x,params);
+                        service.loopArray(x,params);
                     }else if(x === params.length){
                         console.log("All Promise finished");
                         deferred.resolve(params);
+                        return deferred.promise;
                     }
 
                 }, function (error) {
@@ -412,8 +420,33 @@
 
 
 
+            this.AddAttachments = function (sids) {
+                var deferred = $q.defer(),
+                    results = [];
+
+                var getNextSObject = function (index) {
+
+                    if (index >= sids.length) {
+                        deferred.resolve(results);
+                    } else {
+                        LocalDataService.createAttachment(sids[index]).then(function (result) {
+                            results.push(result);
+                            getNextSObject(++index);
+                        }, function (error) {
+                            deferred.reject(error);
+                        });
+                    }
+                };
+
+                getNextSObject(0);
+
+                return deferred.promise;
+            };
+
+
+
             this.saveImages2Attachments = function (images,sids) {
-                $log.debug('saveImages2Attachments:: '+images);
+                console.log('saveImages2Attachments:: '+images);
                 var deferred = $q.defer();
                 let array_params = [];
 
@@ -439,7 +472,11 @@
                 let ret;
 
                 service.saveImages2Attachments(images,sids).then(function (array_params) {
-                    return service.loopArray(0,array_params);
+                    console.log('saveAttachments::array_params：：',array_params);
+                    return service.AddAttachments(array_params);
+                }).then(function (res) {
+                    console.log('saveAttachments::res：：',res);
+                    deferred.resolve(res);
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
