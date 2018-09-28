@@ -5,14 +5,15 @@ angular.module('oinio.NewOfferController', [])
         var selectAcctSetId;
         let trucksDescriptions = [];
             let trucksLevels = [];
-
+            $scope.contentTruckItems=[];
+            $scope.selectedTruckItems=[];
         $scope.currentOrdertest = [1,2,3,4];
         $(document).ready(function () {
         });
         $scope.$on('$ionicView.enter', function () {
             console.log("NewOfferController");
-            $scope.contentTruckItems=[];
-            $scope.selectedTruckItems=[];
+            console.log('selectedTruckItems:ALL::',$scope.selectedTruckItems);
+
             
         });
         $scope.goBack = function () {
@@ -406,17 +407,64 @@ angular.module('oinio.NewOfferController', [])
 
         }
         $scope.goNextPage = function () {
-            // $state.go('app.newOfferFittings');
-            // let selectStatusId2 = $("#selectStatusId2").val();
-            // let selectStatusId3 = $("#selectStatusId3").val();
-            // console.log("selectStatusId2",selectStatusId2+" selectStatusId3:"+selectStatusId3);
-            $('select.selectStatusIdClass2').each(function (index, element) {
-                // var optionValue = document.getElementById("sel").options[document.getElementById("sel").options.selectedIndex].value;
-                // $('#test option:selected').val(); 
+            if ($scope.searchResultAcctName == null) {
+                var ionPop = $ionicPopup.alert({
+                    title: "请填写客户名称"
+                });
+                return;
+            }
+            if ($scope.selectedTruckItems.length==0) {
+                var ionPop = $ionicPopup.alert({
+                    title: "请添加车辆"
+                });
+                return;
+            }
 
-                console.log('selectStatusIdClass2:::',element.value+"  index"+index);
 
+              var copyArr = function (arr) {
+                let res = []
+                for (let i = 0; i < arr.length; i++) {
+                 res.push(arr[i])
+                }
+                return res
+            }
+
+            // for (let index = 0; index < $scope.selectedTruckItems.length; index++) {
+            //     selectedTruckItemsCopy.push($scope.selectedTruckItems[index]);
+                
+            // }
+            var selectedTruckItemsCopy = $scope.selectedTruckItems.concat();
+            $('select.selectStatusServiceTypeClass').each(function (index, element) {
+                let selected = selectedTruckItemsCopy[index];
+                selected["Service_Type__c"] = element.value;
+                console.log('selectStatusServiceTypeClass:::',element.value+"  index"+index);
             });
+
+            $('select.selectStatusLevelsClass').each(function (index, element) {
+                let selected = selectedTruckItemsCopy[index];
+                selected["Maintenance_Level__c"] = element.value;
+
+                console.log('selectStatusLevelsClass:::',element.value+"  index"+index);
+            });
+            $('select.selectStatusDescriptionsClass').each(function (index, element) {
+                let selected = selectedTruckItemsCopy[index];
+                selected["description"] = element.value;
+
+                console.log('selectStatusDescriptionsClass:::',element.value+"  index"+index);
+            });
+            
+            $('input.sv_Input').each(function (index, element) {
+                let selected = selectedTruckItemsCopy[index];
+                selected["Work_Time__c"] = element.value;
+                
+                console.log('sv_Input:::',element.value+"  index"+index);
+            });
+            console.log('selectStatuClass:ALL::',selectedTruckItemsCopy);
+            console.log('selectedTruckItems:ALL::',$scope.selectedTruckItems);
+            
+            $state.go('app.newOfferFittings', { SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: $scope.getIds[0] });
+
+
         };
     });
 

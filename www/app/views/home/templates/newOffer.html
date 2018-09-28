@@ -389,7 +389,7 @@
 										</div>
 									</td>
 									<td class="sv_Td">
-										<select id="selectStatusId1">
+										<select id="selectStatus1" class="selectStatusServiceTypeClass">
 											<option>维护</option>
 											<option>修理</option>
 											<option>检查</option>
@@ -402,12 +402,12 @@
 										<div> {{item.Family__c}} </div>
 									</td>
 									<td class="sv_Td">
-										<select id="selectStatusId2" class="selectStatusIdClass2">
+										<select id="selectStatus2" class="selectStatusLevelsClass">
 											<option ng-repeat="itemlevels in item.levels" value={{itemlevels}} >{{itemlevels}}</option>
 										</select>
 									</td>
 									<td class="sv_Td">
-										<select id="selectStatusId3">
+										<select id="selectStatus3" class="selectStatusDescriptionsClass">
 											<option ng-repeat="itemdescriptions in item.descriptions" value={{itemdescriptions}}>{{itemdescriptions}}</option>
 										</select>
 									</td>

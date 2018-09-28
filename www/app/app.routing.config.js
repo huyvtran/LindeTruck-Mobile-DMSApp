@@ -72,11 +72,12 @@
                         templateUrl: 'app/views/home/templates/newOffer.html',
                         controller: 'NewOfferController as vm'
                     }
-                },
-                cache: false
+                }
+                
             })
             .state('app.newOfferFittings', {
                 url: 'app/newOfferFittings',
+                params:{'SendAllUser':null,'SendSoupEntryId':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/newOfferFittings.html',
