@@ -390,6 +390,9 @@ angular.module('oinio.services', [])
                     newItem['Service_Order_Type__c'] = 'Work Order';
                     if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){newItem['Service_Order_Type__c'] = adr.Service_Order_Type__c;}
 
+                    newItem['Priority__c'] = 'Medium';
+                    if(adr.Priority__c != null && adr.Priority__c != ''){newItem['Priority__c'] = adr.Priority__c;}
+
                     newItem['Plan_Date__c'] = adr.Plan_Date__c;
                     newItem['Description__c'] = adr.Description__c;
                     newItem['Status__c'] = 'Not Planned';
@@ -464,6 +467,9 @@ angular.module('oinio.services', [])
 
                     newItem['Service_Order_Type__c'] = 'Work Order';
                     if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){newItem['Service_Order_Type__c'] = adr.Service_Order_Type__c;}
+
+                    newItem['Priority__c'] = 'Medium';
+                    if(adr.Priority__c != null && adr.Priority__c != ''){newItem['Priority__c'] = adr.Priority__c;}
 
                     //if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
 

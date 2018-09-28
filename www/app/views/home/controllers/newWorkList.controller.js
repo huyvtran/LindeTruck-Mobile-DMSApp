@@ -7,6 +7,7 @@ angular.module('oinio.newWorkListControllers', [])
 
         vm.isOnline = null;
         vm.adrs = [];
+        vm.priorities = [];
 
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
@@ -20,6 +21,11 @@ angular.module('oinio.newWorkListControllers', [])
             vm.adrs.push({label:'工单',value:'Work Order'});
             vm.adrs.push({label:'客户咨询',value:'Customer Consult'});
             vm.adrs.push({label:'客户投诉',value:'Customer Complaint'});
+
+            vm.priorities.push({label:'紧急',value:'Urgent'});
+            vm.priorities.push({label:'高',value:'High'});
+            vm.priorities.push({label:'中',value:'Medium'});
+            vm.priorities.push({label:'低',value:'Low'});
 
         });
         $scope.$on('$ionicView.enter', function () {
@@ -56,6 +62,8 @@ angular.module('oinio.newWorkListControllers', [])
             $scope.defaultStandardInfoHeight = 0;
             $scope.defaultHistoryWorkHeight = 0;
 
+            $scope.displayDatepicker = true;
+
             HomeService.getLatest3ServiceOrders().then(function (response) {
                 console.log("getLatest3ServiceOrders",response);
 
@@ -91,9 +99,39 @@ angular.module('oinio.newWorkListControllers', [])
             document.querySelector("#newwork_standardInfo").style.height = $scope.defaultStandardInfoHeight;
             $scope.defaultHistoryWorkHeight = document.querySelector("#newwork_historyWork").scrollHeight + 'px';
             document.querySelector("#newwork_historyWork").style.height = $scope.defaultHistoryWorkHeight;
+
+
+            let currentDate = $scope.getCurrentDateString();
+            $('#input_plandate').val(currentDate);
+            let initDatePickerParamm = new Object();
+            initDatePickerParamm['startDate'] = currentDate;
+            initDatePickerParamm['data-date-format'] = 'yyyy-mm-dd';
+
+            var Instance_datepicker = $('#input_plandate').datepicker(initDatePickerParamm);
+
+            Instance_datepicker.on('show', function(e){
+                console.log('datepicker::show');
+                $scope.displayDatepicker = true;
+            });
+            Instance_datepicker.on('hide', function(e){
+                console.log('datepicker::hide');
+                $scope.displayDatepicker = false;
+            });
+
+
         });
 
 
+
+        $scope.clickDatepickerIcon = function () {
+            if($scope.displayDatepicker){
+                console.log('show>>>hide');
+                $('#input_plandate').datepicker('hide');
+            }else{
+                console.log('hide>>show');
+                $('#input_plandate').datepicker('show');
+            }
+        };
 
 
 
@@ -261,7 +299,10 @@ angular.module('oinio.newWorkListControllers', [])
             let orderType = $("#select_serviceorder_type").val();
             if(orderType != null && orderType != ''){order2Save.Service_Order_Type__c = orderType;}
 
-            order2Save.Plan_Date__c = $scope.getCurrentDateString();
+            let orderPriority = $("#select_serviceorder_priority").val();
+            if(orderPriority != null && orderPriority != ''){order2Save.Priority__c = orderPriority;}
+
+            order2Save.Plan_Date__c = $('#input_plandate').val();
 
             if(userId != null && userId.Id != null) {
                 HomeService.getUserObjectById(userId.Id).then(function (response) {
@@ -451,7 +492,7 @@ angular.module('oinio.newWorkListControllers', [])
 
         $scope.getCurrentDateString = function () {
             let d = new Date().getDate();
-            let m = new Date().getMonth();
+            let m = new Date().getMonth()+1;
             let y = new Date().getFullYear();
 
             if(d<10){
@@ -493,7 +534,7 @@ angular.module('oinio.newWorkListControllers', [])
             //console.log('controller::',controller);
 
             if(scope.$last == true){
-                console.log('ng-repeat执行完毕');
+                console.log('ng-repeat element render finished.');
                 scope.$parent.defaultHistoryWorkHeight = document.querySelector("#newwork_historyWork").scrollHeight + 'px';
                 document.querySelector("#newwork_historyWork").style.height = scope.$parent.defaultHistoryWorkHeight;
             }
