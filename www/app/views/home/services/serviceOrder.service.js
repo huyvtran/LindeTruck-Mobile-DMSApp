@@ -121,6 +121,7 @@
                 let deferred = $q.defer();
                 let ret;
                 service.searchChildOrderSidsForParent(sid).then(function (sosids) {
+                    console.log('111111:::',sosids);
                     return service.getWorkItems(sosids);
                 }).catch(function (error) {
                     deferred.reject(error);
@@ -136,7 +137,7 @@
 
 
             this.getWorkItems = function(sids){
-                console.log('getWorkItems.sid:%s', sid);
+                console.log('getWorkItems.sid:%s', sids);
                 let deferred = $q.defer();
 
                 if(sids == null || sids.length < 1){
@@ -188,18 +189,24 @@
              *  Service_Order_Overview__c.Mobile_Offline_Name__c
              *  Service_Order_Overview__c.Work_Order_Type__c
              *  Service_Order_Overview__c.Description__c
-             *  Service_Order_Overview__c。Service_Suggestion__c
+             *  Service_Order_Overview__c.Service_Suggestion__c
+             *  Service_Order_Overview__c.Subject__c
              *
              *
              *  {String}   str_suggest
              *  {String[]}  images - the array of base64 String value for images
              *
              *
+             *  {DateTime} arrivaltime
+             *  {DateTime} leaveTime
+             *  {DateTime} startTime
+             *  {DateTime} finishTime
+             *
              * @returns {Promise} an array of Contact objects containing like
              *   "_soupId": 1234567890,
              */
 
-            this.workDetailSaveButton = function (order,str_suggest,images) {
+            this.workDetailSaveButton = function (order,str_suggest,images,arrivaltime,leaveTime,startTime,finishTime) {
                 let deferred = $q.defer();
                 let ret;
                 let sids_childOrder = [];
@@ -210,7 +217,7 @@
                     sids_childOrder = sosids;
                     return service.saveChildWorkOrder(sosids,order);
                 }).then(function (childOrders) {
-                    return service.saveWorkItems(sids_childOrder,str_suggest);
+                    return service.saveWorkItems(sids_childOrder,str_suggest,arrivaltime,leaveTime,startTime,finishTime);
                 }).then(function (wiSids) {
                     return service.saveAttachments(images,wiSids);
                 }).then(function (res) {
@@ -235,6 +242,7 @@
                     sobject['Work_Order_Type__c'] = order.Work_Order_Type__c;
                     sobject['Description__c'] = order.Description__c;
                     sobject['Service_Suggestion__c'] = order.Service_Suggestion__c;
+                    sobject['Subject__c'] = order.Subject__c;
 
 
                     LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function(result) {
@@ -297,6 +305,7 @@
                         sobject['Work_Order_Type__c'] = parent.Work_Order_Type__c;
                         sobject['Description__c'] = parent.Description__c;
                         sobject['Service_Suggestion__c'] = parent.Service_Suggestion__c;
+                        sobject['Subject__c'] = order.Subject__c;
                     });
 
                     LocalDataService.updateSObjects('Service_Order__c', sobjects).then(function(result) {
@@ -323,7 +332,7 @@
 
 
 
-            this.saveWorkItems = function (adrs,str_suggestion) {
+            this.saveWorkItems = function (adrs,str_suggestion,arrivaltime,leaveTime,startTime,finishTime) {
                 console.log('saveWorkItems:: '+adrs);
                 var deferred = $q.defer();
 
@@ -340,7 +349,11 @@
                         newItem['Service_Order__c_type'] = 'Service_Order__c';
 
 
-                        newItem['Arrival_Time__c'] = new Date();
+                        newItem['Arrival_Time__c'] = arrivaltime;
+                        newItem['Departure_Time__c'] = leaveTime;
+                        newItem['Start_Time__c'] = startTime;
+                        newItem['Finish_Time__c'] = finishTime;
+
                         newItem['Service_Suggestion__c'] = str_suggestion;
 
                         adrsToSave.push(newItem);
