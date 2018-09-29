@@ -111,7 +111,6 @@ angular.module('oinio.workDetailsControllers', [])
                 $log.error(error);
             })
                 .then(function () {
-                    console.log('lllll');
                     return SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
                         console.log(result);
                     }, function (error) {
@@ -296,8 +295,8 @@ angular.module('oinio.workDetailsControllers', [])
                 }, {
                     text: '确定',
                     onTap: function () {
-                        arriveTime =new Date().toLocaleString();
-                        startTime =new Date().toLocaleString();
+                        arriveTime =new Date();
+                        startTime =new Date();
                         $event.target.style.backgroundColor = "#00FF7F";
                         console.log(arriveTime);
                     }
@@ -319,8 +318,8 @@ angular.module('oinio.workDetailsControllers', [])
                 }, {
                     text: '确定',
                     onTap: function () {
-                        finishTime =new Date().toLocaleString();
-                        leaveTime =new Date().toLocaleString();
+                        finishTime =new Date();
+                        leaveTime =new Date();
                         $event.target.style.backgroundColor = "#00FF7F";
                     }
                 }],
