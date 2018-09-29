@@ -98,7 +98,6 @@ angular.module('oinio.workDetailsControllers', [])
                     if (workType != null) {
                         $("#select_work_type").find("option[value = workType]").attr("selected", true);
                     }
-
                     $scope.workContent = result.Description__c != null ? result.Description__c : "";
                     if (workDescription!=null){
                         $scope.callPhoneContent = workDescription;
