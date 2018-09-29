@@ -46,7 +46,9 @@ angular.module('oinio.controllers', [])
             $state.go('app.newWork');
         };
 
-
+        $scope.addNewOffer = function () {
+            $state.go('app.newOffer');
+        };
 
         $scope.selectTabWithIndex = function (index) {
             $ionicTabsDelegate.select(index);

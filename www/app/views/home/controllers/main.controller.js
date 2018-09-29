@@ -19,7 +19,7 @@ angular.module('oinio.MainController', [])
         });
         cordova.plugins.backgroundMode.setEnabled(true);
         // cordova.plugins.backgroundMode.overrideBackButton();
-    
+        var firstIntoApp = true;
   
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
@@ -29,7 +29,10 @@ angular.module('oinio.MainController', [])
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
-            $ionicTabsDelegate.select(1);
+            if (firstIntoApp) {
+                $ionicTabsDelegate.select(1);
+                firstIntoApp = false;
+            }
             console.log("mainController.$ionicView.beforeEnter");
 
         });

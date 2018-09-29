@@ -1,5 +1,5 @@
 angular.module('oinio.NewOfferFittingsController', [])
-    .controller('NewOfferFittingsController', function ($scope, $http, $ionicPopup, $stateParams, HomeService, $state, $rootScope, SQuoteService, ForceClientService) {
+    .controller('NewOfferFittingsController', function ($scope, $http, $ionicPopup, $stateParams, HomeService, $state, AppUtilService ,$rootScope, SQuoteService, ForceClientService) {
 
         // var forceClient = ForceClientService.getForceClient();
         // console.log("forceClient", forceClient);
@@ -91,6 +91,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             $scope.quoteLabourOriginalsList.push(oneLabourOriginals2);
         };
         $scope.toSaveServiceQuoteOverview = function (payload) {
+            AppUtilService.showLoading();
             $scope.addLabourOriginalsList();
             var serviceQuoteOverview = {};
             serviceQuoteOverview["Ship_to__c"] = $stateParams.SendSoupEntryId;
@@ -109,10 +110,21 @@ angular.module('oinio.NewOfferFittingsController', [])
 
 
             ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
+                AppUtilService.hideLoading();
                 console.log("POST_success:", response);
-                
+                var ionPop = $ionicPopup.alert({
+                    title: "保存成功"
+                });
+                ionPop.then(function (res) {
+                    window.history.back(-1);
+                    window.history.back(-1);
+                });
             }, function (error) {
                 console.log("POST_error:", error);
+                AppUtilService.hideLoading();
+                var ionPop = $ionicPopup.alert({
+                    title: "保存失败"
+                });
             });
         };
     });
