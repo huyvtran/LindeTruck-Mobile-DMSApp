@@ -104,7 +104,7 @@ angular.module('oinio.newWorkListControllers', [])
             let currentDate = $scope.getCurrentDateString();
             $('#input_plandate').val(currentDate);
             let initDatePickerParamm = new Object();
-            initDatePickerParamm['startDate'] = currentDate;
+            //initDatePickerParamm['startDate'] = currentDate;
             initDatePickerParamm['data-date-format'] = 'yyyy-mm-dd';
 
             var Instance_datepicker = $('#input_plandate').datepicker(initDatePickerParamm);

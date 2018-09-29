@@ -305,7 +305,7 @@
                         sobject['Work_Order_Type__c'] = parent.Work_Order_Type__c;
                         sobject['Description__c'] = parent.Description__c;
                         sobject['Service_Suggestion__c'] = parent.Service_Suggestion__c;
-                        sobject['Subject__c'] = order.Subject__c;
+                        sobject['Subject__c'] = parent.Subject__c;
                     });
 
                     LocalDataService.updateSObjects('Service_Order__c', sobjects).then(function(result) {
