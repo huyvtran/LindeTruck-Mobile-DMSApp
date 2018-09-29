@@ -387,7 +387,7 @@
 			<div id="workContent">
 				<div class="small_Type_Group" >
 					<div class="small_Type_Box">
-						<textarea class="small_Type_Textarea" id="workContentStr"></textarea>
+						<textarea class="small_Type_Textarea" id="workContentStr">{{workContent}}</textarea>
 					</div>
 				</div>
 				<div class="small_Type_Group">
@@ -434,13 +434,13 @@
 </div>
 <div class="next_Footer">
 	<div class="schedule_Group">
-		<div class="schedule_Btn">到达</div>
+		<div class="schedule_Btn" ng-click="getArrivalTime($event);">到达</div>
 		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn">离开</div>
+		<div class="schedule_Btn" ng-click="getLeaveTime($event);">离开</div>
 		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn">打印</div>
+		<div class="schedule_Btn" ng-click="doPrint();">打印</div>
 		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn">签单</div>
+		<div class="schedule_Btn" ng-click="signBill();">签单</div>
 	</div>
 </div>
 <div class="footer">

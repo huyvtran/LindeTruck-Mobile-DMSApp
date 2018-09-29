@@ -3,9 +3,13 @@ angular.module('oinio.workDetailsControllers', [])
                                                    LocalCacheService, HomeService, SOrderService) {
 
         var vm = this,
-            workDescription="",
-            userInfoId ="",
-            localSoupEntryId="",
+            arriveTime = null,
+            leaveTime = null,
+            startTime = null,
+            finishTime = null,
+            workDescription = null,
+            userInfoId = "",
+            localSoupEntryId = "",
             localUris = [],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
 
@@ -92,27 +96,37 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                     var workType = result.Work_Order_Type__c;
                     if (workType != null) {
-                        $("#select_work_type").find("option[value = workType]").attr("selected",true);
+                        $("#select_work_type").find("option[value = workType]").attr("selected", true);
                     }
-                    $scope.callPhoneContent = result.Description__c != null ? result.Description__c : "";
 
+                    $scope.workContent = result.Description__c != null ? result.Description__c : "";
+                    if (workDescription!=null){
+                        $scope.callPhoneContent = workDescription;
+                    }else{
+                        $scope.callPhoneContent = result.Subject__c != null ? result.Subject__c : "";
+                    }
                     $scope.suggestStr = result.Service_Suggestion__c != null ? result.Service_Suggestion__c : "";
                 }
 
             }, function error(error) {
                 $log.error(error);
             })
-            // .then(SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
-            //         console.log(result);
-            //     },function (error) {
-            //         console.log(error);
-            //         $log.error(error);
-            //     }))
-            .then(HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
-            $scope.HasTruckNum = res != null ? res.length : 0;
-                }, function (error) {
-                 $log.error('Error ' + error);
-                }));
+                .then(function () {
+                    SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
+                        console.log(result);
+                    }, function (error) {
+                        console.log(error);
+                        $log.error(error);
+                    })
+                })
+                .then(function () {
+                        HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
+                            $scope.HasTruckNum = res != null ? res.length : 0;
+                        }, function (error) {
+                            $log.error('Error ' + error);
+                        })
+                    }
+                );
 
         });
 
@@ -139,7 +153,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64,"+imgUri);
+                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
                                         $scope.imgUris.push("././img/images/will_add_Img.png");
                                         console.log(imgUri);
                                     },
@@ -170,7 +184,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64,"+imgUri);
+                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
                                         $scope.imgUris.push("././img/images/will_add_Img.png");
                                         console.log(imgUri);
                                     },
@@ -268,8 +282,63 @@ angular.module('oinio.workDetailsControllers', [])
             window.history.back();
         };
 
-        $scope.goSave = function () {
+        $scope.getArrivalTime = function ($event) {
+            if (arriveTime != null) {
+                return false;
+            }
+            $ionicPopup.show({
+                title: '是否确定到达？',
+                buttons: [{
+                    text: '取消',
+                    onTap: function () {
 
+                    }
+                }, {
+                    text: '确定',
+                    onTap: function () {
+                        arriveTime =new Date().toLocaleString();
+                        startTime =new Date().toLocaleString();
+                        $event.target.style.backgroundColor = "#00FF7F";
+                        console.log(arriveTime);
+                    }
+                }],
+            });
+        };
+
+        $scope.getLeaveTime = function ($event) {
+            if (leaveTime!=null){
+                return false;
+            }
+            $ionicPopup.show({
+                title: '是否确定离开？',
+                //template:'开始时间:<input placeholder="请选择开始时间" name="startTime" style="background-color:transparent;margin: auto;" readonly/><br>结束时间:<input placeholder="请选择结束时间" name="endTime"  style="background-color:transparent;margin: auto;" readonly/>',
+                buttons: [{
+                    text: '取消',
+                    onTap: function () {
+                    }
+                }, {
+                    text: '确定',
+                    onTap: function () {
+                        finishTime =new Date().toLocaleString();
+                        leaveTime =new Date().toLocaleString();
+                        $event.target.style.backgroundColor = "#00FF7F";
+                    }
+                }],
+            });
+        };
+
+        $scope.doPrint = function () {
+
+        };
+
+        $scope.signBill = function () {
+
+        };
+
+        $scope.goSave = function () {
+            if (arriveTime==null || leaveTime ==null){
+                return ;
+            }
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
                     localUris.push($scope.imgUris[i]);
@@ -277,14 +346,15 @@ angular.module('oinio.workDetailsControllers', [])
             }
             console.log(localUris);
             var order = {
-                _soupEntryId:localSoupEntryId,
+                _soupEntryId: localSoupEntryId,
                 Mobile_Offline_Name__c: $scope.mobileName,
                 Work_Order_Type__c: $('#select_work_type option:selected').val(),
-                Description__c: $('#call_str').val(),
-                Service_Suggestion__c: $('#serviceSuggest').val()
+                Description__c: $('#workContentStr').val(),
+                Service_Suggestion__c: $('#serviceSuggest').val(),
+                Subject__c: $('#call_str').val()
             };
 
-            SOrderService.workDetailSaveButton(order, $('#workContentStr').val(),localUris).then(function success(result) {
+            SOrderService.workDetailSaveButton(order, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
                 console.log(result);
                 $state.go("app.home");
             }, function error(error) {
