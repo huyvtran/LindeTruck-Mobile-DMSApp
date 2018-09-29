@@ -1092,12 +1092,13 @@ angular.module('oinio.services', [])
 
 
 
-        this.getLatest3ServiceOrders = function(){
-            console.log('getLatest3ServiceOrders.keyword:%s');
+        this.getLatest3ServiceOrders = function(acctSid){
+            console.log('getLatest3ServiceOrders.keyword:%s',acctSid);
             let deferred = $q.defer();
 
             let sql =  "select {Service_Order_Overview__c:_soup}\
                          from {Service_Order_Overview__c}\
+                         where {Service_Order_Overview__c:Account_Ship_to__c_sid} = '"+acctSid+"' \
                          order by {Service_Order_Overview__c:_soupEntryId} desc limit 3";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {

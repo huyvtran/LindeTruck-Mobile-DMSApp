@@ -72,6 +72,7 @@ angular.module('oinio.newWorkListControllers', [])
 
             $scope.displayDatepicker = true;
 
+            /*
             HomeService.getLatest3ServiceOrders().then(function (response) {
                 console.log("getLatest3ServiceOrders",response);
 
@@ -101,6 +102,7 @@ angular.module('oinio.newWorkListControllers', [])
             }).finally(function () {
                 //AppUtilService.hideLoading();
             });
+            */
 
             let user = LocalCacheService.get('currentUser');
             if(user != null && user.Id != null) {
@@ -265,8 +267,35 @@ angular.module('oinio.newWorkListControllers', [])
                     $scope.contentTruckItems = trucks;
                     console.log("init20Trucks",trucks);
                 }
+                return HomeService.getLatest3ServiceOrders($scope.searchResultAcctSoupId);
             }, function (error) {
                 $log.error('HomeService.init20Trucks Error ' + error);
+            }).then(function (response) {
+                console.log("getLatest3ServiceOrders",response);
+
+                if (response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        if(response[index].Status__c == 'Not Started'){
+                            response[index].Status__c = '未开始';
+                        }
+                        if(response[index].Status__c == 'Not Completed'){
+                            response[index].Status__c = '未完成';
+                        }
+                        if(response[index].Status__c == 'Service Completed'){
+                            response[index].Status__c = '已完成';
+                        }
+                        if(response[index].Status__c == 'End'){
+                            response[index].Status__c = '已结束';
+                        }
+                        if(response[index].Status__c == 'Not Planned'){
+                            response[index].Status__c = '未安排';
+                        }
+                    }
+                    $scope.initLatest3Orders = response;
+                    //console.log("getLatest3ServiceOrders",accountsName);
+                }
+            }, function (error) {
+                $log.error('HomeService.getLatest3ServiceOrders Error ' + error);
             }).finally(function () {
                 //AppUtilService.hideLoading();
                 $scope.closeSelectPage();
