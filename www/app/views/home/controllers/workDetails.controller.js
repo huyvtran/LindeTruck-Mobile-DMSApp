@@ -336,6 +336,9 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.goSave = function () {
             if (arriveTime==null || leaveTime ==null){
+                var ionPop = $ionicPopup.alert({
+                    title: "请确认到达和离开时间"
+                });
                 return ;
             }
             for (var i = 0; i < $scope.imgUris.length; i++) {
