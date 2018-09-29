@@ -42,6 +42,9 @@ angular.module('oinio.newWorkListControllers', [])
             $scope.contentTruckItems=[];
             $scope.searchTruckText ='';
 
+            $scope.contentOwnerItems=[];
+            $scope.searchOwnerText ='';
+
             $scope.searchResultAcctName ='';
             $scope.searchResultCustomerNum ='';
             $scope.searchResultAcctId ='';
@@ -51,6 +54,11 @@ angular.module('oinio.newWorkListControllers', [])
             $scope.searchResultTruckNum ='';
             $scope.searchResultTruckId ='';
             $scope.searchResultTruckSoupId ='';
+
+            $scope.searchResultOwnerName ='';
+            $scope.searchResultOwnerNum ='';
+            $scope.searchResultOwnerId ='';
+            $scope.searchResultOwnerSoupId ='';
 
             $scope.selectedTruckItems=[];
 
@@ -93,6 +101,22 @@ angular.module('oinio.newWorkListControllers', [])
             }).finally(function () {
                 //AppUtilService.hideLoading();
             });
+
+            let user = LocalCacheService.get('currentUser');
+            if(user != null && user.Id != null) {
+                HomeService.getUserObjectById(user.Id).then(function (response) {
+                    console.log("getUserObjectById::", response);
+                    if (response != null) {
+                        $scope.searchResultOwnerName = response.Name;
+                        $scope.searchResultOwnerNum = response.Name;
+                        $scope.searchResultOwnerId = user.Id;
+                        $scope.searchResultOwnerSoupId = response._soupEntryId;
+
+                    }
+                }, function (error) {
+                    $log.error('HomeService.getUserObjectById Error ' + error);
+                });
+            }
 
             console.log('Begin::init animate node::');
             $scope.defaultStandardInfoHeight = document.querySelector("#newwork_standardInfo").scrollHeight + 'px';
@@ -149,9 +173,15 @@ angular.module('oinio.newWorkListControllers', [])
                 if(ele === 'customer') {
                     $('#selectCustomer').css('display', 'block');
                     $('#selectTruck').css('display', 'none');
-                }else{
+                    $('#selectOwner').css('display', 'none');
+                }else if(ele === 'truck'){
                     $('#selectTruck').css('display', 'block');
                     $('#selectCustomer').css('display', 'none');
+                    $('#selectOwner').css('display', 'none');
+                }else if(ele === 'owner'){
+                    $('#selectTruck').css('display', 'none');
+                    $('#selectCustomer').css('display', 'none');
+                    $('#selectOwner').css('display', 'block');
                 }
             });
 
@@ -244,6 +274,47 @@ angular.module('oinio.newWorkListControllers', [])
         };
 
 
+        $scope.getUsers = function (keyWord) {
+            //调用接口获取结果
+            HomeService.getUsersObjectByName(keyWord).then(function (response) {
+                console.log("getUsersObjectByName",keyWord);
+                let users = [];
+                if (response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        users.push(response[index]);
+                    }
+                    $scope.contentOwnerItems = users;
+                    console.log("getUsersObjectByName22::",users);
+                }
+                else {
+                    var ionPop = $ionicPopup.alert({
+                        title: "结果",
+                        template: "没有用户数据"
+                    });
+                    ionPop.then(function () {
+                        //$ionicHistory.goBack();
+                        //$state.go("app.home");
+                    });
+                }
+            }, function (error) {
+                $log.error('HomeService.getUsersObjectByName Error ' + error);
+            }).finally(function () {
+                //AppUtilService.hideLoading();
+            });
+        };
+
+        $scope.selectUser = function (user) {
+            console.log('select:user:',user);
+
+            $scope.searchResultOwnerName = user.Name;
+            $scope.searchResultOwnerNum = user.Name;
+            $scope.searchResultOwnerId = user.Id;
+            $scope.searchResultOwnerSoupId = user._soupEntryId;
+
+            $scope.closeSelectPage();
+        };
+
+
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
 
@@ -284,7 +355,7 @@ angular.module('oinio.newWorkListControllers', [])
 
         $scope.saveServiceOrder = function () {
             let order2Save = new Object();
-            let userId = LocalCacheService.get('currentUser');
+            let userId = $scope.searchResultOwnerId;
 
             order2Save.Account_Ship_to__c = $scope.searchResultAcctId;
             order2Save.Account_Ship_to__r = new Object();
@@ -304,11 +375,11 @@ angular.module('oinio.newWorkListControllers', [])
 
             order2Save.Plan_Date__c = $('#input_plandate').val();
 
-            if(userId != null && userId.Id != null) {
-                HomeService.getUserObjectById(userId.Id).then(function (response) {
+            if(userId != null && userId != '') {
+                HomeService.getUserObjectById(userId).then(function (response) {
                     console.log("getUserObjectById::", response);
                     if (response != null) {
-                        order2Save.Service_Order_Owner__c = userId.Id;
+                        order2Save.Service_Order_Owner__c = userId;
                         order2Save.Service_Order_Owner__r = response;
 
                         HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {

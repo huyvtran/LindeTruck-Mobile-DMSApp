@@ -853,38 +853,38 @@ angular.module('oinio.services', [])
 
 
         /**
-         * @func  getUserObjectByName
-         * @desc  get User with all fields by name
+         * @func  getUsersObjectByName
+         * @desc  get Users with all fields by name
          * @param name(String)
          * @returns {Promise} an array of User objects containing like
          *   "_soupEntryId": 1234567890,
          */
-        this.getUserObjectByName = function(str_name) {
-            console.log('getUserObjectByName.Name:%s', str_name);
+        this.getUsersObjectByName = function(str_name) {
+            console.log('getUsersObjectByName.Name:%s', str_name);
             let deferred = $q.defer();
 
             let sql =  "select {User:_soup}\
                          from {User}\
-                         where {User:Name} like '%"+str_name+"%' limit 1";
+                         where {User:Name} like '%"+str_name+"%'";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
-                let user;
+                let users = [];
                 if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                     angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
-                        user = {
+                        users.push({
                             Id: entry[0].Id,
                             Name: entry[0].Name,
                             _soupEntryId: entry[0]._soupEntryId
-                        };
+                        });
                     });
                 }
-                deferred.resolve(user);
+                deferred.resolve(users);
             }, function (err) {
                 $log.error(err);
                 console.error(err);
                 deferred.reject(err);
             });
-            console.log('getUserObjectByName::', deferred.promise);
+            console.log('getUsersObjectByName::', deferred.promise);
             return deferred.promise;
         };
 

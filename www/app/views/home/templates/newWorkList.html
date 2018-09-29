@@ -372,6 +372,30 @@
                 </div>
             </div>
         </div>
+        <div id="selectOwner" style="">
+            <div class="header2">
+                <div class="left_Box" ng-click="closeSelectPage();">
+                    <div class="back_Icon"></div>
+                </div>
+                <div class="search_All" >
+                    <input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchOwnerText"/>
+                    <!--<div class="search_Photo_Icon"></div>-->
+                </div>
+                <div class="search_right_Group" id="cancleBtn1" ng-click="getUsers(searchOwnerText);" ng-show="searchOwnerText">
+                    <div class="text_Cancel"> 搜索 </div>
+                </div>
+            </div>
+            <div class="bodyer_nofooter search_bodyer" style="background-color: white;">
+                <div class="big_Box_Group">
+                    <div class="small_Box_Title"> 查询责任人 </div>
+                    <ion-list can-swipe="true">
+                        <ion-item id="items1" ng-repeat="oitem in contentOwnerItems"  ng-cloak ng-click="selectUser(oitem);" class="small_Box_Text">
+                            {{oitem.Name}}
+                        </ion-item>
+                    </ion-list>
+                </div>
+            </div>
+        </div>
         <div id="selectTruck" style="">
             <div class="header2">
                 <div class="left_Box" ng-click="closeSelectPage();">
@@ -458,6 +482,13 @@
                             <div class="small_Type_Title">车体号(多选，非必选):</div>
                             <div class="small_Type_Box">
                                 <input type="button" value={{searchResultTruckName}} style="background-color:transparent;" ng-click="openSelectPage('truck');" class="small_Type_Input"/>
+                                <div class="search_small_black"></div>
+                            </div>
+                        </div>
+                        <div class="small_Type_Group">
+                            <div class="small_Type_Title">责任人:</div>
+                            <div class="small_Type_Box">
+                                <input type="button" value={{searchResultOwnerName}} style="background-color:transparent;" ng-click="openSelectPage('owner');" class="small_Type_Input"/>
                                 <div class="search_small_black"></div>
                             </div>
                         </div>
