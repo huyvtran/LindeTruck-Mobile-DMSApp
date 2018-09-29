@@ -294,8 +294,8 @@ angular.module('oinio.newWorkListControllers', [])
             // order2Save.Truck_Serial_Number__r = new Object();
             // order2Save.Truck_Serial_Number__r._soupEntryId = $scope.searchResultTruckSoupId;
 
-            //order2Save.Description__c = $("#textarea_desc").val();
-            order2Save.Description__c = null;
+            order2Save.Description__c = $("#textarea_desc").val();
+
             let orderType = $("#select_serviceorder_type").val();
             if(orderType != null && orderType != ''){order2Save.Service_Order_Type__c = orderType;}
 
