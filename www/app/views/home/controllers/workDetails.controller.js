@@ -111,7 +111,8 @@ angular.module('oinio.workDetailsControllers', [])
                 $log.error(error);
             })
                 .then(function () {
-                    SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
+                    console.log('lllll');
+                    return SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
                         console.log(result);
                     }, function (error) {
                         console.log(error);
