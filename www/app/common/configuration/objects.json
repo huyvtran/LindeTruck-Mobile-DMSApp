@@ -139,7 +139,7 @@
     },
     {
       "Name": "Attachment",
-      "MobileVizArt__Fields__c": "BodyLength,ContentType,CreatedById,CreatedDate,Description,Id,IsDeleted,IsPrivate,LastModifiedById,LastModifiedDate,Name,OwnerId,ParentId,SystemModstamp",
+      "MobileVizArt__Fields__c": "BodyLength,Body,ContentType,CreatedById,CreatedDate,Description,Id,IsDeleted,IsPrivate,LastModifiedById,LastModifiedDate,Name,OwnerId,ParentId,SystemModstamp",
       "MobileVizArt__Search_Fields__c": "LastModifiedDate,ParentId,Name",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,

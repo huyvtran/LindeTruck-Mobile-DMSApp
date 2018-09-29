@@ -171,7 +171,7 @@
                         newItem['MobilePhone'] = adr.MobilePhone;
                         newItem['Email'] = adr.Email;
 
-                        if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
+                        //if(adrRecordType != null && adrRecordType.Id != null){newItem['RecordTypeId'] = adrRecordType.Id;}
                         newItem['Contact_State__c'] = adr.Contact_State__c;
                         newItem['Position_Type__c'] = adr.Position_Type__c;
 
