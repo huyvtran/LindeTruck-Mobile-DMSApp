@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService, HomeService, SOrderService) {
+                                                   LocalCacheService, HomeService, SOrderService,$ionicModal) {
 
         var vm = this,
             arriveTime = null,
@@ -29,6 +29,14 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.imgUris = ["././img/images/will_add_Img.png"];
         });
         $scope.$on('$ionicView.enter', function () {
+
+            // $ionicModal.fromTemplateUrl('leaveModal.html', {
+            //     scope: $scope,
+            //     animation: 'slide-in-up'
+            // }).then(function(modal) {
+            //     $scope.modal = modal;
+            // });
+
             vm.isOnline = ConnectionMonitor.isOnline();
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
@@ -273,7 +281,6 @@ angular.module('oinio.workDetailsControllers', [])
             } else {
                 document.getElementById("serviceContent").style.display = "none";//隐藏
                 document.getElementById("serviceImg").className = "OpenClose_Btn arrow_Left_White";
-
             }
         };
 
@@ -305,12 +312,13 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.getLeaveTime = function ($event) {
+            // $scope.modal.show();
             if (leaveTime!=null){
                 return false;
             }
             $ionicPopup.show({
                 title: '是否确定离开？',
-                //template:'开始时间:<input placeholder="请选择开始时间" name="startTime" style="background-color:transparent;margin: auto;" readonly/><br>结束时间:<input placeholder="请选择结束时间" name="endTime"  style="background-color:transparent;margin: auto;" readonly/>',
+                template:'开始时间:<input type="text" class="demo-input" placeholder="请选择开始时间" id="startTimeInput"/><br>结束时间:<input type="text" class="demo-input" placeholder="请选择结束日期" id="endTimeInput"/>',
                 buttons: [{
                     text: '取消',
                     onTap: function () {
@@ -324,14 +332,52 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 }],
             });
+            laydate.render({
+                elem: '#startTimeInput',
+                type: 'datetime',
+                theme: 'molv',
+                format: 'yyyy年MM月dd日'
+            });
         };
 
-        $scope.doPrint = function () {
+        $scope.doPrint = function ($event) {
+            $ionicPopup.show({
+                title:"是否确定打印？",
+                buttons:[
+                    {
+                        text:"取消",
+                        onTap:function () {
 
+                        }
+                    },
+                    {
+                        text:"确定",
+                        onTap:function () {
+                            $event.target.style.backgroundColor = "#00FF7F";
+                        }
+                    }
+                ]
+            });
         };
 
-        $scope.signBill = function () {
+        $scope.signBill = function ($event) {
+            $ionicPopup.show({
+                title:"是否确定签单？",
+                buttons:[
+                    {
+                        text:"取消",
+                        onTap:function () {
 
+                        }
+                    },
+                    {
+                        text:"确定",
+                        onTap:function () {
+                            $event.target.style.backgroundColor = "#00FF7F";
+                        }
+                    }
+                ]
+            });
         };
 
         $scope.goSave = function () {
@@ -364,7 +410,5 @@ angular.module('oinio.workDetailsControllers', [])
             });
 
         };
-
-
     });
 

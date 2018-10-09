@@ -313,6 +313,20 @@
 			background-image: url(././img/images/onlyread_Img_2.jpg);
 		}
 	</style>
+	<!--<script id="leaveModal.html" type="text/ng-template">-->
+		<!--<ion-modal-view>-->
+			<!--<ion-header-bar>-->
+				<!--<h1>是否确定离开</h1>-->
+			<!--</ion-header-bar>-->
+			<!--<ion-content>-->
+				<!--开始时间:<input type="text" class="demo-input" placeholder="请选择开始时间" id="startTimeInput" lay-key="1" />-->
+				<!--结束时间:<input type="text" class="demo-input" placeholder="请选择结束日期" id="endTimeInput" lay-key="1"/>-->
+			<!--</ion-content>-->
+			<!--<ion-footer-bar>-->
+				<!--<button id="cancleBtn" ng-click="cancelLeave();">取消</button><button id="sureBtn" ng-click="sureLeave();">确定</button>-->
+			<!--</ion-footer-bar>-->
+		<!--</ion-modal-view>-->
+	<!--</script>-->
 </head>
 <body>
 <div class="header">
@@ -438,9 +452,9 @@
 		<div class="next_Schedule_Icon"></div>
 		<div class="schedule_Btn" ng-click="getLeaveTime($event);">离开</div>
 		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn" ng-click="doPrint();">打印</div>
+		<div class="schedule_Btn" ng-click="doPrint($event);">打印</div>
 		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn" ng-click="signBill();">签单</div>
+		<div class="schedule_Btn" ng-click="signBill($event);">签单</div>
 	</div>
 </div>
 <div class="footer">
