@@ -63,7 +63,7 @@
       "error_message_status_500": "Remote endpoint reported an internal error. Please contact your administrator.",
       "error_message_status_503": "Remote endpoint is not available. Please contact your administrator.",
       "error_message_status_generic": "Unexpected error. Please contact your administrator.<br /><br />Details:<br /><span style=\"color:#888;font-size:75%;lineheight:120%;\">{{details}}</span>",
-      "msg_waitLoading": "Please wait..",
+      "msg_waitLoading": "请稍等..",
       "msg_information": "Information",
       "msg_error_required_field": "This Field is required",
       "msg_error_maxlength": "Maxlength has been exceeded",
