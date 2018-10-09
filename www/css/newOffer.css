@@ -428,6 +428,26 @@ img {
     border: 1px solid #979797;  
     width: 98%;
 }
+.service_Table .sv_Td .sv_InputForListPrice {
+    height: 28px;
+    border: 1px solid #979797;  
+    width: 98%;
+}
+.service_Table .sv_Td .sv_InputForListNo {
+    height: 28px;
+    border: 1px solid #979797;  
+    width: 98%;
+}
+.service_Table .sv_Td .sv_InputForListDiscount {
+    height: 28px;
+    border: 1px solid #979797;  
+    width: 98%;
+}
+.service_Table .sv_Td .sv_InputForListSpecial {
+    height: 28px;
+    border: 1px solid #979797;  
+    width: 98%;
+}
 .service_Table_bodyer .sv_Td div.del_red_icon {
     position: absolute;
     left: 0;

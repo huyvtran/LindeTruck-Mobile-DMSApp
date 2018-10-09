@@ -245,7 +245,7 @@
 									<div> 人工 </div>
 								</td>
 								<td class="sv_Td">
-									<input id="priceId1" value="{{manMadePrice1}}" class="sv_Input" />
+									<input id="priceId1" ng-model="manMadePrice1" class="sv_Input" />
 								</td>
 								<td class="sv_Td">
 									<input value="{{manMadeNo1}}" placeholder="0" ng-model="manMadeNo1" class="sv_Input" ng-keyup="sum(this);" />
@@ -266,7 +266,7 @@
 									<div> 交通 </div>
 								</td>
 								<td class="sv_Td">
-									<input id="priceId2" value="{{manMadePrice2}}" class="sv_Input" />
+									<input id="priceId2" ng-model="manMadePrice2" class="sv_Input" />
 								</td>
 								<td class="sv_Td">
 									<input value="{{manMadeNo2}}" placeholder="0" ng-model="manMadeNo2" class="sv_Input" ng-keyup="sum(this);" />
@@ -294,19 +294,19 @@
 											</div>
 										</td>
 										<td class="sv_Td">
-											<input ng-model="manMadePrice3" class="sv_Input" />
+											<input ng-model="manMadePrice3" class="sv_InputForListPrice" />
 										</td>
 										<td class="sv_Td">
-											<input ng-model="manMadeNo3" placeholder="0" ng-model="manMadeNo3" class="sv_Input" />
+											<input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo" />
 										</td>
 										<td class="sv_Td">
 											<div> {{manMadePrice3*manMadeNo3}} </div>
 										</td>
 										<td class="sv_Td">
-											<input ng-model="discountPrice3" class="sv_Input" />
+											<input ng-model="discountPrice3" class="sv_InputForListDiscount" />
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input" value="{{manMadePrice3*manMadeNo3-discountPrice3*manMadePrice3*manMadeNo3}}" />
+											<input class="sv_InputForListSpecial" value="{{manMadePrice3*manMadeNo3-discountPrice3*manMadePrice3*manMadeNo3}}" />
 										</td>
 									</tr>
 								</table>
@@ -354,7 +354,7 @@
 
 			<div class="footer_Btn" ng-click="goBack()">取消</div>
 			<div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()">保存</div>
-			<div class="footer_Btn Submit_Btn_Act">提交审批</div>
+			<div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()">提交审批</div>
 		</div>
 
 </body>

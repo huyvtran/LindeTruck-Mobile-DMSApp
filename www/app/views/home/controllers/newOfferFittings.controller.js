@@ -84,12 +84,20 @@ angular.module('oinio.NewOfferFittingsController', [])
             var oneLabourOriginals1 = {};
             oneLabourOriginals1["Service_Quote__c"] = manMadeNo1Id;
             oneLabourOriginals1["Name"] = manMadeNo1Name;
+            oneLabourOriginals1["Gross_Amount__c"] = $scope.manMadePrice1;
+            oneLabourOriginals1["Quantity__c"] = $scope.manMadeNo1;
+            oneLabourOriginals1["Discount__c"] = $scope.discountPrice1;
+            // oneLabourOriginals1["Net_Amount__c"] = $scope.discountPrice1; //优惠总价
             $scope.quoteLabourOriginalsList.push(oneLabourOriginals1);
             var oneLabourOriginals2 = {};
             oneLabourOriginals2["Service_Quote__c"] = manMadeNo2Id;
             oneLabourOriginals2["Name"] = manMadeNo2Name;
+            oneLabourOriginals1["Gross_Amount__c"] = $scope.manMadePrice2;
+            oneLabourOriginals2["Quantity__c"] = $scope.manMadeNo2;
+            oneLabourOriginals2["Discount__c"] = $scope.discountPrice2;
             $scope.quoteLabourOriginalsList.push(oneLabourOriginals2);
         };
+        //保存
         $scope.toSaveServiceQuoteOverview = function (payload) {
             AppUtilService.showLoading();
             $scope.addLabourOriginalsList();
@@ -105,6 +113,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 delete element.Id;
                 delete element.Name;
             }
+            $scope.toGetTogether();//组织劳务费数据
             var payload =$scope.paramSaveUrl+ "serviceQuoteOverview="+JSON.stringify(serviceQuoteOverview)+"&serviceQuotes="+ JSON.stringify($stateParams.SendAllUser)+ "&quoteLabourOriginals="+JSON.stringify($scope.quoteLabourOriginalsList);
             console.log("payload",payload);
 
@@ -127,5 +136,45 @@ angular.module('oinio.NewOfferFittingsController', [])
                 });
             });
         };
+        //提交审核
+        $scope.toSubmitCheck = function(){
+        }
+
+        //组织劳务费添加
+        $scope.toGetTogether = function(){
+            var sv_InputForListPrice = [];//单价
+            var sv_InputForListNo = [];//数量
+            var sv_InputForListDiscount = [];//折扣
+            var sv_InputForListSpecial = [];//优惠总价
+            $('input.sv_InputForListPrice').each(function (index, element) {
+                sv_InputForListPrice.push(element.value);
+                // console.log('sv_InputForListPrice:::',element.value+"  index"+index);
+            });
+            $('input.sv_InputForListNo').each(function (index, element) {
+                sv_InputForListNo.push(element.value);
+                // console.log('sv_InputForListNo:::',element.value+"  index"+index);
+            });
+            $('input.sv_InputForListDiscount').each(function (index, element) {
+                sv_InputForListDiscount.push(element.value);
+                // console.log('sv_InputForListDiscount:::',element.value+"  index"+index);
+            });
+            $('input.sv_InputForListSpecial').each(function (index, element) {
+                sv_InputForListSpecial.push(element.value);
+                // console.log('sv_InputForListSpecial:::',element.value+"  index"+index);
+            });
+
+            for (let index = 0; index < $scope.serviceFeeList.length; index++) {
+                var oneLabourOriginals3 = {};
+            oneLabourOriginals3["Name"] = $scope.serviceFeeList[index];
+            oneLabourOriginals3["Gross_Amount__c"] = sv_InputForListPrice[index];
+            oneLabourOriginals3["Quantity__c"] = sv_InputForListNo[index];
+            oneLabourOriginals3["Discount__c"] = sv_InputForListDiscount[index];
+            oneLabourOriginals3["Net_Amount__c"] = sv_InputForListSpecial[index];
+
+            $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
+                
+            }
+            
+        }
     });
 
