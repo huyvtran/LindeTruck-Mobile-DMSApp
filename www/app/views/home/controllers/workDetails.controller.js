@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService, HomeService, SOrderService,$ionicModal) {
+                                                   LocalCacheService, HomeService, SOrderService) {
 
         var vm = this,
             arriveTime = null,
@@ -11,6 +11,8 @@ angular.module('oinio.workDetailsControllers', [])
             userInfoId = "",
             localSoupEntryId = "",
             localUris = [],
+            h=0,
+            m = 0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
 
         vm.isOnline = null;
@@ -29,6 +31,29 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.imgUris = ["././img/images/will_add_Img.png"];
         });
         $scope.$on('$ionicView.enter', function () {
+
+            var numArr1=['01','02','03','04','05','06','07','08','09','10','11','12'];
+            var numArr2=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60'];
+            var mobileSelect3 = new MobileSelect({
+                trigger: '#leave',
+                title: '选择工作时长',
+                wheels: [
+                    {
+                        data: numArr1
+                    },
+                    {
+                        data: numArr2
+                    }
+                ],
+                position:[0, 0, 0],
+                callback:function(indexArr, data){
+                   $("#leave").text("离开");
+                   h = parseInt(data[0].substring(6,8));
+                   m = parseInt(data[1].substring(6,8));
+                   checkHours();
+                }
+            });
+
             vm.isOnline = ConnectionMonitor.isOnline();
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
@@ -207,6 +232,44 @@ angular.module('oinio.workDetailsControllers', [])
                 ]
             });
         };
+
+        var checkMinutes = function(){
+            if (finishTime.getMinutes()-m > 0){
+                return {
+                    index:1,
+                    mm:finishTime.getMinutes() -m
+                };
+            }else{
+                return {
+                    index:2,
+                    mm:finishTime.getMinutes + 60 - m
+                };
+            }
+        };
+
+        var checkHours = function(){
+            if (arriveTime==null){
+                $ionicPopup.alert({
+                    title:"请选择到达时间"
+                });
+            }else{
+                finishTime = new Date();
+                if (finishTime.getHours()-arriveTime.getHours()>h){
+                    var min = checkMinutes();
+                    if (min.index == 1){
+                        startTime = new Date((finishTime.getFullYear()+"-"+finishTime.getMonth()+"-"+finishTime.getDate()+" "+(finishTime.getHours()-h)+":"+min.mm+":"+finishTime.getSeconds()).replace(/-/,"/"));
+                    }else{
+                        startTime = new Date((finishTime.getFullYear()+"-"+finishTime.getMonth()+"-"+finishTime.getDate()+" "+(finishTime.getHours()-h-1)+":"+min.mm+":"+finishTime.getSeconds()).replace(/-/,"/"));
+                    }
+                }else{
+                    startTime = arriveTime;
+                }
+                leaveTime=new Date();
+                $("#leave")[0].style.backgroundColor = "#00FF7F"
+            }
+        };
+
+
         /**
          * 删除当前图片
          */
@@ -303,14 +366,6 @@ angular.module('oinio.workDetailsControllers', [])
             });
         };
 
-        $scope.getLeaveTime = function ($event) {
-            if (leaveTime!=null){
-                return false;
-            }
-            finishTime =new Date();
-            leaveTime =new Date();
-            $event.target.style.backgroundColor = "#00FF7F";
-        };
 
         $scope.doPrint = function ($event) {
             $ionicPopup.show({
@@ -353,7 +408,7 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.goSave = function () {
-            if (arriveTime==null || leaveTime ==null){
+            if (arriveTime==null || finishTime ==null|| startTime==null||leaveTime==null){
                 var ionPop = $ionicPopup.alert({
                     title: "请确认到达和离开时间"
                 });
