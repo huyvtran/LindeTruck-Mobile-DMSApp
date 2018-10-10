@@ -8,40 +8,50 @@
 
 	<style type="text/css">
 		.volume_Icon {
-			background-image: url(./img/images/volume_icon.png);
+			background-image: url(././img/images/volume_icon.png);
 		}
 		.add_Icon_White {
-			background-image: url(./img/images/add_icon_white.png);
+			background-image: url(././img/images/add_icon_white.png);
 		}
 		.bodyer {
-			background-image: url(./img/images/bg_img.png);
+			background-image: url(././img/images/bg_img.png);
 		}
 		.arrow_Down_White {
-			background-image: url(./img/images/arrow_Down_White.png);
+			background-image: url(././img/images/arrow_Down_White.png);
 		}
 		.arrow_Left_White {
-			background-image: url(./img/images/arrow_Left_White.png);
+			background-image: url(././img/images/arrow_Left_White.png);
 		}
 		.search_small_black {
-			background-image: url(./img/images/search_small_black.png);
+			background-image: url(././img/images/search_small_black.png);
 		}
 		.arrow_Down_Red {
-			background-image: url(./img/images/arrow_Down_Red.png);
+			background-image: url(././img/images/arrow_Down_Red.png);
 		}
 		.arrow_Left_Red {
-			background-image: url(./img/images/arrow_Left_Red.png);
+			background-image: url(././img/images/arrow_Left_Red.png);
 		}
 		.next_Schedule_Icon {
-			background-image: url(./img/images/next_Schedule_Icon.png);
+			background-image: url(././img/images/next_Schedule_Icon.png);
 		}
 		.has_Add_Img {
-			background-image: url(./img/images/has_add_img.png);
+			background-image: url(././img/images/has_add_img.png);
 		}
 		.will_Add_Img {
-			background-image: url(./img/images/will_add_img.png);
+			background-image: url(././img/images/will_add_img.png);
 		}
 		.onlyread_Img_2 {
-			background-image: url(./img/images/onlyread_Img_2.jpg);
+			background-image: url(././img/images/onlyread_Img_2.jpg);
+		}
+		.del_Img {
+			background-repeat: no-repeat;
+			background-size: cover;
+			position: absolute;
+			right: -8px;
+			top: -8px;
+			width: 16px;
+			height: 16px;
+			background-image: url(././img/images/del_red_icon.png);
 		}
 	</style>
 </head>
@@ -74,15 +84,11 @@
 	  			<div class="small_Type_Title">拍照:</div>
 	  			<div class="small_Type_Box">
 	  				<div class="img_Group">
-	  					<div class="left_Img">
-		  					<img src="" class="has_Add_Img"/>
-		  				</div>	
-		  				<div class="center_Img">
-		  					<img src="" class="will_Add_Img"/>
-		  				</div>
-		  				<div class="right_Img">
-		  					<img src="" class="no_Add_Img"/>
-		  				</div>
+						<div class="item_Img" ng-repeat="itemUriItem in imgUris1">
+							<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUriItem}});" id="{{itemUriItem}}" ng-click="getPhoto1($event);">
+								<div class="del_Img" ng-show="itemUriItem!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg1(itemUriItem)"></div>
+							</div>
+						</div>
 		  			</div>
 	  			</div>
 	  		</div>
@@ -120,15 +126,11 @@
 	  			<div class="small_Type_Title">拍照:</div>
 	  			<div class="small_Type_Box">
 	  				<div class="img_Group">
-	  					<div class="left_Img">
-		  					<img src="" class="has_Add_Img"/>
-		  				</div>	
-		  				<div class="center_Img">
-		  					<img src="" class="will_Add_Img"/>
-		  				</div>
-		  				<div class="right_Img">
-		  					<img src="" class="no_Add_Img"/>
-		  				</div>
+						<div class="item_Img" ng-repeat="itemUri in imgUris2">
+							<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});" id="{{itemUri}}" ng-click="getPhoto2($event);">
+								<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg2(itemUri)"></div>
+							</div>
+						</div>
 		  			</div>
 	  			</div>
 	  		</div>
@@ -136,8 +138,8 @@
   	</div>
   	<div class="footer">
   		<!-- Submit_Btn_Act可以保存，如果未填完整，Submit_Btn_Uact -->
-  		<div class="footer_Btn">取消</div>
-  		<div class="footer_Btn Submit_Btn_Act">提交</div>
+  		<div class="footer_Btn" ng-click="serviceManagementCancel();">取消</div>
+  		<div class="footer_Btn Submit_Btn_Act" ng-click="serviceManagementSubmit();">提交</div>
   	</div>
 </body>
 </html>

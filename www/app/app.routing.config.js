@@ -101,7 +101,7 @@
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/serviceManagement.html',
-                        // controller: 'serviceManagement as vm'
+                        controller: 'serviceManagementController as vm'
                     }
                 },
                 cache: false

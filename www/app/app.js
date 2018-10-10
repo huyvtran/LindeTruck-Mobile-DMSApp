@@ -53,8 +53,8 @@
             'oinio.workDetailsControllers',
             'oinio.NewOfferController',
             'oinio.NewOfferFittingsController',
-            'oinio.NewLinkManController'
-            
+            'oinio.NewLinkManController',
+            'oinio.serviceManagementController'
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,
