@@ -96,6 +96,16 @@
                 },
                 cache: false
             })
+            .state('app.serviceManagement', {
+                url: 'app/serviceManagement',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/serviceManagement.html',
+                        // controller: 'serviceManagement as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.newLinkMan', {
                 url: 'app/newLinkMan',
                 views: {

@@ -49,7 +49,10 @@ angular.module('oinio.controllers', [])
         $scope.addNewOffer = function () {
             $state.go('app.newOffer');
         };
-
+        $scope.serviceManager = function () {
+            $state.go('app.serviceManagement');
+        };
+        
         $scope.selectTabWithIndex = function (index) {
             $ionicTabsDelegate.select(index);
             if (index == 0) {

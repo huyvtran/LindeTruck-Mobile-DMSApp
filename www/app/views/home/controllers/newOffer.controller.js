@@ -35,6 +35,10 @@ angular.module('oinio.NewOfferController', [])
                     $('#selectCustomer').css('display', 'block');
                     $('#selectTruck').css('display', 'none');
                     $('#selectContactsDiv').css('display', 'none');
+                    window.setTimeout(function () {
+                    $("input").trigger("click").focus();
+                },200);
+                
                 }else if(ele === 'selectTruck'){
                     $('#selectTruck').css('display', 'block');
                     $('#selectCustomer').css('display', 'none');
