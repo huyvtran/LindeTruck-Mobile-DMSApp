@@ -30,7 +30,7 @@ fi
 # plugin
 if [ -d plugins ]; then
     echo '\x1B[0;33m! "plugins"-folder already exists. Trying to delete.\x1B[0m'
-    rm -rf plugins >/dev/null 2>/dev/null
+    #rm -rf plugins >/dev/null 2>/dev/null
 else
     echo '\x1B[0;32m✓ No "plugins"-folder found.\x1B[0m'
 fi
@@ -44,6 +44,16 @@ fi
 
 echo '\x1B[0;32m✓ Adding shelljs node module to project.\x1B[0m'
 npm install shelljs@0.7.0 >/dev/null 2>/dev/null
+
+#add custom plugin  print-plugin
+#cp ../../../resources/android/others/print-plugin.zip  ../../../plugins
+
+#cd path
+#cd ../../../plugins
+
+#unzip custom plugin zip
+#unzip print-plugin.zip
+
 
 # Node modules
 echo '\x1B[0;32m✓ Installing node modules.\x1B[0m'
@@ -131,7 +141,11 @@ cordova plugin add cordova-plugin-background-mode
 echo '\x1B[0;90m✓ cordova-plugin-contacts.\x1B[0m'
 cordova plugin add cordova-plugin-contacts
 
+echo '\x1B[0;90m✓ cordova-plugin-file-transfer.\x1B[0m'
 cordova plugin add cordova-plugin-file-transfer
+
+echo '\x1B[0;90m✓ print-plugin.\x1B[0m'
+cordova plugin add print-plugin
 
 # Check salesforce sdk
 if [ ! -d plugins/com.salesforce ]; then
@@ -143,6 +157,25 @@ fi
 
 #echo '\x1B[0;32m✓ Create ionic resources.\x1B[0m'
 #ionic cordova resources >/dev/null 2>/dev/null
+
+#copy print-plugin compile files
+#cp ../resources/android/others/printer/*  ../platforms/android/app/src/main/java/com/capgemini/printDemo/
+
+#replace java files
+#cp ../resources/android/others/MainActivity.java  ../platforms/android/app/src/main/java/com/capgemini/lindetruck/pda/
+#cp ../resources/android/others/SingleService.java  ../platforms/android/app/src/main/java/com/capgemini/lindetruck/pda/
+#cp ../resources/android/others/Utils.java  ../platforms/android/app/src/main/java/com/capgemini/lindetruck/pda/
+
+#replace xml files
+#cp ../resources/android/others/AndroidManifest.xml  ../platforms/android/app/
+
+#cd path
+#cd ../platforms/android/app/
+
+#mkdir libs
+
+#cd libs
+
 
 echo '\x1B[0;32m✓ Prepare platform.\x1B[0m'
 cordova prepare android >/dev/null 2>/dev/null
