@@ -4,8 +4,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> new offer </title>
-	<link rel="stylesheet" href="././css/newOffer.css">
+	<title> new offer Fittings</title>
+	<link rel="stylesheet" href="././css/newOfferFittings.css">
 
 	<style type="text/css">
 		.volume_Icon {
@@ -24,41 +24,24 @@
 			background-image: url(././img/images/arrow_Left_White.png);
 		}
 
-		.search_small_black,
-		.search_type_black {
-			background-image: url(././img/images/search_small_black.png);
-		}
-
-		.search_white {
-			background-image: url(././img/images/search_white.png);
-		}
-
-		.oc_up_icon {
-			background-image: url(././img/images/oc_up_icon.png);
-		}
-
-		.oc_down_icon {
-			background-image: url(././img/images/oc_down_icon.png);
-		}
-
-		.refresh_icon {
-			background-image: url(././img/images/refresh_icon.png);
+		.download_icon {
+			background-image: url(././img/images/download_icon.png);
 		}
 
 		.del_red_icon {
 			background-image: url(././img/images/del_red_icon.png);
 		}
 
-		.input_confirm_icon {
-			background-image: url(././img/images/input_confirm_icon.png);
-		}
-
 		.back_Icon {
 			background-image: url(././img/images/back_icon.png);
 		}
 
-		.readonly_img_1 {
-			background-image: url(././img/images/onlyread_Img_1.jpg);
+		.btn_import_Group {
+			background-image: url(././img/images/import_Group.png);
+		}
+
+		.btn_modify_Group {
+			background-image: url(././img/images/modify_Group.png);
 		}
 
 		.header2 {
@@ -123,12 +106,11 @@
 			vertical-align: middle;
 		}
 
-		.small_Box_Title {
+		.small_Box_TitleFit {
 			color: #aa0020;
-			font-weight: bold;
 			border-bottom: 1px solid #aa0020;
 			padding-bottom: 2%;
-			margin: 0 5%;
+			margin: 20px 5%;
 		}
 
 		.search_All input.search_Input {
@@ -153,7 +135,7 @@
 			height: 24px;
 		}
 
-		.selectTruck_Tabs {
+		.selectTruckFit_Tabs {
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -162,23 +144,183 @@
 			background-color: #d8d8d8;
 		}
 
-		.selectTruck_Tab {
+		.selectTruckFit_Tab {
 			flex-grow: 1;
 			text-align: center;
 		}
 
-		.selectTruck_Tab_Text {
+		.selectTruckFit_Tab_Text {
 			line-height: 50px;
 			font-size: 16px;
 		}
 
-		.selectTruck_Tab_Active {
+		.selectTruckFit_Tab_Active {
 			background-color: #535353;
+			color: #ffffff;
+		}
+		input[type="checkbox"], input[type="radio"] {
+			width: 20px;
+			height: 20px;
+			vertical-align: top;
+			background: #ffffff;
+		}
+		.small_Box_Text_1.item {
+			padding: 0;
+			width: 100%;
+			overflow: inherit;
+			border: 0;
+			background: none;
+			color: inherit;
+			font-size: inherit;
+			margin: 0;
+		}
+		.small_Box_Text_2.item {
+			border: 0;
+			margin: 0 20px;
+			border-bottom: 1px solid #dddddd;
+			padding: 10px 0;
+		}
+		.searchsout {
+			overflow-x: auto;
+			margin: 20px 0;
+			overflow-y: hidden;
+		}
+		.searchs_Table {
+			width: 172vw;
+		}
+		.searchs_Table th, .searchs_Table td {
+			width: 27vw;
+			padding: 0 1%;
+			font-size: 0.8rem;
+			height: 40px;
+			text-align: center;
+			vertical-align: middle;
+			border: 1px solid #979797;
+		}
+		.searchs_Table th {
+			background: #d8d8d8;
+		} 
+		.searchs_Table td {
+			background: #eee9e9;
+		}
+		.searchs_Table th div {
+			width: calc(27vw - 10px);
+		}
+		.searchs_Table th input {
+			width: 10vw;
+		}
+		.searchs_Table td input {
+			width: 10vw;
+		}
+		.searchs_Table td div {
+			width: calc(27vw - 10px);
 		}
 	</style>
 </head>
 
 <body>
+	<div class="newWorkList_truckSelect" style="height:100vh;width:100vw;position:absolute;opacity:0;">
+		<div id="selectTruckFit" style="">
+			<div class="header2">
+				<div class="left_Box_Offer" ng-click="closeSelectPage();">
+					<div class="back_Icon"></div>
+				</div>
+				<div class="search_All">
+					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText"
+					/>
+				</div>
+				<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);" ng-show="searchTruckText">
+					<div class="text_Cancel"> 搜索 </div>
+				</div>
+			</div>
+			<div class="selectTruckFit_Tabs" style="">
+				<div id="selectTruckFit_Tab_1" class="selectTruckFit_Tab selectTruckFit_Tab_Active" ng-click="changeTruckTab('1');" style="">
+					<span class="selectTruckFit_Tab_Text" style="">搜索结果</span>
+				</div>
+				<div id="selectTruckFit_Tab_2" class="selectTruckFit_Tab" ng-click="changeTruckTab('2');" style="">
+					<span class="selectTruckFit_Tab_Text" style="">已选车体</span>
+				</div>
+			</div>
+			<div class="">
+				<div id="selectTruckFit_result" class="searchsout">
+					<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+						<tr>
+							<th class="sv_Td">
+								<input id="ckbox_truckFit_searchresult_all" type="checkbox" ng-click="checkAllSearchResults();"
+									/>
+							</th>
+							<th class="sv_Td">
+								<div> 客户物料号 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 可发货数量 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 本仓 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 本大区 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 总部 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 其他大区 </div>
+							</th>
+						</tr>
+					</table>
+
+					<ion-list can-swipe="true">
+						<ion-item id="items2" ng-repeat="titem in contentTruckFitItems" ng-cloak class="small_Box_Text_1">
+							<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+								<tr>
+									<th class="sv_Td">
+										<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_itemFit" ng-click="checkSearchResults(titem);"
+										 type="checkbox" />
+									</th>
+									<th class="sv_Td">
+										<div> {{titem.Name}} </div>
+									</th>
+									<th class="sv_Td">
+										<div> 100 </div>
+									</th>
+									<th class="sv_Td">
+										<div> 100 </div>
+									</th>
+									<th class="sv_Td">
+										<div> 内容 </div>
+									</th>
+									<th class="sv_Td">
+										<div> 内容 </div>
+									</th>
+									<th class="sv_Td">
+										<div> 内容 </div>
+									</th>
+								</tr>
+							</table>
+						</ion-item>
+					</ion-list>
+				</div>
+				<div id="selectTruckFit_checked" class="big_Box_Group" style="display: none;">
+					<div class="small_Box_TitleFit"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除
+					</div>
+					<ion-list can-swipe="true">
+
+						<ion-item id="items3" ng-repeat="ckitem in selectedTruckFitItems" ng-cloak class="small_Box_Text_2">
+							<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png" /></span> {{ckitem.Name}}
+						</ion-item>
+					</ion-list>
+				</div>
+			</div>
+			<div class="footer">
+				<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+				<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
+
+				<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+				<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+			</div>
+		</div>
+	</div>
 	<div class="newWorkList_main">
 		<div class="header">
 			<div class="left_Box" ng-click="goBack()">
@@ -188,28 +330,136 @@
 				&nbsp;
 			</div>
 			<div class="right_Box">
+				<div class="download_icon" ng-click="toDownloadEexFile()"></div>
 			</div>
 		</div>
 		<div class="bodyer">
 			<div class="big_Type_Group">
 				<div>
-					<div class="small_Type_Title_Group">
-						<div class="small_Type_Title_G"> 配件报价 </div>
-						<!-- <div class="refresh_icon" style="left: 25%;"></div> -->
-						<div class="price_Group">
-							<div class="price_Title"> 合计</div>
-							<input class="price_Input" />
+					<div class="small_Type_Title_Group_Fittings">
+						<div class="small_Type_Title_G_Fittings"> 配件报价 </div>
+						<!-- 点击btn_I/或者btn_M,添加click_Style -->
+						<div class="btn_I">
+							<div id="btn_import_Btn" class="btn_import_Group"> </div>
+						</div>
+						<div class="btn_M">
+							<div id="btn_modify_Btn" class="btn_modify_Group"> </div>
+						</div>
+						<div id="btn_import_Div" class="btn_Import_Div">
+							<div class="Import_Btn"> 导入LSG </div>
+							<div class="Import_Btn"> 导入经济件 </div>
+							<div class="Import_Btn"> 导入常用配件 </div>
+						</div>
+						<div id="btn_modify_Div" class="btn_modify_Div">
+							<div class="Modify_Btn" ng-click="openSelectPage();"> 添加/删除 </div>
+							<div class="Modify_Btn"> 清空经济件 </div>
+							<div class="Modify_Btn"> 使用经济件 </div>
 						</div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-						<div class="OpenClose_Btn arrow_Left_White"></div>
+						<div class="OpenClose_Btn arrow_Down_White"></div>
 					</div>
-					<div class="small_Type_Box">
-						<div class="readonly_img_1"></div>
+					<div class="quoted_Price_All">
+						<div> 公布价合计：</div>
+						<div class="price_Color margin_r"> 1000</div>
+						<div> 折扣率：</div>
+						<input class="price_Input margin_r" />
+						<div> 优惠合计：</div>
+						<input class="price_Input margin_r" />
+					</div>
+					<div class="legend_Group">
+						<div> 替代件 </div>
+						<div class="blue_legend"> </div>
+						<div> 经济件 </div>
+						<div class="green_legend"> </div>
+						<div> 视图不完整 </div>
+						<div class="red_legend"> </div>
+					</div>
+					<div class="service_Group">
+						<table cellpadding="0" cellspacing="0" border="0" class="quoted_Table">
+							<tr>
+								<th class="sv_Td">
+									<div> 物料号 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 公布价 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 总价 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 数量 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 折扣 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 优惠单价 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 优惠总价 </div>
+								</th>
+								<th class="sv_Td">
+									<div> SPN价/协议折扣 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 交货期 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 预留状态 </div>
+								</th>
+							</tr>
+						</table>
+
+						<ion-list can-swipe="true" class="quoted_Table_list">
+							<ion-item ng-repeat="item in selectedTruckFitItems" ng-cloak ng-click="showPopup(item)" class="quoted_Table_item">
+								<table cellpadding="0" cellspacing="0" border="0" class="quoted_Table_bodyer">
+									<tr>
+										<td class="sv_Td">
+											<div>
+												<p>{{item.Name}} </p>
+												<p>油缸组件A</p>
+											</div>
+										</td>
+										<td class="sv_Td">
+											<div> 10 </div>
+										</td>
+										<td class="sv_Td">
+											<div> 10 </div>
+										</td>
+										<td class="sv_Td">
+											<div> UA </div>
+										</td>
+										<td class="sv_Td">
+											<input class="sv_Input" />
+										</td>
+										<td class="sv_Td">
+											<input class="sv_Input" />
+										</td>
+										<td class="sv_Td">
+											<input class="sv_Input" />
+										</td>
+										<td class="sv_Td">
+											<input class="sv_Input" />
+										</td>
+										<td class="sv_Td">
+											<div>
+												<p>无 </p>
+												<p>无</p>
+											</div>
+										</td>
+										<td class="sv_Td">
+											<div>已预留</div>
+										</td>
+									</tr>
+								</table>
+							</ion-item>
+						</ion-list>
+
 					</div>
 				</div>
 				<div>
-					<div class="small_Type_Title_Group">
-						<div class="small_Type_Title_G"> 劳务费添加 </div>
+					<div class="small_Type_Title_Group_Fittings">
+						<div class="small_Type_Title_G_Fittings"> 劳务费添加 </div>
 						<!-- <div class="refresh_icon" style="left: 30%;"></div> -->
 						<div class="price_Group">
 							<div class="price_Title"> 合计</div>
@@ -219,7 +469,7 @@
 						<div class="OpenClose_Btn arrow_Down_White"></div>
 					</div>
 					<div class="service_Group">
-						<table cellpadding="0" cellspacing="0" border="0" class="service_Table">
+						<table cellpadding="0" cellspacing="0" border="0" class="service_Fit_Table">
 							<tr>
 								<th class="sv_Td">
 									<div> 劳务项目 </div>
@@ -282,9 +532,9 @@
 								</td>
 							</tr>
 						</table>
-						<ion-list can-swipe="true" class="sevice_list">
-							<ion-item ng-repeat="item in serviceFeeList track by $index" ng-cloak ng-click="showPopup(item)" class="sevice_item">
-								<table cellpadding="0" cellspacing="0" border="0" class="service_Table">
+						<ion-list can-swipe="true" class="service_Fit_list">
+							<ion-item ng-repeat="item in serviceFeeList track by $index" ng-cloak ng-click="showPopup(item)" class="service_Fit_item">
+								<table cellpadding="0" cellspacing="0" border="0" class="service_Fit_Table_bodyer">
 
 									<tr id="tabExampleSV">
 										<td class="sv_Td">
@@ -314,35 +564,12 @@
 
 						</ion-list>
 
-						<table cellpadding="0" cellspacing="0" border="0" class="service_Table">
-
-							<tr id="tabExampleSVAdd">
-								<td class="sv_Td sv_add_Td">
-									<div class="pos_rel">
-										<input id="serviceFeeName" class="sv_Input input_confirm" />
-										<!-- input_uc_Group 有数值转变为input_c_Group -->
-										<div class="input_uc_Group">
-											<div class="input_confirm_icon" ng-click="toAddSVView()"></div>
-										</div>
-									</div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-							</tr>
-						</table>
+					</div>
+					<div class="add_Group">
+						<input class="sv_Input" id="serviceFeeName" />
+						<div class="btn_Add" ng-click="toAddSVView()">
+							添加
+						</div>
 					</div>
 				</div>
 			</div>
@@ -354,7 +581,10 @@
 
 			<div class="footer_Btn" ng-click="goBack()">取消</div>
 			<div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()">保存</div>
+			<div class="footer_Btn Save_Btn_Act">保存并预留</div>
 			<div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()">提交审批</div>
+
+
 		</div>
 
 </body>

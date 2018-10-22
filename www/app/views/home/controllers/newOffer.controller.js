@@ -1,67 +1,66 @@
 angular.module('oinio.NewOfferController', [])
-    .controller('NewOfferController', function ($scope, $ionicPopup, $stateParams, HomeService, $state, $rootScope,SQuoteService) {
+    .controller('NewOfferController', function ($scope, $ionicPopup, $stateParams, HomeService, $state, $rootScope, SQuoteService) {
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
         let trucksDescriptions = [];
-            let trucksLevels = [];
-            $scope.contentTruckItems=[];
-            $scope.selectedTruckItems=[];
-        $scope.currentOrdertest = [1,2,3,4];
+        let trucksLevels = [];
+        $scope.contentTruckItems = [];
+        $scope.selectedTruckItems = [];
         $(document).ready(function () {
         });
         $scope.$on('$ionicView.enter', function () {
             console.log("NewOfferController");
-            console.log('selectedTruckItems:ALL::',$scope.selectedTruckItems);
+            console.log('selectedTruckItems:ALL::', $scope.selectedTruckItems);
 
-            
+
         });
         $scope.goBack = function () {
             window.history.back();
         };
-        
+
         $scope.openSelectPage = function (ele) {
-            console.log('cssss:::',$('#selectCustomer'));
+            console.log('cssss:::', $('#selectCustomer'));
 
             $('div.newWorkList_main').animate({
-                opacity:'0.6'
-            },'slow','swing',function () {
+                opacity: '0.6'
+            }, 'slow', 'swing', function () {
                 $('div.newWorkList_main').hide();
                 $('div.newWorkList_truckSelect').animate({
-                    opacity:'1'
-                },'normal').show();
+                    opacity: '1'
+                }, 'normal').show();
 
-                if(ele === 'customer') {
+                if (ele === 'customer') {
                     $('#selectCustomer').css('display', 'block');
                     $('#selectTruck').css('display', 'none');
                     $('#selectContactsDiv').css('display', 'none');
                     window.setTimeout(function () {
-                    $("input").trigger("click").focus();
-                },200);
-                
-                }else if(ele === 'selectTruck'){
+                        $("input").trigger("click").focus();
+                    }, 200);
+
+                } else if (ele === 'selectTruck') {
                     $('#selectTruck').css('display', 'block');
                     $('#selectCustomer').css('display', 'none');
                     $('#selectContactsDiv').css('display', 'none');
-                    
-                }else if(ele === 'selectContactsDiv'){
+
+                } else if (ele === 'selectContactsDiv') {
                     $('#selectTruck').css('display', 'none');
                     $('#selectCustomer').css('display', 'none');
                     $('#selectContactsDiv').css('display', 'block');
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $scope.selectAccountOfContacts();
-                    },100);
+                    }, 100);
                 }
             });
         };
         $scope.closeSelectPage = function () {
             $('div.newWorkList_truckSelect').animate({
-                opacity:'0.6'
-            },'slow',function () {
+                opacity: '0.6'
+            }, 'slow', function () {
                 $('div.newWorkList_truckSelect').hide();
                 $('div.newWorkList_main').animate({
-                    opacity:'1'
-                },'normal').show();
+                    opacity: '1'
+                }, 'normal').show();
             });
         };
         $scope.getAccts = function (keyWord) {
@@ -76,7 +75,7 @@ angular.module('oinio.NewOfferController', [])
                     }
                     $scope.contentItems = accountsName;
                     $scope.getIds = accountsId;
-                    console.log("AccountServicegw22",accountsName);
+                    console.log("AccountServicegw22", accountsName);
                 }
                 else {
                     var ionPop = $ionicPopup.alert({
@@ -97,7 +96,7 @@ angular.module('oinio.NewOfferController', [])
 
         $scope.selectAccount = function (acct) {
             SQuoteService.getAccount(acct.Id).then(function (response) {
-                console.log(" SQuoteService.getAccount",response);
+                console.log(" SQuoteService.getAccount", response);
                 selectAcctSetId = acct.Id;
                 $scope.searchResultAddress = response.Address__c;
                 $scope.searchResultAcctName = response.Name;
@@ -108,18 +107,18 @@ angular.module('oinio.NewOfferController', [])
             });
             $scope.closeSelectPage();
         };
-        
+
         $scope.getMainLevelsAndDesc = function (obj) {
             SQuoteService.getMaintenanceLevelsAndDescriptions(obj.Maintenance_Key__c).then(function (response) {
-                console.log("getMainLevelsAndDesc",response);
-                
+                console.log("getMainLevelsAndDesc", response);
+
                 if (response.levels.length > 0) {
                     obj["levels"] = response.levels;
                 }
                 if (response.descriptions.length > 0) {
                     obj["descriptions"] = response.descriptions;
                 }
-                console.log("getMainLevelsAndDescobj",obj);
+                console.log("getMainLevelsAndDescobj", obj);
             }, function (error) {
                 $log.error('HomeService.searchTrucks Error ' + error);
             }).finally(function () {
@@ -128,7 +127,7 @@ angular.module('oinio.NewOfferController', [])
         }
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
-            console.log("getTrucks::",keyWord);
+            console.log("getTrucks::", keyWord);
 
             SQuoteService.searchTrucks(keyWord).then(function (response) {
                 let trucks = [];
@@ -136,10 +135,10 @@ angular.module('oinio.NewOfferController', [])
                     for (let index = 0; index < response.length; index++) {
 
                         trucks.push(response[index]);
-                        
+
                     }
                     $scope.contentTruckItems = trucks;
-                    console.log("getTrucks",trucks);
+                    console.log("getTrucks", trucks);
                 }
                 else {
                     var ionPop = $ionicPopup.alert({
@@ -157,14 +156,14 @@ angular.module('oinio.NewOfferController', [])
                 //AppUtilService.hideLoading();
             });
         };
-        
+
         $scope.selectContacts = function (item) {
             $scope.selectContactsName = item.Name;
             $scope.closeSelectPage();
         };
         $scope.selectAccountOfContacts = function () {
             SQuoteService.getContacts(selectAcctSetId).then(function (response) {
-                console.log("SQuoteService.getContacts",response);
+                console.log("SQuoteService.getContacts", response);
                 let contactsAll = [];
                 if (response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
@@ -192,14 +191,14 @@ angular.module('oinio.NewOfferController', [])
         };
 
         $scope.changeTruckTab = function (index) {
-            console.log('cssss:::',$('#selectCustomer'));
-            if(index === '1') {
+            console.log('cssss:::', $('#selectCustomer'));
+            if (index === '1') {
                 $("#selectTruck_Tab_1").addClass("selectTruck_Tab_Active");
                 $("#selectTruck_Tab_2").removeClass("selectTruck_Tab_Active");
 
                 $('#selectTruck_result').css('display', 'block');
                 $('#selectTruck_checked').css('display', 'none');
-            }else if (index === '2') {
+            } else if (index === '2') {
                 $("#selectTruck_Tab_1").removeClass("selectTruck_Tab_Active");
                 $("#selectTruck_Tab_2").addClass("selectTruck_Tab_Active");
 
@@ -211,8 +210,8 @@ angular.module('oinio.NewOfferController', [])
         $scope.checkAllSearchResults = function () {
             let ele = $("#ckbox_truck_searchresult_all");
 
-            console.log('checkAllSearchResults:::',ele.prop("checked"));
-            if(ele.prop("checked")) {
+            console.log('checkAllSearchResults:::', ele.prop("checked"));
+            if (ele.prop("checked")) {
                 $("input.ckbox_truck_searchresult_item").each(function (index, element) {
                     $(this).prop("checked", true);
                 });
@@ -220,19 +219,19 @@ angular.module('oinio.NewOfferController', [])
                 angular.forEach($scope.contentTruckItems, function (searchResult) {
                     let existFlag = false;
                     angular.forEach($scope.selectedTruckItems, function (selected) {
-                        if(searchResult.Id == selected.Id){
+                        if (searchResult.Id == selected.Id) {
                             existFlag = true;
                         }
                     });
-                    if(!existFlag){
+                    if (!existFlag) {
                         $scope.selectedTruckItems.push(searchResult);
                         $scope.updateTruckString();
                     }
                 });
-            }else{
+            } else {
 
                 $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                    console.log('666:::',element.checked);
+                    console.log('666:::', element.checked);
                     element.checked = false;
                 });
 
@@ -240,11 +239,11 @@ angular.module('oinio.NewOfferController', [])
                 angular.forEach($scope.selectedTruckItems, function (selected) {
                     let existFlag = false;
                     angular.forEach($scope.contentTruckItems, function (searchResult) {
-                        if(searchResult.Id == selected.Id){
+                        if (searchResult.Id == selected.Id) {
                             existFlag = true;
                         }
                     });
-                    if(!existFlag){
+                    if (!existFlag) {
                         arr_temp.push(selected);
                     }
                 });
@@ -255,11 +254,11 @@ angular.module('oinio.NewOfferController', [])
         };
 
         $scope.checkSearchResults = function (ele) {
-            let element = $("input.ckbox_truck_searchresult_item[data-recordid*='"+ele.Id+"']");
-            console.log('checkSearchResults::',element);
+            let element = $("input.ckbox_truck_searchresult_item[data-recordid*='" + ele.Id + "']");
+            console.log('checkSearchResults::', element);
 
-            if(element != null && element.length > 0) {
-                if(element[0].checked) {
+            if (element != null && element.length > 0) {
+                if (element[0].checked) {
                     let existFlag = false;
                     for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
                         if (ele.Id == $scope.selectedTruckItems[i].Id) {
@@ -270,7 +269,7 @@ angular.module('oinio.NewOfferController', [])
                         $scope.selectedTruckItems.push(ele);
                         $scope.updateTruckString();
                     }
-                }else{
+                } else {
                     let temp = [];
                     for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
                         if (ele.Id != $scope.selectedTruckItems[i].Id) {
@@ -280,7 +279,7 @@ angular.module('oinio.NewOfferController', [])
                     $scope.selectedTruckItems = temp;
                     $scope.updateTruckString();
                 }
-            }else{
+            } else {
                 console.log('checkSearchResults::error');
             }
         };
@@ -289,14 +288,14 @@ angular.module('oinio.NewOfferController', [])
             //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
             let new_temp = [];
 
-            for (var i=0;i<$scope.selectedTruckItems.length;i++){
-                if(ele.Id != $scope.selectedTruckItems[i].Id){
+            for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
+                if (ele.Id != $scope.selectedTruckItems[i].Id) {
                     new_temp.push($scope.selectedTruckItems[i]);
                 }
             }
 
             $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                if($(element).attr("data-recordid") == ele.Id && element.checked) {
+                if ($(element).attr("data-recordid") == ele.Id && element.checked) {
                     element.checked = false;
                 }
             });
@@ -318,12 +317,12 @@ angular.module('oinio.NewOfferController', [])
         };
 
         $scope.updateTruckString = function () {
-            for (var i=0;i<$scope.selectedTruckItems.length;i++){
+            for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
                 //更新选择的车体号
                 let searchTrucksRes = $scope.selectedTruckItems[i];
                 $scope.getMainLevelsAndDesc(searchTrucksRes);
             }
-            
+
         };
 
         $scope.toDisplayDelCarView = function () {
@@ -417,7 +416,7 @@ angular.module('oinio.NewOfferController', [])
                 });
                 return;
             }
-            if ($scope.selectedTruckItems.length==0) {
+            if ($scope.selectedTruckItems.length == 0) {
                 var ionPop = $ionicPopup.alert({
                     title: "请添加车辆"
                 });
@@ -445,18 +444,20 @@ angular.module('oinio.NewOfferController', [])
 
                 // console.log('selectStatusDescriptionsClass:::',element.value+"  index"+index);
             });
-            
+
             $('input.sv_Input').each(function (index, element) {
                 let selected = selectedTruckItemsCopy[index];
                 selected["Work_Time__c"] = element.value;
-                
+
                 // console.log('sv_Input:::',element.value+"  index"+index);
             });
-            console.log('selectStatuClass:ALL::',selectedTruckItemsCopy);
-            
+            console.log('selectStatuClass:ALL::', selectedTruckItemsCopy);
+
             $state.go('app.newOfferFittings', { SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: $scope.getIds[0] });
 
+            // $state.go('app.newOfferFittings');
 
         };
+
     });
 

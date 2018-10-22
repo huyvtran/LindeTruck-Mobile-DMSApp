@@ -176,6 +176,11 @@
 			background-color: #535353;
 			color: #ffffff;
 		}
+		input[type="checkbox"], input[type="radio"] {
+			width: 20px;
+			height: 20px;
+			vertical-align: top;
+		}
 	</style>
 </head>
 
@@ -333,11 +338,12 @@
 							<div class="search_small_black"></div>
 						</div>
 					</div>
-					<div class="small_Type_Group">
+					<div class="small_Type_Group" id="forPrintTextdiv" >
 						<div class="small_Type_Title">报价描述:</div>
 						<div class="small_Type_Box">
-							<textarea class="small_Type_Textarea"></textarea>
+							<textarea id="forPrintText" class="small_Type_Textarea"></textarea>
 						</div>
+						<!-- <div class="small_Type_Title_G" ng-click="toPrintDownLoad()"> 打印 </div> -->
 					</div>
 				</div>
 				<div>
@@ -351,7 +357,7 @@
 
 					</div>
 					<div class="service_Group">
-						<table cellpadding="0" cellspacing="0" border="0" class="service_Table_header">
+						<table cellpadding="0" cellspacing="0" border="0" class="service_Table">
 							<tr>
 								<th class="sv_Td">
 									<div> 车体号 </div>
@@ -377,8 +383,8 @@
 							</tr>
 
 						</table>
-						<ion-list can-swipe="true" class="sevice_list">
-							<ion-item ng-repeat="item in selectedTruckItems" ng-cloak ng-click="showPopup(item)" class="sevice_item">
+						<ion-list can-swipe="true" class="service_list">
+							<ion-item ng-repeat="item in selectedTruckItems" ng-cloak ng-click="showPopup(item)" class="service_item">
 								<table cellpadding="0" cellspacing="0" border="0" class="service_Table_bodyer">
 
 									<tr id="tabExampleSV"></tr>
@@ -420,37 +426,11 @@
 							</ion-item>
 
 						</ion-list>
-
-						<table cellpadding="0" cellspacing="0" border="0" class="service_Table_footer">
-
-							<tr id="tabExampleSVAdd">
-								<td class="sv_Td sv_add_Td">
-									<div class="pos_rel">
-										<div class="input_uc_Group" ng-click="openSelectPage('selectTruck');">
-											添加/删除
-										</div>
-									</div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-								<td class="sv_Td sv_add_Td">
-									<div> &nbsp; </div>
-								</td>
-							</tr>
-						</table>
+					</div>
+					<div class="adddel_Group">
+						<div class="btn_AddDel" ng-click="openSelectPage('selectTruck');">
+							添加/删除
+						</div>
 					</div>
 				</div>
 

@@ -16,7 +16,7 @@ img {
 }
 .to_Open {
     display: block!important;
-}`
+}
 .to_Hide {
     display: none!important;
 }
@@ -139,26 +139,6 @@ img {
     height: 20px;  
     position: absolute;
     top: calc(50% - 10px);
-}
-.price_Group {
-    position: absolute;
-    right: 12%;
-    display: flex;
-    align-items: center;
-    width: 20%;
-}
-.price_Title {
-    display: inline-flex;
-    font-size: 0.8rem;
-    color: #ffffff;
-    margin-right: 2%;
-}
-.price_Input {
-    display: inline-flex;
-    width: 40px;
-    height: 25px;
-    text-align: center;
-    border: 1px solid #979797;
 }
 .small_Type_Title_G {
     color: #ffffff;
@@ -371,12 +351,12 @@ img {
 }
 .service_Group {
     overflow-x: auto;
-    width: 100vw;
+    overflow-y: hidden;
 }
-.sevice_list.list {
+.service_list .list {
     padding: 0;
 }
-.sevice_item.item {
+.service_item.item {
     padding: 0;
     width: 100%;
     overflow: inherit;
@@ -390,65 +370,44 @@ img {
     border-collapse: collapse;
     width: 158vw;
 }
-.service_Table .sv_Td div {
+.service_Table .sv_Td div, .service_Table_bodyer .sv_Td div {
     width: 100%;
 }
-.service_Table_header, .service_Table_bodyer, .service_Table_footer {
+.service_Table_bodyer {
     border-collapse: collapse;
-    width: 185vw;
+    width: 158vw;
 }
-.service_Table_header th {
+.service_Table th.sv_Td {
     background: #d8d8d8;
+    height: 40px;
 }
-.sv_Td {
+.service_Table .sv_Td, .service_Table_bodyer .sv_Td  {
     width: 27vw;
     border: 1px solid #979797;
     background: #eee9e9;
     padding: 0 1%;
     font-size: 0.8rem;
-    height: 40px;
+    height: 60px;
     text-align: center;
     vertical-align: middle;
 }
-.sv_Td div, .sv_Td select, .sv_Td input {
+.service_Table .sv_Td div, .service_Table .sv_Td select, .service_Table .sv_Td input,
+.service_Table_bodyer .sv_Td div, .service_Table_bodyer .sv_Td select, .service_Table_bodyer .sv_Td input {
     width: calc(27vw - 10px);
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
 }
-.sv_Td.bgWhite {
+.service_Table .sv_Td .sv_Input, .service_Table_bodyer .sv_Td .sv_Input {
+    height: 48px;
+    border: 1px solid #979797;
     background: #ffffff;
 }
-.service_Table .sv_Td select {
-    height: 28px;
-    border: 1px solid #979797; 
-    width: 98%;
+.service_Table .sv_Td select, .service_Table_bodyer .sv_Td select {
+    height: 48px;
+    border: 1px solid #979797;
+    background: #ffffff;
 }
-.service_Table .sv_Td .sv_Input {
-    height: 28px;
-    border: 1px solid #979797;  
-    width: 98%;
-}
-.service_Table .sv_Td .sv_InputForListPrice {
-    height: 28px;
-    border: 1px solid #979797;  
-    width: 98%;
-}
-.service_Table .sv_Td .sv_InputForListNo {
-    height: 28px;
-    border: 1px solid #979797;  
-    width: 98%;
-}
-.service_Table .sv_Td .sv_InputForListDiscount {
-    height: 28px;
-    border: 1px solid #979797;  
-    width: 98%;
-}
-.service_Table .sv_Td .sv_InputForListSpecial {
-    height: 28px;
-    border: 1px solid #979797;  
-    width: 98%;
-}
-.service_Table_bodyer .sv_Td div.del_red_icon {
+.service_Table .sv_Td div.del_red_icon, .service_Table_bodyer .sv_Td div.del_red_icon {
     position: absolute;
     left: 0;
     top: calc(50% - 8px);
@@ -457,27 +416,19 @@ img {
     width: 16px;
     height: 16px; 
 }
-.service_Table .sv_Td div.del_red_icon {
-    position: absolute;
-    left: 0;
-    top: calc(50% - 8px);
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 16px;
-    height: 16px; 
-}
-.sv_Td.sv_add_Td {
-    background: #ffffff;
-    text-align: left;
-}
-.sv_Td.sv_add_Td .sv_Input {
-    width: 61%;
-}
-.readonly_img_1 {
-    background-repeat: no-repeat;
-    background-size: cover;
+.adddel_Group {
     width: 100%;
-    height: 409px; 
+    background: #ffffff;
+    height: 40px;
+    display: flex;
+}
+.adddel_Group .btn_AddDel {
+    background: #f85360;
+    width: 100%;
+    display: inline-flex;
+    color: #ffffff;
+    justify-content: center;
+    align-items: center;
 }
 .footer {
     position: absolute;
