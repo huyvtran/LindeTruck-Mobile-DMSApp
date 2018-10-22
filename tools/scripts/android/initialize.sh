@@ -93,7 +93,7 @@ echo '\x1B[0;90m✓ Installing Statusbar Plugin.\x1B[0m'
 cordova plugin add cordova-plugin-statusbar@2.3.0 --nofetch --nosave >/dev/null 2>/dev/null
 
 echo '\x1B[0;90m✓ Installing File Plugin.\x1B[0m'
-cordova plugin add cordova-plugin-file@4.3.3 --nofetch --nosave >/dev/null 2>/dev/null
+cordova plugin add cordova-plugin-file@5.0.0 --nofetch --nosave >/dev/null 2>/dev/null
 
 echo '\x1B[0;90m✓ Installing Dialogs Plugin.\x1B[0m'
 cordova plugin add cordova-plugin-dialogs@1.3.4 --nofetch --nosave >/dev/null 2>/dev/null
