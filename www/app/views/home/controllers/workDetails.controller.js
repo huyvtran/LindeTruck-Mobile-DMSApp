@@ -380,7 +380,43 @@ angular.module('oinio.workDetailsControllers', [])
                     {
                         text:"确定",
                         onTap:function () {
-                            $event.target.style.backgroundColor = "#00FF7F";
+                            PrintPlugin.checkBlueTooth(null,function (result) {
+                                console.log(result);
+                                $log.info(result);
+                                if (result.status == 0){
+                                    PrintPlugin.getBlueToothDevices(null,function (result) {
+                                        console.log(result);
+                                        if (result.length<1){
+                                            $log.info("请先在蓝牙中配对好设备！");
+                                        }else {
+                                            var arr = result[0].split('-');
+                                            PrintPlugin.connectBlueToothDevice(arr[1],function (res) {
+                                                console.log(res);
+                                                $log.info(res);
+                                                if (res.status == 0){
+                                                    PrintPlugin.printTicket(null,function (response) {
+                                                        console.log(response);
+                                                        $log.info(response);
+                                                        $event.target.style.backgroundColor = "#00FF7F";
+                                                    },function (error) {
+                                                        console.log(error);
+                                                        $log.error(error);
+                                                    });
+                                                }
+                                            },function (error) {
+                                                console.log(error);
+                                                $log.error(error);
+                                            });
+                                        }
+                                    },function (error) {
+                                        console.log(error);
+                                        $log.error(error);
+                                    });
+                                }
+                            },function (error) {
+                                console.log(error);
+                                $log.error(error);
+                            });
                         }
                     }
                 ]
