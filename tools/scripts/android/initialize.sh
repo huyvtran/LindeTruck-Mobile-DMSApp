@@ -8,7 +8,7 @@ echo '\x1B[0;94m**********************************************************\x1B[0
 echo '\x1B[0;91mx PLEASE SET UP YOUR ANDROID_HOME PATH\x1B[0m'
    # exit
 # after setting up your ANDROID_HOME, please disable until here
-export ANDROID_HOME=/Users/jiawei/Library/Android/sdk >/dev/null 2>/dev/null
+export ANDROID_HOME=/Users/gw/Library/Android/sdk >/dev/null 2>/dev/null
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools >/dev/null 2>/dev/null
 
 # ANDROID_HOME
@@ -30,7 +30,7 @@ fi
 # plugin
 if [ -d plugins ]; then
     echo '\x1B[0;33m! "plugins"-folder already exists. Trying to delete.\x1B[0m'
-    #rm -rf plugins >/dev/null 2>/dev/null
+    rm -rf plugins >/dev/null 2>/dev/null
 else
     echo '\x1B[0;32m✓ No "plugins"-folder found.\x1B[0m'
 fi
@@ -145,7 +145,7 @@ echo '\x1B[0;90m✓ cordova-plugin-file-transfer.\x1B[0m'
 cordova plugin add cordova-plugin-file-transfer
 
 echo '\x1B[0;90m✓ print-plugin.\x1B[0m'
-cordova plugin add print-plugin
+#cordova plugin add print-plugin
 
 # Check salesforce sdk
 if [ ! -d plugins/com.salesforce ]; then
