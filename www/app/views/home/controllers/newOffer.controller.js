@@ -127,7 +127,7 @@ angular.module('oinio.NewOfferController', [])
         }
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
-            console.log("getTrucks::", keyWord);
+            // console.log("getTrucks::", keyWord);
 
             SQuoteService.searchTrucks(keyWord).then(function (response) {
                 let trucks = [];
