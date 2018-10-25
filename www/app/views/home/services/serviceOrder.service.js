@@ -186,6 +186,77 @@
 
 
 
+            this.getPrintDetails = function (sid) {
+                let deferred = $q.defer();
+                let ret;
+                console.log('getPrintDetails:::',sid);
+
+                service.getServiceOrderOverviewDetail(sid).then(function (result) {
+                    console.log('getPrintDetails1:::',result);
+                    ret = result;
+                    return service.getAccountDetail(ret.Account_Ship_to__c_sid);
+                }).then(function (acct) {
+                    console.log('getPrintDetails2:::',acct);
+                    ret.Account_Ship_to__r = acct;
+                    return service.getUserDetail(ret.Service_Order_Owner__c_sid);
+                }).then(function (user) {
+                    console.log('getPrintDetails3:::',user);
+                    ret.Service_Order_Owner__r = user;
+                    deferred.resolve(ret);
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
+
+                return deferred.promise;
+            }
+
+
+            this.getServiceOrderOverviewDetail = function (sid) {
+                console.log('getServiceOrderOverviewDetail:: '+sid);
+                var deferred = $q.defer();
+
+                LocalDataService.getSObject('Service_Order_Overview__c',sid).then(function(sobject) {
+                    deferred.resolve(sobject);
+                }, angular.noop);
+
+                return deferred.promise;
+            };
+
+            this.getAccountDetail = function (sid) {
+                console.log('getAccountDetail:: '+sid);
+                var deferred = $q.defer();
+
+                if(sid == null || sid == ''){
+                    deferred.resolve(null);
+                    return deferred.promise;
+                }
+
+                LocalDataService.getSObject('Account',sid).then(function(sobject) {
+                    deferred.resolve(sobject);
+                }, angular.noop);
+
+                return deferred.promise;
+            };
+
+            this.getUserDetail = function (sid) {
+                console.log('getUserDetail:: '+sid);
+                var deferred = $q.defer();
+
+                if(sid == null || sid == ''){
+                    deferred.resolve(null);
+                    return deferred.promise;
+                }
+
+                LocalDataService.getSObject('User',sid).then(function(sobject) {
+                    deferred.resolve(sobject);
+                }, angular.noop);
+
+                return deferred.promise;
+            };
+
+
+
+
 
             /**
              * @func  workDetailSaveButton
