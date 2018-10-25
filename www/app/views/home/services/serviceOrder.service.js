@@ -202,6 +202,18 @@
                 }).then(function (user) {
                     console.log('getPrintDetails3:::',user);
                     ret.Service_Order_Owner__r = user;
+                    return service.getWorkItems([sid]);
+                }).then(function (workitems) {
+                    console.log('getPrintDetails4:::',workitems);
+                    ret.workItems = workitems;
+                    return service.getChildOrders(sid);
+                }).then(function (childOrders) {
+                    console.log('getPrintDetails5:::',childOrders);
+                    ret.childOrders = childOrders;
+                    return service.getTruckModels(ret.childOrders);
+                }).then(function (truckModels) {
+                    console.log('getPrintDetails6:::',truckModels);
+                    ret.truckModels = truckModels;
                     deferred.resolve(ret);
                 }).catch(function (error) {
                     deferred.reject(error);
@@ -251,6 +263,75 @@
                     deferred.resolve(sobject);
                 }, angular.noop);
 
+                return deferred.promise;
+            };
+
+            this.getChildOrders = function(sid){
+                console.log('getChildOrders.keyword:%s',sid);
+                let deferred = $q.defer();
+
+                let sql =  "select {Service_Order__c:_soup}\
+                         from {Service_Order__c}\
+                         where {Service_Order__c:Service_Order_Overview__c_sid} ='"+sid+"'";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let orders = [];
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        console.log('searchChildOrderSidsForParent::sql::', cursor.currentPageOrderedEntries);
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            orders.push({entry[0]});
+                        });
+                    }
+
+                    console.log('getChildOrders::orders::', orders);
+                    deferred.resolve(orders);
+                }, function (err) {
+                    $log.error(err);
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                console.log('getChildOrders::', deferred.promise);
+                return deferred.promise;
+            };
+
+            this.getTruckModels = function(sid){
+                console.log('getTruckModels.keyword:%s',sid);
+                let deferred = $q.defer();
+                let truckSids = [];
+
+                if(sid == null || sid.length < 1){
+                    console.log('getTruckModels::NULL');
+                    deferred.resolve(null);
+                    return deferred.promise;
+                }
+
+                angular.forEach(sid, function (entry) {
+                    truckSids.push(entry.Truck_Serial_Number__c_sid);
+                });
+
+                let sqlInString = "'" + truckSids.join("','") + "'";
+
+                let sql =  "select {Truck_Fleet__c:_soup}\
+                         from {Truck_Fleet__c}\
+                         where {Truck_Fleet__c:_soupEntryId} in (" +sqlInString+ ")";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let orders = [];
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        console.log('searchChildOrderSidsForParent::sql::', cursor.currentPageOrderedEntries);
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            orders.push(entry[0].Model__c);
+                        });
+                    }
+
+                    console.log('getTruckModels::orders::', orders);
+                    deferred.resolve(orders);
+                }, function (err) {
+                    $log.error(err);
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                console.log('getTruckModels::', deferred.promise);
                 return deferred.promise;
             };
 
