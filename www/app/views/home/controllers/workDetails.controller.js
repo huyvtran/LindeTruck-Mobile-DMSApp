@@ -438,7 +438,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                             noticeAccount: "",//noticeAccount
                                                             goodsAccount: "",//goodsAccount
                                                             TruckModel: truckNumber,//TruckModel
-                                                            workHour: "  "+h+"."+m,//workHour
+                                                            workHour: "  "+h+"小时"+m+"分钟",//workHour
                                                             workTimeTotal: [{
                                                                 workName:ownerName,
                                                                 workDate:arriveTime.getFullYear()+"-"+arriveTime.getMonth()+"-"+arriveTime.getDate(),
