@@ -11,7 +11,12 @@ angular.module('oinio.workDetailsControllers', [])
             userInfoId = "",
             localSoupEntryId = "",
             localUris = [],
-            h=0,
+            customerNameValue = "",
+            customerAccountValue = "",
+            customerAddressValue = "",
+            truckNumber = "",
+            ownerName="",
+            h = 0,
             m = 0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
 
@@ -29,11 +34,32 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.workTypes = [];
             $scope.carServices = [];
             $scope.imgUris = ["././img/images/will_add_Img.png"];
+            console.log("$stateParams.SendInfo", $stateParams.SendInfo);
+            console.log("$stateParams.workDescription", $stateParams.workDescription);
+            userInfoId = $stateParams.SendInfo;
+            workDescription = $stateParams.workDescription;
+
+            SOrderService.getPrintDetails(userInfoId).then(function success(result) {
+                $log.info(result);
+                console.log(result);
+                customerNameValue = result.Account_Ship_to__r.Name!=null ? result.Account_Ship_to__r.Name:"";
+                customerAccountValue = result.Account_Ship_to__r._soupEntryId!=null?result.Account_Ship_to__r._soupEntryId:"";
+                customerAddressValue = result.Account_Ship_to__r.Address__c!=null?result.Account_Ship_to__r.Address__c:"";
+                if (result.truckModels!=null&&result.truckModels.length>0){
+                    for (var i =0;i<result.truckModels.length;i++){
+                        truckNumber+=result.truckModels[i]+";";
+                    }
+                }
+                ownerName = result.Service_Order_Owner__r.Name !=null? result.Service_Order_Owner__r.Name:"";
+            }, function error(msg) {
+                console.log(msg);
+                $log.error(msg);
+            });
         });
         $scope.$on('$ionicView.enter', function () {
 
-            var numArr1=['01','02','03','04','05','06','07','08','09','10','11','12'];
-            var numArr2=['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20','21','22','23','24','25','26','27','28','29','30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56','57','58','59','60'];
+            var numArr1 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+            var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
             var mobileSelect3 = new MobileSelect({
                 trigger: '#leave',
                 title: '选择工作时长',
@@ -45,12 +71,12 @@ angular.module('oinio.workDetailsControllers', [])
                         data: numArr2
                     }
                 ],
-                position:[0, 0, 0],
-                callback:function(indexArr, data){
-                   $("#leave").text("离开");
-                   h = parseInt(data[0].substring(6,8));
-                   m = parseInt(data[1].substring(6,8));
-                   checkHours();
+                position: [0, 0, 0],
+                callback: function (indexArr, data) {
+                    $("#leave").text("离开");
+                    h = parseInt(data[0].substring(6, 8));
+                    m = parseInt(data[1].substring(6, 8));
+                    checkHours();
                 }
             });
 
@@ -99,10 +125,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 Warranty job1'});
             $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 Warranty job2'});
             $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 Warranty job3'});
-            console.log("$stateParams.SendInfo", $stateParams.SendInfo);
-            console.log("$stateParams.workDescription", $stateParams.workDescription);
-            userInfoId = $stateParams.SendInfo;
-            workDescription = $stateParams.workDescription;
+
             /**
              * 初始化
              */
@@ -124,9 +147,9 @@ angular.module('oinio.workDetailsControllers', [])
                         $("#select_work_type").find("option[value = workType]").attr("selected", true);
                     }
                     $scope.workContent = result.Description__c != null ? result.Description__c : "";
-                    if (workDescription!=null){
+                    if (workDescription != null) {
                         $scope.callPhoneContent = workDescription;
-                    }else{
+                    } else {
                         $scope.callPhoneContent = result.Subject__c != null ? result.Subject__c : "";
                     }
                     $scope.suggestStr = result.Service_Suggestion__c != null ? result.Service_Suggestion__c : "";
@@ -233,38 +256,38 @@ angular.module('oinio.workDetailsControllers', [])
             });
         };
 
-        var checkMinutes = function(){
-            if (finishTime.getMinutes()-m > 0){
+        var checkMinutes = function () {
+            if (finishTime.getMinutes() - m > 0) {
                 return {
-                    index:1,
-                    mm:finishTime.getMinutes() -m
+                    index: 1,
+                    mm: finishTime.getMinutes() - m
                 };
-            }else{
+            } else {
                 return {
-                    index:2,
-                    mm:finishTime.getMinutes + 60 - m
+                    index: 2,
+                    mm: finishTime.getMinutes + 60 - m
                 };
             }
         };
 
-        var checkHours = function(){
-            if (arriveTime==null){
+        var checkHours = function () {
+            if (arriveTime == null) {
                 $ionicPopup.alert({
-                    title:"请选择到达时间"
+                    title: "请选择到达时间"
                 });
-            }else{
+            } else {
                 finishTime = new Date();
-                if (finishTime.getHours()-arriveTime.getHours()>h){
+                if (finishTime.getHours() - arriveTime.getHours() > h) {
                     var min = checkMinutes();
-                    if (min.index == 1){
-                        startTime = new Date((finishTime.getFullYear()+"-"+finishTime.getMonth()+"-"+finishTime.getDate()+" "+(finishTime.getHours()-h)+":"+min.mm+":"+finishTime.getSeconds()).replace(/-/,"/"));
-                    }else{
-                        startTime = new Date((finishTime.getFullYear()+"-"+finishTime.getMonth()+"-"+finishTime.getDate()+" "+(finishTime.getHours()-h-1)+":"+min.mm+":"+finishTime.getSeconds()).replace(/-/,"/"));
+                    if (min.index == 1) {
+                        startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
+                    } else {
+                        startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h - 1) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
                     }
-                }else{
+                } else {
                     startTime = arriveTime;
                 }
-                leaveTime=new Date();
+                leaveTime = new Date();
                 $("#leave")[0].style.backgroundColor = "#00FF7F"
             }
         };
@@ -357,8 +380,8 @@ angular.module('oinio.workDetailsControllers', [])
                 }, {
                     text: '确定',
                     onTap: function () {
-                        arriveTime =new Date();
-                        startTime =new Date();
+                        arriveTime = new Date();
+                        startTime = new Date();
                         $event.target.style.backgroundColor = "#00FF7F";
                         console.log(arriveTime);
                     }
@@ -368,52 +391,88 @@ angular.module('oinio.workDetailsControllers', [])
 
 
         $scope.doPrint = function ($event) {
+            if (arriveTime==null){
+                $ionicPopup.alert({
+                    title: "请选择到达时间"
+                });
+                return;
+            }
+            if (finishTime==null||leaveTime==null){
+                $ionicPopup.alert({
+                    title: "请选择工作时长"
+                });
+                return;
+            }
             $ionicPopup.show({
-                title:"是否确定打印？",
-                buttons:[
+                title: "是否确定打印？",
+                buttons: [
                     {
-                        text:"取消",
-                        onTap:function () {
+                        text: "取消",
+                        onTap: function () {
 
                         }
                     },
                     {
-                        text:"确定",
-                        onTap:function () {
-                            PrintPlugin.checkBlueTooth(null,function (result) {
+                        text: "确定",
+                        onTap: function () {
+                            PrintPlugin.checkBlueTooth(null, function (result) {
                                 console.log(result);
                                 $log.info(result);
-                                if (result.status == 0){
-                                    PrintPlugin.getBlueToothDevices(null,function (result) {
+                                if (result.status == 0) {
+                                    PrintPlugin.getBlueToothDevices(null, function (result) {
                                         console.log(result);
-                                        if (result.length<1){
+                                        if (result.length < 1) {
                                             $log.info("请先在蓝牙中配对好设备！");
-                                        }else {
+                                        } else {
                                             var arr = result[0].split('-');
-                                            PrintPlugin.connectBlueToothDevice(arr[1],function (res) {
+                                            PrintPlugin.connectBlueToothDevice(arr[1], function (res) {
                                                 console.log(res);
                                                 $log.info(res);
-                                                if (res.status == 0){
-                                                    PrintPlugin.printTicket(null,function (response) {
-                                                        console.log(response);
-                                                        $log.info(response);
-                                                        $event.target.style.backgroundColor = "#00FF7F";
-                                                    },function (error) {
-                                                        console.log(error);
-                                                        $log.error(error);
-                                                    });
+                                                if (res.status == 0) {
+                                                    PrintPlugin.printTicket(
+                                                        {
+                                                            customerName: customerNameValue,//customerName
+                                                            customerAccount: customerAccountValue,//customerAccount
+                                                            customerAddress: customerAddressValue,//customerAddress
+                                                            workSingleNumber: $("#workSingleNumber").val(),//workSingleNumber
+                                                            noticeAccount: "",//noticeAccount
+                                                            goodsAccount: "",//goodsAccount
+                                                            TruckModel: truckNumber,//TruckModel
+                                                            workHour: "  "+h+"."+m,//workHour
+                                                            workTimeTotal: [{
+                                                                workName:ownerName,
+                                                                workDate:arriveTime.getFullYear()+"-"+arriveTime.getMonth()+"-"+arriveTime.getDate(),
+                                                                workStartTime:startTime.getHours()+":"+startTime.getMinutes()+":"+startTime.getSeconds()+" -- "+finishTime.getHours()+":"+finishTime.getMinutes()+":"+finishTime.getSeconds(),
+                                                                workEndTime:startTime.getHours()+":"+arriveTime.getMinutes()+":"+arriveTime.getSeconds()+" -- "+leaveTime.getHours()+":"+leaveTime.getMinutes()+":"+leaveTime.getSeconds(),
+                                                                miles:""
+
+                                                            }],//workTimeTotal
+                                                            listContent: "",//listContent
+                                                            demandForRequire: "   " + $("#call_str").val(),//demandForRequire
+                                                            workContent: $("#workContentStr").val(),//workContent
+                                                            resultAndSuggestions: $("#serviceSuggest").val(),//resultAndSuggestions
+                                                            responsibleEngineer: ownerName//responsibleEngineer
+                                                        }
+                                                        , function (response) {
+                                                            console.log(response);
+                                                            $log.info(response);
+                                                            $event.target.style.backgroundColor = "#00FF7F";
+                                                        }, function (error) {
+                                                            console.log(error);
+                                                            $log.error(error);
+                                                        });
                                                 }
-                                            },function (error) {
+                                            }, function (error) {
                                                 console.log(error);
                                                 $log.error(error);
                                             });
                                         }
-                                    },function (error) {
+                                    }, function (error) {
                                         console.log(error);
                                         $log.error(error);
                                     });
                                 }
-                            },function (error) {
+                            }, function (error) {
                                 console.log(error);
                                 $log.error(error);
                             });
@@ -425,17 +484,17 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.signBill = function ($event) {
             $ionicPopup.show({
-                title:"是否确定签单？",
-                buttons:[
+                title: "是否确定签单？",
+                buttons: [
                     {
-                        text:"取消",
-                        onTap:function () {
+                        text: "取消",
+                        onTap: function () {
 
                         }
                     },
                     {
-                        text:"确定",
-                        onTap:function () {
+                        text: "确定",
+                        onTap: function () {
                             $event.target.style.backgroundColor = "#00FF7F";
                         }
                     }
@@ -444,11 +503,11 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.goSave = function () {
-            if (arriveTime==null || finishTime ==null|| startTime==null||leaveTime==null){
+            if (arriveTime == null || finishTime == null || startTime == null || leaveTime == null) {
                 var ionPop = $ionicPopup.alert({
                     title: "请确认到达和离开时间"
                 });
-                return ;
+                return;
             }
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
