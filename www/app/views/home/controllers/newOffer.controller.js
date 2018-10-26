@@ -410,18 +410,18 @@ angular.module('oinio.NewOfferController', [])
 
         }
         $scope.goNextPage = function () {
-            if ($scope.searchResultAcctName == null) {
-                var ionPop = $ionicPopup.alert({
-                    title: "请填写客户名称"
-                });
-                return;
-            }
-            if ($scope.selectedTruckItems.length == 0) {
-                var ionPop = $ionicPopup.alert({
-                    title: "请添加车辆"
-                });
-                return;
-            }
+            // if ($scope.searchResultAcctName == null) {
+            //     var ionPop = $ionicPopup.alert({
+            //         title: "请填写客户名称"
+            //     });
+            //     return;
+            // }
+            // if ($scope.selectedTruckItems.length == 0) {
+            //     var ionPop = $ionicPopup.alert({
+            //         title: "请添加车辆"
+            //     });
+            //     return;
+            // }
 
 
             var selectedTruckItemsCopy = JSON.parse(JSON.stringify($scope.selectedTruckItems))
@@ -453,9 +453,9 @@ angular.module('oinio.NewOfferController', [])
             });
             console.log('selectStatuClass:ALL::', selectedTruckItemsCopy);
 
-            $state.go('app.newOfferFittings', { SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: $scope.getIds[0] });
+            // $state.go('app.newOfferFittings', { SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: $scope.getIds[0] });
 
-            // $state.go('app.newOfferFittings');
+            $state.go('app.newOfferFittings');
 
         };
 

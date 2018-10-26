@@ -63,7 +63,6 @@ img {
     left: 5%;
 }
 .main_header .right_Box {
-    position: relative;
     display: inline-flex;
     width: 10%;
     vertical-align: middle;
@@ -75,7 +74,7 @@ img {
     height: 20px;    
     margin-left: auto;
 }
-.main_header .add_Arrow {
+/*.main_header .add_Arrow {
     position: absolute;
     width: 0;
     height: 0;
@@ -85,22 +84,26 @@ img {
     border-bottom: 10px solid #ffffff;
     top: 19px;
     right: 25%;
-}
-.main_header .add_Group {
-    position: absolute;
-    background: #ffffff;
-    box-shadow: 0 1px 2px #aa0020;
-    top: 39px;
-    right: 0;
-    display: inline-block;
-    width: 130px;
     z-index: 999;
 }
+*/
+.main_header .add_Group {
+    position: absolute;
+    background: #f85360;
+    box-shadow: 0 2px 4px #676767;
+    top: 60px;
+    right: 0;
+    display: inline-block;
+    width: 100%;
+    z-index: 999;
+    text-align: center;
+}
 .main_header .add_Box {
-    white-space: nowrap;
-    color: #535353;
-    padding: 8%;
-    line-height: 1.2rem;
+    color: #ffffff;
+    padding: 1% 0;
+    border-bottom: 1px solid #ffffff;
+    font-size: 1rem;
+    line-height: 30px;
 }
 .main_bodyer {
     overflow-y: auto;

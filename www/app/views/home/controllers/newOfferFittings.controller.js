@@ -21,6 +21,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.paramSaveUrl = "/ServiceQuoteOverview?";
         $scope.paramApprovalsUrl = "/v38.0/process/approvals";
         $scope.paramExeclUrl = "/excel/";
+        $scope.searchPartssUrl = "/Partss?keyword=";
+        $scope.partsRelatedsUrl = "/PartsRelateds?partsNumbers=";
 
         $scope.get = function () {
             ForceClientService.getForceClient().apexrest($scope.paramUrl1, 'GET', {}, null, function (response) {
@@ -64,9 +66,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             }
         };
-
-        $scope.$on('$ionicView.enter', function () {
-            console.log("NewOfferFittingsController");
+        $scope.$on('$ionicView.beforeEnter', function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
             document.addEventListener('click', function (e) {
@@ -84,6 +84,10 @@ angular.module('oinio.NewOfferFittingsController', [])
 
                 }
             });
+        });
+        $scope.$on('$ionicView.enter', function () {
+            // console.log("NewOfferFittingsController");
+           
             $scope.get();
         });
         $scope.goBack = function () {
@@ -114,11 +118,38 @@ angular.module('oinio.NewOfferFittingsController', [])
                 }, 'normal').show();
             });
         };
-
+//搜索配件
         $scope.getTrucks = function (keyWord) {
-            $scope.contentTruckFitItems = [{ Id: "a1Cp0000001W16yEAC1", Name: "8712" }, { Id: "a1Cp0000001W16yEAC2", Name: "9272" }, { Id: "a1Cp0000001W16yEAC3", Name: "8872" }];
+            AppUtilService.showLoading();
+            // $scope.contentTruckFitItems = [{ Id: "a1Cp0000001W16yEAC1", Name: "8712" }, { Id: "a1Cp0000001W16yEAC2", Name: "9272" }, { Id: "a1Cp0000001W16yEAC3", Name: "8872" }];
             console.log("getTrucks::", keyWord);
+            let parts_number__cList = [];
+            let partsQuantitys = [];
+            ForceClientService.getForceClient().apexrest($scope.searchPartssUrl+keyWord, 'GET', {}, null, function (response) {
+                // console.log("searchPartssUrl:", response);
+                for (let index = 0; index < response.results.length; index++) {
+                    let element = response.results[index];
+                    parts_number__cList.push(element.parts_number__c);
+                    partsQuantitys.push("100000");
+                }
+               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" +JSON.stringify(partsQuantitys) +"&accountId="+ "";
+               console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
 
+                ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
+                    AppUtilService.hideLoading();
+                    console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
+                    $scope.contentTruckFitItems = responsePartsRelateds;
+                }, function (error) {
+                    console.log("error:", error);
+                    AppUtilService.hideLoading();
+
+                });
+
+            }, function (error) {
+                console.log("error:", error);
+                AppUtilService.hideLoading();
+            });
+            
 
         };
 
@@ -134,7 +165,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 angular.forEach($scope.contentTruckFitItems, function (searchResult) {
                     let existFlag = false;
                     angular.forEach($scope.selectedTruckFitItems, function (selected) {
-                        if (searchResult.Id == selected.Id) {
+                        if (searchResult[0].Id == selected[0].Id) {
                             existFlag = true;
                         }
                     });
@@ -154,7 +185,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 angular.forEach($scope.selectedTruckFitItems, function (selected) {
                     let existFlag = false;
                     angular.forEach($scope.contentTruckFitItems, function (searchResult) {
-                        if (searchResult.Id == selected.Id) {
+                        if (searchResult[0].Id == selected[0].Id) {
                             existFlag = true;
                         }
                     });
@@ -185,14 +216,14 @@ angular.module('oinio.NewOfferFittingsController', [])
         };
 
         $scope.checkSearchResults = function (ele) {
-            let element = $("input.ckbox_truck_searchresult_itemFit[data-recordid*='" + ele.Id + "']");
+            let element = $("input.ckbox_truck_searchresult_itemFit[data-recordid*='" + ele[0].Id + "']");
             console.log('checkSearchResults::', element);
 
             if (element != null && element.length > 0) {
                 if (element[0].checked) {
                     let existFlag = false;
                     for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                        if (ele.Id == $scope.selectedTruckFitItems[i].Id) {
+                        if (ele[0].Id == $scope.selectedTruckFitItems[i][0].Id) {
                             existFlag = true;
                         }
                     }
@@ -203,7 +234,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 } else {
                     let temp = [];
                     for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                        if (ele.Id != $scope.selectedTruckFitItems[i].Id) {
+                        if (ele[0].Id != $scope.selectedTruckFitItems[i][0].Id) {
                             temp.push($scope.selectedTruckFitItems[i]);
                         }
                     }
@@ -220,13 +251,13 @@ angular.module('oinio.NewOfferFittingsController', [])
             let new_temp = [];
 
             for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                if (ele.Id != $scope.selectedTruckFitItems[i].Id) {
+                if (ele[0].Id != $scope.selectedTruckFitItems[i][0].Id) {
                     new_temp.push($scope.selectedTruckFitItems[i]);
                 }
             }
 
             $("input.ckbox_truck_searchresult_itemFit").each(function (index, element) {
-                if ($(element).attr("data-recordid") == ele.Id && element.checked) {
+                if ($(element).attr("data-recordid") == ele[0].Id && element.checked) {
                     element.checked = false;
                 }
             });
@@ -251,7 +282,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             let new_temp = '';
 
             for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                new_temp = new_temp + $scope.selectedTruckFitItems[i].Name + ';';
+                new_temp = new_temp + $scope.selectedTruckFitItems[i][0].Name + ';';
             }
 
             $scope.searchResultTruckName = new_temp;
