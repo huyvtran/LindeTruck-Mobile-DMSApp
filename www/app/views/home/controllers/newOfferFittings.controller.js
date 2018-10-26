@@ -3,7 +3,7 @@ angular.module('oinio.NewOfferFittingsController', [])
 
         // var forceClient = ForceClientService.getForceClient();
         // console.log("forceClient", forceClient);
-        $scope.contentTruckFitItems = [];
+        $scope.contentTruckFitItems = [];//配件
         $scope.selectedTruckFitItems = [];
         $scope.serviceFeeList = [];
         $scope.quoteLabourOriginalsList = [];
@@ -118,7 +118,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 }, 'normal').show();
             });
         };
-//搜索配件
+        //搜索配件
         $scope.getTrucks = function (keyWord) {
             AppUtilService.showLoading();
             // $scope.contentTruckFitItems = [{ Id: "a1Cp0000001W16yEAC1", Name: "8712" }, { Id: "a1Cp0000001W16yEAC2", Name: "9272" }, { Id: "a1Cp0000001W16yEAC3", Name: "8872" }];
@@ -130,9 +130,9 @@ angular.module('oinio.NewOfferFittingsController', [])
                 for (let index = 0; index < response.results.length; index++) {
                     let element = response.results[index];
                     parts_number__cList.push(element.parts_number__c);
-                    partsQuantitys.push("100000");
+                    partsQuantitys.push(100000);
                 }
-               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" +JSON.stringify(partsQuantitys) +"&accountId="+ "";
+               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" +JSON.stringify(partsQuantitys) +"&accountId="+ $stateParams.SendSoupEntryId;
                console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
 
                 ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
@@ -319,6 +319,8 @@ angular.module('oinio.NewOfferFittingsController', [])
             //     $scope.sumPrice1 = parseInt($scope.manMadePrice1) * parseInt($scope.manMadeNo1);
             // }                
         };
+
+        //组装劳务费 配件列表
         $scope.addLabourOriginalsList = function (obj) {
             var oneLabourOriginals1 = {};
             oneLabourOriginals1["Service_Quote__c"] = manMadeNo1Id;
@@ -382,6 +384,19 @@ angular.module('oinio.NewOfferFittingsController', [])
 
             }
 
+            //配件
+            for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
+                var oneLabourOriginals4 = {};
+                var selectedTruckFitItemsIndex =  $scope.selectedTruckFitItems[index][0];
+                oneLabourOriginals4["Name"] = selectedTruckFitItemsIndex.parts_number__c;
+                oneLabourOriginals4["Gross_Amount__c"] = selectedTruckFitItemsIndex.priceCondition.price;
+                // oneLabourOriginals4["Quantity__c"] = sv_InputForListNo[index];
+                // oneLabourOriginals4["Discount__c"] = sv_InputForListDiscount[index];
+                // oneLabourOriginals4["Net_Amount__c"] = sv_InputForListSpecial[index];
+                oneLabourOriginals4["Material_Type__c"] = "Part";
+                $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
+
+            }
         };
         //保存
         $scope.toSaveServiceQuoteOverview = function (payload) {

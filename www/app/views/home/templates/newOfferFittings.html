@@ -416,7 +416,7 @@
 									<tr>
 										<td class="sv_Td">
 											<div>
-												<p>{{item[0].Service_Account_Material__c.Account_Material_Number__c}} </p>
+												<p>{{item[0].parts_number__c}} </p>
 						
 											</div>
 										</td>
@@ -424,10 +424,10 @@
 											<div> {{item[0].priceCondition.price}} </div>
 										</td>
 										<td class="sv_Td">
-											<div> 10 </div>
+											<div> {{item[0].priceCondition.price*priceNo}} </div>
 										</td>
 										<td class="sv_Td">
-											<div> UA </div>
+											<input class="sv_Input" ng-model="priceNo"/>
 										</td>
 										<td class="sv_Td">
 											<input class="sv_Input" value="{{item[0].priceCondition.discount}}"/>
@@ -443,8 +443,7 @@
 										</td>
 										<td class="sv_Td">
 											<div>
-												<p>无 </p>
-												<p>无</p>
+												<div>{{item[0].inventory.estimatedDeliveryDate}} </div>
 											</div>
 										</td>
 										<td class="sv_Td">
