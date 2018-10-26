@@ -279,7 +279,7 @@
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         console.log('searchChildOrderSidsForParent::sql::', cursor.currentPageOrderedEntries);
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
-                            orders.push({entry[0]});
+                            orders.push(entry[0]);
                         });
                     }
 
@@ -293,6 +293,7 @@
                 console.log('getChildOrders::', deferred.promise);
                 return deferred.promise;
             };
+
 
             this.getTruckModels = function(sid){
                 console.log('getTruckModels.keyword:%s',sid);
