@@ -157,6 +157,17 @@
       "MobileVizArt__Level__c": 12,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "Service_Car__c",
+      "MobileVizArt__Fields__c": "Id,CarNo__c,GasCost__c,SelfMileage__c,DriveMileage__c,GasMileage__c,OtherCost__c,Remark__c ",
+      "MobileVizArt__Search_Fields__c": null,
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
     }
   ]
 }
