@@ -5,7 +5,7 @@ angular.module('oinio.settings', [])
     .constant('APP_SETTINGS', {
         'VERSION': '1.0.0',
         'DEBUG_ROUTING': true,
-        'LOCAL_LOGIN': true,
+        'LOCAL_LOGIN': false,
         'TOUCH_ID': false,
         'GLOBAL_SOUP_CONFIGURATION_FILE': 'app/core/configuration/global_soups.json',
         'FRAMEWORK_SOUP_CONFIGURATION_FILE': 'app/core/configuration/framework_soups.json',
