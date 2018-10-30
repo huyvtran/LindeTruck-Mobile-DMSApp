@@ -48,13 +48,13 @@
                     
                     newItem = service.cloneObj(sobject);
 
-                    newItem['CarNo'] = adr.CarNo__c;//车牌号
-                    newItem['GasCost'] = adr.GasCost__c;//加油费用
-                    newItem['SelfMileage'] = adr.SelfMileage__c;// 里程表-自用
-                    newItem['DriveMileage'] = adr.DriveMileage__c;//里程表-公务
-                    newItem['GasMileage'] = adr.GasMileage__c;//里程表-加油
-                    newItem['OtherCost'] = adr.OtherCost__c;//其他费用
-                    newItem['Remark'] = adr.Remark__c;//原因备注
+                    newItem['CarNo__c'] = adr.CarNo__c;//车牌号
+                    newItem['GasCost__c'] = Number(adr.GasCost__c);//加油费用(Number)
+                    newItem['SelfMileage__c'] = Number(adr.SelfMileage__c);// 里程表-自用(Number)
+                    newItem['DriveMileage__c'] = Number(adr.DriveMileage__c);//里程表-公务(Number)
+                    newItem['GasMileage__c'] = Number(adr.GasMileage__c);//里程表-加油(Number)
+                    newItem['OtherCost__c'] = Number(adr.OtherCost__c);//其他费用(Number)
+                    newItem['Remark__c'] = adr.Remark__c;//原因备注
 
                     console.log('newItem::' + newItem);
 
@@ -112,7 +112,7 @@
                     for (var i=0;i<images1.length;i++) {
                         newItem = service.cloneObj(sobject);
                         newItem['Name'] = 'DriveMileage' + i;
-                        newItem['ServiceCarID'] = sids[0];
+                        newItem['ServiceCarID__c_sid'] = sids[0];
                         driveAttToSave.push(newItem);
                     }
 
@@ -171,7 +171,7 @@
                 return deferred.promise; 
             }
 
-            this.saveImages2Attachments = function (images,sids) {
+            this.saveImages2Attachments = function (images,sids ) {
                 console.log('saveImages2Attachments:: '+images);
                 var deferred = $q.defer();
                 let array_params = [];
