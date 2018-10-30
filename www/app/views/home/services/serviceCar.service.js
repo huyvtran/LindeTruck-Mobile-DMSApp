@@ -10,17 +10,22 @@
      */
     angular
         .module('oinio.services')
-        .service('SCarService', function($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, SMARTSTORE_COMMON_SETTING) {
+        .service('SCarService', function($q, $filter, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService) {
 
             let service = this;
 
-            this.serviceCarSaveButton = function (serviceCar, images) {
+            this.serviceCarSaveButton = function (serviceCar, image1, image2) {
                 let deferred = $q.defer();
                 let ret;
-                let sids_childOrder = [];
 
                 service.saveServiceCar(serviceCar).then(function (scSids) {
-                    return service.saveAttachments(images,scSids);
+                    return service.saveChidServiceCarAtt1(scSids, image1);
+                }).then(function (scaSids1) {
+                    return service.saveAttachments(image1,scaSids1);
+                }).then(function (scSids) {
+                    return service.saveChidServiceCarAtt1(scSids, image2);
+                }).then(function (scaSids2) {
+                    return service.saveAttachments(image2,scaSids2);
                 }).then(function (res) {
                     return service.synchronize();
                 }).then(function () {
@@ -39,7 +44,8 @@
                 LocalDataService.createSObject('Service_Car__c').then(function(sobject) {
                     var newItem, adr;
                     var adrsToSave = [];
-
+                    adr = serviceCarItem;
+                    
                     newItem = service.cloneObj(sobject);
 
                     newItem['CarNo'] = adr.CarNo__c;
@@ -93,6 +99,114 @@
 
                 return deferred.promise;
             };
+            
+            this.saveChidServiceCarAtt1 = function ( sids, images1 ) {
+                var deferred = $q.defer();
+
+                LocalDataService.createSObject('Service_Car_Attachment__c').then(function(sobject) {
+                    var newItem, adr;
+                    var driveAttToSave = [];
+                    //var selfAttToSave = [];
+                    //adr = serviceCarItem;
+
+                    for (var i=0;i<images1.length;i++) {
+                        newItem = service.cloneObj(sobject);
+                        newItem['Name'] = 'DriveMileage' + i;
+                        newItem['ServiceCarID'] = sids[0];
+                        driveAttToSave.push(newItem);
+                    }
+
+                    LocalDataService.saveSObjects('Service_Car_Attachment__c', driveAttToSave).then(function(result) {
+                        let arr_sids = [];
+                        console.log('save result:::',result);
+                        if (!result){
+                            //console.error("!result");
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        for (var i=0;i<result.length;i++){
+                            if (result[i].success){
+                                //adrs[i]._soupEntryId = result[i]._soupEntryId;
+
+                                let existFlag = false;
+                                angular.forEach(arr_sids, function (s) {
+                                    if(s == result[i]._soupEntryId){
+                                        existFlag = true;
+                                    }
+                                });
+                                if(!existFlag){
+                                    arr_sids.push(result[i]._soupEntryId);
+                                }
+                            }
+                        }
+                        console.log('saveWorkItems3:::',arr_sids);
+                        deferred.resolve(arr_sids);
+                        // synchronize().then(function () {
+                        //     deferred.resolve('done');
+                        // });
+                    }, function (error) {
+                        // log error
+                        console.log(error);
+                    });
+
+                }, angular.noop);
+
+                return deferred.promise;
+            }
+
+            this.saveChidServiceCarAtt2 = function ( sids, images2 ) {
+                var deferred = $q.defer();
+
+                LocalDataService.createSObject('Service_Car_Attachment__c').then(function(sobject) {
+                    var newItem, adr;
+                    //var driveAttToSave = [];
+                    var selfAttToSave = [];
+                    //adr = serviceCarItem;
+
+                    for (var i=0;i<images2.length;i++) {
+                        newItem = service.cloneObj(sobject);
+                        newItem['Name'] = 'SelfMileage' + i;
+                        newItem['ServiceCarID'] = sids[0];
+                        selfAttToSave.push(newItem);
+                    }
+
+                    LocalDataService.saveSObjects('Service_Car_Attachment__c', selfAttToSave).then(function(result) {
+                        let arr_sids = [];
+                        console.log('save result:::',result);
+                        if (!result){
+                            //console.error("!result");
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        for (var i=0;i<result.length;i++){
+                            if (result[i].success){
+                                //adrs[i]._soupEntryId = result[i]._soupEntryId;
+
+                                let existFlag = false;
+                                angular.forEach(arr_sids, function (s) {
+                                    if(s == result[i]._soupEntryId){
+                                        existFlag = true;
+                                    }
+                                });
+                                if(!existFlag){
+                                    arr_sids.push(result[i]._soupEntryId);
+                                }
+                            }
+                        }
+                        console.log('saveWorkItems3:::',arr_sids);
+                        deferred.resolve(arr_sids);
+                        // synchronize().then(function () {
+                        //     deferred.resolve('done');
+                        // });
+                    }, function (error) {
+                        // log error
+                        console.log(error);
+                    });
+
+                }, angular.noop);
+
+                return deferred.promise;
+            }
 
             this.saveAttachments = function (images,sids) {
                 let deferred = $q.defer();
@@ -108,7 +222,7 @@
                     deferred.reject(error);
                 });
 
-                return deferred.promise;
+                return deferred.promise; 
             }
 
             this.saveImages2Attachments = function (images,sid) {
@@ -118,12 +232,14 @@
 
                 var param = new Object();
                 param.contentType = 'image/jpeg';
-                param.parentObjectType = 'Service_Car__c';
+                param.parentObjectType = 'Service_Car_Attachment__c';
 
                 for (var i=0;i<images.length;i++){
                     param.body = images[i];
-                    param.parentSoupEntryId = sid[0];
-                    array_params.push(param);
+                    for (var j=0;j<sids.length;j++){
+                        param.parentSoupEntryId = sids[j];
+                        array_params.push(param);
+                    }
                 }
                 console.log('array_params：：',array_params);
                 deferred.resolve(array_params);
