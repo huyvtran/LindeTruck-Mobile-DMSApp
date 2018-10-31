@@ -187,10 +187,10 @@
 
                 for (var i=0;i<images.length;i++){
                     param.body = images[i];
-                    for (var j=0;j<sids.length;j++){
-                        param.parentSoupEntryId = sids[j];
-                        array_params.push(param);
-                    }
+                    //for (var j=0;j<sids.length;j++){
+                    param.parentSoupEntryId = sids[i];
+                    array_params.push(param);
+                    //}
                 }
                 console.log('array_params：：',array_params);
                 deferred.resolve(array_params);
