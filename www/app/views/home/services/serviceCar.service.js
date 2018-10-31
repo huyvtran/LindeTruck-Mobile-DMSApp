@@ -207,13 +207,15 @@
                 var getNextSObject = function (index) {
 
                     if (index >= sids.length) {
+                        console.log('att save result:', results);
                         deferred.resolve(results);
                     } else {
                         LocalDataService.createAttachment(sids[index]).then(function (result) {
+                            console.log('att save result item:', results);
                             results.push(result);
                             getNextSObject(++index);
                         }, function (error) {
-                            console.log(error);
+                            console.log('att save error', error);
                             deferred.reject(error);
                         });
                     }
@@ -224,7 +226,7 @@
                 return deferred.promise;
             };
 
-            this.dataURLtoBlob = function (dataurl) {
+            var dataURLtoBlob = function (dataurl) {
                 var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                     bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
                 while (n--) {
