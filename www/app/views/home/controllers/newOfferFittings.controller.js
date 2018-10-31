@@ -25,6 +25,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.partsRelatedsUrl = "/PartsRelateds?partsNumbers=";
 
         $scope.get = function () {
+            AppUtilService.showLoading();
+
             ForceClientService.getForceClient().apexrest($scope.paramUrl1, 'GET', {}, null, function (response) {
                 console.log("success:", response);
                 let responseItem = response.priceCondition;
@@ -37,6 +39,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             });
             ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
                 console.log("success:", response);
+                AppUtilService.hideLoading();
                 let responseItem = response.priceCondition;
                 $scope.manMadePrice2 = responseItem.price;
                 $scope.discountPrice2 = responseItem.discount;
@@ -44,6 +47,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 manMadeNo2Name = response.parts_description__c;
             }, function (error) {
                 console.log("error:", error);
+                AppUtilService.hideLoading();
             });
         }
         $scope.toDisplayImportDiv = function () {

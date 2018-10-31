@@ -429,14 +429,14 @@
 										<td class="sv_Td">
 											<input class="sv_Input" ng-model="priceNo"/>
 										</td>
-										<td class="sv_Td">
-											<input class="sv_Input" value="{{item[0].priceCondition.discount}}"/>
+										<td class="sv_Td" ng-init="discountPriceCondition = item[0].priceCondition.discount">
+											<input class="sv_Input" ng-model="discountPriceCondition"/>
 										</td>
 										<td class="sv_Td">
 											<input class="sv_Input" value="{{item[0].priceCondition.favourablePrice}}"/>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input" />
+											<div> {{item[0].priceCondition.favourablePrice*priceNo-discountPriceCondition*item[0].priceCondition.favourablePrice*priceNo}} </div>
 										</td>
 										<td class="sv_Td">
 											<input class="sv_Input" value="{{item[0].priceCondition.spnPrice}}"/>
@@ -447,7 +447,7 @@
 											</div>
 										</td>
 										<td class="sv_Td">
-											<div>已预留</div>
+											<input type="checkbox" />
 										</td>
 									</tr>
 								</table>
