@@ -286,6 +286,12 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 } else {
                     startTime = arriveTime;
+                    h = finishTime.getHours()-arriveTime.getHours();
+                    m = finishTime.getMinutes()-arriveTime.getMinutes();
+                    if (m<0){
+                        m+=60;
+                        --h;
+                    }
                 }
                 leaveTime = new Date();
                 $("#leave")[0].style.backgroundColor = "#00FF7F"

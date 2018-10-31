@@ -19,11 +19,11 @@
                 let ret;
 
                 service.saveServiceCar(serviceCar).then(function (scSids) {
-                    return service.saveChidServiceCarAtt1(scSids, image1);
+                    return service.saveChidServiceCarAtt1(scSids, image1, 'DriveMileage');
                 }).then(function (scaSids1) {
                     return service.saveAttachments(image1,scaSids1);
                 }).then(function (scSids) {
-                    return service.saveChidServiceCarAtt1(scSids, image2);
+                    return service.saveChidServiceCarAtt1(scSids, image2, 'SelfMileage');
                 }).then(function (scaSids2) {
                     return service.saveAttachments(image2,scaSids2);
                 }).then(function (res) {
@@ -100,18 +100,23 @@
                 return deferred.promise;
             };
             
-            this.saveChidServiceCarAtt1 = function ( sids, images1 ) {
+            this.saveChidServiceCarAtt1 = function ( sids, images1 , type) {
                 var deferred = $q.defer();
 
                 LocalDataService.createSObject('Service_Car_Attachment__c').then(function(sobject) {
                     var newItem, adr;
                     var driveAttToSave = [];
+
                     //var selfAttToSave = [];
                     //adr = serviceCarItem;
 
                     for (var i=0;i<images1.length;i++) {
+                        var currentDateTime ;
+                        var myDate = new Date();
+                        currentDateTime = myDate.getFullYear().toString() + (myDate.getMonth() +1).toString() + myDate.getDate().toString() +  myDate.getHours().toString() + myDate.getMinutes().toString();
+                        console.log(currentDateTime);
                         newItem = service.cloneObj(sobject);
-                        newItem['Name'] = 'DriveMileage' + i;
+                        newItem['Name'] =  type + '-' + currentDateTime;
                         newItem['ServiceCarID__c_sid'] = sids[0];
                         driveAttToSave.push(newItem);
                     }
@@ -172,7 +177,7 @@
             }
 
             this.saveImages2Attachments = function (images,sids ) {
-                console.log('saveImages2Attachments:: '+images);
+                //console.log('saveImages2Attachments:: '+images);
                 var deferred = $q.defer();
                 let array_params = [];
 
@@ -206,6 +211,7 @@
                             results.push(result);
                             getNextSObject(++index);
                         }, function (error) {
+                            console.log(error);
                             deferred.reject(error);
                         });
                     }
