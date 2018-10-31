@@ -19,11 +19,12 @@
                 let ret;
 
                 service.saveServiceCar(serviceCar).then(function (scSids) {
+                    ret = scSids;
                     return service.saveChidServiceCarAtt1(scSids, image1, 'DriveMileage');
                 }).then(function (scaSids1) {
                     return service.saveAttachments(image1,scaSids1);
-                }).then(function (scSids) {
-                    return service.saveChidServiceCarAtt1(scSids, image2, 'SelfMileage');
+                }).then(function (attRes) {
+                    return service.saveChidServiceCarAtt1(ret, image2, 'SelfMileage');
                 }).then(function (scaSids2) {
                     return service.saveAttachments(image2,scaSids2);
                 }).then(function (res) {
