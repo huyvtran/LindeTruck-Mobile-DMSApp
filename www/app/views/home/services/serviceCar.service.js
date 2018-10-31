@@ -57,10 +57,9 @@
                     newItem['OtherCost__c'] = Number(adr.OtherCost__c);//其他费用(Number)
                     newItem['Remark__c'] = adr.Remark__c;//原因备注
 
-                    console.log('newItem::' + newItem);
-
-                    adrsToSave.push(newItem);
                     console.log('newItem::',newItem);
+                    adrsToSave.push(newItem);
+
 
 
                     LocalDataService.saveSObjects('Service_Car__c', adrsToSave).then(function(result) {
@@ -145,14 +144,14 @@
                                 }
                             }
                         }
-                        console.log('saveWorkItems3:::',arr_sids);
+                        console.log('service car att soupId:::',arr_sids);
                         deferred.resolve(arr_sids);
                         // synchronize().then(function () {
                         //     deferred.resolve('done');
                         // });
                     }, function (error) {
                         // log error
-                        console.log(error);
+                        console.log('sc att error:::', error);
                     });
 
                 }, angular.noop);
@@ -171,6 +170,7 @@
                     console.log('saveAttachments::res：：',res);
                     deferred.resolve(res);
                 }).catch(function (error) {
+                    console.log('att save error:::', error );
                     deferred.reject(error);
                 });
 
