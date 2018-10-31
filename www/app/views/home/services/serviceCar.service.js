@@ -182,12 +182,13 @@
                 var deferred = $q.defer();
                 let array_params = [];
 
-                var param = new Object();
-                param.contentType = 'image/jpeg';
-                param.parentObjectType = 'Service_Car_Attachment__c';
-
                 for (var i=0;i<images.length;i++){
-                    param.body = images[i];
+                    var timestamp = new Date().getTime().toString();
+                    var param = new Object();
+                    param.Name = '附件-' + timestamp;
+                    param.contentType = 'image/jpeg';
+                    param.parentObjectType = 'Service_Car_Attachment__c';
+                    param.body = dataURLtoBlob(images[i]);
                     //for (var j=0;j<sids.length;j++){
                     param.parentSoupEntryId = sids[i];
                     array_params.push(param);
@@ -221,6 +222,15 @@
                 getNextSObject(0);
 
                 return deferred.promise;
+            };
+
+            this.dataURLtoBlob = function (dataurl) {
+                var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+                    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+                while (n--) {
+                    u8arr[n] = bstr.charCodeAt(n);
+                }
+                return new Blob([u8arr], { type: mime });
             };
 
             this.synchronize = function () {
