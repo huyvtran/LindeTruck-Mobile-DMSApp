@@ -622,13 +622,13 @@
                 var deferred = $q.defer();
                 let array_params = [];
 
-                var param = new Object();
-                param.contentType = 'image/jpeg';
-                param.parentObjectType = 'Work_Item__c';
 
                 for (var i=0;i<images.length;i++){
-                    param.body = images[i];
                     for (var j=0;j<sids.length;j++){
+                        var param = new Object();
+                        param.contentType = 'image/jpeg';
+                        param.parentObjectType = 'Work_Item__c';
+                        param.body = images[i];
                         param.parentSoupEntryId = sids[j];
                         array_params.push(param);
                     }
