@@ -189,7 +189,7 @@
                     param.contentType = 'image/jpeg';
                     param.parentObjectType = 'Service_Car_Attachment__c';
                     //param.body = dataURLtoBlob(images[i]);
-                    param.body = images[i];
+                    param.body = convertImgDataToBlob(images[i]);
                     //for (var j=0;j<sids.length;j++){
                     param.parentSoupEntryId = sids[i];
                     array_params.push(param);
@@ -227,16 +227,44 @@
                 return deferred.promise;
             };
 
-            /*
-            var dataURLtoBlob = function (dataurl) {
-                var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                    bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-                while (n--) {
-                    u8arr[n] = bstr.charCodeAt(n);
+            var convertImgDataToBlob = function(base64Data) {
+                var format = 'image/jpeg';
+                var base64 = base64Data;
+                var code = window.atob(base64.split(",")[1]);
+                var aBuffer = new window.ArrayBuffer(code.length);
+                var uBuffer = new window.Uint8Array(aBuffer);
+                for(var i = 0; i < code.length; i++){
+                    uBuffer[i] = code.charCodeAt(i) & 0xff ;
                 }
-                return new Blob([u8arr], { type: mime });
+                console.info([aBuffer]);
+                console.info(uBuffer);
+                console.info(uBuffer.buffer);
+                console.info(uBuffer.buffer==aBuffer); //true
+                var blob=null;
+                try{
+                    blob = new Blob([uBuffer], {type : format});
+                }
+                catch(e){
+                    window.BlobBuilder = window.BlobBuilder ||
+                        window.WebKitBlobBuilder ||
+                        window.MozBlobBuilder ||
+                        window.MSBlobBuilder;
+                    if(e.name == 'TypeError' && window.BlobBuilder){
+                        console.log('error type!');
+                        var bb = new window.BlobBuilder();
+                        bb.append(uBuffer.buffer);
+                        blob = bb.getBlob("image/jpeg");
+                    }
+                    else if(e.name == "InvalidStateError"){
+                        console.log('error state error!');
+                        blob = new Blob([aBuffer], {type : format});
+                    }
+                    else{
+                    }
+                }
+                console.log(blob.size);
+                return blob;
             };
-            */
 
             this.synchronize = function () {
                 var deferred = $q.defer();
