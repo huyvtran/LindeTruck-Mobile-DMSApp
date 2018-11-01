@@ -27,6 +27,7 @@ angular.module('oinio.workDetailsControllers', [])
          * @desc
          */
         $scope.$on('$ionicView.beforeEnter', function () {
+            document.getElementById("describInfDiv").style.display = "none";//隐藏
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
@@ -368,6 +369,14 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
 
+        //已选车辆
+        $scope.toDescribInfDiv = function () {
+            if (document.getElementById("describInfDiv").style.display == "none") {
+                document.getElementById("describInfDiv").style.display = "";//显示
+            } else {
+                document.getElementById("describInfDiv").style.display = "none";//隐藏
+            }
+        };
         $scope.goBack = function () {
             window.history.back();
         };

@@ -1,454 +1,369 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width,height=device-height">
 	<title> work list details </title>
-	<!--<link rel="stylesheet" href="././css/workDetails.css">-->
+	<link rel="stylesheet" href="././css/workDetails.css">
 
 	<style type="text/css">
-		body {
-			margin: 0;
-			font-size: 1rem;
-			font-family: 微软雅黑, 华文黑体, sans-serif;
-			background-attachment: fixed;
-			background-repeat: no-repeat;
-			background-size: cover;
-			position: relative;
-			height: 100vh;
-			background-position: 50%;
-			overflow: hidden;
-		}
-		img {
-			cursor: pointer;
-			vertical-align: middle;
-		}
-		.to_Open {
-			display: block;
-		}
-		.to_Hide {
-			display: none;
-		}
-		.header {
-			background: #aa0020;
-			width: 100%;
-			height: 64px;
-			position: relative;
-			padding-left:  5%;
-			padding-right:  5%;
-			line-height: 64px;
-		}
-		.left_Box {
-			display: inline-flex;
-			width: 10%;
-			vertical-align: middle;
-		}
-		.center_Box {
-			display: inline-block;
-			width: 77%;
-			position: relative;
-			vertical-align: middle;
-		}
-		.center_Title {
-			text-align: center;
-			color: #ffffff;
-		}
-		.right_Box {
-			position: relative;
-			display: inline-flex;
-			width: 10%;
-			vertical-align: middle;
-		}
-		.add_Icon_White {
-			background-repeat: no-repeat;
-			background-size: cover;
-			width: 20px;
-			height: 20px;
-			margin-left: auto;
-		}
-		.add_Arrow {
-			position: absolute;
-			width: 0;
-			height: 0;
-			border-top: 10px solid transparent;
-			border-left: 10px solid transparent;
-			border-right: 10px solid transparent;
-			border-bottom: 10px solid #ffffff;
-			top: 19px;
-			right: 25%;
-		}
-		.add_Group {
-			position: absolute;
-			background: #ffffff;
-			box-shadow: 0 1px 2px #aa0020;
-			top: 39px;
-			right: 0;
-			display: inline-block;
-			width: 130px;
-		}
-		.add_Box {
-			white-space: nowrap;
-			color: #535353;
-			padding: 8%;
-			line-height: 1.2rem;
-		}
-		.bodyer {
-			overflow-y: auto;
-			height: calc(100vh - 190px);
-			background-repeat: no-repeat;
-			background-size: cover;
-			width: 100%;
-		}
-		.big_Type_Group {
-			margin-bottom: 5%;
-		}
-		.displayQuantity {
-			margin: 2% 0;
-			font-size: 0.8rem;
-			text-align: center;
-		}
-		.small_Type_Title_Group {
-			background: #535353;
-			padding: 2% 0;
-			display: flex;
-			align-items: center;
-		}
-		.small_Type_Title_G {
-			color: #ffffff;
-			padding: 0 5%;
-			display: flex;
-			width: calc(100% - 18px);
-		}
-		.OpenClose_Btn {
-			background-repeat: no-repeat;
-			background-size: cover;
-			display: inline-flex;
-			width: 18px;
-			height: 10px;
-			margin-right: 5%;
-		}
-		.small_Type_Group {
-			margin: 2% 5%;
-		}
-		.small_Type_Title {
-			color: #535353;
-			font-size: 0.8rem;
-			margin-bottom: 2%;
-		}
-		.small_Type_Box {
-			position: relative;
-		}
-		.small_Type_Input {
-			color: #535353;
-			width: 100%;
-			height: 40px;
-			border-bottom: 1px solid #535353;
-			border-top: 0;
-			border-left: 0;
-			border-right: 0;
-			padding: 0 5%;
-			font-size: 1rem;
-		}
-		.search_small_black {
-			background-repeat: no-repeat;
-			background-size: cover;
-			width: 16px;
-			height: 16px;
-			position: absolute;
-			top: calc(50% - 8px);
-			right: 0;
-		}
-		.search_small_black {
-			background-image: url(././img/images/search_small_black.png);
-		}
-		.small_Type_Select {
-			color: #535353;
-			width: 100%;
-			height: 40px;
-			padding: 0 5%;
-			font-size: 1rem;
-		}
-		.small_Type_Textarea {
-			resize: none;
-			width: 100%;
-			border: 1px solid #535353;
-			font-size: 1rem;
-			height: 80px;
-			padding: 5%;
-		}
-		.img_Group {
-			margin-bottom: 1%;
-		}
-		.img_Group .item_Img {
-			display: inline-flex;
-			width: calc(97% / 3);
-		}
-		.center_Img {
-			justify-content: center;
-		}
-		.right_Img {
-			justify-content: flex-end;
-		}
-		.has_Add_Img {
-			width: 80px;
-			height: 80px;
-			border: 1px dotted #979797;
-			background-repeat: no-repeat;
-			background-size: cover;
-			position: relative;
-			background-image: url(././img/images/has_add_img.png);
-		}
-		.will_Add_Img {
-			width: 80px;
-			height: 80px;
-			border: 1px dotted #979797;
-			background-repeat: no-repeat;
-			background-size: cover;
-			position: relative;
-			background-image: url(././img/images/will_add_Img.png);
-		}
-		.no_Img {
-			width: 80px;
-			height: 80px;
-			border: 0px dotted #979797;
-		}
-		.onlyread_Img_2 {
-			background-repeat: no-repeat;
-			background-size: cover;
-			width: 100%;
-			height: 227px;
-		}
-		.del_Img {
-			background-repeat: no-repeat;
-			background-size: cover;
-			position: absolute;
-			right: -8px;
-			top: -8px;
-			width: 16px;
-			height: 16px;
-			background-image: url(././img/images/del_red_icon.png);
-		}
-		.next_Footer {
-			position: absolute;
-			bottom: 50px;
-			width: 100%;
-			background: #ffffff;
-		}
-		.schedule_Group {
-			display: flex;
-			width: 100%;
-			align-items: center;
-			justify-content: center;
-			border-top: 1px solid #535353;
-			padding: 10px 0;
-		}
-		.schedule_Group div {
-			display: inline-flex;
-			margin: 1%;
-		}
-		.schedule_Btn {
-			background: #ffffff;
-			border: 1px solid #979797;
-			padding: 2% 4%;
-		}
-		.next_Schedule_Icon {
-			background-repeat: no-repeat;
-			background-size: cover;
-			width: 12px;
-			height: 20px;
-		}
-		.footer {
-			position: absolute;
-			bottom: 0;
-			text-align: center;
-			margin: 0;
-			width: 100%;
-			display: flex;
-			border-top: 1px solid #535353;
-		}
-		.footer_Btn {
-			padding-top: 4%;
-			padding-bottom: 4%;
-			font-size: 1rem;
-			color: #535353;
-			background: #ffffff;
-			display: inline-flex;
-			width: calc(100% / 2);
-			justify-content: center;
-		}
-		.footer_Btn.Save_Btn_Act {
-			color: #ffffff;
-			background: #aa0020;
-		}
-		.footer_Btn.Save_Btn_Uact {
-			color: #ffffff;
-			background: #979797;
-		}
-		.volume_Icon {
-			background-image: url(././img/images/volume_icon.png);
-		}
-		.bodyer {
+		.workListDetails_bodyer {
 			background-image: url(././img/images/bg_img.png);
 		}
+
 		.arrow_Down_White {
 			background-image: url(././img/images/arrow_Down_White.png);
 		}
+
 		.arrow_Left_White {
 			background-image: url(././img/images/arrow_Left_White.png);
-			width: 10px;
-			height: 18px;
 		}
 
-		.arrow_Down_Red {
-			background-image: url(././img/images/arrow_Down_Red.png);
-		}
-		.arrow_Left_Red {
-			background-image: url(././img/images/arrow_Left_Red.png);
-		}
 		.next_Schedule_Icon {
 			background-image: url(././img/images/next_Schedule_Icon.png);
 		}
 
-		.onlyread_Img_2 {
-			background-image: url(././img/images/onlyread_Img_2.jpg);
+		.explain_Icon {
+			background-image: url(././img/images/explain_icon.png);
+		}
+
+		.has_Add_Img {
+			background-image: url(././img/images/has_add_img.png);
+		}
+
+		.will_Add_Img {
+			background-image: url(././img/images/will_add_img.png);
+		}
+
+		.arrow_quantity_icon {
+			background-image: url(././img/images/arrow_quantity_icon.png);
+		}
+
+		.btn_Import_Group {
+			background-image: url(././img/images/import_Group.png);
+		}
+
+		.btn_modify_Group {
+			background-image: url(././img/images/modify_Group.png);
+		}
+
+		.del_Img {
+			background-image: url(././img/images/del_red_icon.png);
 		}
 	</style>
 	<script src="../../../../../../CustomPlugin/print-plugin/www/print-plugin.js"></script>
 </head>
+
 <body>
-<div class="header">
-	<div class="left_Box">
+	<div class="workListDetails_header">
+		<div class="left_Box">
+		</div>
+		<div class="center_Box">
+			<div class="center_Title">工单详情</div>
+		</div>
+		<div class="right_Box">
+		</div>
 	</div>
-	<div class="center_Box">
-		<div class="center_Title">工单详情</div>
-	</div>
-	<div class="right_Box">
-	</div>
-</div>
-<div class="bodyer">
-	<div class="big_Type_Group">
-		<div class="displayQuantity"> 已选共{{HasTruckNum}}台 </div>
-		<div>
-			<div class="small_Type_Title_Group" ng-click="toDetailInfo();">
-				<div class="small_Type_Title_G"> 详细信息 </div>
-				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-				<div class="OpenClose_Btn arrow_Down_White" id="detailImg"></div>
-			</div>
-			<div id="detailContent">
-				<div class="small_Type_Group" >
-					<div class="small_Type_Title">派工单号:</div>
-					<div class="small_Type_Box">
-						<input class="small_Type_Input" id="workSingleNumber" style="background-color:transparent;" disabled="disabled" value="{{mobileName}}"/>
+	<div class="workListDetails_bodyer">
+		<div class="big_Type_Group">
+			<div class="displayQuantity" >
+				<div class="arrow_quantity_icon"></div>
+				<div class="displayQuantity_text" ng-click="toDescribInfDiv();">已选共{{HasTruckNum}}台 </div>
+				<div class="describ_Inf_Div" id="describInfDiv">
+					<div class="des_Inf_Head">
+						<div class="des_Inf_Left"> <input type="checkbox" /> </div>
+						<div class="des_Inf_Center">
+							<div> 车体号 </div>
+						</div>
+						<div class="des_Inf_Right">
+							<div> 工作小时数 </div>
+						</div>
+					</div>
+					<div>
+						<div class="des_Inf_Body">
+							<div class="des_Inf_Left"> <input type="checkbox" /> </div>
+							<div class="des_Inf_Center">
+								<div> C1X336876937 </div>
+							</div>
+							<div class="des_Inf_Right"> <input type="text" /> </div>
+						</div>
+					</div>
+					<div class="des_Inf_Btn_Group">
+						<div class="des_Left_Btn">确定</div>
+						<div class="des_Right_Btn">更多</div>
 					</div>
 				</div>
-				<!--<div class="small_Type_Group">-->
+			</div>
+			<div>
+				<div class="small_Type_Title_Group" ng-click="toDetailInfo();">
+					<div class="small_Type_Title_G"> 详细信息 </div>
+					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+					<div class="OpenClose_Btn arrow_Down_White" id="detailImg"></div>
+				</div>
+				<div id="detailContent">
+					<div class="small_Type_Group">
+						<div class="small_Type_Title">派工单号:</div>
+						<div class="small_Type_Box">
+							<input class="small_Type_Input" id="workSingleNumber" style="background-color:transparent;" disabled="disabled"
+							 value="{{mobileName}}" />
+						</div>
+					</div>
+					<!--<div class="small_Type_Group">-->
 					<!--<div class="small_Type_Title">通知单号:</div>-->
 					<!--<div class="small_Type_Box">-->
-						<!--<input class="small_Type_Input" style="background-color:transparent;"/>-->
-						<!--<div class="search_small_black"></div>-->
+					<!--<input class="small_Type_Input" style="background-color:transparent;"/>-->
+					<!--<div class="search_small_black"></div>-->
 					<!--</div>-->
-				<!--</div>-->
-				<div class="small_Type_Group">
-					<div class="small_Type_Title">作业类型:</div>
-					<div class="small_Type_Box">
-						<select class="small_Type_Select" id="select_work_type">
-							<option ng-repeat="itemWorkType in workTypes" value="{{itemWorkType.label}}">{{itemWorkType.value}}</option>
-						</select>
+					<!--</div>-->
+					<div class="small_Type_Group">
+						<div class="small_Type_Title">作业类型:</div>
+						<div class="small_Type_Box">
+							<select class="small_Type_Select" id="select_work_type">
+								<option ng-repeat="itemWorkType in workTypes" value="{{itemWorkType.label}}">{{itemWorkType.value}}</option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="small_Type_Group">
-					<div class="small_Type_Title">服务类型:</div>
-					<div class="small_Type_Box">
-						<select class="small_Type_Select" id="select_service_type">
-							<option ng-repeat="carService in carServices" value="{{carService.label}}">{{carService.value}}</option>
-						</select>
+					<div class="small_Type_Group">
+						<div class="small_Type_Title">服务类型:</div>
+						<div class="small_Type_Box">
+							<select class="small_Type_Select" id="select_service_type">
+								<option ng-repeat="carService in carServices" value="{{carService.label}}">{{carService.value}}</option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="small_Type_Group">
-					<div class="small_Type_Title">保养级别:</div>
-					<div class="small_Type_Box">
-						<select class="small_Type_Select" id="select_care_type">
-						</select>
+					<div class="small_Type_Group">
+						<div class="small_Type_Title">保养级别:</div>
+						<div class="small_Type_Box">
+							<select class="small_Type_Select" id="select_care_type">
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="small_Type_Group">
-					<div class="small_Type_Title">来电事由:</div>
-					<div class="small_Type_Box">
-						<textarea class="small_Type_Textarea" id="call_str">{{callPhoneContent}}</textarea>
+					<div class="small_Type_Group">
+						<div class="small_Type_Title">来电事由:</div>
+						<div class="small_Type_Box">
+							<textarea class="small_Type_Textarea" id="call_str">{{callPhoneContent}}</textarea>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div>
-			<div class="small_Type_Title_Group" ng-click="toWorkInfo();">
-				<div class="small_Type_Title_G"> 工作信息 </div>
-				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-				<div class="OpenClose_Btn arrow_Down_White" id="workImg"></div>
-			</div>
-			<div id="workContent">
-				<div class="small_Type_Group" >
-					<div class="small_Type_Box">
-						<textarea class="small_Type_Textarea" id="workContentStr">{{workContent}}</textarea>
-					</div>
+			<div>
+				<div class="small_Type_Title_Group" ng-click="toWorkInfo();">
+					<div class="small_Type_Title_G"> 工作信息 </div>
+					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+					<div class="OpenClose_Btn arrow_Down_White" id="workImg"></div>
 				</div>
-				<div class="small_Type_Group">
-					<div class="small_Type_Title">上传图片:</div>
-					<div class="small_Type_Box">
-						<div class="img_Group" id="photoGroup">
-							<div class="item_Img" ng-repeat="itemUri in imgUris">
-								<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});" id="{{itemUri}}" ng-click="getPhoto($event);">
-									<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+				<div id="workContent">
+					<div class="small_Type_Group">
+						<div class="small_Type_Box">
+							<textarea class="small_Type_Textarea" id="workContentStr">{{workContent}}</textarea>
+						</div>
+					</div>
+					<div class="small_Type_Group">
+						<div class="small_Type_Title">上传图片:</div>
+						<div class="small_Type_Box">
+							<div class="img_Group" id="photoGroup">
+								<div class="item_Img" ng-repeat="itemUri in imgUris">
+									<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
+									 id="{{itemUri}}" ng-click="getPhoto($event);">
+										<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div>
-			<div class="small_Type_Title_Group" ng-click="toPartsInfo();">
-				<div class="small_Type_Title_G"> 配件需求 </div>
-				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-				<div class="OpenClose_Btn arrow_Down_White" id="partImg"></div>
-			</div>
-			<div id="partContent">
-				<div class="small_Type_Box" >
-					<div class="onlyread_Img_2"></div>
+			<div>
+				<div class="small_Type_Title_Group" ng-click="toPartsInfo();">
+					<div class="small_Type_Title_G_2"> 配件需求 </div>
+					<!-- 点击btn_I/或者btn_M,添加click_Style -->
+					<div class="btn_I">
+						<div class="btn_Import_Group"> </div>
+					</div>
+					<div class="btn_M">
+						<div class="btn_modify_Group"> </div>
+					</div>
+					<div class="btn_Import_Div to_Hide">
+						<div class="Import_Btn"> 导入LSG </div>
+						<div class="Import_Btn"> 导入经济件 </div>
+						<div class="Import_Btn"> 导入常用配件 </div>
+						<div class="Import_Btn"> 生成备件订单 </div>
+						<div class="Import_Btn"> 免费配件审批 </div>
+						<div class="Import_Btn"> 生成配件报价 </div>
+					</div>
+					<div class="btn_modify_Div to_Hide">
+						<div class="Modify_Btn"> 添加/删除 </div>
+						<div class="Modify_Btn"> 清空经济件 </div>
+						<div class="Modify_Btn"> 使用经济件 </div>
+					</div>
+					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+					<div class="OpenClose_Btn arrow_Down_White" id="partImg"></div>
+				</div>
+				<div class="legend_Group">
+					<div> 替代件 </div>
+					<div class="blue_legend"> </div>
+					<div> 经济件 </div>
+					<div class="green_legend"> </div>
+					<div> 视图不完整或无效号 </div>
+					<div class="red_legend"> </div>
+				</div>
+				<div id="partContent">
+					<table cellpadding="0" cellspacing="0" border="0" class="quoted_Table">
+						<tr>
+							<th class="sv_Td sv_Td_nopadding">
+								<div> 行项 </div>
+							</th>
+							<th class="sv_Td sv_Td_Long">
+								<div> 物料信息 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 数量 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 公布价 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 直发<br />物料 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 预留 </div>
+							</th>
+						</tr>
+						<tr>
+							<!-- 根据3种颜色，添加3个class: blue_legend/green_legend/red_legend在第一个行项的td上；以及blue_text_color/green_text_color/red_text_color在所有的td上 -->
+							<td class="sv_Td sv_Td_nopadding blue_legend blue_text_color">
+								<!-- 只有blue替代件情况下会出现以下2个div explain_Icon和explain_Text-->
+								<div class="explain_Icon"> </div>
+								<!-- <div class="explain_Text">
+									说明文字：内容内容
+								</div> -->
+								<div> 1 </div>
+							</td>
+							<td class="sv_Td sv_Td_Long blue_text_color">
+								<div>
+									<p>2389849 </p>
+									<p>油缸组件A</p>
+								</div>
+							</td>
+							<td class="sv_Td blue_text_color">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td blue_text_color">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td blue_text_color">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+							<td class="sv_Td blue_text_color">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+						</tr>
+						<tr>
+							<td class="sv_Td sv_Td_nopadding sv_Td_noborder">
+								<div> &nbsp;</div>
+							</td>
+							<td class="sv_Td sv_Td_Long sv_Td_noborder">
+								<div>
+									<p>2389849 </p>
+									<p>油缸组件A</p>
+								</div>
+							</td>
+							<td class="sv_Td sv_Td_noborder">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td sv_Td_noborder">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td sv_Td_noborder">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+							<td class="sv_Td sv_Td_noborder">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+						</tr>
+						<tr>
+							<td class="sv_Td sv_Td_nopadding green_legend green_text_color">
+								<div> 2 </div>
+							</td>
+							<td class="sv_Td sv_Td_Long green_text_color">
+								<div>
+									<p>2389849 </p>
+									<p>油缸组件A</p>
+								</div>
+							</td>
+							<td class="sv_Td green_text_color">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td green_text_color">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td green_text_color">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+							<td class="sv_Td green_text_color">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+						</tr>
+						<tr>
+							<!--  -->
+							<td class="sv_Td sv_Td_nopadding red_legend red_text_color">
+								<div> 3 </div>
+							</td>
+							<td class="sv_Td sv_Td_Long red_text_color">
+								<div>
+									<p>2389849 </p>
+									<p>油缸组件A</p>
+								</div>
+							</td>
+							<td class="sv_Td red_text_color">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td red_text_color">
+								<div> 1000 </div>
+							</td>
+							<td class="sv_Td red_text_color">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+							<td class="sv_Td red_text_color">
+								<input type="checkbox" class="sv_checkbox" />
+							</td>
+						</tr>
+					</table>
 				</div>
 			</div>
-		</div>
-		<div>
-			<div class="small_Type_Title_Group" ng-click="toServiceInfo();">
-				<div class="small_Type_Title_G"> 服务建议 </div>
-				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-				<div class="OpenClose_Btn arrow_Down_White" id="serviceImg"></div>
-			</div>
-			<div id="serviceContent">
-				<div class="small_Type_Group" >
-					<div class="small_Type_Box">
-						<textarea class="small_Type_Textarea" id="serviceSuggest">{{suggestStr}}</textarea>
+			<div>
+				<div class="small_Type_Title_Group" ng-click="toServiceInfo();">
+					<div class="small_Type_Title_G"> 服务建议 </div>
+					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+					<div class="OpenClose_Btn arrow_Down_White" id="serviceImg"></div>
+				</div>
+				<div id="serviceContent">
+					<div class="small_Type_Group">
+						<div class="small_Type_Box">
+							<textarea class="small_Type_Textarea" id="serviceSuggest">{{suggestStr}}</textarea>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="next_Footer">
-	<div class="schedule_Group">
-		<div class="schedule_Btn" ng-click="getArrivalTime($event);">到达</div>
-		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn" id="leave">离开</div>
-		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn" ng-click="doPrint($event);">打印</div>
-		<div class="next_Schedule_Icon"></div>
-		<div class="schedule_Btn" ng-click="signBill($event);">签单</div>
+	<div class="next_Footer">
+		<div class="schedule_Group">
+			<div class="schedule_Btn" ng-click="getArrivalTime($event);">到达</div>
+			<div class="next_Schedule_Icon"></div>
+			<div class="schedule_Btn" id="leave">离开</div>
+			<div class="next_Schedule_Icon"></div>
+			<div class="schedule_Btn" ng-click="doPrint($event);">打印</div>
+			<div class="next_Schedule_Icon"></div>
+			<div class="schedule_Btn" ng-click="signBill($event);">签单</div>
+		</div>
 	</div>
-</div>
-<div class="footer">
-	<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-	<div class="footer_Btn" ng-click="goBack();">取消</div>
-	<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
-</div>
+	<div class="footer">
+		<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+		<div class="footer_Btn" ng-click="goBack();">取消</div>
+		<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
+	</div>
 </body>
-</html>
 
+</html>
