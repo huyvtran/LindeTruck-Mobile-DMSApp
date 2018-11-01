@@ -547,5 +547,9 @@ angular.module('oinio.workDetailsControllers', [])
             });
 
         };
+
+        $scope.showDesInf = function () {
+            $state.go("app.workDetailsMoreInfo");
+        };
     });
 

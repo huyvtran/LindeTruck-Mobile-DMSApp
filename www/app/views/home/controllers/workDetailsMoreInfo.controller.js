@@ -1,0 +1,28 @@
+angular.module('oinio.workDetailsMoreInfoController', [])
+    .controller('workDetailsMoreInfoController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
+                                                   LocalCacheService) {
+
+        var vm = this,
+            oCurrentUser = LocalCacheService.get('currentUser') || {};
+
+        vm.isOnline = null;
+
+        /**
+         * @func    $scope.$on('$ionicView.beforeEnter')
+         * @desc
+         */
+        $scope.$on('$ionicView.beforeEnter', function () {
+
+        });
+        $scope.$on('$ionicView.enter', function () {
+            vm.isOnline = ConnectionMonitor.isOnline();
+            if (oCurrentUser) {
+                vm.username = oCurrentUser.Name;
+            }
+
+        });
+
+
+
+    });
+

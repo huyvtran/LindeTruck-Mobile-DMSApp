@@ -96,6 +96,18 @@
                 },
                 cache: false
             })
+
+            .state('app.workDetailsMoreInfo', {
+                url: 'app/workDetailsMoreInfo',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/workDetailsMoreInfo.html',
+                        controller: 'workDetailsMoreInfoController as vm'
+                    }
+                },
+                cache: false
+            })
+
             .state('app.serviceManagement', {
                 url: 'app/serviceManagement',
                 views: {
@@ -106,6 +118,7 @@
                 },
                 cache: false
             })
+
             .state('app.newLinkMan', {
                 url: 'app/newLinkMan',
                 views: {
