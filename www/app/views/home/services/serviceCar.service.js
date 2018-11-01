@@ -188,7 +188,8 @@
                     param.Name = '附件-' + timestamp;
                     param.contentType = 'image/jpeg';
                     param.parentObjectType = 'Service_Car_Attachment__c';
-                    param.body = dataURLtoBlob(images[i]);
+                    //param.body = dataURLtoBlob(images[i]);
+                    param.body = images[i];
                     //for (var j=0;j<sids.length;j++){
                     param.parentSoupEntryId = sids[i];
                     array_params.push(param);
@@ -226,6 +227,7 @@
                 return deferred.promise;
             };
 
+            /*
             var dataURLtoBlob = function (dataurl) {
                 var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                     bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -234,6 +236,7 @@
                 }
                 return new Blob([u8arr], { type: mime });
             };
+            */
 
             this.synchronize = function () {
                 var deferred = $q.defer();
