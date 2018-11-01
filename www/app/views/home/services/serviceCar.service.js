@@ -185,7 +185,7 @@
                 for (var i=0;i<images.length;i++){
                     var timestamp = new Date().getTime().toString();
                     var param = new Object();
-                    param.Name = '附件-' + timestamp;
+                    param.fileName = '附件-' + timestamp;
                     param.contentType = 'image/jpeg';
                     param.parentObjectType = 'Service_Car_Attachment__c';
                     //param.body = dataURLtoBlob(images[i]);
