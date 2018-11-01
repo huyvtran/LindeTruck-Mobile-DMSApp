@@ -211,7 +211,7 @@
                         deferred.resolve(results);
                     } else {
                         LocalDataService.createAttachment(sids[index]).then(function (result) {
-                            console.log('att save result item:', results);
+                            console.log('att save result item:', result);
                             results.push(result);
                             getNextSObject(++index);
                         }, function (error) {
