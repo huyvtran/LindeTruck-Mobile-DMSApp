@@ -392,6 +392,12 @@
              *  Service_Order_Overview__c.Service_Suggestion__c
              *  Service_Order_Overview__c.Subject__c
              *
+             *  {Object[]} childOrders - (unnecessary)the array data which should be save objects for,
+             *      the data can contain
+             *  Service_Order__c._soupEntryId (IF childOrders[] was passed,_soupEntryId must be contained),
+             *  Service_Order__c.Operation_Hour__c,
+             *  Service_Order__c.Service_Suggestion__c
+             *
              *
              *  {String}   str_suggest
              *  {String[]}  images - the array of base64 String value for images
@@ -406,7 +412,7 @@
              *   "_soupId": 1234567890,
              */
 
-            this.workDetailSaveButton = function (order,str_suggest,images,arrivaltime,leaveTime,startTime,finishTime) {
+            this.workDetailSaveButton = function (order,childOrders,str_suggest,images,arrivaltime,leaveTime,startTime,finishTime) {
                 let deferred = $q.defer();
                 let ret;
                 let sids_childOrder = [];
@@ -415,7 +421,7 @@
                     return service.searchChildOrderSidsForParent(soo[0]._soupEntryId);
                 }).then(function (sosids) {
                     sids_childOrder = sosids;
-                    return service.saveChildWorkOrder(sosids,order);
+                    return service.saveChildWorkOrder(sosids,order,childOrders);
                 }).then(function (childOrders) {
                     return service.saveWorkItems(sids_childOrder,str_suggest,arrivaltime,leaveTime,startTime,finishTime);
                 }).then(function (wiSids) {
@@ -494,7 +500,7 @@
             };
 
 
-            this.saveChildWorkOrder = function (orderSids,parent) {
+            this.saveChildWorkOrder = function (orderSids,parent,childOrders) {
                 console.log('saveWorkOrder:: '+orderSids);
                 var deferred = $q.defer();
 
@@ -506,6 +512,13 @@
                         sobject['Description__c'] = parent.Description__c;
                         sobject['Service_Suggestion__c'] = parent.Service_Suggestion__c;
                         sobject['Subject__c'] = parent.Subject__c;
+
+                        angular.forEach(childOrders, function (child) {
+                            if(sobject._soupEntryId == child._soupEntryId){
+                                sobject['Operation_Hour__c'] = child.Operation_Hour__c;
+                                sobject['Service_Suggestion__c'] = child.Service_Suggestion__c;
+                            }
+                        });
                     });
 
                     LocalDataService.updateSObjects('Service_Order__c', sobjects).then(function(result) {
