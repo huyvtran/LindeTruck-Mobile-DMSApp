@@ -355,7 +355,7 @@
 
             this.getOrdersSelectedTruck = function (sid) {
                 let deferred = $q.defer();
-                let ret;
+                let ret = new Object();
                 console.log('getOrdersSelectedTruck:::',sid);
 
                 service.getChildOrders(sid).then(function (childOrders) {
