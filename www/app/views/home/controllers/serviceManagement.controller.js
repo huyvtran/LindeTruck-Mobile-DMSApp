@@ -44,8 +44,8 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        //$scope.imgUris1.push("data:image/jpeg;base64,"+ imgUri);
-                                        $scope.imgUris1.push(imgUri);
+                                        $scope.imgUris1.push("data:image/jpeg;base64,"+ imgUri);
+                                        //$scope.imgUris1.push(imgUri);
                                         $scope.imgUris1.push("././img/images/will_add_Img.png");
                                         console.log(imgUri);
                                     },
@@ -76,8 +76,8 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        //$scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris1.push(imgUri);
+                                        $scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
+                                        //$scope.imgUris1.push(imgUri);
                                         $scope.imgUris1.push("././img/images/will_add_Img.png");
                                         //console.log(imgUri);
                                     },
@@ -120,8 +120,8 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        //$scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris2.push(imgUri);
+                                        $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+                                        //$scope.imgUris2.push(imgUri);
                                         $scope.imgUris2.push("././img/images/will_add_Img.png");
                                         //console.log(imgUri);
                                     },
@@ -152,8 +152,8 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        //$scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris2.push(imgUri);
+                                        $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+                                        //$scope.imgUris2.push(imgUri);
                                         $scope.imgUris2.push("././img/images/will_add_Img.png");
                                         //console.log(imgUri);
                                     },
@@ -299,13 +299,13 @@ angular.module('oinio.serviceManagementController', [])
 
             for (var i = 0; i < $scope.imgUris1.length; i++) {
                 if ($scope.imgUris1[i] != '././img/images/will_add_Img.png') {
-                    localImgUris1.push($scope.imgUris1[i]);
+                    localImgUris1.push(($scope.imgUris1[i]).slice(23));
                 }
             }
 
             for (var i = 0; i < $scope.imgUris2.length; i++) {
                 if ($scope.imgUris2[i] != '././img/images/will_add_Img.png') {
-                    localImgUris2.push($scope.imgUris2[i]);
+                    localImgUris2.push(($scope.imgUris2[i]).slice(23));
                 }
             }
             //commit data to remote
