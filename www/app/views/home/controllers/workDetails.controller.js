@@ -16,6 +16,7 @@ angular.module('oinio.workDetailsControllers', [])
             customerAddressValue = "",
             truckNumber = "",
             ownerName="",
+            truckItems=[],
             h = 0,
             m = 0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -58,6 +59,12 @@ angular.module('oinio.workDetailsControllers', [])
                 ownerName = result.Service_Order_Owner__r.Name !=null? result.Service_Order_Owner__r.Name:"";
                 return SOrderService.getOrdersSelectedTruck(userInfoId);
             }).then(function success(result) {
+                if (result.length>0){
+                    for (var i =0;i<result.length;i++){
+                        truckItems.push({truckItemNum:result[i],truckWorkHours:0,truckSuggestion:""});
+                        }
+                        $scope.allTruckItems = truckItems;
+                    }
                 console.log(result);
                 $log.info(result);
             }).catch(function error(msg) {
@@ -553,11 +560,10 @@ angular.module('oinio.workDetailsControllers', [])
             }, function error(error) {
                 $log.error(error);
             });
-
         };
 
-        $scope.showDesInf = function () {
-            $state.go("app.workDetailsMoreInfo");
+        $scope.showDetailsMoreInf = function () {
+            $state.go("app.workDetailsMoreInfo",{allTruckItem:truckItems});
         };
     });
 

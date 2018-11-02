@@ -98,7 +98,7 @@
             })
 
             .state('app.workDetailsMoreInfo', {
-                url: 'app/workDetailsMoreInfo',
+                url: 'app/workDetailsMoreInfo?allTruckItem',
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetailsMoreInfo.html',

@@ -44,9 +44,10 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
+                                        //$scope.imgUris1.push("data:image/jpeg;base64,"+ imgUri);
+                                        $scope.imgUris1.push(imgUri);
                                         $scope.imgUris1.push("././img/images/will_add_Img.png");
-                                        //console.log(imgUri);
+                                        console.log(imgUri);
                                     },
                                     function onError(error) {
                                         return;
@@ -75,7 +76,8 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
+                                        //$scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
+                                        $scope.imgUris1.push(imgUri);
                                         $scope.imgUris1.push("././img/images/will_add_Img.png");
                                         //console.log(imgUri);
                                     },
@@ -118,7 +120,8 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+                                        //$scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+                                        $scope.imgUris2.push(imgUri);
                                         $scope.imgUris2.push("././img/images/will_add_Img.png");
                                         //console.log(imgUri);
                                     },
@@ -149,7 +152,8 @@ angular.module('oinio.serviceManagementController', [])
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+                                        //$scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+                                        $scope.imgUris2.push(imgUri);
                                         $scope.imgUris2.push("././img/images/will_add_Img.png");
                                         //console.log(imgUri);
                                     },

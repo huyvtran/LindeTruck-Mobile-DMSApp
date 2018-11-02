@@ -12,7 +12,8 @@ angular.module('oinio.workDetailsMoreInfoController', [])
          * @desc
          */
         $scope.$on('$ionicView.beforeEnter', function () {
-
+            console.log("$stateParams.allTruckItem", $stateParams.allTruckItem);
+            $scope.truckItems = $stateParams.allTruckItem;
         });
         $scope.$on('$ionicView.enter', function () {
             vm.isOnline = ConnectionMonitor.isOnline();
