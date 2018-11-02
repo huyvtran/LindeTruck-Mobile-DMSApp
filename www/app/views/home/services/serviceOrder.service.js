@@ -336,6 +336,48 @@
                 return deferred.promise;
             };
 
+
+            this.getTrucksForOrder = function(sid){
+                console.log('getTrucksForOrder.keyword:%s',sid);
+                let deferred = $q.defer();
+                let truckSids = [];
+
+                if(sid == null || sid.length < 1){
+                    console.log('getTrucksForOrder::NULL');
+                    deferred.resolve(null);
+                    return deferred.promise;
+                }
+
+                angular.forEach(sid, function (entry) {
+                    truckSids.push(entry.Truck_Serial_Number__c_sid);
+                });
+
+                let sqlInString = "'" + truckSids.join("','") + "'";
+
+                let sql =  "select {Truck_Fleet__c:_soup}\
+                         from {Truck_Fleet__c}\
+                         where {Truck_Fleet__c:_soupEntryId} in (" +sqlInString+ ")";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let orders = [];
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        console.log('getTrucksForOrder::sql::', cursor.currentPageOrderedEntries);
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            orders.push(entry[0]);
+                        });
+                    }
+
+                    console.log('getTrucksForOrder::orders::', orders);
+                    deferred.resolve(orders);
+                }, function (err) {
+                    $log.error(err);
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                console.log('getTrucksForOrder::', deferred.promise);
+                return deferred.promise;
+            };
+
             this.setTruckIntoOrders = function (orders,trucks) {
                 let deferred = $q.defer();
                 let ret;
@@ -361,7 +403,7 @@
                 service.getChildOrders(sid).then(function (childOrders) {
                     console.log('getOrdersSelectedTruck1:::',childOrders);
                     ret.childOrders = childOrders;
-                    return service.getTruckModels(ret.childOrders);
+                    return service.getTrucksForOrder(ret.childOrders);
                 }).then(function (truckModels) {
                     console.log('getOrdersSelectedTruck2:::',truckModels);
                     ret.truckModels = truckModels;
