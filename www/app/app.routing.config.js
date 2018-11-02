@@ -87,7 +87,7 @@
                 cache: false
             })
             .state('app.workDetails', {
-                url: 'app/workDetails/?SendInfo&?workDescription',
+                url: 'app/workDetails/?SendInfo&?workDescription&?truckItemTotal',
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetails.html',
@@ -98,7 +98,7 @@
             })
 
             .state('app.workDetailsMoreInfo', {
-                url: 'app/workDetailsMoreInfo?allTruckItem',
+                url: 'app/workDetailsMoreInfo?truckItemAll',
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetailsMoreInfo.html',

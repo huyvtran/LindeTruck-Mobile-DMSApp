@@ -359,10 +359,10 @@
 		<div class="big_Type_Group">
 			<div class="displayQuantity">
 				<div class="arrow_quantity_icon"></div>
-				<div class="displayQuantity_text" ng-click="toDescribInfDiv();">已选共{{HasTruckNum}}台 </div>
+				<div class="displayQuantity_text" ng-click="toDescribInfDiv();">已选共{{SelectedTruckNum}}台 </div>
 				<div class="describ_Inf_Div" id="describInfDiv">
-					<div class="des_Inf_Head" ng-if="">
-						<div class="des_Inf_Left"> <input type="checkbox" /> </div>
+					<div class="des_Inf_Head">
+						<div class="des_Inf_Left"> <input type="checkbox"/> </div>
 						<div class="des_Inf_Center">
 							<div> 车体号 </div>
 						</div>
@@ -376,7 +376,7 @@
 							<div class="des_Inf_Center">
 								<div  ng-cloak>{{truckItem.truckItemNum}}</div>
 							</div>
-							<div class="des_Inf_Right"> <input type="text" ng-cloak value="{{truckItem.truckWorkHours}}"/> </div>
+							<div class="des_Inf_Right"> <input type="text" ng-cloak value="{{truckItem.Operation_Hour__c}}"/> </div>
 						</div>
 					</div>
 					<div class="des_Inf_Btn_Group">

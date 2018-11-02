@@ -8,6 +8,7 @@ angular.module('oinio.workDetailsControllers', [])
             startTime = null,
             finishTime = null,
             workDescription = null,
+            truckItemTotalMore=null,
             userInfoId = "",
             localSoupEntryId = "",
             localUris = [],
@@ -41,17 +42,44 @@ angular.module('oinio.workDetailsControllers', [])
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
             $scope.HasTruckNum = 0;
+            $scope.SelectedTruckNum=0;
             $scope.workTypes = [];
             $scope.carServices = [];
             $scope.imgUris = ["././img/images/will_add_Img.png"];
             console.log("$stateParams.SendInfo", $stateParams.SendInfo);
             console.log("$stateParams.workDescription", $stateParams.workDescription);
+            console.log("$stateParams.truckItemTotal", $stateParams.truckItemTotal);
+
             userInfoId = $stateParams.SendInfo;
             workDescription = $stateParams.workDescription;
 
+            truckItemTotalMore = $stateParams.truckItemTotal;
+            if (truckItemTotalMore!=null){
+                $scope.allTruckItems = JSON.parse($stateParams.truckItemTotal);
+                $scope.SelectedTruckNum=$scope.allTruckItems.length;
+            }else{
+                SOrderService.getOrdersSelectedTruck(userInfoId).then(function success(result) {
+                    $scope.SelectedTruckNum=result.length;
+                    if (result.length>0){
+                        for (var i =0;i<result.length;i++){
+                            truckItems.push(
+                                {   _soupEntryId:result[i]. Truck_Serial_Number__r._soupEntryId,
+                                    truckItemNum:result[i]. Truck_Serial_Number__r.Name,
+                                    Operation_Hour__c:0,
+                                    Service_Suggestion__c:""
+                                }
+                            );
+                        }
+                        $scope.allTruckItems = truckItems;
+                    }
+                    console.log(result);
+                    $log.info(result);
+                },function error(msg) {
+                    $log.error(msg);
+                    console.log(msg);
+                });
+            }
 
-            
-            
 
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
@@ -65,21 +93,10 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 }
                 ownerName = result.Service_Order_Owner__r.Name !=null? result.Service_Order_Owner__r.Name:"";
-                return SOrderService.getOrdersSelectedTruck(userInfoId);
-            }).then(function success(result) {
-                if (result.length>0){
-                    for (var i =0;i<result.length;i++){
-                        truckItems.push({truckItemNum:result[i],truckWorkHours:0,truckSuggestion:""});
-                        }
-                        $scope.allTruckItems = truckItems;
-                    }
-                console.log(result);
-                $log.info(result);
-            }).catch(function error(msg) {
+            },function error(msg) {
                 $log.error(msg);
                 console.log(msg);
             });
-            
         });
         $scope.$on('$ionicView.enter', function () {
             
@@ -550,7 +567,7 @@ angular.module('oinio.workDetailsControllers', [])
             }
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
-                    localUris.push($scope.imgUris[i]);
+                    localUris.push(($scope.imgUris[i]).slice(23));
                 }
             }
             console.log(localUris);
@@ -563,7 +580,7 @@ angular.module('oinio.workDetailsControllers', [])
                 Subject__c: $('#call_str').val()
             };
 
-            SOrderService.workDetailSaveButton(order, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
+            SOrderService.workDetailSaveButton(order, $scope.allTruckItems, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
                 console.log(result);
                 $state.go("app.home");
             }, function error(error) {
@@ -572,7 +589,7 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.showDetailsMoreInf = function () {
-            $state.go("app.workDetailsMoreInfo",{allTruckItem:truckItems});
+            $state.go("app.workDetailsMoreInfo",{truckItemAll: JSON.stringify(truckItems)});
         };
 
         //***************************** */初始化配件模块*********************************

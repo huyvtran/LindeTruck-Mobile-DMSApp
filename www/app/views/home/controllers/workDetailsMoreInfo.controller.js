@@ -12,9 +12,12 @@ angular.module('oinio.workDetailsMoreInfoController', [])
          * @desc
          */
         $scope.$on('$ionicView.beforeEnter', function () {
-            console.log("$stateParams.allTruckItem", $stateParams.allTruckItem);
-            $scope.truckItems = $stateParams.allTruckItem;
+
+            console.log("$stateParams.truckItemAll", $stateParams.truckItemAll);
+            $scope.truckItems =JSON.parse($stateParams.truckItemAll);
         });
+
+
         $scope.$on('$ionicView.enter', function () {
             vm.isOnline = ConnectionMonitor.isOnline();
             if (oCurrentUser) {
@@ -28,7 +31,7 @@ angular.module('oinio.workDetailsMoreInfoController', [])
         };
 
         $scope.goSave = function () {
-            $state.go("app.workDetails");
+            $state.go("app.workDetails",{truckItemTotal:JSON.stringify($scope.truckItems)});
         };
 
     });
