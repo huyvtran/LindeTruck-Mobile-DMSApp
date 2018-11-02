@@ -337,7 +337,7 @@
             };
 
             this.setTruckIntoOrders = function (orders,trucks) {
-                et deferred = $q.defer();
+                let deferred = $q.defer();
                 let ret;
 
                 angular.forEach(orders, function (order) {
@@ -350,7 +350,7 @@
 
                 deferred.resolve(orders);
                 return deferred.promise;
-            }
+            };
 
 
             this.getOrdersSelectedTruck = function (sid) {
@@ -374,7 +374,7 @@
                 });
 
                 return deferred.promise;
-            }
+            };
 
 
 
@@ -429,7 +429,7 @@
                 });
 
                 return deferred.promise;
-            }
+            };
 
 
 
