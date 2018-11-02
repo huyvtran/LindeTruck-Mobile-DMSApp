@@ -22,7 +22,13 @@ angular.module('oinio.workDetailsMoreInfoController', [])
 
         });
 
+        $scope.goBack = function () {
+            window.history.back();
+        };
 
+        $scope.goSave = function () {
+            $state.go("app.workDetails");
+        };
 
     });
 
