@@ -10,7 +10,7 @@
      */
     angular
         .module('oinio.services')
-        .service('SCarService', function($q, $filter, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, FileService) {
+        .service('SCarService', function($q, $filter, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService) {
 
             let service = this;
 
@@ -46,7 +46,7 @@
                     var newItem, adr;
                     var adrsToSave = [];
                     adr = serviceCarItem;
-                    
+
                     newItem = service.cloneObj(sobject);
 
                     newItem['CarNo__c'] = adr.CarNo__c;//车牌号
@@ -99,7 +99,7 @@
 
                 return deferred.promise;
             };
-            
+
             this.saveChidServiceCarAtt1 = function ( sids, images1 , type) {
                 var deferred = $q.defer();
 
@@ -159,8 +159,7 @@
                 return deferred.promise;
             }
 
-            /*
-            this.saveAttachments2 = function (images,sids) {
+            this.saveAttachments = function (images,sids) {
                 let deferred = $q.defer();
                 let ret;
 
@@ -175,103 +174,9 @@
                     deferred.reject(error);
                 });
 
-                return deferred.promise; 
-            }
-            */
-
-            this.saveAttachments = function (images,sids) {
-                let deferred = $q.defer();
-                //let ret;
-                var attArray = [];
-
-                service.createAttachmentObj(images,sids).then(function (array_params) {
-                    console.log('saveAttachments::array_params：：',array_params);
-                    for (var i=0;i<images.length;i++){
-                        var cashPicObj = {
-                            attachment: array_params[i];
-                            body: images[i];
-                        };
-                        attArray.push(cashPicObj);
-                    }
-                    console.log('att array json: ', attArray);
-                    return service.commitAttachmentObj(attArray);
-                }).then(function (res) {
-                    console.log('saveAttachments::res：：',res);
-                    deferred.resolve(res);
-                }).catch(function (error) {
-                    console.log('att save error:::', error );
-                    deferred.reject(error);
-                });
-
                 return deferred.promise;
             }
 
-            this.commitAttachmentObj = function (imagesJson) {
-                var deferred = $q.defer();
-                deferred.resolve('success');
-                return deferred.promise;
-            }
-
-            /*
-            this.commitAttachmentObj2 = function (imagesJson) {
-                var deferred = $q.defer();
-                angular.forEach( imagesJson, function (tractorItem) {
-                    AttachmentService.saveAttachment(tractorItem.attachment).then(function (result) {
-                        LocalDataService.queryConfiguredObjectByName('Service_Car_Attachment__c').then(function (objectType) {
-                            restoreTripAttachmentBody(result, objectType, tractorItem.body).then(function (success) {
-                                console.log('save success:::', success);
-                                deferred.resolve(success);
-                            }, function (tractorErr) {
-                                console.log('save error:::', tractorErr);
-                                deferred.reject(tractorErr);
-                            });
-                        }, reject);
-                    }, function (err) {
-                        console.log('save error:::', err);
-                        deferred.reject(err);
-                    });
-                });
-
-                return deferred.promise;
-            }
-            */
-
-            function restoreTripAttachmentBody(resAttachment, objectType, imageData) {
-                var deferred = $q.defer();
-                FileService.saveAttachmentBody(resAttachment, objectType, imageData).then(function (result) {
-                    deferred.resolve(result);
-                }, function (err) {
-                    console.log(err);
-                    deferred.reject(err);
-                });
-                return deferred.promise;
-            }
-
-            this.createAttachmentObj = function (images,sids) {
-                var deferred = $q.defer();
-                var array_params = [];
-                LocalDataService.createSObject('Attachment').then(function (sobject) {
-                    var timestamp = new Date().getTime().toString();
-                    for (var i=0;i<images.length;i++){
-                        var curAttachment = sobject;
-                        curAttachment.Name = '附件-' + timestamp;
-                        //curAttachment.Description = angular.copy(vm.description);
-                        //curAttachment.ParentId = vm.trip.Id;
-                        curAttachment.ParentId_sid = sids[i];
-                        curAttachment.ParentId_type = 'Service_Car_Attachment__c';
-                        curAttachment.ContentType = 'image/jpeg';
-                        array_params.push(curAttachment);
-                    }
-                    //console.log('current att obj array:::', curAttachment);
-                    deferred.resolve(array_params);
-                }, function (dmlErr) {
-                    deferred.reject(dmlErr);
-                });
-
-                return deferred.promise;
-            }
-
-            /*
             this.saveImages2Attachments = function (images,sids ) {
                 //console.log('saveImages2Attachments:: '+images);
                 var deferred = $q.defer();
@@ -283,7 +188,8 @@
                     param.fileName = '附件-' + timestamp;
                     param.contentType = 'image/jpeg';
                     param.parentObjectType = 'Service_Car_Attachment__c';
-                    param.body = dataURLtoBlob(images[i]);
+                    //param.body = dataURLtoBlob(images[i]);
+                    param.body = images[i]);
                     //param.body = convertImgDataToBlob(images[i]);
                     //for (var j=0;j<sids.length;j++){
                     param.parentSoupEntryId = sids[i];
@@ -295,9 +201,7 @@
 
                 return deferred.promise;
             };
-            */
 
-            /*
             this.AddAttachments = function (sids) {
                 var deferred = $q.defer(),
                     results = [];
@@ -323,10 +227,8 @@
 
                 return deferred.promise;
             };
-            */
 
             //**dataURL to blob**/
-            /*
             var dataURLtoBlob =  function(dataurl) {
                 var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
                     bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
@@ -335,7 +237,6 @@
                 }
                 return new Blob([u8arr], { type: mime });
             }
-            */
 
             /*
             var convertImgDataToBlob = function(base64Data) {
@@ -377,7 +278,7 @@
                 return blob;
             };
             */
-            
+
             this.synchronize = function () {
                 var deferred = $q.defer();
 
@@ -403,36 +304,5 @@
                 }
                 return newObj;
             };
-
-
         });
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
