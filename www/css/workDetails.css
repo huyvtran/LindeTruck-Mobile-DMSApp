@@ -85,9 +85,23 @@ img {
 }
 
 /* body */
+.workListDetails_bodyer .list {
+    padding: 0;
+}
+.workListDetails_bodyer .item {
+    padding: 0;
+    width: 100%;
+    overflow: inherit;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
 .workListDetails_bodyer {
     overflow-y: auto;
-    height: calc(100vh - 181px);
+    height: calc(100vh - 120px);
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -370,15 +384,19 @@ img {
 .workListDetails_bodyer .quoted_Table .sv_Td p {
     margin: 0;
 }
+/* delete */
 .workListDetails_bodyer .quoted_Table .sv_Td.blue_legend {
-    border-left: 5px solid #008caa;
+    background: #008caa;
     position: relative;
+    color: #ffffff;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.green_legend {
-    border-left: 5px solid #00aa6d;
+    background: #00aa6d;
+    color: #ffffff;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.red_legend { 
-    border-left: 5px solid #aa2000;
+    background:  #aa2000;
+    color: #ffffff;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.blue_text_color {
    color: #008caa;
@@ -413,6 +431,55 @@ img {
     text-align: left;
     top: calc(50% - 16px);
 }
+/* delete  end */
+/* add */
+.workListDetails_bodyer .quoted_Table.blue_legend .sv_Td:first-child {
+    background: #008caa;
+    position: relative;
+    color: #ffffff;
+}
+.workListDetails_bodyer .quoted_Table.green_legend .sv_Td:first-child {
+    background: #00aa6d;
+    color: #ffffff;
+}
+.workListDetails_bodyer .quoted_Table.red_legend .sv_Td:first-child { 
+    background:  #aa2000;
+    color: #ffffff;
+}
+.workListDetails_bodyer .quoted_Table.blue_legend .sv_Td:first-child {
+   color: #008caa;
+}
+.workListDetails_bodyer .quoted_Table.green_legend .sv_Td:first-child {
+    color: #00aa6d;
+}
+.workListDetails_bodyer .quoted_Table.red_legend  .sv_Td:first-child { 
+    color: #aa2000;
+}
+.workListDetails_bodyer .quoted_Table.sv_Td_noborder .sv_Td {
+    border: 0;
+    background: #f2f2f2;
+}
+.workListDetails_bodyer .quoted_Table.blue_legend .sv_Td:first-child .explain_Icon {
+    position: absolute;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    left: 1px;
+}
+.workListDetails_bodyer .quoted_Table.blue_legend .sv_Td:first-child .explain_Text {
+    position: absolute;
+    width: 80vw;
+    padding: 10%;
+    left: 25px;
+    z-index: 10;
+    background: #ffffff;
+    box-shadow: 0 1px 2px #676767;
+    border: 1px solid #008caa;
+    text-align: left;
+    top: calc(50% - 16px);
+}
+/* add end */
 
 .workListDetails_bodyer .small_Type_Input {
     color: #535353;

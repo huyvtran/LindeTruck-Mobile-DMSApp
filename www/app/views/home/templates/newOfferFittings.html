@@ -158,12 +158,15 @@
 			background-color: #535353;
 			color: #ffffff;
 		}
-		input[type="checkbox"], input[type="radio"] {
+
+		input[type="checkbox"],
+		input[type="radio"] {
 			width: 20px;
 			height: 20px;
 			vertical-align: top;
 			background: #ffffff;
 		}
+
 		.small_Box_Text_1.item {
 			padding: 0;
 			width: 100%;
@@ -174,21 +177,26 @@
 			font-size: inherit;
 			margin: 0;
 		}
+
 		.small_Box_Text_2.item {
 			border: 0;
 			margin: 0 20px;
 			border-bottom: 1px solid #dddddd;
 			padding: 10px 0;
 		}
+
 		.searchsout {
 			overflow-x: auto;
 			margin: 20px 0;
 			overflow-y: hidden;
 		}
+
 		.searchs_Table {
 			width: 172vw;
 		}
-		.searchs_Table th, .searchs_Table td {
+
+		.searchs_Table th,
+		.searchs_Table td {
 			width: 27vw;
 			padding: 0 1%;
 			font-size: 0.8rem;
@@ -197,21 +205,27 @@
 			vertical-align: middle;
 			border: 1px solid #979797;
 		}
+
 		.searchs_Table th {
 			background: #d8d8d8;
-		} 
+		}
+
 		.searchs_Table td {
 			background: #eee9e9;
 		}
+
 		.searchs_Table th div {
 			width: calc(27vw - 10px);
 		}
+
 		.searchs_Table th input {
 			width: 10vw;
 		}
+
 		.searchs_Table td input {
 			width: 10vw;
 		}
+
 		.searchs_Table td div {
 			width: calc(27vw - 10px);
 		}
@@ -226,15 +240,15 @@
 					<div class="back_Icon"></div>
 				</div>
 				<div class="search_All">
-					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText"
-					/>
+					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText" />
 				</div>
 				<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);" ng-show="searchTruckText">
 					<div class="text_Cancel"> 搜索 </div>
 				</div>
 			</div>
 			<div class="selectTruckFit_Tabs" style="">
-				<div id="selectTruckFit_Tab_1" class="selectTruckFit_Tab selectTruckFit_Tab_Active" ng-click="changeTruckTab('1');" style="">
+				<div id="selectTruckFit_Tab_1" class="selectTruckFit_Tab selectTruckFit_Tab_Active" ng-click="changeTruckTab('1');"
+				 style="">
 					<span class="selectTruckFit_Tab_Text" style="">搜索结果</span>
 				</div>
 				<div id="selectTruckFit_Tab_2" class="selectTruckFit_Tab" ng-click="changeTruckTab('2');" style="">
@@ -246,8 +260,7 @@
 					<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
 						<tr>
 							<th class="sv_Td">
-								<input id="ckbox_truckFit_searchresult_all" type="checkbox" ng-click="checkAllSearchResults();"
-									/>
+								<input id="ckbox_truckFit_searchresult_all" type="checkbox" ng-click="checkAllSearchResults();" />
 							</th>
 							<th class="sv_Td">
 								<div style="width: 150px;"> 客户物料号 </div>
@@ -302,12 +315,14 @@
 					</ion-list>
 				</div>
 				<div id="selectTruckFit_checked" class="big_Box_Group" style="display: none;">
-					<div class="small_Box_TitleFit"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除
+					<div class="small_Box_TitleFit"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" />
+						全选删除
 					</div>
 					<ion-list can-swipe="true">
 
 						<ion-item id="items3" ng-repeat="ckitem in selectedTruckFitItems" ng-cloak class="small_Box_Text_2">
-							<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png" /></span> {{ckitem[0].Name}}
+							<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png" /></span>
+							{{ckitem[0].Name}}
 						</ion-item>
 					</ion-list>
 				</div>
@@ -349,6 +364,9 @@
 							<div class="Import_Btn"> 导入LSG </div>
 							<div class="Import_Btn"> 导入经济件 </div>
 							<div class="Import_Btn"> 导入常用配件 </div>
+							<div class="Import_Btn"> 生成备件订单 </div>
+							<div class="Import_Btn"> 免费配件审批 </div>
+							<div class="Import_Btn"> 生成配件报价 </div>
 						</div>
 						<div id="btn_modify_Div" class="btn_modify_Div">
 							<div class="Modify_Btn" ng-click="openSelectPage();"> 添加/删除 </div>
@@ -417,7 +435,7 @@
 										<td class="sv_Td">
 											<div>
 												<p>{{item[0].parts_number__c}} </p>
-						
+
 											</div>
 										</td>
 										<td class="sv_Td">
@@ -427,27 +445,30 @@
 											<div> {{item[0].priceCondition.price*priceNo}} </div>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input" ng-model="priceNo"/>
+											<input ng-model="priceNo" class="sv_Input part_InputForListNo" />
 										</td>
 										<td class="sv_Td" ng-init="discountPriceCondition = item[0].priceCondition.discount">
-											<input class="sv_Input" ng-model="discountPriceCondition"/>
+											<input class="sv_Input part_InputForListDiscount" ng-model="discountPriceCondition" />
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input" value="{{item[0].priceCondition.favourablePrice}}"/>
+											<input class="sv_Input part_InputForListPrice" value="{{item[0].priceCondition.favourablePrice}}" />
 										</td>
 										<td class="sv_Td">
-											<div> {{item[0].priceCondition.favourablePrice*priceNo-discountPriceCondition*item[0].priceCondition.favourablePrice*priceNo}} </div>
+											<div>
+												{{item[0].priceCondition.favourablePrice*priceNo-discountPriceCondition*item[0].priceCondition.favourablePrice*priceNo}}
+											</div>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input" value="{{item[0].priceCondition.spnPrice}}"/>
+											<!-- <input class="sv_Input" value="{{item[0].priceCondition.spnPrice}}"/> -->
+											<div>{{item[0].priceCondition.spnPrice}} </div>
 										</td>
 										<td class="sv_Td">
 											<div>
 												<div>{{item[0].inventory.estimatedDeliveryDate}} </div>
 											</div>
 										</td>
-										<td class="sv_Td">
-											<input type="checkbox" />
+										<td class="sv_Td" ng-init="ckboxBool = item[0].View_Integrity__c">
+											<input type="checkbox" class="ckbox_part" checked="ckboxBool" />
 										</td>
 									</tr>
 								</table>
@@ -582,8 +603,6 @@
 			<div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()">保存</div>
 			<div class="footer_Btn Save_Btn_Act">保存并预留</div>
 			<div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()">提交审批</div>
-
-
 		</div>
 
 </body>

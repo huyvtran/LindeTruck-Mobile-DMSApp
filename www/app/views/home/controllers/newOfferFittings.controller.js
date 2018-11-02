@@ -26,7 +26,7 @@ angular.module('oinio.NewOfferFittingsController', [])
 
         $scope.get = function () {
             AppUtilService.showLoading();
-
+            //人工
             ForceClientService.getForceClient().apexrest($scope.paramUrl1, 'GET', {}, null, function (response) {
                 console.log("success:", response);
                 let responseItem = response.priceCondition;
@@ -34,21 +34,27 @@ angular.module('oinio.NewOfferFittingsController', [])
                 $scope.discountPrice1 = responseItem.discount;
                 manMadeNo1Id = response.Id;
                 manMadeNo1Name = response.parts_description__c;
+                //交通
+                ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
+                    console.log("success:", response);
+                    AppUtilService.hideLoading();
+                    $scope.toSetInitView();
+                    let responseItem = response.priceCondition;
+                    $scope.manMadePrice2 = responseItem.price;
+                    $scope.discountPrice2 = responseItem.discount;
+                    manMadeNo2Id = response.Id;
+                    manMadeNo2Name = response.parts_description__c;
+                }, function (error) {
+                    console.log("error:", error);
+                    AppUtilService.hideLoading();
+                    $scope.toSetInitView();
+                });
+
             }, function (error) {
                 console.log("error:", error);
             });
-            ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
-                console.log("success:", response);
-                AppUtilService.hideLoading();
-                let responseItem = response.priceCondition;
-                $scope.manMadePrice2 = responseItem.price;
-                $scope.discountPrice2 = responseItem.discount;
-                manMadeNo2Id = response.Id;
-                manMadeNo2Name = response.parts_description__c;
-            }, function (error) {
-                console.log("error:", error);
-                AppUtilService.hideLoading();
-            });
+            
+
         }
         $scope.toDisplayImportDiv = function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
@@ -73,27 +79,34 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.$on('$ionicView.beforeEnter', function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
+
+        });
+        $scope.$on('$ionicView.enter', function () {
+            // console.log("NewOfferFittingsController");
+
+            $scope.get();
+        });
+        $scope.toSetInitView =  function () {
+            //初始化弹框
             document.addEventListener('click', function (e) {
 
                 if (e.target === document.getElementById('btn_modify_Btn')) {
                     $scope.toDisplayModifyDiv();
                 } else {
-                    document.getElementById("btn_modify_Div").style.display = "none";//隐藏
-
+                    if (document.getElementById("btn_modify_Div").style) {
+                        document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+                    }
                 }
                 if (e.target === document.getElementById('btn_import_Btn')) {
                     $scope.toDisplayImportDiv();
                 } else {
-                    document.getElementById("btn_import_Div").style.display = "none";//隐藏
-
+                    if (document.getElementById("btn_import_Div").style) {
+                        document.getElementById("btn_import_Div").style.display = "none";//隐藏
+                    }
                 }
             });
-        });
-        $scope.$on('$ionicView.enter', function () {
-            // console.log("NewOfferFittingsController");
-           
-            $scope.get();
-        });
+        };
+
         $scope.goBack = function () {
             window.history.back();
         };
@@ -129,15 +142,15 @@ angular.module('oinio.NewOfferFittingsController', [])
             console.log("getTrucks::", keyWord);
             let parts_number__cList = [];
             let partsQuantitys = [];
-            ForceClientService.getForceClient().apexrest($scope.searchPartssUrl+keyWord, 'GET', {}, null, function (response) {
+            ForceClientService.getForceClient().apexrest($scope.searchPartssUrl + keyWord, 'GET', {}, null, function (response) {
                 // console.log("searchPartssUrl:", response);
                 for (let index = 0; index < response.results.length; index++) {
                     let element = response.results[index];
                     parts_number__cList.push(element.parts_number__c);
                     partsQuantitys.push(100000);
                 }
-               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" +JSON.stringify(partsQuantitys) +"&accountId="+ $stateParams.SendSoupEntryId;
-               console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
+                var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + $stateParams.SendSoupEntryId;
+                console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
 
                 ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
                     AppUtilService.hideLoading();
@@ -153,7 +166,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 console.log("error:", error);
                 AppUtilService.hideLoading();
             });
-            
+
 
         };
 
@@ -389,14 +402,40 @@ angular.module('oinio.NewOfferFittingsController', [])
             }
 
             //配件
+            var part_InputForListPrice = [];//优惠单价 ？
+            var part_InputForListNo = [];//数量
+            var part_InputForListDiscount = [];//折扣
+            // var part_InputForListSpecial = [];//优惠总价
+            var part_InputForListChecked = [];//预留状态
+
+            $('input.part_InputForListPrice').each(function (index, element) {
+                part_InputForListPrice.push(element.value);
+                // console.log('sv_InputForListPrice:::',element.value+"  index"+index);
+            });
+            $('input.part_InputForListNo').each(function (index, element) {
+                part_InputForListNo.push(element.value);
+                // console.log('sv_InputForListNo:::',element.value+"  index"+index);
+            });
+            $('input.part_InputForListDiscount').each(function (index, element) {
+                part_InputForListDiscount.push(element.value);
+                // console.log('sv_InputForListDiscount:::',element.value+"  index"+index);
+            });
+            // $('input.part_InputForListSpecial').each(function (index, element) {
+            //     part_InputForListSpecial.push(element.value);
+            //     // console.log('sv_InputForListSpecial:::',element.value+"  index"+index);
+            // });
+            $("input.ckbox_part").each(function (index, element) {
+                part_InputForListChecked.push(element.checked);
+            });
             for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
                 var oneLabourOriginals4 = {};
-                var selectedTruckFitItemsIndex =  $scope.selectedTruckFitItems[index][0];
+                var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index][0];
                 oneLabourOriginals4["Name"] = selectedTruckFitItemsIndex.parts_number__c;
                 oneLabourOriginals4["Gross_Amount__c"] = selectedTruckFitItemsIndex.priceCondition.price;
-                // oneLabourOriginals4["Quantity__c"] = sv_InputForListNo[index];
-                // oneLabourOriginals4["Discount__c"] = sv_InputForListDiscount[index];
-                // oneLabourOriginals4["Net_Amount__c"] = sv_InputForListSpecial[index];
+                oneLabourOriginals4["Quantity__c"] = part_InputForListNo[index];
+                oneLabourOriginals4["Discount__c"] = part_InputForListDiscount[index];
+                oneLabourOriginals4["View_Integrity__c"] = part_InputForListChecked[index];
+                // oneLabourOriginals4["Net_Amount__c"] = part_InputForListSpecial[index];
                 oneLabourOriginals4["Material_Type__c"] = "Part";
                 $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
 

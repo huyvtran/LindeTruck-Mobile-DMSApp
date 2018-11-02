@@ -51,23 +51,313 @@
 		.del_Img {
 			background-image: url(././img/images/del_red_icon.png);
 		}
+
+		.header2 {
+			background: #aa0020;
+			/* width: 90%; */
+			height: 64px;
+			position: relative;
+			padding: 0 5%;
+			line-height: 64px;
+
+		}
+
+		.bodyer_nofooter {
+			overflow-y: auto;
+			height: calc(100vh - 96px);
+		}
+
+		.search_bodyer {
+			background-color: white;
+			background-repeat: no-repeat;
+			background-size: cover;
+			overflow-y: auto;
+			height: calc(100vh - 64px);
+
+		}
+
+		.text_Cancel {
+			line-height: initial;
+			text-align: right;
+		}
+
+		.left_Box_Offer {
+			display: inline-flex;
+			width: 10%;
+			vertical-align: middle;
+		}
+
+		.search_All {
+			display: inline-block;
+			width: 72%;
+			position: relative;
+			vertical-align: middle;
+		}
+
+		.search_bodyer {
+			background-color: white;
+			background-repeat: no-repeat;
+			background-size: cover;
+			overflow-y: auto;
+			height: calc(100vh - 64px);
+
+		}
+
+		.search_bodyer .big_Box_Group {
+			margin: 5% 0;
+		}
+
+		.search_right_Group {
+			display: inline-block;
+			width: 15%;
+			color: #ffffff;
+			vertical-align: middle;
+		}
+
+		.small_Box_TitleFit {
+			color: #aa0020;
+			border-bottom: 1px solid #aa0020;
+			padding-bottom: 2%;
+			margin: 20px 5%;
+		}
+
+		.search_All input.search_Input {
+			box-sizing: border-box;
+			width: 100%;
+			margin: 0 auto;
+			display: block;
+			padding: 0 10% 0 15%;
+			font-size: 0.8rem;
+			color: #D6D6D6;
+			border: 1px solid #d6d6d6;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			border-radius: 20px;
+			text-align: center;
+		}
+
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+		}
+
+		.selectTruckFit_Tabs {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 50px;
+			background-color: #d8d8d8;
+		}
+
+		.selectTruckFit_Tab {
+			flex-grow: 1;
+			text-align: center;
+		}
+
+		.selectTruckFit_Tab_Text {
+			line-height: 50px;
+			font-size: 16px;
+		}
+
+		.selectTruckFit_Tab_Active {
+			background-color: #535353;
+			color: #ffffff;
+		}
+
+		input[type="checkbox"],
+		input[type="radio"] {
+			width: 20px;
+			height: 20px;
+			vertical-align: top;
+			background: #ffffff;
+		}
+
+		.small_Box_Text_1.item {
+			padding: 0;
+			width: 100%;
+			overflow: inherit;
+			border: 0;
+			background: none;
+			color: inherit;
+			font-size: inherit;
+			margin: 0;
+		}
+
+		.small_Box_Text_2.item {
+			border: 0;
+			margin: 0 20px;
+			border-bottom: 1px solid #dddddd;
+			padding: 10px 0;
+		}
+
+		.searchsout {
+			overflow-x: auto;
+			margin: 20px 0;
+			overflow-y: hidden;
+		}
+
+		.searchs_Table {
+			width: 172vw;
+		}
+
+		.searchs_Table th,
+		.searchs_Table td {
+			width: 27vw;
+			padding: 0 1%;
+			font-size: 0.8rem;
+			height: 40px;
+			text-align: center;
+			vertical-align: middle;
+			border: 1px solid #979797;
+		}
+
+		.searchs_Table th {
+			background: #d8d8d8;
+		}
+
+		.searchs_Table td {
+			background: #eee9e9;
+		}
+
+		.searchs_Table th div {
+			width: calc(27vw - 10px);
+		}
+
+		.searchs_Table th input {
+			width: 10vw;
+		}
+
+		.searchs_Table td input {
+			width: 10vw;
+		}
+
+		.searchs_Table td div {
+			width: calc(27vw - 10px);
+		}
 	</style>
 	<script src="../../../../../../CustomPlugin/print-plugin/www/print-plugin.js"></script>
 </head>
 
 <body>
-	<div class="workListDetails_header">
-		<div class="left_Box">
-		</div>
-		<div class="center_Box">
-			<div class="center_Title">工单详情</div>
-		</div>
-		<div class="right_Box">
+	<div class="newWorkList_truckSelect" style="height:100vh;width:100vw;position:absolute;opacity:0;">
+		<div id="selectTruckFit" style="">
+			<div class="header2">
+				<div class="left_Box_Offer" ng-click="closeSelectPage();">
+					<div class="back_Icon"></div>
+				</div>
+				<div class="search_All">
+					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText" />
+				</div>
+				<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);" ng-show="searchTruckText">
+					<div class="text_Cancel"> 搜索 </div>
+				</div>
+			</div>
+			<div class="selectTruckFit_Tabs" style="">
+				<div id="selectTruckFit_Tab_1" class="selectTruckFit_Tab selectTruckFit_Tab_Active" ng-click="changeTruckTab('1');"
+				 style="">
+					<span class="selectTruckFit_Tab_Text" style="">搜索结果</span>
+				</div>
+				<div id="selectTruckFit_Tab_2" class="selectTruckFit_Tab" ng-click="changeTruckTab('2');" style="">
+					<span class="selectTruckFit_Tab_Text" style="">已选配件</span>
+				</div>
+			</div>
+			<div class="">
+				<div id="selectTruckFit_result" class="searchsout">
+					<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+						<tr>
+							<th class="sv_Td">
+								<input id="ckbox_truckFit_searchresult_all" type="checkbox" ng-click="checkAllSearchResults();" />
+							</th>
+							<th class="sv_Td">
+								<div style="width: 150px;"> 客户物料号 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 可发货数量 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 本仓 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 本大区 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 总部 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 其他大区 </div>
+							</th>
+						</tr>
+					</table>
+
+					<ion-list can-swipe="true">
+						<ion-item id="items2" ng-repeat="titem in contentTruckFitItems" ng-cloak class="small_Box_Text_1">
+							<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+								<tr>
+									<th class="sv_Td">
+										<input data-recordid={{titem[0].Id}} class="ckbox_truck_searchresult_itemFit" ng-click="checkSearchResults(titem);"
+										 type="checkbox" />
+									</th>
+									<th class="sv_Td">
+										<div style="width: 150px;"> {{titem[0].Name}} </div>
+									</th>
+									<th class="sv_Td">
+										<div> {{titem[0].inventory.sku}} </div>
+									</th>
+									<th class="sv_Td">
+										<div> {{titem[0].inventory.BR_QTY}} </div>
+									</th>
+									<th class="sv_Td">
+										<div> {{titem[0].inventory.RG_QTY}} </div>
+									</th>
+									<th class="sv_Td">
+										<div> {{titem[0].inventory.HQ_QTY}} </div>
+									</th>
+									<th class="sv_Td">
+										<div> {{titem[0].inventory.ORG_QTY}} </div>
+									</th>
+								</tr>
+							</table>
+						</ion-item>
+					</ion-list>
+				</div>
+				<div id="selectTruckFit_checked" class="big_Box_Group" style="display: none;">
+					<div class="small_Box_TitleFit"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" />
+						全选删除
+					</div>
+					<ion-list can-swipe="true">
+
+						<ion-item id="items3" ng-repeat="ckitem in selectedTruckFitItems" ng-cloak class="small_Box_Text_2">
+							<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png" /></span>
+							{{ckitem[0].Name}}
+						</ion-item>
+					</ion-list>
+				</div>
+			</div>
+			<div class="footer">
+				<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+				<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
+
+				<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+				<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+			</div>
 		</div>
 	</div>
+
 	<div class="workListDetails_bodyer">
+		<div class="workListDetails_header">
+			<div class="left_Box">
+			</div>
+			<div class="center_Box">
+				<div class="center_Title">工单详情</div>
+			</div>
+			<div class="right_Box">
+			</div>
+		</div>
 		<div class="big_Type_Group">
-			<div class="displayQuantity" >
+			<div class="displayQuantity">
 				<div class="arrow_quantity_icon"></div>
 				<div class="displayQuantity_text" ng-click="toDescribInfDiv();">已选共{{HasTruckNum}}台 </div>
 				<div class="describ_Inf_Div" id="describInfDiv">
@@ -175,16 +465,16 @@
 				</div>
 			</div>
 			<div>
-				<div class="small_Type_Title_Group" ng-click="toPartsInfo();">
+				<div class="small_Type_Title_Group">
 					<div class="small_Type_Title_G_2"> 配件需求 </div>
 					<!-- 点击btn_I/或者btn_M,添加click_Style -->
 					<div class="btn_I">
-						<div class="btn_Import_Group"> </div>
+						<div id="btn_import_Btn" class="btn_Import_Group" ng-click="toDisplayImportDiv();"> </div>
 					</div>
 					<div class="btn_M">
-						<div class="btn_modify_Group"> </div>
+						<div id="btn_modify_Btn" class="btn_modify_Group" ng-click="toDisplayModifyDiv();"> </div>
 					</div>
-					<div class="btn_Import_Div to_Hide">
+					<div id="btn_import_Div" class="btn_Import_Div">
 						<div class="Import_Btn"> 导入LSG </div>
 						<div class="Import_Btn"> 导入经济件 </div>
 						<div class="Import_Btn"> 导入常用配件 </div>
@@ -192,13 +482,13 @@
 						<div class="Import_Btn"> 免费配件审批 </div>
 						<div class="Import_Btn"> 生成配件报价 </div>
 					</div>
-					<div class="btn_modify_Div to_Hide">
-						<div class="Modify_Btn"> 添加/删除 </div>
+					<div id="btn_modify_Div" class="btn_modify_Div">
+						<div class="Modify_Btn" ng-click="openSelectPage();"> 添加/删除 </div>
 						<div class="Modify_Btn"> 清空经济件 </div>
 						<div class="Modify_Btn"> 使用经济件 </div>
 					</div>
 					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-					<div class="OpenClose_Btn arrow_Down_White" id="partImg"></div>
+					<div class="OpenClose_Btn arrow_Down_White" id="partImg" ng-click="toPartsInfo();"></div>
 				</div>
 				<div class="legend_Group">
 					<div> 替代件 </div>
@@ -230,106 +520,39 @@
 								<div> 预留 </div>
 							</th>
 						</tr>
-						<tr>
-							<!-- 根据3种颜色，添加3个class: blue_legend/green_legend/red_legend在第一个行项的td上；以及blue_text_color/green_text_color/red_text_color在所有的td上 -->
-							<td class="sv_Td sv_Td_nopadding blue_legend blue_text_color">
-								<!-- 只有blue替代件情况下会出现以下2个div explain_Icon和explain_Text-->
-								<div class="explain_Icon"> </div>
-								<!-- <div class="explain_Text">
-									说明文字：内容内容
-								</div> -->
-								<div> 1 </div>
-							</td>
-							<td class="sv_Td sv_Td_Long blue_text_color">
-								<div>
-									<p>2389849 </p>
-									<p>油缸组件A</p>
-								</div>
-							</td>
-							<td class="sv_Td blue_text_color">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td blue_text_color">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td blue_text_color">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-							<td class="sv_Td blue_text_color">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-						</tr>
-						<tr>
-							<td class="sv_Td sv_Td_nopadding sv_Td_noborder">
-								<div> &nbsp;</div>
-							</td>
-							<td class="sv_Td sv_Td_Long sv_Td_noborder">
-								<div>
-									<p>2389849 </p>
-									<p>油缸组件A</p>
-								</div>
-							</td>
-							<td class="sv_Td sv_Td_noborder">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td sv_Td_noborder">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td sv_Td_noborder">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-							<td class="sv_Td sv_Td_noborder">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-						</tr>
-						<tr>
-							<td class="sv_Td sv_Td_nopadding green_legend green_text_color">
-								<div> 2 </div>
-							</td>
-							<td class="sv_Td sv_Td_Long green_text_color">
-								<div>
-									<p>2389849 </p>
-									<p>油缸组件A</p>
-								</div>
-							</td>
-							<td class="sv_Td green_text_color">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td green_text_color">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td green_text_color">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-							<td class="sv_Td green_text_color">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-						</tr>
-						<tr>
-							<!--  -->
-							<td class="sv_Td sv_Td_nopadding red_legend red_text_color">
-								<div> 3 </div>
-							</td>
-							<td class="sv_Td sv_Td_Long red_text_color">
-								<div>
-									<p>2389849 </p>
-									<p>油缸组件A</p>
-								</div>
-							</td>
-							<td class="sv_Td red_text_color">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td red_text_color">
-								<div> 1000 </div>
-							</td>
-							<td class="sv_Td red_text_color">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-							<td class="sv_Td red_text_color">
-								<input type="checkbox" class="sv_checkbox" />
-							</td>
-						</tr>
 					</table>
+					<ion-list can-swipe="true" class="quoted_Table_list">
+						<ion-item ng-repeat="item in selectedTruckFitItems" ng-cloak ng-click="showPopup(item)">
+							<table cellpadding="0" cellspacing="0" border="0" class="quoted_Table">
+
+								<tr>
+									<td class="sv_Td sv_Td_nopadding">
+										<div class="explain_Icon"> </div>
+										<!-- <div class="explain_Text">
+											说明文字：内容内容
+										</div> -->
+										<div> 1 </div>
+									</td>
+									<td class="sv_Td sv_Td_Long">
+										<div>{{item[0].parts_number__c}} </div>
+									</td>
+									<td class="sv_Td">
+										<div> 1000 </div>
+									</td>
+									<td class="sv_Td">
+										<div> 1000 </div>
+									</td>
+									<td class="sv_Td">
+										<input type="checkbox" class="sv_checkbox" />
+									</td>
+									<td class="sv_Td">
+										<input type="checkbox" class="sv_checkbox" />
+									</td>
+								</tr>
+							</table>
+						</ion-item>
+					</ion-list>
+
 				</div>
 			</div>
 			<div>
@@ -347,23 +570,24 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="next_Footer">
-		<div class="schedule_Group">
-			<div class="schedule_Btn" ng-click="getArrivalTime($event);">到达</div>
-			<div class="next_Schedule_Icon"></div>
-			<div class="schedule_Btn" id="leave">离开</div>
-			<div class="next_Schedule_Icon"></div>
-			<div class="schedule_Btn" ng-click="doPrint($event);">打印</div>
-			<div class="next_Schedule_Icon"></div>
-			<div class="schedule_Btn" ng-click="signBill($event);">签单</div>
+		<div class="next_Footer">
+			<div class="schedule_Group">
+				<div class="schedule_Btn" ng-click="getArrivalTime($event);">到达</div>
+				<div class="next_Schedule_Icon"></div>
+				<div class="schedule_Btn" id="leave">离开</div>
+				<div class="next_Schedule_Icon"></div>
+				<div class="schedule_Btn" ng-click="doPrint($event);">打印</div>
+				<div class="next_Schedule_Icon"></div>
+				<div class="schedule_Btn" ng-click="signBill($event);">签单</div>
+			</div>
+		</div>
+		<div class="footer">
+			<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+			<div class="footer_Btn" ng-click="goBack();">取消</div>
+			<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
 		</div>
 	</div>
-	<div class="footer">
-		<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-		<div class="footer_Btn" ng-click="goBack();">取消</div>
-		<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
-	</div>
+
 </body>
 
 </html>
