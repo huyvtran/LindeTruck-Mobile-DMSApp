@@ -40,6 +40,10 @@ angular.module('oinio.workDetailsControllers', [])
             userInfoId = $stateParams.SendInfo;
             workDescription = $stateParams.workDescription;
 
+
+            
+            
+
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
                 console.log(result);
@@ -52,9 +56,13 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 }
                 ownerName = result.Service_Order_Owner__r.Name !=null? result.Service_Order_Owner__r.Name:"";
-            }, function error(msg) {
-                console.log(msg);
+                return SOrderService.getOrdersSelectedTruck(userInfoId);
+            }).then(function success(result) {
+                console.log(result);
+                $log.info(result);
+            }).catch(function error(msg) {
                 $log.error(msg);
+                console.log(msg);
             });
         });
         $scope.$on('$ionicView.enter', function () {
