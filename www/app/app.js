@@ -117,8 +117,8 @@
 
 
             // it seems that the translation module is not available at this stage. Temporary hard coded text here
-            IonicLoadingService.show('<ion-spinner icon="ripple" style="stroke: #ffffff; fill: #ffffff"></ion-spinner>' +
-                '<br/><span>加载中...</span>', false);
+            //IonicLoadingService.show('<ion-spinner icon="ripple" style="stroke: #ffffff; fill: #ffffff"></ion-spinner>' +
+            //    '<br/><span>加载中...</span>', false);
 
             // set the theme class for login
             if (APP_SETTINGS.DARK_THEME === true) {
