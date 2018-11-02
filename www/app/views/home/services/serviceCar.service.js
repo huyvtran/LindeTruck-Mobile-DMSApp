@@ -189,7 +189,7 @@
                     param.contentType = 'image/jpeg';
                     param.parentObjectType = 'Service_Car_Attachment__c';
                     //param.body = dataURLtoBlob(images[i]);
-                    param.body = images[i]);
+                    param.body =images[i];
                     //param.body = convertImgDataToBlob(images[i]);
                     //for (var j=0;j<sids.length;j++){
                     param.parentSoupEntryId = sids[i];
@@ -304,5 +304,36 @@
                 }
                 return newObj;
             };
+
+
         });
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
