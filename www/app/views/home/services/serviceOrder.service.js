@@ -336,6 +336,47 @@
                 return deferred.promise;
             };
 
+            this.setTruckIntoOrders = function (orders,trucks) {
+                et deferred = $q.defer();
+                let ret;
+
+                angular.forEach(orders, function (order) {
+                    angular.forEach(trucks, function (truck) {
+                        if(order.Truck_Serial_Number__c_sid == truck._soupEntryId || order.Truck_Serial_Number__c == truck.Id){
+                            order.Truck_Serial_Number__r = truck;
+                        }
+                    });
+                });
+
+                deferred.resolve(orders);
+                return deferred.promise;
+            }
+
+
+            this.getOrdersSelectedTruck = function (sid) {
+                let deferred = $q.defer();
+                let ret;
+                console.log('getOrdersSelectedTruck:::',sid);
+
+                service.getChildOrders(sid).then(function (childOrders) {
+                    console.log('getOrdersSelectedTruck1:::',childOrders);
+                    ret.childOrders = childOrders;
+                    return service.getTruckModels(ret.childOrders);
+                }).then(function (truckModels) {
+                    console.log('getOrdersSelectedTruck2:::',truckModels);
+                    ret.truckModels = truckModels;
+                    return service.setTruckIntoOrders(ret.childOrders,ret.truckModels);
+                }).then(function (result) {
+                    console.log('getOrdersSelectedTruck3:::',result);
+                    deferred.resolve(result);
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
+
+                return deferred.promise;
+            }
+
+
 
 
 
