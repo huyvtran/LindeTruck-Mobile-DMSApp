@@ -10,7 +10,7 @@
      */
     angular
         .module('oinio.services')
-        .service('SCarService', function($q, $filter, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, FileService, AttachmentService) {
+        .service('SCarService', function($q, $filter, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, FileService) {
 
             let service = this;
 
@@ -189,7 +189,7 @@
                     for (var i=0;i<images.length;i++){
                         var cashPicObj = {
                             attachment: array_params[i];
-                            body: angular.copy(images[i]);
+                            body: images[i];
                         };
                         attArray.push(cashPicObj);
                     }
@@ -205,25 +205,36 @@
 
                 return deferred.promise;
             }
-            
+
             this.commitAttachmentObj = function (imagesJson) {
+                var deferred = $q.defer();
+                deferred.resolve('success');
+                return deferred.promise;
+            }
+
+            /*
+            this.commitAttachmentObj2 = function (imagesJson) {
+                var deferred = $q.defer();
                 angular.forEach( imagesJson, function (tractorItem) {
                     AttachmentService.saveAttachment(tractorItem.attachment).then(function (result) {
                         LocalDataService.queryConfiguredObjectByName('Service_Car_Attachment__c').then(function (objectType) {
                             restoreTripAttachmentBody(result, objectType, tractorItem.body).then(function (success) {
                                 console.log('save success:::', success);
-                                resolve(success);
+                                deferred.resolve(success);
                             }, function (tractorErr) {
                                 console.log('save error:::', tractorErr);
-                                reject(tractorErr);
+                                deferred.reject(tractorErr);
                             });
                         }, reject);
                     }, function (err) {
                         console.log('save error:::', err);
-                        reject(err);
+                        deferred.reject(err);
                     });
                 });
+
+                return deferred.promise;
             }
+            */
 
             function restoreTripAttachmentBody(resAttachment, objectType, imageData) {
                 var deferred = $q.defer();
