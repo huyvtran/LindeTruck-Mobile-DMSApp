@@ -3,6 +3,8 @@ angular.module('oinio.workDetailsMoreInfoController', [])
                                                    LocalCacheService) {
 
         var vm = this,
+            selectTruckIds=[],
+
             oCurrentUser = LocalCacheService.get('currentUser') || {};
 
         vm.isOnline = null;
@@ -14,7 +16,9 @@ angular.module('oinio.workDetailsMoreInfoController', [])
         $scope.$on('$ionicView.beforeEnter', function () {
 
             console.log("$stateParams.truckItemAll", $stateParams.truckItemAll);
-            $scope.truckItems =JSON.parse($stateParams.truckItemAll);
+            console.log("$stateParams.chooseTruckArray", $stateParams.chooseTruckArray);
+            $scope.truckItems =JSON.parse($stateParams.chooseTruckArray);
+            
         });
 
 

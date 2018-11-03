@@ -18,7 +18,7 @@ angular.module('oinio.workDetailsControllers', [])
             truckNumber = "",
             ownerName="",
             truckItems=[],
-            chooseTruckIndexs=[],
+            chooseTrucks=[],
             h = 0,
             m = 0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -592,12 +592,12 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.showDetailsMoreInf = function () {
             $("input.selectTruckItem").each(function (index, element) {
                 if($(this).prop("checked")){
-                    chooseTruckIndexs.push(index);
+                    chooseTrucks.push(truckItems[index]);
                 }
             });
             $state.go("app.workDetailsMoreInfo",{
                                                     truckItemAll: JSON.stringify(truckItems),
-                                                    chooseTruckArray:JSON.stringify(chooseTruckIndexs)
+                                                    chooseTruckArray:JSON.stringify(chooseTrucks)
                                                 });
         };
 
