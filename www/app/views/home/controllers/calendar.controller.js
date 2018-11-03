@@ -37,6 +37,8 @@
             };
             // Triggered on a button click, or some other target
             $scope.showPopup = function (item) {
+                console.log('showPopup!allUser', allUser);
+                console.log('showPopup!item', item);
                 $scope.data = {}
                 var setButtons = [];
                 if (item.Status__c =="Not Planned") {
@@ -60,7 +62,7 @@
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId });
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription:null ,AccountShipToC:item.Account_Ship_to__c});
                             }
                         }
                     ];
@@ -71,7 +73,7 @@
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId });
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription:null ,AccountShipToC:item.Account_Ship_to__c});
                             }
                         }
                     ];

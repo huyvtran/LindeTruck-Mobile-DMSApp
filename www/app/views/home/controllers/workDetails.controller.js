@@ -10,6 +10,7 @@ angular.module('oinio.workDetailsControllers', [])
             workDescription = null,
             truckItemTotalMore=null,
             userInfoId = "",
+            Account_Ship_to__c = "",
             localSoupEntryId = "",
             localUris = [],
             customerNameValue = "",
@@ -28,10 +29,13 @@ angular.module('oinio.workDetailsControllers', [])
         //配件相关init
         $scope.contentTruckFitItems = [];//配件
         $scope.selectedTruckFitItems = [];
+        $scope.contentLSGs = [];//LSG
         $scope.serviceFeeList = [];
         $scope.quoteLabourOriginalsList = [];
         $scope.searchPartssUrl = "/Partss?keyword=";
         $scope.partsRelatedsUrl = "/PartsRelateds?partsNumbers=";
+        $scope.partLSGServer = "/LSGServer";
+        https://kionapac--devpro2.cs31.my.salesforce.com/services/apexrest/LSGServer
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -52,6 +56,7 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("$stateParams.truckItemTotal", $stateParams.truckItemTotal);
 
             userInfoId = $stateParams.SendInfo;
+            Account_Ship_to__c = $stateParams.AccountShipToC;
             workDescription = $stateParams.workDescription;
 
             truckItemTotalMore = $stateParams.truckItemTotal;
@@ -627,9 +632,21 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             }
         };
-        $scope.openSelectPage = function () {
-            console.log('cssss:::', $('#selectCustomer'));
+        /**
+         * 打开搜索页面
+         * @param ele
+         */
+        $scope.openSelectPage = function (ele) {
             $scope.toDisBothModifyDiv();
+            if(ele === 'selectLSG') {
+                $('#selectLSG').css('display', 'block');
+                $('#selectTruckFit').css('display', 'none');
+                $scope.getLSG();
+            }else{
+                $('#selectTruckFit').css('display', 'block');
+                $('#selectLSG').css('display', 'none');
+            }
+
             $('div.workListDetails_bodyer').animate({
                 opacity: '0.6'
             }, 'slow', 'swing', function () {
@@ -638,9 +655,10 @@ angular.module('oinio.workDetailsControllers', [])
                     opacity: '1'
                 }, 'normal').show();
 
-                $('#selectTruckFit').css('display', 'block');
+                // $('#selectTruckFit').css('display', 'block');
             });
         };
+
         $scope.closeSelectPage = function () {
             $('div.newWorkList_truckSelect').animate({
                 opacity: '0.6'
@@ -652,26 +670,41 @@ angular.module('oinio.workDetailsControllers', [])
             });
         };
         //搜索配件
-        $scope.getTrucks = function (keyWord) {
+        $scope.getTrucks = function (keyWord,LSG) {
             AppUtilService.showLoading();
-            // $scope.contentTruckFitItems = [{ Id: "a1Cp0000001W16yEAC1", Name: "8712" }, { Id: "a1Cp0000001W16yEAC2", Name: "9272" }, { Id: "a1Cp0000001W16yEAC3", Name: "8872" }];
+            $scope.contentTruckFitItems = [];
             console.log("getTrucks::", keyWord);
             let parts_number__cList = [];
             let partsQuantitys = [];
-            ForceClientService.getForceClient().apexrest($scope.searchPartssUrl + keyWord, 'GET', {}, null, function (response) {
-                // console.log("searchPartssUrl:", response);
+            var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord;
+            ForceClientService.getForceClient().apexrest(getPartsRelatedsKeyWordUrl, 'GET', {}, null, function (response) {
+                console.log("searchPartssUrl:", response);
                 for (let index = 0; index < response.results.length; index++) {
                     let element = response.results[index];
                     parts_number__cList.push(element.parts_number__c);
                     partsQuantitys.push(100000);
                 }
-                var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + userInfoId;
+                var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
                 console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
 
                 ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
                     AppUtilService.hideLoading();
                     console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
-                    $scope.contentTruckFitItems = responsePartsRelateds;
+                    var rebuildListForLSG = [];
+                    for (let i = 0; i < responsePartsRelateds.length; i++) {
+                        var responsePartsRelatedsList = responsePartsRelateds[i];
+                        for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                            responsePartsRelatedsList[j]["itemNO"] = i+"-"+j;
+                            $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
+                            rebuildListForLSG = $scope.contentTruckFitItems;
+                        }
+                    }
+                    if(LSG === "LSG"){//导入LSG逻辑
+                        for (let i = 0; i < rebuildListForLSG.length; i++) {
+                            $scope.selectedTruckFitItems.push(rebuildListForLSG[i]);
+                        }
+                        $scope.closeSelectPage();
+                    }
                 }, function (error) {
                     console.log("error:", error);
                     AppUtilService.hideLoading();
@@ -682,7 +715,6 @@ angular.module('oinio.workDetailsControllers', [])
                 console.log("error:", error);
                 AppUtilService.hideLoading();
             });
-
         };
 
         $scope.checkAllSearchResults = function () {
@@ -697,7 +729,7 @@ angular.module('oinio.workDetailsControllers', [])
                 angular.forEach($scope.contentTruckFitItems, function (searchResult) {
                     let existFlag = false;
                     angular.forEach($scope.selectedTruckFitItems, function (selected) {
-                        if (searchResult[0].Id == selected[0].Id) {
+                        if (searchResult.Id == selected.Id) {
                             existFlag = true;
                         }
                     });
@@ -717,7 +749,7 @@ angular.module('oinio.workDetailsControllers', [])
                 angular.forEach($scope.selectedTruckFitItems, function (selected) {
                     let existFlag = false;
                     angular.forEach($scope.contentTruckFitItems, function (searchResult) {
-                        if (searchResult[0].Id == selected[0].Id) {
+                        if (searchResult.Id == selected.Id) {
                             existFlag = true;
                         }
                     });
@@ -748,14 +780,12 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.checkSearchResults = function (ele) {
-            let element = $("input.ckbox_truck_searchresult_itemFit[data-recordid*='" + ele[0].Id + "']");
-            console.log('checkSearchResults::', element);
-
+            let element = $("input.ckbox_truck_searchresult_itemFit[data-recordid*='" + ele.Id + "']");
             if (element != null && element.length > 0) {
                 if (element[0].checked) {
                     let existFlag = false;
                     for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                        if (ele[0].Id == $scope.selectedTruckFitItems[i][0].Id) {
+                        if (ele.Id == $scope.selectedTruckFitItems[i].Id) {
                             existFlag = true;
                         }
                     }
@@ -766,7 +796,7 @@ angular.module('oinio.workDetailsControllers', [])
                 } else {
                     let temp = [];
                     for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                        if (ele[0].Id != $scope.selectedTruckFitItems[i][0].Id) {
+                        if (ele.Id != $scope.selectedTruckFitItems[i].Id) {
                             temp.push($scope.selectedTruckFitItems[i]);
                         }
                     }
@@ -783,13 +813,13 @@ angular.module('oinio.workDetailsControllers', [])
             let new_temp = [];
 
             for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                if (ele[0].Id != $scope.selectedTruckFitItems[i][0].Id) {
+                if (ele.Id != $scope.selectedTruckFitItems[i].Id) {
                     new_temp.push($scope.selectedTruckFitItems[i]);
                 }
             }
 
             $("input.ckbox_truck_searchresult_itemFit").each(function (index, element) {
-                if ($(element).attr("data-recordid") == ele[0].Id && element.checked) {
+                if ($(element).attr("data-recordid") == ele.Id && element.checked) {
                     element.checked = false;
                 }
             });
@@ -812,14 +842,93 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.updateTruckString = function () {
             let new_temp = '';
-
             for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-                new_temp = new_temp + $scope.selectedTruckFitItems[i][0].Name + ';';
+                new_temp = new_temp + $scope.selectedTruckFitItems[i].Name + ';';
             }
-
             $scope.searchResultTruckName = new_temp;
-
         };
+        $scope.getLSG = function () {
+            AppUtilService.showLoading();
+            $scope.contentLSGs = [];
+            //导入LSG
+            ForceClientService.getForceClient().apexrest($scope.partLSGServer, 'GET', {}, null, function (response) {
+                console.log("partLSGServer_success:", response);
+                for (let i = 0; i < response.ShoppingCartList.length; i++) {
+                    var element = response.ShoppingCartList[i];
+                    var ShoppingCartList = {};
+                    ShoppingCartList["cartName"] = element.cartName;
+                    var cartList = [];
+                    for (let j = 0; j < 20; j++) {
+                        if(element[j]){
+                            cartList.push(element[j])
+                        }
+                    }
+                    ShoppingCartList["cartList"] = cartList;
+                    console.log("ShoppingCartList:", ShoppingCartList);
+                    $scope.contentLSGs.push(ShoppingCartList);
+                }
+                AppUtilService.hideLoading();
+            }, function (error) {
+                console.log("partLSGServer_error:", error);
+                AppUtilService.hideLoading();
+            });
+        }
+
+        $scope.toggleGroup = function(group) {
+            group.show = !group.show;
+            // console.log("toggleGroup:", group);
+          };
+          $scope.isGroupShown = function(group) {
+            // console.log("isGroupShown:", group);
+            return group.show;
+          };
+          //经济件 替代件 常规件
+          $scope.isquoted_Table = function(type) {
+            //   console.log("type:", type);
+              var returnType = 'quoted_Table blue_text_color';
+              if (type === "economical") {
+                returnType = "quoted_Table blue_text_color"
+              }else if(type === "substitution"){
+                returnType = "quoted_Table red_text_color"
+              }else if(type === "common"){
+                returnType = "quoted_Table "
+              }
+            return returnType;
+          };
+          //******************LSG勾选框************************ */
+          $scope.checkAllSearchResultsLSG = function () {
+            let ele = $("#ckbox_truckLSG_searchresult_all");
+
+            console.log('checkAllSearchResultsLSG:::', ele.prop("checked"));
+            if (ele.prop("checked")) {
+                $("input.ckbox_truck_searchresult_itemLSG").each(function (index, element) {
+                    $(this).prop("checked", true);
+                });
+            } else {
+
+                $("input.ckbox_truck_searchresult_itemLSG").each(function (index, element) {
+                    console.log('666:::', element.checked);
+                    element.checked = false;
+                });
+
+            }
+        };
+        $scope.setLSGList = function () {
+         
+            var contentLSGsGetList = [];
+                $("input.ckbox_truck_searchresult_itemLSG").each(function (index, element) {
+                    if (element.checked) {
+                        console.log('ckbox_truck_searchresult_itemLSG:::', $(element).attr("data-recordid"));
+                        contentLSGsGetList.push($(element).attr("data-recordid"));
+                    }
+                    
+                });
+                var contentLSGsGetList1 = "1844401431,1844401431"
+                $scope.getTrucks("1844401431","LSG");
+
+            }
+        
+        
 
 
         $scope.choooseAllCheckBox =function () {

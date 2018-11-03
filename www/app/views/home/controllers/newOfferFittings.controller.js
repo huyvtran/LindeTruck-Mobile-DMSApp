@@ -34,27 +34,25 @@ angular.module('oinio.NewOfferFittingsController', [])
                 $scope.discountPrice1 = responseItem.discount;
                 manMadeNo1Id = response.Id;
                 manMadeNo1Name = response.parts_description__c;
-                //交通
-                ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
-                    console.log("success:", response);
-                    AppUtilService.hideLoading();
-                    $scope.toSetInitView();
-                    let responseItem = response.priceCondition;
-                    $scope.manMadePrice2 = responseItem.price;
-                    $scope.discountPrice2 = responseItem.discount;
-                    manMadeNo2Id = response.Id;
-                    manMadeNo2Name = response.parts_description__c;
-                }, function (error) {
-                    console.log("error:", error);
-                    AppUtilService.hideLoading();
-                    $scope.toSetInitView();
-                });
 
             }, function (error) {
                 console.log("error:", error);
             });
-            
 
+            //交通
+            ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
+                console.log("success:", response);
+                AppUtilService.hideLoading();
+                let responseItem = response.priceCondition;
+                $scope.manMadePrice2 = responseItem.price;
+                $scope.discountPrice2 = responseItem.discount;
+                manMadeNo2Id = response.Id;
+                manMadeNo2Name = response.parts_description__c;
+            }, function (error) {
+                console.log("error:", error);
+                AppUtilService.hideLoading();
+            });
+            
         }
         $scope.toDisplayImportDiv = function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
@@ -86,34 +84,38 @@ angular.module('oinio.NewOfferFittingsController', [])
 
             $scope.get();
         });
-        $scope.toSetInitView =  function () {
-            //初始化弹框
-            document.addEventListener('click', function (e) {
+        // $scope.toSetInitView =  function () {
+        //     //初始化弹框
+        //     document.addEventListener('click', function (e) {
 
-                if (e.target === document.getElementById('btn_modify_Btn')) {
-                    $scope.toDisplayModifyDiv();
-                } else {
-                    if (document.getElementById("btn_modify_Div").style) {
-                        document.getElementById("btn_modify_Div").style.display = "none";//隐藏
-                    }
-                }
-                if (e.target === document.getElementById('btn_import_Btn')) {
-                    $scope.toDisplayImportDiv();
-                } else {
-                    if (document.getElementById("btn_import_Div").style) {
-                        document.getElementById("btn_import_Div").style.display = "none";//隐藏
-                    }
-                }
-            });
+        //         if (e.target === document.getElementById('btn_modify_Btn')) {
+        //             $scope.toDisplayModifyDiv();
+        //         } else {
+        //             if (document.getElementById("btn_modify_Div").style) {
+        //                 document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+        //             }
+        //         }
+        //         if (e.target === document.getElementById('btn_import_Btn')) {
+        //             $scope.toDisplayImportDiv();
+        //         } else {
+        //             if (document.getElementById("btn_import_Div").style) {
+        //                 document.getElementById("btn_import_Div").style.display = "none";//隐藏
+        //             }
+        //         }
+        //     });
+        // };
+        $scope.toDisBothModifyDiv =  function () {
+            document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+            document.getElementById("btn_import_Div").style.display = "none";//隐藏
+
         };
-
         $scope.goBack = function () {
             window.history.back();
         };
 
         $scope.openSelectPage = function () {
             console.log('cssss:::', $('#selectCustomer'));
-
+            $scope.toDisBothModifyDiv();
             $('div.newWorkList_main').animate({
                 opacity: '0.6'
             }, 'slow', 'swing', function () {

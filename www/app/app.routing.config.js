@@ -87,7 +87,8 @@
                 cache: false
             })
             .state('app.workDetails', {
-                url: 'app/workDetails/?SendInfo&?workDescription&?truckItemTotal',
+                url: 'app/workDetails',
+                params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetails.html',
