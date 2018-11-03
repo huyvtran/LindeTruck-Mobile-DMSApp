@@ -670,7 +670,7 @@ angular.module('oinio.workDetailsControllers', [])
             });
         };
         //搜索配件
-        $scope.getTrucks = function (keyWord,LSG) {
+        $scope.getTrucks = function (keyWord) {
             AppUtilService.showLoading();
             $scope.contentTruckFitItems = [];
             console.log("getTrucks::", keyWord);
@@ -690,20 +690,12 @@ angular.module('oinio.workDetailsControllers', [])
                 ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
                     AppUtilService.hideLoading();
                     console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
-                    var rebuildListForLSG = [];
                     for (let i = 0; i < responsePartsRelateds.length; i++) {
                         var responsePartsRelatedsList = responsePartsRelateds[i];
                         for (let j = 0; j < responsePartsRelatedsList.length; j++) {
                             responsePartsRelatedsList[j]["itemNO"] = i+"-"+j;
                             $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
-                            rebuildListForLSG = $scope.contentTruckFitItems;
                         }
-                    }
-                    if(LSG === "LSG"){//导入LSG逻辑
-                        for (let i = 0; i < rebuildListForLSG.length; i++) {
-                            $scope.selectedTruckFitItems.push(rebuildListForLSG[i]);
-                        }
-                        $scope.closeSelectPage();
                     }
                 }, function (error) {
                     console.log("error:", error);
@@ -914,7 +906,7 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
         $scope.setLSGList = function () {
-         
+            AppUtilService.showLoading();
             var contentLSGsGetList = [];
                 $("input.ckbox_truck_searchresult_itemLSG").each(function (index, element) {
                     if (element.checked) {
@@ -923,8 +915,38 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                     
                 });
-                var contentLSGsGetList1 = "1844401431,1844401431"
-                $scope.getTrucks("1844401431","LSG");
+                
+                let partsQuantitys = [];
+                for (let i = 0; i < contentLSGsGetList.length; i++) {
+                    partsQuantitys.push(100000);
+                    
+                }
+                var contentLSGsGetList1 = ["1844401431","0009903819"];
+
+                var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList1) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
+                console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
+                ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
+                    AppUtilService.hideLoading();
+                    console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
+                    var rebuildListForLSG = [];
+                    for (let i = 0; i < responsePartsRelateds.length; i++) {
+                        var responsePartsRelatedsList = responsePartsRelateds[i];
+                        for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                            responsePartsRelatedsList[j]["itemNO"] = i+"-"+j;
+                            rebuildListForLSG.push(responsePartsRelatedsList[j]);
+                        }
+                    }
+                    
+                        for (let i = 0; i < rebuildListForLSG.length; i++) {
+                            $scope.selectedTruckFitItems.push(rebuildListForLSG[i]);
+                        }
+                        $scope.closeSelectPage();
+                    
+                }, function (error) {
+                    console.log("error:", error);
+                    AppUtilService.hideLoading();
+
+                });
 
             }
         
