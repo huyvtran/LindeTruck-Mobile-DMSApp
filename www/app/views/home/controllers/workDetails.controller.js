@@ -18,6 +18,7 @@ angular.module('oinio.workDetailsControllers', [])
             truckNumber = "",
             ownerName="",
             truckItems=[],
+            chooseTruckIndexs=[],
             h = 0,
             m = 0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -589,7 +590,15 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.showDetailsMoreInf = function () {
-            $state.go("app.workDetailsMoreInfo",{truckItemAll: JSON.stringify(truckItems)});
+            $("input.selectTruckItem").each(function (index, element) {
+                if($(this).prop("checked")){
+                    chooseTruckIndexs.push(index);
+                }
+            });
+            $state.go("app.workDetailsMoreInfo",{
+                                                    truckItemAll: JSON.stringify(truckItems),
+                                                    chooseTruckArray:JSON.stringify(chooseTruckIndexs)
+                                                });
         };
 
         //***************************** */初始化配件模块*********************************
@@ -810,6 +819,21 @@ angular.module('oinio.workDetailsControllers', [])
 
             $scope.searchResultTruckName = new_temp;
 
+        };
+
+
+        $scope.choooseAllCheckBox =function () {
+            var  ele = $("#selectTruckAll");
+            if (ele.prop("checked")){
+                $("input.selectTruckItem").each(function (index, element) {
+                    $(this).prop("checked", true);
+                });
+
+            }else{
+                $("input.selectTruckItem").each(function (index, element) {
+                    $(this).prop("checked", false);
+                });
+            }
         };
 
     });

@@ -98,7 +98,7 @@
             })
 
             .state('app.workDetailsMoreInfo', {
-                url: 'app/workDetailsMoreInfo?truckItemAll',
+                url: 'app/workDetailsMoreInfo?truckItemAll&?chooseTruckArray',
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetailsMoreInfo.html',
