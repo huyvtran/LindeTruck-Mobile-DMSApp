@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
+        LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
 
         var vm = this,
             arriveTime = null,
@@ -8,7 +8,7 @@ angular.module('oinio.workDetailsControllers', [])
             startTime = null,
             finishTime = null,
             workDescription = null,
-            truckItemTotalMore=null,
+            truckItemTotalMore = null,
             userInfoId = "",
             Account_Ship_to__c = "",
             localSoupEntryId = "",
@@ -17,9 +17,9 @@ angular.module('oinio.workDetailsControllers', [])
             customerAccountValue = "",
             customerAddressValue = "",
             truckNumber = "",
-            ownerName="",
-            truckItems=[],
-            chooseTrucks=[],
+            ownerName = "",
+            truckItems = [],
+            chooseTrucks = [],
             h = 0,
             m = 0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -47,7 +47,7 @@ angular.module('oinio.workDetailsControllers', [])
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
             $scope.HasTruckNum = 0;
-            $scope.SelectedTruckNum=0;
+            $scope.SelectedTruckNum = 0;
             $scope.workTypes = [];
             $scope.carServices = [];
             $scope.imgUris = ["././img/images/will_add_Img.png"];
@@ -60,19 +60,20 @@ angular.module('oinio.workDetailsControllers', [])
             workDescription = $stateParams.workDescription;
 
             truckItemTotalMore = $stateParams.truckItemTotal;
-            if (truckItemTotalMore!=null){
+            if (truckItemTotalMore != null) {
                 $scope.allTruckItems = JSON.parse($stateParams.truckItemTotal);
-                $scope.SelectedTruckNum=$scope.allTruckItems.length;
-            }else{
+                $scope.SelectedTruckNum = $scope.allTruckItems.length;
+            } else {
                 SOrderService.getOrdersSelectedTruck(userInfoId).then(function success(result) {
-                    $scope.SelectedTruckNum=result.length;
-                    if (result.length>0){
-                        for (var i =0;i<result.length;i++){
+                    $scope.SelectedTruckNum = result.length;
+                    if (result.length > 0) {
+                        for (var i = 0; i < result.length; i++) {
                             truckItems.push(
-                                {   _soupEntryId:result[i]. Truck_Serial_Number__r._soupEntryId,
-                                    truckItemNum:result[i]. Truck_Serial_Number__r.Name,
-                                    Operation_Hour__c:0,
-                                    Service_Suggestion__c:""
+                                {
+                                    _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
+                                    truckItemNum: result[i].Truck_Serial_Number__r.Name,
+                                    Operation_Hour__c: 0,
+                                    Service_Suggestion__c: ""
                                 }
                             );
                         }
@@ -80,7 +81,7 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                     console.log(result);
                     $log.info(result);
-                },function error(msg) {
+                }, function error(msg) {
                     $log.error(msg);
                     console.log(msg);
                 });
@@ -90,22 +91,22 @@ angular.module('oinio.workDetailsControllers', [])
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
                 console.log(result);
-                customerNameValue = result.Account_Ship_to__r.Name!=null ? result.Account_Ship_to__r.Name:"";
-                customerAccountValue = result.Account_Ship_to__r._soupEntryId!=null?result.Account_Ship_to__r._soupEntryId:"";
-                customerAddressValue = result.Account_Ship_to__r.Address__c!=null?result.Account_Ship_to__r.Address__c:"";
-                if (result.truckModels!=null&&result.truckModels.length>0){
-                    for (var i =0;i<result.truckModels.length;i++){
-                        truckNumber+=result.truckModels[i]+";";
+                customerNameValue = result.Account_Ship_to__r.Name != null ? result.Account_Ship_to__r.Name : "";
+                customerAccountValue = result.Account_Ship_to__r._soupEntryId != null ? result.Account_Ship_to__r._soupEntryId : "";
+                customerAddressValue = result.Account_Ship_to__r.Address__c != null ? result.Account_Ship_to__r.Address__c : "";
+                if (result.truckModels != null && result.truckModels.length > 0) {
+                    for (var i = 0; i < result.truckModels.length; i++) {
+                        truckNumber += result.truckModels[i] + ";";
                     }
                 }
-                ownerName = result.Service_Order_Owner__r.Name !=null? result.Service_Order_Owner__r.Name:"";
-            },function error(msg) {
+                ownerName = result.Service_Order_Owner__r.Name != null ? result.Service_Order_Owner__r.Name : "";
+            }, function error(msg) {
                 $log.error(msg);
                 console.log(msg);
             });
         });
         $scope.$on('$ionicView.enter', function () {
-            
+
             var numArr1 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
             var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
             var mobileSelect3 = new MobileSelect({
@@ -132,47 +133,47 @@ angular.module('oinio.workDetailsControllers', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
-            $scope.carServices.push({label: '1', value: '保养'});
-            $scope.carServices.push({label: '2', value: '维修'});
-            $scope.carServices.push({label: '3', value: '服务'});
+            $scope.carServices.push({ label: '1', value: '保养' });
+            $scope.carServices.push({ label: '2', value: '维修' });
+            $scope.carServices.push({ label: '3', value: '服务' });
 
-            $scope.workTypes.push({label: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service'});
-            $scope.workTypes.push({label: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg'});
-            $scope.workTypes.push({label: 'ZS02_Z20', value: 'Z20 Service contract job\t'});
-            $scope.workTypes.push({label: 'ZS02_Z21', value: 'Z21 LTR service with Contract'});
-            $scope.workTypes.push({label: 'ZS02_Z22', value: 'Z22 LTR service with contract(RE)'});
-            $scope.workTypes.push({label: 'ZS03_Z30', value: 'Z30 Asset (STR) service'});
-            $scope.workTypes.push({label: 'ZS03_Z31', value: 'Z31 In-Stock Truck(cost only)'});
-            $scope.workTypes.push({label: 'ZS03_Z33', value: 'Z33 Support job for Service'});
-            $scope.workTypes.push({label: 'ZS03_Z35', value: 'Z35 Service Engineer Training'});
-            $scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 Service Marketing Campaign\t'});
+            $scope.workTypes.push({ label: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service' });
+            $scope.workTypes.push({ label: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg' });
+            $scope.workTypes.push({ label: 'ZS02_Z20', value: 'Z20 Service contract job\t' });
+            $scope.workTypes.push({ label: 'ZS02_Z21', value: 'Z21 LTR service with Contract' });
+            $scope.workTypes.push({ label: 'ZS02_Z22', value: 'Z22 LTR service with contract(RE)' });
+            $scope.workTypes.push({ label: 'ZS03_Z30', value: 'Z30 Asset (STR) service' });
+            $scope.workTypes.push({ label: 'ZS03_Z31', value: 'Z31 In-Stock Truck(cost only)' });
+            $scope.workTypes.push({ label: 'ZS03_Z33', value: 'Z33 Support job for Service' });
+            $scope.workTypes.push({ label: 'ZS03_Z35', value: 'Z35 Service Engineer Training' });
+            $scope.workTypes.push({ label: 'ZS03_Z36', value: 'Z36 Service Marketing Campaign\t' });
             $scope.workTypes.push({
                 label: 'ZS03_Z37',
                 value: 'Z37 Internal maintenance for in-Stock Truck(value change)'
             });
-            $scope.workTypes.push({label: 'ZS03_Z38', value: 'Z38 Internal Cross-region billing'});
-            $scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 Asset (STR) service(RE)'});
-            $scope.workTypes.push({label: 'ZS03_Z3A', value: 'Z3A FOC Service from Truck Sales'});
-            $scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 HQ Truck maintenance'});
-            $scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 Testing truck event'});
-            $scope.workTypes.push({label: 'ZS03_ZH3', value: 'ZH3 QM analyses'});
-            $scope.workTypes.push({label: 'ZS03_ZH4', value: 'ZH4 anti-explosion truck reproduct'});
-            $scope.workTypes.push({label: 'ZS03_ZOC', value: 'ZOC aftersales order changed\t'});
+            $scope.workTypes.push({ label: 'ZS03_Z38', value: 'Z38 Internal Cross-region billing' });
+            $scope.workTypes.push({ label: 'ZS03_Z39', value: 'Z39 Asset (STR) service(RE)' });
+            $scope.workTypes.push({ label: 'ZS03_Z3A', value: 'Z3A FOC Service from Truck Sales' });
+            $scope.workTypes.push({ label: 'ZS03_ZH1', value: 'ZH1 HQ Truck maintenance' });
+            $scope.workTypes.push({ label: 'ZS03_ZH2', value: 'ZH2 Testing truck event' });
+            $scope.workTypes.push({ label: 'ZS03_ZH3', value: 'ZH3 QM analyses' });
+            $scope.workTypes.push({ label: 'ZS03_ZH4', value: 'ZH4 anti-explosion truck reproduct' });
+            $scope.workTypes.push({ label: 'ZS03_ZOC', value: 'ZOC aftersales order changed\t' });
             $scope.workTypes.push({
                 label: 'ZS03_ZR1',
                 value: 'ZR1 Internal maintenance for rental truck refurbishment'
             });
-            $scope.workTypes.push({label: 'ZS03_ZR2', value: 'ZR2 LRental truck refurbishment'});
-            $scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 SRental truck refurbishment\t'});
-            $scope.workTypes.push({label: 'ZS03_ZSS', value: 'ZSS sales support service'});
-            $scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD shipping damage'});
-            $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service\t'});
-            $scope.workTypes.push({label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)'});
-            $scope.workTypes.push({label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment'});
-            $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 Warranty'});
-            $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 Warranty job1'});
-            $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 Warranty job2'});
-            $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 Warranty job3'});
+            $scope.workTypes.push({ label: 'ZS03_ZR2', value: 'ZR2 LRental truck refurbishment' });
+            $scope.workTypes.push({ label: 'ZS03_ZR3', value: 'ZR3 SRental truck refurbishment\t' });
+            $scope.workTypes.push({ label: 'ZS03_ZSS', value: 'ZSS sales support service' });
+            $scope.workTypes.push({ label: 'ZS03_ZTD', value: 'ZTD shipping damage' });
+            $scope.workTypes.push({ label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service\t' });
+            $scope.workTypes.push({ label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)' });
+            $scope.workTypes.push({ label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment' });
+            $scope.workTypes.push({ label: 'ZS08_Z80', value: 'Z80 Warranty' });
+            $scope.workTypes.push({ label: 'ZS08_Z81', value: 'Z81 Warranty job1' });
+            $scope.workTypes.push({ label: 'ZS08_Z82', value: 'Z82 Warranty job2' });
+            $scope.workTypes.push({ label: 'ZS08_Z83', value: 'Z83 Warranty job3' });
 
             /**
              * 初始化
@@ -215,12 +216,12 @@ angular.module('oinio.workDetailsControllers', [])
                     })
                 })
                 .then(function () {
-                        HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
-                            $scope.HasTruckNum = res != null ? res.length : 0;
-                        }, function (error) {
-                            $log.error('Error ' + error);
-                        })
-                    }
+                    HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
+                        $scope.HasTruckNum = res != null ? res.length : 0;
+                    }, function (error) {
+                        $log.error('Error ' + error);
+                    })
+                }
                 );
 
         });
@@ -242,16 +243,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                                $scope.imgUris.splice(i, 1);
-                                                i--;
-                                            }
+                                    for (var i = 0; i < $scope.imgUris.length; i++) {
+                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                            $scope.imgUris.splice(i, 1);
+                                            i--;
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_Img.png");
-                                        console.log(imgUri);
-                                    },
+                                    }
+                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                    $scope.imgUris.push("././img/images/will_add_Img.png");
+                                    console.log(imgUri);
+                                },
                                     function onError(error) {
                                         return;
                                     }
@@ -273,16 +274,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                                $scope.imgUris.splice(i, 1);
-                                                i--;
-                                            }
+                                    for (var i = 0; i < $scope.imgUris.length; i++) {
+                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                            $scope.imgUris.splice(i, 1);
+                                            i--;
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_Img.png");
-                                        console.log(imgUri);
-                                    },
+                                    }
+                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                    $scope.imgUris.push("././img/images/will_add_Img.png");
+                                    console.log(imgUri);
+                                },
                                     function onFail(error) {
                                         return;
                                     },
@@ -334,10 +335,10 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 } else {
                     startTime = arriveTime;
-                    h = finishTime.getHours()-arriveTime.getHours();
-                    m = finishTime.getMinutes()-arriveTime.getMinutes();
-                    if (m<0){
-                        m+=60;
+                    h = finishTime.getHours() - arriveTime.getHours();
+                    m = finishTime.getMinutes() - arriveTime.getMinutes();
+                    if (m < 0) {
+                        m += 60;
                         --h;
                     }
                 }
@@ -453,13 +454,13 @@ angular.module('oinio.workDetailsControllers', [])
 
 
         $scope.doPrint = function ($event) {
-            if (arriveTime==null){
+            if (arriveTime == null) {
                 $ionicPopup.alert({
                     title: "请选择到达时间"
                 });
                 return;
             }
-            if (finishTime==null||leaveTime==null){
+            if (finishTime == null || leaveTime == null) {
                 $ionicPopup.alert({
                     title: "请选择工作时长"
                 });
@@ -500,13 +501,13 @@ angular.module('oinio.workDetailsControllers', [])
                                                             noticeAccount: "",//noticeAccount
                                                             goodsAccount: "",//goodsAccount
                                                             TruckModel: truckNumber,//TruckModel
-                                                            workHour: "  "+h+"小时"+m+"分钟",//workHour
+                                                            workHour: "  " + h + "小时" + m + "分钟",//workHour
                                                             workTimeTotal: [{
-                                                                workName:ownerName,
-                                                                workDate:arriveTime.getFullYear()+"-"+arriveTime.getMonth()+"-"+arriveTime.getDate(),
-                                                                workStartTime:startTime.getHours()+":"+startTime.getMinutes()+":"+startTime.getSeconds()+" -- "+finishTime.getHours()+":"+finishTime.getMinutes()+":"+finishTime.getSeconds(),
-                                                                workEndTime:startTime.getHours()+":"+arriveTime.getMinutes()+":"+arriveTime.getSeconds()+" -- "+leaveTime.getHours()+":"+leaveTime.getMinutes()+":"+leaveTime.getSeconds(),
-                                                                miles:""
+                                                                workName: ownerName,
+                                                                workDate: arriveTime.getFullYear() + "-" + arriveTime.getMonth() + "-" + arriveTime.getDate(),
+                                                                workStartTime: startTime.getHours() + ":" + startTime.getMinutes() + ":" + startTime.getSeconds() + " -- " + finishTime.getHours() + ":" + finishTime.getMinutes() + ":" + finishTime.getSeconds(),
+                                                                workEndTime: startTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds(),
+                                                                miles: ""
 
                                                             }],//workTimeTotal
                                                             listContent: "",//listContent
@@ -596,18 +597,18 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.showDetailsMoreInf = function () {
             $("input.selectTruckItem").each(function (index, element) {
-                if($(this).prop("checked")){
+                if ($(this).prop("checked")) {
                     chooseTrucks.push(truckItems[index]);
                 }
             });
-            $state.go("app.workDetailsMoreInfo",{
-                                                    truckItemAll: JSON.stringify(truckItems),
-                                                    chooseTruckArray:JSON.stringify(chooseTrucks)
-                                                });
+            $state.go("app.workDetailsMoreInfo", {
+                truckItemAll: JSON.stringify(truckItems),
+                chooseTruckArray: JSON.stringify(chooseTrucks)
+            });
         };
 
         //***************************** */初始化配件模块*********************************
-        $scope.toDisBothModifyDiv =  function () {
+        $scope.toDisBothModifyDiv = function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
 
@@ -638,11 +639,11 @@ angular.module('oinio.workDetailsControllers', [])
          */
         $scope.openSelectPage = function (ele) {
             $scope.toDisBothModifyDiv();
-            if(ele === 'selectLSG') {
+            if (ele === 'selectLSG') {
                 $('#selectLSG').css('display', 'block');
                 $('#selectTruckFit').css('display', 'none');
                 $scope.getLSG();
-            }else{
+            } else {
                 $('#selectTruckFit').css('display', 'block');
                 $('#selectLSG').css('display', 'none');
             }
@@ -693,7 +694,7 @@ angular.module('oinio.workDetailsControllers', [])
                     for (let i = 0; i < responsePartsRelateds.length; i++) {
                         var responsePartsRelatedsList = responsePartsRelateds[i];
                         for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                            responsePartsRelatedsList[j]["itemNO"] = i+"-"+j;
+                            responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
                             $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
                         }
                     }
@@ -851,7 +852,7 @@ angular.module('oinio.workDetailsControllers', [])
                     ShoppingCartList["cartName"] = element.cartName;
                     var cartList = [];
                     for (let j = 0; j < 20; j++) {
-                        if(element[j]){
+                        if (element[j]) {
                             cartList.push(element[j])
                         }
                     }
@@ -866,29 +867,29 @@ angular.module('oinio.workDetailsControllers', [])
             });
         }
 
-        $scope.toggleGroup = function(group) {
+        $scope.toggleGroup = function (group) {
             group.show = !group.show;
             // console.log("toggleGroup:", group);
-          };
-          $scope.isGroupShown = function(group) {
+        };
+        $scope.isGroupShown = function (group) {
             // console.log("isGroupShown:", group);
             return group.show;
-          };
-          //经济件 替代件 常规件
-          $scope.isquoted_Table = function(type) {
+        };
+        //经济件 替代件 常规件
+        $scope.isquoted_Table = function (type) {
             //   console.log("type:", type);
-              var returnType = 'quoted_Table blue_text_color';
-              if (type === "economical") {
+            var returnType = 'quoted_Table blue_text_color';
+            if (type === "economical") {
                 returnType = "quoted_Table blue_text_color"
-              }else if(type === "substitution"){
+            } else if (type === "substitution") {
                 returnType = "quoted_Table red_text_color"
-              }else if(type === "common"){
+            } else if (type === "common") {
                 returnType = "quoted_Table "
-              }
+            }
             return returnType;
-          };
-          //******************LSG勾选框************************ */
-          $scope.checkAllSearchResultsLSG = function () {
+        };
+        //******************LSG勾选框************************ */
+        $scope.checkAllSearchResultsLSG = function () {
             let ele = $("#ckbox_truckLSG_searchresult_all");
 
             console.log('checkAllSearchResultsLSG:::', ele.prop("checked"));
@@ -897,7 +898,6 @@ angular.module('oinio.workDetailsControllers', [])
                     $(this).prop("checked", true);
                 });
             } else {
-
                 $("input.ckbox_truck_searchresult_itemLSG").each(function (index, element) {
                     console.log('666:::', element.checked);
                     element.checked = false;
@@ -908,59 +908,51 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.setLSGList = function () {
             AppUtilService.showLoading();
             var contentLSGsGetList = [];
-                $("input.ckbox_truck_searchresult_itemLSG").each(function (index, element) {
-                    if (element.checked) {
-                        console.log('ckbox_truck_searchresult_itemLSG:::', $(element).attr("data-recordid"));
-                        contentLSGsGetList.push($(element).attr("data-recordid"));
-                    }
-                    
-                });
-                
-                let partsQuantitys = [];
-                for (let i = 0; i < contentLSGsGetList.length; i++) {
-                    partsQuantitys.push(100000);
-                    
+            $("input.ckbox_truck_searchresult_itemLSG").each(function (index, element) {
+                if (element.checked) {
+                    console.log('ckbox_truck_searchresult_itemLSG:::', $(element).attr("data-recordid"));
+                    contentLSGsGetList.push($(element).attr("data-recordid"));
                 }
-                var contentLSGsGetList1 = ["1844401431","0009903819"];
-
-                var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList1) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
-                console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
-                ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
-                    AppUtilService.hideLoading();
-                    console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
-                    var rebuildListForLSG = [];
-                    for (let i = 0; i < responsePartsRelateds.length; i++) {
-                        var responsePartsRelatedsList = responsePartsRelateds[i];
-                        for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                            responsePartsRelatedsList[j]["itemNO"] = i+"-"+j;
-                            rebuildListForLSG.push(responsePartsRelatedsList[j]);
-                        }
-                    }
-                    
-                        for (let i = 0; i < rebuildListForLSG.length; i++) {
-                            $scope.selectedTruckFitItems.push(rebuildListForLSG[i]);
-                        }
-                        $scope.closeSelectPage();
-                    
-                }, function (error) {
-                    console.log("error:", error);
-                    AppUtilService.hideLoading();
-
-                });
-
+            });
+            let partsQuantitys = [];
+            for (let i = 0; i < contentLSGsGetList.length; i++) {
+                partsQuantitys.push(100000);
             }
-        
-        
+            // var contentLSGsGetList1 = ["1844401431", "0009903819"];
+            var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
+            console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
+            ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
+                AppUtilService.hideLoading();
+                console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
+                var rebuildListForLSG = [];
+                for (let i = 0; i < responsePartsRelateds.length; i++) {
+                    var responsePartsRelatedsList = responsePartsRelateds[i];
+                    for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                        responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
+                        rebuildListForLSG.push(responsePartsRelatedsList[j]);
+                    }
+                }
 
+                for (let i = 0; i < rebuildListForLSG.length; i++) {
+                    $scope.selectedTruckFitItems.push(rebuildListForLSG[i]);
+                }
+                $scope.closeSelectPage();
 
-        $scope.choooseAllCheckBox =function () {
-            var  ele = $("#selectTruckAll");
-            if (ele.prop("checked")){
+            }, function (error) {
+                console.log("error:", error);
+                AppUtilService.hideLoading();
+
+            });
+
+        }
+        $scope.choooseAllCheckBox = function () {
+            var ele = $("#selectTruckAll");
+            if (ele.prop("checked")) {
                 $("input.selectTruckItem").each(function (index, element) {
                     $(this).prop("checked", true);
                 });
 
-            }else{
+            } else {
                 $("input.selectTruckItem").each(function (index, element) {
                     $(this).prop("checked", false);
                 });
