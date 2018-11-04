@@ -98,16 +98,6 @@
                 cache: false
             })
 
-            .state('app.workDetailsMoreInfo', {
-                url: 'app/workDetailsMoreInfo?truckItemAll&?chooseTruckArray',
-                views: {
-                    menuContent: {
-                        templateUrl: 'app/views/home/templates/workDetailsMoreInfo.html',
-                        controller: 'workDetailsMoreInfoController as vm'
-                    }
-                },
-                cache: false
-            })
 
             .state('app.serviceManagement', {
                 url: 'app/serviceManagement',

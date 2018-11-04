@@ -74,7 +74,8 @@ angular.module('oinio.workDetailsControllers', [])
                                     _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
                                     truckItemNum: result[i].Truck_Serial_Number__r.Name,
                                     Operation_Hour__c: 0,
-                                    Service_Suggestion__c: ""
+                                    Service_Suggestion__c: "",
+                                    isShow:false
                                 }
                             );
                         }
@@ -599,13 +600,21 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.showDetailsMoreInf = function () {
             $("input.selectTruckItem").each(function (index, element) {
                 if ($(this).prop("checked")) {
-                    chooseTrucks.push(truckItems[index]);
+                    $scope.allTruckItems[index].isShow = true;
+                }else{
+                    $scope.allTruckItems[index].isShow = false;
                 }
             });
-            $state.go("app.workDetailsMoreInfo", {
-                truckItemAll: JSON.stringify(truckItems),
-                chooseTruckArray: JSON.stringify(chooseTrucks)
-            });
+
+
+            // $state.go("app.workDetailsMoreInfo", {
+            //     truckItemAll: JSON.stringify(truckItems),
+            //     chooseTruckArray: JSON.stringify(chooseTrucks)
+            // });
+
+            document.getElementById("workDetailTotal").style.display = "none";//隐藏
+            document.getElementById("workDetailPart").style.display = "block";//隐藏
+
         };
 
         //***************************** */初始化配件模块*********************************
@@ -977,5 +986,19 @@ angular.module('oinio.workDetailsControllers', [])
             }
             console.log("regroupPartList:", regroupPartList);
         }
+
+        $scope.hidePartPage=function () {
+            document.getElementById("workDetailTotal").style.display = "block";//隐藏
+            document.getElementById("workDetailPart").style.display = "none";//隐藏
+        };
+
+        $scope.hidePartPagewithSave=function () {
+            document.getElementById("workDetailTotal").style.display = "block";//隐藏
+            document.getElementById("workDetailPart").style.display = "none";//隐藏
+        };
+
+
+
+
     });
 
