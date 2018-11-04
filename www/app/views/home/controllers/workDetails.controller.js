@@ -20,6 +20,7 @@ angular.module('oinio.workDetailsControllers', [])
             ownerName = "",
             truckItems = [],
             chooseTrucks = [],
+            regroupPartList = [], ///配件组装数据用于保存
             h = 0,
             m = 0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -959,5 +960,22 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
 
+        $scope.regroupPartListForSave = function(){
+            regroupPartList = [];
+            for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
+                const element = $scope.selectedTruckFitItems[i];
+                var onePartOriginals = {};
+                onePartOriginals["Line_Item__c"] = element.itemNO;//行项
+                onePartOriginals["Parent_Line_Item__c"] = element.itemNO;//行项
+                onePartOriginals["Quantity__c"] = element.quantity;//数量
+                onePartOriginals["Gross_Price__c"] = element.priceCondition.price;//公布价
+                onePartOriginals["Reserved__c"] = element.View_Integrity__c;//预留
+                onePartOriginals["Service_Material__c"] = element.Service_Substitution__c.Material_Number__c;//物料号
+                onePartOriginals["Parts_Type__c"] = element.type;//配件类型
+                onePartOriginals["Service_Order_Overview__c"] = element.Id;//工单表外键
+                regroupPartList.push(onePartOriginals);
+            }
+            console.log("regroupPartList:", regroupPartList);
+        }
     });
 
