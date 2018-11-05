@@ -30,152 +30,212 @@ angular.module('oinio.serviceManagementController', [])
             if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
                 return false;
             }
-            $ionicPopup.show({
-                title: '选择图片',
-                buttons: [
-                    {
-                        text: '拍照',
-                        onTap: function (e) {
-                            try {
-                                navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris1.length; i++) {
-                                            if ($scope.imgUris1[i] == '././img/images/will_add_Img.png' || $scope.imgUris1[i] == imgUri) {
-                                                $scope.imgUris1.splice(i, 1);
-                                                i--;
-                                            }
-                                        }
-                                        $scope.imgUris1.push("data:image/jpeg;base64,"+ imgUri);
-                                        //$scope.imgUris1.push(imgUri);
-                                        $scope.imgUris1.push("././img/images/will_add_Img.png");
-                                        console.log(imgUri);
-                                    },
-                                    function onError(error) {
-                                        return;
-                                    }
-                                    , {
-                                        quality: 50,
-                                        saveToPhotoAlbum: false,
-                                        destinationType: navigator.camera.DestinationType.DATA_URL,
-                                        mediaType: Camera.MediaType.PICTURE,
-                                        encodingType: Camera.EncodingType.JPEG
-                                    }
-                                );
-                            } catch (e) {
-                                return;
-                            }
-                        }
-                    },
-                    {
-                        text: '相册',
-                        onTap: function (e) {
-                            try {
-                                navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris1.length; i++) {
-                                            if ($scope.imgUris1[i] == '././img/images/will_add_Img.png' || $scope.imgUris1[i] == imgUri) {
-                                                $scope.imgUris1.splice(i, 1);
-                                                i--;
-                                            }
-                                        }
-                                        $scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
-                                        //$scope.imgUris1.push(imgUri);
-                                        $scope.imgUris1.push("././img/images/will_add_Img.png");
-                                        //console.log(imgUri);
-                                    },
-                                    function onFail(error) {
-                                        return;
-                                    },
-                                    {
-                                        quality: 50,
-                                        saveToPhotoAlbum: false,
-                                        destinationType: navigator.camera.DestinationType.DATA_URL,
-                                        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-                                        mediaType: Camera.MediaType.PICTURE,
-                                        encodingType: Camera.EncodingType.JPEG
-                                    });
-                            } catch (e) {
-                                return;
-                            }
 
+
+            try {
+                navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
+                        for (var i = 0; i < $scope.imgUris1.length; i++) {
+                            if ($scope.imgUris1[i] == '././img/images/will_add_Img.png' || $scope.imgUris1[i] == imgUri) {
+                                $scope.imgUris1.splice(i, 1);
+                                i--;
+                            }
                         }
+                        $scope.imgUris1.push("data:image/jpeg;base64,"+ imgUri);
+                        //$scope.imgUris1.push(imgUri);
+                        $scope.imgUris1.push("././img/images/will_add_Img.png");
+                        console.log(imgUri);
                     },
-                ]
-            });
+                    function onError(error) {
+                        return;
+                    }
+                    , {
+                        quality: 50,
+                        saveToPhotoAlbum: false,
+                        destinationType: navigator.camera.DestinationType.DATA_URL,
+                        mediaType: Camera.MediaType.PICTURE,
+                        encodingType: Camera.EncodingType.JPEG
+                    }
+                );
+            } catch (e) {
+                return;
+            }
+
+            // $ionicPopup.show({
+            //     title: '选择图片',
+            //     buttons: [
+            //         {
+            //             text: '拍照',
+            //             onTap: function (e) {
+            //                 try {
+            //                     navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
+            //                             for (var i = 0; i < $scope.imgUris1.length; i++) {
+            //                                 if ($scope.imgUris1[i] == '././img/images/will_add_Img.png' || $scope.imgUris1[i] == imgUri) {
+            //                                     $scope.imgUris1.splice(i, 1);
+            //                                     i--;
+            //                                 }
+            //                             }
+            //                             $scope.imgUris1.push("data:image/jpeg;base64,"+ imgUri);
+            //                             //$scope.imgUris1.push(imgUri);
+            //                             $scope.imgUris1.push("././img/images/will_add_Img.png");
+            //                             console.log(imgUri);
+            //                         },
+            //                         function onError(error) {
+            //                             return;
+            //                         }
+            //                         , {
+            //                             quality: 50,
+            //                             saveToPhotoAlbum: false,
+            //                             destinationType: navigator.camera.DestinationType.DATA_URL,
+            //                             mediaType: Camera.MediaType.PICTURE,
+            //                             encodingType: Camera.EncodingType.JPEG
+            //                         }
+            //                     );
+            //                 } catch (e) {
+            //                     return;
+            //                 }
+            //             }
+            //         },
+            //         {
+            //             text: '相册',
+            //             onTap: function (e) {
+            //                 try {
+            //                     navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
+            //                             for (var i = 0; i < $scope.imgUris1.length; i++) {
+            //                                 if ($scope.imgUris1[i] == '././img/images/will_add_Img.png' || $scope.imgUris1[i] == imgUri) {
+            //                                     $scope.imgUris1.splice(i, 1);
+            //                                     i--;
+            //                                 }
+            //                             }
+            //                             $scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
+            //                             //$scope.imgUris1.push(imgUri);
+            //                             $scope.imgUris1.push("././img/images/will_add_Img.png");
+            //                             //console.log(imgUri);
+            //                         },
+            //                         function onFail(error) {
+            //                             return;
+            //                         },
+            //                         {
+            //                             quality: 50,
+            //                             saveToPhotoAlbum: false,
+            //                             destinationType: navigator.camera.DestinationType.DATA_URL,
+            //                             sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+            //                             mediaType: Camera.MediaType.PICTURE,
+            //                             encodingType: Camera.EncodingType.JPEG
+            //                         });
+            //                 } catch (e) {
+            //                     return;
+            //                 }
+            //
+            //             }
+            //         },
+            //     ]
+            // });
         };
 
         $scope.getPhoto2 = function ($event) {
             if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
                 return false;
             }
-            $ionicPopup.show({
-                title: '选择图片',
-                buttons: [
-                    {
-                        text: '拍照',
-                        onTap: function (e) {
-                            try {
-                                navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris2.length; i++) {
-                                            if ($scope.imgUris2[i] == '././img/images/will_add_Img.png' || $scope.imgUris2[i] == imgUri) {
-                                                $scope.imgUris2.splice(i, 1);
-                                                i--;
-                                            }
-                                        }
-                                        $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
-                                        //$scope.imgUris2.push(imgUri);
-                                        $scope.imgUris2.push("././img/images/will_add_Img.png");
-                                        //console.log(imgUri);
-                                    },
-                                    function onError(error) {
-                                        return;
-                                    }
-                                    , {
-                                        quality: 50,
-                                        saveToPhotoAlbum: false,
-                                        destinationType: navigator.camera.DestinationType.DATA_URL,
-                                        mediaType: Camera.MediaType.PICTURE,
-                                        encodingType: Camera.EncodingType.JPEG
-                                    }
-                                );
-                            } catch (e) {
-                                return;
-                            }
-                        }
-                    },
-                    {
-                        text: '相册',
-                        onTap: function (e) {
-                            try {
-                                navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris2.length; i++) {
-                                            if ($scope.imgUris2[i] == '././img/images/will_add_Img.png' || $scope.imgUris2[i] == imgUri) {
-                                                $scope.imgUris2.splice(i, 1);
-                                                i--;
-                                            }
-                                        }
-                                        $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
-                                        //$scope.imgUris2.push(imgUri);
-                                        $scope.imgUris2.push("././img/images/will_add_Img.png");
-                                        //console.log(imgUri);
-                                    },
-                                    function onFail(error) {
-                                        return;
-                                    },
-                                    {
-                                        quality: 50,
-                                        saveToPhotoAlbum: false,
-                                        destinationType: navigator.camera.DestinationType.DATA_URL,
-                                        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-                                        mediaType: Camera.MediaType.PICTURE,
-                                        encodingType: Camera.EncodingType.JPEG
-                                    });
-                            } catch (e) {
-                                return;
-                            }
 
+            try {
+                navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
+                        for (var i = 0; i < $scope.imgUris2.length; i++) {
+                            if ($scope.imgUris2[i] == '././img/images/will_add_Img.png' || $scope.imgUris2[i] == imgUri) {
+                                $scope.imgUris2.splice(i, 1);
+                                i--;
+                            }
                         }
+                        $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+                        //$scope.imgUris2.push(imgUri);
+                        $scope.imgUris2.push("././img/images/will_add_Img.png");
+                        //console.log(imgUri);
                     },
-                ]
-            });
+                    function onError(error) {
+                        return;
+                    }
+                    , {
+                        quality: 50,
+                        saveToPhotoAlbum: false,
+                        destinationType: navigator.camera.DestinationType.DATA_URL,
+                        mediaType: Camera.MediaType.PICTURE,
+                        encodingType: Camera.EncodingType.JPEG
+                    }
+                );
+            } catch (e) {
+                return;
+            }
+
+
+            // $ionicPopup.show({
+            //     title: '选择图片',
+            //     buttons: [
+            //         {
+            //             text: '拍照',
+            //             onTap: function (e) {
+            //                 try {
+            //                     navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
+            //                             for (var i = 0; i < $scope.imgUris2.length; i++) {
+            //                                 if ($scope.imgUris2[i] == '././img/images/will_add_Img.png' || $scope.imgUris2[i] == imgUri) {
+            //                                     $scope.imgUris2.splice(i, 1);
+            //                                     i--;
+            //                                 }
+            //                             }
+            //                             $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+            //                             //$scope.imgUris2.push(imgUri);
+            //                             $scope.imgUris2.push("././img/images/will_add_Img.png");
+            //                             //console.log(imgUri);
+            //                         },
+            //                         function onError(error) {
+            //                             return;
+            //                         }
+            //                         , {
+            //                             quality: 50,
+            //                             saveToPhotoAlbum: false,
+            //                             destinationType: navigator.camera.DestinationType.DATA_URL,
+            //                             mediaType: Camera.MediaType.PICTURE,
+            //                             encodingType: Camera.EncodingType.JPEG
+            //                         }
+            //                     );
+            //                 } catch (e) {
+            //                     return;
+            //                 }
+            //             }
+            //         },
+            //         {
+            //             text: '相册',
+            //             onTap: function (e) {
+            //                 try {
+            //                     navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
+            //                             for (var i = 0; i < $scope.imgUris2.length; i++) {
+            //                                 if ($scope.imgUris2[i] == '././img/images/will_add_Img.png' || $scope.imgUris2[i] == imgUri) {
+            //                                     $scope.imgUris2.splice(i, 1);
+            //                                     i--;
+            //                                 }
+            //                             }
+            //                             $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
+            //                             //$scope.imgUris2.push(imgUri);
+            //                             $scope.imgUris2.push("././img/images/will_add_Img.png");
+            //                             //console.log(imgUri);
+            //                         },
+            //                         function onFail(error) {
+            //                             return;
+            //                         },
+            //                         {
+            //                             quality: 50,
+            //                             saveToPhotoAlbum: false,
+            //                             destinationType: navigator.camera.DestinationType.DATA_URL,
+            //                             sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+            //                             mediaType: Camera.MediaType.PICTURE,
+            //                             encodingType: Camera.EncodingType.JPEG
+            //                         });
+            //                 } catch (e) {
+            //                     return;
+            //                 }
+            //
+            //             }
+            //         },
+            //     ]
+            // });
         };
 
 
@@ -246,47 +306,56 @@ angular.module('oinio.serviceManagementController', [])
             odometerOfficialBusiness = $("#odometerOfficialBusiness").val().trim();
             odometerComeOn = $("#odometerComeOn").val().trim();
             otherExpenses = $("#otherExpenses").val().trim();
-            causeRemark = $("#causeRemark").val();
+            causeRemark = $("#causeRemark").val().trim();
 
             var express = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
             var express1 = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-            if (licensePlateNumber.length !=7 && !express.test(licensePlateNumber)){
+            if (licensePlateNumber==null || licensePlateNumber.length !=7 || !express.test(licensePlateNumber)){
                 $ionicPopup.alert({
-                    title: "请输入正确的车牌号！"
+                    title: "请输入正确的车牌号!(必填)"
                 });
                 return;
             }
 
-            if (!express1.test(odometerOfficialBusiness)||odometerOfficialBusiness==0){
+            if (odometerOfficialBusiness ==null || !express1.test(odometerOfficialBusiness)||odometerOfficialBusiness==0){
                 $ionicPopup.alert({
-                    title: "里程表 - 公务 请输入正数！"
+                    title: "里程表 - 公务 请输入正数!(必填)"
                 });
                 return;
             }
-            if (!express1.test(odometerComeOn)||odometerComeOn==0){
+            if (odometerComeOn ==null || !express1.test(odometerComeOn)||odometerComeOn==0){
                 $ionicPopup.alert({
-                    title: "里程表 - 加油 请输入正数！"
+                    title: "里程表 - 加油 请输入正数!(必填)"
                 });
                 return;
             }
             if (!express1.test(refuelingCost)||refuelingCost==0){
                 $ionicPopup.alert({
-                    title: "加油费用 请输入正数！"
+                    title: "加油费用 请输入正数!(必填)"
                 });
                 return;
             }
-            if (!express1.test(otherExpenses)||otherExpenses==0){
+            if (otherExpenses==null || !express1.test(otherExpenses)||otherExpenses==0){
                 $ionicPopup.alert({
-                    title: "其他费用 请输入正数！"
+                    title: "其他费用 请输入正数!(必填)"
                 });
                 return;
             }
-            if (!express1.test(odometerSelfUse)||odometerSelfUse==0){
+            if (odometerSelfUse ==null || !express1.test(odometerSelfUse)||odometerSelfUse==0){
                 $ionicPopup.alert({
-                    title: "里程表 - 自用 请输入正数！"
+                    title: "里程表 - 自用 请输入正数!(必填)"
                 });
                 return;
             }
+
+            if(causeRemark==null||causeRemark===""){
+                $ionicPopup.alert({
+                    title: "请输入原因备注!(必填)"
+                });
+                return;
+            }
+
+
             var obj = {
                 CarNo__c:licensePlateNumber,//车牌号
                 GasCost__c:refuelingCost,//加油费用
