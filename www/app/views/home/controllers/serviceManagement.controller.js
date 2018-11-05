@@ -310,59 +310,61 @@ angular.module('oinio.serviceManagementController', [])
 
             var express = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
             var express1 = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-            if (licensePlateNumber==null || licensePlateNumber.length !=7 || !express.test(licensePlateNumber)){
+            if (licensePlateNumber.length !=7 || !express.test(licensePlateNumber)){
                 $ionicPopup.alert({
-                    title: "请输入正确的车牌号!(必填)"
+                    title: "请输入正确的车牌号!"
                 });
                 return;
             }
 
-            if (odometerOfficialBusiness ==null || !express1.test(odometerOfficialBusiness)||odometerOfficialBusiness==0){
+            // if (!express1.test(odometerOfficialBusiness)||odometerOfficialBusiness==0){
+            //     $ionicPopup.alert({
+            //         title: "里程表 - 公务 请输入正数!"
+            //     });
+            //     return;
+            // }
+            // if (!express1.test(odometerComeOn)||odometerComeOn==0){
+            //     $ionicPopup.alert({
+            //         title: "里程表 - 加油 请输入正数!"
+            //     });
+            //     return;
+            // }
+            // if (!express1.test(refuelingCost)||refuelingCost==0){
+            //     $ionicPopup.alert({
+            //         title: "加油费用 请输入正数!"
+            //     });
+            //     return;
+            // }
+            // if (!express1.test(otherExpenses)||otherExpenses==0){
+            //     $ionicPopup.alert({
+            //         title: "其他费用 请输入正数!"
+            //     });
+            //     return;
+            // }
+            // if (!express1.test(odometerSelfUse)||odometerSelfUse==0){
+            //     $ionicPopup.alert({
+            //         title: "里程表 - 自用 请输入正数!"
+            //     });
+            //     return;
+            // }
+
+            if (odometerOfficialBusiness=="" && odometerComeOn==""){
                 $ionicPopup.alert({
-                    title: "里程表 - 公务 请输入正数!(必填)"
-                });
-                return;
-            }
-            if (odometerComeOn ==null || !express1.test(odometerComeOn)||odometerComeOn==0){
-                $ionicPopup.alert({
-                    title: "里程表 - 加油 请输入正数!(必填)"
-                });
-                return;
-            }
-            if (!express1.test(refuelingCost)||refuelingCost==0){
-                $ionicPopup.alert({
-                    title: "加油费用 请输入正数!(必填)"
-                });
-                return;
-            }
-            if (otherExpenses==null || !express1.test(otherExpenses)||otherExpenses==0){
-                $ionicPopup.alert({
-                    title: "其他费用 请输入正数!(必填)"
-                });
-                return;
-            }
-            if (odometerSelfUse ==null || !express1.test(odometerSelfUse)||odometerSelfUse==0){
-                $ionicPopup.alert({
-                    title: "里程表 - 自用 请输入正数!(必填)"
-                });
-                return;
+                            title: "里程表 - 加油 / 里程表 - 公务 未填写!"
+                        });
+                        return;
             }
 
-            if(causeRemark==null||causeRemark===""){
-                $ionicPopup.alert({
-                    title: "请输入原因备注!(必填)"
-                });
-                return;
-            }
+
 
 
             var obj = {
                 CarNo__c:licensePlateNumber,//车牌号
-                GasCost__c:refuelingCost,//加油费用
-                SelfMileage__c:odometerSelfUse,//里程表 - 自用
-                DriveMileage__c:odometerOfficialBusiness,//里程表 - 公务
-                GasMileage__c:odometerComeOn, //里程表 - 加油
-                OtherCost__c:otherExpenses, //其他费用
+                GasCost__c:Number(refuelingCost),//加油费用
+                SelfMileage__c:Number(odometerSelfUse),//里程表 - 自用
+                DriveMileage__c:Number(odometerOfficialBusiness),//里程表 - 公务
+                GasMileage__c:Number(odometerComeOn), //里程表 - 加油
+                OtherCost__c:Number(otherExpenses), //其他费用
                 Remark__c:causeRemark //原因备注
             };
 
