@@ -1011,7 +1011,7 @@ angular.module('oinio.workDetailsControllers', [])
                 }
                 onePartOriginals["Reserved__c"] = element.View_Integrity__c;//预留
                 onePartOriginals["Service_Material__c"] = element.materialId;//物料号
-                onePartOriginals["Id"] = element.Id;//物料号
+                onePartOriginals["Id"] = element.saveId;//物料号
                 onePartOriginals["Parts_Type__c"] = element.type;//配件类型
                 onePartOriginals["Service_Order_Overview__c"] = orderDetailsId;//工单ID
                 regroupPartList.push(onePartOriginals);
@@ -1042,6 +1042,7 @@ angular.module('oinio.workDetailsControllers', [])
                      const element = responseGetParts[i].Service_Material__r;
                      element["itemNO"] = i;
                      element["materialId"] = responseGetParts[i].Service_Material__c;
+                     element["saveId"] = responseGetParts[i].Id;
 
                      $scope.selectedTruckFitItems.push(element);
                  }
