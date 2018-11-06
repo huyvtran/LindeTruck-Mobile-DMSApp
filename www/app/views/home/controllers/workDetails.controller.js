@@ -18,6 +18,7 @@ angular.module('oinio.workDetailsControllers', [])
             customerAddressValue = "",
             truckNumber = "",
             ownerName = "",
+            orderDetailsId = "",//工单ID
             truckItems = [],
             chooseTrucks = [],
             regroupPartList = [], ///配件组装数据用于保存
@@ -36,7 +37,8 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.searchPartssUrl = "/Partss?keyword=";
         $scope.partsRelatedsUrl = "/PartsRelateds?partsNumbers=";
         $scope.partLSGServer = "/LSGServer";
-        https://kionapac--devpro2.cs31.my.salesforce.com/services/apexrest/LSGServer
+        $scope.savePartsUrl = "/ServiceOrderMaterial?newServiceOrderMaterial=";
+        $scope.getPartsForReadUrl = "/ServiceOrderMaterial/";
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -93,6 +95,7 @@ angular.module('oinio.workDetailsControllers', [])
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
                 console.log(result);
+                orderDetailsId = result.Id;
                 customerNameValue = result.Account_Ship_to__r.Name != null ? result.Account_Ship_to__r.Name : "";
                 customerAccountValue = result.Account_Ship_to__r._soupEntryId != null ? result.Account_Ship_to__r._soupEntryId : "";
                 customerAddressValue = result.Account_Ship_to__r.Address__c != null ? result.Account_Ship_to__r.Address__c : "";
@@ -102,10 +105,18 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 }
                 ownerName = result.Service_Order_Owner__r.Name != null ? result.Service_Order_Owner__r.Name : "";
+
+                //*********读取配件*************** */
+            $scope.getPartListForRead();
+
+
+
             }, function error(msg) {
                 $log.error(msg);
                 console.log(msg);
             });
+
+            
         });
         $scope.$on('$ionicView.enter', function () {
 
@@ -595,6 +606,9 @@ angular.module('oinio.workDetailsControllers', [])
             }, function error(error) {
                 $log.error(error);
             });
+
+            //*********保存配件************* */
+            $scope.regroupPartListForSave();
         };
 
         $scope.showDetailsMoreInf = function () {
@@ -704,7 +718,8 @@ angular.module('oinio.workDetailsControllers', [])
                     for (let i = 0; i < responsePartsRelateds.length; i++) {
                         var responsePartsRelatedsList = responsePartsRelateds[i];
                         for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                            responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
+                            // responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
+                            responsePartsRelatedsList[j]["itemNO"] = j;
                             $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
                         }
                     }
@@ -888,11 +903,11 @@ angular.module('oinio.workDetailsControllers', [])
         //经济件 替代件 常规件
         $scope.isquoted_Table = function (type) {
             //   console.log("type:", type);
-            var returnType = 'quoted_Table blue_text_color';
+            var returnType = 'quoted_Table';
             if (type === "economical") {
-                returnType = "quoted_Table blue_text_color"
+                returnType = "quoted_Table blue_legend"
             } else if (type === "substitution") {
-                returnType = "quoted_Table red_text_color"
+                returnType = "quoted_Table red_legend"
             } else if (type === "common") {
                 returnType = "quoted_Table "
             }
@@ -928,7 +943,6 @@ angular.module('oinio.workDetailsControllers', [])
             for (let i = 0; i < contentLSGsGetList.length; i++) {
                 partsQuantitys.push(100000);
             }
-            // var contentLSGsGetList1 = ["1844401431", "0009903819"];
             var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
             console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
             ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
@@ -938,7 +952,8 @@ angular.module('oinio.workDetailsControllers', [])
                 for (let i = 0; i < responsePartsRelateds.length; i++) {
                     var responsePartsRelatedsList = responsePartsRelateds[i];
                     for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                        responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
+                        // responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
+                        responsePartsRelatedsList[j]["itemNO"] = j;
                         rebuildListForLSG.push(responsePartsRelatedsList[j]);
                     }
                 }
@@ -977,14 +992,52 @@ angular.module('oinio.workDetailsControllers', [])
                 onePartOriginals["Line_Item__c"] = element.itemNO;//行项
                 onePartOriginals["Parent_Line_Item__c"] = element.itemNO;//行项
                 onePartOriginals["Quantity__c"] = element.quantity;//数量
-                onePartOriginals["Gross_Price__c"] = element.priceCondition.price;//公布价
+                if (element.priceCondition!=null) {
+                    onePartOriginals["Gross_Price__c"] = element.priceCondition.price;//公布价
+                }
                 onePartOriginals["Reserved__c"] = element.View_Integrity__c;//预留
-                onePartOriginals["Service_Material__c"] = element.Service_Substitution__c.Material_Number__c;//物料号
+                onePartOriginals["Service_Material__c"] = element.materialId;//物料号
                 onePartOriginals["Parts_Type__c"] = element.type;//配件类型
-                onePartOriginals["Service_Order_Overview__c"] = element.Id;//工单表外键
+                onePartOriginals["Service_Order_Overview__c"] = orderDetailsId;//工单ID
                 regroupPartList.push(onePartOriginals);
             }
             console.log("regroupPartList:", regroupPartList);
+
+             var savePartsUrlVar = $scope.savePartsUrl + JSON.stringify(regroupPartList);
+             console.log("savePartsUrl:", savePartsUrlVar);
+             ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'POST', {}, null, function (responseSaveParts) {
+                 AppUtilService.hideLoading();
+                 console.log("responseSaveParts:", responseSaveParts);
+                 
+ 
+             }, function (error) {
+                 console.log("responseSaveParts_error:", error);
+                 AppUtilService.hideLoading();
+ 
+             });
+
+        }
+
+        $scope.getPartListForRead = function(){
+            
+             ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl+orderDetailsId, 'GET', {}, null, function (responseGetParts) {
+                 AppUtilService.hideLoading();
+                 console.log("responseGetParts:", responseGetParts);
+                 for (let i = 0; i < responseGetParts.length; i++) {
+                     const element = responseGetParts[i].Service_Material__r;
+                     element["itemNO"] = i;
+                     element["materialId"] = responseGetParts[i].Service_Material__c;
+
+                     $scope.selectedTruckFitItems.push(element);
+                 }
+                 console.log("$scope.selectedTruckFitItems:", $scope.selectedTruckFitItems);
+
+             }, function (error) {
+                 console.log("responseGetParts_error:", error);
+                 AppUtilService.hideLoading();
+ 
+             });
+
         }
 
         $scope.hidePartPage=function () {

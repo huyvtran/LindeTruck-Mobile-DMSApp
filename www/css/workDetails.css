@@ -372,7 +372,7 @@ img {
     vertical-align: middle;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_Long {
-    width: 25%;
+    width: 40%;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_nopadding {
     padding: 0;
@@ -628,3 +628,22 @@ img {
   .list .item.item-accordion.ng-hide-remove {
     display: block !important;
   }
+  .importLsg_bodyer .list {
+    padding: 0;
+}
+.importLsg_bodyer .item {
+    padding: 0;
+    width: 100%;
+    overflow: inherit;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
+.add_del_bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 170px);
+    width: 100%;
+}

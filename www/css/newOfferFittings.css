@@ -394,3 +394,35 @@ img {
     color: #ffffff;
     background: #979797;
 }
+.list .item.item-accordion {
+    line-height: 38px;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: 0.09s all linear;
+  }
+  .list .item.item-accordion.ng-hide {
+    line-height: 0px;
+  }
+  .list .item.item-accordion.ng-hide-add,
+  .list .item.item-accordion.ng-hide-remove {
+    display: block !important;
+  }
+  .importLsg_bodyer .list {
+    padding: 0;
+}
+.importLsg_bodyer .item {
+    padding: 0;
+    width: 100%;
+    overflow: inherit;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+
+.add_del_bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 170px);
+    width: 100%;
+}
