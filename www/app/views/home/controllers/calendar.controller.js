@@ -7,7 +7,7 @@
             var vm = this,
                 oCurrentUser = LocalCacheService.get('currentUser') || {};
             console.log('oCurrentUser!', oCurrentUser);
-
+            var myPopup;
             var allUser = [];
             var allOrders = [];
             var allUserName = [];
@@ -41,10 +41,17 @@
                 console.log('showPopup!item', item);
                 $scope.data = {}
                 var setButtons = [];
-                if (item.Status__c =="Not Planned") {
-                    setButtons =[
-                        { text: 'Cancel' },
-                        
+                if (item.Status__c == "Not Planned") {
+                    setButtons = [
+                        { text: '出发' },
+
+                        {
+                            text: '<b>详情</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c });
+                            }
+                        },
                         {
                             text: '<b>安排</b>',
                             type: 'button-positive',
@@ -52,35 +59,28 @@
                                 {
                                     console.log('Tapped！!', allUser);
                                     var listDataAll = angular.toJson(allUser);
-    
+
                                     $state.go('app.arrange', { SendAllUser: listDataAll, SendSoupEntryId: item._soupEntryId });
                                     return "anpai";
                                 }
                             }
-                        },
-                        {
-                            text: '<b>详情</b>',
-                            type: 'button-positive',
-                            onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription:null ,AccountShipToC:item.Account_Ship_to__c});
-                            }
                         }
                     ];
-                }else{
-                    setButtons =[
-                        { text: 'Cancel' },
+                } else {
+                    setButtons = [
+                        { text: '出发' },
                         {
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription:null ,AccountShipToC:item.Account_Ship_to__c});
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c });
                             }
                         }
                     ];
                 }
-            
+
                 // 自定义弹窗
-                var myPopup = $ionicPopup.show({
+                myPopup = $ionicPopup.show({
                     title: item.Account_Ship_to__r.Name,
                     // subTitle: 'Please use normal things',
                     scope: $scope,
@@ -101,6 +101,7 @@
                 LocalCacheService.set('previousStateForSCReady', $state.current.name);
                 LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
                 console.log('$ionicView.beforeEnter');
+
 
             });
 
@@ -157,6 +158,18 @@
 
 
             $(document).ready(function () {
+                var htmlEl = angular.element(document.querySelector('html'));
+                htmlEl.on('click', function (event) {
+                    // console.log('htmlEl.onclick',event);
+
+                    if (event.target.nodeName === 'HTML') {
+                        // console.log('event.target.nodeName',event.target.nodeName);
+                        if (myPopup) {//myPopup即为popup
+                            myPopup.close();
+                        }
+                    }
+                });
+
                 //使用对象记录重复的元素，以及出现的次数
                 var getCount = function (arr) {
                     if (firstRunFun) {
@@ -201,7 +214,7 @@
                 // 这里是ajax请求，替换为你正在使用的ajax方式就可以
                 $scope.getHomeService = function () {
                     HomeService.getEachOrder().then(function (res) {
-                        
+
                         allUser = res;
                         $scope.allUser = res;
 
@@ -249,13 +262,13 @@
                         for (let index = 0; index < currentOrder.length; index++) {//显示点击日期的工单
 
                             var indexDate = currentOrder[index].Plan_Date__c;
-                            console.log("currentClickDate：",currentClickDate +"  indexDate:"+indexDate);
+                            console.log("currentClickDate：", currentClickDate + "  indexDate:" + indexDate);
 
                             if (currentClickDate == indexDate) {
                                 selectDateOrders.push(currentOrder[index]);
                             }
                         }
-                        console.log("selectDateOrders.count",selectDateOrders.length+"   selectDateOrders:"+selectDateOrders);
+                        console.log("selectDateOrders.count", selectDateOrders.length + "   selectDateOrders:" + selectDateOrders);
 
                         if (selectDateOrders.length > 0) {
                             $scope.currentOrder = getServiceOrderType(selectDateOrders);
@@ -281,13 +294,13 @@
                 });
 
                 $('.fc-month-button').on('click', function () {
-                    var div = document.getElementById("orderListClassType"); 
-                    div.className= 'big_Type_Group'; 
+                    var div = document.getElementById("orderListClassType");
+                    div.className = 'big_Type_Group';
 
                 });
                 $('.fc-basicWeek-button').on('click', function () {
-                    var div = document.getElementById("orderListClassType"); 
-                    div.className= 'big_Type_Group changeHeight';
+                    var div = document.getElementById("orderListClassType");
+                    div.className = 'big_Type_Group changeHeight';
                 });
                 $scope.onSwipeRight = function () {
                     calendarAll.fullCalendar('prev');
