@@ -81,10 +81,11 @@ angular.module('oinio.workDetailsControllers', [])
                 $scope.getPartListForRead();
                 return  SOrderService.getOrdersSelectedTruck(userInfoId);
             }).then(function success(result) {
-                $scope.SelectedTruckNum = result.length;
+                $scope.SelectedTruckNum = 0;
                 if (result.length > 0) {
                     for (var i = 0; i < result.length; i++) {
                         if(result[i].Truck_Serial_Number__r!=undefined){
+                            $scope.SelectedTruckNum = Number($scope.SelectedTruckNum) + 1 ;
                             truckItems.push(
                                 {
                                     _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
