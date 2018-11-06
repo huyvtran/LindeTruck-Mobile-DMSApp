@@ -62,36 +62,6 @@ angular.module('oinio.workDetailsControllers', [])
             Account_Ship_to__c = $stateParams.AccountShipToC;
             workDescription = $stateParams.workDescription;
 
-            truckItemTotalMore = $stateParams.truckItemTotal;
-            if (truckItemTotalMore != null) {
-                $scope.allTruckItems = JSON.parse($stateParams.truckItemTotal);
-                $scope.SelectedTruckNum = $scope.allTruckItems.length;
-            } else {
-                SOrderService.getOrdersSelectedTruck(userInfoId).then(function success(result) {
-                    $scope.SelectedTruckNum = result.length;
-                    if (result.length > 0) {
-                        for (var i = 0; i < result.length; i++) {
-                            truckItems.push(
-                                {
-                                    _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
-                                    truckItemNum: result[i].Truck_Serial_Number__r.Name,
-                                    Operation_Hour__c: 0,
-                                    Service_Suggestion__c: "",
-                                    isShow:false
-                                }
-                            );
-                        }
-                        $scope.allTruckItems = truckItems;
-                    }
-                    console.log(result);
-                    $log.info(result);
-                }, function error(msg) {
-                    $log.error(msg);
-                    console.log(msg);
-                });
-            }
-
-
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
                 console.log(result);
@@ -107,11 +77,27 @@ angular.module('oinio.workDetailsControllers', [])
                 ownerName = result.Service_Order_Owner__r.Name != null ? result.Service_Order_Owner__r.Name : "";
 
                 //*********读取配件*************** */
-            $scope.getPartListForRead();
-
-
-
-            }, function error(msg) {
+                $scope.getPartListForRead();
+                return  SOrderService.getOrdersSelectedTruck(userInfoId);
+            }).then(function success(result) {
+                $scope.SelectedTruckNum = result.length;
+                if (result.length > 0) {
+                    for (var i = 0; i < result.length; i++) {
+                        truckItems.push(
+                            {
+                                _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
+                                truckItemNum: result[i].Truck_Serial_Number__r.Name,
+                                Operation_Hour__c: 0,
+                                Service_Suggestion__c: "",
+                                isShow:false
+                            }
+                        );
+                    }
+                    $scope.allTruckItems = truckItems;
+                }
+                console.log(result);
+                $log.info(result);
+            }).catch(function error(msg) {
                 $log.error(msg);
                 console.log(msg);
             });
@@ -510,7 +496,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                             customerName: customerNameValue,//customerName
                                                             customerAccount: customerAccountValue,//customerAccount
                                                             customerAddress: customerAddressValue,//customerAddress
-                                                            workSingleNumber: $("#workSingleNumber").val(),//workSingleNumber
+                                                            workSingleNumber: $("#workSingleNumber").text(),//workSingleNumber
                                                             noticeAccount: "",//noticeAccount
                                                             goodsAccount: "",//goodsAccount
                                                             TruckModel: truckNumber,//TruckModel
