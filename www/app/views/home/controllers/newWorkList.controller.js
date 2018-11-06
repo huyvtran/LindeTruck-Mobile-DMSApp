@@ -1,5 +1,5 @@
 angular.module('oinio.newWorkListControllers', [])
-    .controller('newWorkListController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
+    .controller('newWorkListController', function ($scope, $rootScope, $filter, $state,$log, $stateParams, ConnectionMonitor,
                                             LocalCacheService,HomeService,$ionicPopup) {
 
         var vm = this,
@@ -383,6 +383,13 @@ angular.module('oinio.newWorkListControllers', [])
 
 
         $scope.saveServiceOrder = function () {
+            if($scope.searchResultAcctName==''){
+                $ionicPopup.alert({
+                    title:"请选择客户名称 !"
+                });
+                return;
+            }
+
             let order2Save = new Object();
             let userId = $scope.searchResultOwnerId;
 
