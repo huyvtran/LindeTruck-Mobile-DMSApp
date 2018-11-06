@@ -28,17 +28,19 @@ img {
     position: relative;
     padding: 0 5%;
     line-height: 64px;
+    display: flex;
 }
 .workListDetails_header .left_Box {
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 .workListDetails_header .center_Box {
-    display: inline-block;
+    display: inline-flex;
     width: 80%;
     position: relative;
-    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
 }
 .workListDetails_header .center_Title {
     text-align: center;
@@ -48,7 +50,7 @@ img {
     position: relative;
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 .workListDetails_header .add_Icon_White {
     background-repeat: no-repeat;
@@ -445,15 +447,6 @@ img {
 .workListDetails_bodyer .quoted_Table.red_legend .sv_Td:first-child { 
     background:  #aa2000;
     color: #ffffff;
-}
-.workListDetails_bodyer .quoted_Table.blue_legend .sv_Td:first-child {
-   color: #008caa;
-}
-.workListDetails_bodyer .quoted_Table.green_legend .sv_Td:first-child {
-    color: #00aa6d;
-}
-.workListDetails_bodyer .quoted_Table.red_legend  .sv_Td:first-child { 
-    color: #aa2000;
 }
 .workListDetails_bodyer .quoted_Table.sv_Td_noborder .sv_Td {
     border: 0;

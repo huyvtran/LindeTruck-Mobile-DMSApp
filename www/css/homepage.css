@@ -27,17 +27,18 @@ img {
     position: relative;
     padding: 0 5%;
     line-height: 64px;
+    display: flex;
 }
 .main_header .left_Box {
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 .main_header .search_All {
-    display: inline-block;
-    width: 77%;
+    display: inline-flex;
+    width: 80%;
     position: relative;
-    vertical-align: middle;
+    align-items: center;
 }
 .main_header .search_Input {
     box-sizing: border-box;
@@ -65,7 +66,7 @@ img {
 .main_header .right_Box {
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 .main_header .add_Icon_White {
     background-repeat: no-repeat;

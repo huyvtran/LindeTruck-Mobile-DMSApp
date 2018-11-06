@@ -22,29 +22,30 @@ img {
 }
 .header {
     background: #aa0020;
-    width: 100%;
+    width: 90%;
     height: 120px;
     position: relative;
     padding: 0 5%;
     line-height: 120px;
+    display: flex;
 }
 .left_Box {
-    display: inline-block;
+    display: inline-flex;
     width: 20%;
-    vertical-align: middle;
+    align-items: center;
 }
 .center_Box {
-    display: inline-block;
-    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
     width: 60%;
     text-align: center;
     color: #ffffff;
 }
 .right_Box {
-    display: inline-block;
+    display: inline-flex;
     color: #ffffff;
     width: 20%;
-    vertical-align: middle;
+    align-items: center;
 }
 .back_Btn {
     background-repeat: no-repeat;

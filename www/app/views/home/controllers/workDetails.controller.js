@@ -599,6 +599,11 @@ angular.module('oinio.workDetailsControllers', [])
                 });
                 return;
             }
+
+             //*********保存配件************* */
+             $scope.regroupPartListForSave();
+             //********************** */
+
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
                     localUris.push(($scope.imgUris[i]).slice(23));
@@ -621,8 +626,7 @@ angular.module('oinio.workDetailsControllers', [])
                 $log.error(error);
             });
 
-            //*********保存配件************* */
-            $scope.regroupPartListForSave();
+           
         };
 
         $scope.showDetailsMoreInf = function () {
@@ -993,6 +997,8 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.regroupPartListForSave = function(){
+            AppUtilService.showLoading();
+
             regroupPartList = [];
             for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
                 const element = $scope.selectedTruckFitItems[i];
@@ -1005,6 +1011,7 @@ angular.module('oinio.workDetailsControllers', [])
                 }
                 onePartOriginals["Reserved__c"] = element.View_Integrity__c;//预留
                 onePartOriginals["Service_Material__c"] = element.materialId;//物料号
+                onePartOriginals["Id"] = element.Id;//物料号
                 onePartOriginals["Parts_Type__c"] = element.type;//配件类型
                 onePartOriginals["Service_Order_Overview__c"] = orderDetailsId;//工单ID
                 regroupPartList.push(onePartOriginals);

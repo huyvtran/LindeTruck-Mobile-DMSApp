@@ -31,19 +31,20 @@ img {
     position: relative;
     padding: 0 5%;
     line-height: 44px;
+    display: flex;
 }
 
 .left_Box {
-    display: inline-block;
+    display: inline-flex;
     width: 50%;
-    vertical-align: middle;
+    align-items: center;
 }
 
 .right_Box {
-    display: inline-block;
+    display: inline-flex;
     color: #ffffff;
-    width: 48%;
-    vertical-align: middle;
+    width: 50%;
+    align-items: center;
 }
 
 .back_Btn {

@@ -27,11 +27,12 @@ img {
     position: relative;
     padding: 0 5%;
     line-height: 64px;
+    display: flex;
 }
 .left_Box {
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 .back_Icon {
     background-repeat: no-repeat;
@@ -40,10 +41,10 @@ img {
     height: 24px;    
 }
 .search_All {
-    display: inline-block;
-    width: 77%;
+    display: inline-flex;
+    width: 80%;
     position: relative;
-    vertical-align: middle;
+    align-items: center;
 }
 .search_All input.search_Input {
     box-sizing: border-box;
@@ -72,7 +73,7 @@ img {
     position: relative;
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 .add_Icon_White {
     background-repeat: no-repeat;

@@ -28,17 +28,19 @@ img {
     position: relative;
     padding: 0 5%;
     line-height: 64px;
+    display: flex;
 }
 .importLsg_header .left_Box {
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 .importLsg_header .center_Box {
-    display: inline-block;
+    display: inline-flex;
     width: 80%;
     position: relative;
-    vertical-align: middle;
+    align-items: center;
+    justify-content: center;
 }
 .importLsg_header .center_Title {
     text-align: center;
@@ -48,7 +50,7 @@ img {
     position: relative;
     display: inline-flex;
     width: 10%;
-    vertical-align: middle;
+    align-items: center;
 }
 
 /* body */
