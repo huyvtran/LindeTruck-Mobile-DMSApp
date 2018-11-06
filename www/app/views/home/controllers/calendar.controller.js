@@ -47,7 +47,13 @@
                             text: '出发',
                             onTap:function (e) {
                                 var goTime = new Date();
-                                $state.go("app.workDetails",{SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c,goOffTime:goTime});
+                                $state.go("app.workDetails",{
+                                    SendInfo: item._soupEntryId,
+                                    workDescription: null,
+                                    AccountShipToC: item.Account_Ship_to__c,
+                                    goOffTime:goTime,
+                                    isNewWorkList:false
+                                });
                             }
                         },
 
@@ -55,7 +61,12 @@
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c});
+                                $state.go('app.workDetails', {
+                                    SendInfo: item._soupEntryId,
+                                    workDescription: null,
+                                    AccountShipToC: item.Account_Ship_to__c,
+                                    isNewWorkList:false
+                                });
                             }
                         },
                         {
@@ -66,7 +77,10 @@
                                     console.log('Tapped！!', allUser);
                                     var listDataAll = angular.toJson(allUser);
 
-                                    $state.go('app.arrange', { SendAllUser: listDataAll, SendSoupEntryId: item._soupEntryId });
+                                    $state.go('app.arrange', {
+                                        SendAllUser: listDataAll,
+                                        SendSoupEntryId: item._soupEntryId
+                                    });
                                     return "anpai";
                                 }
                             }
@@ -77,14 +91,25 @@
                         { text: '出发',
                             onTap:function (e) {
                                 var goTime =new Date();
-                                $state.go("app.workDetails",{SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c,goOffTime:goTime});
+                                $state.go("app.workDetails",{
+                                    SendInfo: item._soupEntryId,
+                                    workDescription: null,
+                                    AccountShipToC: item.Account_Ship_to__c,
+                                    goOffTime:goTime,
+                                    isNewWorkList:false
+                                });
                             }
                         },
                         {
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c});
+                                $state.go('app.workDetails', {
+                                    SendInfo: item._soupEntryId,
+                                    workDescription: null,
+                                    AccountShipToC: item.Account_Ship_to__c,
+                                    isNewWorkList:false
+                                });
                             }
                         }
                     ];
