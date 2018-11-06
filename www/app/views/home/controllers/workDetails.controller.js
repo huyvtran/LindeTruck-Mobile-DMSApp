@@ -7,8 +7,8 @@ angular.module('oinio.workDetailsControllers', [])
             leaveTime = null,
             startTime = null,
             finishTime = null,
+            goOffTimeFromPrefix = null,
             workDescription = null,
-            truckItemTotalMore = null,
             userInfoId = "",
             Account_Ship_to__c = "",
             localSoupEntryId = "",
@@ -20,7 +20,6 @@ angular.module('oinio.workDetailsControllers', [])
             ownerName = "",
             orderDetailsId = "",//工单ID
             truckItems = [],
-            chooseTrucks = [],
             regroupPartList = [], ///配件组装数据用于保存
             h = 0,
             m = 0,
@@ -56,11 +55,13 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.imgUris = ["././img/images/will_add_Img.png"];
             console.log("$stateParams.SendInfo", $stateParams.SendInfo);
             console.log("$stateParams.workDescription", $stateParams.workDescription);
-            console.log("$stateParams.truckItemTotal", $stateParams.truckItemTotal);
+            console.log("$stateParams.goOffTime", $stateParams.goOffTime);
 
             userInfoId = $stateParams.SendInfo;
             Account_Ship_to__c = $stateParams.AccountShipToC;
             workDescription = $stateParams.workDescription;
+            goOffTimeFromPrefix = $stateParams.goOffTime;
+
 
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
@@ -83,15 +84,17 @@ angular.module('oinio.workDetailsControllers', [])
                 $scope.SelectedTruckNum = result.length;
                 if (result.length > 0) {
                     for (var i = 0; i < result.length; i++) {
-                        truckItems.push(
-                            {
-                                _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
-                                truckItemNum: result[i].Truck_Serial_Number__r.Name,
-                                Operation_Hour__c: 0,
-                                Service_Suggestion__c: "",
-                                isShow:false
-                            }
-                        );
+                        if(result[i].Truck_Serial_Number__r!=undefined){
+                            truckItems.push(
+                                {
+                                    _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
+                                    truckItemNum: result[i].Truck_Serial_Number__r.Name,
+                                    Operation_Hour__c: 0,
+                                    Service_Suggestion__c: "",
+                                    isShow:false
+                                }
+                            );
+                        }
                     }
                     $scope.allTruckItems = truckItems;
                 }
@@ -453,6 +456,14 @@ angular.module('oinio.workDetailsControllers', [])
 
 
         $scope.doPrint = function ($event) {
+            var callStr = $("#call_str").val().trim();
+            if (callStr==""||callStr==null){
+                $ionicPopup.alert({
+                    title: "请填写来电是由!"
+                });
+                return;
+            }
+
             if (arriveTime == null) {
                 $ionicPopup.alert({
                     title: "请选择到达时间"
@@ -510,7 +521,7 @@ angular.module('oinio.workDetailsControllers', [])
 
                                                             }],//workTimeTotal
                                                             listContent: "",//listContent
-                                                            demandForRequire: "   " + $("#call_str").val(),//demandForRequire
+                                                            demandForRequire: "   " + callStr,//demandForRequire
                                                             workContent: $("#workContentStr").val(),//workContent
                                                             resultAndSuggestions: $("#serviceSuggest").val(),//resultAndSuggestions
                                                             responsibleEngineer: ownerName//responsibleEngineer
@@ -565,6 +576,15 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.goSave = function () {
+
+            var callStr = $("#call_str").val().trim();
+            if (callStr==""||callStr==null){
+                $ionicPopup.alert({
+                    title: "请填写来电是由!"
+                });
+                return;
+            }
+
             if (arriveTime == null || finishTime == null || startTime == null || leaveTime == null) {
                 var ionPop = $ionicPopup.alert({
                     title: "请确认到达和离开时间"
@@ -605,12 +625,6 @@ angular.module('oinio.workDetailsControllers', [])
                     $scope.allTruckItems[index].isShow = false;
                 }
             });
-
-
-            // $state.go("app.workDetailsMoreInfo", {
-            //     truckItemAll: JSON.stringify(truckItems),
-            //     chooseTruckArray: JSON.stringify(chooseTrucks)
-            // });
 
             document.getElementById("workDetailTotal").style.display = "none";//隐藏
             document.getElementById("workDetailPart").style.display = "block";//隐藏

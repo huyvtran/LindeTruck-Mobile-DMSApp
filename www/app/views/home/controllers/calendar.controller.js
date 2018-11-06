@@ -43,13 +43,19 @@
                 var setButtons = [];
                 if (item.Status__c == "Not Planned") {
                     setButtons = [
-                        { text: '出发' },
+                        {
+                            text: '出发',
+                            onTap:function (e) {
+                                var goTime = new Date();
+                                $state.go("app.workDetails",{SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c,goOffTime:goTime});
+                            }
+                        },
 
                         {
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c });
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c});
                             }
                         },
                         {
@@ -68,12 +74,17 @@
                     ];
                 } else {
                     setButtons = [
-                        { text: '出发' },
+                        { text: '出发',
+                            onTap:function (e) {
+                                var goTime =new Date();
+                                $state.go("app.workDetails",{SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c,goOffTime:goTime});
+                            }
+                        },
                         {
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c });
+                                $state.go('app.workDetails', { SendInfo: item._soupEntryId, workDescription: null, AccountShipToC: item.Account_Ship_to__c});
                             }
                         }
                     ];
