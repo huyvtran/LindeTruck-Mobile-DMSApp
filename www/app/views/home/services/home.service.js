@@ -11,7 +11,7 @@ angular.module('oinio.services', [])
 
             let sql =  "select {Service_Order_Overview__c:_soup}\
                          from {Service_Order_Overview__c}\
-                         where {Service_Order_Overview__c:Status__c} != ''";
+                         where {Service_Order_Overview__c:Status__c} != '' and {Service_Order_Overview__c:Account_Ship_to__c} != '' and {Service_Order_Overview__c:Account_Ship_to__c_sid} != '' ";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let result = new Object();
@@ -356,7 +356,7 @@ angular.module('oinio.services', [])
          *   "_soupId": 1234567890,
          */
         this.addServiceOrders = function (adrs,trucks) {
-            $log.debug('saveServiceOrders:: '+adrs);
+            console.log('saveServiceOrders:: ', adrs);
             var deferred = $q.defer();
 
             let str_recTypeDevName = '';
@@ -374,6 +374,7 @@ angular.module('oinio.services', [])
             LocalDataService.createSObject('Service_Order_Overview__c',str_recTypeDevName).then(function(sobject) {
                 var newItem, adr;
                 var adrsToSave = [];
+                var isError = false;
                 console.log('newItem::sobject:soo:',sobject);
                 for (var i=0;i<adrs.length;i++){
                     adr = adrs[i];
@@ -385,6 +386,10 @@ angular.module('oinio.services', [])
 
                     newItem['Account_Ship_to__c'] = adr.Account_Ship_to__c;
                     newItem['Account_Ship_to__c_sid'] = adr.Account_Ship_to__r._soupEntryId;
+                    if( (adr.Account_Ship_to__c == '' || adr.Account_Ship_to__c == null) && (adr.Account_Ship_to__r._soupEntryId == '' || adr.Account_Ship_to__r._soupEntryId == null) ){
+                        var isError = true;
+                        continue;
+                    }
                     newItem['Account_Ship_to__c_type'] = 'Account';
 
                     newItem['Service_Order_Type__c'] = 'Work Order';
@@ -399,6 +404,13 @@ angular.module('oinio.services', [])
 
                     adrsToSave.push(newItem);
                     console.log('newItem::',newItem);
+                }
+
+                console.log('current error status:', isError);
+
+                if(isError){
+                    deferred.reject('Customer Name is empty!.');
+                    return deferred.promise;
                 }
                 LocalDataService.saveSObjects('Service_Order_Overview__c', adrsToSave).then(function(result) {
                     console.log('addServiceOrders1:::',result);
