@@ -263,8 +263,10 @@
                         allOrders = currentOrder;
                         $scope.currentOrder = getServiceOrderType(allOrders);
                         calendarAll.fullCalendar("addEventSource", getCount(currentOrder));
+                        console.log('getEachOrder  ' , currentOrder);
+
                     }, function (error) {
-                        console.log('getEachOrder Error ' + error);
+                        console.log('getEachOrder Error ' ,error);
                     });
                 };
                 $scope.getHomeService();

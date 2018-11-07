@@ -1,5 +1,5 @@
 angular.module('oinio.newWorkListControllers', [])
-    .controller('newWorkListController', function ($scope, $rootScope, $filter, $state,$log, $stateParams, ConnectionMonitor,
+    .controller('newWorkListController', function ($scope, $rootScope, $filter, $state,$log, $stateParams, AppUtilService, ConnectionMonitor,
                                             LocalCacheService,HomeService,$ionicPopup) {
 
         var vm = this,
@@ -389,6 +389,7 @@ angular.module('oinio.newWorkListControllers', [])
                 });
                 return;
             }
+            AppUtilService.showLoading();
 
             let order2Save = new Object();
             let userId = $scope.searchResultOwnerId;
@@ -419,6 +420,8 @@ angular.module('oinio.newWorkListControllers', [])
                         order2Save.Service_Order_Owner__r = response;
 
                         HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
+                            AppUtilService.hideLoading();
+
                             console.log('HAHAHAHA!!!',addResult);
                             if(addResult != null && addResult.length != 0) {
                                 $state.go('app.workDetails',
@@ -428,15 +431,21 @@ angular.module('oinio.newWorkListControllers', [])
                                     });
                             }
                         }, function (error) {
+                            AppUtilService.hideLoading();
+
                             $log.error('HomeService.addServiceOrders Error ' + error);
                         });
                     }
                 }, function (error) {
+                    AppUtilService.hideLoading();
+
                     $log.error('HomeService.getUserObjectById Error ' + error);
                 });
             }else{
                 HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
                     console.log('HAHAHAHA!222!!',addResult);
+                    AppUtilService.hideLoading();
+
                     if(addResult != null && addResult.length != 0) {
                         $state.go('app.workDetails', {
                                                         SendInfo: addResult[0]._soupEntryId,
@@ -444,9 +453,13 @@ angular.module('oinio.newWorkListControllers', [])
                                                     });
                     }
                 }, function (error) {
+                    AppUtilService.hideLoading();
+
                     $log.error('HomeService.addServiceOrders Error ' + error);
                 });
             }
+
+            $rootScope.getSomeData();//刷新日历下方工单列表
         };
 
         $scope.changeTruckTab = function (index) {
