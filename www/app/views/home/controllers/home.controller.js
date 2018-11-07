@@ -65,7 +65,12 @@ angular.module('oinio.controllers', [])
         $scope.serviceManager = function () {
             $state.go('app.serviceManagement');
         };
-        
+
+        $scope.doPurChase =function(){
+            $state.go('app.purchase');
+        };
+
+
         $scope.selectTabWithIndex = function (index) {
             $ionicTabsDelegate.select(index);
             if (index == 0) {

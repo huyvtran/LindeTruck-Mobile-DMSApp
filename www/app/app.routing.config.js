@@ -99,6 +99,18 @@
             })
 
 
+            .state('app.purchase',{
+                url:'app/purchase',
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/purchase.html',
+                        controller: 'PurChaseController as vm'
+                    }
+                },
+                cache:false
+            })
+
+
             .state('app.serviceManagement', {
                 url: 'app/serviceManagement',
                 views: {

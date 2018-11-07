@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> purchase </title>
+	<link rel="stylesheet" href="././css/purchase.css">
+	<style type="text/css">
+		.purchase_bodyer {
+			background-image: url(./images/bg_img.png);
+		}
+		.arrow_Down_White {
+			background-image: url(./images/arrow_Down_White.png);
+		}
+		.arrow_Left_White {
+			background-image: url(./images/arrow_Left_White.png);
+		}
+		.btn_modify_Group {
+			background-image: url(./images/modify_Group.png);
+		}
+		.search_type_black {
+			background-image: url(./images/search_small_black.png);
+		}
+	</style>
+</head>
+<body>
+	<div class="purchase_header">
+		<div class="left_Box">
+		</div>
+  		<div class="center_Box">
+	  		<div class="center_Title">采购申请</div>
+		</div>
+		<div class="right_Box">
+		</div>
+	</div>
+	<div class="purchase_bodyer">	
+	  	<div class="big_Type_Group">
+	  		<div>
+	  			<div class="small_Type_Title_Group">
+	  				<div class="small_Type_Title_G"> 基本信息 </div>
+	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+	  				<div class="OpenClose_Btn arrow_Down_White"></div>
+	  			</div>
+	  			<div class="small_Type_Group">
+  					<div class="line_two">
+		  				<div class="small_Type_Title"> 采购类型: </div>
+						<div class="small_Type_Box">
+			  				<select>
+			  					<option>111</option>
+			  				</select>
+			  			</div>
+			  		</div>
+			  		<div class="line_two">
+		  				<div class="small_Type_Title"> 计划日期: </div>
+						<div class="small_Type_Box">
+			  				<select>
+			  					<option>111</option>
+			  				</select>
+			  			</div>
+			  		</div>
+			  	</div>
+				<div class="small_Type_Group">
+					<div class="line_two_65">
+				  		<div class="search_Type_Box">
+			  				<input class="search_Type_Input"/>
+			  				<div class="search_type_black"></div>
+			  			</div>
+			  		</div>
+			  		<div class="line_two_35">
+			  			<div class="supplier_Inf_Btn">
+			  				供应商信息
+			  			</div>
+			  			<div class="arrow_Down_White"></div>
+			  		</div>
+		  		</div>
+	  			<!-- 两种状态，填写和只读 -->
+				<div class="readonly_supplier_Inf">
+	  				<div class="inf_Box">
+	  					<div class="inf_Left_Text"> 供应商地址：</div><div class="inf_Right_Text"> 福建 厦门 XX城区XX路132号</div>
+  					</div>
+  					<div class="inf_Box">
+	  					<div class="inf_Left_Text"> 供应商邮编：</div><div class="inf_Right_Text"> 224400</div>
+  					</div>
+  					<div class="inf_Box">
+	  					<div class="inf_Left_Text"> 电话：</div><div class="inf_Right_Text"> 0519-2348348</div>
+  					</div>
+  					<div class="inf_Box">
+	  					<div class="inf_Left_Text"> 传真：</div><div class="inf_Right_Text">0519-2348348</div>
+  					</div>
+		  		</div>
+		  		<div class="edit_supplier_Inf">
+		  			<div class="small_Type_Group">
+			  			<div class="small_Type_Title">供应商地址:</div>
+			  			<div class="small_Type_Box">
+			  				<input class="small_Type_Input_80"/>
+			  				<span class="small_Type_Span">（省份）</span>
+			  				<input class="small_Type_Input_80"/>
+			  				<span class="small_Type_Span">（城市）</span>
+			  				<input class="small_Type_Input"/>
+			  			</div>
+			  		</div>
+			  		<div class="small_Type_Group">
+			  			<div class="small_Type_Title">供应商邮编:</div>
+			  			<div class="small_Type_Box">
+			  				<input class="small_Type_Input"/>
+			  			</div>
+			  		</div>
+			  		<div class="small_Type_Group">
+			  			<div class="line_two">
+			  				<div class="small_Type_Title"> 电话: </div>
+							<div class="small_Type_Box">
+				  				<input class="small_Type_Input_95"/>
+				  			</div>
+				  		</div>
+				  		<div class="line_two">
+			  				<div class="small_Type_Title"> 传真: </div>
+							<div class="small_Type_Box">
+				  				<input class="small_Type_Input_95"/>
+				  			</div>
+				  		</div>
+			  		</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title">采购描述:</div>
+		  			<div class="small_Type_Box">
+		  				<textarea class="small_Type_Textarea"></textarea>
+		  			</div>
+		  		</div>
+	  			<div class="small_Type_Group">
+		  			<div class="line_two">
+		  				<div class="small_Type_Title"> 服务单: </div>
+						<div class="small_Type_Box">
+			  				<input class="small_Type_Input_95"/>
+			  			</div>
+			  		</div>
+			  		<div class="line_two">
+		  				<div class="small_Type_Title"> 状态: </div>
+						<div class="small_Type_Box">
+			  				<input class="small_Type_Input_95" readonly value="草稿"/>
+			  			</div>
+			  		</div>
+		  		</div>	
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title"> 税率: </div>
+					<div class="small_Type_Box">
+		  				<select class="small_Type_Select">
+		  					<option>111</option>
+		  				</select>
+		  			</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="line_three">
+		  				<div class="small_Type_Title"> 订单收入: </div>
+						<div class="small_Type_Box">
+			  				<input class="small_Type_Input_90"/>
+			  			</div>
+			  		</div>
+			  		<div class="line_three">
+		  				<div class="small_Type_Title"> 采购价格: </div>
+						<div class="small_Type_Box">
+			  				<input class="small_Type_Input_90"/>
+			  			</div>
+			  		</div>
+			  		<div class="line_three">
+		  				<div class="small_Type_Title"> 传真: </div>
+						<div class="small_Type_Box">
+			  				<input class="small_Type_Input_90" readonly value="34.56%"/>
+			  			</div>
+			  		</div>
+		  		</div>
+		  	</div>
+		  	<div>
+	  			<div class="small_Type_Title_Group">
+	  				<div class="small_Type_Title_G_2"> 物料信息 </div>
+	  				<!-- 点击btn_M,添加click_Style -->
+	  				<div class="btn_M">
+	  					<div class="btn_modify_Group"> </div>
+	  				</div>
+	  				<div class="btn_modify_Div to_Hide">
+	  					<div class="Modify_Btn"> 添加 </div>
+	  					<div class="Modify_Btn"> 删除 </div>
+	  				</div>
+	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+	  				<div class="OpenClose_Btn arrow_Down_White"></div>
+	  			</div>
+	  			<div>
+		  			<table cellpadding="0" cellspacing="0" border="0" class="material_Inf_Table">
+						<tr>
+							<th class="sv_Td"> 
+								<input type="checkbox" class="sv_checkbox"/>
+							</th>
+							<th class="sv_Td"> 
+								<div> 编号 </div>
+							</th>
+							<th class="sv_Td"> 
+								<div> 数量 </div>
+							</th>
+							<th class="sv_Td"> 
+								<div> 描述/ 工厂 </div>
+							</th>
+							<th class="sv_Td"> 
+								<div> 净价 </div>
+							</th>
+						</tr>
+						<tr>
+							<td class="sv_Td">
+								<input type="checkbox" class="sv_checkbox"/>
+							</td>
+							<td class="sv_Td"> 
+								<input class="sv_Input"/>
+							</td>
+							<td class="sv_Td"> 
+								<input class="sv_Input"/>
+							</td>
+							<td class="sv_Td"> 
+								<input class="sv_Input"/><br/>
+								<input class="sv_Input"/>
+							</td>
+							<td class="sv_Td"> 
+								<input class="sv_Input"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+				<div class="small_Type_Group">
+		  			<div class="small_Type_Title">采购备注:</div>
+		  			<div class="small_Type_Box">
+		  				<textarea class="small_Type_Textarea"></textarea>
+		  			</div>
+		  		</div>
+	  		</div>
+	  	</div>
+  	</div>
+  	<div class="footer">
+  		<div class="footer_Btn" ng-click="goBack();">取消</div>
+  		<div class="footer_Btn submit_Btn" ng-click="goSavePurChase();">提交</div>
+  	</div>
+</body>
+</html>
