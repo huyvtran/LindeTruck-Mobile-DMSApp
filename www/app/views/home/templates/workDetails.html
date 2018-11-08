@@ -64,7 +64,12 @@
 		.arrow_Left_Black {
 			background-image: url(././img/images/arrow_Left_Black.png);
 		}
-
+		.arrow_Down_Black {
+			background-image: url(././img/images/arrow_Down_Black.png);
+		}
+		.arrow_Left_Black {
+			background-image: url(././img/images/arrow_Left_Black.png);
+		}
 		.header2 {
 			background: #aa0020;
 			/* width: 90%; */
@@ -624,6 +629,103 @@
 
 				</div>
 			</div>
+			<div>
+					<div class="small_Type_Title_Group">
+						<div class="small_Type_Title_G_2"> 交货列表 </div>
+						<div class="btn_M">
+							<div class="btn_modify_Group" ng-click="toDisplayRefundDiv();"> </div>
+						</div>
+						<div id="btn_refund_Div" class="btn_refund_Div">
+							<div class="Refund_Btn" ng-click="openRefundPage();"> 申请退件 </div>
+						</div>
+						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+						<div class="OpenClose_Btn arrow_Down_White"></div>
+					</div>
+					<div>
+						<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
+						  <tr>
+							  <th class="sv_Td"> 
+								  <input type="checkbox" class="sv_checkbox"/>
+							  </th>
+							  <th class="sv_Td"> 
+								  <div> 行项 </div>
+							  </th>
+							  <th class="sv_Td sv_Td_240"> 
+								  <div> 物料号 </div>
+							  </th>
+							  <th class="sv_Td"> 
+								  <div> 到货数 </div>
+							  </th>
+							  <th class="sv_Td"> 
+								  <div> 实用量 </div>
+							  </th>
+							  <th class="sv_Td"> 
+							  </th>
+						  </tr>
+					  </table>
+					  <div class="refund_first">
+							<!-- <div class="arrow_Down_Black"></div> -->
+							<div class="box_num"> 交货单号: 001 </div> 
+							<div class="explain_Icon"> </div>
+						  <div class="explain_Text to_Hide">
+							  <div class="dis_flex"> 
+								  <span>交货单状态:</span>
+								  <span class="red_span">open</span>
+							  </div>
+							  <div class="dis_flex"> 
+								  <span>到货物流单号:</span>
+								  <span class="red_span">2348</span>
+							  </div>
+							  <div class="dis_flex"> 
+								  <span>到货物流状态:</span>
+								  <span class="red_span">已签收</span>
+							  </div>
+							  <div class="dis_flex"> 
+								  <span>退货物流单号:</span>
+								  <span class="red_span">2324</span>
+							  </div>
+							  <div class="dis_flex"> 
+								  <span>退货物流状态:</span>
+								  <span class="red_span">已签收</span>
+							  </div>
+						  </div>
+						</div>
+						<ion-list can-swipe="true" class="quoted_Table_list">
+								<ion-item ng-repeat="item in rejectedItems" ng-cloak ng-click="rejectedItemsFun(item)">
+					  <table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
+						  <tr>
+							  <td class="sv_Td"> 
+								  <input type="checkbox" class="sv_checkbox"/>
+							  </td>
+							  <td class="sv_Td"> 
+								  <div> 01</div>
+							  </td>
+							  <td class="sv_Td sv_Td_240"> 
+								  <div> A001 </div>
+							  </td>
+							  <td class="sv_Td"> 
+								  <div> 10 </div>
+							  </td>
+							  <td class="sv_Td"> 
+								  <div> 8 </div>
+							  </td>
+							  <td class="sv_Td"> 
+								  <div class="explain_Icon"> </div>
+								  <div class="explain_Text to_Hide">
+									  <div> 
+										  <span>退件原因:</span>
+										  <span>故障判断有误</span>
+									  </div>
+									  <div> 备注：</div>
+									  <div> 备注内容</div>
+								  </div>
+							  </td>
+						  </tr>
+					  </table>
+					</ion-item>
+				</ion-list>
+				  </div>
+				</div>
 			<div>
 				<div class="small_Type_Title_Group" ng-click="toServiceInfo();">
 					<div class="small_Type_Title_G"> 服务建议 </div>

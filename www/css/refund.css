@@ -1,0 +1,314 @@
+body {
+	margin: 0;
+	font-size: 1rem;
+    font-family: 微软雅黑, 华文黑体, sans-serif;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    background-position: 50%;
+    overflow: hidden;
+}
+img {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.to_Open {
+    display: block!important;
+}
+.to_Hide {
+    display: none!important;
+}
+.refund_header {
+    background: #aa0020;
+    width: 100%;
+    height: 64px;
+    position: relative;
+    padding: 0;
+    line-height: 64px;
+    display: flex;
+}
+.left_Box {
+    display: inline-flex;
+    width: 10%;
+    justify-content: center;
+    align-items: center;
+}
+.center_Box {
+    display: inline-flex;
+    width: calc(90% - 64px);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+}
+.center_Title {
+    text-align: center;
+    color: #ffffff;
+}
+.right_Box {
+    position: relative;
+    display: inline-flex;
+    width: 64px;
+    align-items: center;
+    height: 64px;
+    line-height: 64px;
+}
+.refund_bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 116px);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+}
+.refund_bodyer .big_Type_Group {
+    margin-bottom: 5%;
+}
+.refund_bodyer .btn_M {
+    display: inline-flex;
+    height: 40px;
+    align-items: center;
+    margin-right: 10px;
+}
+.refund_bodyer .btn_M.click_Style {
+    background: #f85360;
+}
+.refund_bodyer .btn_Import_Group {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 19px;
+    height: 25px;
+    margin: 0 10px;
+}
+.refund_bodyer .btn_modify_Group {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 26px;
+    height: 25px;
+    margin: 0 10px;
+}
+.btn_modify_Div {
+    position: absolute;
+    width: 100%;
+    background: #f85360;
+    top: 40px;
+    text-align: center;
+    z-index: 999;
+    box-shadow: 0 2px 4px #676767;
+}
+.refund_bodyer .Modify_Btn {
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 3% 0;
+    border-bottom: 1px solid #ffffff;
+}
+.refund_bodyer .OpenClose_Btn {
+    background-repeat: no-repeat;
+    background-size: cover; 
+    display: inline-flex;
+    margin-right: 5%;
+}
+.refund_bodyer .arrow_Down_White {
+    width: 18px;
+    height: 10px;
+}
+.refund_bodyer .arrow_Left_White {
+    width: 10px;
+    height: 18px;   
+}
+.refund_bodyer .del_red_icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 25px;
+    height: 25px;
+    margin: 0 auto;
+}
+.refund_bodyer .refund_Table {
+    border-collapse: collapse;
+    width: 100%;
+    position: relative;
+}
+.refund_bodyer .refund_Table th.sv_Td {
+    background: #d8d8d8;
+    height: 40px;
+}
+.refund_bodyer .refund_Table .sv_Td {
+    width: 15%;
+    border: 1px solid #979797;
+    background: #eee9e9;
+    padding: 0 1%;
+    font-size: 0.8rem;
+    height: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
+.refund_bodyer .refund_Table .sv_Td.sv_Td_200 {
+    width: 20%;
+}
+.refund_bodyer .refund_Table .sv_Td .sv_checkbox {
+    height: 25px;  
+    width: 25px;
+}
+.refund_bodyer .refund_Table .sv_Td .sv_Input {
+    height: 48px;
+    border: 1px solid #979797;  
+    width: 98%;
+}
+.refund_bodyer .refund_Table .explain_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+    margin: 0 auto;
+}
+.refund_bodyer .refund_Table .explain_Text {
+    position: absolute;
+    width: 80vw;
+    padding: 2%;
+    right: 25px;
+    z-index: 10;
+    background: #ffffff;
+    box-shadow: 0 1px 2px #676767;
+    border: 1px solid #008caa;
+    text-align: left;
+    top: 50%;
+}
+.refund_bodyer .refund_first {
+    display: flex;
+    width: 100%;
+    position: relative;
+    padding: 0;
+    height: 40px;
+    align-items: center;
+    background: #535353;
+}
+.refund_bodyer .refund_first .del_red_icon {
+    display: inline-flex;
+    width: 25px;
+    height: 25px;
+    margin: 0 4.5%;
+}
+.refund_bodyer .refund_first .arrow_Down_Black {
+    width: 18px;
+    height: 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 10px;
+    display: inline-flex;
+}
+.refund_bodyer .refund_first .arrow_Left_Black {
+    width: 10px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 10px;
+    display: inline-flex;
+}
+.refund_bodyer .refund_first .box_num {
+    display: inline-flex;
+    font-size: 0.8rem;
+    width: calc(100% - 90px);
+    color: #ffffff;
+}
+.refund_bodyer .refund_first .explain_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 15px;
+    height: 15px;
+}
+.refund_bodyer .refund_first .explain_Text {
+    position: absolute;
+    padding: 2%;
+    left: 30%;
+    z-index: 10;
+    background: #ffffff;
+    box-shadow: 0 1px 2px #676767;
+    border: 1px solid #008caa;
+    text-align: left;
+    top: 50%;
+    white-space: nowrap;
+}
+.refund_bodyer .refund_first .explain_Text .red_span {
+    color: #aa0020;
+    justify-content: flex-end;
+    font-size: 1rem;
+}
+.refund_bodyer .refund_first .explain_Text .dis_flex {
+    display: flex;
+    width: 100%;
+}
+.refund_bodyer .refund_first .explain_Text .dis_flex span {
+    display: inline-flex;
+    width: 50%;
+    font-size: 0.8rem;
+    margin: 0 2px;
+}
+.refund_bodyer .small_Type_Group {
+    margin: 2% 5%;
+}
+.refund_bodyer .small_Type_Title {
+    color: #535353;
+    font-size: 0.8rem;
+    margin-bottom: 2%;
+}
+.refund_bodyer .small_Type_Select {
+    color: #535353;
+    width: 100%;
+    height: 40px;
+    padding: 0 5%;
+    font-size: 1rem;
+}
+.refund_bodyer .small_Type_Box {
+    position: relative;
+}
+.refund_bodyer .small_Type_Input {
+    color: #535353;
+    background: transparent;
+    width: 100%;
+    height: 30px;
+    border-bottom: 1px solid #535353;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 0;
+    font-size: 1rem;
+}
+.refund_bodyer .small_Type_Textarea {
+    resize: none;
+    width: 89%;
+    border: 1px solid #535353;
+    font-size: 1rem;
+    height: 40px;
+    padding: 5%;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    border-top: 1px solid #535353;
+}
+.footer_Btn {
+    padding-top: 4%;
+    padding-bottom: 4%;
+    font-size: 1rem;
+    color: #535353;
+    background: #ffffff;
+    display: inline-flex;
+    width: calc(100% / 2);
+    justify-content: center;
+}
+.footer_Btn.Save_Btn_Act {
+    color: #ffffff;
+    background: #aa0020;
+    border-left: 1px solid #979797;
+}
+.footer_Btn.Submit_Btn_Act {
+    color: #ffffff;
+    background: #aa0020;
+    border-left: 1px solid #979797;
+}

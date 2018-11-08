@@ -88,16 +88,27 @@
             })
             .state('app.workDetails', {
                 url: 'app/workDetails',
-                params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null,'goOffTime':null,isNewWorkList:null},
+                params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null,'goOffTime':null,'isNewWorkList':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetails.html',
                         controller: 'workDetailsController as vm'
                     }
                 },
+                cache: true
+                
+            })
+            .state('app.refund', {
+                url: 'app/refund',
+                params:{'refundInfo':null},
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/refund.html',
+                        controller: 'RefundController as vm'
+                    }
+                },
                 cache: false
             })
-
 
             .state('app.purchase',{
                 url:'app/purchase',

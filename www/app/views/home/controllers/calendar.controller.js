@@ -65,6 +65,7 @@
                                     SendInfo: item._soupEntryId,
                                     workDescription: null,
                                     AccountShipToC: item.Account_Ship_to__c,
+                                    goOffTime:"",
                                     isNewWorkList:false
                                 });
                             }

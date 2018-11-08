@@ -13,7 +13,7 @@ angular.module('oinio.newWorkListControllers', [])
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
          */
-        $scope.$on('$ionicView.beforeEnter', function () {
+        $scope.$on('$ionicView.enter', function () {
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
@@ -28,7 +28,7 @@ angular.module('oinio.newWorkListControllers', [])
             vm.priorities.push({label:'低',value:'Low'});
 
         });
-        $scope.$on('$ionicView.enter', function () {
+        $scope.$on('$ionicView.afterEnter', function () {
             console.log('oCurrentUser:::',LocalCacheService.get('currentUser'));
             // check if device is online/offline
             vm.isOnline = ConnectionMonitor.isOnline();
