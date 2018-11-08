@@ -679,6 +679,12 @@ img {
 .workListDetails_bodyer .refund_Table .sv_Td.sv_Td_240 {
     width: 25%;
 }
+.workListDetails_bodyer .refund_Table .sv_Td.sv_Td_240 div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: inline-block;
+    width: 80px;
+}
 .workListDetails_bodyer .refund_Table .sv_Td .sv_checkbox {
     height: 25px;  
     width: 25px;

@@ -32,7 +32,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.contentTruckFitItems = [];//配件
         $scope.selectedTruckFitItems = [];
         $scope.contentLSGs = [];//LSG
-        $scope.rejectedItems = ["0","1","2","3"];
+        $scope.rejectedItems = [];
         $scope.serviceFeeList = [];
         $scope.quoteLabourOriginalsList = [];
         $scope.searchPartssUrl = "/Partss?keyword=";
@@ -116,6 +116,9 @@ angular.module('oinio.workDetailsControllers', [])
                 console.log(msg);
             });
 
+            //***********交货列表************** */
+            $scope.getRefundList();
+             //************************* */
 
             if (allowEdit){
                 $("#call_str").removeAttr("disabled");
@@ -680,7 +683,6 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
         $scope.toDisplayRefundDiv = function () {
-            $scope.getRefundList();
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
 
@@ -1089,25 +1091,29 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.openRefundPage = function(){
-            $state.go('app.refund', { refundInfo: ""});
+            $state.go('app.refund', { refundInfo: $scope.rejectedItems});
         };
         //退件接口
         $scope.getRefundList = function(){
-
-            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetParts) {
-            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetParts) {
-
+            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
+            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
                 AppUtilService.hideLoading();
-                console.log("responseGetParts:", responseGetParts);
-
+                console.log("responseGetDelivery:", responseGetDelivery);
+                $scope.rejectedItems = responseGetDelivery;
 
             }, function (error) {
-                console.log("responseGetParts_error:", error);
+                console.log("responseGetDelivery_error:", error);
                 AppUtilService.hideLoading();
 
             });
 
         }
 
+        $scope.checkAllBoxRefund=function () {
+            
+        };
+        $scope.checkOneBoxRefund=function () {
+            
+        };
     });
 

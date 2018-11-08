@@ -95,7 +95,7 @@
                         controller: 'workDetailsController as vm'
                     }
                 },
-                cache: true
+                cache: false
                 
             })
             .state('app.refund', {

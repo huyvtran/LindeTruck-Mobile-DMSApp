@@ -427,6 +427,8 @@ angular.module('oinio.newWorkListControllers', [])
                                 $state.go('app.workDetails',
                                     {   SendInfo: addResult[0]._soupEntryId,
                                         workDescription:$("#textarea_desc").val(),
+                                        AccountShipToC:"",
+                                        goOffTime:"",
                                         isNewWorkList:true
                                     });
                             }
@@ -447,8 +449,12 @@ angular.module('oinio.newWorkListControllers', [])
                     AppUtilService.hideLoading();
 
                     if(addResult != null && addResult.length != 0) {
+
                         $state.go('app.workDetails', {
                                                         SendInfo: addResult[0]._soupEntryId,
+                                                        workDescription:"",
+                                                        AccountShipToC:"",
+                                                        goOffTime:"",
                                                         isNewWorkList:true
                                                     });
                     }
