@@ -100,30 +100,30 @@
 						<div class="small_Type_Group">
 							<div class="small_Type_Title">供应商地址:</div>
 							<div class="small_Type_Box">
-								<input class="small_Type_Input_80" readonly/>
+								<input class="small_Type_Input_80" ng-cloak value="{{chooseItem.Province__c}}" readonly/>
 								<span class="small_Type_Span">（省份）</span>
-								<input class="small_Type_Input_80" readonly/>
+								<input class="small_Type_Input_80" ng-cloak value="{{chooseItem.City__c}}" readonly/>
 								<span class="small_Type_Span">（城市）</span>
-								<input class="small_Type_Input" readonly/>
+								<input class="small_Type_Input" ng-cloak value="{{chooseItem.Address__c}}" readonly/>
 							</div>
 						</div>
 						<div class="small_Type_Group">
 							<div class="small_Type_Title">供应商邮编:</div>
 							<div class="small_Type_Box">
-								<input class="small_Type_Input" readonly/>
+								<input class="small_Type_Input" ng-cloak value="{{chooseItem.Post_Code__c}}" readonly/>
 							</div>
 						</div>
 						<div class="small_Type_Group">
 							<div class="line_two">
 								<div class="small_Type_Title"> 电话:</div>
 								<div class="small_Type_Box">
-									<input class="small_Type_Input_95" readonly/>
+									<input class="small_Type_Input_95" ng-cloak value="{{chooseItem.Telephone__c}}" readonly/>
 								</div>
 							</div>
 							<div class="line_two">
 								<div class="small_Type_Title"> 传真:</div>
 								<div class="small_Type_Box">
-									<input class="small_Type_Input_95" readonly/>
+									<input class="small_Type_Input_95" ng-cloak value="{{chooseItem.FAX__c}}"  readonly/>
 								</div>
 							</div>
 						</div>
@@ -186,7 +186,7 @@
 						<div class="btn_modify_Group"></div>
 					</div>
 					<div class="btn_modify_Div to_Hide" id="materialAddBox">
-						<div class="Modify_Btn"> 添加</div>
+						<div class="Modify_Btn" ng-click="showMaterialPage();"> 添加</div>
 						<div class="Modify_Btn"> 删除</div>
 					</div>
 					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
@@ -258,7 +258,7 @@
 			<input type="text" id="searchBig" placeholder="搜索" class="search_Input" />
 			<!--<div class="search_Photo_Icon"></div>-->
 		</div>
-		<div class="search_right_Group" id="cancleBtn1">
+		<div class="search_right_Group" ng-click="searchBusinessByNameAndId();">
 			<div class="text_Cancel"> 搜索 </div>
 		</div>
 	</div>
@@ -266,8 +266,8 @@
 		<div class="big_Box_Group">
 			<div class="small_Box_Title"> 查询供应商 </div>
 			<ion-list can-swipe="true">
-				<ion-item  class="small_Box_Text">
-
+				<ion-item  class="small_Box_Text" ng-repeat="busyItem in allBusinesses" ng-cloak ng-click="chooseCurrentBusy(busyItem);">
+					{{busyItem.Name}}
 				</ion-item>
 			</ion-list>
 		</div>
@@ -281,10 +281,10 @@
 			<div class="back_Icon"></div>
 		</div>
 		<div class="search_All" >
-			<input type="text" id="searchBig" placeholder="搜索" class="search_Input" />
+			<input type="text" id="searchBig2" placeholder="搜索" class="search_Input" />
 			<!--<div class="search_Photo_Icon"></div>-->
 		</div>
-		<div class="search_right_Group" id="cancleBtn1">
+		<div class="search_right_Group">
 			<div class="text_Cancel"> 搜索 </div>
 		</div>
 	</div>

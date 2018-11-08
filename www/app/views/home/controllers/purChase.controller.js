@@ -4,11 +4,13 @@
 
     angular.module('oinio.PurChaseController', [])
         .controller('PurChaseController', function ($scope, $rootScope, $filter, $state,$log,$ionicPopup,$stateParams, ConnectionMonitor,
-                                                    LocalCacheService) {
+                                                    LocalCacheService,ProcurementInfoService) {
 
             var vm = this,
                 oCurrentUser = LocalCacheService.get('currentUser') || {};
             $scope.recordTypes = [];
+            $scope.allBusinesses=[];
+            $scope.chooseItem=null;
             vm.isOnline = null;
 
             /**
@@ -37,12 +39,18 @@
 
 
 
-
-
-
-
-
             });
+
+            $scope.showMaterialPage = function(){
+                if (document.getElementById("serachMaterialContent").style.display == "none") {
+                    document.getElementById("serachMaterialContent").style.display = "block";//显示
+                    document.getElementById("busyAllContent").style.display = "none";//隐藏
+                } else {
+                    document.getElementById("serachMaterialContent").style.display = "none";//隐藏
+                    document.getElementById("busyAllContent").style.display = "block";//显示
+                }
+            };
+
 
             $scope.searchForBusiness =function(){
                 if (document.getElementById("serachBusinessContent").style.display == "none") {
@@ -100,20 +108,42 @@
 
 
             $scope.showContentHideBusiness = function(){
-                document.getElementById("busyAllContent").style.display == "block";
-                document.getElementById("serachBusinessContent").style.display == "none";
+                document.getElementById("busyAllContent").style.display = "block";
+                document.getElementById("serachBusinessContent").style.display = "none";
             };
 
 
             $scope.showContentHideMaterial = function(){
-                document.getElementById("busyAllContent").style.display == "block";
-                document.getElementById("serachMaterialContent").style.display == "none";
+                document.getElementById("busyAllContent").style.display = "block";
+                document.getElementById("serachMaterialContent").style.display = "none";
             };
 
 
 
 
+            $scope.searchBusinessByNameAndId = function(){
+                var nameOrId = $("#searchBig").val();
+                ProcurementInfoService.querySupplierInformation(nameOrId).then(function success(res) {
+                    $log.info(res);
+                    console.log(res);
+                    if (res.length>0){
+                        angular.forEach(res,function (item,index,array){
+                            $scope.allBusinesses.push(item);
+                        });
+                    }
 
+                },function error(msg) {
+                    $log.error(msg);
+                    console.log(msg);
+                });
+            };
+
+            $scope.chooseCurrentBusy =function(obj){
+                $scope.chooseItem = obj;
+                document.getElementById("busyAllContent").style.display = "block";
+                document.getElementById("serachBusinessContent").style.display= "none";
+                $scope.allBusinesses=[];
+            };
 
             $scope.goBack =function () {
                 window.history.back();
