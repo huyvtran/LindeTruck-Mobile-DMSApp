@@ -30,9 +30,9 @@
                     var querySuInfo= navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                     navigator.smartstore.runSmartQuery(querySuInfo, function (cursor) {
                         var results = [];
-                        var result = new Object();
                         if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                             angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                                var result = new Object();
                                 result['Province__c'] = entry[0].Province__c;
                                 result['City__c'] = entry[0].City__c;
                                 result['Address__c'] = entry[0].Address__c;
