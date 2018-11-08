@@ -658,22 +658,16 @@ angular.module('oinio.workDetailsControllers', [])
 
         };
         $scope.toDisplayImportDiv = function () {
-            document.getElementById("btn_modify_Div").style.display = "none";//隐藏
-            document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-
             if (document.getElementById("btn_import_Div").style.display == "none") {
-                document.getElementById("btn_import_Div").style.display = "";//显示
+                document.getElementById("btn_import_Div").style.display = "block";//显示
 
             } else {
                 document.getElementById("btn_import_Div").style.display = "none";//隐藏
             }
         };
         $scope.toDisplayModifyDiv = function () {
-            document.getElementById("btn_import_Div").style.display = "none";//隐藏
-            document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-
             if (document.getElementById("btn_modify_Div").style.display == "none") {
-                document.getElementById("btn_modify_Div").style.display = "";//显示
+                document.getElementById("btn_modify_Div").style.display = "block";//显示
 
             } else {
                 document.getElementById("btn_modify_Div").style.display = "none";//隐藏
@@ -681,11 +675,9 @@ angular.module('oinio.workDetailsControllers', [])
         };
         $scope.toDisplayRefundDiv = function () {
             $scope.getRefundList();
-            document.getElementById("btn_modify_Div").style.display = "none";//隐藏
-            document.getElementById("btn_import_Div").style.display = "none";//隐藏
 
             if (document.getElementById("btn_refund_Div").style.display == "none") {
-                document.getElementById("btn_refund_Div").style.display = "";//显示
+                document.getElementById("btn_refund_Div").style.display = "block";//显示
 
             } else {
                 document.getElementById("btn_refund_Div").style.display = "none";//隐藏
@@ -762,7 +754,6 @@ angular.module('oinio.workDetailsControllers', [])
                     AppUtilService.hideLoading();
 
                 });
-
             }, function (error) {
                 console.log("error:", error);
                 AppUtilService.hideLoading();
@@ -1093,7 +1084,6 @@ angular.module('oinio.workDetailsControllers', [])
         };
         //退件接口
         $scope.getRefundList = function(){
-            
             // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetParts) {
              ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetParts) {
 
