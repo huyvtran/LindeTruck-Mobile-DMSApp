@@ -24,11 +24,12 @@
                          from {Supplier_Information__c}\
                          where {Supplier_Information__c:Name} like '%"+codeOrName+"%'\
                          or {Supplier_Information__c:Supplier_Code__c} like '%"+codeOrName+"%'\
-                         order by {Supplier_Information__c:_soupEntryId} desc limit 1";
+                         order by {Supplier_Information__c:_soupEntryId}";
                     console.log('current query sql:::', sql);
 
                     var querySuInfo= navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                     navigator.smartstore.runSmartQuery(querySuInfo, function (cursor) {
+                        var results = [];
                         var result = new Object();
                         if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                             angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
@@ -39,9 +40,11 @@
                                 result['Telephone__c'] = entry[0].Telephone__c;
                                 result['FAX__c'] = entry[0].FAX__c;
                                 result._soupEntryId = entry[0]._soupEntryId;
+                                results.push(result);
                             });
                         }
-                        deferred.resolve(result);
+                        console.log('Supplier Information results:::', results);
+                        deferred.resolve(results);
                     }, function (err) {
                         console.error(err);
                         deferred.reject(err);
