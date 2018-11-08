@@ -28,7 +28,7 @@
                     console.log('current query sql:::', sql);
 
                     var querySuInfo= navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
-                    navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    navigator.smartstore.runSmartQuery(querySuInfo, function (cursor) {
                         var result = new Object();
                         if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                             angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
@@ -87,7 +87,7 @@
                 return deferred.promise;
             }
             */
-            
+
             this.synchronize = function () {
                 var deferred = $q.defer();
 
