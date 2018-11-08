@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-        LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
+                                                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
 
         var vm = this,
             arriveTime = null,
@@ -46,16 +46,16 @@ angular.module('oinio.workDetailsControllers', [])
          * @desc
          */
         $scope.$on('$ionicView.beforeEnter', function () {
-            
+
             document.getElementById("describInfDiv").style.display = "none";//隐藏
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
             document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-            
-            
+
+
         });
         $scope.$on('$ionicView.afterEnter', function () {
-          
+
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
             $scope.HasTruckNum = 0;
@@ -232,12 +232,12 @@ angular.module('oinio.workDetailsControllers', [])
                     })
                 })
                 .then(function () {
-                    HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
-                        $scope.HasTruckNum = res != null ? res.length : 0;
-                    }, function (error) {
-                        $log.error('Error ' + error);
-                    })
-                }
+                        HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
+                            $scope.HasTruckNum = res != null ? res.length : 0;
+                        }, function (error) {
+                            $log.error('Error ' + error);
+                        })
+                    }
                 );
 
         });
@@ -259,16 +259,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                                    for (var i = 0; i < $scope.imgUris.length; i++) {
-                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                            $scope.imgUris.splice(i, 1);
-                                            i--;
+                                        for (var i = 0; i < $scope.imgUris.length; i++) {
+                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                                $scope.imgUris.splice(i, 1);
+                                                i--;
+                                            }
                                         }
-                                    }
-                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                    $scope.imgUris.push("././img/images/will_add_Img.png");
-                                    console.log(imgUri);
-                                },
+                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                                        console.log(imgUri);
+                                    },
                                     function onError(error) {
                                         return;
                                     }
@@ -290,16 +290,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                                    for (var i = 0; i < $scope.imgUris.length; i++) {
-                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                            $scope.imgUris.splice(i, 1);
-                                            i--;
+                                        for (var i = 0; i < $scope.imgUris.length; i++) {
+                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                                $scope.imgUris.splice(i, 1);
+                                                i--;
+                                            }
                                         }
-                                    }
-                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                    $scope.imgUris.push("././img/images/will_add_Img.png");
-                                    console.log(imgUri);
-                                },
+                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                                        console.log(imgUri);
+                                    },
                                     function onFail(error) {
                                         return;
                                     },
@@ -607,9 +607,9 @@ angular.module('oinio.workDetailsControllers', [])
                 return;
             }
 
-             //*********保存配件************* */
-             $scope.regroupPartListForSave();
-             //********************** */
+            //*********保存配件************* */
+            $scope.regroupPartListForSave();
+            //********************** */
 
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
@@ -633,7 +633,7 @@ angular.module('oinio.workDetailsControllers', [])
                 $log.error(error);
             });
 
-           
+
         };
 
         $scope.showDetailsMoreInf = function () {
@@ -658,16 +658,22 @@ angular.module('oinio.workDetailsControllers', [])
 
         };
         $scope.toDisplayImportDiv = function () {
+            document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+            document.getElementById("btn_refund_Div").style.display = "none";//隐藏
+
             if (document.getElementById("btn_import_Div").style.display == "none") {
-                document.getElementById("btn_import_Div").style.display = "block";//显示
+                document.getElementById("btn_import_Div").style.display = "";//显示
 
             } else {
                 document.getElementById("btn_import_Div").style.display = "none";//隐藏
             }
         };
         $scope.toDisplayModifyDiv = function () {
+            document.getElementById("btn_import_Div").style.display = "none";//隐藏
+            document.getElementById("btn_refund_Div").style.display = "none";//隐藏
+
             if (document.getElementById("btn_modify_Div").style.display == "none") {
-                document.getElementById("btn_modify_Div").style.display = "block";//显示
+                document.getElementById("btn_modify_Div").style.display = "";//显示
 
             } else {
                 document.getElementById("btn_modify_Div").style.display = "none";//隐藏
@@ -675,9 +681,11 @@ angular.module('oinio.workDetailsControllers', [])
         };
         $scope.toDisplayRefundDiv = function () {
             $scope.getRefundList();
+            document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+            document.getElementById("btn_import_Div").style.display = "none";//隐藏
 
             if (document.getElementById("btn_refund_Div").style.display == "none") {
-                document.getElementById("btn_refund_Div").style.display = "block";//显示
+                document.getElementById("btn_refund_Div").style.display = "";//显示
 
             } else {
                 document.getElementById("btn_refund_Div").style.display = "none";//隐藏
@@ -754,6 +762,7 @@ angular.module('oinio.workDetailsControllers', [])
                     AppUtilService.hideLoading();
 
                 });
+
             }, function (error) {
                 console.log("error:", error);
                 AppUtilService.hideLoading();
@@ -1031,41 +1040,41 @@ angular.module('oinio.workDetailsControllers', [])
             }
             console.log("regroupPartList:", regroupPartList);
 
-             var savePartsUrlVar = $scope.savePartsUrl + JSON.stringify(regroupPartList);
-             console.log("savePartsUrl:", savePartsUrlVar);
-             ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'POST', {}, null, function (responseSaveParts) {
-                 AppUtilService.hideLoading();
-                 console.log("responseSaveParts:", responseSaveParts);
-                 
- 
-             }, function (error) {
-                 console.log("responseSaveParts_error:", error);
-                 AppUtilService.hideLoading();
- 
-             });
+            var savePartsUrlVar = $scope.savePartsUrl + JSON.stringify(regroupPartList);
+            console.log("savePartsUrl:", savePartsUrlVar);
+            ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'POST', {}, null, function (responseSaveParts) {
+                AppUtilService.hideLoading();
+                console.log("responseSaveParts:", responseSaveParts);
+
+
+            }, function (error) {
+                console.log("responseSaveParts_error:", error);
+                AppUtilService.hideLoading();
+
+            });
 
         }
 
         $scope.getPartListForRead = function(){
-            
-             ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl+orderDetailsId, 'GET', {}, null, function (responseGetParts) {
-                 AppUtilService.hideLoading();
-                 console.log("responseGetParts:", responseGetParts);
-                 for (let i = 0; i < responseGetParts.length; i++) {
-                     const element = responseGetParts[i].Service_Material__r;
-                     element["itemNO"] = i;
-                     element["materialId"] = responseGetParts[i].Service_Material__c;
-                     element["saveId"] = responseGetParts[i].Id;
 
-                     $scope.selectedTruckFitItems.push(element);
-                 }
-                 console.log("$scope.selectedTruckFitItems:", $scope.selectedTruckFitItems);
+            ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl+orderDetailsId, 'GET', {}, null, function (responseGetParts) {
+                AppUtilService.hideLoading();
+                console.log("responseGetParts:", responseGetParts);
+                for (let i = 0; i < responseGetParts.length; i++) {
+                    const element = responseGetParts[i].Service_Material__r;
+                    element["itemNO"] = i;
+                    element["materialId"] = responseGetParts[i].Service_Material__c;
+                    element["saveId"] = responseGetParts[i].Id;
 
-             }, function (error) {
-                 console.log("responseGetParts_error:", error);
-                 AppUtilService.hideLoading();
- 
-             });
+                    $scope.selectedTruckFitItems.push(element);
+                }
+                console.log("$scope.selectedTruckFitItems:", $scope.selectedTruckFitItems);
+
+            }, function (error) {
+                console.log("responseGetParts_error:", error);
+                AppUtilService.hideLoading();
+
+            });
 
         }
 
@@ -1084,12 +1093,13 @@ angular.module('oinio.workDetailsControllers', [])
         };
         //退件接口
         $scope.getRefundList = function(){
+
             // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetParts) {
-             ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetParts) {
+            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetParts) {
 
                 AppUtilService.hideLoading();
                 console.log("responseGetParts:", responseGetParts);
-                
+
 
             }, function (error) {
                 console.log("responseGetParts_error:", error);
@@ -1097,7 +1107,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             });
 
-       }
+        }
 
     });
 

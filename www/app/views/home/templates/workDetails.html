@@ -260,7 +260,7 @@
 </head>
 
 <body>
-	<div id="workDetailTotal" style="display: block">
+<div id="workDetailTotal" style="display: block">
 	<div class="newWorkList_truckSelect" style="height:100vh;width:100vw;position:absolute;opacity:0;">
 		<div id="selectLSG">
 			<div class="importLsg_bodyer">
@@ -277,8 +277,8 @@
 				<div class="big_Type_Group">
 					<div>
 						<div class="import_Head">
-							<div class="import_Left"> 
-									<input id="ckbox_truckLSG_searchresult_all" type="checkbox" ng-click="checkAllSearchResultsLSG();" />
+							<div class="import_Left">
+								<input id="ckbox_truckLSG_searchresult_all" type="checkbox" ng-click="checkAllSearchResultsLSG();" />
 
 							</div>
 							<div class="import_Center">
@@ -305,7 +305,7 @@
 										<div class="import_Body import_SecondBody">
 											<div class="import_Left"> </div>
 											<div class="import_Center">
-													<input data-recordid={{litems.itemIdentifier}} class="ckbox_truck_searchresult_itemLSG" type="checkbox" />
+												<input data-recordid={{litems.itemIdentifier}} class="ckbox_truck_searchresult_itemLSG" type="checkbox" />
 												<div> {{litems.itemIdentifier}} </div>
 											</div>
 											<div class="import_Right"> {{litems.quantity}} </div>
@@ -338,7 +338,7 @@
 			</div>
 			<div class="selectTruckFit_Tabs" style="">
 				<div id="selectTruckFit_Tab_1" class="selectTruckFit_Tab selectTruckFit_Tab_Active" ng-click="changeTruckTab('1');"
-				 style="">
+					 style="">
 					<span class="selectTruckFit_Tab_Text" style="">搜索结果</span>
 				</div>
 				<div id="selectTruckFit_Tab_2" class="selectTruckFit_Tab" ng-click="changeTruckTab('2');" style="">
@@ -379,7 +379,7 @@
 								<tr>
 									<th class="sv_Td">
 										<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_itemFit" ng-click="checkSearchResults(titem);"
-										 type="checkbox" />
+											   type="checkbox" />
 									</th>
 									<th class="sv_Td">
 										<div style="width: 150px;"> {{titem.Name}} </div>
@@ -474,11 +474,11 @@
 				</div>
 				<div id="detailContent">
 					<!--<div class="small_Type_Group">-->
-						<!--<div class="small_Type_Title">派工单号:</div>-->
-						<!--<div class="small_Type_Box">-->
-							<!--<input class="small_Type_Input" id="workSingleNumber" style="background-color:transparent;" disabled="disabled"-->
-							 <!--value="{{mobileName}}" />-->
-						<!--</div>-->
+					<!--<div class="small_Type_Title">派工单号:</div>-->
+					<!--<div class="small_Type_Box">-->
+					<!--<input class="small_Type_Input" id="workSingleNumber" style="background-color:transparent;" disabled="disabled"-->
+					<!--value="{{mobileName}}" />-->
+					<!--</div>-->
 					<!--</div>-->
 					<!--<div class="small_Type_Group">-->
 					<!--<div class="small_Type_Title">通知单号:</div>-->
@@ -536,7 +536,7 @@
 							<div class="img_Group" id="photoGroup">
 								<div class="item_Img" ng-repeat="itemUri in imgUris">
 									<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
-									 id="{{itemUri}}" ng-click="getPhoto($event);">
+										 id="{{itemUri}}" ng-click="getPhoto($event);">
 										<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
 									</div>
 								</div>
@@ -555,7 +555,7 @@
 					<div class="btn_M">
 						<div id="btn_modify_Btn" class="btn_modify_Group" ng-click="toDisplayModifyDiv();"> </div>
 					</div>
-					<div id="btn_import_Div" class="btn_Import_Div" style="display: none">
+					<div id="btn_import_Div" class="btn_Import_Div">
 						<div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG </div>
 						<div class="Import_Btn"> 导入经济件 </div>
 						<div class="Import_Btn"> 导入常用配件 </div>
@@ -563,7 +563,7 @@
 						<div class="Import_Btn"> 免费配件审批 </div>
 						<div class="Import_Btn"> 生成配件报价 </div>
 					</div>
-					<div id="btn_modify_Div" class="btn_modify_Div" style="display: none">
+					<div id="btn_modify_Div" class="btn_modify_Div">
 						<div class="Modify_Btn" ng-click="openSelectPage('addDele');"> 添加/删除 </div>
 						<div class="Modify_Btn"> 清空经济件 </div>
 						<div class="Modify_Btn"> 使用经济件 </div>
@@ -630,102 +630,102 @@
 				</div>
 			</div>
 			<div>
-					<div class="small_Type_Title_Group">
-						<div class="small_Type_Title_G_2"> 交货列表 </div>
-						<div class="btn_M">
-							<div class="btn_modify_Group" ng-click="toDisplayRefundDiv();"> </div>
-						</div>
-						<div id="btn_refund_Div" class="btn_refund_Div" style="display: none;">
-							<div class="Refund_Btn" ng-click="openRefundPage();"> 申请退件 </div>
-						</div>
-						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-						<div class="OpenClose_Btn arrow_Down_White"></div>
+				<div class="small_Type_Title_Group">
+					<div class="small_Type_Title_G_2"> 交货列表 </div>
+					<div class="btn_M">
+						<div class="btn_modify_Group" ng-click="toDisplayRefundDiv();"> </div>
 					</div>
-					<div>
-						<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
-						  <tr>
-							  <th class="sv_Td"> 
-								  <input type="checkbox" class="sv_checkbox"/>
-							  </th>
-							  <th class="sv_Td"> 
-								  <div> 行项 </div>
-							  </th>
-							  <th class="sv_Td sv_Td_240"> 
-								  <div> 物料号 </div>
-							  </th>
-							  <th class="sv_Td"> 
-								  <div> 到货数 </div>
-							  </th>
-							  <th class="sv_Td"> 
-								  <div> 实用量 </div>
-							  </th>
-							  <th class="sv_Td"> 
-							  </th>
-						  </tr>
-					  </table>
-					  <div class="refund_first">
-							<!-- <div class="arrow_Down_Black"></div> -->
-							<div class="box_num"> 交货单号: 001 </div> 
-							<div class="explain_Icon"> </div>
-						  <div class="explain_Text to_Hide">
-							  <div class="dis_flex"> 
-								  <span>交货单状态:</span>
-								  <span class="red_span">open</span>
-							  </div>
-							  <div class="dis_flex"> 
-								  <span>到货物流单号:</span>
-								  <span class="red_span">2348</span>
-							  </div>
-							  <div class="dis_flex"> 
-								  <span>到货物流状态:</span>
-								  <span class="red_span">已签收</span>
-							  </div>
-							  <div class="dis_flex"> 
-								  <span>退货物流单号:</span>
-								  <span class="red_span">2324</span>
-							  </div>
-							  <div class="dis_flex"> 
-								  <span>退货物流状态:</span>
-								  <span class="red_span">已签收</span>
-							  </div>
-						  </div>
-						</div>
-						<ion-list can-swipe="true" class="quoted_Table_list">
-								<ion-item ng-repeat="item in rejectedItems" ng-cloak ng-click="rejectedItemsFun(item)">
-					  <table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
-						  <tr>
-							  <td class="sv_Td"> 
-								  <input type="checkbox" class="sv_checkbox"/>
-							  </td>
-							  <td class="sv_Td"> 
-								  <div> 01</div>
-							  </td>
-							  <td class="sv_Td sv_Td_240"> 
-								  <div> A001 </div>
-							  </td>
-							  <td class="sv_Td"> 
-								  <div> 10 </div>
-							  </td>
-							  <td class="sv_Td"> 
-								  <div> 8 </div>
-							  </td>
-							  <td class="sv_Td"> 
-								  <div class="explain_Icon"> </div>
-								  <div class="explain_Text to_Hide">
-									  <div> 
-										  <span>退件原因:</span>
-										  <span>故障判断有误</span>
-									  </div>
-									  <div> 备注：</div>
-									  <div> 备注内容</div>
-								  </div>
-							  </td>
-						  </tr>
-					  </table>
-					</ion-item>
-				</ion-list>
-				  </div>
+					<div id="btn_refund_Div" class="btn_refund_Div">
+						<div class="Refund_Btn" ng-click="openRefundPage();"> 申请退件 </div>
+					</div>
+					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+					<div class="OpenClose_Btn arrow_Down_White"></div>
 				</div>
+				<div>
+					<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
+						<tr>
+							<th class="sv_Td">
+								<input type="checkbox" class="sv_checkbox"/>
+							</th>
+							<th class="sv_Td">
+								<div> 行项 </div>
+							</th>
+							<th class="sv_Td sv_Td_240">
+								<div> 物料号 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 到货数 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 实用量 </div>
+							</th>
+							<th class="sv_Td">
+							</th>
+						</tr>
+					</table>
+					<div class="refund_first">
+						<!-- <div class="arrow_Down_Black"></div> -->
+						<div class="box_num"> 交货单号: 001 </div>
+						<div class="explain_Icon"> </div>
+						<div class="explain_Text to_Hide">
+							<div class="dis_flex">
+								<span>交货单状态:</span>
+								<span class="red_span">open</span>
+							</div>
+							<div class="dis_flex">
+								<span>到货物流单号:</span>
+								<span class="red_span">2348</span>
+							</div>
+							<div class="dis_flex">
+								<span>到货物流状态:</span>
+								<span class="red_span">已签收</span>
+							</div>
+							<div class="dis_flex">
+								<span>退货物流单号:</span>
+								<span class="red_span">2324</span>
+							</div>
+							<div class="dis_flex">
+								<span>退货物流状态:</span>
+								<span class="red_span">已签收</span>
+							</div>
+						</div>
+					</div>
+					<ion-list can-swipe="true" class="quoted_Table_list">
+						<ion-item ng-repeat="item in rejectedItems" ng-cloak ng-click="rejectedItemsFun(item)">
+							<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
+								<tr>
+									<td class="sv_Td">
+										<input type="checkbox" class="sv_checkbox"/>
+									</td>
+									<td class="sv_Td">
+										<div> 01</div>
+									</td>
+									<td class="sv_Td sv_Td_240">
+										<div> A001 </div>
+									</td>
+									<td class="sv_Td">
+										<div> 10 </div>
+									</td>
+									<td class="sv_Td">
+										<div> 8 </div>
+									</td>
+									<td class="sv_Td">
+										<div class="explain_Icon"> </div>
+										<div class="explain_Text to_Hide">
+											<div>
+												<span>退件原因:</span>
+												<span>故障判断有误</span>
+											</div>
+											<div> 备注：</div>
+											<div> 备注内容</div>
+										</div>
+									</td>
+								</tr>
+							</table>
+						</ion-item>
+					</ion-list>
+				</div>
+			</div>
 			<div>
 				<div class="small_Type_Title_Group" ng-click="toServiceInfo();">
 					<div class="small_Type_Title_G"> 服务建议 </div>
@@ -758,64 +758,64 @@
 			<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
 		</div>
 	</div>
-	</div>
+</div>
 
-	<diV id="workDetailPart" style="display: none">
-		<link rel="stylesheet" href="././css/workdetailsMore.css">
+<diV id="workDetailPart" style="display: none">
+	<link rel="stylesheet" href="././css/workdetailsMore.css">
 
-		<style type="text/css">
-			.more_bodyer {
-				background-image: url(./images/bg_img.png);
-			}
-			.arrow_Down_White {
-				background-image: url(./images/arrow_Down_White.png);
-			}
-			.arrow_Left_White {
-				background-image: url(./images/arrow_Left_White.png);
-			}
-			.search_small_black {
-				background-image: url(./images/search_small_black.png);
-			}
-		</style>
-		<div class="more_header">
-			<div class="left_Box">
-			</div>
-			<div class="center_Box">
-				<div class="center_Title">车辆备注</div>
-			</div>
-			<div class="right_Box">
-
-			</div>
+	<style type="text/css">
+		.more_bodyer {
+			background-image: url(./images/bg_img.png);
+		}
+		.arrow_Down_White {
+			background-image: url(./images/arrow_Down_White.png);
+		}
+		.arrow_Left_White {
+			background-image: url(./images/arrow_Left_White.png);
+		}
+		.search_small_black {
+			background-image: url(./images/search_small_black.png);
+		}
+	</style>
+	<div class="more_header">
+		<div class="left_Box">
 		</div>
-		<div class="more_bodyer">
-			<div class="big_Type_Group">
-				<div ng-repeat="chooseItem in allTruckItems " ng-cloak ng-show="chooseItem.isShow">
-					<div class="small_Type_Title_Group">
-						<div class="small_Type_Title_G">{{chooseItem.truckItemNum}}</div>
-						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-						<div class="OpenClose_Btn arrow_Down_White"></div>
+		<div class="center_Box">
+			<div class="center_Title">车辆备注</div>
+		</div>
+		<div class="right_Box">
+
+		</div>
+	</div>
+	<div class="more_bodyer">
+		<div class="big_Type_Group">
+			<div ng-repeat="chooseItem in allTruckItems " ng-cloak ng-show="chooseItem.isShow">
+				<div class="small_Type_Title_Group">
+					<div class="small_Type_Title_G">{{chooseItem.truckItemNum}}</div>
+					<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+					<div class="OpenClose_Btn arrow_Down_White"></div>
+				</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">工作小时数:</div>
+					<div class="small_Type_Box">
+						<input class="small_Type_Input"  value="{{chooseItem.Operation_Hour__c}}" ng-model="chooseItem.Operation_Hour__c"/>
 					</div>
-					<div class="small_Type_Group">
-						<div class="small_Type_Title">工作小时数:</div>
-						<div class="small_Type_Box">
-							<input class="small_Type_Input"  value="{{chooseItem.Operation_Hour__c}}" ng-model="chooseItem.Operation_Hour__c"/>
-						</div>
-					</div>
-					<div class="small_Type_Group">
-						<div class="small_Type_Title">服务与建议:</div>
-						<div class="small_Type_Box">
-							<textarea class="small_Type_Textarea" value="{{chooseItem.Service_Suggestion__c}}"ng-model="chooseItem.Service_Suggestion__c"></textarea>
-						</div>
+				</div>
+				<div class="small_Type_Group">
+					<div class="small_Type_Title">服务与建议:</div>
+					<div class="small_Type_Box">
+						<textarea class="small_Type_Textarea" value="{{chooseItem.Service_Suggestion__c}}"ng-model="chooseItem.Service_Suggestion__c"></textarea>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="footer">
-			<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-			<div class="footer_Btn"ng-click="hidePartPage();">取消</div>
-			<div class="footer_Btn Save_Btn_Act" ng-click="hidePartPagewithSave();">保存</div>
-		</div>
-	</diV>
+	</div>
+	<div class="footer">
+		<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+		<div class="footer_Btn"ng-click="hidePartPage();">取消</div>
+		<div class="footer_Btn Save_Btn_Act" ng-click="hidePartPagewithSave();">保存</div>
+	</div>
+</diV>
 
 </body>
 
