@@ -123,6 +123,12 @@
 
             $scope.searchBusinessByNameAndId = function(){
                 var nameOrId = $("#searchBig").val();
+                if (nameOrId==null||nameOrId==""){
+                    $ionicPopup.alert({
+                        title:"搜索内容不能为空!"
+                    });
+                    return;
+                }
                 ProcurementInfoService.querySupplierInformation(nameOrId).then(function success(res) {
                     $log.info(res);
                     console.log(res);
