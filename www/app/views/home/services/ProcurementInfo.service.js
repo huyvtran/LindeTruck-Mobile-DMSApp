@@ -33,6 +33,7 @@
                         if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                             angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                                 var result = new Object();
+                                result['Name'] = entry[0].Name;
                                 result['Province__c'] = entry[0].Province__c;
                                 result['City__c'] = entry[0].City__c;
                                 result['Address__c'] = entry[0].Address__c;
