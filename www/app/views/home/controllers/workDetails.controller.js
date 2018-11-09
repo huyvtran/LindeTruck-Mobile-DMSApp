@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
+        LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
 
         var vm = this,
             arriveTime = null,
@@ -14,6 +14,7 @@ angular.module('oinio.workDetailsControllers', [])
             Account_Ship_to__c = "",
             localSoupEntryId = "",
             localUris = [],
+            regroupVarRefundList = [],
             customerNameValue = "",
             customerAccountValue = "",
             customerAddressValue = "",
@@ -89,20 +90,20 @@ angular.module('oinio.workDetailsControllers', [])
 
                 //*********读取配件*************** */
                 $scope.getPartListForRead();
-                return  SOrderService.getOrdersSelectedTruck(userInfoId);
+                return SOrderService.getOrdersSelectedTruck(userInfoId);
             }).then(function success(result) {
                 $scope.SelectedTruckNum = 0;
                 if (result.length > 0) {
                     for (var i = 0; i < result.length; i++) {
-                        if(result[i].Truck_Serial_Number__r!=undefined){
-                            $scope.SelectedTruckNum = Number($scope.SelectedTruckNum) + 1 ;
+                        if (result[i].Truck_Serial_Number__r != undefined) {
+                            $scope.SelectedTruckNum = Number($scope.SelectedTruckNum) + 1;
                             truckItems.push(
                                 {
                                     _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
                                     truckItemNum: result[i].Truck_Serial_Number__r.Name,
                                     Operation_Hour__c: 0,
                                     Service_Suggestion__c: "",
-                                    isShow:false
+                                    isShow: false
                                 }
                             );
                         }
@@ -118,12 +119,12 @@ angular.module('oinio.workDetailsControllers', [])
 
             //***********交货列表************** */
             $scope.getRefundList();
-             //************************* */
+            //************************* */
 
-            if (allowEdit){
+            if (allowEdit) {
                 $("#call_str").removeAttr("disabled");
-            }else{
-                $("#call_str").attr("disabled","disabled");
+            } else {
+                $("#call_str").attr("disabled", "disabled");
             }
 
             var numArr1 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
@@ -235,12 +236,12 @@ angular.module('oinio.workDetailsControllers', [])
                     })
                 })
                 .then(function () {
-                        HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
-                            $scope.HasTruckNum = res != null ? res.length : 0;
-                        }, function (error) {
-                            $log.error('Error ' + error);
-                        })
-                    }
+                    HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
+                        $scope.HasTruckNum = res != null ? res.length : 0;
+                    }, function (error) {
+                        $log.error('Error ' + error);
+                    })
+                }
                 );
 
         });
@@ -262,16 +263,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                                $scope.imgUris.splice(i, 1);
-                                                i--;
-                                            }
+                                    for (var i = 0; i < $scope.imgUris.length; i++) {
+                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                            $scope.imgUris.splice(i, 1);
+                                            i--;
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_Img.png");
-                                        console.log(imgUri);
-                                    },
+                                    }
+                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                    $scope.imgUris.push("././img/images/will_add_Img.png");
+                                    console.log(imgUri);
+                                },
                                     function onError(error) {
                                         return;
                                     }
@@ -293,16 +294,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                                $scope.imgUris.splice(i, 1);
-                                                i--;
-                                            }
+                                    for (var i = 0; i < $scope.imgUris.length; i++) {
+                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                            $scope.imgUris.splice(i, 1);
+                                            i--;
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_Img.png");
-                                        console.log(imgUri);
-                                    },
+                                    }
+                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                    $scope.imgUris.push("././img/images/will_add_Img.png");
+                                    console.log(imgUri);
+                                },
                                     function onFail(error) {
                                         return;
                                     },
@@ -475,7 +476,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.doPrint = function ($event) {
             var callStr = $("#call_str").val().trim();
-            if (callStr==""||callStr==null){
+            if (callStr == "" || callStr == null) {
                 $ionicPopup.alert({
                     title: "请填写来电是由!"
                 });
@@ -596,7 +597,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.goSave = function () {
 
             var callStr = $("#call_str").val().trim();
-            if (callStr==""||callStr==null){
+            if (callStr == "" || callStr == null) {
                 $ionicPopup.alert({
                     title: "请填写来电是由!"
                 });
@@ -643,7 +644,7 @@ angular.module('oinio.workDetailsControllers', [])
             $("input.selectTruckItem").each(function (index, element) {
                 if ($(this).prop("checked")) {
                     $scope.allTruckItems[index].isShow = true;
-                }else{
+                } else {
                     $scope.allTruckItems[index].isShow = false;
                 }
             });
@@ -1020,7 +1021,7 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
 
-        $scope.regroupPartListForSave = function(){
+        $scope.regroupPartListForSave = function () {
             AppUtilService.showLoading();
 
             regroupPartList = [];
@@ -1030,7 +1031,7 @@ angular.module('oinio.workDetailsControllers', [])
                 onePartOriginals["Line_Item__c"] = element.itemNO;//行项
                 onePartOriginals["Parent_Line_Item__c"] = element.itemNO;//行项
                 onePartOriginals["Quantity__c"] = element.quantity;//数量
-                if (element.priceCondition!=null) {
+                if (element.priceCondition != null) {
                     onePartOriginals["Gross_Price__c"] = element.priceCondition.price;//公布价
                 }
                 onePartOriginals["Reserved__c"] = element.View_Integrity__c;//预留
@@ -1057,9 +1058,9 @@ angular.module('oinio.workDetailsControllers', [])
 
         }
 
-        $scope.getPartListForRead = function(){
+        $scope.getPartListForRead = function () {
 
-            ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl+orderDetailsId, 'GET', {}, null, function (responseGetParts) {
+            ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl + orderDetailsId, 'GET', {}, null, function (responseGetParts) {
                 AppUtilService.hideLoading();
                 console.log("responseGetParts:", responseGetParts);
                 for (let i = 0; i < responseGetParts.length; i++) {
@@ -1080,26 +1081,104 @@ angular.module('oinio.workDetailsControllers', [])
 
         }
 
-        $scope.hidePartPage=function () {
+        $scope.hidePartPage = function () {
             document.getElementById("workDetailTotal").style.display = "block";//隐藏
             document.getElementById("workDetailPart").style.display = "none";//隐藏
         };
 
-        $scope.hidePartPagewithSave=function () {
+        $scope.hidePartPagewithSave = function () {
             document.getElementById("workDetailTotal").style.display = "block";//隐藏
             document.getElementById("workDetailPart").style.display = "none";//隐藏
         };
+        /**
+ *删除数组指定下标或指定对象
+ */
+Array.prototype.remove=function(obj){
+    for(var i =0;i <this.length;i++){
+        var temp = this[i];
+        if(!isNaN(obj)){
+            temp=i;
+        }
+        if(temp == obj){
+            for(var j = i;j <this.length;j++){
+                this[j]=this[j+1];
+            }
+            this.length = this.length-1;
+        }
+    }
+}
+        $scope.openRefundPage = function () {
+            $("input.refundcheckbox").each(function (index, element) {
+                if (element.checked) {
+                    console.log('sv_checkbox refund:::', $(element).attr("data-recordid"));
+                    // contentLSGsGetList.push($(element).attr("data-recordid"));
+                    for (let i = 0; i < $scope.rejectedItems.length; i++) {
+                        var element1 = $scope.rejectedItems[i];
+                        for (let j = 0; j < element1.Delivery_Line_Item__r.length; j++) {
+                            var element2 = element1.Delivery_Line_Item__r[j];
+                            if (element2.Id === $(element).attr("data-recordid")) {
+                                element2["checkBool"] = true;
+                            }
+                        }
+                    }
+                }
+            });
 
-        $scope.openRefundPage = function(){
-            $state.go('app.refund', { refundInfo: $scope.rejectedItems});
+            console.log('reNewSendRefund:::', $scope.rejectedItems);
+
+            var reNewSendRefund = JSON.parse(JSON.stringify(regroupVarRefundList));
+            var regroupSendRefund = [];
+
+            for (let i = 0; i < reNewSendRefund.length; i++) {
+                var element = reNewSendRefund[i];
+                regroupSendRefund.push(element);
+
+            }
+            for (let i = 0; i < regroupSendRefund.length; i++) {
+                var element = regroupSendRefund[i];
+                element.Delivery_Line_Item__r = [];
+            }
+
+            for (var i = 0; i < $scope.rejectedItems.length; i++) {//删除二级数据内未勾选的二级
+                for (var j = 0; j < $scope.rejectedItems[i].Delivery_Line_Item__r.length; j++) {
+                    var element4 = $scope.rejectedItems[i].Delivery_Line_Item__r[j];
+                    if (element4.checkBool) {
+                        for (let index = 0; index < regroupSendRefund.length; index++) {
+                            var element = regroupSendRefund[index];
+
+                            if (element.Id === reNewSendRefund[i].Id) {
+                                element.Delivery_Line_Item__r.push($scope.rejectedItems[i].Delivery_Line_Item__r[j]);
+                            }
+                        }
+                        
+                    }
+                }
+            }
+            var nowSendRefund = [];
+            for (var i = 0; i < regroupSendRefund.length; i++) {//删除二级数据内未勾选的二级
+                if (regroupSendRefund[i].Delivery_Line_Item__r.length != 0) {
+                    nowSendRefund.push(regroupSendRefund[i]);
+                }
+            }
+
+            $state.go('app.refund', { refundInfo: nowSendRefund });
         };
         //退件接口
-        $scope.getRefundList = function(){
+        $scope.getRefundList = function () {
             // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
-            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
+            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
                 AppUtilService.hideLoading();
                 console.log("responseGetDelivery:", responseGetDelivery);
                 $scope.rejectedItems = responseGetDelivery;
+                regroupVarRefundList = responseGetDelivery;
+                for (var i = 0; i < $scope.rejectedItems.length; i++) {
+                    for (var j = 0; j < $scope.rejectedItems[i].Delivery_Line_Item__r.length; j++) {
+                        var elementget = $scope.rejectedItems[i].Delivery_Line_Item__r[j];
+                        elementget["checkBool"] = false;
+
+                    }
+                }
+                console.log("responseGetDeliveryafter:", $scope.rejectedItems);
 
             }, function (error) {
                 console.log("responseGetDelivery_error:", error);
@@ -1109,11 +1188,21 @@ angular.module('oinio.workDetailsControllers', [])
 
         }
 
-        $scope.checkAllBoxRefund=function () {
-            
+        $scope.checkAllBoxRefund = function () {
+            var ele = $("#selectRefundAll");
+            if (ele.prop("checked")) {
+                $("input.refundcheckbox").each(function (index, element) {
+                    $(this).prop("checked", true);
+                });
+
+            } else {
+                $("input.refundcheckbox").each(function (index, element) {
+                    $(this).prop("checked", false);
+                });
+            }
         };
-        $scope.checkOneBoxRefund=function () {
-            
+        $scope.checkOneBoxRefund = function () {
+
         };
     });
 

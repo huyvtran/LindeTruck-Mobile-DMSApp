@@ -69,18 +69,18 @@
 				
 				<div ng-repeat="reitemDetail in selectRefundInfo">
 					<div class="refund_first">
-						<div class="del_red_icon"></div>
+						<div class="del_red_icon" ng-click="toDelOneRefundView(reitemDetail)"></div>
 						<div class="box_num"> 交货单号: {{reitemDetail.SAP_Delivery_Order__c}} </div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<!-- <div class="OpenClose_Btn arrow_Down_White"></div> -->
 					</div>
 
 					<ion-list can-swipe="true" class="quoted_Table_list">
-						<ion-item ng-repeat="itemDetail in reitemDetail.Delivery_Line_Item__r" ng-cloak ng-click="rejectedItemsFun(item)">
+						<ion-item ng-repeat="itemDetail in reitemDetail.Delivery_Line_Item__r" ng-cloak>
 							<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
 								<tr>
 									<td class="sv_Td">
-										<div class="del_red_icon"></div>
+										<div class="del_red_icon" ng-click="toDelTwoRefundView(reitemDetail.Delivery_Line_Item__r,itemDetail)"></div>
 									</td>
 									<td class="sv_Td sv_Td_200">
 										<div> {{itemDetail.Service_Material__rparts_number__c}} </div>
@@ -94,8 +94,8 @@
 									<td class="sv_Td sv_Td_200">
 										<div> 2334223 </div>
 									</td>
-									<td class="sv_Td">
-										<input type="text" class="sv_Input" />
+									<td class="sv_Td" ng-init="Return_Quantity = itemDetail.Return_Quantity">
+										<input type="text" class="sv_Input" ng-model="itemDetail.Return_Quantity"/>
 									</td>
 								</tr>
 							</table>
@@ -127,7 +127,7 @@
 	</div>
 	<div class="footer">
 		<div class="footer_Btn" ng-click="goBackgw();">取消</div>
-		<div class="footer_Btn Save_Btn_Act">保存</div>
+		<div class="footer_Btn Save_Btn_Act" ng-click="goToSave();">保存</div>
 		<div class="footer_Btn Submit_Btn_Act">保存并提交</div>
 	</div>
 </body>

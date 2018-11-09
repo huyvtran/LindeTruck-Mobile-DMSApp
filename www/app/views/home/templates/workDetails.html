@@ -649,7 +649,7 @@
 						<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
 							<tr>
 								<th class="sv_Td">
-									<input type="checkbox" class="sv_checkbox" ng-click="checkAllBoxRefund();"/>
+									<input id="selectRefundAll" type="checkbox" class="sv_checkbox" ng-click="checkAllBoxRefund();"/>
 								</th>
 								<th class="sv_Td">
 									<div> 行项 </div>
@@ -701,7 +701,7 @@
 										<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
 											<tr>
 												<td class="sv_Td">
-													<input type="checkbox" class="sv_checkbox" ng-click="checkOneBoxRefund();"/>
+													<input type="checkbox" data-recordid={{item.Id}} class="sv_checkbox refundcheckbox" ng-click="checkOneBoxRefund();"/>
 												</td>
 												<td class="sv_Td">
 													<div> {{item.SAP_Delivery_Order_Line_Item__c}}</div>

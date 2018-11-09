@@ -182,7 +182,7 @@
             var getServiceOrderType = function (array) {
                 for (let index = 0; index < array.length; index++) {
                     const element = array[index].Service_Order_Type__c;
-                    if (element == "Work Order") {
+                    if (element == "Work_Order") {
                         array[index].Service_Order_Type__c = "工单";
                     } else if (element == "Customer Consult") {
                         array[index].Service_Order_Type__c = "客户咨询";
