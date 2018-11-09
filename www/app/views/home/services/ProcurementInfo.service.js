@@ -14,6 +14,137 @@
 
             let service = this;
 
+            this.ProcurementInfoSaveButton = function (ProcurementInfo, SupplierInfoSoupId, ProcurementItemInfos) {
+                var deferred = $q.defer();
+
+                service.saveProcurementInfo(ProcurementInfo, SupplierInfoSoupId).then(function (piSids) {
+                    return service.saveProcurementItemInfo(piSids, ProcurementItemInfos );
+                }).then(function (res) {
+                    return service.synchronize();
+                }).then(function () {
+                    console.log('execute sucess !');
+                    deferred.resolve('done');
+                }).catch(function (error) {
+                    console.log('execute error:::', error);
+                    deferred.reject(error);
+                });
+                return deferred.promise;
+            }
+
+            this.saveProcurementInfo = function (ProcurementInfo, SupplierInfoSoupId) {
+                console.log('current ProcurementInfo:::', ProcurementInfo);
+                var deferred = $q.defer();
+                var piObj;
+                piObj = ProcurementInfo;
+
+                LocalDataService.createSObject('Procurement_Information__c', piObj.recordType).then(function(sobject) {
+                    var newItem;
+                    var piObjsToSave = [];
+
+                    newItem = service.cloneObj(sobject);
+
+                    newItem['Delivery_Date__c'] = piObj.Delivery_Date__c;//计划日期(Date)
+                    newItem['Supplier_Information__c_sid'] = SupplierInfoSoupId;//供应商信息(lookUp)
+                    newItem['Procurement_Description__c'] = piObj.Procurement_Description__c;//采购描述
+                    //newItem['Service_Order_Overview__c'] = piObj.Service_Order_Overview__c;//服务单
+                    newItem['Status__c '] = piObj.Status__c ;//状态(picklist,需要api值)
+                    newItem['Tax__c'] = piObj.Tax__c;//税率(picklist, 需要api值)
+                    newItem['Revenue__c'] = Number(piObj.Revenue__c);//订单收入(Number)
+                    newItem['Price_without_Tax__c'] = Number(piObj.Price_without_Tax__c);//采购价格(Number)
+                    newItem['Profit__c'] = Number(piObj.Profit__c);//利润率(Number,不带百分比)
+                    newItem['Remarks__c'] = piObj.Remarks__c;//采购备注
+
+                    console.log('newItem::',newItem);
+                    piObjsToSave.push(newItem);
+
+
+
+                    LocalDataService.saveSObjects('Procurement_Information__c', piObjsToSave).then(function(result) {
+                        let arr_sids = [];
+                        console.log('save result:::',result);
+                        if (!result){
+                            console.log('save error!');
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        for (var i=0;i<result.length;i++){
+                            if (result[i].success){
+                                //adrs[i]._soupEntryId = result[i]._soupEntryId;
+
+                                let existFlag = false;
+                                angular.forEach(arr_sids, function (s) {
+                                    if(s == result[i]._soupEntryId){
+                                        existFlag = true;
+                                    }
+                                });
+                                if(!existFlag){
+                                    arr_sids.push(result[i]._soupEntryId);
+                                }
+                            }
+                        }
+                        console.log('procurement info save sucess soup id:::',arr_sids);
+                        deferred.resolve(arr_sids);
+                    }, function (error) {
+                        console.log(error);
+                        deferred.reject(error);
+                    });
+
+                }, angular.noop);
+
+                return deferred.promise;
+            }
+
+            this.saveProcurementItemInfo = function (sids, ServiceMaterials) {
+                var deferred = $q.defer();
+
+                LocalDataService.createSObject('Procurement_Item_Information__c').then(function(sobject) {
+                    var piiObjsToSave = [];
+
+                    for (var i=0;i<ServiceMaterials.length;i++) {
+                        var newItem;
+                        newItem = service.cloneObj(sobject);
+                        newItem['Name'] =  ServiceMaterials[i].Item_Code__c;//Name (非页面字段)
+                        newItem['Item_Code__c'] =  ServiceMaterials[i].Item_Code__c;//编号
+                        newItem['Required_Quantity__c'] =  Number(ServiceMaterials[i].Required_Quantity__c);//数量(Number)
+                        newItem['Item_Description__c'] =  ServiceMaterials[i].Item_Description__c;//描述
+                        newItem['Factory__c'] =  ServiceMaterials[i].Factory__c;//工厂
+                        newItem['Unite_Price__c'] =  Number(ServiceMaterials[i].Unite_Price__c);//净价(Number)
+                        newItem['Procurement_Information__c_sid'] = sids[0];
+                        piiObjsToSave.push(newItem);
+                    }
+
+                    LocalDataService.saveSObjects('Procurement_Item_Information__c', piiObjsToSave).then(function(result) {
+                        let arr_sids = [];
+                        console.log('Procurement Item Info save result:::',result);
+                        if (!result){
+                            console.log("Procurement Item Info save error!");
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        for (var i=0;i<result.length;i++){
+                            if (result[i].success){
+                                let existFlag = false;
+                                angular.forEach(arr_sids, function (s) {
+                                    if(s == result[i]._soupEntryId){
+                                        existFlag = true;
+                                    }
+                                });
+                                if(!existFlag){
+                                    arr_sids.push(result[i]._soupEntryId);
+                                }
+                            }
+                        }
+                        console.log('Procurement Item Info soup id:::',arr_sids);
+                        deferred.resolve(arr_sids);
+                    }, function (error) {
+                        console.log('Procurement Item Info error:::', error);
+                    });
+
+                }, angular.noop);
+
+                return deferred.promise;
+            }
+
             this.querySupplierInformation = function (codeOrName) {
                 var deferred = $q.defer();
 
