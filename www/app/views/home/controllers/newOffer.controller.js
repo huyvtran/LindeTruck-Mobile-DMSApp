@@ -1,5 +1,5 @@
 angular.module('oinio.NewOfferController', [])
-    .controller('NewOfferController', function ($scope, $ionicPopup, $stateParams, HomeService, $state, $rootScope, SQuoteService) {
+    .controller('NewOfferController', function ($scope,$log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, SQuoteService) {
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
