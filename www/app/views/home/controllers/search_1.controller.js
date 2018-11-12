@@ -79,6 +79,7 @@
             };
 
             var getGoodsList =function (keyWord) {
+                AppUtilService.showLoading();
                 //调用接口获取结果
                 AccountService.searchAccounts(keyWord).then(function (response) {
                     console.log("AccountServicegw",keyWord);
@@ -106,7 +107,7 @@
                 }, function (error) {
                     $log.error('AccountService.searchAccounts Error ' + error);
                 }).finally(function () {
-                    //AppUtilService.hideLoading();
+                    AppUtilService.hideLoading();
                 });
             };
             var loadingData = function () {
