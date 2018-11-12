@@ -162,19 +162,19 @@
 						<div class="line_three">
 							<div class="small_Type_Title"> 订单收入:</div>
 							<div class="small_Type_Box">
-								<input class="small_Type_Input_90" id="revenue"/>
+								<input class="small_Type_Input_90" id="revenue" ng-model="revenue" value="{{revenue}}" ng-change="countProfitRates();"/>
 							</div>
 						</div>
 						<div class="line_three">
 							<div class="small_Type_Title"> 采购价格:</div>
 							<div class="small_Type_Box">
-								<input class="small_Type_Input_90" id="priceEach"/>
+								<input class="small_Type_Input_90" id="priceEach" ng-model="priceEach" value="{{priceEach}}" ng-change="countProfitRates();"/>
 							</div>
 						</div>
 						<div class="line_three">
 							<div class="small_Type_Title"> 利润率:</div>
 							<div class="small_Type_Box">
-								<input class="small_Type_Input_90" id="profit"readonly/>
+								<input class="small_Type_Input_90" id="profit" value="{{profitRate}}％" readonly/>
 							</div>
 						</div>
 					</div>

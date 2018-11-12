@@ -10,6 +10,7 @@
                 supplierInfoSoupId = null,
                 localMaterials=[],
                 localQuantities=[],
+                express = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/,
                 oCurrentUser = LocalCacheService.get('currentUser') || {};
             $scope.recordTypes = [];
             $scope.Taxes =[];
@@ -18,6 +19,9 @@
             $scope.allMaterial=[];
             $scope.chooseItem=null;
             $scope.chooseMaterials=[];
+            $scope.profitRate=0;
+            $scope.revenue=0;
+            $scope.priceEach=0;
             vm.isOnline = null;
 
             /**
@@ -69,10 +73,6 @@
                 $scope.Taxes.push({value:"X3 3% Input Tax, China"});
                 $scope.Taxes.push({value:"X4 6% Input Tax, China"});
                 $scope.Taxes.push({value:"X6 16% Input Tax, China"});
-
-
-
-
             });
             $scope.showMaterialPage = function(){
                 if (document.getElementById("serachMaterialContent").style.display == "none") {
@@ -249,18 +249,18 @@
                 objOther.Required_Quantity__c =1;
                 objOther.Item_Description__c =obj.parts_description__c!=null?obj.parts_description__c:"";
                 objOther.Factory__c =obj.Factory__c!=null?obj.Factory__c:"";
-                objOther.Unite_Price__c =obj.Cost_Price__c!=null?obj.Cost_Price__c:"";
+                objOther.Unite_Price__c =obj.Cost_Price__c!=null?Number(obj.Cost_Price__c):0;
 
-                if ($scope.chooseMaterials.length>0){
-                    for(var i =0;i<$scope.chooseMaterials.length;i++){
-                        if ($scope.chooseMaterials[i].Item_Code__c!=obj.Name){
-                            $scope.chooseMaterials.push(objOther);
+                if (localMaterials.length>0){
+                    for(var i =0;i<localMaterials.length;i++){
+                        if (localMaterials[i].Item_Code__c!=obj.Name){
+                            localMaterials.push(objOther);
                         }
                     }
                 }else{
-                    $scope.chooseMaterials.push(objOther);
+                    localMaterials.push(objOther);
                 }
-
+                $scope.chooseMaterials=localMaterials;
 
                 document.getElementById("busyAllContent").style.display = "block";
                 document.getElementById("serachMaterialContent").style.display = "none";
@@ -277,13 +277,25 @@
                 });
             };
 
+            vm.getCountProfitRates= function (){
+                $scope.countProfitRates();
+            };
+            $scope.countProfitRates = function(){
+              var taxStrArray = ($('#taxList option:selected').val()).split(" ");
+              var taxRate = ((taxStrArray[1]).split("%")[0])*0.01;
+              var localRevenue = Number($scope.revenue);
+              var localProfitFach = Number($scope.priceEach);
+              if (localProfitFach>0){
+                  $scope.profitRate=((localRevenue-localProfitFach-(localRevenue*taxRate))/localProfitFach)*100;
+              }
+            };
+
             $scope.goBack =function () {
                 window.history.back();
             };
 
 
             $scope.goSavePurChase =function () {
-                var express = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
                 var planDate = $("#planDate").val();
 
                 if (!planDate){
@@ -299,18 +311,16 @@
                     return;
                 }
 
-                var revenue = $("#revenue").val().trim();
-                var priceEach=$("#priceEach").val().trim();
-                if (!express.test(revenue)||revenue==0){
+                if (!express.test($scope.revenue)){
                     $ionicPopup.alert({
-                        title: "订单收入 请输入正数"
+                        title: "订单收入 请输入非负数"
                     });
                     return;
                 }
 
-                if (!express.test(priceEach)||priceEach==0){
+                if (!express.test($scope.priceEach)){
                     $ionicPopup.alert({
-                        title: "采购价格 请输入正数"
+                        title: "采购价格 请输入非负数"
                     });
                     return;
                 }
@@ -319,18 +329,6 @@
                     localQuantities.push(Number($(this).val()));
                 });
 
-                // if ($scope.chooseMaterials.length>0){
-                //     angular.forEach($scope.chooseMaterials,function (item, index, array) {
-                //         localMaterials.push({
-                //             Item_Code__c:item.Name,
-                //             Required_Quantity__c:localQuantities[index],
-                //             Item_Description__c:item.parts_description__c,
-                //             Factory__c:item.Factory__c,
-                //             Unite_Price__c:item.Cost_Price__c
-                //         });
-                //     });
-                // }
-
 
                 var procurementInfo= {
                     recordType:$('#recordTypeList option:selected').val(),
@@ -338,9 +336,9 @@
                     Procurement_Description__c:$("#purchaseDesc").val().trim(),
                     Status__c:$('#statusList option:selected').val(),
                     Tax__c:$('#recordTypeList option:selected').val(),
-                    Revenue__c:$("#revenue").val().trim(),
-                    Price_without_Tax__c:$("#priceEach").val().trim(),
-                    Profit__c:$("#profit").val().trim(),
+                    Revenue__c:$scope.revenue,
+                    Price_without_Tax__c:$scope.priceEach,
+                    Profit__c:$scope.profitRate,
                     Remarks__c:$("#purchaseMore").val().trim()
                 };
                 AppUtilService.showLoading();
