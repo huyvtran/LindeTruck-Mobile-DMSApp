@@ -243,17 +243,22 @@
             };
 
             $scope.chooseCurrentMaterial = function(obj){
-                obj.Required_Quantity__c = 1;
+
+                var objOther = {};
+                objOther.Item_Code__c =obj.Name!=null?obj.Name:"";
+                objOther.Required_Quantity__c =1;
+                objOther.Item_Description__c =obj.parts_description__c!=null?obj.parts_description__c:"";
+                objOther.Factory__c =obj.Factory__c!=null?obj.Factory__c:"";
+                objOther.Unite_Price__c =obj.Cost_Price__c!=null?obj.Cost_Price__c:"";
+
                 if ($scope.chooseMaterials.length>0){
-                    angular.forEach($scope.chooseMaterials,function (item,index,array) {
-                        if ($scope.chooseMaterials[index].Name == obj.Name){
-                            $scope.chooseMaterials[index].Required_Quantity__c+=1;
-                        }else{
-                            $scope.chooseMaterials.push(obj);
+                    for(var i =0;i<$scope.chooseMaterials.length;i++){
+                        if ($scope.chooseMaterials[i].Item_Code__c!=obj.Name){
+                            $scope.chooseMaterials.push(objOther);
                         }
-                    });
+                    }
                 }else{
-                    $scope.chooseMaterials.push(obj);
+                    $scope.chooseMaterials.push(objOther);
                 }
 
 
