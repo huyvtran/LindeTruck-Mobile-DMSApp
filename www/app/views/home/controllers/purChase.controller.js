@@ -165,7 +165,7 @@
                     });
                     return;
                 }
-                AppUtilService.showLoading();
+                //AppUtilService.showLoading();
                 ProcurementInfoService.querySupplierInformation(nameOrId).then(function success(res) {
                     $log.info(res);
                     console.log(res);
@@ -179,11 +179,11 @@
                         });
                         $scope.allBusinesses=[];
                     }
-                    AppUtilService.hideLoading();
                 },function error(msg) {
                     $log.error(msg);
                     console.log(msg);
-                    AppUtilService.hideLoading();
+                }).finally(function () {
+                    //AppUtilService.hideLoading();
                 });
             };
 
