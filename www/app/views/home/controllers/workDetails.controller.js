@@ -611,10 +611,6 @@ angular.module('oinio.workDetailsControllers', [])
                 return;
             }
 
-            //*********保存配件************* */
-            $scope.regroupPartListForSave();
-            //********************** */
-
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
                     localUris.push(($scope.imgUris[i]).slice(23));
@@ -632,7 +628,11 @@ angular.module('oinio.workDetailsControllers', [])
 
             SOrderService.workDetailSaveButton(order, $scope.allTruckItems, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
                 console.log(result);
-                $state.go("app.home");
+                
+                //*********保存配件************* */
+            $scope.regroupPartListForSave();
+            //********************** */
+
             }, function error(error) {
                 $log.error(error);
             });
@@ -1048,7 +1048,7 @@ angular.module('oinio.workDetailsControllers', [])
             ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'POST', {}, null, function (responseSaveParts) {
                 AppUtilService.hideLoading();
                 console.log("responseSaveParts:", responseSaveParts);
-
+                $state.go("app.home");
 
             }, function (error) {
                 console.log("responseSaveParts_error:", error);
