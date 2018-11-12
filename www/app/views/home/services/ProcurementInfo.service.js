@@ -194,7 +194,7 @@
                     var sql = "select {parts__c:_soup}\
                          from {parts__c}\
                          where {parts__c:Name} like '%"+materialName+"%'\
-                    order by {parts__c:_soupEntryId}";
+                    order by {parts__c:_soupEntryId} limit 100";
                     console.log('current query sql:::', sql);
 
                     var querySmInfo= navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
