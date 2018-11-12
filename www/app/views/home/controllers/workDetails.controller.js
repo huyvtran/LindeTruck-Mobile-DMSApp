@@ -1093,20 +1093,20 @@ angular.module('oinio.workDetailsControllers', [])
         /**
  *删除数组指定下标或指定对象
  */
-Array.prototype.remove=function(obj){
-    for(var i =0;i <this.length;i++){
-        var temp = this[i];
-        if(!isNaN(obj)){
-            temp=i;
-        }
-        if(temp == obj){
-            for(var j = i;j <this.length;j++){
-                this[j]=this[j+1];
+        Array.prototype.remove = function (obj) {
+            for (var i = 0; i < this.length; i++) {
+                var temp = this[i];
+                if (!isNaN(obj)) {
+                    temp = i;
+                }
+                if (temp == obj) {
+                    for (var j = i; j < this.length; j++) {
+                        this[j] = this[j + 1];
+                    }
+                    this.length = this.length - 1;
+                }
             }
-            this.length = this.length-1;
         }
-    }
-}
         $scope.openRefundPage = function () {
             $("input.refundcheckbox").each(function (index, element) {
                 if (element.checked) {
@@ -1150,7 +1150,7 @@ Array.prototype.remove=function(obj){
                                 element.Delivery_Line_Item__r.push($scope.rejectedItems[i].Delivery_Line_Item__r[j]);
                             }
                         }
-                        
+
                     }
                 }
             }
@@ -1165,8 +1165,8 @@ Array.prototype.remove=function(obj){
         };
         //退件接口
         $scope.getRefundList = function () {
-            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
-            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
+            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
+            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
                 AppUtilService.hideLoading();
                 console.log("responseGetDelivery:", responseGetDelivery);
                 $scope.rejectedItems = responseGetDelivery;
@@ -1201,8 +1201,46 @@ Array.prototype.remove=function(obj){
                 });
             }
         };
-        $scope.checkOneBoxRefund = function () {
 
+        $scope.popupRefundContext = function (reitems) {
+            var setButtons = [];
+            setButtons = [
+                {
+                    text: '取消',
+                }
+            ];
+            // 自定义弹窗
+            myPopup = $ionicPopup.show({
+                title: '<div><span>交货单状态:' + reitems.D_Status__c + '</span></div>' +
+                    '<div><span>到货物流单号:' + reitems.Tracking_Number__c + '</span></div>' +
+                    '<div><span>到货物流状态:' + reitems.TrackState + '</span></div>' +
+                    '<div><span>退货物流单号:' + reitems.Return_Tracking_Number__c + '</span></div>' +
+                    '<div><span>退货物流状态:' + reitems.ReturnTrackState + '</span></div>',
+                scope: $scope,
+                buttons: setButtons
+            });
+            myPopup.then(function (res) {
+                console.log('Tapped!', res);
+            });
+
+        };
+        $scope.popupRefundContextItem = function (item) {
+            var setButtons = [];
+            setButtons = [
+                {
+                    text: '取消',
+                }
+            ];
+            // 自定义弹窗
+            myPopup = $ionicPopup.show({
+                title: '<div><span>退件原因:' + item.Return_Reason__c + '</span></div>' +
+                    '<div><span>备注:' + '' + '</span></div>',
+                scope: $scope,
+                buttons: setButtons
+            });
+            myPopup.then(function (res) {
+                console.log('Tapped!', res);
+            });
         };
     });
 

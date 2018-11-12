@@ -672,7 +672,7 @@
 								<div class="refund_first">
 									<!-- <div class="arrow_Down_Black"></div> -->
 									<div class="box_num"> 交货单号: {{reitems.SAP_Delivery_Order__c}}</div>
-									<div class="explain_Icon"> </div>
+									<div class="explain_Icon" ng-click="popupRefundContext(reitems)"> </div>
 									<div class="explain_Text to_Hide">
 										<div class="dis_flex">
 											<span>交货单状态:</span>
@@ -716,7 +716,7 @@
 													<div> {{item.Used_Quantity__c}} </div>
 												</td>
 												<td class="sv_Td">
-													<div class="explain_Icon"> </div>
+													<div class="explain_Icon" ng-click="popupRefundContextItem(item)"> </div>
 													<div class="explain_Text to_Hide">
 														<div>
 															<span>退件原因:</span>

@@ -710,7 +710,7 @@ img {
 }
 .workListDetails_bodyer .refund_first {
     display: flex;
-    width: 100%;
+    /* width: 100%; */
     position: relative;
     margin: 0 5%;
     height: 30px;
