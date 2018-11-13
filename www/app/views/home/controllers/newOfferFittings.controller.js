@@ -85,9 +85,9 @@ angular.module('oinio.NewOfferFittingsController', [])
 
             $scope.get();
         });
-        // $scope.toSetInitView =  function () {
-        //     //初始化弹框
+        // $(document).ready(function () {            //初始化弹框
         //     document.addEventListener('click', function (e) {
+        //         console.log('htmlEl.onclick',e);
 
         //         if (e.target === document.getElementById('btn_modify_Btn')) {
         //             $scope.toDisplayModifyDiv();
@@ -104,7 +104,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         //             }
         //         }
         //     });
-        // };
+        // });
         $scope.toDisBothModifyDiv =  function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
@@ -149,6 +149,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         //搜索配件
         $scope.getTrucks = function (keyWord) {
             AppUtilService.showLoading();
+            $scope.contentTruckFitItems = [];
             // $scope.contentTruckFitItems = [{ Id: "a1Cp0000001W16yEAC1", Name: "8712" }, { Id: "a1Cp0000001W16yEAC2", Name: "9272" }, { Id: "a1Cp0000001W16yEAC3", Name: "8872" }];
             console.log("getTrucks::", keyWord);
             let parts_number__cList = [];

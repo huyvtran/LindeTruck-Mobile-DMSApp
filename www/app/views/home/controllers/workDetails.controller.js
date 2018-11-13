@@ -55,6 +55,21 @@ angular.module('oinio.workDetailsControllers', [])
 
 
         });
+
+        // $(document).ready(function () {
+        //     var htmlEl = angular.element(document.querySelector('html'));
+        //     htmlEl.on('click', function (event) {
+        //         console.log('htmlEl.onclick',event);
+
+        //         if (event.target.nodeName === 'HTML') {
+        //             // console.log('event.target.nodeName',event.target.nodeName);
+        //             document.getElementById("describInfDiv").style.display = "none";//隐藏
+        //     document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+        //     document.getElementById("btn_import_Div").style.display = "none";//隐藏
+        //     document.getElementById("btn_refund_Div").style.display = "none";//隐藏
+        //         }
+        //     });
+        // });
         $scope.$on('$ionicView.afterEnter', function () {
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
@@ -1207,8 +1222,8 @@ angular.module('oinio.workDetailsControllers', [])
         };
         //退件接口
         $scope.getRefundList = function () {
-            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
-            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
+            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
+            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
                 AppUtilService.hideLoading();
                 console.log("responseGetDelivery:", responseGetDelivery);
                 $scope.rejectedItems = responseGetDelivery;
