@@ -127,27 +127,31 @@ angular.module('oinio.workDetailsControllers', [])
             //     $("#call_str").attr("disabled", "disabled");
             // }
 
-            var numArr1 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-            var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
-            var mobileSelect3 = new MobileSelect({
-                trigger: '#leave',
-                title: '选择工作时长',
-                wheels: [
-                    {
-                        data: numArr1
-                    },
-                    {
-                        data: numArr2
-                    }
-                ],
-                position: [0, 0, 0],
-                callback: function (indexArr, data) {
-                    $("#leave").text("离开");
-                    h = parseInt(data[0].substring(6, 8));
-                    m = parseInt(data[1].substring(6, 8));
-                    checkHours();
-                }
-            });
+            /**
+             * 暂时取消选择工作时长弹出框
+             * @type {string[]}
+             */
+            // var numArr1 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+            // var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
+            // var mobileSelect3 = new MobileSelect({
+            //     trigger: '#leave',
+            //     title: '选择工作时长',
+            //     wheels: [
+            //         {
+            //             data: numArr1
+            //         },
+            //         {
+            //             data: numArr2
+            //         }
+            //     ],
+            //     position: [0, 0, 0],
+            //     callback: function (indexArr, data) {
+            //         $("#leave").text("离开");
+            //         h = parseInt(data[0].substring(6, 8));
+            //         m = parseInt(data[1].substring(6, 8));
+            //         checkHours();
+            //     }
+            // });
 
             vm.isOnline = ConnectionMonitor.isOnline();
             if (oCurrentUser) {
@@ -339,31 +343,69 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
 
-        var checkHours = function () {
+
+        /**
+         * 取消选择工作时长
+         * 查看doLeave方法
+         */
+
+        // var checkHours = function () {
+        //     if (arriveTime == null) {
+        //         $ionicPopup.alert({
+        //             title: "请选择到达时间"
+        //         });
+        //     } else {
+        //         finishTime = new Date();
+        //         if (finishTime.getHours() - arriveTime.getHours() > h) {
+        //             var min = checkMinutes();
+        //             if (min.index == 1) {
+        //                 startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
+        //             } else {
+        //                 startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h - 1) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
+        //             }
+        //         } else {
+        //             startTime = arriveTime;
+        //             h = finishTime.getHours() - arriveTime.getHours();
+        //             m = finishTime.getMinutes() - arriveTime.getMinutes();
+        //             if (m < 0) {
+        //                 m += 60;
+        //                 --h;
+        //             }
+        //         }
+        //         leaveTime = new Date();
+        //         $("#leave")[0].style.backgroundColor = "#00FF7F"
+        //     }
+        // };
+
+        /**
+         * 点击离开按钮
+         * @param $event
+         */
+        $scope.doLeave=function($event){
             if (arriveTime == null) {
                 $ionicPopup.alert({
                     title: "请选择到达时间"
                 });
-            } else {
-                finishTime = new Date();
-                if (finishTime.getHours() - arriveTime.getHours() > h) {
-                    var min = checkMinutes();
-                    if (min.index == 1) {
-                        startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
-                    } else {
-                        startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h - 1) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
-                    }
-                } else {
-                    startTime = arriveTime;
-                    h = finishTime.getHours() - arriveTime.getHours();
-                    m = finishTime.getMinutes() - arriveTime.getMinutes();
-                    if (m < 0) {
-                        m += 60;
-                        --h;
-                    }
+            }else{
+                if (leaveTime!=null||finishTime!=null){
+                    return false;
                 }
-                leaveTime = new Date();
-                $("#leave")[0].style.backgroundColor = "#00FF7F"
+                $ionicPopup.show({
+                    title: '是否确定到达？',
+                    buttons: [{
+                        text: '取消',
+                        onTap: function () {
+
+                        }
+                    }, {
+                        text: '确定',
+                        onTap: function () {
+                            finishTime = new Date();
+                            leaveTime = finishTime;
+                            $event.target.style.backgroundColor = "#00FF7F";
+                        }
+                    }],
+                });
             }
         };
 
