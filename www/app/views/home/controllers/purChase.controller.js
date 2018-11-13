@@ -220,7 +220,7 @@
                     return;
                 }
                 $scope.allMaterial=[];
-                AppUtilService.showLoading();
+                //AppUtilService.showLoading();
                 ProcurementInfoService.queryServiceMaterial(searchName).then(function success(res) {
                     $log.info(res);
                     console.log(res);
@@ -234,11 +234,13 @@
                         });
                         $scope.allMaterial=[];
                     }
-                    AppUtilService.hideLoading();
+                    //AppUtilService.hideLoading();
                 },function error(msg) {
                     $log.error(msg);
                     console.log(msg);
-                    AppUtilService.hideLoading();
+                    //AppUtilService.hideLoading();
+                }).finally(function () {
+                    //AppUtilService.hideLoading();
                 });
             };
 
