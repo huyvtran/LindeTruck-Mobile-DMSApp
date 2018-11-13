@@ -54,6 +54,58 @@
             };
 
             /**
+             * To update the account office location information
+             * @param acctId  {string} account id
+             * @param theLongitude {double} 经度
+             * @param theLatitude {double} 纬度
+             */
+            this.updateAcctOfficeLocation = function (acctId, theLongitude, theLatitude ) {
+                var deferred = $q.defer();
+
+                service.getAccount(acctId).then(function (acctObj){
+                    acctObj['Office_Location__longitude__s'] = theLongitude;
+                    acctObj['Office_Location__latitude__s'] = theLatitude;
+
+                    LocalDataService.updateSObjects('Account', [acctObj]).then(function(result) {
+                        console.log('acct OfficeLocation localSave:::',result);
+                        if (!result){
+                            console.log('Failed to get result!');
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        deferred.resolve(result);
+                    }, function (error) {
+                        console.log(error);
+                        deferred.reject('Failed to update account!');
+                    });
+                }).then(function (res) {
+                    return service.synchronize();
+                }).then(function () {
+                    deferred.resolve('done');
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
+
+                return deferred.promise;
+            }
+
+            this.synchronize = function () {
+                var deferred = $q.defer();
+
+                if (ConnectionMonitor.isOnline()) {
+                    IonicLoadingService.show($filter('translate')('cl.sync.lb_synchronizing'));
+                    LocalSyncService.syncUpObjectByAll().then(function () {
+                        IonicLoadingService.hide();
+                        deferred.resolve();
+                    });
+                } else {
+                    deferred.resolve();
+                }
+
+                return deferred.promise;
+            };
+
+            /**
              * @func  getAccount
              * @desc  get Account (basic info) by Id
              * @param {String} Id - Account.Id
@@ -79,6 +131,8 @@
                                 Salesman__c: entry[0].Salesman__c,
                                 Salesman_formula__c: entry[0].Salesman_formula__c,
                                 Sale_Group_Code__c: entry[0].Sale_Group_Code__c,
+                                Office_Location__longitude__s: entry[0].Office_Location__longitude__s,//新增经度
+                                Office_Location__latitude__s: entry[0].Office_Location__latitude__s,//新增纬度
                                 _soupEntryId: entry[0]._soupEntryId
                             };
                         });
