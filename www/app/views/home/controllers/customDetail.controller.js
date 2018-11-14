@@ -224,7 +224,7 @@
                                 console.log(position);
                                 $scope.localLatitude = position.coords.latitude;
                                 $scope.localLongitude = position.coords.longitude;
-                                AccountService.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLatitude,$scope.localLongitude).then(function success(res) {
+                                AccountService.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLongitude,$scope.localLatitude).then(function success(res) {
                                     console.log(res);
                                 },function error(msg) {
                                     console.log(msg);
