@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>custom Information</title>
 	<link rel="stylesheet" href="././css/customInf.css">
-
+	<script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
 	<style type="text/css">
 		.search_Photo_Icon {
 			background-image: url(././img/images/search-photo_icon.png);
@@ -96,6 +96,24 @@
 				</div>
 			</div>
 
+			<div class="small_Type_Group ">
+				<div class="small_Type_Title_Group " ng-click="toDisplayLocation();">
+					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->
+					<div class="OpenClose_Btn arrow_Left_Red " id="div_LocationImg"></div>
+					<div class="small_Type_Title "> GPS信息读取 </div>
+				</div>
+				<div class="inf_Box_Group" id="locationInfo">
+					<div class="inf_Box ">
+                        <div class="inf_Right_Text " ng-click="readGpsFromImg();"> 获取GPS信息</div>
+					</div>
+                    <div class="inf_Box ">
+                        <div class="inf_Right_Text " ng-cloak>当前经度:{{localLatitude}} </div>
+                    </div>
+                    <div class="inf_Box ">
+                        <div class="inf_Right_Text " ng-cloak>当前纬度:{{localLongitude}} </div>
+                    </div>
+				</div>
+			</div>
 			<div class="small_Type_Group ">
 				<div class="small_Type_Title_Group " ng-click="toDisplayLabel()">
 					<!-- 切换收缩开关arrow_Down_Red / arrow_Left_Red -->

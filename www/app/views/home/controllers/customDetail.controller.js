@@ -2,9 +2,11 @@
     'use strict';
 
     angular.module('oinio.CustomDetailController', [])
-        .controller('CustomDetailController', function ($scope, $ionicPopup, $filter, $rootScope, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService
-            , AppUtilService) {
+        .controller('CustomDetailController', function ($scope, $ionicPopup, $filter, $rootScope, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService,
+                                                        AppUtilService) {
             var myfileEntity;
+            $scope.localLatitude = null;
+            $scope.localLongitude = null;
             var fileTextresult;
             // cordova.plugins.backgroundMode.overrideBackButton();
             //创建文件
@@ -57,11 +59,9 @@
             var getBaseInfo = function () {
                 //调用接口获取结果
                 console.log("$stateParams.SendPassId", $stateParams.SendPassId);
+                AppUtilService.showLoading();
                 AccountService.getAccountWithDetails($stateParams.SendPassId).then(function (account) {
                     console.log("getAccount", account);
-
-
-
                     if (account != null) {
                         $scope.accountName = account.Name;
                         $scope.accountAddress = account.Address__c;
@@ -85,6 +85,8 @@
                     }
                 }, function (error) {
                     $log.error('AccountService.searchAccounts Error ' + error);
+                }).finally(function () {
+                    AppUtilService.hideLoading();
                 });
             };
 
@@ -103,6 +105,7 @@
 
             document.getElementById("contactsInfo").style.display = "none";//隐藏
             document.getElementById("contractInfo").style.display = "none";//隐藏
+            document.getElementById("locationInfo").style.display = "none";//隐藏
             document.getElementById("labelInfo").style.display = "none";//隐藏
             document.getElementById("offerInfo").style.display = "none";//隐藏
             document.getElementById("carstopInfo").style.display = "none";//隐藏
@@ -136,6 +139,16 @@
                 } else {
                     document.getElementById("contractInfo").style.display = "none";//隐藏
                     document.getElementById("div_ContractImg").className = "OpenClose_Btn arrow_Left_Red";
+
+                }
+            };
+            $scope.toDisplayLocation = function(){//GPS信息读取
+                if (document.getElementById("locationInfo").style.display == "none") {
+                    document.getElementById("locationInfo").style.display = "block";//显示
+                    document.getElementById("div_LocationImg").className = "OpenClose_Btn arrow_Down_Red";
+                } else {
+                    document.getElementById("locationInfo").style.display = "none";//隐藏
+                    document.getElementById("div_LocationImg").className = "OpenClose_Btn arrow_Left_Red";
 
                 }
             };
@@ -201,7 +214,38 @@
             $scope.goBack = function () {
                 // $ionicHistory.goBack();
                 window.history.back();
-            }
+            };
+
+            $scope.readGpsFromImg =function () {
+                try {
+                    navigator.camera.getPicture(function onPhotoDataSuccess(imgData) {
+                            console.log(imgData);
+                            navigator.geolocation.getCurrentPosition(function success(position) {
+                                console.log(position);
+                                $scope.localLatitude = position.coords.latitude;
+                                $scope.localLongitude = position.coords.longitude;
+                                AccountService.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLatitude,$scope.localLongitude).then(function success(res) {
+                                    console.log(res);
+                                },function error(msg) {
+                                    console.log(msg);
+                                });
+                            }, function error(msg) {
+
+                                console.log(msg);
+                            });
+                        },
+                        function onError(error) {
+                            return;
+                        }
+                        , {
+                            quality: 50,
+                            destinationType: Camera.DestinationType.FILE_URI
+                        }
+                    );
+                } catch (e) {
+                    return;
+                }
+            };
 
             //写入文件
             var writeFile = function (fileEntry, dataObj) {

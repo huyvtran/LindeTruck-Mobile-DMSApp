@@ -10,7 +10,8 @@
      */
     angular
         .module('oinio.services')
-        .service('AccountService', function($q, $log, LocalDataService, SMARTSTORE_COMMON_SETTING) {
+        .service('AccountService', function($q, $log, $filter,LocalDataService, SMARTSTORE_COMMON_SETTING,ConnectionMonitor,
+                                            LocalSyncService,IonicLoadingService) {
 
             let service = this;
 
