@@ -1,5 +1,5 @@
 angular.module('oinio.NewOfferController', [])
-    .controller('NewOfferController', function ($scope,$log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, SQuoteService) {
+    .controller('NewOfferController', function ($scope,$log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, ForceClientService, AppUtilService,SQuoteService) {
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
@@ -7,6 +7,7 @@ angular.module('oinio.NewOfferController', [])
         let trucksLevels = [];
         $scope.contentTruckItems = [];
         $scope.selectedTruckItems = [];
+        $scope.serviceSatusUrl = "/ServiceQuoteOverviewStatus/";
         $(document).ready(function () {
         });
         $scope.$on('$ionicView.enter', function () {
@@ -18,6 +19,19 @@ angular.module('oinio.NewOfferController', [])
         $scope.goBack = function () {
             window.history.back();
         };
+
+        $scope.getServiceSatus = function (getId) {
+            AppUtilService.showLoading();
+            //审批状态
+            ForceClientService.getForceClient().apexrest($scope.serviceSatusUrl + getId, 'GET', {}, null, function (response) {
+                console.log("getServiceSatus_success:", response);
+                $scope.serviceSatus = response.status;
+                AppUtilService.hideLoading();
+            }, function (error) {
+                console.log("getServiceSatus_error:", error);
+                AppUtilService.hideLoading();
+            });
+        }
 
         $scope.openSelectPage = function (ele) {
             console.log('cssss:::', $('#selectCustomer'));
@@ -100,6 +114,7 @@ angular.module('oinio.NewOfferController', [])
                 selectAcctSetId = acct.Id;
                 $scope.searchResultAddress = response.Address__c;
                 $scope.searchResultAcctName = response.Name;
+                $scope.getServiceSatus(selectAcctSetId);
             }, function (error) {
                 $log.error('getAccount Error ' + error);
             }).finally(function () {

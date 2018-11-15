@@ -75,26 +75,27 @@ angular.module('oinio.RefundController', [])
             });
         };
         $scope.goToSaveAndSubmit = function () {
-            // console.log("$scope.selectRefundInfo:", $scope.selectRefundInfo);
-            // AppUtilService.showLoading();
-            // var payload = $scope.paramSaveDeliveryOrdersUrl +JSON.stringify($scope.selectRefundInfo);
-            // console.log("payload", payload);
-            // ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
-            //     console.log("POST_success:", response);
+            console.log("$scope.selectRefundInfo:", $scope.selectRefundInfo);
+            AppUtilService.showLoading();
+            var payload = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo);
+            console.log("payload", payload);
+            ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
+                console.log("POST_success:", response);
+                AppUtilService.hideLoading();
 
-            // }, function (error) {
-            //     console.log("POST_error:", error);
-            //     AppUtilService.hideLoading();
-            //     var ionPop = $ionicPopup.alert({
-            //         title: "保存失败"
-            //     });
+            }, function (error) {
+                console.log("POST_error:", error);
+                AppUtilService.hideLoading();
+                var ionPop = $ionicPopup.alert({
+                    title: "保存失败"
+                });
+            });
+            // var ionPop = $ionicPopup.alert({
+            //     title: "提交成功"
             // });
-            var ionPop = $ionicPopup.alert({
-                title: "提交成功"
-            });
-            ionPop.then(function (res) {
-                $ionicHistory.goBack();
-            });
+            // ionPop.then(function (res) {
+            //     $ionicHistory.goBack();
+            // });
         };
     });
 
