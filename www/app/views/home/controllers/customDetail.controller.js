@@ -2,7 +2,7 @@
     'use strict';
 
     angular.module('oinio.CustomDetailController', [])
-        .controller('CustomDetailController', function ($scope, $ionicPopup, $filter, $rootScope, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService,
+        .controller('CustomDetailController', function ($scope, $http,$ionicPopup, $filter, $rootScope, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService,
                                                         AppUtilService) {
             var myfileEntity;
             $scope.localLatitude = null;
@@ -245,6 +245,21 @@
                 } catch (e) {
                     return;
                 }
+            };
+
+
+            $scope.jumpToLocalMapApp = function (addressStr) {
+                $http({
+                    method: 'GET',
+                    url: 'http://api.map.baidu.com/place/v2/search?query='+
+                    JSON.stringify(addressStr)+'&bounds=19.356894,73.324615,53.583491,134.845176&output=json&ak=RBfIl5ZzQ4BowljtLFOHurr4DEp8hAoo'
+                }).then(function successCallback(response) {
+                    // 请求成功执行代码
+                    console.log("successCallback",response);
+                }, function errorCallback(response) {
+                    // 请求失败执行代码
+                    console.log("errorCallback",response);
+                });
             };
 
             //写入文件

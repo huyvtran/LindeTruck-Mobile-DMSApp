@@ -42,6 +42,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.savePartsUrl = "/ServiceOrderMaterial?newServiceOrderMaterial=";
         $scope.getPartsForReadUrl = "/ServiceOrderMaterial/";
         $scope.getDeliveryOrder = "/DeliveryOrder/";
+        $scope.workers="";
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -695,6 +696,18 @@ angular.module('oinio.workDetailsControllers', [])
             });
 
 
+        };
+
+        $scope.selectWorkers = function () {
+            document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectWorkersPage").style.display = "block";
+        };
+
+        $scope.hideSelectWorkersPage=function(){
+            document.getElementById("workDetailTotal").style.display = "block";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectWorkersPage").style.display = "none";
         };
 
         $scope.showDetailsMoreInf = function () {
