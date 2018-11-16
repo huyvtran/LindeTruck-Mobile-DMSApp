@@ -18,9 +18,48 @@ angular.module('oinio.newWorkListControllers', [])
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
 
-            vm.adrs.push({label:'工单',value:'Work Order'});
-            vm.adrs.push({label:'客户咨询',value:'Customer Consult'});
-            vm.adrs.push({label:'客户投诉',value:'Customer Complaint'});
+            // vm.adrs.push({label:'工单',value:'Work Order'});
+            // vm.adrs.push({label:'客户咨询',value:'Customer Consult'});
+            // vm.adrs.push({label:'客户投诉',value:'Customer Complaint'});
+
+            vm.adrs.push({ label: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service' });
+            vm.adrs.push({ label: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg' });
+            vm.adrs.push({ label: 'ZS02_Z20', value: 'Z20 Service contract job\t' });
+            vm.adrs.push({ label: 'ZS02_Z21', value: 'Z21 LTR service with Contract' });
+            vm.adrs.push({ label: 'ZS02_Z22', value: 'Z22 LTR service with contract(RE)' });
+            vm.adrs.push({ label: 'ZS03_Z30', value: 'Z30 Asset (STR) service' });
+            vm.adrs.push({ label: 'ZS03_Z31', value: 'Z31 In-Stock Truck(cost only)' });
+            vm.adrs.push({ label: 'ZS03_Z33', value: 'Z33 Support job for Service' });
+            vm.adrs.push({ label: 'ZS03_Z35', value: 'Z35 Service Engineer Training' });
+            vm.adrs.push({ label: 'ZS03_Z36', value: 'Z36 Service Marketing Campaign\t' });
+            vm.adrs.push({
+                label: 'ZS03_Z37',
+                value: 'Z37 Internal maintenance for in-Stock Truck(value change)'
+            });
+            vm.adrs.push({ label: 'ZS03_Z38', value: 'Z38 Internal Cross-region billing' });
+            vm.adrs.push({ label: 'ZS03_Z39', value: 'Z39 Asset (STR) service(RE)' });
+            vm.adrs.push({ label: 'ZS03_Z3A', value: 'Z3A FOC Service from Truck Sales' });
+            vm.adrs.push({ label: 'ZS03_ZH1', value: 'ZH1 HQ Truck maintenance' });
+            vm.adrs.push({ label: 'ZS03_ZH2', value: 'ZH2 Testing truck event' });
+            vm.adrs.push({ label: 'ZS03_ZH3', value: 'ZH3 QM analyses' });
+            vm.adrs.push({ label: 'ZS03_ZH4', value: 'ZH4 anti-explosion truck reproduct' });
+            vm.adrs.push({ label: 'ZS03_ZOC', value: 'ZOC aftersales order changed\t' });
+            vm.adrs.push({
+                label: 'ZS03_ZR1',
+                value: 'ZR1 Internal maintenance for rental truck refurbishment'
+            });
+            vm.adrs.push({ label: 'ZS03_ZR2', value: 'ZR2 LRental truck refurbishment' });
+            vm.adrs.push({ label: 'ZS03_ZR3', value: 'ZR3 SRental truck refurbishment\t' });
+            vm.adrs.push({ label: 'ZS03_ZSS', value: 'ZSS sales support service' });
+            vm.adrs.push({ label: 'ZS03_ZTD', value: 'ZTD shipping damage' });
+            vm.adrs.push({ label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service\t' });
+            vm.adrs.push({ label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)' });
+            vm.adrs.push({ label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment' });
+            vm.adrs.push({ label: 'ZS08_Z80', value: 'Z80 Warranty' });
+            vm.adrs.push({ label: 'ZS08_Z81', value: 'Z81 Warranty job1' });
+            vm.adrs.push({ label: 'ZS08_Z82', value: 'Z82 Warranty job2' });
+            vm.adrs.push({ label: 'ZS08_Z83', value: 'Z83 Warranty job3' });
+
 
             vm.priorities.push({label:'紧急',value:'Urgent'});
             vm.priorities.push({label:'高',value:'High'});
