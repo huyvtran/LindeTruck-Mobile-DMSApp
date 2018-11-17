@@ -761,13 +761,13 @@
 			</div>
 			<div class="next_Footer">
 				<div class="schedule_Group">
-					<div class="schedule_Btn" ng-click="getArrivalTime($event);">到达</div>
+					<button class="schedule_Btn" id="arriveBtn" ng-click="getArrivalTime($event);">到达</button>
 					<div class="next_Schedule_Icon"></div>
-					<div class="schedule_Btn" id="leave" ng-click="doLeave($event);">离开</div>
+					<button class="schedule_Btn" id="leave" ng-click="doLeave($event);">离开</button>
 					<div class="next_Schedule_Icon"></div>
-					<div class="schedule_Btn" ng-click="doPrint($event);">打印</div>
+					<button class="schedule_Btn" id="printBtn" ng-click="doPrint($event);">打印</button>
 					<div class="next_Schedule_Icon"></div>
-					<div class="schedule_Btn" ng-click="signBill($event);">签单</div>
+					<button class="schedule_Btn" id="signBillBtn" ng-click="signBill($event);">签单</button>
 				</div>
 			</div>
 			<div class="footer">
@@ -845,22 +845,22 @@
 				<div class="back_Icon"></div>
 			</div>
 			<div class="search_All" >
-				<input type="text" id="searchBig1" placeholder="搜索" class="search_Input"/>
+				<input type="text" id="searchWorkers" placeholder="搜索" class="search_Input" ng-model="searchWorkersText"/>
 			</div>
-			<div class="search_right_Group" id="cancleBtn2">
+			<div class="search_right_Group" id="cancleBtn2" ng-click="getWorkers(searchWorkersText);">
 				<div class="text_Cancel"> 搜索 </div>
 			</div>
 		</div>
 		<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
 			<div class="selectTruck_Tabs" style="">
-				<div id="selectTruck_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active">
+				<div id="selectWorker_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeWorkerTab('1');">
 					<span class="selectTruck_Tab_Text" style="">搜索结果</span>
 				</div>
-				<div id="selectTruck_Tab_2" class="selectTruck_Tab">
+				<div id="selectWorker_Tab_2" class="selectTruck_Tab" ng-click="changeWorkerTab('2');">
 					<span class="selectTruck_Tab_Text" style="">已派人员</span>
 				</div>
 			</div>
-			<div id="selectTruck_result" class="big_Box_Group" style="display: block;">
+			<div id="selectWorker_result" class="big_Box_Group" style="display: block;">
 				<div class="small_Box_Title"> <input id="ckbox_truck_searchresult_all" style="" type="checkbox"/> 全选 </div>
 				<ion-list can-swipe="true">
 					<ion-item id="items4"   ng-cloak  class="small_Box_Text">
@@ -868,7 +868,7 @@
 					</ion-item>
 				</ion-list>
 			</div>
-			<div id="selectTruck_checked" class="big_Box_Group" style="display: none;">
+			<div id="selectWorker_checked" class="big_Box_Group" style="display: none;">
 				<div class="small_Box_Title"> <img  src="././img/images/del_red_icon.png"/> 全选删除 </div>
 				<ion-list can-swipe="true">
 					<ion-item id="items5"  ng-cloak  class="small_Box_Text">

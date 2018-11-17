@@ -25,8 +25,8 @@ angular.module('oinio.workDetailsControllers', [])
             regroupPartList = [], ///配件组装数据用于保存
             h = 0,
             m = 0,
+            selectTypeIndex=0,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
-
         vm.isOnline = null;
 
         //配件相关init
@@ -42,19 +42,18 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.savePartsUrl = "/ServiceOrderMaterial?newServiceOrderMaterial=";
         $scope.getPartsForReadUrl = "/ServiceOrderMaterial/";
         $scope.getDeliveryOrder = "/DeliveryOrder/";
+        $scope.getInitPicUri="/WorkDetailService/";
         $scope.workers="";
+        $scope.searchWorkersText="";
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
          */
         $scope.$on('$ionicView.beforeEnter', function () {
-
             document.getElementById("describInfDiv").style.display = "none";//隐藏
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
             document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-
-
         });
 
         // $(document).ready(function () {
@@ -84,11 +83,17 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("$stateParams.workDescription", $stateParams.workDescription);
             console.log("$stateParams.goOffTime", $stateParams.goOffTime);
             console.log("$stateParams.isNewWorkList", $stateParams.isNewWorkList);
+            console.log("$stateParams.selectTypeIndex", $stateParams.selectWorkTypeIndex);
+
             userInfoId = $stateParams.SendInfo;
             Account_Ship_to__c = $stateParams.AccountShipToC;
             workDescription = $stateParams.workDescription;
             goOffTimeFromPrefix = $stateParams.goOffTime;
             allowEdit = $stateParams.isNewWorkList;
+
+            if($stateParams.selectWorkTypeIndex!=null){
+                selectTypeIndex = $stateParams.selectWorkTypeIndex;
+            }
 
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
@@ -103,6 +108,27 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 }
                 ownerName = result.Service_Order_Owner__r.Name != null ? result.Service_Order_Owner__r.Name : "";
+                //获取图片
+                ForceClientService.getForceClient()
+                    .apexrest(
+                        $scope.getInitPicUri + orderDetailsId +'/' +oCurrentUser.Id,
+                        'GET',
+                        {
+
+                        },null,function success(res) {
+                            console.log(res);
+                            if (res.Photo!=undefined||res.Photo!=null){
+
+                            }
+                            if(res.assignUser!=undefined || res.assignUser!=null){
+                              for (var i=0;i<res.assignUser.length;i++){
+
+                              }
+                            }
+                        },
+                        function error(msg) {
+                            console.log(msg);
+                        });
 
                 //*********读取配件*************** */
                 $scope.getPartListForRead();
@@ -133,6 +159,7 @@ angular.module('oinio.workDetailsControllers', [])
                 console.log(msg);
             });
 
+
             //***********交货列表************** */
             $scope.getRefundList();
             //************************* */
@@ -142,6 +169,27 @@ angular.module('oinio.workDetailsControllers', [])
             // } else {
             //     $("#call_str").attr("disabled", "disabled");
             // }
+
+            if(!allowEdit){
+                $("#arriveBtn").prop("disabled","disabled");
+                $("#arriveBtn").css("backgroundColor","#00FF7F");
+                $("#leave").prop("disabled","disabled");
+                $("#leave").css("backgroundColor","#00FF7F");
+                $("#printBtn").prop("disabled","disabled");
+                $("#printBtn").css("backgroundColor","#00FF7F");
+                $("#signBillBtn").prop("disabled","disabled");
+                $("#signBillBtn").css("backgroundColor","#00FF7F");
+            }else{
+                $("#arriveBtn").prop("disabled","");
+                $("#arriveBtn").css("backgroundColor","");
+                $("#leave").prop("disabled","");
+                $("#leave").css("backgroundColor","");
+                $("#printBtn").prop("disabled","");
+                $("#printBtn").css("backgroundColor","");
+                $("#signBillBtn").prop("disabled","");
+                $("#signBillBtn").css("backgroundColor","");
+            }
+
 
             /**
              * 暂时取消选择工作时长弹出框
@@ -215,6 +263,9 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.workTypes.push({ label: 'ZS08_Z82', value: 'Z82 Warranty job2' });
             $scope.workTypes.push({ label: 'ZS08_Z83', value: 'Z83 Warranty job3' });
 
+
+
+
             /**
              * 初始化
              */
@@ -232,7 +283,7 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.mobileName = result.Mobile_Offline_Name__c;
                     }
                     var workType = result.Work_Order_Type__c;
-                    if (workType != null) {
+                    if (workType != null||workType!=undefined) {
                         $("#select_work_type").find("option[value = workType]").attr("selected", true);
                     }
                     $scope.workContent = result.Description__c != null ? result.Description__c : "";
@@ -399,9 +450,9 @@ angular.module('oinio.workDetailsControllers', [])
          */
         $scope.doLeave=function($event){
             if (arriveTime == null) {
-                $ionicPopup.alert({
-                    title: "请选择到达时间"
-                });
+                // $ionicPopup.alert({
+                //     title: "请选择到达时间"
+                // });
             }else{
                 if (leaveTime!=null||finishTime!=null){
                     return false;
@@ -1312,5 +1363,35 @@ angular.module('oinio.workDetailsControllers', [])
                 console.log('Tapped!', res);
             });
         };
+
+        /**
+         * 切换已选派工人员
+         * @param index
+         */
+        $scope.changeWorkerTab = function (index) {
+            if (index === '1') {
+                $("#selectWorker_Tab_1").addClass("selectTruck_Tab_Active");
+                $("#selectWorker_Tab_2").removeClass("selectTruck_Tab_Active");
+
+                $('#selectWorker_result').css('display', 'block');
+                $('#selectWorker_checked').css('display', 'none');
+            } else if (index === '2') {
+                $("#selectWorker_Tab_1").removeClass("selectTruck_Tab_Active");
+                $("#selectWorker_Tab_2").addClass("selectTruck_Tab_Active");
+
+                $('#selectWorker_result').css('display', 'none');
+                $('#selectWorker_checked').css('display', 'block');
+            }
+        };
+
+
+        /**
+         * 搜索派工人员
+         * @param keyWords
+         */
+        $scope.getWorkers =function (keyWords) {
+
+        };
+
     });
 

@@ -60,7 +60,7 @@
                                     workDescription: null,
                                     AccountShipToC: item.Account_Ship_to__c,
                                     goOffTime:goTime,
-                                    isNewWorkList:false
+                                    isNewWorkList:true
                                 });
                             }
                         },
@@ -105,7 +105,7 @@
                                     workDescription: null,
                                     AccountShipToC: item.Account_Ship_to__c,
                                     goOffTime:goTime,
-                                    isNewWorkList:false
+                                    isNewWorkList:true
                                 });
                             }
                         },
