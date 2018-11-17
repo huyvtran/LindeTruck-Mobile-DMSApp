@@ -468,7 +468,8 @@ angular.module('oinio.newWorkListControllers', [])
                                         workDescription:$("#textarea_desc").val(),
                                         AccountShipToC:"",
                                         goOffTime:"",
-                                        isNewWorkList:true
+                                        isNewWorkList:true,
+                                        selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index()
                                     });
                             }
                         }, function (error) {

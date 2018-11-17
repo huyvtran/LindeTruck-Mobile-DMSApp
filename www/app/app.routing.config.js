@@ -88,7 +88,7 @@
             })
             .state('app.workDetails', {
                 url: 'app/workDetails',
-                params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null,'goOffTime':null,'isNewWorkList':null},
+                params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null,'goOffTime':null,'isNewWorkList':null,'selectWorkTypeIndex':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetails.html',

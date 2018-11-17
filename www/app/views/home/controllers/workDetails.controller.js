@@ -25,7 +25,7 @@ angular.module('oinio.workDetailsControllers', [])
             regroupPartList = [], ///配件组装数据用于保存
             h = 0,
             m = 0,
-            selectTypeIndex=0,
+            selectTypeIndex=0, //作业类型默认选择第一个
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
