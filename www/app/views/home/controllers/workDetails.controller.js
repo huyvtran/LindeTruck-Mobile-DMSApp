@@ -97,7 +97,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             SOrderService.getPrintDetails(userInfoId).then(function success(result) {
                 $log.info(result);
-                console.log(result);
+                console.log("orderDetailsId:",result.Id);
                 orderDetailsId = result.Id;
                 customerNameValue = result.Account_Ship_to__r.Name != null ? result.Account_Ship_to__r.Name : "";
                 customerAccountValue = result.Account_Ship_to__r._soupEntryId != null ? result.Account_Ship_to__r._soupEntryId : "";
@@ -271,6 +271,7 @@ angular.module('oinio.workDetailsControllers', [])
              */
             SOrderService.getDetails(userInfoId).then(function success(result) {
                 if (result != null) {
+                    console.log("getDetails:",result);
                     localSoupEntryId = result._soupEntryId;
                     if (result.Mobile_Offline_Name__c == null) {
                         SOrderService.getOfflineName(userInfoId).then(function success(response) {
@@ -448,7 +449,7 @@ angular.module('oinio.workDetailsControllers', [])
          * 点击离开按钮
          * @param $event
          */
-        $scope.doLeave=function($event){
+        $scope.doLeave = function ($event) {
             if (arriveTime == null) {
                 // $ionicPopup.alert({
                 //     title: "请选择到达时间"
@@ -737,10 +738,10 @@ angular.module('oinio.workDetailsControllers', [])
 
             SOrderService.workDetailSaveButton(order, $scope.allTruckItems, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
                 console.log(result);
-                
+
                 //*********保存配件************* */
-            $scope.regroupPartListForSave();
-            //********************** */
+                $scope.regroupPartListForSave();
+                //********************** */
 
             }, function error(error) {
                 $log.error(error);
@@ -1282,7 +1283,7 @@ angular.module('oinio.workDetailsControllers', [])
                 }
             }
 
-            $state.go('app.refund', { refundInfo: nowSendRefund });
+            $state.go('app.refund', { refundInfo: nowSendRefund ,orderDetailsId: 'a1Zp0000000CWqd'});
         };
         //退件接口
         $scope.getRefundList = function () {
@@ -1355,7 +1356,7 @@ angular.module('oinio.workDetailsControllers', [])
             // 自定义弹窗
             myPopup = $ionicPopup.show({
                 title: '<div><span>退件原因:' + item.Return_Reason__c + '</span></div>' +
-                    '<div><span>备注:' + '' + '</span></div>',
+                    '<div><span>备注:' + item.Diff_Reason__c + '</span></div>',
                 scope: $scope,
                 buttons: setButtons
             });

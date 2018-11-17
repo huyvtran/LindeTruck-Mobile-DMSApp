@@ -162,11 +162,29 @@
             $rootScope.getSomeData = function () {
                 $scope.getHomeService();
                 document.getElementById("selectStatusId")[0].selected = true;
-            }
+            };
             $scope.toRepair1 = function () {
                 $state.go('app.search_1');
 
-            }
+            };
+            $scope.toDisplayOrderListByData = function (currentClickDate) {
+                        var selectDateOrders = [];
+                        for (let index = 0; index < currentOrder.length; index++) {//显示点击日期的工单
+
+                            var indexDate = currentOrder[index].Plan_Date__c;
+                            console.log("currentClickDate：", currentClickDate + "  indexDate:" + indexDate);
+
+                            if (currentClickDate == indexDate) {
+                                selectDateOrders.push(currentOrder[index]);
+                            }
+                        }
+                        console.log("selectDateOrders.count", selectDateOrders.length + "   selectDateOrders:" + selectDateOrders);
+
+                        if (selectDateOrders.length > 0) {
+                            $scope.currentOrder = getServiceOrderType(selectDateOrders);
+                        }
+
+            };
             var getOrderById = function (sendId) {
                 for (let index = 0; index < allUser.length; index++) {
                     var userId = allUser[index].userId;
@@ -305,21 +323,7 @@
                         // console.log('view: ' + view);
                         // $("tr:even").css("background-color", "#000");
                         var currentClickDate = date.format('YYYY-MM-DD');
-                        var selectDateOrders = [];
-                        for (let index = 0; index < currentOrder.length; index++) {//显示点击日期的工单
-
-                            var indexDate = currentOrder[index].Plan_Date__c;
-                            console.log("currentClickDate：", currentClickDate + "  indexDate:" + indexDate);
-
-                            if (currentClickDate == indexDate) {
-                                selectDateOrders.push(currentOrder[index]);
-                            }
-                        }
-                        console.log("selectDateOrders.count", selectDateOrders.length + "   selectDateOrders:" + selectDateOrders);
-
-                        if (selectDateOrders.length > 0) {
-                            $scope.currentOrder = getServiceOrderType(selectDateOrders);
-                        }
+                        $scope.toDisplayOrderListByData(currentClickDate);
                     },
                     events: function (start, end, timezone, callback) {
 
@@ -330,12 +334,15 @@
 
                     },
                     eventClick: function (event, jsEvent, view) {
-
+                        console.log('eventClick: event.start._i!:' , event.start._i);
                         // 此处可添加修改日程的代码
                         // var red = Math.round(255 * Math.random());
                         // var green = Math.round(255 * Math.random());
                         // var blue = Math.round(255 * Math.random());
                         // $(this).css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
+                        var currentClickDate = event.start._i
+                        $scope.toDisplayOrderListByData(currentClickDate);
+
                     }
 
                 });

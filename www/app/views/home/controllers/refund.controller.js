@@ -4,6 +4,8 @@ angular.module('oinio.RefundController', [])
 
         $scope.selectRefundInfo = [];
         $scope.paramSaveDeliveryOrdersUrl = "/UpdateDeliveryOrders/";
+        $scope.paramSaveAndSubminDeliveryOrdersUrl = "/submitDeliverOrders/";
+
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -53,35 +55,18 @@ angular.module('oinio.RefundController', [])
 
         };
         $scope.goToSave = function () {
-            // console.log("$scope.selectRefundInfo:", $scope.selectRefundInfo);
-            // AppUtilService.showLoading();
-            // var payload = $scope.paramSaveDeliveryOrdersUrl + JSON.stringify($scope.selectRefundInfo);
-            // console.log("payload", payload);
-            // ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
-            //     console.log("POST_success:", response);
-
-            // }, function (error) {
-            //     console.log("POST_error:", error);
-            //     AppUtilService.hideLoading();
-            //     var ionPop = $ionicPopup.alert({
-            //         title: "保存失败"
-            //     });
-            // });
-            var ionPop = $ionicPopup.alert({
-                title: "保存成功"
-            });
-            ionPop.then(function (res) {
-                $ionicHistory.goBack();
-            });
-        };
-        $scope.goToSaveAndSubmit = function () {
-            console.log("$scope.selectRefundInfo:", $scope.selectRefundInfo);
             AppUtilService.showLoading();
             var payload = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo);
             console.log("payload", payload);
             ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
                 console.log("POST_success:", response);
                 AppUtilService.hideLoading();
+                var ionPop = $ionicPopup.alert({
+                title: "保存成功"
+            });
+            ionPop.then(function (res) {
+                $ionicHistory.goBack();
+            });
 
             }, function (error) {
                 console.log("POST_error:", error);
@@ -90,12 +75,40 @@ angular.module('oinio.RefundController', [])
                     title: "保存失败"
                 });
             });
-            // var ionPop = $ionicPopup.alert({
-            //     title: "提交成功"
-            // });
-            // ionPop.then(function (res) {
-            //     $ionicHistory.goBack();
-            // });
+        };
+        $scope.goToSaveAndSubmit = function () {
+            AppUtilService.showLoading();
+            var payload1 = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo);
+            // console.log("payload", payload);
+            ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response) {
+                console.log("POST_success1:", response);
+                var payload2 = $scope.paramSaveAndSubminDeliveryOrdersUrl +"?recordId="+$stateParams.orderDetailsId + "&deliveryorders="+JSON.stringify($scope.selectRefundInfo);
+                // console.log("payload", payload);
+                ForceClientService.getForceClient().apexrest(payload2, 'POST', {}, null, function (response) {
+                    console.log("POST_success2:", response);
+                    AppUtilService.hideLoading();
+                    var ionPop = $ionicPopup.alert({
+                    title: "提交成功"
+                });
+                ionPop.then(function (res) {
+                    $ionicHistory.goBack();
+                });
+    
+                }, function (error) {
+                    console.log("POST_error2:", error);
+                    AppUtilService.hideLoading();
+                    var ionPop = $ionicPopup.alert({
+                        title: "提交失败"
+                    });
+                });
+
+            }, function (error) {
+                console.log("POST_error1:", error);
+                AppUtilService.hideLoading();
+                var ionPop = $ionicPopup.alert({
+                    title: "保存失败"
+                });
+            });
         };
     });
 

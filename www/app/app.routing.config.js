@@ -100,7 +100,7 @@
             })
             .state('app.refund', {
                 url: 'app/refund',
-                params:{'refundInfo':null},
+                params:{'refundInfo':null,'orderDetailsId':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/refund.html',
