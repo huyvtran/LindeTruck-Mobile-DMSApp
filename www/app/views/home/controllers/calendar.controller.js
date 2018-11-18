@@ -8,8 +8,6 @@
                 oCurrentUser = LocalCacheService.get('currentUser') || {};
             console.log('oCurrentUser!', oCurrentUser);
             var myPopup;
-            var localLatitude=null,
-                localLongitude=null;
             var allUser = [];
             var allOrders = [];
             var allUserName = [];
@@ -49,12 +47,6 @@
                             text: '出发',
                             onTap:function (e) {
                                 var goTime = new Date();
-                                navigator.geolocation.getCurrentPosition(function success(position) {
-                                    localLatitude=position.coords.latitude;
-                                    localLongitude=position.coords.longitude;
-                                },function error(msg) {
-                                    console.log(msg);
-                                });
                                 $state.go("app.workDetails",{
                                     SendInfo: item._soupEntryId,
                                     workDescription: null,

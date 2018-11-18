@@ -7,6 +7,7 @@ angular.module('oinio.workDetailsControllers', [])
             leaveTime = null,
             startTime = null,
             finishTime = null,
+            localWorkers=[],
             goOffTimeFromPrefix = null,
             workDescription = null,
             allowEdit = false,
@@ -25,6 +26,8 @@ angular.module('oinio.workDetailsControllers', [])
             regroupPartList = [], ///配件组装数据用于保存
             h = 0,
             m = 0,
+            localLatitude=null,
+            localLongitude=null,
             selectTypeIndex=0, //作业类型默认选择第一个
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
@@ -43,7 +46,9 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.getPartsForReadUrl = "/ServiceOrderMaterial/";
         $scope.getDeliveryOrder = "/DeliveryOrder/";
         $scope.getInitPicUri="/WorkDetailService/";
-        $scope.workers="";
+        $scope.workers=[];
+        $scope.selectWorkersArr=[];
+        $scope.selectWorkersStr="";
         $scope.searchWorkersText="";
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
@@ -120,9 +125,12 @@ angular.module('oinio.workDetailsControllers', [])
                             if (res.Photo!=undefined||res.Photo!=null){
 
                             }
-                            if(res.assignUser!=undefined || res.assignUser!=null){
-                              for (var i=0;i<res.assignUser.length;i++){
-
+                            var workersStrArr = res.assignUser;
+                            if(workersStrArr!=undefined || workersStrArr!=null){
+                              for (var i=0;i<workersStrArr.length;i++){
+                                  var singleArr  = workersStrArr[i].split(',');
+                                  $scope.workers.push({label:singleArr[0],value:singleArr[1]});
+                                  localWorkers.push({label:singleArr[0],value:singleArr[1]});
                               }
                             }
                         },
@@ -504,6 +512,7 @@ angular.module('oinio.workDetailsControllers', [])
                             finishTime = new Date();
                             leaveTime = finishTime;
                             $event.target.style.backgroundColor = "#00FF7F";
+                            $("#leave").prop("disabled","disabled");
                         }
                     }],
                 });
@@ -609,8 +618,14 @@ angular.module('oinio.workDetailsControllers', [])
                     onTap: function () {
                         arriveTime = new Date();
                         startTime = new Date();
-                        $event.target.style.backgroundColor = "#00FF7F";
                         console.log(arriveTime);
+                        navigator.geolocation.getCurrentPosition(function success(position) {
+                            localLatitude=position.coords.latitude;
+                            localLongitude=position.coords.longitude;
+                            $event.target.style.backgroundColor = "#00FF7F";
+                        },function error(msg) {
+                            console.log(msg);
+                        });
                     }
                 }],
             });
@@ -1213,7 +1228,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             });
 
-        }
+        };
 
         $scope.getPartListForRead = function () {
 
@@ -1426,8 +1441,86 @@ angular.module('oinio.workDetailsControllers', [])
          * @param keyWords
          */
         $scope.getWorkers =function (keyWords) {
+            $scope.workers=[];
+            for (var i=0;i<localWorkers.length;i++){
+                if (localWorkers[i].value.indexOf(keyWords)>-1) {
+                    $scope.workers.push(localWorkers[i]);
+                }
+            }
+        };
+        /**
+         *  选择派工人员 搜索结果 点击全选
+         */
+        $scope.checkAllWorkersResult = function () {
+            $scope.selectWorkersArr=[];
+            $scope.selectWorkersStr="";
+            var ele = $("#ckbox_worker_searchresult_all");
+            if (ele.prop("checked")){
+                $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                    $(this).prop("checked", true);
+                });
+                $scope.selectWorkersArr=localWorkers;
+            }else{
+                $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                    $(this).prop("checked", false);
+                });
+                $scope.selectWorkersArr=[];
+            }
+            if ($scope.selectWorkersArr.length>0){
+                for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                    $scope.selectWorkersStr+=$scope.selectWorkersArr[i].value+";";
+                }
+            }
+        };
+        /**
+         * 派工人员页选中单个派工人员
+         * @param obj
+         */
+        $scope.checkCurrentSelectWorker=function () {
+            $scope.selectWorkersArr=[];
+            $scope.selectWorkersStr="";
+            $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+              if ($(this).prop("checked")){
+                    $scope.selectWorkersArr.push(localWorkers[index]);
+              }
+            });
+            if ($scope.selectWorkersArr.length>0){
+                for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                    $scope.selectWorkersStr+=$scope.selectWorkersArr[i].value+";";
+                }
+            }
 
         };
 
+        /**
+         * 派工人员页删除所有派工人员
+         */
+        $scope.deleteAllWorkersResult=function () {
+            $scope.selectWorkersArr=[];
+            $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                $(this).prop("checked", false);
+            });
+            $("#ckbox_worker_searchresult_all").prop("checked",false);
+            $scope.selectWorkersStr="";
+        };
+        /**
+         *派工人员页删除单个派工人员
+         * @param obj
+         */
+        $scope.deleteCurrentSelectWorker=function (obj) {
+            $scope.selectWorkersStr="";
+            for (var i =0;i<$scope.selectWorkersArr.length;i++){
+                if ($scope.selectWorkersArr[i].value == obj.value){
+                    $scope.selectWorkersArr.splice(i,1);
+                    $("#items4").find("input").eq(i).prop("checked",false);
+                }
+            }
+            if ($scope.selectWorkersArr.length>0){
+                for (var i =0;i<$scope.selectWorkersArr.length;i++){
+                    $scope.selectWorkersStr+=$scope.selectWorkersArr[i].value+";";
+                } 
+            }
+
+        };
     });
 
