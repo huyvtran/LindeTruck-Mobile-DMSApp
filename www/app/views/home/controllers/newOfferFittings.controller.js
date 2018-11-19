@@ -81,30 +81,31 @@ angular.module('oinio.NewOfferFittingsController', [])
 
         });
         $scope.$on('$ionicView.enter', function () {
-            // console.log("NewOfferFittingsController");
-
+           
+            document.addEventListener('click', newHandle);//初始化弹框
             $scope.get();
         });
-        // $(document).ready(function () {            //初始化弹框
-        //     document.addEventListener('click', function (e) {
-        //         console.log('htmlEl.onclick',e);
-
-        //         if (e.target === document.getElementById('btn_modify_Btn')) {
-        //             $scope.toDisplayModifyDiv();
-        //         } else {
-        //             if (document.getElementById("btn_modify_Div").style) {
-        //                 document.getElementById("btn_modify_Div").style.display = "none";//隐藏
-        //             }
-        //         }
-        //         if (e.target === document.getElementById('btn_import_Btn')) {
-        //             $scope.toDisplayImportDiv();
-        //         } else {
-        //             if (document.getElementById("btn_import_Div").style) {
-        //                 document.getElementById("btn_import_Div").style.display = "none";//隐藏
-        //             }
-        //         }
-        //     });
-        // });
+        
+        var newHandle = function(e) {
+            console.log('e.target',e.target);
+            console.log('document.getElementById(btn_modify_Btn)',document.getElementById('btn_modify_Btn'));
+            if (e.target === document.getElementById('btn_modify_Btn')) {
+                $scope.toDisplayModifyDiv();
+            } else {
+                if (document.getElementById("btn_modify_Div").style) {
+                    document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+                }
+            }
+            if (e.target === document.getElementById('btn_import_Btn')) {
+                $scope.toDisplayImportDiv();
+            } else {
+                if (document.getElementById("btn_import_Div").style) {
+                    document.getElementById("btn_import_Div").style.display = "none";//隐藏
+                }
+            }
+          };
+        
+     
         $scope.toDisBothModifyDiv =  function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏

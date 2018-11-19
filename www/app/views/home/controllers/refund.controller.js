@@ -78,7 +78,7 @@ angular.module('oinio.RefundController', [])
         };
         $scope.goToSaveAndSubmit = function () {
             AppUtilService.showLoading();
-            var payload1 = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo);
+            var payload1 = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo)+"&recordId="+$stateParams.orderDetailsId;
             // console.log("payload", payload);
             ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response) {
                 console.log("POST_success1:", response);
