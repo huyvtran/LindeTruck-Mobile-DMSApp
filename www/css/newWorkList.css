@@ -113,6 +113,17 @@ img {
     padding: 0 5%;
     font-size: 1rem;
 }
+.newwork_big_Type_Group .small_Type_Group .small_Type_Box input[type=search] {
+    color: #535353;
+    width: 90%;
+    height: 40px;
+    border-bottom: 1px solid #535353;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 0 5%;
+    font-size: 1rem;
+}
 .small_Type_Select {
     color: #535353;
     width: 100%;
