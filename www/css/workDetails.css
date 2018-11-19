@@ -218,6 +218,13 @@ img {
     width: 10px;
     height: 12px;
 }
+.workListDetails_bodyer .addcar_icon {
+    background-repeat: no-repeat;
+    background-size: cover; 
+    display: inline-flex;
+    width: 12px;
+    height: 12px;
+}
 .workListDetails_bodyer .displayQuantity_text {
     font-size: 0.8rem;
     margin: 0 2%;
