@@ -478,7 +478,7 @@
                         <div class="small_Type_Group">
                             <!--<div class="small_Type_Title">客户名称:</div>-->
                             <div class="small_Type_Box">
-                                <input placeholder="客户名称/客户号" type="search" id="customerName" value={{searchResultAcctName}} style="background-color:transparent;" ng-click="openSelectPage('customer');" class="small_Type_Input"/>
+                                <input placeholder="客户名称/客户号" type="search" id="customerName" ng-model="searchResultAcctName" value={{searchResultAcctName}} style="background-color:transparent;" ng-click="openSelectPage('customer');" class="small_Type_Input"/>
                                 <div class="search_small_black"></div>
                             </div>
                         </div>
@@ -492,7 +492,7 @@
                         <div class="small_Type_Group">
                             <!--<div class="small_Type_Title">车体号(多选，非必选):</div> -->
                             <div class="small_Type_Box">
-                                <input placeholder="车体号(多选，非必选)"  type="search" value={{searchResultTruckName}} style="background-color:transparent;" ng-click="openSelectPage('truck');" class="small_Type_Input"/>
+                                <input placeholder="车体号(多选，非必选)"  type="search" ng-model="searchResultTruckName" value={{searchResultTruckName}} style="background-color:transparent;" ng-click="openSelectPage('truck');" class="small_Type_Input"/>
                                 <div class="search_small_black"></div>
                             </div>
                         </div>
@@ -506,7 +506,7 @@
                         <div class="small_Type_Group">
                             <!--<div class="small_Type_Title">计划日期:</div>-->
                             <div class="small_Type_Box">
-                                <input placeholder="计划日期" type="search" id="input_plandate" class="small_Type_Input input_plandate"/>
+                                <input placeholder="计划日期" type="button" id="input_plandate" class="small_Type_Input input_plandate"/>
                                 <div class="input_date_image" ></div>
                             </div>
                         </div>
