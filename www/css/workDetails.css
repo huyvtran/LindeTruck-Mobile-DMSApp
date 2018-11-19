@@ -519,7 +519,10 @@ img {
 .workListDetails_bodyer .search_small_black {
     background-image: url(././img/images/search_small_black.png);
 }
-
+.line_two {
+    display: inline-block;
+    width: 49%;
+}
 .workListDetails_bodyer .small_Type_Select {
     color: #535353;
     width: 100%;
