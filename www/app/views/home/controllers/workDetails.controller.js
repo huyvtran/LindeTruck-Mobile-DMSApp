@@ -133,6 +133,7 @@ angular.module('oinio.workDetailsControllers', [])
                                   localWorkers.push({label:singleArr[0],value:singleArr[1]});
                               }
                             }
+
                         },
                         function error(msg) {
                             console.log(msg);
@@ -785,17 +786,20 @@ angular.module('oinio.workDetailsControllers', [])
                 Service_Suggestion__c: $('#serviceSuggest').val(),
                 Subject__c: $('#call_str').val()
             };
+            /**
+             * 修改离线为在线
+             */
+            // SOrderService.workDetailSaveButton(order, $scope.allTruckItems, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
+            //     console.log(result);
+            //
+            //     //*********保存配件************* */
+            //     $scope.regroupPartListForSave();
+            //     //********************** */
+            //
+            // }, function error(error) {
+            //     $log.error(error);
+            // });
 
-            SOrderService.workDetailSaveButton(order, $scope.allTruckItems, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
-                console.log(result);
-
-                //*********保存配件************* */
-                $scope.regroupPartListForSave();
-                //********************** */
-
-            }, function error(error) {
-                $log.error(error);
-            });
 
 
         };

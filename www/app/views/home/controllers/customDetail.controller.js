@@ -251,11 +251,34 @@
             $scope.jumpToLocalMapApp = function (addressStr) {
                 $http({
                     method: 'GET',
-                    url: 'http://api.map.baidu.com/place/v2/search?query='+
-                    JSON.stringify(addressStr)+'&bounds=19.356894,73.324615,53.583491,134.845176&output=json&ak=RBfIl5ZzQ4BowljtLFOHurr4DEp8hAoo'
+                    // url: 'http://api.map.baidu.com/place/v2/search?query='+
+                    // JSON.stringify(addressStr)+'&bounds=19.356894,73.324615,53.583491,134.845176&output=json&ak=RBfIl5ZzQ4BowljtLFOHurr4DEp8hAoo'
+                     url:"http://api.map.baidu.com/geocoder/v2/?address="+JSON.stringify(addressStr)+"&output=json&ak=RBfIl5ZzQ4BowljtLFOHurr4DEp8hAoo"
                 }).then(function successCallback(response) {
                     // 请求成功执行代码
                     console.log("successCallback",response);
+                    var lat = response.data.result.location.lat;
+                    var lng = response.data.result.location.lng;
+                    appAvailability.check("com.baidu.BaiduMap",function () {
+                        //success callback
+                        var sApp = startApp.set({ /* params */
+                            "action":"ACTION_VIEW",
+                            "category":"CATEGORY_DEFAULT",
+                            "type":"text/css",
+                            "package":"com.baidu.BaiduMap",
+                            "uri":"baidumap://map/marker?location="+lat+","+lng+"&title=maker&coord_type=wgs84&traffic=on&src=andr.baidu.openAPIdemo",
+                            "flags":["FLAG_ACTIVITY_CLEAR_TOP","FLAG_ACTIVITY_CLEAR_TASK"],
+                            "intentstart":"startActivity"
+                        });
+                        sApp.start(function() { /* success */
+                            //alert("OK");
+                        }, function(error) { /* fail */
+                            alert(error);
+                        });
+                    },function () {
+                        //error callback
+                    });
+
                 }, function errorCallback(response) {
                     // 请求失败执行代码
                     console.log("errorCallback",response);
