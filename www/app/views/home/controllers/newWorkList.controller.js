@@ -85,7 +85,7 @@ angular.module('oinio.newWorkListControllers', [])
             $scope.searchOwnerText ='';
 
             $scope.searchResultAcctName ='';
-            $scope.searchResultCustomerNum ='';
+            //$scope.searchResultCustomerNum ='';
             $scope.searchResultAcctId ='';
             $scope.searchResultAcctSoupId ='';
 
@@ -283,7 +283,7 @@ angular.module('oinio.newWorkListControllers', [])
             console.log('select:acct:',acct);
 
             $scope.searchResultAcctName = acct.Name;
-            $scope.searchResultCustomerNum = acct.Customer_Number__c;
+            //$scope.searchResultCustomerNum = acct.Customer_Number__c;
             $scope.searchResultAcctId =acct.Id;
             $scope.searchResultAcctSoupId =acct._soupEntryId;
 
