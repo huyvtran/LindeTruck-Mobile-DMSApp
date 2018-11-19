@@ -277,6 +277,22 @@
                         });
                     },function () {
                         //error callback
+                        var confirmPopup = $ionicPopup.confirm({
+                            title: '友情提示',
+                            template: '您尚未安装该app，是否安装',
+                            cancelType:'item-customer-bg-lightred',
+                            okText: '网页下载',
+                            okType:'item-customer-bg-darkred',
+                            cancelText:'暂不安装'
+                        });
+                        confirmPopup.then(function(res){
+                            if(res){
+                                console.log("安装中......");
+                                window.open('http://map.baidu.com/zt/client/index/');
+                            }else{
+                                console.log("取消安装......");
+                            }
+                        });
                     });
 
                 }, function errorCallback(response) {
