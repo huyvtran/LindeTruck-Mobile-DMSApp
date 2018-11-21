@@ -1,10 +1,11 @@
 angular.module('oinio.newWorkListControllers', [])
     .controller('newWorkListController', function ($scope, $rootScope, $filter, $state,$log, $stateParams, AppUtilService, ConnectionMonitor,
-                                            LocalCacheService,HomeService,$ionicPopup) {
+                                            LocalCacheService,HomeService,$ionicPopup,ForceClientService) {
 
         var vm = this,
+            localTruckIds=[],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
-
+        $scope.newDetailPostDataUrl="/services/apexrest/NewWorkDetailService?";
         vm.isOnline = null;
         vm.adrs = [];
         vm.priorities = [];
@@ -434,8 +435,8 @@ angular.module('oinio.newWorkListControllers', [])
             let userId = $scope.searchResultOwnerId;
 
             order2Save.Account_Ship_to__c = $scope.searchResultAcctId;
-            order2Save.Account_Ship_to__r = new Object();
-            order2Save.Account_Ship_to__r._soupEntryId = $scope.searchResultAcctSoupId;
+            //order2Save.Account_Ship_to__r = new Object();
+            //order2Save.Account_Ship_to__r._soupEntryId = $scope.searchResultAcctSoupId;
 
             // order2Save.Truck_Serial_Number__c = $scope.searchResultTruckId;
             // order2Save.Truck_Serial_Number__r = new Object();
@@ -451,59 +452,112 @@ angular.module('oinio.newWorkListControllers', [])
 
             order2Save.Plan_Date__c = $('#input_plandate').val();
 
+            for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                localTruckIds.push({"Id":$scope.selectedTruckItems[i].Id});
+            }
+
             if(userId != null && userId != '') {
                 HomeService.getUserObjectById(userId).then(function (response) {
                     console.log("getUserObjectById::", response);
                     if (response != null) {
                         order2Save.Service_Order_Owner__c = userId;
-                        order2Save.Service_Order_Owner__r = response;
-
-                        HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
-                            AppUtilService.hideLoading();
-
-                            console.log('HAHAHAHA!!!',addResult);
-                            if(addResult != null && addResult.length != 0) {
-                                $state.go('app.workDetails',
-                                    {   SendInfo: addResult[0]._soupEntryId,
-                                        workDescription:$("#textarea_desc").val(),
-                                        AccountShipToC:"",
-                                        goOffTime:"",
-                                        isNewWorkList:true,
-                                        selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index()
-                                    });
+                        //order2Save.Service_Order_Owner__r = response;
+                        ForceClientService.getForceClient().apexrest(
+                            $scope.newDetailPostDataUrl+"adrs="+JSON.stringify([order2Save])+"&trucks="+JSON.stringify(localTruckIds),
+                            "POST",
+                            {},
+                            null,
+                            function callBack(res) {
+                                console.log(res);
+                                AppUtilService.hideLoading();
+                                if (res.status=="Success"){
+                                    var currentWorkOrderId = res.message.split(":")[1];
+                                    $state.go('app.workDetails',
+                                        {   //SendInfo: addResult[0]._soupEntryId,
+                                            workDescription:$("#textarea_desc").val(),
+                                            AccountShipToC:"",
+                                            goOffTime:"",
+                                            isNewWorkList:true,
+                                            selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
+                                            workOrderId:currentWorkOrderId
+                                        });
+                                }
+                            },
+                            function error(msg) {
+                                console.log(msg);
+                                AppUtilService.hideLoading();
                             }
-                        }, function (error) {
-                            AppUtilService.hideLoading();
-
-                            $log.error('HomeService.addServiceOrders Error ' + error);
-                        });
+                        );
+                        // HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
+                        //     AppUtilService.hideLoading();
+                        //
+                        //     console.log('HAHAHAHA!!!',addResult);
+                        //     if(addResult != null && addResult.length != 0) {
+                        //         $state.go('app.workDetails',
+                        //             {   SendInfo: addResult[0]._soupEntryId,
+                        //                 workDescription:$("#textarea_desc").val(),
+                        //                 AccountShipToC:"",
+                        //                 goOffTime:"",
+                        //                 isNewWorkList:true,
+                        //                 selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index()
+                        //             });
+                        //     }
+                        // }, function (error) {
+                        //     AppUtilService.hideLoading();
+                        //
+                        //     $log.error('HomeService.addServiceOrders Error ' + error);
+                        // });
                     }
                 }, function (error) {
                     AppUtilService.hideLoading();
 
                     $log.error('HomeService.getUserObjectById Error ' + error);
                 });
-            }else{
-                HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
-                    console.log('HAHAHAHA!222!!',addResult);
-                    AppUtilService.hideLoading();
-
-                    if(addResult != null && addResult.length != 0) {
-
-                        $state.go('app.workDetails', {
-                                                        SendInfo: addResult[0]._soupEntryId,
-                                                        workDescription:"",
-                                                        AccountShipToC:"",
-                                                        goOffTime:"",
-                                                        isNewWorkList:true
-                                                    });
-                    }
-                }, function (error) {
-                    AppUtilService.hideLoading();
-
-                    $log.error('HomeService.addServiceOrders Error ' + error);
-                });
             }
+            // else{
+            //
+            //     ForceClientService.getForceClient().apexrest(
+            //         $scope.newDetailPostDataUrl+"adrs="+JSON.stringify([order2Save])+"&trucks="+JSON.stringify(localTruckIds),
+            //         "POST",
+            //         {},
+            //         null,
+            //         function callBack(res) {
+            //             console.log(res);
+            //             AppUtilService.hideLoading();
+            //             $state.go('app.workDetails', {
+            //                 SendInfo: addResult[0]._soupEntryId,
+            //                 workDescription:"",
+            //                 AccountShipToC:"",
+            //                 goOffTime:"",
+            //                 isNewWorkList:true
+            //             });
+            //         },
+            //         function error(msg) {
+            //             console.log(msg);
+            //             AppUtilService.hideLoading();
+            //         }
+            //     );
+            //
+            //     // HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
+            //     //     console.log('HAHAHAHA!222!!',addResult);
+            //     //     AppUtilService.hideLoading();
+            //     //
+            //     //     if(addResult != null && addResult.length != 0) {
+            //     //
+            //     //         $state.go('app.workDetails', {
+            //     //                                         SendInfo: addResult[0]._soupEntryId,
+            //     //                                         workDescription:"",
+            //     //                                         AccountShipToC:"",
+            //     //                                         goOffTime:"",
+            //     //                                         isNewWorkList:true
+            //     //                                     });
+            //     //     }
+            //     // }, function (error) {
+            //     //     AppUtilService.hideLoading();
+            //     //
+            //     //     $log.error('HomeService.addServiceOrders Error ' + error);
+            //     // });
+            // }
 
             $rootScope.getSomeData();//刷新日历下方工单列表
         };
