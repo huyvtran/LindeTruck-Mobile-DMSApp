@@ -134,13 +134,19 @@
              * @returns {Promise} [Truck_Fleet__c] - Truck_Fleet__c list, including Id, Name etc.
              */
 
-            this.searchTrucks = function(keyword){
-                console.log('searchTrucks.keyword:%s', keyword);
+            this.searchTrucks = function(acctId){
+                console.log('searchTrucks.acctId:%s', acctId);
                 let deferred = $q.defer();
 
+                /*
                 let sql =  "select {Truck_Fleet__c:_soup}\
                          from {Truck_Fleet__c}\
                          where {Truck_Fleet__c:Name} like '%"+keyword+"%'";
+                */
+
+                let sql =  "select {Truck_Fleet__c:_soup}\
+                         from {Truck_Fleet__c}\
+                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' limit 20";
 
                 let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
@@ -154,6 +160,8 @@
                                 Model__c: entry[0].Model__c,
                                 Ship_To_CS__c: entry[0].Ship_To_CS__c,
                                 Maintenance_Key__c: entry[0].Maintenance_Key__c,
+                                Truck_Type__c: entry[0].Truck_Type__c,
+                                Warranty_End_Date__c: entry[0].Warranty_End_Date__c,
                                 _soupEntryId: entry[0]._soupEntryId
                             });
                         });

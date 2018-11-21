@@ -48,7 +48,7 @@
     },
     {
       "Name": "Truck_Fleet__c",
-      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Family__c,Model__c,Ship_To_CS__c,Maintenance_Key__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Family__c,Model__c,Ship_To_CS__c,Maintenance_Key__c,Warranty_End_Date__c,Truck_Type__c, Service_Contract__c",
       "MobileVizArt__Search_Fields__c": "Name,Model__c,Ship_To_CS__c,Family__c,Maintenance_Key__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
