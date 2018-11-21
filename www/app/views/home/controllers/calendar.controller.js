@@ -96,7 +96,7 @@
                             onTap:function (e) {
                                 AppUtilService.showLoading();
                                 ForceClientService.getForceClient().apexrest(
-                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Processing",
+                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Completed",
                                     "POST",
                                     {},
                                     null,function callBack(res) {
@@ -158,7 +158,7 @@
                             onTap:function (e) {
                                 AppUtilService.showLoading();
                                 ForceClientService.getForceClient().apexrest(
-                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Processing",
+                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Completed",
                                     "POST",
                                     {},
                                     null,function callBack(res) {
