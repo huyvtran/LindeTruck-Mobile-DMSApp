@@ -5,8 +5,8 @@ angular.module('oinio.workDetailsControllers', [])
         var vm = this,
             arriveTime = null,
             leaveTime = null,
-            startTime = null,
-            finishTime = null,
+            //startTime = null,
+            //finishTime = null,
             localWorkers=[],
             goOffTimeFromPrefix = null,
             workDescription = null,
@@ -23,6 +23,8 @@ angular.module('oinio.workDetailsControllers', [])
             ownerName = "",
             orderDetailsId = "",//工单ID
             truckItems = [],
+            currentWorkId=null,
+            truckItemsSecond = [],
             regroupPartList = [], ///配件组装数据用于保存
             h = 0,
             m = 0,
@@ -45,10 +47,11 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.savePartsUrl = "/ServiceOrderMaterial?newServiceOrderMaterial=";
         $scope.getPartsForReadUrl = "/ServiceOrderMaterial/";
         $scope.getDeliveryOrder = "/DeliveryOrder/";
-        $scope.getInitPicUri="/WorkDetailService/";
-        $scope.workers=[];
-        $scope.selectWorkersArr=[];
-        $scope.selectWorkersStr="";
+        $scope.postDataToRemote="/WorkDetailService?action=saveAction";
+        $scope.getInitPicUri="/WorkDetailService";
+        $scope.workers=[];//全部派工人员
+        $scope.selectWorkersArr=[];//已选派工人员
+        $scope.selectWorkersStr="";//已选派工人员组成字符串
         $scope.searchWorkersText="";
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
@@ -61,20 +64,6 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("btn_refund_Div").style.display = "none";//隐藏
         });
 
-        // $(document).ready(function () {
-        //     var htmlEl = angular.element(document.querySelector('html'));
-        //     htmlEl.on('click', function (event) {
-        //         console.log('htmlEl.onclick',event);
-
-        //         if (event.target.nodeName === 'HTML') {
-        //             // console.log('event.target.nodeName',event.target.nodeName);
-        //             document.getElementById("describInfDiv").style.display = "none";//隐藏
-        //     document.getElementById("btn_modify_Div").style.display = "none";//隐藏
-        //     document.getElementById("btn_import_Div").style.display = "none";//隐藏
-        //     document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-        //         }
-        //     });
-        // });
         $scope.$on('$ionicView.afterEnter', function () {
 
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
@@ -89,12 +78,13 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("$stateParams.goOffTime", $stateParams.goOffTime);
             console.log("$stateParams.isNewWorkList", $stateParams.isNewWorkList);
             console.log("$stateParams.selectTypeIndex", $stateParams.selectWorkTypeIndex);
-
+            console.log("$stateParams.workOrderId",$stateParams.workOrderId);
             userInfoId = $stateParams.SendInfo;
             Account_Ship_to__c = $stateParams.AccountShipToC;
             workDescription = $stateParams.workDescription;
             goOffTimeFromPrefix = $stateParams.goOffTime;
             allowEdit = $stateParams.isNewWorkList;
+            currentWorkId=$stateParams.workOrderId;
 
             if($stateParams.selectWorkTypeIndex!=null){
                 selectTypeIndex = $stateParams.selectWorkTypeIndex;
@@ -122,16 +112,43 @@ angular.module('oinio.workDetailsControllers', [])
 
                         },null,function success(res) {
                             console.log(res);
-                            if (res.Photo!=undefined||res.Photo!=null){
+                            //初始化 已上传图片
+                            var photoes=res.Photo;
+                            if (photoes!=undefined||photoes!=null){
+                                if (photoes.length>0){
+                                    //删除默认的图片  第一张
+                                    $scope.imgUris.splice(0, 1);
+                                    for (var i=0;i<photoes.length;i++){
+                                        $scope.imgUris.push("data:image/jpeg;base64,"+photoes[i]);
+                                    }
+                                    //添加默认图片
+                                    $scope.imgUris.push("././img/images/will_add_Img.png");
+                                }
 
                             }
+                            //初始化所有派工人员
                             var workersStrArr = res.assignUser;
                             if(workersStrArr!=undefined || workersStrArr!=null){
                               for (var i=0;i<workersStrArr.length;i++){
                                   var singleArr  = workersStrArr[i].split(',');
                                   $scope.workers.push({label:singleArr[0],value:singleArr[1]});
-                                  localWorkers.push({label:singleArr[0],value:singleArr[1]});
                               }
+                              localWorkers = $scope.workers;
+                            }
+                            //初始化已选派工人员
+                            var savedUsers =res.savedUser;
+                            if(savedUsers!=undefined || savedUsers != null){
+                                if (savedUsers.length>0){
+                                    for (var i=0;i<savedUsers.length;i++){
+                                        for(var j=0;j<workersStrArr.length;j++){
+                                            if (savedUsers[i]==workersStrArr[j].label){
+                                                $scope.workers.push(workersStrArr[j]);
+                                            }else{
+                                                $scope.workers.push({label:savedUsers[i],value:""});
+                                            }
+                                        }
+                                    }
+                                }
                             }
 
                         },
@@ -150,11 +167,18 @@ angular.module('oinio.workDetailsControllers', [])
                             $scope.SelectedTruckNum = Number($scope.SelectedTruckNum) + 1;
                             truckItems.push(
                                 {
-                                    _soupEntryId: result[i].Truck_Serial_Number__r._soupEntryId,
+                                    Id: result[i].Truck_Serial_Number__r.Id,
                                     truckItemNum: result[i].Truck_Serial_Number__r.Name,
                                     Operation_Hour__c: 0,
                                     Service_Suggestion__c: "",
                                     isShow: false
+                                }
+                            );
+                            truckItemsSecond.push(
+                                {
+                                    Id: result[i].Truck_Serial_Number__r.Id,
+                                    Operation_Hour__c: 0,
+                                    Service_Suggestion__c: "",
                                 }
                             );
                         }
@@ -198,30 +222,6 @@ angular.module('oinio.workDetailsControllers', [])
                 $("#signBillBtn").prop("disabled","");
                 $("#signBillBtn").css("backgroundColor","");
             }
-
-
-
-            // var numArr1 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-            // var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
-            // var mobileSelect3 = new MobileSelect({
-            //     trigger: '#leave',
-            //     title: '选择工作时长',
-            //     wheels: [
-            //         {
-            //             data: numArr1
-            //         },
-            //         {
-            //             data: numArr2
-            //         }
-            //     ],
-            //     position: [0, 0, 0],
-            //     callback: function (indexArr, data) {
-            //         $("#leave").text("离开");
-            //         h = parseInt(data[0].substring(6, 8));
-            //         m = parseInt(data[1].substring(6, 8));
-            //         checkHours();
-            //     }
-            // });
 
             vm.isOnline = ConnectionMonitor.isOnline();
             if (oCurrentUser) {
@@ -404,52 +404,18 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         var checkMinutes = function () {
-            if (finishTime.getMinutes() - m > 0) {
+            if (leaveTime.getMinutes() - m > 0) {
                 return {
                     index: 1,
-                    mm: finishTime.getMinutes() - m
+                    mm: leaveTime.getMinutes() - m
                 };
             } else {
                 return {
                     index: 2,
-                    mm: finishTime.getMinutes + 60 - m
+                    mm: leaveTime.getMinutes + 60 - m
                 };
             }
         };
-
-
-        /**
-         * 取消选择工作时长
-         * 查看doLeave方法
-         */
-
-        // var checkHours = function () {
-        //     if (arriveTime == null) {
-        //         // $ionicPopup.alert({
-        //         //     title: "请选择到达时间"
-        //         // });
-        //     } else {
-        //         finishTime = new Date();
-        //         if (finishTime.getHours() - arriveTime.getHours() > h) {
-        //             var min = checkMinutes();
-        //             if (min.index == 1) {
-        //                 startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
-        //             } else {
-        //                 startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h - 1) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
-        //             }
-        //         } else {
-        //             startTime = arriveTime;
-        //             h = finishTime.getHours() - arriveTime.getHours();
-        //             m = finishTime.getMinutes() - arriveTime.getMinutes();
-        //             if (m < 0) {
-        //                 m += 60;
-        //                 --h;
-        //             }
-        //         }
-        //         leaveTime = new Date();
-        //         $("#leave")[0].style.backgroundColor = "#00FF7F"
-        //     }
-        // };
 
         /**
          * 点击离开按钮
@@ -480,15 +446,14 @@ angular.module('oinio.workDetailsControllers', [])
                         h = parseInt(data[0].substring(6, 8));
                         m = parseInt(data[1].substring(6, 8));
                         //checkHours();
-                        finishTime = new Date();
-                        leaveTime =finishTime;
+                        leaveTime = new Date();
                         var min =  checkMinutes();
                         if (min.index == 1) {
-                            startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
+                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - h) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
                         } else {
-                            startTime = new Date((finishTime.getFullYear() + "-" + finishTime.getMonth() + "-" + finishTime.getDate() + " " + (finishTime.getHours() - h - 1) + ":" + min.mm + ":" + finishTime.getSeconds()).replace(/-/, "/"));
+                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - h - 1) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
                         }
-                        arriveTime = startTime;
+
                         $("#arriveBtn").prop("disabled","disabled");
                         $("#arriveBtn").css("backgroundColor","#00FF7F");
                         $("#leave").prop("disabled","disabled");
@@ -497,7 +462,7 @@ angular.module('oinio.workDetailsControllers', [])
                 });
 
             }else{
-                if (leaveTime!=null||finishTime!=null){
+                if (leaveTime!=null){
                     return false;
                 }
                 $ionicPopup.show({
@@ -510,8 +475,7 @@ angular.module('oinio.workDetailsControllers', [])
                     }, {
                         text: '确定',
                         onTap: function () {
-                            finishTime = new Date();
-                            leaveTime = finishTime;
+                            leaveTime = new Date();
                             $event.target.style.backgroundColor = "#00FF7F";
                             $("#leave").prop("disabled","disabled");
                         }
@@ -618,7 +582,6 @@ angular.module('oinio.workDetailsControllers', [])
                     text: '确定',
                     onTap: function () {
                         arriveTime = new Date();
-                        startTime = new Date();
                         console.log(arriveTime);
                         navigator.geolocation.getCurrentPosition(function success(position) {
                             localLatitude=position.coords.latitude;
@@ -694,9 +657,9 @@ angular.module('oinio.workDetailsControllers', [])
                                                             workHour: "  " + h + "小时" + m + "分钟",//workHour
                                                             workTimeTotal: [{
                                                                 workName: ownerName,
-                                                                workDate: arriveTime.getFullYear() + "-" + arriveTime.getMonth() + "-" + arriveTime.getDate(),
-                                                                workStartTime: startTime.getHours() + ":" + startTime.getMinutes() + ":" + startTime.getSeconds() + " -- " + finishTime.getHours() + ":" + finishTime.getMinutes() + ":" + finishTime.getSeconds(),
-                                                                workEndTime: startTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds(),
+                                                                workDate: arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate(),
+                                                                workStartTime: arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds(),
+                                                                workEndTime: arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds(),
                                                                 miles: ""
 
                                                             }],//workTimeTotal
@@ -778,16 +741,24 @@ angular.module('oinio.workDetailsControllers', [])
                 }
             }
             console.log(localUris);
-            var order = {
-                _soupEntryId: localSoupEntryId,
-                Mobile_Offline_Name__c: $scope.mobileName,
-                Work_Order_Type__c: $('#select_work_type option:selected').val(),
-                Description__c: $('#workContentStr').val(),
-                Service_Suggestion__c: $('#serviceSuggest').val(),
-                Subject__c: $('#call_str').val()
-            };
+            var orderObj = [{
+                "Id": currentWorkId,
+                "Mobile_Offline_Name__c": $scope.mobileName,
+                "Work_Order_Type__c": $('#select_work_type option:selected').val(),
+                "Description__c": $('#workContentStr').val(),
+                "Service_Suggestion__c": $('#serviceSuggest').val(),
+                "Subject__c": $('#call_str').val()
+            }];
+
+            var selectUserIds =[];
+            for(var i=0;i<$scope.selectWorkersArr.length;i++){
+                selectUserIds.push($scope.selectWorkersArr[i].label);
+            }
+
+
+
             /**
-             * 修改离线为在线
+             * 修改离线为在线提交
              */
             // SOrderService.workDetailSaveButton(order, $scope.allTruckItems, $('#workContentStr').val(), localUris, arriveTime, leaveTime, startTime, finishTime).then(function success(result) {
             //     console.log(result);
@@ -800,9 +771,58 @@ angular.module('oinio.workDetailsControllers', [])
             //     $log.error(error);
             // });
 
+            /**
+             * 在线保存工单详情页的数据
+             */
+            ForceClientService.getForceClient()
+                .apexrest(
+                    $scope.postDataToRemote,
+                    'POST',
+                    JSON.stringify({
+                        "order":orderObj,
+                        "childOrders":truckItemsSecond,
+                        "images":localUris,
+                        "assignUsers":selectUserIds,
+                        "str_suggestion":$('#workContentStr').val().trim(),
+                        "arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
+                        "leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
+                    }),null,function success(res) {
+                        console.log(res);
+                        if(res.status!="Fail"){
+                            //*********保存配件************* */
+                            $scope.regroupPartListForSave();
+                        }else{
+                            $ionicPopup.alert({
+                                title:"保存数据失败"
+                            });
+                            return false;
+                        }
 
-
+                    },
+                    function error(msg) {
+                        console.log(msg);
+                    });
         };
+        Date.prototype.format = function(format) {
+            var date = {
+                "M+": this.getMonth() + 1,
+                "d+": this.getDate(),
+                "h+": this.getHours(),
+                "m+": this.getMinutes(),
+                "s+": this.getSeconds(),
+                "q+": Math.floor((this.getMonth() + 3) / 3),
+                "S+": this.getMilliseconds()
+            };
+            if (/(y+)/i.test(format)) {
+                format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+            }
+            for (var k in date) {
+                if (new RegExp("(" + k + ")").test(format)) {
+                    format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+                }
+            }
+            return format;
+        }
 
         $scope.selectWorkers = function () {
             document.getElementById("workDetailTotal").style.display = "none";
@@ -1078,6 +1098,9 @@ angular.module('oinio.workDetailsControllers', [])
             }
             $scope.searchResultTruckName = new_temp;
         };
+
+
+
         $scope.getLSG = function () {
             AppUtilService.showLoading();
             $scope.contentLSGs = [];
@@ -1445,86 +1468,156 @@ angular.module('oinio.workDetailsControllers', [])
          * @param keyWords
          */
         $scope.getWorkers =function (keyWords) {
-            $scope.workers=[];
-            for (var i=0;i<localWorkers.length;i++){
-                if (localWorkers[i].value.indexOf(keyWords)>-1) {
-                    $scope.workers.push(localWorkers[i]);
+
+            if (keyWords==null||keyWords==""){
+                $scope.workers=localWorkers;
+
+                for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                    $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                        if($(element).attr("data-recordid") == $scope.selectWorkersArr[i].label) {
+                            $(this).prop("checked", true);
+                        }
+                    });
+                }
+                return false;
+            }else{
+                var tempWorkers=$scope.workers;
+                $scope.workers=[];
+                for (var i=0;i<tempWorkers.length;i++){
+                    if (tempWorkers[i].value.indexOf(keyWords)>-1){
+                        $scope.workers.push(tempWorkers[i]);
+                    }
                 }
             }
         };
+
         /**
          *  选择派工人员 搜索结果 点击全选
          */
         $scope.checkAllWorkersResult = function () {
-            $scope.selectWorkersArr=[];
-            $scope.selectWorkersStr="";
-            var ele = $("#ckbox_worker_searchresult_all");
-            if (ele.prop("checked")){
+            let ele = $("#ckbox_worker_searchresult_all");
+
+            console.log('checkAllSearchResults:::',ele.prop("checked"));
+            if(ele.prop("checked")) {
                 $("input.ckbox_woker_searchresult_item").each(function (index, element) {
                     $(this).prop("checked", true);
                 });
-                $scope.selectWorkersArr=localWorkers;
+
+                angular.forEach($scope.workers, function (searchResult) {
+                    let existFlag = false;
+                    angular.forEach($scope.selectWorkersArr, function (selected) {
+                        if(searchResult.label == selected.label){
+                            existFlag = true;
+                        }
+                    });
+                    if(!existFlag){
+                        $scope.selectWorkersArr.push(searchResult);
+                        $scope.updateWorkerString();
+                    }
+                });
             }else{
                 $("input.ckbox_woker_searchresult_item").each(function (index, element) {
-                    $(this).prop("checked", false);
+                    console.log('666:::',element.checked);
+                    element.checked = false;
                 });
-                $scope.selectWorkersArr=[];
-            }
-            if ($scope.selectWorkersArr.length>0){
-                for (var i=0;i<$scope.selectWorkersArr.length;i++){
-                    $scope.selectWorkersStr+=$scope.selectWorkersArr[i].value+";";
-                }
+
+                let arr_temp = [];
+                angular.forEach($scope.selectWorkersArr, function (selected) {
+                    let existFlag = false;
+                    angular.forEach($scope.workers, function (searchResult) {
+                        if(searchResult.label == selected.label){
+                            existFlag = true;
+                        }
+                    });
+                    if(!existFlag){
+                        arr_temp.push(selected);
+                    }
+                });
+                $scope.selectWorkersArr = arr_temp;
+                $scope.updateWorkerString();
             }
         };
+
         /**
          * 派工人员页选中单个派工人员
          * @param obj
          */
-        $scope.checkCurrentSelectWorker=function () {
-            $scope.selectWorkersArr=[];
-            $scope.selectWorkersStr="";
-            $("input.ckbox_woker_searchresult_item").each(function (index, element) {
-              if ($(this).prop("checked")){
-                    $scope.selectWorkersArr.push(localWorkers[index]);
-              }
-            });
-            if ($scope.selectWorkersArr.length>0){
-                for (var i=0;i<$scope.selectWorkersArr.length;i++){
-                    $scope.selectWorkersStr+=$scope.selectWorkersArr[i].value+";";
-                }
-            }
+        $scope.checkCurrentSelectWorker = function (ele) {
+            let element = $("input.ckbox_woker_searchresult_item[data-recordid*='"+ele.label+"']");
+            console.log('checkSearchResults::',element);
 
+            if(element != null && element.length > 0) {
+                if(element[0].checked) {
+                    let existFlag = false;
+                    for (var i = 0; i < $scope.selectWorkersArr.length; i++) {
+                        if (ele.label == $scope.selectWorkersArr[i].label) {
+                            existFlag = true;
+                        }
+                    }
+                    if (!existFlag) {
+                        $scope.selectWorkersArr.push(ele);
+                        $scope.updateWorkerString();
+                    }
+                }else{
+                    let temp = [];
+                    for (var i = 0; i < $scope.selectWorkersArr.length; i++) {
+                        if (ele.label != $scope.selectWorkersArr[i].label) {
+                            temp.push($scope.selectWorkersArr[i]);
+                        }
+                    }
+                    $scope.selectWorkersArr = temp;
+                    $scope.updateWorkerString();
+                }
+            }else{
+                console.log('checkSearchResults::error');
+            }
         };
 
         /**
          * 派工人员页删除所有派工人员
          */
         $scope.deleteAllWorkersResult=function () {
-            $scope.selectWorkersArr=[];
             $("input.ckbox_woker_searchresult_item").each(function (index, element) {
-                $(this).prop("checked", false);
+                element.checked = false;
             });
-            $("#ckbox_worker_searchresult_all").prop("checked",false);
-            $scope.selectWorkersStr="";
+            document.getElementById("ckbox_worker_searchresult_all").checked = false;
+
+            $scope.selectWorkersArr = [];
+            $scope.updateWorkerString();
         };
         /**
          *派工人员页删除单个派工人员
          * @param obj
          */
-        $scope.deleteCurrentSelectWorker=function (obj) {
-            $scope.selectWorkersStr="";
-            for (var i =0;i<$scope.selectWorkersArr.length;i++){
-                if ($scope.selectWorkersArr[i].value == obj.value){
-                    $scope.selectWorkersArr.splice(i,1);
-                    $("#items4").find("input").eq(i).prop("checked",false);
+        $scope.deleteCurrentSelectWorker=function (ele) {
+            let new_temp = [];
+
+            for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                if(ele.label != $scope.selectWorkersArr[i].label){
+                    new_temp.push($scope.selectWorkersArr[i]);
                 }
             }
-            if ($scope.selectWorkersArr.length>0){
-                for (var i =0;i<$scope.selectWorkersArr.length;i++){
-                    $scope.selectWorkersStr+=$scope.selectWorkersArr[i].value+";";
-                } 
-            }
+
+            $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                if($(element).attr("data-recordid") == ele.label && element.checked) {
+                    element.checked = false;
+                }
+            });
+            document.getElementById("ckbox_worker_searchresult_all").checked = false;
+
+            $scope.selectWorkersArr = new_temp;
+            $scope.updateWorkerString();
 
         };
+
+        $scope.updateWorkerString=function () {
+            let new_temp = '';
+
+            for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                new_temp = new_temp + $scope.selectWorkersArr[i].value + ';';
+            }
+            $scope.selectWorkersStr = new_temp;
+        };
+
     });
 

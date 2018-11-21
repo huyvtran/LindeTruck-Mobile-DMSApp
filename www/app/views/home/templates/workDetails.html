@@ -868,15 +868,15 @@
 			</div>
 			<div id="selectWorker_result" class="big_Box_Group" style="display: block;">
 				<div class="small_Box_Title"> <input id="ckbox_worker_searchresult_all" style="" type="checkbox" ng-click="checkAllWorkersResult();"/> 全选 </div>
-				<ion-list can-swipe="true" id="items4" >
-					<ion-item   ng-cloak  class="small_Box_Text" ng-repeat="workerItem in workers" ng-click="checkCurrentSelectWorker();">
-						<input class="ckbox_woker_searchresult_item"  type="checkbox"/>{{workerItem.value}}
+				<ion-list can-swipe="true">
+					<ion-item   ng-cloak  class="small_Box_Text" ng-repeat="workerItem in workers" ng-click="checkCurrentSelectWorker(workerItem);">
+						<input  data-recordid={{workerItem.label}} class="ckbox_woker_searchresult_item"  type="checkbox"/>{{workerItem.value}}
 					</ion-item>
 				</ion-list>
 			</div>
 			<div id="selectWorker_checked" class="big_Box_Group" style="display: none;">
 				<div class="small_Box_Title"> <img  src="././img/images/del_red_icon.png" ng-click="deleteAllWorkersResult();"/> 全选删除 </div>
-				<ion-list can-swipe="true" id="items5">
+				<ion-list can-swipe="true">
 					<ion-item   ng-cloak  class="small_Box_Text" ng-repeat="selectedWorkerItem in selectWorkersArr" ng-click="deleteCurrentSelectWorker(selectedWorkerItem);">
 						<span ><img src="././img/images/del_red_icon.png"/></span>{{selectedWorkerItem.value}}
 					</ion-item>

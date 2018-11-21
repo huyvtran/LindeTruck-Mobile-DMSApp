@@ -2,7 +2,7 @@
     'use strict';
     angular.module('oinio.CalendarController', [])
         .controller('CalendarController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor, HomeService, $ionicPopup,
-            LocalCacheService) {
+            LocalCacheService,ForceClientService,AppUtilService) {
 
             var vm = this,
                 oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -15,6 +15,9 @@
             var currentOrder = [];
             var firstRunFun = false;
             vm.isOnline = null;
+            $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
+
+
             $scope.toDisplayBox = function () {
 
                 if (document.getElementById("add_bgbox").style.display == "none") {
@@ -60,14 +63,30 @@
                         {
                             text: '出发',
                             onTap:function (e) {
-                                var goTime = new Date();
-                                $state.go("app.workDetails",{
-                                    SendInfo: item._soupEntryId,
-                                    workDescription: null,
-                                    AccountShipToC: item.Account_Ship_to__c,
-                                    goOffTime:goTime,
-                                    isNewWorkList:true
-                                });
+                                AppUtilService.showLoading();
+                                ForceClientService.getForceClient().apexrest(
+                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Processing",
+                                    "POST",
+                                    {},
+                                    null,function callBack(res) {
+                                        console.log(res);
+                                        AppUtilService.hideLoading();
+                                        if (res.status=="Success"){
+                                            var goTime = new Date();
+                                            $state.go("app.workDetails",{
+                                                SendInfo: item._soupEntryId,
+                                                workDescription: null,
+                                                AccountShipToC: item.Account_Ship_to__c,
+                                                goOffTime:goTime,
+                                                workOrderId:item.Id,
+                                                isNewWorkList:true
+                                            });
+                                        }
+                                    },function error(msg) {
+                                        AppUtilService.hideLoading();
+                                        console.log(msg);
+                                    }
+                                );
                             }
                         },
 
@@ -80,6 +99,7 @@
                                     workDescription: null,
                                     AccountShipToC: item.Account_Ship_to__c,
                                     goOffTime:"",
+                                    workOrderId:item.Id,
                                     isNewWorkList:false
                                 });
                             }
@@ -105,14 +125,30 @@
                     setButtons = [
                         { text: '出发',
                             onTap:function (e) {
-                                var goTime =new Date();
-                                $state.go("app.workDetails",{
-                                    SendInfo: item._soupEntryId,
-                                    workDescription: null,
-                                    AccountShipToC: item.Account_Ship_to__c,
-                                    goOffTime:goTime,
-                                    isNewWorkList:true
-                                });
+                                AppUtilService.showLoading();
+                                ForceClientService.getForceClient().apexrest(
+                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Processing",
+                                    "POST",
+                                    {},
+                                    null,function callBack(res) {
+                                        console.log(res);
+                                        AppUtilService.hideLoading();
+                                        if (res.status=="Success"){
+                                            var goTime =new Date();
+                                            $state.go("app.workDetails",{
+                                                SendInfo: item._soupEntryId,
+                                                workDescription: null,
+                                                AccountShipToC: item.Account_Ship_to__c,
+                                                goOffTime:goTime,
+                                                workOrderId:item.Id,
+                                                isNewWorkList:true
+                                            });
+                                        }
+                                    },function error(msg) {
+                                        AppUtilService.hideLoading();
+                                        console.log(msg);
+                                    }
+                                );
                             }
                         },
                         {
@@ -123,6 +159,7 @@
                                     SendInfo: item._soupEntryId,
                                     workDescription: null,
                                     AccountShipToC: item.Account_Ship_to__c,
+                                    workOrderId:item.Id,
                                     isNewWorkList:false
                                 });
                             }
