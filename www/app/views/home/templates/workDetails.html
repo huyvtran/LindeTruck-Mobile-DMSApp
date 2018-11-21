@@ -340,7 +340,7 @@
 					<div class="search_All">
 						<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText" />
 					</div>
-					<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);" ng-show="searchTruckText">
+					<div class="search_right_Group" ng-click="getTrucks(searchTruckText);" ng-show="searchTruckText">
 						<div class="text_Cancel"> 搜索 </div>
 					</div>
 				</div>
@@ -390,7 +390,7 @@
 											 type="checkbox" />
 										</th>
 										<th class="sv_Td">
-											<div style="width: 150px;"> {{titem.Name}} </div>
+											<div style="width: 150px;"> {{titem.Name}}<br/>{{titem.parts_number__c}}</div>
 										</th>
 										<th class="sv_Td">
 											<div> {{titem.inventory.sku}} </div>
@@ -430,7 +430,7 @@
 					<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
 
 					<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
-					<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+					<div class="footer_Btn Save_Btn_Act" ng-click="addDelePartConfirmBtn();">确定</div>
 				</div>
 			</div>
 		</div>

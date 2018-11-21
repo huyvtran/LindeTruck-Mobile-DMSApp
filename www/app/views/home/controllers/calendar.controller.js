@@ -64,15 +64,15 @@
 
             //未安排 未开始 进行中 已完成
             $scope.isOlder_Table = function (type) {
-                var returnType = 'quoted_Table';
+                var returnType = 'table_Right info_Icon';
                 if (type === "Not Planned") {           //未安排
-                    returnType = "quoted_Table blue_legend"
+                    returnType = "table_Right info_Icon"
                 } else if (type === "Not Started") {    //未开始
-                    returnType = "quoted_Table red_legend"
+                    returnType = "table_Right warning_Icon"
                 } else if (type === "Not Completed") {  //进行中
-                    returnType = "quoted_Table "
+                    returnType = "table_Right checkmark_Icon "
                 }else if (type === "Service Completed") {  //已完成
-                    returnType = "quoted_Table "
+                    returnType = "table_Right checkmark_Icon "
                 }
                 return returnType;
             };
@@ -100,9 +100,10 @@
                                     "POST",
                                     {},
                                     null,function callBack(res) {
-                                        console.log(res);
+                                        console.log("updateDataStatusUrl",res);
                                         AppUtilService.hideLoading();
                                         if (res.status=="Success"){
+                                            $scope.getHomeService();//刷新日历列表数据 更改出发状态
                                             var goTime = new Date();
                                             $state.go("app.workDetails",{
                                                 SendInfo: item._soupEntryId,

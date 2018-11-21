@@ -270,7 +270,6 @@ angular.module('oinio.NewOfferController', [])
 
         $scope.checkSearchResults = function (ele) {
             let element = $("input.ckbox_truck_searchresult_item[data-recordid*='" + ele.Id + "']");
-            console.log('checkSearchResults::', element);
 
             if (element != null && element.length > 0) {
                 if (element[0].checked) {

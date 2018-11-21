@@ -11,6 +11,7 @@ angular.module('oinio.workDetailsControllers', [])
             goOffTimeFromPrefix = null,
             workDescription = null,
             allowEdit = false,
+            myPopup = null,
             userInfoId = "",
             Account_Ship_to__c = "",
             localSoupEntryId = "",
@@ -828,6 +829,8 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.$on('$ionicView.enter', function () {
             console.log('接受点击事件');
             document.addEventListener('click', newHandle);//初始化弹框
+
+            
          });
 
         $scope.$on('$ionicView.beforeLeave', function () {
@@ -837,8 +840,11 @@ angular.module('oinio.workDetailsControllers', [])
 
 
         var newHandle = function(e) {
-            console.log('e.target',e.target);
-            console.log('document.getElementById(btn_modify_Btn)',document.getElementById('btn_modify_Btn'));
+            if (event.target.nodeName === 'HTML') {
+                if (myPopup) {//myPopup即为popup
+                    myPopup.close();
+                }
+            }
             if (e.target === document.getElementById('btn_modify_Btn')) {
                 $scope.toDisplayModifyDiv();
             } else {
@@ -973,6 +979,31 @@ angular.module('oinio.workDetailsControllers', [])
                     opacity: '1'
                 }, 'normal').show();
             });
+        };
+        $scope.addDelePartConfirmBtn = function(){//配件添加删除搜索页面 确定按钮
+            $('div.newWorkList_truckSelect').animate({
+                opacity: '0.6'
+            }, 'slow', function () {
+                $('div.newWorkList_truckSelect').hide();
+                $('div.workListDetails_bodyer').animate({
+                    opacity: '1'
+                }, 'normal').show();
+            });
+
+            if ($scope.contentTruckFitItems.length == 0 &&$scope.searchTruckText!="") {
+                var onePartOriginals = {};
+                var priceCondition = {};
+                onePartOriginals["quantity"] = "";//数量
+                onePartOriginals["priceCondition"] = priceCondition["price"];//公布价
+                onePartOriginals["View_Integrity__c"] = "";//预留
+                onePartOriginals["parts_number__c"] = $scope.searchTruckText;//物料信息
+                onePartOriginals["Name"] = $scope.searchTruckText;//Name
+                onePartOriginals["materialId"] = $scope.searchTruckText;//物料号
+                onePartOriginals["saveId"] = "";//物料号
+                onePartOriginals["type"] = "";//配件类型
+                $scope.selectedTruckFitItems.push(onePartOriginals);
+                $scope.searchTruckText = "";
+            }
         };
         //搜索配件
         $scope.getTrucks = function (keyWord) {
@@ -1407,12 +1438,12 @@ angular.module('oinio.workDetailsControllers', [])
                 }
             }
 
-            $state.go('app.refund', { refundInfo: nowSendRefund ,orderDetailsId: 'a1Zp0000000CWqd'});
+            $state.go('app.refund', { refundInfo: nowSendRefund ,orderDetailsId: orderDetailsId});
         };
         //退件接口
         $scope.getRefundList = function () {
-            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
-            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
+            ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
+            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
                 AppUtilService.hideLoading();
                 console.log("responseGetDelivery:", responseGetDelivery);
                 $scope.rejectedItems = responseGetDelivery;
@@ -1450,11 +1481,6 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.popupRefundContext = function (reitems) {
             var setButtons = [];
-            setButtons = [
-                {
-                    text: '取消',
-                }
-            ];
             // 自定义弹窗
             myPopup = $ionicPopup.show({
                 title: '<div><span>交货单状态:' + reitems.D_Status__c + '</span></div>' +
@@ -1472,11 +1498,6 @@ angular.module('oinio.workDetailsControllers', [])
         };
         $scope.popupRefundContextItem = function (item) {
             var setButtons = [];
-            setButtons = [
-                {
-                    text: '取消',
-                }
-            ];
             // 自定义弹窗
             myPopup = $ionicPopup.show({
                 title: '<div><span>退件原因:' + item.Return_Reason__c + '</span></div>' +

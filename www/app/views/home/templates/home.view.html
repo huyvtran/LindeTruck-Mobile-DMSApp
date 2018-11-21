@@ -177,7 +177,7 @@
                                         <tr>
                                             <td class="table_Left"> 客户名称： </td>
                                             <td class="table_Center"> {{item.Account_Ship_to__r.Name}}</td>
-                                            <td class="table_Right info_Icon" rowspan="2">
+                                            <td ng-class="isOlder_Table(item.Status__c)" rowspan="2">
                                                 <div class="table_Img"></div>
                                             </td>
                                         </tr>

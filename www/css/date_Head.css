@@ -208,6 +208,15 @@ img {
     height: 12px;
     margin: 0 auto;
 }
+.calendar_bodyer .table_Right.info_Icon {
+    background-color: #d2bd7a;
+}
+.calendar_bodyer .table_Right.checkmark_Icon {
+    background-color: #7ad27c;
+}
+.calendar_bodyer .table_Right.warning_Icon {
+    background-color: #d27a7a;
+}
 .calendar_bodyer .small_Type_Table td.state_Color {
     color: #aa0020;
 }
