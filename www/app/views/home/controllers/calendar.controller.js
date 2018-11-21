@@ -18,18 +18,49 @@
             $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
 
 
-            $scope.toDisplayBox = function () {
+          $(document).ready(function () {
+            document.addEventListener('click', newHandle);//初始化弹框
+          });
 
-                if (document.getElementById("add_bgbox").style.display == "none") {
-                    document.getElementById("add_bgbox").style.display = "";//显示
-                    document.getElementById("add_contactsImg").style.display = "";
+          $scope.$on('$ionicView.beforeLeave', function () {
+            console.log('移除点击事件');
+            document.removeEventListener('click', newHandle);
+          });
 
-                } else {
-                    document.getElementById("add_bgbox").style.display = "none";//隐藏
-                    document.getElementById("add_contactsImg").style.display = "none";//隐藏
+          //新加弹框点击事件
+          var newHandle = function (e) {
+            console.log('e.target', e.target);
+            console.log('document.getElementById(add_bgBtn)', document.getElementById('add_bgbox_Btn'));
+            if (e.target === document.getElementById('add_bgbox_Btn')) {
+              $scope.toDisplayModifyDiv();
+            } else {
+              if (document.getElementById('add_bgbox').style) {
+                document.getElementById('add_bgbox').style.display = 'none';//隐藏
+              }
+            }
+          };
 
-                }
-            };
+          $scope.toDisplayModifyDiv = function () {
+            if (document.getElementById('add_bgbox').style.display == 'none') {
+              document.getElementById('add_bgbox').style.display = '';//显示
+            } else {
+              document.getElementById('add_bgbox').style.display = 'none';//隐藏
+            }
+          };
+
+
+            // $scope.toDisplayBox = function () {
+            //
+            //     if (document.getElementById("add_bgbox").style.display == "none") {
+            //         document.getElementById("add_bgbox").style.display = "";//显示
+            //         document.getElementById("add_contactsImg").style.display = "";
+            //
+            //     } else {
+            //         document.getElementById("add_bgbox").style.display = "none";//隐藏
+            //         document.getElementById("add_contactsImg").style.display = "none";//隐藏
+            //
+            //     }
+            // };
 
             //未安排 未开始 进行中 已完成
             $scope.isOlder_Table = function (type) {

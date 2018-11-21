@@ -53,7 +53,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 console.log("error:", error);
                 AppUtilService.hideLoading();
             });
-            
+
         }
         $scope.toDisplayImportDiv = function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
@@ -81,11 +81,17 @@ angular.module('oinio.NewOfferFittingsController', [])
 
         });
         $scope.$on('$ionicView.enter', function () {
-           
+            console.log('接受点击事件');
             document.addEventListener('click', newHandle);//初始化弹框
             $scope.get();
         });
-        
+      $scope.$on('$ionicView.beforeLeave', function () {
+        console.log('移除点击事件');
+        document.removeEventListener('click', newHandle);
+      });
+
+
+
         var newHandle = function(e) {
             console.log('e.target',e.target);
             console.log('document.getElementById(btn_modify_Btn)',document.getElementById('btn_modify_Btn'));
@@ -104,15 +110,15 @@ angular.module('oinio.NewOfferFittingsController', [])
                 }
             }
           };
-        
-     
+
+
         $scope.toDisBothModifyDiv =  function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
 
         };
         $scope.goBack = function () {
-            window.history.back();
+          window.history.back();
         };
 
         $scope.openSelectPage = function (ele) {
@@ -352,7 +358,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             // if ($scope.manMadeNo1 != '') {
             //     console.log("index", parseInt($scope.manMadePrice1)+ "  "+parseInt($scope.manMadeNo1));
             //     $scope.sumPrice1 = parseInt($scope.manMadePrice1) * parseInt($scope.manMadeNo1);
-            // }                
+            // }
         };
 
         //组装劳务费 配件列表
@@ -681,7 +687,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             // console.log("isGroupShown:", group);
             return group.show;
         };
-       
+
         //******************LSG勾选框************************ */
         $scope.checkAllSearchResultsLSG = function () {
             let ele = $("#ckbox_truckLSG_searchresult_all");
