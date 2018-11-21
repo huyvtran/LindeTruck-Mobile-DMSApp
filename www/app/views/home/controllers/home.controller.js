@@ -48,7 +48,7 @@ angular.module('oinio.controllers', [])
         if (e.target === document.getElementById('add_bgbox1_Btn')) {
           $scope.toDisplayModifyDiv();
         } else {
-          if (document.getElementById('add_bgbox1').style) {
+          if (document.getElementById('add_bgbox1') && document.getElementById('add_bgbox1').style) {
             document.getElementById('add_bgbox1').style.display = 'none';//隐藏
           }
         }
@@ -106,6 +106,10 @@ angular.module('oinio.controllers', [])
 
       $scope.doPurChase = function () {
         $state.go('app.purchase');
+      };
+
+      $scope.errorCodeView = function () {
+        $state.go('app.errorCode');
       };
 
       $scope.selectTabWithIndex = function (index) {

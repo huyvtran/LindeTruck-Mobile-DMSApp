@@ -73,7 +73,7 @@
                         controller: 'NewOfferController as vm'
                     }
                 }
-                
+
             })
             .state('app.newOfferFittings', {
                 url: 'app/newOfferFittings',
@@ -96,7 +96,7 @@
                     }
                 },
                 cache: false
-                
+
             })
             .state('app.refund', {
                 url: 'app/refund',
@@ -116,6 +116,17 @@
                     menuContent: {
                         templateUrl: 'app/views/home/templates/purchase.html',
                         controller: 'PurChaseController as vm'
+                    }
+                },
+                cache:false
+            })
+
+            .state('app.errorCode',{
+                url:'app/errorCode',
+                views:{
+                menuContent: {
+                    templateUrl: 'app/views/home/templates/errorCode.view.html',
+                    controller: 'ErrorCodeController as vm'
                     }
                 },
                 cache:false

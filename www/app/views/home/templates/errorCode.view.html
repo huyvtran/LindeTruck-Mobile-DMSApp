@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> error Code </title>
+	<link rel="stylesheet" href="././css/errorCode.css">
+
+	<style type="text/css">
+		.errorCode_bodyer {
+			background-image: url(././img/bg_img.png);
+		}
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+			background-image: url(././img/images/back_icon.png);
+		}
+	</style>
+</head>
+<body>
+	<div class="errorCode_header">
+		<div class="left_Box" ng-click="goBack()">
+			<div class="back_Icon"></div>
+		</div>
+  		<div class="center_Box">
+	  		<div class="center_Title">故障代码查询</div>
+		</div>
+		<div class="right_Box">
+		</div>
+	</div>
+	<div class="errorCode_bodyer">
+	  	<div class="big_Type_Group">
+	  		<div>
+	  			<div class="small_Type_Group">
+		  			<div class="small_Type_Title"> 车型: </div>
+					<div class="small_Type_Box">
+		  				<select class="small_Type_Select">
+		  					<option>111</option>
+		  				</select>
+		  			</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Box">
+		  				<select class="small_Type_Select">
+		  					<option>111</option>
+		  				</select>
+		  			</div>
+		  		</div>
+				<div class="small_Type_Group">
+					<div class="line_two_65">
+				  		<div class="search_Type_Box">
+			  				<input class="search_Type_Input"/>
+			  			</div>
+			  		</div>
+			  		<div class="line_two_35">
+			  			<div class="search_Btn">
+			  				查询
+			  			</div>
+			  		</div>
+		  		</div>
+	  			<div class="small_Type_Group">
+		  			<div class="small_Type_Title">代码描述:</div>
+		  			<div class="small_Type_Box">
+		  				<textarea class="small_Type_Textarea"></textarea>
+		  			</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title">产生条件:</div>
+		  			<div class="small_Type_Box">
+		  				<textarea class="small_Type_Textarea"></textarea>
+		  			</div>
+		  		</div>
+		  		<div class="small_Type_Group">
+		  			<div class="small_Type_Title">可能原因:</div>
+		  			<div class="small_Type_Box">
+		  				<textarea class="small_Type_Textarea"></textarea>
+		  			</div>
+		  		</div>
+	  		</div>
+	  	</div>
+  	</div>
+</body>
+</html>

@@ -34,7 +34,7 @@
             if (e.target === document.getElementById('add_bgbox_Btn')) {
               $scope.toDisplayModifyDiv();
             } else {
-              if (document.getElementById('add_bgbox').style) {
+              if (document.getElementById('add_bgbox') && document.getElementById('add_bgbox').style) {
                 document.getElementById('add_bgbox').style.display = 'none';//隐藏
               }
             }

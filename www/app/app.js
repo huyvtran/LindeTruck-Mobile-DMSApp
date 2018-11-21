@@ -56,7 +56,8 @@
             'oinio.NewLinkManController',
             'oinio.serviceManagementController',
             'oinio.RefundController',
-            'oinio.PurChaseController'
+            'oinio.PurChaseController',
+            'oinio.ErrorCodeController'
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,

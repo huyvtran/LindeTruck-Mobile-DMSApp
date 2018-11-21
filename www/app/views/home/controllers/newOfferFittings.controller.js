@@ -99,14 +99,14 @@ angular.module('oinio.NewOfferFittingsController', [])
             if (e.target === document.getElementById('btn_modify_Btn')) {
                 $scope.toDisplayModifyDiv();
             } else {
-                if (document.getElementById("btn_modify_Div").style) {
+                if (document.getElementById('btn_modify_Div') && document.getElementById("btn_modify_Div").style) {
                     document.getElementById("btn_modify_Div").style.display = "none";//隐藏
                 }
             }
             if (e.target === document.getElementById('btn_import_Btn')) {
                 $scope.toDisplayImportDiv();
             } else {
-                if (document.getElementById("btn_import_Div").style) {
+                if (document.getElementById('btn_import_Div') && document.getElementById("btn_import_Div").style) {
                     document.getElementById("btn_import_Div").style.display = "none";//隐藏
                 }
             }
