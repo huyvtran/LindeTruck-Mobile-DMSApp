@@ -85,10 +85,11 @@ angular.module('oinio.NewOfferFittingsController', [])
             document.addEventListener('click', newHandle);//初始化弹框
             $scope.get();
         });
-      $scope.$on('$ionicView.beforeLeave', function () {
-        console.log('移除点击事件');
-        document.removeEventListener('click', newHandle);
-      });
+
+        $scope.$on('$ionicView.beforeLeave', function () {
+            console.log('移除点击事件');
+            document.removeEventListener('click', newHandle);
+        });
 
 
 

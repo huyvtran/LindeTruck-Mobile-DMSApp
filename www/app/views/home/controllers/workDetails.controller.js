@@ -822,7 +822,54 @@ angular.module('oinio.workDetailsControllers', [])
                 }
             }
             return format;
-        }
+        };
+
+
+        $scope.$on('$ionicView.enter', function () {
+            console.log('接受点击事件');
+            document.addEventListener('click', newHandle);//初始化弹框
+         });
+
+        $scope.$on('$ionicView.beforeLeave', function () {
+            console.log('移除点击事件');
+            document.removeEventListener('click', newHandle);
+        });
+
+
+        var newHandle = function(e) {
+            console.log('e.target',e.target);
+            console.log('document.getElementById(btn_modify_Btn)',document.getElementById('btn_modify_Btn'));
+            if (e.target === document.getElementById('btn_modify_Btn')) {
+                $scope.toDisplayModifyDiv();
+            } else {
+                if (document.getElementById("btn_modify_Div").style) {
+                    document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+                }
+            }
+            if (e.target === document.getElementById('btn_import_Btn')) {
+                $scope.toDisplayImportDiv();
+            } else {
+                if (document.getElementById("btn_import_Div").style) {
+                     document.getElementById("btn_import_Div").style.display = "none";//隐藏
+                }
+            }
+            if (e.target === document.getElementById('btn_refund_Btn')){
+              $scope.toDisplayRefundDiv();
+            } else {
+              if (document.getElementById("btn_refund_Div").style) {
+                document.getElementById("btn_refund_Div").style.display = "none";//隐藏
+              }
+            }
+        };
+
+
+
+         $scope.toDisBothModifyDiv =  function () {
+            document.getElementById("btn_modify_Div").style.display = "none";//隐藏
+            document.getElementById("btn_import_Div").style.display = "none";//隐藏
+            document.getElementById("btn_refund_Div").style.display = "none";//隐藏
+         };
+
 
         $scope.selectWorkers = function () {
             document.getElementById("workDetailTotal").style.display = "none";
