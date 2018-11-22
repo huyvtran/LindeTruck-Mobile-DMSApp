@@ -147,24 +147,11 @@
                                 {
                                     console.log('Tapped！!', allUser);
                                     var listDataAll = angular.toJson(allUser);
-                                    ForceClientService.getForceClient().apexrest(
-                                        $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Started",
-                                        "POST",
-                                        {},
-                                        null,function callBack(res) {
-                                            console.log(res);
-                                            AppUtilService.hideLoading();
-                                            if (res.status=="Success"){
-                                                $state.go('app.arrange', {
-                                                    SendAllUser: listDataAll,
-                                                    SendSoupEntryId: item._soupEntryId
-                                                });
-                                            }
-                                        },function error(msg) {
-                                            AppUtilService.hideLoading();
-                                            console.log(msg);
-                                        }
-                                    );
+                                    $state.go('app.arrange', {
+                                        SendAllUser: listDataAll,
+                                        SendSoupEntryId: item._soupEntryId,
+                                        workOrderId:item.Id
+                                    });
 
                                     return "anpai";
                                 }

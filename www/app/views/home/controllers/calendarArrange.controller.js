@@ -1,11 +1,12 @@
 angular.module('oinio.CalendarArrangeController', [])
-    .controller('CalendarArrangeController', function ($scope,$ionicPopup,$stateParams,HomeService, $state,$rootScope) {
+    .controller('CalendarArrangeController', function ($scope,$ionicPopup,$stateParams,HomeService, $state,$rootScope,
+                                                       AppUtilService,ForceClientService) {
 
         $scope.goBack = function () {
             window.history.go(-1);
         };
 
-
+        $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
         $scope.submitOrder = function () {
             var mobiDate = $("#currentDate").val();
 
@@ -25,20 +26,41 @@ angular.module('oinio.CalendarArrangeController', [])
             userSoupEntryId._soupEntryId = selectUserEntryId;
             var orderSoupEntryId = new Object(); 
             orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
+            console.log($stateParams.workOrderId);
 
-            HomeService.modifyWorkOrder(orderSoupEntryId,userSoupEntryId,mobiDate).then(function (sobject) {                
-                $state.go('app.home', {}, {reload: false})
-                .then(function(){
-                    setTimeout(function() {
-                        $rootScope.getSomeData();
-                 },100);
-             })
-            }, function (error) {
-                console.log('modifyWorkOrder Error ' + error);
-                $ionicPopup.alert({
-                    title: "数据错误"
-                });
-            });
+            // HomeService.modifyWorkOrder(orderSoupEntryId,userSoupEntryId,mobiDate).then(function (sobject) {
+            //     $state.go('app.home', {}, {reload: false})
+            //     .then(function(){
+            //         setTimeout(function() {
+            //             $rootScope.getSomeData();
+            //      },100);
+            //  })
+            // }, function (error) {
+            //     console.log('modifyWorkOrder Error ' + error);
+            //     $ionicPopup.alert({
+            //         title: "数据错误"
+            //     });
+            // });
+
+            AppUtilService.showLoading();
+            ForceClientService.getForceClient().apexrest(
+                $scope.updateDataStatusUrl+"&sooId="+$stateParams.workOrderId+"&status=Not Started",
+                "POST",
+                {},
+                null,function callBack(res) {
+                    console.log(res);
+                    AppUtilService.hideLoading();
+                    if (res.status=="Success"){
+                        $state.go('app.home', {}, {reload: false})
+                            .then(function(){
+                                setTimeout(function() {
+                                    $rootScope.getSomeData();
+                                },100);
+                            });
+                    }},function error(msg) {
+                        AppUtilService.hideLoading();
+                        console.log(msg);
+                    });
             
         };
         

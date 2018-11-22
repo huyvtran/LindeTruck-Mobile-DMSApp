@@ -156,7 +156,7 @@
             })
             .state('app.arrange', {
                 url: '/arrange',
-                params:{'SendAllUser':null,'SendSoupEntryId':null},
+                params:{'SendAllUser':null,'SendSoupEntryId':null,'workOrderId':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/arrange.html',
