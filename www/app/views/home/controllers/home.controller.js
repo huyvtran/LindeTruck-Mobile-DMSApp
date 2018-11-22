@@ -157,7 +157,7 @@ angular.module('oinio.controllers', [])
         HomeService.getEachOrder().then(function (res) {
           allUser = res;
           if (typeof(getOrderById(oCurrentUser.Id)) === 'undefined') {
-            newArray = allUser[0].orders;
+            currentOrder = allUser[0].orders;
           } else {
             currentOrder = getOrderById(oCurrentUser.Id).orders;
           }
