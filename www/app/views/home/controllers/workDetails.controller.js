@@ -54,6 +54,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.selectWorkersArr=[];//已选派工人员
         $scope.selectWorkersStr="";//已选派工人员组成字符串
         $scope.searchWorkersText="";
+        $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -1323,14 +1324,35 @@ angular.module('oinio.workDetailsControllers', [])
             var savePartsUrlVar = $scope.savePartsUrl + JSON.stringify(regroupPartList);
             console.log("savePartsUrl:", savePartsUrlVar);
             ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'POST', {}, null, function (responseSaveParts) {
-                AppUtilService.hideLoading();
+                //AppUtilService.hideLoading();
                 console.log("responseSaveParts:", responseSaveParts);
-                $state.go("app.home");
+
+                //添加点击保存更改工单状态
+                //AppUtilService.showLoading();
+
+                if (allowEdit){
+                    ForceClientService.getForceClient().apexrest(
+                        $scope.updateDataStatusUrl+"&sooId="+currentWorkId+"&status=Service Completed",
+                        "POST",
+                        {},
+                        null,function callBack(res) {
+                            console.log(res);
+                            AppUtilService.hideLoading();
+                            if (res.status=="Success"){
+                                $state.go("app.home");
+                            }
+                        },function error(msg) {
+                            AppUtilService.hideLoading();
+                            console.log(msg);
+                        }
+                    );
+                }else{
+                    $state.go("app.home");
+                }
 
             }, function (error) {
                 console.log("responseSaveParts_error:", error);
                 AppUtilService.hideLoading();
-
             });
 
         };
