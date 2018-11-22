@@ -89,38 +89,42 @@
                 console.log('showPopup!item', item);
                 $scope.data = {}
                 var setButtons = [];
-                if (item.Status__c == "Not Planned") {
+
+
+
+
+                if (item.Status__c == "Not Planned") { //Not Planned   未安排  只显示详情和安排
                     setButtons = [
-                        {
-                            text: '出发',
-                            onTap:function (e) {
-                                AppUtilService.showLoading();
-                                ForceClientService.getForceClient().apexrest(
-                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Completed",
-                                    "POST",
-                                    {},
-                                    null,function callBack(res) {
-                                        console.log("updateDataStatusUrl",res);
-                                        AppUtilService.hideLoading();
-                                        if (res.status=="Success"){
-                                            $scope.getHomeService();//刷新日历列表数据 更改出发状态
-                                            var goTime = new Date();
-                                            $state.go("app.workDetails",{
-                                                SendInfo: item._soupEntryId,
-                                                workDescription: null,
-                                                AccountShipToC: item.Account_Ship_to__c,
-                                                goOffTime:goTime,
-                                                workOrderId:item.Id,
-                                                isNewWorkList:true
-                                            });
-                                        }
-                                    },function error(msg) {
-                                        AppUtilService.hideLoading();
-                                        console.log(msg);
-                                    }
-                                );
-                            }
-                        },
+                        // {
+                        //     text: '出发',
+                        //     onTap:function (e) {
+                        //         AppUtilService.showLoading();
+                        //         ForceClientService.getForceClient().apexrest(
+                        //             $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Completed",
+                        //             "POST",
+                        //             {},
+                        //             null,function callBack(res) {
+                        //                 console.log("updateDataStatusUrl",res);
+                        //                 AppUtilService.hideLoading();
+                        //                 if (res.status=="Success"){
+                        //                     $scope.getHomeService();//刷新日历列表数据 更改出发状态
+                        //                     var goTime = new Date();
+                        //                     $state.go("app.workDetails",{
+                        //                         SendInfo: item._soupEntryId,
+                        //                         workDescription: null,
+                        //                         AccountShipToC: item.Account_Ship_to__c,
+                        //                         goOffTime:goTime,
+                        //                         workOrderId:item.Id,
+                        //                         isNewWorkList:true
+                        //                     });
+                        //                 }
+                        //             },function error(msg) {
+                        //                 AppUtilService.hideLoading();
+                        //                 console.log(msg);
+                        //             }
+                        //         );
+                        //     }
+                        // },
 
                         {
                             text: '<b>详情</b>',
@@ -143,17 +147,33 @@
                                 {
                                     console.log('Tapped！!', allUser);
                                     var listDataAll = angular.toJson(allUser);
+                                    ForceClientService.getForceClient().apexrest(
+                                        $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Started",
+                                        "POST",
+                                        {},
+                                        null,function callBack(res) {
+                                            console.log(res);
+                                            AppUtilService.hideLoading();
+                                            if (res.status=="Success"){
+                                                $state.go('app.arrange', {
+                                                    SendAllUser: listDataAll,
+                                                    SendSoupEntryId: item._soupEntryId
+                                                });
+                                            }
+                                        },function error(msg) {
+                                            AppUtilService.hideLoading();
+                                            console.log(msg);
+                                        }
+                                    );
 
-                                    $state.go('app.arrange', {
-                                        SendAllUser: listDataAll,
-                                        SendSoupEntryId: item._soupEntryId
-                                    });
                                     return "anpai";
                                 }
                             }
                         }
                     ];
-                } else {
+                }
+
+                else if(item.Status__c =="Not Started"){  //Not Started   未开始  只显示出发 详情
                     setButtons = [
                         { text: '出发',
                             onTap:function (e) {
@@ -198,7 +218,40 @@
                         }
                     ];
                 }
-
+                else if (item.Status__c =="Not Completed"){  //Not Completed  进行中  只显示详情
+                    setButtons=[
+                        {
+                            text: '<b>详情</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                $state.go('app.workDetails', {
+                                    SendInfo: item._soupEntryId,
+                                    workDescription: null,
+                                    AccountShipToC: item.Account_Ship_to__c,
+                                    workOrderId:item.Id,
+                                    isNewWorkList:true
+                                });
+                            }
+                        }
+                    ];
+                }
+                else{  //Service Completed  已完成  只能查详情
+                    setButtons=[
+                        {
+                            text: '<b>详情</b>',
+                            type: 'button-positive',
+                            onTap: function (e) {
+                                $state.go('app.workDetails', {
+                                    SendInfo: item._soupEntryId,
+                                    workDescription: null,
+                                    AccountShipToC: item.Account_Ship_to__c,
+                                    workOrderId:item.Id,
+                                    isNewWorkList:false
+                                });
+                            }
+                        }
+                    ];
+                }
                 // 自定义弹窗
                 myPopup = $ionicPopup.show({
                     title: item.Account_Ship_to__r.Name,
