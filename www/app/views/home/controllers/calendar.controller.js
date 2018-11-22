@@ -114,14 +114,15 @@
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', {
-                                    SendInfo: item._soupEntryId,
-                                    workDescription: null,
-                                    AccountShipToC: item.Account_Ship_to__c,
-                                    goOffTime:"",
-                                    workOrderId:item.Id,
-                                    isNewWorkList:false
-                                });
+                                // $state.go('app.workDetails', {
+                                //     SendInfo: item._soupEntryId,
+                                //     workDescription: null,
+                                //     AccountShipToC: item.Account_Ship_to__c,
+                                //     goOffTime:null,
+                                //     workOrderId:item.Id,
+                                //     isNewWorkList:false
+                                // });
+                                $scope.goPageWorkDetails(item,false,null);
                             }
                         },
                         {
@@ -158,14 +159,15 @@
                                         AppUtilService.hideLoading();
                                         if (res.status=="Success"){
                                             var goTime =new Date();
-                                            $state.go("app.workDetails",{
-                                                SendInfo: item._soupEntryId,
-                                                workDescription: null,
-                                                AccountShipToC: item.Account_Ship_to__c,
-                                                goOffTime:goTime,
-                                                workOrderId:item.Id,
-                                                isNewWorkList:true
-                                            });
+                                            // $state.go("app.workDetails",{
+                                            //     SendInfo: item._soupEntryId,
+                                            //     workDescription: null,
+                                            //     AccountShipToC: item.Account_Ship_to__c,
+                                            //     goOffTime:goTime,
+                                            //     workOrderId:item.Id,
+                                            //     isNewWorkList:true
+                                            // });
+                                            $scope.goPageWorkDetails(item,true,goTime);
                                         }
                                     },function error(msg) {
                                         AppUtilService.hideLoading();
@@ -178,13 +180,14 @@
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', {
-                                    SendInfo: item._soupEntryId,
-                                    workDescription: null,
-                                    AccountShipToC: item.Account_Ship_to__c,
-                                    workOrderId:item.Id,
-                                    isNewWorkList:false
-                                });
+                                // $state.go('app.workDetails', {
+                                //     SendInfo: item._soupEntryId,
+                                //     workDescription: null,
+                                //     AccountShipToC: item.Account_Ship_to__c,
+                                //     workOrderId:item.Id,
+                                //     isNewWorkList:false
+                                // });
+                                $scope.goPageWorkDetails(item,false,null);
                             }
                         }
                     ];
@@ -195,13 +198,14 @@
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', {
-                                    SendInfo: item._soupEntryId,
-                                    workDescription: null,
-                                    AccountShipToC: item.Account_Ship_to__c,
-                                    workOrderId:item.Id,
-                                    isNewWorkList:true
-                                });
+                                // $state.go('app.workDetails', {
+                                //     SendInfo: item._soupEntryId,
+                                //     workDescription: null,
+                                //     AccountShipToC: item.Account_Ship_to__c,
+                                //     workOrderId:item.Id,
+                                //     isNewWorkList:true
+                                // });
+                                $scope.goPageWorkDetails(item,true,null);
                             }
                         }
                     ];
@@ -212,13 +216,14 @@
                             text: '<b>详情</b>',
                             type: 'button-positive',
                             onTap: function (e) {
-                                $state.go('app.workDetails', {
-                                    SendInfo: item._soupEntryId,
-                                    workDescription: null,
-                                    AccountShipToC: item.Account_Ship_to__c,
-                                    workOrderId:item.Id,
-                                    isNewWorkList:false
-                                });
+                                // $state.go('app.workDetails', {
+                                //     SendInfo: item._soupEntryId,
+                                //     workDescription: null,
+                                //     AccountShipToC: item.Account_Ship_to__c,
+                                //     workOrderId:item.Id,
+                                //     isNewWorkList:false
+                                // });
+                                $scope.goPageWorkDetails(item,false,null);
                             }
                         }
                     ];
@@ -233,6 +238,17 @@
                 myPopup.then(function (res) {
                     console.log('Tapped!', res);
 
+                });
+            };
+
+            $scope.goPageWorkDetails = function (obj,isNewWork,goTime) {
+                $state.go('app.workDetails', {
+                    SendInfo: obj._soupEntryId,
+                    workDescription: null,
+                    AccountShipToC: obj.Account_Ship_to__c,
+                    workOrderId:obj.Id,
+                    goOffTime:goTime,
+                    isNewWorkList:isNewWork
                 });
             };
 
