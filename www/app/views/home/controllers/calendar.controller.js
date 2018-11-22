@@ -394,7 +394,7 @@
                     HomeService.getEachOrder().then(function (res) {
 
                         allUser = res;
-                        $scope.allUser = res;
+                        $rootScope.allUser = res;
 
                         if (typeof (getOrderById(oCurrentUser.Id)) === 'undefined') {
                             currentOrder = allUser[0].orders

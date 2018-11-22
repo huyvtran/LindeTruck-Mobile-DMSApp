@@ -4,7 +4,6 @@ angular.module('oinio.controllers', [])
 
       var vm           = this,
           oCurrentUser = LocalCacheService.get('currentUser') || {};
-      var allUser = [];
       vm.isOnline = null;
       var currentOrder = [];
       /**
@@ -141,23 +140,26 @@ angular.module('oinio.controllers', [])
       };
       var getOrderById = function (sendId) {
         console.log('getOrderById:', sendId);
-        for (let index = 0; index < allUser.length; index++) {
-          var userId = allUser[index].userId;
+        for (let index = 0; index <  $scope.allUser.length; index++) {
+          var userId =  $scope.allUser[index].userId;
           if (userId == sendId) {
             // console.log("getOrderById_UserId:",userId);
 
-            return allUser[index];
+            return  $scope.allUser[index];
           }
         }
       };
 
       var getOrderBySelectTabs = function (status) {
 
+       console.log('allUser',$rootScope.allUser );
+
+
         // 这里是获取全部工单的请求
-        HomeService.getEachOrder().then(function (res) {
-          allUser = res;
+        // HomeService.getEachOrder().then(function (res) {
+        //   allUser = res;
           if (typeof(getOrderById(oCurrentUser.Id)) === 'undefined') {
-            currentOrder = allUser[0].orders;
+            currentOrder = $rootScope.allUser[0].orders;
           } else {
             currentOrder = getOrderById(oCurrentUser.Id).orders;
           }
@@ -170,10 +172,10 @@ angular.module('oinio.controllers', [])
           $rootScope.NotCompletedCount = getOrderByStates('Not Completed').length;
           //已完成 "Service Completed"
           $rootScope.ServiceCompletedCount = getOrderByStates('Service Completed').length;
-
-        }, function (error) {
-          console.log('getEachOrder Error ' + error);
-        });
+        //
+        // }, function (error) {
+        //   console.log('getEachOrder Error ' + error);
+        // });
       };
 
     });
