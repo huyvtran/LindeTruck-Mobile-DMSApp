@@ -159,7 +159,7 @@
                                     $log.debug('>>>> setup soups done');
 
                                     IonicLoadingService.hide();
-
+                                    console.log('current time:::', new Date());
                                     // local login
                                     localLogin(true);
                                 }, function (error) {
