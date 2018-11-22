@@ -119,6 +119,14 @@ angular.module('oinio.controllers', [])
         }
       };
 
+      $scope.selectCalenderStatus = function (index) {
+        $ionicTabsDelegate.select(1);
+        getOrderBySelectTabs();
+        $rootScope.switchelectStatus(index);
+      };
+
+
+
       var getOrderByStates = function (status) {
         var forNowlist = [];
         for (let index = 0; index < currentOrder.length; index++) {
@@ -142,6 +150,7 @@ angular.module('oinio.controllers', [])
           }
         }
       };
+
       var getOrderBySelectTabs = function (status) {
 
         // 这里是获取全部工单的请求

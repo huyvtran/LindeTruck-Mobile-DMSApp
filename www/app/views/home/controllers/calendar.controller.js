@@ -479,6 +479,12 @@
 
                 };
 
+                //////接收home按钮选择跳转
+                $rootScope.switchelectStatus = function (index) {
+                    document.getElementById("selectStatusId")[index].selected = true;
+                    selectStatusUserIndex(index);
+                };
+
                 //////选择组员
                 var province = document.getElementById("selectUserId");
                 province.onchange = function () {
@@ -487,7 +493,8 @@
                     document.getElementById("selectStatusId")[0].selected = true;
                     $scope.currentOrder = getServiceOrderType(allUser[index].orders);
                     calendarAll.fullCalendar("addEventSource", getCount(allUser[index].orders));
-                }
+                };
+
 
 
 
@@ -495,31 +502,36 @@
                 var selectStatus = document.getElementById("selectStatusId");
                 selectStatus.onchange = function () {
                     var index = selectStatus.options.selectedIndex;
+                    selectStatusUserIndex(index);
+                };
 
-                    var selectStatusUser = [];
-                    switch (index) {
-                        case 0://全部
-                            selectStatusUser = currentOrder;
-                            break;
-                        case 1://未安排 Not Planned
-                            selectStatusUser = getOrderByStates("Not Planned");
-                            break;
-                        case 2://未开始 "Not Started"
-                            selectStatusUser = getOrderByStates("Not Started");
-                            break;
-                        case 3://进行中 "Not Completed"
-                            selectStatusUser = getOrderByStates("Not Completed");
-                            break;
-                        case 4://已完成 "Service Completed"
-                            selectStatusUser = getOrderByStates("Service Completed");
-                            break;
-                        default:
-                            break;
-                    }
-                    $scope.currentOrder = getServiceOrderType(selectStatusUser);
-                    calendarAll.fullCalendar("addEventSource", getCount(selectStatusUser));
+                var selectStatusUserIndex = function (index) {
+
+                  var selectStatusUser = [];
+                  switch (index) {
+                    case 0://全部
+                      selectStatusUser = currentOrder;
+                      break;
+                    case 1://未安排 Not Planned
+                      selectStatusUser = getOrderByStates("Not Planned");
+                      break;
+                    case 2://未开始 "Not Started"
+                      selectStatusUser = getOrderByStates("Not Started");
+                      break;
+                    case 3://进行中 "Not Completed"
+                      selectStatusUser = getOrderByStates("Not Completed");
+                      break;
+                    case 4://已完成 "Service Completed"
+                      selectStatusUser = getOrderByStates("Service Completed");
+                      break;
+                    default:
+                      break;
+                  }
+                  $scope.currentOrder = getServiceOrderType(selectStatusUser);
+                  calendarAll.fullCalendar("addEventSource", getCount(selectStatusUser));
                 }
             });
+
         });
 
 })();
