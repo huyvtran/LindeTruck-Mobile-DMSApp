@@ -14,6 +14,9 @@ img {
     cursor: pointer;
     vertical-align: middle;
 }
+.searchs_Table {
+    width: 172vw;
+}
 .to_Open {
     display: block;
 }
