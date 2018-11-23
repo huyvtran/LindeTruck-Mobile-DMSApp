@@ -51,7 +51,7 @@ angular.module('oinio.services', [])
         */
 
         this.searchUnplannedOrders = function(){
-            //let deferred = $q.defer();
+            let deferred = $q.defer();
             let result = new Object();
 
             ForceClientService.getForceClient()
@@ -63,12 +63,14 @@ angular.module('oinio.services', [])
                     },null,function success(res) {
                         console.log(res);
                         result = JSON.parse(res);
+                        deferred.resolve(result);
                     },
                     function error(msg) {
                         console.log(msg);
+                        deferred.reject(msg);
                     });
 
-            return result;
+            return deferred.promise;
         };
 
 
