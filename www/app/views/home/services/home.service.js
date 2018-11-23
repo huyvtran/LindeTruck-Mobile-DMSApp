@@ -5,7 +5,7 @@ angular.module('oinio.services', [])
     .service('HomeService', function HomeService($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService,ForceClientService, SMARTSTORE_COMMON_SETTING){
         let service = this;
 
-
+        /*
         this.searchUnplannedOrders = function(){
             console.log('searchUnplannedOrders.keyword:%s');
             let deferred = $q.defer();
@@ -48,8 +48,9 @@ angular.module('oinio.services', [])
             console.log('searchUnplannedOrders::', deferred.promise);
             return deferred.promise;
         };
+        */
 
-        this.searchUnplannedOrders2 = function(){
+        this.searchUnplannedOrders = function(){
             //let deferred = $q.defer();
             let result = new Object();
 
