@@ -1144,7 +1144,7 @@ angular.module('oinio.workDetailsControllers', [])
                 if (element.type =="economical") {
                     setTimeout(function() {
                         $scope.selectedTruckFitItems.remove(element);
-                    },100);
+                    },50);            
                 }
             }
         }
@@ -1156,7 +1156,7 @@ angular.module('oinio.workDetailsControllers', [])
                 if (element.type =="common") {
                     setTimeout(function() {
                         $scope.selectedTruckFitItems.remove(element);
-                    },100);
+                    },50);    
                 }
             }
         }
@@ -1190,7 +1190,6 @@ angular.module('oinio.workDetailsControllers', [])
                             $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                         }
                     }
-
                 }
             }, function (error) {
                 console.log("error:", error);
@@ -1420,15 +1419,19 @@ angular.module('oinio.workDetailsControllers', [])
                 for (let i = 0; i < responsePartsRelateds.length; i++) {
                     var responsePartsRelatedsList = responsePartsRelateds[i];
                     for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                        // responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
-                        responsePartsRelatedsList[j]["itemNO"] = j;
-                        rebuildListForLSG.push(responsePartsRelatedsList[j]);
+                        // responsePartsRelatedsList[j]["itemNO"] = j;
+                        if (responsePartsRelatedsList[j].type =="common") {
+                            rebuildListForLSG.push(responsePartsRelatedsList[j]);
+                        }
                     }
                 }
 
                 for (let i = 0; i < rebuildListForLSG.length; i++) {
                     $scope.selectedTruckFitItems.push(rebuildListForLSG[i]);
                 }
+                //添加未找到但是勾选的LSG
+                //$scope.contentLSGs
+
                 $scope.closeSelectPage();
 
             }, function (error) {
