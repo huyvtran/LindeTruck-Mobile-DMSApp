@@ -62,7 +62,7 @@ angular.module('oinio.services', [])
 
                     },null,function success(res) {
                         console.log(res);
-                        result = JSON.parse(res);
+                        result =  res;
                         deferred.resolve(result);
                     },
                     function error(msg) {
