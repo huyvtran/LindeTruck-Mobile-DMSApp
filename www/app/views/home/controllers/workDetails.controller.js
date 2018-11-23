@@ -1,12 +1,10 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-        LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
+                                                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
 
         var vm = this,
             arriveTime = null,
             leaveTime = null,
-            //startTime = null,
-            //finishTime = null,
             localWorkers=[],
             goOffTimeFromPrefix = null,
             workDescription = null,
@@ -49,207 +47,50 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.getPartsForReadUrl = "/ServiceOrderMaterial/";
         $scope.getDeliveryOrder = "/DeliveryOrder/";
         $scope.postDataToRemote="/WorkDetailService?action=saveAction";
-        $scope.getInitPicUri="/WorkDetailService";
+        $scope.getInitDataUri="/WorkDetailService";
         $scope.workers=[];//全部派工人员
         $scope.selectWorkersArr=[];//已选派工人员
         $scope.selectWorkersStr="";//已选派工人员组成字符串
         $scope.searchWorkersText="";
         $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
+        $scope.HasTruckNum = 0;
+        $scope.SelectedTruckNum = 0;
+        $scope.workTypes = [];
+        $scope.carServices = [];
+        $scope.showFooter=true;
+        $scope.imgUris = ["././img/images/will_add_Img.png"];
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
          */
         $scope.$on('$ionicView.beforeEnter', function () {
-            document.getElementById("describInfDiv").style.display = "none";//隐藏
-            document.getElementById("btn_modify_Div").style.display = "none";//隐藏
-            document.getElementById("btn_import_Div").style.display = "none";//隐藏
-            document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-        });
-        /**
- *删除数组指定下标或指定对象
- */
-        Array.prototype.remove = function (obj) {
-            for (var i = 0; i < this.length; i++) {
-                var temp = this[i];
-                if (!isNaN(obj)) {
-                    temp = i;
-                }
-                if (temp == obj) {
-                    for (var j = i; j < this.length; j++) {
-                        this[j] = this[j + 1];
-                    }
-                    this.length = this.length - 1;
-                }
-            }
-        }
-
-        $scope.$on('$ionicView.afterEnter', function () {
-
-            LocalCacheService.set('previousStateForSCReady', $state.current.name);
-            LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
-            $scope.HasTruckNum = 0;
-            $scope.SelectedTruckNum = 0;
-            $scope.workTypes = [];
-            $scope.carServices = [];
-            $scope.imgUris = ["././img/images/will_add_Img.png"];
             console.log("$stateParams.SendInfo", $stateParams.SendInfo);
             console.log("$stateParams.workDescription", $stateParams.workDescription);
             console.log("$stateParams.goOffTime", $stateParams.goOffTime);
             console.log("$stateParams.isNewWorkList", $stateParams.isNewWorkList);
             console.log("$stateParams.selectTypeIndex", $stateParams.selectWorkTypeIndex);
             console.log("$stateParams.workOrderId",$stateParams.workOrderId);
-            userInfoId = $stateParams.SendInfo;
+            userInfoId = $stateParams.SendInfo;//原先工单数据的本地Id 现改为在线Id
             Account_Ship_to__c = $stateParams.AccountShipToC;
             workDescription = $stateParams.workDescription;
             goOffTimeFromPrefix = $stateParams.goOffTime;
             allowEdit = $stateParams.isNewWorkList;
             currentWorkId=$stateParams.workOrderId;
+            $scope.showFooter=$stateParams.isNewWorkList;
 
+            //获取作业类型选择索引
             if($stateParams.selectWorkTypeIndex!=null){
                 selectTypeIndex = $stateParams.selectWorkTypeIndex;
             }
-
-            SOrderService.getPrintDetails(userInfoId).then(function success(result) {
-                $log.info(result);
-                console.log("orderDetailsId:",result.Id);
-                orderDetailsId = result.Id;
-                customerNameValue = result.Account_Ship_to__r.Name != null ? result.Account_Ship_to__r.Name : "";
-                customerAccountValue = result.Account_Ship_to__r._soupEntryId != null ? result.Account_Ship_to__r._soupEntryId : "";
-                customerAddressValue = result.Account_Ship_to__r.Address__c != null ? result.Account_Ship_to__r.Address__c : "";
-                if (result.truckModels != null && result.truckModels.length > 0) {
-                    for (var i = 0; i < result.truckModels.length; i++) {
-                        truckNumber += result.truckModels[i] + ";";
-                    }
-                }
-                ownerName = result.Service_Order_Owner__r.Name != null ? result.Service_Order_Owner__r.Name : "";
-                //获取图片
-                ForceClientService.getForceClient()
-                    .apexrest(
-                        $scope.getInitPicUri + orderDetailsId +'/' +oCurrentUser.Id,
-                        'GET',
-                        {
-
-                        },null,function success(res) {
-                            console.log(res);
-                            //初始化 已上传图片
-                            var photoes=res.Photo;
-                            if (photoes!=undefined||photoes!=null){
-                                if (photoes.length>0){
-                                    //删除默认的图片  第一张
-                                    $scope.imgUris.splice(0, 1);
-                                    for (var i=0;i<photoes.length;i++){
-                                        $scope.imgUris.push("data:image/jpeg;base64,"+photoes[i]);
-                                    }
-                                    //添加默认图片
-                                    $scope.imgUris.push("././img/images/will_add_Img.png");
-                                }
-
-                            }
-                            //初始化所有派工人员
-                            var workersStrArr = res.assignUser;
-                            if(workersStrArr!=undefined || workersStrArr!=null){
-                              for (var i=0;i<workersStrArr.length;i++){
-                                  var singleArr  = workersStrArr[i].split(',');
-                                  $scope.workers.push({label:singleArr[0],value:singleArr[1]});
-                              }
-                              localWorkers = $scope.workers;
-                            }
-                            //初始化已选派工人员
-                            var savedUsers =res.savedUser;
-                            if(savedUsers!=undefined || savedUsers != null){
-                                if (savedUsers.length>0){
-                                    for (var i=0;i<savedUsers.length;i++){
-                                        for(var j=0;j<workersStrArr.length;j++){
-                                            if (savedUsers[i]==workersStrArr[j].label){
-                                                $scope.workers.push(workersStrArr[j]);
-                                            }else{
-                                                $scope.workers.push({label:savedUsers[i],value:""});
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        },
-                        function error(msg) {
-                            console.log(msg);
-                        });
-
-                //*********读取配件*************** */
-                $scope.getPartListForRead();
-                return SOrderService.getOrdersSelectedTruck(userInfoId);
-            }).then(function success(result) {
-                $scope.SelectedTruckNum = 0;
-                if (result.length > 0) {
-                    for (var i = 0; i < result.length; i++) {
-                        if (result[i].Truck_Serial_Number__r != undefined) {
-                            $scope.SelectedTruckNum = Number($scope.SelectedTruckNum) + 1;
-                            truckItems.push(
-                                {
-                                    Id: result[i].Truck_Serial_Number__r.Id,
-                                    truckItemNum: result[i].Truck_Serial_Number__r.Name,
-                                    Operation_Hour__c: 0,
-                                    Service_Suggestion__c: "",
-                                    isShow: false
-                                }
-                            );
-                            truckItemsSecond.push(
-                                {
-                                    Id: result[i].Truck_Serial_Number__r.Id,
-                                    Operation_Hour__c: 0,
-                                    Service_Suggestion__c: "",
-                                }
-                            );
-                        }
-                    }
-                    $scope.allTruckItems = truckItems;
-                }
-                console.log(result);
-                $log.info(result);
-            }).catch(function error(msg) {
-                $log.error(msg);
-                console.log(msg);
-            });
-
-
-            //***********交货列表************** */
-            $scope.getRefundList();
-            //************************* */
-
-            // if (allowEdit) {
-            //     $("#call_str").removeAttr("disabled");
-            // } else {
-            //     $("#call_str").attr("disabled", "disabled");
-            // }
-
-            if(!allowEdit){
-                $("#arriveBtn").prop("disabled","disabled");
-                $("#arriveBtn").css("backgroundColor","#00FF7F");
-                $("#leave").prop("disabled","disabled");
-                $("#leave").css("backgroundColor","#00FF7F");
-                $("#printBtn").prop("disabled","disabled");
-                $("#printBtn").css("backgroundColor","#00FF7F");
-                $("#signBillBtn").prop("disabled","disabled");
-                $("#signBillBtn").css("backgroundColor","#00FF7F");
-            }else{
-                $("#arriveBtn").prop("disabled","");
-                $("#arriveBtn").css("backgroundColor","");
-                $("#leave").prop("disabled","");
-                $("#leave").css("backgroundColor","");
-                $("#printBtn").prop("disabled","");
-                $("#printBtn").css("backgroundColor","");
-                $("#signBillBtn").prop("disabled","");
-                $("#signBillBtn").css("backgroundColor","");
-            }
-
-            vm.isOnline = ConnectionMonitor.isOnline();
-            if (oCurrentUser) {
-                vm.username = oCurrentUser.Name;
-            }
+            /**
+             * 本地初始化服务类型数据
+             */
             $scope.carServices.push({ label: '1', value: '保养' });
             $scope.carServices.push({ label: '2', value: '维修' });
             $scope.carServices.push({ label: '3', value: '服务' });
-
+            /**
+             * 本地初始化作业类型数据
+             */
             $scope.workTypes.push({ label: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service' });
             $scope.workTypes.push({ label: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg' });
             $scope.workTypes.push({ label: 'ZS02_Z20', value: 'Z20 Service contract job\t' });
@@ -287,61 +128,284 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.workTypes.push({ label: 'ZS08_Z81', value: 'Z81 Warranty job1' });
             $scope.workTypes.push({ label: 'ZS08_Z82', value: 'Z82 Warranty job2' });
             $scope.workTypes.push({ label: 'ZS08_Z83', value: 'Z83 Warranty job3' });
+        });
+
+        $scope.$on('$ionicView.enter', function () {
+            LocalCacheService.set('previousStateForSCReady', $state.current.name);
+            LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
+            vm.isOnline = ConnectionMonitor.isOnline();
+            if (oCurrentUser) {
+                vm.username = oCurrentUser.Name;
+            }
+            if(!allowEdit){
+                $("#workListDetailBody").css("height","100vh");
+                $("#call_str").prop("disabled","disabled");
+                $("#workContentStr").prop("disabled","disabled");
+                $("#serviceSuggest").prop("disabled","disabled");
+            }
+            /**
+             * 初始化 详细信息／工作信息／配件需求／交货列表／服务建议
+             */
+            //HomeService.searchUnplannedOrders2();
+
+            ForceClientService.getForceClient()
+                .apexrest(
+                    $scope.getInitDataUri+"/"+ currentWorkId +'/' +oCurrentUser.Id,
+                    'GET',
+                    {
+
+                    },null,function success(res) {
+                        console.log(res);
+
+                        $scope.initSoResult(res.soResult);
+                        $scope.initPhotoData(res.Photo);
+                        $scope.initAssignUserData(res.assignUser);
+                        $scope.initSavedUserData(res.savedUser,res.assignUser);
+                        $scope.initTrucks(res.truckModels);
+
+                        //交货列表
+                        $scope.getRefundList();
+                    },
+                    function error(msg) {
+                        console.log(msg);
+                    });
 
 
 
+            // SOrderService.getPrintDetails(userInfoId).then(function success(result) {
+            //     $log.info(result);
+            //     console.log("orderDetailsId:",result.Id);
+            //     orderDetailsId = result.Id;
+            //     customerNameValue = result.Account_Ship_to__r.Name != null ? result.Account_Ship_to__r.Name : "";
+            //     customerAccountValue = result.Account_Ship_to__r._soupEntryId != null ? result.Account_Ship_to__r._soupEntryId : "";
+            //     customerAddressValue = result.Account_Ship_to__r.Address__c != null ? result.Account_Ship_to__r.Address__c : "";
+            //     if (result.truckModels != null && result.truckModels.length > 0) {
+            //         for (var i = 0; i < result.truckModels.length; i++) {
+            //             truckNumber += result.truckModels[i] + ";";
+            //         }
+            //     }
+            //     ownerName = result.Service_Order_Owner__r.Name != null ? result.Service_Order_Owner__r.Name : "";
+            //     //获取图片
+            //     ForceClientService.getForceClient()
+            //         .apexrest(
+            //             $scope.getInitPicUri + orderDetailsId +'/' +oCurrentUser.Id,
+            //             'GET',
+            //             {
+            //
+            //             },null,function success(res) {
+            //                 console.log(res);
+            //                 //初始化 已上传图片
+            //                 var photoes=res.Photo;
+            //                 if (photoes!=undefined||photoes!=null){
+            //                     if (photoes.length>0){
+            //                         //删除默认的图片  第一张
+            //                         $scope.imgUris.splice(0, 1);
+            //                         for (var i=0;i<photoes.length;i++){
+            //                             $scope.imgUris.push("data:image/jpeg;base64,"+photoes[i]);
+            //                         }
+            //                         //添加默认图片
+            //                         $scope.imgUris.push("././img/images/will_add_Img.png");
+            //                     }
+            //
+            //                 }
+            //                 //初始化所有派工人员
+            //                 var workersStrArr = res.assignUser;
+            //                 if(workersStrArr!=undefined || workersStrArr!=null){
+            //                   for (var i=0;i<workersStrArr.length;i++){
+            //                       var singleArr  = workersStrArr[i].split(',');
+            //                       $scope.workers.push({label:singleArr[0],value:singleArr[1]});
+            //                   }
+            //                   localWorkers = $scope.workers;
+            //                 }
+            //                 //初始化已选派工人员
+            //                 var savedUsers =res.savedUser;
+            //                 if(savedUsers!=undefined || savedUsers != null){
+            //                     if (savedUsers.length>0){
+            //                         for (var i=0;i<savedUsers.length;i++){
+            //                             for(var j=0;j<workersStrArr.length;j++){
+            //                                 if (savedUsers[i]==workersStrArr[j].label){
+            //                                     $scope.workers.push(workersStrArr[j]);
+            //                                 }else{
+            //                                     $scope.workers.push({label:savedUsers[i],value:""});
+            //                                 }
+            //                             }
+            //                         }
+            //                     }
+            //                 }
+            //
+            //             },
+            //             function error(msg) {
+            //                 console.log(msg);
+            //             });
+            //
+            //     //*********读取配件*************** */
+            //     $scope.getPartListForRead();
+            //     return SOrderService.getOrdersSelectedTruck(userInfoId);
+            // }).then(function success(result) {
+            //     $scope.SelectedTruckNum = 0;
+            //     if (result.length > 0) {
+            //         for (var i = 0; i < result.length; i++) {
+            //             if (result[i].Truck_Serial_Number__r != undefined) {
+            //                 $scope.SelectedTruckNum = Number($scope.SelectedTruckNum) + 1;
+            //                 truckItems.push(
+            //                     {
+            //                         Id: result[i].Truck_Serial_Number__r.Id,
+            //                         truckItemNum: result[i].Truck_Serial_Number__r.Name,
+            //                         Operation_Hour__c: 0,
+            //                         Service_Suggestion__c: "",
+            //                         isShow: false
+            //                     }
+            //                 );
+            //                 truckItemsSecond.push(
+            //                     {
+            //                         Id: result[i].Truck_Serial_Number__r.Id,
+            //                         Operation_Hour__c: 0,
+            //                         Service_Suggestion__c: "",
+            //                     }
+            //                 );
+            //             }
+            //         }
+            //         $scope.allTruckItems = truckItems;
+            //     }
+            //     console.log(result);
+            //     $log.info(result);
+            // }).catch(function error(msg) {
+            //     $log.error(msg);
+            //     console.log(msg);
+            // });
 
             /**
              * 初始化
              */
-            SOrderService.getDetails(userInfoId).then(function success(result) {
-                if (result != null) {
-                    console.log("getDetails:",result);
-                    localSoupEntryId = result._soupEntryId;
-                    if (result.Mobile_Offline_Name__c == null) {
-                        SOrderService.getOfflineName(userInfoId).then(function success(response) {
-                            $scope.mobileName = response;
-                        }, function error(error) {
-                            $scope.mobileName = "";
-                            $log.error(error);
-                        });
-                    } else {
-                        $scope.mobileName = result.Mobile_Offline_Name__c;
-                    }
-                    var workType = result.Work_Order_Type__c;
-                    if (workType != null||workType!=undefined) {
-                        $("#select_work_type").find("option[value = workType]").attr("selected", true);
-                    }
-                    $scope.workContent = result.Description__c != null ? result.Description__c : "";
-                    if (workDescription != null) {
-                        $scope.callPhoneContent = workDescription;
-                    } else {
-                        $scope.callPhoneContent = result.Subject__c != null ? result.Subject__c : "";
-                    }
-                    $scope.suggestStr = result.Service_Suggestion__c != null ? result.Service_Suggestion__c : "";
-                }
-
-            }, function error(error) {
-                $log.error(error);
-            })
-                .then(function () {
-                    return SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
-                        console.log(result);
-                    }, function (error) {
-                        console.log(error);
-                        $log.error(error);
-                    })
-                })
-                .then(function () {
-                    HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
-                        $scope.HasTruckNum = res != null ? res.length : 0;
-                    }, function (error) {
-                        $log.error('Error ' + error);
-                    })
-                }
-                );
+            // SOrderService.getDetails(userInfoId).then(function success(result) {
+            //     if (result != null) {
+            //         console.log("getDetails:",result);
+            //         localSoupEntryId = result._soupEntryId;
+            //         if (result.Mobile_Offline_Name__c == null) {
+            //             SOrderService.getOfflineName(userInfoId).then(function success(response) {
+            //                 $scope.mobileName = response;
+            //             }, function error(error) {
+            //                 $scope.mobileName = "";
+            //                 $log.error(error);
+            //             });
+            //         } else {
+            //             $scope.mobileName = result.Mobile_Offline_Name__c;
+            //         }
+            //         var workType = result.Work_Order_Type__c;
+            //         if (workType != null||workType!=undefined) {
+            //             $("#select_work_type").find("option[value = workType]").attr("selected", true);
+            //         }
+            //         $scope.workContent = result.Description__c != null ? result.Description__c : "";
+            //         if (workDescription != null) {
+            //             $scope.callPhoneContent = workDescription;
+            //         } else {
+            //             $scope.callPhoneContent = result.Subject__c != null ? result.Subject__c : "";
+            //         }
+            //         $scope.suggestStr = result.Service_Suggestion__c != null ? result.Service_Suggestion__c : "";
+            //     }
+            //
+            // }, function error(error) {
+            //     $log.error(error);
+            // })
+            // .then(function () {
+            //     return SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
+            //         console.log(result);
+            //     }, function (error) {
+            //         console.log(error);
+            //         $log.error(error);
+            //     })
+            // })
+            // .then(function () {
+            //     HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
+            //         $scope.HasTruckNum = res != null ? res.length : 0;
+            //     }, function (error) {
+            //         $log.error('Error ' + error);
+            //     })
+            // });
 
         });
+
+        $scope.initSoResult=function(soResult){
+            if (soResult!=undefined && soResult!=null){
+                orderDetailsId = soResult.Name!=undefined?soResult.Name:"";
+                $scope.mobileName = orderDetailsId;
+                customerNameValue=soResult.Account_Ship_to__r.Name!=undefined?soResult.Account_Ship_to__r.Name:"";
+                customerAccountValue=soResult.Account_Ship_to__r.Id!=undefined?soResult.Account_Ship_to__r.Id:"";
+                customerAddressValue=soResult.Account_Ship_to__r.Address__c!=undefined?soResult.Account_Ship_to__r.Address__c:"";
+                ownerName = soResult.Service_Order_Owner__r.Name!=undefined?soResult.Service_Order_Owner__r.Name:"";
+                $scope.callPhoneContent = soResult.Description__c!=undefined?soResult.Description__c:"";
+                $scope.suggestStr = soResult.Service_Suggestion__c!=undefined?soResult.Service_Suggestion__c:"";
+                $scope.workContent =soResult.Subject__c!=undefined?soResult.Subject__c:"";
+                if (soResult.Work_Order_Type__c!=undefined){
+                    $("#select_work_type").find("option[value = "+soResult.Work_Order_Type__c+"]").attr("selected", true);
+                }
+            }
+        };
+
+        $scope.initPhotoData=function(photoes){
+            if (photoes!=undefined && photoes!=null){
+                if (photoes.length>0){
+                    //删除默认的图片  第一张
+                    $scope.imgUris.splice(0, 1);
+                    for (var i=0;i<photoes.length;i++){
+                        $scope.imgUris.push("data:image/jpeg;base64,"+photoes[i]);
+                    }
+                    if (allowEdit){
+                        //添加默认图片
+                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                    }
+                }
+            }
+        };
+
+        $scope.initAssignUserData=function(workersStrArr){
+            if(workersStrArr!=undefined && workersStrArr!=null){
+                for (var i=0;i<workersStrArr.length;i++){
+                    var singleArr  = workersStrArr[i].split(',');
+                    $scope.workers.push({label:singleArr[0],value:singleArr[1]});
+                }
+                localWorkers = $scope.workers;
+            }
+        };
+
+        $scope.initSavedUserData=function(savedUsers,workersStrArr){
+            if(savedUsers!=undefined && savedUsers != null){
+                if (savedUsers.length>0){
+                    for (var i=0;i<savedUsers.length;i++){
+                        for(var j=0;j<workersStrArr.length;j++){
+                            if ((savedUsers[i].split(','))[0]==(workersStrArr[j].split(','))[0]){
+                                $scope.selectWorkersArr.push({label:workersStrArr[j].split(',')[0],value:workersStrArr[j].split(',')[1]});
+                            }
+                        }
+                        $scope.updateWorkerString();
+                    }
+                }
+            }
+        };
+
+        $scope.initTrucks=function(trucks){
+            $scope.SelectedTruckNum = trucks.length;
+            for (var i =0;i<trucks.length;i++){
+                truckNumber+=trucks[i].Name;
+                truckItems.push(
+                    {
+                        Id: trucks[i].Id,
+                        truckItemNum: trucks[i].Name,
+                        Operation_Hour__c: 0,
+                        Service_Suggestion__c: "",
+                        isShow: false
+                    }
+                );
+                truckItemsSecond.push(
+                    {
+                        Id:  trucks[i].Id,
+                        Operation_Hour__c: 0,
+                        Service_Suggestion__c: "",
+                    }
+                );
+            }
+            $scope.allTruckItems = truckItems;
+        };
 
         /**
          * 获取图片
@@ -360,16 +424,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                                    for (var i = 0; i < $scope.imgUris.length; i++) {
-                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                            $scope.imgUris.splice(i, 1);
-                                            i--;
+                                        for (var i = 0; i < $scope.imgUris.length; i++) {
+                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                                $scope.imgUris.splice(i, 1);
+                                                i--;
+                                            }
                                         }
-                                    }
-                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                    $scope.imgUris.push("././img/images/will_add_Img.png");
-                                    console.log(imgUri);
-                                },
+                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                                        console.log(imgUri);
+                                    },
                                     function onError(error) {
                                         return;
                                     }
@@ -391,16 +455,16 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                                    for (var i = 0; i < $scope.imgUris.length; i++) {
-                                        if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                            $scope.imgUris.splice(i, 1);
-                                            i--;
+                                        for (var i = 0; i < $scope.imgUris.length; i++) {
+                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
+                                                $scope.imgUris.splice(i, 1);
+                                                i--;
+                                            }
                                         }
-                                    }
-                                    $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                    $scope.imgUris.push("././img/images/will_add_Img.png");
-                                    console.log(imgUri);
-                                },
+                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
+                                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                                        console.log(imgUri);
+                                    },
                                     function onFail(error) {
                                         return;
                                     },
@@ -533,43 +597,18 @@ angular.module('oinio.workDetailsControllers', [])
             });
 
         };
-        $scope.toDetailInfo = function () {
-            if (document.getElementById("detailContent").style.display == "none") {
-                document.getElementById("detailContent").style.display = "";//显示
-                document.getElementById("detailImg").className = "OpenClose_Btn arrow_Down_White";
+        /**
+         * 详细信息／工作信息／配件需求／交货列表／服务建议  共用
+         * @param idStr1 显示更多信息的内容
+         * @param idStr2 显示更多信息的图片
+         */
+        $scope.sameDisPlayInfo=function (idStr1,idStr2) {
+            if (document.getElementById(idStr1).style.display == "none") {
+                document.getElementById(idStr1).style.display = "";//显示
+                document.getElementById(idStr2).className = "OpenClose_Btn arrow_Down_White";
             } else {
-                document.getElementById("detailContent").style.display = "none";//隐藏
-                document.getElementById("detailImg").className = "OpenClose_Btn arrow_Left_White";
-
-            }
-        };
-        $scope.toWorkInfo = function () {
-            if (document.getElementById("workContent").style.display == "none") {
-                document.getElementById("workContent").style.display = "";//显示
-                document.getElementById("workImg").className = "OpenClose_Btn arrow_Down_White";
-            } else {
-                document.getElementById("workContent").style.display = "none";//隐藏
-                document.getElementById("workImg").className = "OpenClose_Btn arrow_Left_White";
-
-            }
-        };
-        $scope.toPartsInfo = function () {
-            if (document.getElementById("partContent").style.display == "none") {
-                document.getElementById("partContent").style.display = "";//显示
-                document.getElementById("partImg").className = "OpenClose_Btn arrow_Down_White";
-            } else {
-                document.getElementById("partContent").style.display = "none";//隐藏
-                document.getElementById("partImg").className = "OpenClose_Btn arrow_Left_White";
-
-            }
-        };
-        $scope.toServiceInfo = function () {
-            if (document.getElementById("serviceContent").style.display == "none") {
-                document.getElementById("serviceContent").style.display = "";//显示
-                document.getElementById("serviceImg").className = "OpenClose_Btn arrow_Down_White";
-            } else {
-                document.getElementById("serviceContent").style.display = "none";//隐藏
-                document.getElementById("serviceImg").className = "OpenClose_Btn arrow_Left_White";
+                document.getElementById(idStr1).style.display = "none";//隐藏
+                document.getElementById(idStr2).className = "OpenClose_Btn arrow_Left_White";
             }
         };
 
@@ -580,12 +619,23 @@ angular.module('oinio.workDetailsControllers', [])
             } else {
                 document.getElementById("describInfDiv").style.display = "none";//隐藏
             }
+
+            if (allowEdit){
+                $("input.workDetailCustomeHourclas").prop("disabled","disabled");
+            }
         };
+        /**
+         * 取消按钮
+         */
         $scope.goBack = function () {
             // window.history.back();
             $state.go("app.home");
         };
-
+        /**
+         * 点击到达获取到达时间
+         * @param $event
+         * @returns {boolean}
+         */
         $scope.getArrivalTime = function ($event) {
             if (arriveTime != null) {
                 return false;
@@ -614,7 +664,10 @@ angular.module('oinio.workDetailsControllers', [])
             });
         };
 
-
+        /**
+         * 打印功能
+         * @param $event
+         */
         $scope.doPrint = function ($event) {
             var callStr = $("#call_str").val().trim();
             // if (callStr == "" || callStr == null) {
@@ -716,7 +769,10 @@ angular.module('oinio.workDetailsControllers', [])
                 ]
             });
         };
-
+        /**
+         * 签单
+         * @param $event
+         */
         $scope.signBill = function ($event) {
             $ionicPopup.show({
                 title: "是否确定签单？",
@@ -822,6 +878,12 @@ angular.module('oinio.workDetailsControllers', [])
                         console.log(msg);
                     });
         };
+
+        /**
+         * 日期格式化方法
+         * @param format
+         * @returns {*}
+         */
         Date.prototype.format = function(format) {
             var date = {
                 "M+": this.getMonth() + 1,
@@ -843,14 +905,18 @@ angular.module('oinio.workDetailsControllers', [])
             return format;
         };
 
-
+        /**
+         * 进入页面时
+         */
         $scope.$on('$ionicView.enter', function () {
             console.log('接受点击事件');
             document.addEventListener('click', newHandle);//初始化弹框
 
-            
-         });
 
+        });
+        /**
+         * 离开页面前
+         */
         $scope.$on('$ionicView.beforeLeave', function () {
             console.log('移除点击事件');
             document.removeEventListener('click', newHandle);
@@ -874,25 +940,25 @@ angular.module('oinio.workDetailsControllers', [])
                 $scope.toDisplayImportDiv();
             } else {
                 if (document.getElementById("btn_import_Div").style) {
-                     document.getElementById("btn_import_Div").style.display = "none";//隐藏
+                    document.getElementById("btn_import_Div").style.display = "none";//隐藏
                 }
             }
             if (e.target === document.getElementById('btn_refund_Btn')){
-              $scope.toDisplayRefundDiv();
+                $scope.toDisplayRefundDiv();
             } else {
-              if (document.getElementById("btn_refund_Div").style) {
-                document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-              }
+                if (document.getElementById("btn_refund_Div").style) {
+                    document.getElementById("btn_refund_Div").style.display = "none";//隐藏
+                }
             }
         };
 
 
 
-         $scope.toDisBothModifyDiv =  function () {
+        $scope.toDisBothModifyDiv =  function () {
             document.getElementById("btn_modify_Div").style.display = "none";//隐藏
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
             document.getElementById("btn_refund_Div").style.display = "none";//隐藏
-         };
+        };
 
 
         $scope.selectWorkers = function () {
@@ -908,6 +974,12 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.showDetailsMoreInf = function () {
+            if (!allowEdit){
+                $("#moreBody").css("height","100vh");
+                $("#moreBody input.small_Type_Input ").prop("disabled","disabled");
+                $("#moreBody textarea.small_Type_Textarea ").prop("disabled","disabled");
+            }
+
             $("input.selectTruckItem").each(function (index, element) {
                 if ($(this).prop("checked")) {
                     $scope.allTruckItems[index].isShow = true;
@@ -1040,12 +1112,14 @@ angular.module('oinio.workDetailsControllers', [])
                 }
                 var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
                 console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
+
                 ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
                     AppUtilService.hideLoading();
                     console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
                     for (let i = 0; i < responsePartsRelateds.length; i++) {
                         var responsePartsRelatedsList = responsePartsRelateds[i];
                         // for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                        //     // responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
                         //     responsePartsRelatedsList[j]["itemNO"] = j;
                         //     $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
                         // }
@@ -1054,12 +1128,15 @@ angular.module('oinio.workDetailsControllers', [])
                 }, function (error) {
                     console.log("error:", error);
                     AppUtilService.hideLoading();
+
                 });
+
             }, function (error) {
                 console.log("error:", error);
                 AppUtilService.hideLoading();
             });
         };
+
         //--清空经济件
         $scope.delByEconomical = function () {
             for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
@@ -1067,19 +1144,19 @@ angular.module('oinio.workDetailsControllers', [])
                 if (element.type =="economical") {
                     setTimeout(function() {
                         $scope.selectedTruckFitItems.remove(element);
-                    },100);            
+                    },100);
                 }
             }
         }
-        
-         //--使用经济件
-         $scope.useByEconomical = function () {
+
+        //--使用经济件
+        $scope.useByEconomical = function () {
             for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
                 let element = $scope.selectedTruckFitItems[index];
                 if (element.type =="common") {
                     setTimeout(function() {
                         $scope.selectedTruckFitItems.remove(element);
-                    },100);    
+                    },100);
                 }
             }
         }
@@ -1113,14 +1190,16 @@ angular.module('oinio.workDetailsControllers', [])
                             $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                         }
                     }
-                    
+
                 }
             }, function (error) {
                 console.log("error:", error);
                 AppUtilService.hideLoading();
             });
-            
+
         };
+
+
         $scope.checkAllSearchResults = function () {
             let ele = $("#ckbox_truckFit_searchresult_all");
 
@@ -1413,6 +1492,7 @@ angular.module('oinio.workDetailsControllers', [])
                             console.log(res);
                             AppUtilService.hideLoading();
                             if (res.status=="Success"){
+                                $rootScope.getSomeData();
                                 $state.go("app.home");
                             }
                         },function error(msg) {
@@ -1432,7 +1512,6 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.getPartListForRead = function () {
-
             ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl + orderDetailsId, 'GET', {}, null, function (responseGetParts) {
                 AppUtilService.hideLoading();
                 console.log("responseGetParts:", responseGetParts);
@@ -1463,7 +1542,23 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailTotal").style.display = "block";//隐藏
             document.getElementById("workDetailPart").style.display = "none";//隐藏
         };
-
+        /**
+         *删除数组指定下标或指定对象
+         */
+        Array.prototype.remove = function (obj) {
+            for (var i = 0; i < this.length; i++) {
+                var temp = this[i];
+                if (!isNaN(obj)) {
+                    temp = i;
+                }
+                if (temp == obj) {
+                    for (var j = i; j < this.length; j++) {
+                        this[j] = this[j + 1];
+                    }
+                    this.length = this.length - 1;
+                }
+            }
+        };
         $scope.openRefundPage = function () {
             $("input.refundcheckbox").each(function (index, element) {
                 if (element.checked) {
@@ -1523,7 +1618,7 @@ angular.module('oinio.workDetailsControllers', [])
         //退件接口
         $scope.getRefundList = function () {
             ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
-            // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
+                // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
                 AppUtilService.hideLoading();
                 console.log("responseGetDelivery:", responseGetDelivery);
                 $scope.rejectedItems = responseGetDelivery;
@@ -1564,10 +1659,10 @@ angular.module('oinio.workDetailsControllers', [])
             // 自定义弹窗
             myPopup = $ionicPopup.show({
                 title: '<div><span>交货单状态:' + reitems.D_Status__c + '</span></div>' +
-                    '<div><span>到货物流单号:' + reitems.Tracking_Number__c + '</span></div>' +
-                    '<div><span>到货物流状态:' + reitems.TrackState + '</span></div>' +
-                    '<div><span>退货物流单号:' + reitems.Return_Tracking_Number__c + '</span></div>' +
-                    '<div><span>退货物流状态:' + reitems.ReturnTrackState + '</span></div>',
+                '<div><span>到货物流单号:' + reitems.Tracking_Number__c + '</span></div>' +
+                '<div><span>到货物流状态:' + reitems.TrackState + '</span></div>' +
+                '<div><span>退货物流单号:' + reitems.Return_Tracking_Number__c + '</span></div>' +
+                '<div><span>退货物流状态:' + reitems.ReturnTrackState + '</span></div>',
                 scope: $scope,
                 buttons: setButtons
             });
@@ -1581,7 +1676,7 @@ angular.module('oinio.workDetailsControllers', [])
             // 自定义弹窗
             myPopup = $ionicPopup.show({
                 title: '<div><span>退件原因:' + item.Return_Reason__c + '</span></div>' +
-                    '<div><span>备注:' + item.Diff_Reason__c + '</span></div>',
+                '<div><span>备注:' + item.Diff_Reason__c + '</span></div>',
                 scope: $scope,
                 buttons: setButtons
             });
