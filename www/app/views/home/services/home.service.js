@@ -351,8 +351,6 @@ angular.module('oinio.services', [])
             return deferred.promise;
         };
 
-
-
         /**
          * @func  save new service order overview
          * @desc  save Service_Order_Overview__c with recordType Work_Order to Salesforce

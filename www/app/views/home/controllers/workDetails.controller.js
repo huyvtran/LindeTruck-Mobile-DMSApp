@@ -65,6 +65,23 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("btn_import_Div").style.display = "none";//隐藏
             document.getElementById("btn_refund_Div").style.display = "none";//隐藏
         });
+        /**
+ *删除数组指定下标或指定对象
+ */
+        Array.prototype.remove = function (obj) {
+            for (var i = 0; i < this.length; i++) {
+                var temp = this[i];
+                if (!isNaN(obj)) {
+                    temp = i;
+                }
+                if (temp == obj) {
+                    for (var j = i; j < this.length; j++) {
+                        this[j] = this[j + 1];
+                    }
+                    this.length = this.length - 1;
+                }
+            }
+        }
 
         $scope.$on('$ionicView.afterEnter', function () {
 
@@ -1023,30 +1040,87 @@ angular.module('oinio.workDetailsControllers', [])
                 }
                 var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
                 console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
-
                 ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
                     AppUtilService.hideLoading();
                     console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
                     for (let i = 0; i < responsePartsRelateds.length; i++) {
                         var responsePartsRelatedsList = responsePartsRelateds[i];
-                        for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                            // responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
-                            responsePartsRelatedsList[j]["itemNO"] = j;
-                            $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
-                        }
+                        // for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                        //     responsePartsRelatedsList[j]["itemNO"] = j;
+                        //     $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
+                        // }
+                        $scope.contentTruckFitItems.push(responsePartsRelatedsList[0]);
                     }
                 }, function (error) {
                     console.log("error:", error);
                     AppUtilService.hideLoading();
-
                 });
-
             }, function (error) {
                 console.log("error:", error);
                 AppUtilService.hideLoading();
             });
         };
-
+        //--清空经济件
+        $scope.delByEconomical = function () {
+            for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
+                let element = $scope.selectedTruckFitItems[index];
+                if (element.type =="economical") {
+                    setTimeout(function() {
+                        $scope.selectedTruckFitItems.remove(element);
+                    },100);            
+                }
+            }
+        }
+        
+         //--使用经济件
+         $scope.useByEconomical = function () {
+            for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
+                let element = $scope.selectedTruckFitItems[index];
+                if (element.type =="common") {
+                    setTimeout(function() {
+                        $scope.selectedTruckFitItems.remove(element);
+                    },100);    
+                }
+            }
+        }
+        //搜索配件--导入经济件
+        $scope.getTrucksByEconomical = function () {
+            AppUtilService.showLoading();
+            $scope.contentTruckFitItems = [];
+            let parts_number__cList = [];
+            let partsQuantitys = [];
+            for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
+                let element = $scope.selectedTruckFitItems[index];
+                if (element.type =="common") {
+                    parts_number__cList.push(element.parts_number__c);
+                    partsQuantitys.push(100000);
+                }
+            }
+            var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + Account_Ship_to__c;
+            console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
+            $scope.selectedTruckFitItems = [];// 清空列表
+            ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
+                AppUtilService.hideLoading();
+                console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
+                for (let i = 0; i < responsePartsRelateds.length; i++) {
+                    var responsePartsRelatedsList = responsePartsRelateds[i];
+                    for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                        // responsePartsRelatedsList[j]["itemNO"] = j;
+                        if (responsePartsRelatedsList[j].type =="common") {
+                            $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
+                        }
+                        if (responsePartsRelatedsList[j].type =="economical") {
+                            $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
+                        }
+                    }
+                    
+                }
+            }, function (error) {
+                console.log("error:", error);
+                AppUtilService.hideLoading();
+            });
+            
+        };
         $scope.checkAllSearchResults = function () {
             let ele = $("#ckbox_truckFit_searchresult_all");
 
@@ -1389,23 +1463,7 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailTotal").style.display = "block";//隐藏
             document.getElementById("workDetailPart").style.display = "none";//隐藏
         };
-        /**
- *删除数组指定下标或指定对象
- */
-        Array.prototype.remove = function (obj) {
-            for (var i = 0; i < this.length; i++) {
-                var temp = this[i];
-                if (!isNaN(obj)) {
-                    temp = i;
-                }
-                if (temp == obj) {
-                    for (var j = i; j < this.length; j++) {
-                        this[j] = this[j + 1];
-                    }
-                    this.length = this.length - 1;
-                }
-            }
-        }
+
         $scope.openRefundPage = function () {
             $("input.refundcheckbox").each(function (index, element) {
                 if (element.checked) {

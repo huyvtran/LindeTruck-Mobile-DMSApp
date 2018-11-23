@@ -73,43 +73,8 @@
                 console.log('showPopup!item', item);
                 $scope.data = {}
                 var setButtons = [];
-
-
-
-
                 if (item.Status__c == "Not Planned") { //Not Planned   未安排  只显示详情和安排
                     setButtons = [
-                        // {
-                        //     text: '出发',
-                        //     onTap:function (e) {
-                        //         AppUtilService.showLoading();
-                        //         ForceClientService.getForceClient().apexrest(
-                        //             $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Completed",
-                        //             "POST",
-                        //             {},
-                        //             null,function callBack(res) {
-                        //                 console.log("updateDataStatusUrl",res);
-                        //                 AppUtilService.hideLoading();
-                        //                 if (res.status=="Success"){
-                        //                     $scope.getHomeService();//刷新日历列表数据 更改出发状态
-                        //                     var goTime = new Date();
-                        //                     $state.go("app.workDetails",{
-                        //                         SendInfo: item._soupEntryId,
-                        //                         workDescription: null,
-                        //                         AccountShipToC: item.Account_Ship_to__c,
-                        //                         goOffTime:goTime,
-                        //                         workOrderId:item.Id,
-                        //                         isNewWorkList:true
-                        //                     });
-                        //                 }
-                        //             },function error(msg) {
-                        //                 AppUtilService.hideLoading();
-                        //                 console.log(msg);
-                        //             }
-                        //         );
-                        //     }
-                        // },
-
                         {
                             text: '<b>详情</b>',
                             type: 'button-positive',
@@ -149,31 +114,8 @@
                     setButtons = [
                         { text: '出发',
                             onTap:function (e) {
-                                AppUtilService.showLoading();
-                                ForceClientService.getForceClient().apexrest(
-                                    $scope.updateDataStatusUrl+"&sooId="+item.Id+"&status=Not Completed",
-                                    "POST",
-                                    {},
-                                    null,function callBack(res) {
-                                        console.log(res);
-                                        AppUtilService.hideLoading();
-                                        if (res.status=="Success"){
-                                            var goTime =new Date();
-                                            // $state.go("app.workDetails",{
-                                            //     SendInfo: item._soupEntryId,
-                                            //     workDescription: null,
-                                            //     AccountShipToC: item.Account_Ship_to__c,
-                                            //     goOffTime:goTime,
-                                            //     workOrderId:item.Id,
-                                            //     isNewWorkList:true
-                                            // });
-                                            $scope.goPageWorkDetails(item,true,goTime);
-                                        }
-                                    },function error(msg) {
-                                        AppUtilService.hideLoading();
-                                        console.log(msg);
-                                    }
-                                );
+                                //出发判断逻辑
+                                $scope.goNotStartedWorkDetails(item);
                             }
                         },
                         {
@@ -193,22 +135,8 @@
                     ];
                 }
                 else if (item.Status__c =="Not Completed"){  //Not Completed  进行中  只显示详情
-                    setButtons=[
-                        {
-                            text: '<b>详情</b>',
-                            type: 'button-positive',
-                            onTap: function (e) {
-                                // $state.go('app.workDetails', {
-                                //     SendInfo: item._soupEntryId,
-                                //     workDescription: null,
-                                //     AccountShipToC: item.Account_Ship_to__c,
-                                //     workOrderId:item.Id,
-                                //     isNewWorkList:true
-                                // });
-                                $scope.goPageWorkDetails(item,true,null);
-                            }
-                        }
-                    ];
+                    $scope.goPageWorkDetails(item,true,null);
+                    return;
                 }
                 else{  //Service Completed  已完成  只能查详情
                     setButtons=[
@@ -240,15 +168,57 @@
 
                 });
             };
+            //出发逻辑判断
+            $scope.goNotStartedWorkDetails = function (item) {
+                for (let index = 0; index < currentOrder.length; index++) {
+                    const element = currentOrder[index].Status__c;
+                    if (element == "Not Completed") {
+                        setTimeout(function() {
+                            myPopup = $ionicPopup.show({
+                                title: "已经有进行中的工单",
+                                scope: $scope,
+                                buttons: null
+                            });
+                        },100);
+                        return;
+                    }
+                }
+                AppUtilService.showLoading();
+                ForceClientService.getForceClient().apexrest(
+                    $scope.updateDataStatusUrl + "&sooId=" + item.Id + "&status=Not Completed",
+                    "POST",
+                    {},
+                    null, function callBack(res) {
+                        console.log(res);
+                        AppUtilService.hideLoading();
+                        if (res.status == "Success") {
+                            $scope.getHomeService();//刷新日历列表数据 更改出发状态
 
-            $scope.goPageWorkDetails = function (obj,isNewWork,goTime) {
+                            var goTime = new Date();
+                            // $state.go("app.workDetails",{
+                            //     SendInfo: item._soupEntryId,
+                            //     workDescription: null,
+                            //     AccountShipToC: item.Account_Ship_to__c,
+                            //     goOffTime:goTime,
+                            //     workOrderId:item.Id,
+                            //     isNewWorkList:true
+                            // });
+                            $scope.goPageWorkDetails(item, true, goTime);
+                        }
+                    }, function error(msg) {
+                        AppUtilService.hideLoading();
+                        console.log(msg);
+                    }
+                );
+            }
+            $scope.goPageWorkDetails = function (obj, isNewWork, goTime) {
                 $state.go('app.workDetails', {
                     SendInfo: obj._soupEntryId,
                     workDescription: null,
                     AccountShipToC: obj.Account_Ship_to__c,
-                    workOrderId:obj.Id,
-                    goOffTime:goTime,
-                    isNewWorkList:isNewWork
+                    workOrderId: obj.Id,
+                    goOffTime: goTime,
+                    isNewWorkList: isNewWork
                 });
             };
 
@@ -392,7 +362,7 @@
                 // 这里是ajax请求，替换为你正在使用的ajax方式就可以
                 $scope.getHomeService = function () {
                     HomeService.getEachOrder().then(function (res) {
-
+                        console.log('res  ' , res);
                         allUser = res;
                         $rootScope.allUser = res;
 

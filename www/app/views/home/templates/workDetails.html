@@ -577,7 +577,7 @@
 						</div>
 						<div id="btn_import_Div" class="btn_Import_Div">
 							<div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG </div>
-							<div class="Import_Btn"> 导入经济件 </div>
+							<div class="Import_Btn" ng-click="getTrucksByEconomical();"> 导入经济件 </div>
 							<div class="Import_Btn"> 导入常用配件 </div>
 							<div class="Import_Btn"> 生成备件订单 </div>
 							<div class="Import_Btn"> 免费配件审批 </div>
@@ -585,8 +585,8 @@
 						</div>
 						<div id="btn_modify_Div" class="btn_modify_Div">
 							<div class="Modify_Btn" ng-click="openSelectPage('addDele');"> 添加/删除 </div>
-							<div class="Modify_Btn"> 清空经济件 </div>
-							<div class="Modify_Btn"> 使用经济件 </div>
+							<div class="Modify_Btn" ng-click="delByEconomical();"> 清空经济件 </div>
+							<div class="Modify_Btn" ng-click="useByEconomical();"> 使用经济件 </div>
 						</div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<div class="OpenClose_Btn arrow_Down_White" id="partImg" ng-click="toPartsInfo();"></div>
