@@ -5,6 +5,7 @@ angular.module('oinio.services', [])
     .service('HomeService', function HomeService($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, SMARTSTORE_COMMON_SETTING){
         let service = this;
 
+        /*
         this.searchUnplannedOrders = function(){
             console.log('searchUnplannedOrders.keyword:%s');
             let deferred = $q.defer();
@@ -47,7 +48,27 @@ angular.module('oinio.services', [])
             console.log('searchUnplannedOrders::', deferred.promise);
             return deferred.promise;
         };
+        */
+        this.searchUnplannedOrders = funciton(){
+            //let deferred = $q.defer();
+            let result = new Object();
 
+            ForceClientService.getForceClient()
+                .apexrest(
+                    'service/apexrest/HomeService',
+                    'GET',
+                    {
+
+                    },null,function success(res) {
+                        console.log(res);
+                        result = JSON.parse(res);
+                    },
+                    function error(msg) {
+                        console.log(msg);
+                    });
+
+            return result;
+        }
 
 
         this.getAccountForAccIds = function(Ids) {
