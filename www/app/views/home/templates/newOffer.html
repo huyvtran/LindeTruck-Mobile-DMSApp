@@ -262,18 +262,63 @@
 						<span class="selectTruck_Tab_Text" style="">已选车体</span>
 					</div>
 				</div>
-				<div id="selectTruck_result" class="big_Box_Group" style="display: block;">
-					<div class="small_Box_Title"> <input id="ckbox_truck_searchresult_all" style="" type="checkbox" ng-click="checkAllSearchResults();"
-						/> 全选 </div>
-					<ion-list can-swipe="true">
-						<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
-						<!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
+				<div class="add_del_bodyer">
+					<div id="selectTruck_result" class="big_Box_Group" style="display: block;">
+
+
+
+						<!--<div class="small_Box_Title"> <input id="ckbox_truck_searchresult_all" style="" type="checkbox" ng-click="checkAllSearchResults();"-->
+						<!--/> 全选 </div>-->
+						<!--<ion-list can-swipe="true">-->
+						<!--&lt;!&ndash;<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">&ndash;&gt;-->
+						<!--&lt;!&ndash;<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}&ndash;&gt;-->
+						<!--&lt;!&ndash;</ion-item>&ndash;&gt;-->
+						<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text">-->
+						<!--<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);" type="checkbox"-->
+						<!--/> {{titem.Name}}-->
 						<!--</ion-item>-->
-						<ion-item id="items2" ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text">
-							<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);" type="checkbox"
-							/> {{titem.Name}}
-						</ion-item>
-					</ion-list>
+						<!--</ion-list>-->
+						<!--修改后-->
+						<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+							<tr>
+								<th class="sv_Td">
+									<input id="ckbox_truck_searchresult_all" type="checkbox" ng-click="checkAllSearchResults();" />
+								</th>
+								<th class="sv_Td">
+									<div style="width: 150px;"> 车体号 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 叉车属性 </div>
+								</th>
+								<th class="sv_Td">
+									<div> 保修到期日 </div>
+								</th>
+							</tr>
+						</table>
+
+						<ion-list can-swipe="true">
+							<ion-item   ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text_1">
+								<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+									<tr>
+										<td class="sv_Td">
+											<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" ng-click="checkSearchResults(titem);"
+												   type="checkbox" />
+										</td>
+										<td class="sv_Td">
+											<div style="width: 150px;"> {{titem.Name}}</div>
+										</td>
+										<td class="sv_Td">
+											<div> {{titem.inventory.Truck_Type__c}} </div>
+										</td>
+										<td class="sv_Td">
+											<div> {{titem.inventory.Warranty_End_Date__c}} </div>
+										</td>
+									</tr>
+								</table>
+							</ion-item>
+						</ion-list>
+
+					</div>
 				</div>
 				<div id="selectTruck_checked" class="big_Box_Group" style="display: none;">
 					<div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除 </div>

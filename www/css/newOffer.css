@@ -465,3 +465,56 @@ img {
     color: #ffffff;
     background: #979797;
 }
+.add_del_bodyer {
+    overflow-y: auto;
+    width: 100%;
+}
+
+.small_Box_Text_1.item {
+    padding: 0;
+    width: 100%;
+    overflow: inherit;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+}
+.searchs_Table {
+    width: 172vw;
+}
+
+.searchs_Table th,
+.searchs_Table td {
+    width: 27vw;
+    padding: 0 1%;
+    font-size: 0.8rem;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #979797;
+}
+
+.searchs_Table th {
+    background: #d8d8d8;
+}
+
+.searchs_Table td {
+    background: #eee9e9;
+}
+
+.searchs_Table th div {
+    width: calc(27vw - 10px);
+}
+
+.searchs_Table th input {
+    width: 10vw;
+}
+
+.searchs_Table td input {
+    width: 10vw;
+}
+
+.searchs_Table td div {
+    width: calc(27vw - 10px);
+}
