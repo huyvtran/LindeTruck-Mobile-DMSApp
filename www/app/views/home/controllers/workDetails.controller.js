@@ -70,7 +70,7 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("$stateParams.selectTypeIndex", $stateParams.selectWorkTypeIndex);
             console.log("$stateParams.workOrderId",$stateParams.workOrderId);
             userInfoId = $stateParams.SendInfo;//原先工单数据的本地Id 现改为在线Id
-            Account_Ship_to__c = $stateParams.AccountShipToC;
+            Account_Ship_to__c = $stateParams.AccountShipToC; //原工单
             workDescription = $stateParams.workDescription;
             goOffTimeFromPrefix = $stateParams.goOffTime;
             allowEdit = $stateParams.isNewWorkList;
@@ -164,6 +164,9 @@ angular.module('oinio.workDetailsControllers', [])
 
                         //交货列表
                         $scope.getRefundList();
+
+                        //*********读取配件*************** */
+                        $scope.getPartListForRead();
                     },
                     function error(msg) {
                         console.log(msg);

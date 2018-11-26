@@ -490,7 +490,7 @@ angular.module('oinio.newWorkListControllers', [])
                                     $state.go('app.workDetails',
                                         {   //SendInfo: addResult[0]._soupEntryId,
                                             workDescription:$("#textarea_desc").val(),
-                                            AccountShipToC:"",
+                                            AccountShipToC:$scope.searchResultAcctId,
                                             goOffTime:"",
                                             isNewWorkList:true,
                                             selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
