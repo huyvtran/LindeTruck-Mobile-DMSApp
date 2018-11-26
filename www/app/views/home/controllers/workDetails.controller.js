@@ -20,9 +20,8 @@ angular.module('oinio.workDetailsControllers', [])
             customerAddressValue = "",
             truckNumber = "",
             ownerName = "",
-            orderDetailsId = "",//工单ID
+            orderDetailsId = "",//工单详情ID
             truckItems = [],
-            currentWorkId=null,
             truckItemsSecond = [],
             regroupPartList = [], ///配件组装数据用于保存
             h = 0,
@@ -75,7 +74,7 @@ angular.module('oinio.workDetailsControllers', [])
             workDescription = $stateParams.workDescription;
             goOffTimeFromPrefix = $stateParams.goOffTime;
             allowEdit = $stateParams.isNewWorkList;
-            currentWorkId=$stateParams.workOrderId;
+            orderDetailsId=$stateParams.workOrderId;
             $scope.showFooter=$stateParams.isNewWorkList;
 
             //获取作业类型选择索引
@@ -150,7 +149,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             ForceClientService.getForceClient()
                 .apexrest(
-                    $scope.getInitDataUri+"/"+ currentWorkId +'/' +oCurrentUser.Id,
+                    $scope.getInitDataUri+"/"+ orderDetailsId +'/' +oCurrentUser.Id,
                     'GET',
                     {
 
@@ -327,8 +326,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.initSoResult=function(soResult){
             if (soResult!=undefined && soResult!=null){
-                orderDetailsId = soResult.Name!=undefined?soResult.Name:"";
-                $scope.mobileName = orderDetailsId;
+                $scope.mobileName = soResult.Name!=undefined?soResult.Name:"";
                 customerNameValue=soResult.Account_Ship_to__r.Name!=undefined?soResult.Account_Ship_to__r.Name:"";
                 customerAccountValue=soResult.Account_Ship_to__r.Id!=undefined?soResult.Account_Ship_to__r.Id:"";
                 customerAddressValue=soResult.Account_Ship_to__r.Address__c!=undefined?soResult.Account_Ship_to__r.Address__c:"";
@@ -817,7 +815,7 @@ angular.module('oinio.workDetailsControllers', [])
             }
             console.log(localUris);
             var orderObj = [{
-                "Id": currentWorkId,
+                "Id": orderDetailsId,
                 "Mobile_Offline_Name__c": $scope.mobileName,
                 "Work_Order_Type__c": $('#select_work_type option:selected').val(),
                 "Description__c": $('#workContentStr').val(),
@@ -1488,7 +1486,7 @@ angular.module('oinio.workDetailsControllers', [])
 
                 if (allowEdit){
                     ForceClientService.getForceClient().apexrest(
-                        $scope.updateDataStatusUrl+"&sooId="+currentWorkId+"&status=Service Completed",
+                        $scope.updateDataStatusUrl+"&sooId="+orderDetailsId+"&status=Service Completed",
                         "POST",
                         {},
                         null,function callBack(res) {
