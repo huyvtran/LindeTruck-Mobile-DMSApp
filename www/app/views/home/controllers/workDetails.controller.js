@@ -1723,20 +1723,22 @@ angular.module('oinio.workDetailsControllers', [])
 
             if (keyWords==null||keyWords==""){
                 $scope.workers=localWorkers;
-
-                for (var i=0;i<$scope.selectWorkersArr.length;i++){
-                    $("input.ckbox_woker_searchresult_item").each(function (index, element) {
-                        if($(element).attr("data-recordid") == $scope.selectWorkersArr[i].label) {
-                            $(this).prop("checked", true);
+                setTimeout(function () {
+                        for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                            $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                                if($(element).attr("data-recordid") == $scope.selectWorkersArr[i].label) {
+                                    $(this).prop("checked", true);
+                                }
+                            });
                         }
-                    });
-                }
-                return false;
+                },300);
+
+
             }else{
                 var tempWorkers=$scope.workers;
                 $scope.workers=[];
                 for (var i=0;i<tempWorkers.length;i++){
-                    if (tempWorkers[i].value.indexOf(keyWords)>-1){
+                    if (tempWorkers[i].value.trim().toLowerCase().indexOf(keyWords.toLowerCase())>-1){
                         $scope.workers.push(tempWorkers[i]);
                     }
                 }
