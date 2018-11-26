@@ -375,8 +375,8 @@ angular.module('oinio.workDetailsControllers', [])
                                 $scope.selectWorkersArr.push({label:workersStrArr[j].split(',')[0],value:workersStrArr[j].split(',')[1]});
                             }
                         }
-                        $scope.updateWorkerString();
                     }
+                    $scope.updateWorkerString();
                 }
             }
         };
@@ -618,7 +618,7 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById("describInfDiv").style.display = "none";//隐藏
             }
 
-            if (allowEdit){
+            if (!allowEdit){
                 $("input.workDetailCustomeHourclas").prop("disabled","disabled");
             }
         };
@@ -963,6 +963,14 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailTotal").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "block";
+
+            for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                    if($(element).attr("data-recordid") == $scope.selectWorkersArr[i].label) {
+                        $(this).prop("checked", true);
+                    }
+                });
+            }
         };
 
         $scope.hideSelectWorkersPage=function(){
