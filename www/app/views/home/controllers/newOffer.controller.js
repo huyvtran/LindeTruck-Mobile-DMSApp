@@ -153,6 +153,15 @@ angular.module('oinio.NewOfferController', [])
 
                     }
                     $scope.contentTruckItems = trucks;
+                    setTimeout(function () {
+                        for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                            $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                                if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+                                    $(this).prop("checked", true);
+                                }
+                            });
+                        }
+                    },300);
                     console.log("getTrucks", trucks);
                 }
                 else {
