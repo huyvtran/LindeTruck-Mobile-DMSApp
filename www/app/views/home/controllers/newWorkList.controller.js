@@ -282,14 +282,18 @@ angular.module('oinio.newWorkListControllers', [])
 
         $scope.selectAccount = function (acct) {
             console.log('select:acct:',acct);
+            if (acct.Name!==$scope.searchResultAcctName) {
+                $scope.selectedTruckItems=[];
+                $scope.updateTruckString();
+            }
+                $scope.searchResultAcctName = acct.Name;
+                //$scope.searchResultCustomerNum = acct.Customer_Number__c;
+                $scope.searchResultAcctId = acct.Id;
+                $scope.searchResultAcctSoupId = acct._soupEntryId;
 
-            $scope.searchResultAcctName = acct.Name;
-            //$scope.searchResultCustomerNum = acct.Customer_Number__c;
-            $scope.searchResultAcctId =acct.Id;
-            $scope.searchResultAcctSoupId =acct._soupEntryId;
+                //$scope.closeSelectPage();
+                $scope.init20Trucks(acct.Id);
 
-            //$scope.closeSelectPage();
-            $scope.init20Trucks(acct.Id);
         };
 
 
@@ -395,6 +399,17 @@ angular.module('oinio.newWorkListControllers', [])
                         trucks.push(response[index]);
                     }
                     $scope.contentTruckItems = trucks;
+
+                    setTimeout(function () {
+                        for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                            $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                                if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+                                    $(this).prop("checked", true);
+                                }
+                            });
+                        }
+                    },300);
+
                     console.log("getTrucks",trucks);
                 }
                 else {
