@@ -146,7 +146,7 @@ angular.module('oinio.workDetailsControllers', [])
              * 初始化 详细信息／工作信息／配件需求／交货列表／服务建议
              */
             //HomeService.searchUnplannedOrders2();
-
+            AppUtilService.showLoading();
             ForceClientService.getForceClient()
                 .apexrest(
                     $scope.getInitDataUri+"/"+ orderDetailsId +'/' +oCurrentUser.Id,
@@ -155,7 +155,6 @@ angular.module('oinio.workDetailsControllers', [])
 
                     },null,function success(res) {
                         console.log(res);
-
                         $scope.initSoResult(res.soResult);
                         $scope.initPhotoData(res.Photo);
                         $scope.initAssignUserData(res.assignUser);
@@ -164,11 +163,11 @@ angular.module('oinio.workDetailsControllers', [])
 
                         //交货列表
                         $scope.getRefundList();
-
                         //*********读取配件*************** */
                         $scope.getPartListForRead();
                     },
                     function error(msg) {
+                        AppUtilService.hideLoading();
                         console.log(msg);
                     });
 
@@ -787,7 +786,23 @@ angular.module('oinio.workDetailsControllers', [])
                     {
                         text: "确定",
                         onTap: function () {
-                            $event.target.style.backgroundColor = "#00FF7F";
+                            AppUtilService.showLoading();
+                            ForceClientService.getForceClient().apexrest(
+                                $scope.updateDataStatusUrl+"&sooId="+orderDetailsId+"&status=Service Completed",
+                                "POST",
+                                {},
+                                null,function callBack(res) {
+                                    console.log(res);
+                                    AppUtilService.hideLoading();
+                                    if (res.status.toLowerCase()=="success"){
+                                        AppUtilService.hideLoading();
+                                        $event.target.style.backgroundColor = "#00FF7F";
+                                    }
+                                },function error(msg) {
+                                    AppUtilService.hideLoading();
+                                    console.log(msg);
+                                }
+                            );
                         }
                     }
                 ]
@@ -795,7 +810,7 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.goSave = function () {
-
+            AppUtilService.showLoading();
             var callStr = $("#call_str").val().trim();
             // if (callStr == "" || callStr == null) {
             //     $ionicPopup.alert({
@@ -821,9 +836,9 @@ angular.module('oinio.workDetailsControllers', [])
                 "Id": orderDetailsId,
                 "Mobile_Offline_Name__c": $scope.mobileName,
                 "Work_Order_Type__c": $('#select_work_type option:selected').val(),
-                "Description__c": $('#workContentStr').val(),
+                "Description__c": $('#call_str').val(),
                 "Service_Suggestion__c": $('#serviceSuggest').val(),
-                "Subject__c": $('#call_str').val()
+                "Subject__c": $('#workContentStr').val()
             }];
 
             var selectUserIds =[];
@@ -864,7 +879,7 @@ angular.module('oinio.workDetailsControllers', [])
                         "leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
                     }),null,function success(res) {
                         console.log(res);
-                        if(res.status!="Fail"){
+                        if(res.status.toLowerCase()!="fail"){
                             //*********保存配件************* */
                             $scope.regroupPartListForSave();
                         }else{
@@ -876,6 +891,7 @@ angular.module('oinio.workDetailsControllers', [])
 
                     },
                     function error(msg) {
+                        AppUtilService.hideLoading();
                         console.log(msg);
                     });
         };
@@ -1465,8 +1481,7 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.regroupPartListForSave = function () {
-            AppUtilService.showLoading();
-
+            //AppUtilService.showLoading();
             regroupPartList = [];
             for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
                 const element = $scope.selectedTruckFitItems[i];
@@ -1493,29 +1508,11 @@ angular.module('oinio.workDetailsControllers', [])
                 console.log("responseSaveParts:", responseSaveParts);
 
                 //添加点击保存更改工单状态
-                //AppUtilService.showLoading();
-
-                if (allowEdit){
-                    ForceClientService.getForceClient().apexrest(
-                        $scope.updateDataStatusUrl+"&sooId="+orderDetailsId+"&status=Service Completed",
-                        "POST",
-                        {},
-                        null,function callBack(res) {
-                            console.log(res);
-                            AppUtilService.hideLoading();
-                            if (res.status=="Success"){
-                                $rootScope.getSomeData();
-                                $state.go("app.home");
-                            }
-                        },function error(msg) {
-                            AppUtilService.hideLoading();
-                            console.log(msg);
-                        }
-                    );
-                }else{
+                if (responseSaveParts.status.toLowerCase()=="success"){
+                    AppUtilService.hideLoading();
+                    $rootScope.getSomeData();
                     $state.go("app.home");
                 }
-
             }, function (error) {
                 console.log("responseSaveParts_error:", error);
                 AppUtilService.hideLoading();
