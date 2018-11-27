@@ -153,7 +153,6 @@ angular.module('oinio.newWorkListControllers', [])
                         $scope.searchResultOwnerNum = response.Name;
                         $scope.searchResultOwnerId = user.Id;
                         $scope.searchResultOwnerSoupId = response._soupEntryId;
-
                     }
                 }, function (error) {
                     $log.error('HomeService.getUserObjectById Error ' + error);
@@ -485,7 +484,7 @@ angular.module('oinio.newWorkListControllers', [])
                             function callBack(res) {
                                 console.log(res);
                                 AppUtilService.hideLoading();
-                                if (res.status=="Success"){
+                                if (res.status.toLowerCase()=="success"){
                                     var currentWorkOrderId = res.message.split(":")[1];
                                     $state.go('app.workDetails',
                                         {   //SendInfo: addResult[0]._soupEntryId,
@@ -496,11 +495,20 @@ angular.module('oinio.newWorkListControllers', [])
                                             selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
                                             workOrderId:currentWorkOrderId
                                         });
+                                }else{
+                                    $ionicPopup.alert({
+                                        title: "保存失败"
+                                    });
+                                    return false;
                                 }
                             },
                             function error(msg) {
                                 console.log(msg);
                                 AppUtilService.hideLoading();
+                                $ionicPopup.alert({
+                                    title: "保存失败"
+                                });
+                                return false;
                             }
                         );
                         // HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {

@@ -50,16 +50,27 @@ angular.module('oinio.CalendarArrangeController', [])
                 null,function callBack(res) {
                     console.log(res);
                     AppUtilService.hideLoading();
-                    if (res.status=="Success"){
+                    if (res.status.toLowerCase()=="success"){
                         $state.go('app.home', {}, {reload: false})
                             .then(function(){
                                 setTimeout(function() {
                                     $rootScope.getSomeData();
                                 },100);
                             });
-                    }},function error(msg) {
-                        AppUtilService.hideLoading();
+                    }else{
+                        $ionicPopup.alert({
+                            title:"更新工单状态失败"
+                        });
+                        return false;
+                    }
+
+                    },function error(msg) {
                         console.log(msg);
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title:"更新工单状态失败"
+                        });
+                        return false;
                     });
             
         };

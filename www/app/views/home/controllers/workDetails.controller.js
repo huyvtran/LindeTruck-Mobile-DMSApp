@@ -691,7 +691,7 @@ angular.module('oinio.workDetailsControllers', [])
             //     return;
             // }
 
-            $ionicPopup.show({
+            var printPop = $ionicPopup.show({
                 title: "是否确定打印？",
                 buttons: [
                     {
@@ -742,27 +742,54 @@ angular.module('oinio.workDetailsControllers', [])
                                                             responsibleEngineer: ownerName//responsibleEngineer
                                                         }
                                                         , function (response) {
+                                                            printPop.hide();
                                                             console.log(response);
                                                             $log.info(response);
                                                             $event.target.style.backgroundColor = "#00FF7F";
                                                         }, function (error) {
                                                             console.log(error);
                                                             $log.error(error);
+                                                            $ionicPopup.alert({
+                                                                title: "连接蓝牙设备失败"
+                                                            });
+                                                            printPop.hide();
+                                                            return false;
                                                         });
+                                                }else{
+                                                    $ionicPopup.alert({
+                                                        title: "连接蓝牙设备失败"
+                                                    });
+                                                    printPop.hide();
+                                                    return false;
                                                 }
                                             }, function (error) {
                                                 console.log(error);
                                                 $log.error(error);
+                                                $ionicPopup.alert({
+                                                    title: "连接蓝牙设备失败"
+                                                });
+                                                printPop.hide();
+                                                return false;
                                             });
                                         }
                                     }, function (error) {
                                         console.log(error);
                                         $log.error(error);
+                                        $ionicPopup.alert({
+                                            title: "请先在设置中连接蓝牙设备"
+                                        });
+                                        printPop.hide();
+                                        return false;
                                     });
                                 }
                             }, function (error) {
                                 console.log(error);
                                 $log.error(error);
+                                $ionicPopup.alert({
+                                    title: "请确保设置中开启蓝牙功能"
+                                });
+                                printPop.hide();
+                                return false;
                             });
                         }
                     }
@@ -797,10 +824,19 @@ angular.module('oinio.workDetailsControllers', [])
                                     if (res.status.toLowerCase()=="success"){
                                         AppUtilService.hideLoading();
                                         $event.target.style.backgroundColor = "#00FF7F";
+                                    }else{
+                                        $ionicPopup.alert({
+                                            title:"更新工单状态失败"
+                                        });
+                                        return false;
                                     }
                                 },function error(msg) {
-                                    AppUtilService.hideLoading();
                                     console.log(msg);
+                                    AppUtilService.hideLoading();
+                                    $ionicPopup.alert({
+                                        title:"更新工单状态失败"
+                                    });
+                                    return false;
                                 }
                             );
                         }
@@ -891,8 +927,12 @@ angular.module('oinio.workDetailsControllers', [])
 
                     },
                     function error(msg) {
-                        AppUtilService.hideLoading();
                         console.log(msg);
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title:"保存数据失败"
+                        });
+                        return false;
                     });
         };
 
@@ -1512,10 +1552,19 @@ angular.module('oinio.workDetailsControllers', [])
                     AppUtilService.hideLoading();
                     $rootScope.getSomeData();
                     $state.go("app.home");
+                }else{
+                    $ionicPopup.alert({
+                        title: "保存失败"
+                    });
+                    return false;
                 }
             }, function (error) {
                 console.log("responseSaveParts_error:", error);
                 AppUtilService.hideLoading();
+                $ionicPopup.alert({
+                    title: "保存失败"
+                });
+                return false;
             });
 
         };

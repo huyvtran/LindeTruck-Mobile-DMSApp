@@ -191,7 +191,7 @@
                     null, function callBack(res) {
                         console.log(res);
                         AppUtilService.hideLoading();
-                        if (res.status == "Success") {
+                        if (res.status.toLowerCase() == "success") {
                             $scope.getHomeService();//刷新日历列表数据 更改出发状态
 
                             var goTime = new Date();
@@ -204,10 +204,19 @@
                             //     isNewWorkList:true
                             // });
                             $scope.goPageWorkDetails(item, true, goTime);
+                        }else{
+                            $ionicPopup.alert({
+                                title:"更新工单状态失败"
+                            });
+                            return false;
                         }
                     }, function error(msg) {
-                        AppUtilService.hideLoading();
                         console.log(msg);
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title:"更新工单状态失败"
+                        });
+                        return false;
                     }
                 );
             }
