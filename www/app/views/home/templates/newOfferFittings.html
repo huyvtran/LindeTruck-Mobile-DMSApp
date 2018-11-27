@@ -394,7 +394,7 @@
 				<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
 
 				<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
-				<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+				<div class="footer_Btn Save_Btn_Act" ng-click="addDelePartConfirmBtn();">确定</div>
 			</div>
 		</div>
 	</div>
@@ -422,18 +422,18 @@
 						<div class="btn_M">
 							<div id="btn_modify_Btn" class="btn_modify_Group" > </div>
 						</div>
-						<div id="btn_import_Div" class="btn_Import_Div">
+						<div id="btn_import_Div" class="btn_Import_Div" style="display: none">
 							<div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG </div>
-							<div class="Import_Btn"> 导入经济件 </div>
+							<div class="Import_Btn" ng-click="getTrucksByEconomical();"> 导入经济件 </div>
 							<div class="Import_Btn"> 导入常用配件 </div>
 							<div class="Import_Btn"> 生成备件订单 </div>
 							<div class="Import_Btn"> 免费配件审批 </div>
 							<div class="Import_Btn"> 生成配件报价 </div>
 						</div>
-						<div id="btn_modify_Div" class="btn_modify_Div">
-							<div class="Modify_Btn" ng-click="openSelectPage();"> 添加/删除 </div>
-							<div class="Modify_Btn"> 清空经济件 </div>
-							<div class="Modify_Btn"> 使用经济件 </div>
+						<div id="btn_modify_Div" class="btn_modify_Div" style="display: none">
+							<div class="Modify_Btn" ng-click="openSelectPage('addDele');"> 添加/删除 </div>
+							<div class="Modify_Btn" ng-click="delByEconomical();"> 清空经济件 </div>
+							<div class="Modify_Btn" ng-click="useByEconomical();"> 使用经济件 </div>
 						</div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<div class="OpenClose_Btn arrow_Down_White"></div>

@@ -154,15 +154,57 @@ angular.module('oinio.NewOfferFittingsController', [])
                 }, 'normal').show();
             });
         };
+        /**
+         *删除数组指定下标或指定对象
+         */
+        Array.prototype.remove = function (obj) {
+            for (var i = 0; i < this.length; i++) {
+                var temp = this[i];
+                if (!isNaN(obj)) {
+                    temp = i;
+                }
+                if (temp == obj) {
+                    for (var j = i; j < this.length; j++) {
+                        this[j] = this[j + 1];
+                    }
+                    this.length = this.length - 1;
+                }
+            }
+        };
+        $scope.addDelePartConfirmBtn = function(){//配件添加删除搜索页面 确定按钮
+            $('div.newWorkList_truckSelect').animate({
+                opacity: '0.6'
+            }, 'slow', function () {
+                $('div.newWorkList_truckSelect').hide();
+                $('div.workListDetails_bodyer').animate({
+                    opacity: '1'
+                }, 'normal').show();
+            });
+
+            if ($scope.contentTruckFitItems.length == 0 &&$scope.searchTruckText!="") {
+                var onePartOriginals = {};
+                var priceCondition = {};
+                onePartOriginals["quantity"] = "";//数量
+                onePartOriginals["priceCondition"] = priceCondition["price"];//公布价
+                onePartOriginals["View_Integrity__c"] = "";//预留
+                onePartOriginals["parts_number__c"] = $scope.searchTruckText;//物料信息
+                onePartOriginals["Name"] = $scope.searchTruckText;//Name
+                onePartOriginals["materialId"] = $scope.searchTruckText;//物料号
+                onePartOriginals["saveId"] = "";//物料号
+                onePartOriginals["type"] = "";//配件类型
+                $scope.selectedTruckFitItems.push(onePartOriginals);
+                $scope.searchTruckText = "";
+            }
+        };
         //搜索配件
         $scope.getTrucks = function (keyWord) {
             AppUtilService.showLoading();
             $scope.contentTruckFitItems = [];
-            // $scope.contentTruckFitItems = [{ Id: "a1Cp0000001W16yEAC1", Name: "8712" }, { Id: "a1Cp0000001W16yEAC2", Name: "9272" }, { Id: "a1Cp0000001W16yEAC3", Name: "8872" }];
             console.log("getTrucks::", keyWord);
             let parts_number__cList = [];
             let partsQuantitys = [];
-            ForceClientService.getForceClient().apexrest($scope.searchPartssUrl + keyWord, 'GET', {}, null, function (response) {
+            var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord;
+            ForceClientService.getForceClient().apexrest(getPartsRelatedsKeyWordUrl, 'GET', {}, null, function (response) {
                 console.log("searchPartssUrl:", response);
                 for (let index = 0; index < response.results.length; index++) {
                     let element = response.results[index];
@@ -177,9 +219,12 @@ angular.module('oinio.NewOfferFittingsController', [])
                     console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
                     for (let i = 0; i < responsePartsRelateds.length; i++) {
                         var responsePartsRelatedsList = responsePartsRelateds[i];
-                        for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                            $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
-                        }
+                        // for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                        //     // responsePartsRelatedsList[j]["itemNO"] = i + "-" + j;
+                        //     responsePartsRelatedsList[j]["itemNO"] = j;
+                        //     $scope.contentTruckFitItems.push(responsePartsRelatedsList[j]);
+                        // }
+                        $scope.contentTruckFitItems.push(responsePartsRelatedsList[0]);
                     }
                 }, function (error) {
                     console.log("error:", error);
@@ -191,9 +236,69 @@ angular.module('oinio.NewOfferFittingsController', [])
                 console.log("error:", error);
                 AppUtilService.hideLoading();
             });
+        };
 
+        //--清空经济件
+        $scope.delByEconomical = function () {
+            for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
+                let element = $scope.selectedTruckFitItems[index];
+                if (element.type =="economical") {
+                    setTimeout(function() {
+                        $scope.selectedTruckFitItems.remove(element);
+                    },50);            
+                }
+            }
+        }
+
+        //--使用经济件
+        $scope.useByEconomical = function () {
+            for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
+                let element = $scope.selectedTruckFitItems[index];
+                if (element.type =="common") {
+                    setTimeout(function() {
+                        $scope.selectedTruckFitItems.remove(element);
+                    },50);    
+                }
+            }
+        }
+        //搜索配件--导入经济件
+        $scope.getTrucksByEconomical = function () {
+            AppUtilService.showLoading();
+            $scope.contentTruckFitItems = [];
+            let parts_number__cList = [];
+            let partsQuantitys = [];
+            for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
+                let element = $scope.selectedTruckFitItems[index];
+                if (element.type =="common") {
+                    parts_number__cList.push(element.parts_number__c);
+                    partsQuantitys.push(100000);
+                }
+            }
+            var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + "&partsQuantitys=" + JSON.stringify(partsQuantitys) + "&accountId=" + $stateParams.SendSoupEntryId;
+            console.log("getPartsRelatedsUrl:", getPartsRelatedsUrl);
+            $scope.selectedTruckFitItems = [];// 清空列表
+            ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null, function (responsePartsRelateds) {
+                AppUtilService.hideLoading();
+                console.log("getPartsRelatedsUrlRes:", responsePartsRelateds);
+                for (let i = 0; i < responsePartsRelateds.length; i++) {
+                    var responsePartsRelatedsList = responsePartsRelateds[i];
+                    for (let j = 0; j < responsePartsRelatedsList.length; j++) {
+                        // responsePartsRelatedsList[j]["itemNO"] = j;
+                        if (responsePartsRelatedsList[j].type =="common") {
+                            $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
+                        }
+                        if (responsePartsRelatedsList[j].type =="economical") {
+                            $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
+                        }
+                    }
+                }
+            }, function (error) {
+                console.log("error:", error);
+                AppUtilService.hideLoading();
+            });
 
         };
+
 
         $scope.checkAllSearchResults = function () {
             let ele = $("#ckbox_truckFit_searchresult_all");
@@ -456,7 +561,9 @@ angular.module('oinio.NewOfferFittingsController', [])
                 var oneLabourOriginals4 = {};
                 var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
                 oneLabourOriginals4["Name"] = selectedTruckFitItemsIndex.parts_number__c;
-                oneLabourOriginals4["Gross_Amount__c"] = selectedTruckFitItemsIndex.priceCondition.price;
+                if (selectedTruckFitItemsIndex.priceCondition) {
+                    oneLabourOriginals4["Gross_Amount__c"] = selectedTruckFitItemsIndex.priceCondition.price;
+                }
                 oneLabourOriginals4["Quantity__c"] = part_InputForListNo[index];
                 oneLabourOriginals4["Discount__c"] = part_InputForListDiscount[index];
                 oneLabourOriginals4["View_Integrity__c"] = part_InputForListChecked[index];

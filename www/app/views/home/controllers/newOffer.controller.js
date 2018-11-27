@@ -114,7 +114,8 @@ angular.module('oinio.NewOfferController', [])
                 selectAcctSetId = acct.Id;
                 $scope.searchResultAddress = response.Address__c;
                 $scope.searchResultAcctName = response.Name;
-                $scope.getServiceSatus(selectAcctSetId);
+                $scope.getServiceSatus(selectAcctSetId);//审核状态
+                $scope.getTrucks(selectAcctSetId);//获取当前选择用户下的车辆
             }, function (error) {
                 $log.error('getAccount Error ' + error);
             }).finally(function () {
@@ -126,7 +127,9 @@ angular.module('oinio.NewOfferController', [])
         $scope.getMainLevelsAndDesc = function (obj) {
             SQuoteService.getMaintenanceLevelsAndDescriptions(obj.Maintenance_Key__c).then(function (response) {
                 console.log("getMainLevelsAndDesc", response);
-
+                if (!response.levels || !response.descriptions) {
+                    return;
+                }
                 if (response.levels.length > 0) {
                     obj["levels"] = response.levels;
                 }
@@ -153,7 +156,7 @@ angular.module('oinio.NewOfferController', [])
 
                     }
                     $scope.contentTruckItems = trucks;
-                    setTimeout(function () {
+                    setTimeout(function () {//再次搜索勾选之前已经选中的车辆
                         for (var i=0;i<$scope.selectedTruckItems.length;i++){
                             $("input.ckbox_truck_searchresult_item").each(function (index, element) {
                                 if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
@@ -180,6 +183,48 @@ angular.module('oinio.NewOfferController', [])
                 //AppUtilService.hideLoading();
             });
         };
+
+        $scope.getTrucksWithKey = function (keyWord) {
+            $scope.contentTruckItems = [];
+
+            HomeService.searchTrucks(keyWord,selectAcctSetId).then(function (response) {
+                console.log("getTrucks::",keyWord);
+                let trucks = [];
+                if (response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        trucks.push(response[index]);
+                    }
+                    $scope.contentTruckItems = trucks;
+
+                    setTimeout(function () { //再次搜索勾选之前已经选中的车辆
+                        for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                            $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                                if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+                                    $(this).prop("checked", true);
+                                }
+                            });
+                        }
+                    },300);
+
+                    console.log("getTrucks",trucks);
+                }
+                else {
+                    var ionPop = $ionicPopup.alert({
+                        title: "结果",
+                        template: "没有数据"
+                    });
+                    ionPop.then(function () {
+                        //$ionicHistory.goBack();
+                        //$state.go("app.home");
+                    });
+                }
+            }, function (error) {
+                $log.error('HomeService.searchTrucks Error ' + error);
+            }).finally(function () {
+                //AppUtilService.hideLoading();
+            });
+        };
+        
 
         $scope.selectContacts = function (item) {
             $scope.selectContactsName = item.Name;
@@ -439,13 +484,12 @@ angular.module('oinio.NewOfferController', [])
                 });
                 return;
             }
-            if ($scope.selectedTruckItems.length == 0) {
-                var ionPop = $ionicPopup.alert({
-                    title: "请添加车辆"
-                });
-                return;
-            }
-
+            // if ($scope.selectedTruckItems.length == 0) {
+            //     var ionPop = $ionicPopup.alert({
+            //         title: "请添加车辆"
+            //     });
+            //     return;
+            // }
 
             var selectedTruckItemsCopy = JSON.parse(JSON.stringify($scope.selectedTruckItems))
 
