@@ -40,9 +40,6 @@ angular.module('oinio.ErrorCodeController', [])
           buttons: [
             {
               text: "确定",
-              onTap: function () {
-                $event.target.style.backgroundColor = "#00FF7F";
-              }
             }
           ]
         });
@@ -55,9 +52,6 @@ angular.module('oinio.ErrorCodeController', [])
           buttons: [
             {
               text: "确定",
-              onTap: function () {
-                $event.target.style.backgroundColor = "#00FF7F";
-              }
             }
           ]
         });
@@ -70,9 +64,6 @@ angular.module('oinio.ErrorCodeController', [])
           buttons: [
             {
               text: "确定",
-              onTap: function () {
-                $event.target.style.backgroundColor = "#00FF7F";
-              }
             }
           ]
         });
