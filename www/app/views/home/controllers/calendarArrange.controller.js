@@ -7,6 +7,7 @@ angular.module('oinio.CalendarArrangeController', [])
         };
 
         $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
+        $scope.savePlanDateUrl="/services/apexrest/HomeService?orderId=";
         $scope.submitOrder = function () {
             var mobiDate = $("#currentDate").val();
 
@@ -49,15 +50,39 @@ angular.module('oinio.CalendarArrangeController', [])
                 {},
                 null,function callBack(res) {
                     console.log(res);
-                    AppUtilService.hideLoading();
+                    //AppUtilService.hideLoading();
                     if (res.status.toLowerCase()=="success"){
-                        $state.go('app.home', {}, {reload: false})
-                            .then(function(){
-                                setTimeout(function() {
-                                    $rootScope.getSomeData();
-                                },100);
-                            });
+
+                        ForceClientService.getForceClient().apexrest(
+                            $scope.savePlanDateUrl+$stateParams.workOrderId+"&userId="+selectUserId+"&day="+mobiDate,
+                            'POST',
+                            {},
+                            null,function callBack(res) {
+                                AppUtilService.hideLoading();
+                                if (res.status.toLowerCase()=="success") {
+                                    $state.go('app.home', {}, {reload: false})
+                                        .then(function(){
+                                            setTimeout(function() {
+                                                $rootScope.getSomeData();
+                                            },100);
+                                        });
+                                }else{
+                                    $ionicPopup.alert({
+                                        title:"工单安排时间保存失败"
+                                    });
+                                    return false;
+                                }
+                            },function error(msg) {
+                                AppUtilService.hideLoading();
+                                $ionicPopup.alert({
+                                    title:"工单安排时间保存失败"
+                                });
+                                console.log(msg);
+                                return false;
+                            }
+                        );
                     }else{
+                        AppUtilService.hideLoading();
                         $ionicPopup.alert({
                             title:"更新工单状态失败"
                         });
