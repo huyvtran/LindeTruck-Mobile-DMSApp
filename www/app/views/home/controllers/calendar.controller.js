@@ -18,9 +18,28 @@
             $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
 
 
-          $(document).ready(function () {
-            document.addEventListener('click', newHandle);//初始化弹框
-          });
+            $(document).ready(function () {
+                document.addEventListener('click', newHandle);//初始化弹框
+
+                ///ionic 利用localStorage存储
+                var firstLogin = "";
+                //循环遍历，取key值firstLogin的value
+                for (var i = localStorage.length - 1; i >= 0; i--) {
+                    if (localStorage.key(i) == "firstLogin") {
+                        firstLogin = localStorage.getItem(localStorage.key(i));
+                        console.log("firstLogin1", firstLogin);
+                    }
+                }
+
+                if (firstLogin == "first") {
+                    console.log("firstLogin2", firstLogin); //初始化后 永远走此分支
+
+                } else {
+                    console.log("firstLogin3", firstLogin);
+                    localStorage.setItem("firstLogin", "first"); //初次存储
+                }
+
+            });
 
           $scope.$on('$ionicView.beforeLeave', function () {
             console.log('移除点击事件');
