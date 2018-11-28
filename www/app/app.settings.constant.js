@@ -9,6 +9,7 @@ angular.module('oinio.settings', [])
         'TOUCH_ID': false,
         'GLOBAL_SOUP_CONFIGURATION_FILE': 'app/core/configuration/global_soups.json',
         'FRAMEWORK_SOUP_CONFIGURATION_FILE': 'app/core/configuration/framework_soups.json',
+        'TRUCK_ERROR_CODE_FILE': 'app/core/configuration/errorCode.json',
         'LOCAL_CONFIGURATION': true,
         'LOCAL_CONFIGURATION_FILE': 'app/common/configuration/objects.json',
         'MOBILE_CONFIGURATION_FILE': 'app/core/configuration/mobile_configuration_soups.json', // also known as remote configuration file

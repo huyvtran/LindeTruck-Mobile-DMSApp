@@ -36,26 +36,28 @@
 	  			<div class="small_Type_Group">
 		  			<div class="small_Type_Title"> 车型: </div>
 					<div class="small_Type_Box">
-		  				<select class="small_Type_Select">
-		  					<option>111</option>
-		  				</select>
+		  				<select class="small_Type_Select" id="series_select" ng-model = "seriesId" ng-change="selectSeriesChange(seriesId)">
+							<option value='' disabled selected style='display:none;'>车系</option>
+							<option ng-repeat="seriesId in seriesIds">{{seriesId}}</option>
+						</select>
 		  			</div>
 		  		</div>
 		  		<div class="small_Type_Group">
 		  			<div class="small_Type_Box">
-		  				<select class="small_Type_Select">
-		  					<option>111</option>
+		  				<select class="small_Type_Select"  id="carType_select">
+							<option value='' disabled selected style='display:none;'>车型</option>
+							<option ng-repeat="carType in carTypes">{{carType}}</option>
 		  				</select>
 		  			</div>
 		  		</div>
 				<div class="small_Type_Group">
 					<div class="line_two_65">
 				  		<div class="search_Type_Box">
-			  				<input class="search_Type_Input"/>
+			  				<input class="search_Type_Input" id="truckErrorCode"/>
 			  			</div>
 			  		</div>
 			  		<div class="line_two_35">
-			  			<div class="search_Btn">
+			  			<div class="search_Btn"  ng-click="goToSearch()">
 			  				查询
 			  			</div>
 			  		</div>
@@ -63,19 +65,19 @@
 	  			<div class="small_Type_Group">
 		  			<div class="small_Type_Title">代码描述:</div>
 		  			<div class="small_Type_Box">
-		  				<textarea class="small_Type_Textarea"></textarea>
+		  				<textarea class="small_Type_Textarea">{{codeDescription}}</textarea>
 		  			</div>
 		  		</div>
 		  		<div class="small_Type_Group">
 		  			<div class="small_Type_Title">产生条件:</div>
 		  			<div class="small_Type_Box">
-		  				<textarea class="small_Type_Textarea"></textarea>
+		  				<textarea class="small_Type_Textarea">{{condition}}</textarea>
 		  			</div>
 		  		</div>
 		  		<div class="small_Type_Group">
 		  			<div class="small_Type_Title">可能原因:</div>
 		  			<div class="small_Type_Box">
-		  				<textarea class="small_Type_Textarea"></textarea>
+		  				<textarea class="small_Type_Textarea">{{possibleReasion}}</textarea>
 		  			</div>
 		  		</div>
 	  		</div>
