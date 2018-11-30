@@ -1080,7 +1080,7 @@ angular.module('oinio.services', [])
                     if(!firstIndex){
                         andSign = '&';
                     }
-                    requestUrl += 'acctId=' + acctId;
+                    requestUrl += andSign + 'acctId=' + acctId;
                     firstIndex = false;
                 }
 
@@ -1089,7 +1089,7 @@ angular.module('oinio.services', [])
                 }
 
                 if(limit != null && limit != ''){
-                    requestUrl += 'limit=' + limit;
+                    requestUrl += '&limit=' + limit;
                 }
 
                 console.log('current url:::', requestUrl);
