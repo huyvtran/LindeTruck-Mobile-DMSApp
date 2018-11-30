@@ -279,7 +279,7 @@ angular.module('oinio.newWorkListControllers', [])
                 AppUtilService.hideLoading();
                 $log.error('AccountService.searchAccounts Error ' + error);
             }).finally(function () {
-                //AppUtilService.hideLoading();
+                AppUtilService.hideLoading();
             });
         };
 
@@ -436,9 +436,9 @@ angular.module('oinio.newWorkListControllers', [])
 
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
-            AppUtilService.showLoading();
+            //AppUtilService.showLoading();
             HomeService.searchTruckFleets(keyWord,$scope.searchResultAcctId,"20",doOnline).then(function success(response) {
-                AppUtilService.hideLoading();
+                //AppUtilService.hideLoading();
                 console.log(response);
                 let trucks = [];
                 if (typeof(response)=="string"){
@@ -474,7 +474,7 @@ angular.module('oinio.newWorkListControllers', [])
                     return  false;
                 }
             },function error(msg) {
-                AppUtilService.hideLoading();
+                //AppUtilService.hideLoading();
                 $ionicPopup.alert({
                     title: "结果",
                     template: "没有数据"
