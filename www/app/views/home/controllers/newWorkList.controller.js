@@ -3,6 +3,7 @@ angular.module('oinio.newWorkListControllers', [])
                                             LocalCacheService,HomeService,$ionicPopup,ForceClientService) {
 
         var vm = this,
+            doOnline=true,
             localTruckIds=[],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         $scope.newDetailPostDataUrl="/services/apexrest/NewWorkDetailService?";
@@ -248,9 +249,11 @@ angular.module('oinio.newWorkListControllers', [])
 
 
         $scope.getAccts = function (keyWord) {
+            AppUtilService.showLoading();
             //调用接口获取结果
             HomeService.searchAccounts(keyWord).then(function (response) {
                 console.log("AccountServicegw",keyWord);
+                AppUtilService.hideLoading();
                 let accountsName = [];
                 let accountsId = [];
                 if (response.length > 0) {
@@ -273,6 +276,7 @@ angular.module('oinio.newWorkListControllers', [])
                     });
                 }
             }, function (error) {
+                AppUtilService.hideLoading();
                 $log.error('AccountService.searchAccounts Error ' + error);
             }).finally(function () {
                 //AppUtilService.hideLoading();
@@ -299,9 +303,8 @@ angular.module('oinio.newWorkListControllers', [])
         $scope.init20Trucks = function (keyWord) {
             $scope.contentTruckItems = [];
             console.log("init20Trucks1::",keyWord);
-
-            HomeService.init20AcctTrucks(keyWord).then(function (response) {
-                console.log("init20Trucks2::",keyWord);
+            HomeService.searchTruckFleets("",keyWord,"20",doOnline).then(function success(response) {
+                console.log(response);
                 let trucks = [];
                 if (response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
@@ -311,12 +314,12 @@ angular.module('oinio.newWorkListControllers', [])
                     console.log("init20Trucks",trucks);
                 }
                 return HomeService.getLatest3ServiceOrders($scope.searchResultAcctSoupId);
-            }, function (error) {
-                $log.error('HomeService.init20Trucks Error ' + error);
+            },function error(msg) {
+                console.log(msg);
             }).then(function (response) {
                 console.log("getLatest3ServiceOrders",response);
 
-                if (response.length > 0) {
+                if (response!=null&&response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
                         if(response[index].Status__c == 'Not Started'){
                             response[index].Status__c = '未开始';
@@ -343,6 +346,50 @@ angular.module('oinio.newWorkListControllers', [])
                 //AppUtilService.hideLoading();
                 $scope.closeSelectPage();
             });
+
+            // HomeService.init20AcctTrucks(keyWord).then(function (response) {
+            //     console.log("init20Trucks2::",keyWord);
+            //     let trucks = [];
+            //     if (response.length > 0) {
+            //         for (let index = 0; index < response.length; index++) {
+            //             trucks.push(response[index]);
+            //         }
+            //         $scope.contentTruckItems = trucks;
+            //         console.log("init20Trucks",trucks);
+            //     }
+            //     return HomeService.getLatest3ServiceOrders($scope.searchResultAcctSoupId);
+            // }, function (error) {
+            //     $log.error('HomeService.init20Trucks Error ' + error);
+            // }).then(function (response) {
+            //     console.log("getLatest3ServiceOrders",response);
+            //
+            //     if (response.length > 0) {
+            //         for (let index = 0; index < response.length; index++) {
+            //             if(response[index].Status__c == 'Not Started'){
+            //                 response[index].Status__c = '未开始';
+            //             }
+            //             if(response[index].Status__c == 'Not Completed'){
+            //                 response[index].Status__c = '未完成';
+            //             }
+            //             if(response[index].Status__c == 'Service Completed'){
+            //                 response[index].Status__c = '已完成';
+            //             }
+            //             if(response[index].Status__c == 'End'){
+            //                 response[index].Status__c = '已结束';
+            //             }
+            //             if(response[index].Status__c == 'Not Planned'){
+            //                 response[index].Status__c = '未安排';
+            //             }
+            //         }
+            //         $scope.initLatest3Orders = response;
+            //         //console.log("getLatest3ServiceOrders",accountsName);
+            //     }
+            // }, function (error) {
+            //     $log.error('HomeService.getLatest3ServiceOrders Error ' + error);
+            // }).finally(function () {
+            //     //AppUtilService.hideLoading();
+            //     $scope.closeSelectPage();
+            // });
         };
 
 
@@ -351,7 +398,7 @@ angular.module('oinio.newWorkListControllers', [])
             HomeService.getUsersObjectByName(keyWord).then(function (response) {
                 console.log("getUsersObjectByName",keyWord);
                 let users = [];
-                if (response.length > 0) {
+                if (response!=null&&response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
                         users.push(response[index]);
                     }
@@ -389,11 +436,19 @@ angular.module('oinio.newWorkListControllers', [])
 
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
-
-            HomeService.searchTrucks(keyWord,$scope.searchResultAcctId).then(function (response) {
-                console.log("getTrucks::",keyWord);
+            AppUtilService.showLoading();
+            HomeService.searchTruckFleets(keyWord,$scope.searchResultAcctId,"20",doOnline).then(function success(response) {
+                AppUtilService.hideLoading();
+                console.log(response);
                 let trucks = [];
-                if (response.length > 0) {
+                if (typeof(response)=="string"){
+                    $ionicPopup.alert({
+                        title: "结果",
+                        template: "没有数据"
+                    });
+                    return false;
+                }
+                if (response!=null&&response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
                         trucks.push(response[index]);
                     }
@@ -412,20 +467,61 @@ angular.module('oinio.newWorkListControllers', [])
                     console.log("getTrucks",trucks);
                 }
                 else {
-                    var ionPop = $ionicPopup.alert({
+                    $ionicPopup.alert({
                         title: "结果",
                         template: "没有数据"
                     });
-                    ionPop.then(function () {
-                        //$ionicHistory.goBack();
-                        //$state.go("app.home");
-                    });
+                    return  false;
                 }
-            }, function (error) {
-                $log.error('HomeService.searchTrucks Error ' + error);
-            }).finally(function () {
-                //AppUtilService.hideLoading();
+            },function error(msg) {
+                AppUtilService.hideLoading();
+                $ionicPopup.alert({
+                    title: "结果",
+                    template: "没有数据"
+                });
+                console.log(msg);
+                return false;
             });
+
+
+
+            // HomeService.searchTrucks(keyWord,$scope.searchResultAcctId).then(function (response) {
+            //     console.log("getTrucks::",keyWord);
+            //     let trucks = [];
+            //     if (response.length > 0) {
+            //         for (let index = 0; index < response.length; index++) {
+            //             trucks.push(response[index]);
+            //         }
+            //         $scope.contentTruckItems = trucks;
+            //
+            //         setTimeout(function () {
+            //             for (var i=0;i<$scope.selectedTruckItems.length;i++){
+            //                 $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+            //                     if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+            //                         $(this).prop("checked", true);
+            //                     }
+            //                 });
+            //             }
+            //         },300);
+            //
+            //         console.log("getTrucks",trucks);
+            //     }
+            //     else {
+            //         var ionPop = $ionicPopup.alert({
+            //             title: "结果",
+            //             template: "没有数据"
+            //         });
+            //         ionPop.then(function () {
+            //             //$ionicHistory.goBack();
+            //             //$state.go("app.home");
+            //         });
+            //     }
+            // }, function (error) {
+            //     $log.error('HomeService.searchTrucks Error ' + error);
+            // }).finally(function () {
+            //     //AppUtilService.hideLoading();
+            // });
+
         };
         
         
