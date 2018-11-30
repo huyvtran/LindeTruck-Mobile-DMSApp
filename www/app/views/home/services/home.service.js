@@ -1055,7 +1055,73 @@ angular.module('oinio.services', [])
             return deferred.promise;
         };
 
+        /**
+         * online and offline search truck fleet
+         * @param keyWord {String} Name, Model query
+         * @param acctId {String} account salesforce id
+         * @param limit {string} the number you want to query (for online, offline enter'')
+         * @param isOnline {boolean} Online is true
+         * @returns {*}
+         */
+        this.searchTruckFleets = function(keyWord, acctId, limit, isOnline){
+            let deferred = $q.defer();
+            let result = new Object();
+            if(isOnline){
+                let requestUrl = '/TruckFleetService?';
+                let firstIndex = true;
+                let andSign = '';
 
+                if(keyWord != null && keyWord != ''){
+                    requestUrl += 'keyword=' + keyWord;
+                    firstIndex = false;
+                }
+
+                if(acctId != null && acctId != ''){
+                    if(!firstIndex){
+                        andSign = '&';
+                    }
+                    requestUrl += 'acctId=' + acctId;
+                    firstIndex = false;
+                }
+
+                if((keyWord == null || keyWord == '') && (acctId == null || acctId == '')){
+                    deferred.reject('keyWord and acctId can not all are null!');
+                }
+
+                if(limit != null && limit != ''){
+                    requestUrl += 'limit=' + limit;
+                }
+
+                console.log('current url:::', requestUrl);
+
+                ForceClientService.getForceClient()
+                    .apexrest(
+                        requestUrl,
+                        'GET',
+                        {
+
+                        },null,function success(res) {
+                            console.log(res);
+                            result =  res;
+                            deferred.resolve(result);
+                        },
+                        function error(msg) {
+                            console.log(msg);
+                            deferred.reject(msg);
+                        });
+            }else{
+                let res;
+                if(keyWord == null || keyWord == ''){
+                    res = init20AcctTrucks(acctId);
+                }else{
+                    res = searchTrucks(keyword,acctId);
+                }
+
+                deferred.resolve(res);
+            }
+
+            return deferred.promise;
+        };
 
         this.init20AcctTrucks = function(acctId){
             console.log('initTrucks.keyword:%s',acctId);
