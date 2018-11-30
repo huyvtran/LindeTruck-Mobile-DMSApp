@@ -30,7 +30,7 @@ fi
 # plugin
 if [ -d plugins ]; then
     echo '\x1B[0;33m! "plugins"-folder already exists. Trying to delete.\x1B[0m'
-    #rm -rf plugins >/dev/null 2>/dev/null
+    rm -rf plugins >/dev/null 2>/dev/null
 else
     echo '\x1B[0;32m✓ No "plugins"-folder found.\x1B[0m'
 fi
@@ -144,8 +144,8 @@ cordova plugin add cordova-plugin-contacts
 echo '\x1B[0;90m✓ cordova-plugin-file-transfer.\x1B[0m'
 cordova plugin add cordova-plugin-file-transfer
 
-echo '\x1B[0;90m✓ print-plugin.\x1B[0m'
-cordova plugin add print-plugin
+#echo '\x1B[0;90m✓ print-plugin.\x1B[0m'
+#cordova plugin add print-plugin
 
 echo '\x1B[0;90m✓ com.lampa.startapp.\x1B[0m'
 cordova plugin add https://github.com/lampaa/com.lampa.startapp.git
