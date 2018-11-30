@@ -57,6 +57,7 @@
             'oinio.serviceManagementController',
             'oinio.RefundController',
             'oinio.PurChaseController',
+            'oinio.goH5Controller',
             'oinio.ErrorCodeController'
         ]);
 

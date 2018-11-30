@@ -214,6 +214,9 @@ img {
 .calendar_bodyer .table_Right.checkmark_Icon {
     background-color: #7ad27c;
 }
+.calendar_bodyer .table_Right.workon_Icon {
+    background-color: #5f9c7c;
+}
 .calendar_bodyer .table_Right.warning_Icon {
     background-color: #d27a7a;
 }

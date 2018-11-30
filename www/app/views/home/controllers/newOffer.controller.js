@@ -143,11 +143,13 @@ angular.module('oinio.NewOfferController', [])
                 //AppUtilService.hideLoading();
             });
         }
-        $scope.getTrucks = function (keyWord) {
+        $scope.getTrucks = function (acctId) {
             $scope.contentTruckItems = [];
-            // console.log("getTrucks::", keyWord);
+            console.log("searchTruckFleets::", acctId);
 
-            SQuoteService.searchTrucks(keyWord).then(function (response) {
+            HomeService.searchTruckFleets("",acctId,"20",true).then(function (response) {
+                console.log("searchTruckFleets", response);
+
                 let trucks = [];
                 if (response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
@@ -165,7 +167,6 @@ angular.module('oinio.NewOfferController', [])
                             });
                         }
                     },300);
-                    console.log("getTrucks", trucks);
                 }
                 else {
                     var ionPop = $ionicPopup.alert({
@@ -187,7 +188,7 @@ angular.module('oinio.NewOfferController', [])
         $scope.getTrucksWithKey = function (keyWord) {
             $scope.contentTruckItems = [];
 
-            HomeService.searchTrucks(keyWord,selectAcctSetId).then(function (response) {
+            HomeService.searchTruckFleets(keyWord,selectAcctSetId,"20",true).then(function (response) {
                 console.log("getTrucks::",keyWord);
                 let trucks = [];
                 if (response.length > 0) {

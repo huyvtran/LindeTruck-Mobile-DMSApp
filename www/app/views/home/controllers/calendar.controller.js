@@ -73,7 +73,7 @@
                 } else if (type === "Not Started") {    //未开始
                     returnType = "table_Right warning_Icon"
                 } else if (type === "Not Completed") {  //进行中
-                    returnType = "table_Right checkmark_Icon "
+                    returnType = "table_Right workon_Icon "
                 }else if (type === "Service Completed") {  //已完成
                     returnType = "table_Right checkmark_Icon "
                 }

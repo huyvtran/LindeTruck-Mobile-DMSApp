@@ -165,6 +165,16 @@
                 },
                 cache: false
             })
+            .state('app.goH5', {
+                url: '/goH5',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/goH5.html',
+                        controller: 'goH5Controller as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.synchronize', {
                 url: '/synchronize',
                 views: {
