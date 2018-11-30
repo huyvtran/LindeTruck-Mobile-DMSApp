@@ -1112,9 +1112,9 @@ angular.module('oinio.services', [])
             }else{
                 let res;
                 if(keyWord == null || keyWord == ''){
-                    res = init20AcctTrucks(acctId);
+                    res = this.init20AcctTrucks(acctId);
                 }else{
-                    res = searchTrucks(keyword,acctId);
+                    res = this.searchTrucks(keyWord,acctId);
                 }
 
                 deferred.resolve(res);
