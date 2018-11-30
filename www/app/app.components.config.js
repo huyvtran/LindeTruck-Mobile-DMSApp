@@ -75,8 +75,10 @@
          * @desc
          */
         $ionicConfigProvider.backButton.text('').icon('ion-chevron-left').previousTitleText(false);
+        //禁止右划返回上一页面
         $ionicConfigProvider.views.swipeBackEnabled(false);
-
+        //禁止页面切换使用动画
+        $ionicConfigProvider.views.transition('no');
     }
 
     /**
