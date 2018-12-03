@@ -1041,6 +1041,7 @@ angular.module('oinio.services', [])
                             Name: entry[0].Name,
                             Model__c: entry[0].Model__c,
                             Ship_To_CS__c: entry[0].Ship_To_CS__c,
+                            Maintenance_Key__c: entry[0].Maintenance_Key__c,
                             _soupEntryId: entry[0]._soupEntryId
                         });
                     });
@@ -1144,6 +1145,7 @@ angular.module('oinio.services', [])
                             Ship_To_CS__c: entry[0].Ship_To_CS__c,
                             Truck_Type__c: entry[0].Truck_Type__c,
                             Warranty_End_Date__c: entry[0].Warranty_End_Date__c,
+                            Maintenance_Key__c: entry[0].Maintenance_Key__c,
                             _soupEntryId: entry[0]._soupEntryId
                         });
                     });
