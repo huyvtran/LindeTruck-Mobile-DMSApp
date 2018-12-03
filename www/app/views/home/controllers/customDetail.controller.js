@@ -266,7 +266,7 @@
                             "category":"CATEGORY_DEFAULT",
                             "type":"text/css",
                             "package":"com.baidu.BaiduMap",
-                            "uri":"baidumap://map/marker?location="+lat+","+lng+"&title=maker&coord_type=wgs84&traffic=on&src=andr.baidu.openAPIdemo",
+                            "uri":"baidumap://map/marker?location="+lat+","+lng+"&title="+encodeURI(addressStr)+"&coord_type=wgs84&traffic=on&src=andr.baidu.openAPIdemo",
                             "flags":["FLAG_ACTIVITY_CLEAR_TOP","FLAG_ACTIVITY_CLEAR_TASK"],
                             "intentstart":"startActivity"
                         });
