@@ -1620,6 +1620,13 @@ angular.module('oinio.workDetailsControllers', [])
                 }
             }
         };
+
+        
+        $scope.goGenerateOrders = function () {
+            $state.go('app.generateOrders',{workOrderId:orderDetailsId});
+
+        };
+
         $scope.openRefundPage = function () {
             $("input.refundcheckbox").each(function (index, element) {
                 if (element.checked) {

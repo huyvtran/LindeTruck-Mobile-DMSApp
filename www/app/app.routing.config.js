@@ -197,6 +197,17 @@
                 },
                 cache: false
             })
+            .state('app.generateOrders', {
+                url: '/generateOrders',
+                params:{'workOrderId':null},
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/generateOrders.html',
+                        controller: 'generateOrdersController as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.synchronize', {
                 url: '/synchronize',
                 views: {
