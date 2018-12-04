@@ -574,10 +574,10 @@
                         <div class="{{displayStandardInfo?'OpenClose_Btn arrow_Down_White':'OpenClose_Btn arrow_Left_White'}}"></div>
                     </div>
                     <div id="newwork_standardInfo" class="div-slide">
-                        <div class="small_Type_Group">
+                        <div class="small_Type_Group" ng-click="openSelectPage('customer');">
                             <!--<div class="small_Type_Title">客户名称:</div>-->
                             <div class="small_Type_Box">
-                                <input placeholder="客户名称/客户号" type="search" id="customerName" ng-model="searchResultAcctName" value={{searchResultAcctName}} style="background-color:transparent;" ng-click="openSelectPage('customer');" class="small_Type_Input"/>
+                                <input placeholder="客户名称/客户号" type="search" id="customerName" ng-model="searchResultAcctName" value={{searchResultAcctName}} style="background-color:transparent;"  class="small_Type_Input"/>
                                 <div class="search_small_black"></div>
                             </div>
                         </div>
@@ -588,17 +588,17 @@
                                 <div class="search_small_black"></div>
                             </div>
                         </div> -->
-                        <div class="small_Type_Group">
+                        <div class="small_Type_Group" ng-click="openSelectPage('truck');">
                             <!--<div class="small_Type_Title">车体号(多选，非必选):</div> -->
                             <div class="small_Type_Box">
-                                <input placeholder="车体号(多选，非必选)"  type="search" ng-model="searchResultTruckName" value={{searchResultTruckName}} style="background-color:transparent;" ng-click="openSelectPage('truck');" class="small_Type_Input"/>
+                                <input placeholder="车体号(多选，非必选)"  type="search" ng-model="searchResultTruckName" value={{searchResultTruckName}} style="background-color:transparent;"  class="small_Type_Input"/>
                                 <div class="search_small_black"></div>
                             </div>
                         </div>
-                        <div class="small_Type_Group">
+                        <div class="small_Type_Group" ng-click="openSelectPage('owner');">
                             <!--<div class="small_Type_Title">责任人:</div>-->
                             <div class="small_Type_Box">
-                                <input placeholder="责任人" type="search" ng-model="searchResultOwnerName" value={{searchResultOwnerName}} style="background-color:transparent;" ng-click="openSelectPage('owner');" class="small_Type_Input"/>
+                                <input placeholder="责任人" type="search" ng-model="searchResultOwnerName" value={{searchResultOwnerName}} style="background-color:transparent;"  class="small_Type_Input"/>
                                 <div class="search_small_black"></div>
                             </div>
                         </div>
