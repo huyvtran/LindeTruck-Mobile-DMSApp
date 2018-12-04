@@ -142,7 +142,7 @@ angular.module('oinio.services', [])
             let deferred = $q.defer();
 
             let sql =  "select {BTU__c:_soup}\
-                         from {BTU__c} ";
+                         from {BTU__c} order by {BTU__c:Manager__c}";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let result = new Object();

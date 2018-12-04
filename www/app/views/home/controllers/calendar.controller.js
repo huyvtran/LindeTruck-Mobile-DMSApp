@@ -416,7 +416,7 @@
                         $rootScope.allUser = res;
 
                         if (typeof (getOrderById(oCurrentUser.Id)) === 'undefined') {
-                            currentOrder = allUser[0].orders
+                            currentOrder = allUser[0].orders;
                         } else {
                             currentOrder = getOrderById(oCurrentUser.Id).orders;
                         }
@@ -425,7 +425,7 @@
                         $scope.currentOrder = getServiceOrderType(allOrders);
                         calendarAll.fullCalendar("addEventSource", getCount(currentOrder));
                         console.log('getEachOrder  ' , currentOrder);
-
+                        setTimeout(setDefaultUser, 500);
                     }, function (error) {
                         console.log('getEachOrder Error ' ,error);
                     });
@@ -508,7 +508,28 @@
 
                 //////选择组员
                 var province = document.getElementById("selectUserId");
+                let setDefaultUser = function() {
+                    try {
+
+                        console.log('匹配当前用户:ing');
+                        for(let i=0;i<allUser.length;i++){
+                            if(allUser[i].userId === oCurrentUser.Id){
+                                console.log('匹配当前用户工单成功。');
+                                $('#selectUserId option')[i].selected = 'selected';
+                                var index = i;
+                                currentOrder = allUser[index].orders;//当前选择组员的订单
+                                document.getElementById("selectStatusId")[0].selected = true;
+                                $scope.currentOrder = getServiceOrderType(allUser[index].orders);
+                                calendarAll.fullCalendar("addEventSource", getCount(allUser[index].orders));
+                            }
+                        }
+                    } catch (e) {
+                        console.log('匹配当前用户:出错啦::',e);
+                    }
+                };
+                setDefaultUser();
                 province.onchange = function () {
+                    console.log('onchange::');
                     var index = province.options.selectedIndex;
                     currentOrder = allUser[index].orders;//当前选择组员的订单
                     document.getElementById("selectStatusId")[0].selected = true;
