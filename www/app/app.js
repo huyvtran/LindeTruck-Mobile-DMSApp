@@ -59,7 +59,9 @@
             'oinio.RefundController',
             'oinio.PurChaseController',
             'oinio.goH5Controller',
-            'oinio.ErrorCodeController'
+            'oinio.ErrorCodeController',
+            'oinio.TransferRequestController',
+            'oinio.TransferRequestListController'
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,

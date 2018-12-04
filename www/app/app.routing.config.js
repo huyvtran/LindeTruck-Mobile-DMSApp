@@ -132,6 +132,28 @@
                 cache:false
             })
 
+            .state('app.transferRequest',{
+                url:'app/transferRequest',
+                views:{
+                menuContent: {
+                    templateUrl: 'app/views/home/templates/transferRequest.view.html',
+                    controller: 'TransferRequestController as vm'
+                    }
+                },
+                cache:false
+            })
+
+            .state('app.transferRequestList',{
+                url:'app/transferRequestList',
+                views:{
+                menuContent: {
+                    templateUrl: 'app/views/home/templates/transferRequestList.view.html',
+                    controller: 'TransferRequestListController as vm'
+                    }
+                },
+                cache:false
+            })
+
 
             .state('app.serviceManagement', {
                 url: 'app/serviceManagement',

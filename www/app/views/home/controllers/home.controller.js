@@ -113,6 +113,10 @@ angular.module('oinio.controllers', [])
         $state.go('app.errorCode');
       };
 
+      $scope.applyTransfer = function () {
+        $state.go('app.transferRequestList');
+      };
+
       $scope.selectTabWithIndex = function (index) {
         $ionicTabsDelegate.select(index);
         if (index == 0) {
