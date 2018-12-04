@@ -3,6 +3,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                    LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
 
         var vm = this,
+            doOnline = true,
             arriveTime = null,
             leaveTime = null,
             localWorkers=[],
@@ -1021,6 +1022,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.selectWorkers = function () {
             document.getElementById("workDetailTotal").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "block";
 
             for (var i=0;i<$scope.selectWorkersArr.length;i++){
@@ -1036,6 +1038,7 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailTotal").style.display = "block";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "none";
         };
 
         $scope.showDetailsMoreInf = function () {
@@ -1921,6 +1924,122 @@ angular.module('oinio.workDetailsControllers', [])
             }
             $scope.selectWorkersStr = new_temp;
         };
+
+        //添加更多车体
+        $scope.addMoreTruck = function () {
+            document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "block";
+            document.getElementById("selectWorkersPage").style.display = "none";
+        };
+
+        /**
+         * hide truck page
+         */
+        $scope.hideTruckAddPage=function () {
+            document.getElementById("workDetailTotal").style.display = "block";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "none";
+            document.getElementById("selectWorkersPage").style.display = "none";
+        };
+        /**
+         *  search allTrucks by keyword
+         */
+        $scope.getAddTrucks=function (keyword) {
+
+            $scope.addTruckItems = [];
+            //AppUtilService.showLoading();
+            HomeService.searchTruckFleets(keyword,'',"20",doOnline).then(function success(response) {
+                //AppUtilService.hideLoading();
+                console.log(response);
+                let trucks = [];
+                if (typeof(response)=="string"){
+                    $ionicPopup.alert({
+                        title: "结果",
+                        template: "没有数据"
+                    });
+                    return false;
+                }
+                if (response!=null&&response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        trucks.push(response[index]);
+                    }
+                    $scope.addTruckItems = trucks;
+
+                    setTimeout(function () {
+                        for (var i=0;i<$scope.selectedAddTruckItems.length;i++){
+                            $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
+                                if($(element).attr("data-recordid") == $scope.selectedAddTruckItems[i].Id) {
+                                    $(this).prop("checked", true);
+                                }
+                            });
+                        }
+                    },300);
+
+                    console.log("getTrucks",trucks);
+                }
+                else {
+                    $ionicPopup.alert({
+                        title: "结果",
+                        template: "没有数据"
+                    });
+                    return  false;
+                }
+            },function error(msg) {
+                //AppUtilService.hideLoading();
+                $ionicPopup.alert({
+                    title: "结果",
+                    template: "没有数据"
+                });
+                console.log(msg);
+                return false;
+            });
+        };
+        /**
+         *  切换已选叉车以及搜索结果
+         */
+        $scope.changeAddTruckTab=function (index) {
+            if (index === '1') {
+                $("#addTruck_Tab_1").addClass("selectTruck_Tab_Active");
+                $("#addTruck_Tab_2").removeClass("selectTruck_Tab_Active");
+
+                $('#addTruck_result').css('display', 'block');
+                $('#addTruck_checked').css('display', 'none');
+            } else if (index === '2') {
+                $("#addTruck_Tab_1").removeClass("selectTruck_Tab_Active");
+                $("#addTruck_Tab_2").addClass("selectTruck_Tab_Active");
+
+                $('#addTruck_result').css('display', 'none');
+                $('#addTruck_checked').css('display', 'block');
+            }
+        };
+
+        /**
+         * 全部删除
+         */
+        $scope.delAllSelectedTruckItem =function () {
+            $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
+                element.checked = false;
+            });
+            document.getElementById("ckbox_truck_add_searchresult_item").checked = false;
+
+            $scope.selectedAddTruckItems = [];
+        };
+
+        /**
+         * 全选
+         */
+        $scope.checkAllAddTruckResults =function () {
+
+
+        };
+        /**
+         * 单选
+         */
+        $scope.checkCurrentTruckResult=function () {
+
+        };
+
 
     });
 

@@ -449,7 +449,7 @@
 				<div class="displayQuantity">
 					<div class="arrow_quantity_icon"></div>
 					<div class="displayQuantity_text" ng-click="toDescribInfDiv();">已选共{{SelectedTruckNum}}台 </div>
-					<div class="addcar_icon"></div>
+					<div class="addcar_icon" ng-click="addMoreTruck();"></div>
 					<div class="describ_Inf_Div" id="describInfDiv" style="display: none">
 						<div class="des_Inf_Head">
 							<div class="des_Inf_Left"> <input id="selectTruckAll" type="checkbox" ng-click="choooseAllCheckBox();" /> </div>
@@ -845,6 +845,7 @@
 		</div>
 	</diV>
 
+	<!--选择派工人员-->
 	<div id="selectWorkersPage" style="display: none;">
 		<link rel="stylesheet" href="././css/selectWorkers.css">
 		<div class="header2">
@@ -880,6 +881,83 @@
 				<ion-list can-swipe="true">
 					<ion-item   ng-cloak  class="small_Box_Text" ng-repeat="selectedWorkerItem in selectWorkersArr" ng-click="deleteCurrentSelectWorker(selectedWorkerItem);">
 						<span ><img src="././img/images/del_red_icon.png"/></span>{{selectedWorkerItem.value}}
+					</ion-item>
+				</ion-list>
+			</div>
+		</div>
+	</div>
+
+	<!--selectTruck-->
+	<div id="selectTruckAddPage" style="display: none">
+		<div class="header2">
+			<div class="left_Box" ng-click="hideTruckAddPage();">
+				<div class="back_Icon"></div>
+			</div>
+			<div class="search_All" >
+				<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAddTruckText"/>
+				<!--<div class="search_Photo_Icon"></div>-->
+			</div>
+			<div class="search_right_Group" id="cancleBtn1" ng-click="getAddTrucks(searchAddTruckText);">
+				<div class="text_Cancel"> 搜索 </div>
+			</div>
+		</div>
+		<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
+			<div class="selectTruck_Tabs" style="">
+				<div id="addTruck_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeAddTruckTab('1');" style="">
+					<span class="selectTruck_Tab_Text" style="">搜索结果</span>
+				</div>
+				<div id="addTruck_Tab_2" class="selectTruck_Tab" ng-click="changeAddTruckTab('2');" style="">
+					<span class="selectTruck_Tab_Text" style="">已选车体</span>
+				</div>
+			</div>
+			<div class="add_del_bodyer">
+				<div id="addTruck_result" class="big_Box_Group" style="display: block;">
+					<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+						<tr>
+							<th class="sv_Td">
+								<input id="ckbox_truck_searchresult_all" type="checkbox" ng-click="checkAllAddTruckResults();" />
+							</th>
+							<th class="sv_Td">
+								<div style="width: 150px;"> 车体号 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 叉车属性 </div>
+							</th>
+							<th class="sv_Td">
+								<div> 保修到期日 </div>
+							</th>
+						</tr>
+					</table>
+
+					<ion-list can-swipe="true">
+						<ion-item   ng-repeat="titem in addTruckItems" ng-cloak class="small_Box_Text_1">
+							<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+								<tr>
+									<td class="sv_Td">
+										<input data-recordid={{titem.Id}} class="ckbox_truck_add_searchresult_item" ng-click="checkCurrentTruckResult(titem);"
+											   type="checkbox" />
+									</td>
+									<td class="sv_Td">
+										<div style="width: 150px;"> {{titem.Name}}</div>
+									</td>
+									<td class="sv_Td">
+										<div> {{titem.inventory.Truck_Type__c}} </div>
+									</td>
+									<td class="sv_Td">
+										<div> {{titem.inventory.Warranty_End_Date__c}} </div>
+									</td>
+								</tr>
+							</table>
+						</ion-item>
+					</ion-list>
+				</div>
+			</div>
+
+			<div id="addTruck_checked" class="big_Box_Group" style="display: none;">
+				<div class="small_Box_Title"> <img ng-click="delAllSelectedTruckItem();" src="././img/images/del_red_icon.png"/> 全选删除 </div>
+				<ion-list can-swipe="true">
+					<ion-item id="items3" ng-repeat="ckitem in selectedAddTruckItems"  ng-cloak  class="small_Box_Text">
+						<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png"/></span> {{ckitem.Name}}
 					</ion-item>
 				</ion-list>
 			</div>
