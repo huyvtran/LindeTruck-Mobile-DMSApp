@@ -7,7 +7,7 @@
   angular
     .module('oinio.services')
     .service('ErrorCodeServices',
-      function ($q, $http, APP_SETTINGS, $log, $filter, LocalDataService, ConnectionMonitor,
+      function ($q, $http, APP_SETTINGS, $log, $filter, base64, LocalDataService, ConnectionMonitor,
                 LocalSyncService, IonicLoadingService) {
 
         var service = this;
@@ -20,9 +20,8 @@
           var deferred = $q.defer();
 
           service.getErrorCodeAllData().then(function (codeFiles) {
-            console.log('codeFile', codeFiles);
 
-            const seriesIds = screenAllTruckSeries(codeFiles);
+            const seriesIds = screenAllTruckSeries(JSON.parse(codeFiles));
             console.log('seriesIds',seriesIds);
 
             deferred.resolve(seriesIds);
@@ -44,7 +43,7 @@
 
           service.getErrorCodeAllData().then(function (codeFiles) {
 
-            const carTypes = screenAllTruckCarType(codeFiles, series);
+            const carTypes = screenAllTruckCarType(JSON.parse(codeFiles), series);
             console.log('carTypes',carTypes);
 
             deferred.resolve(carTypes);
@@ -67,7 +66,7 @@
 
           service.getErrorCodeAllData().then(function (codeFiles) {
 
-            const errorInfo = _.where(codeFiles, {'Series': series, 'CarType': carType, 'Code': code});
+            const errorInfo = _.where(JSON.parse(codeFiles), {'Series': series, 'CarType': carType, 'Code': code});
             deferred.resolve(errorInfo);
 
           }, function (error) {
@@ -84,15 +83,97 @@
         service.getErrorCodeAllData = function () {
 
           var deferred = $q.defer();
+          var errorCode = '';
 
-          $http.get(APP_SETTINGS.TRUCK_ERROR_CODE_FILE).then(function (codeFile) {
-            deferred.resolve(codeFile.data);
+          service.getErrorCodeTxtAllData('errorCode.txt').then(function (codeFile) {
+
+            errorCode = codeFile;
+
+            service.getErrorCodeTxtAllData('errorCode1.txt').then(function (codeFile1) {
+
+              errorCode = errorCode + codeFile1;
+
+              service.getErrorCodeTxtAllData('errorCode2.txt').then(function (codeFile2) {
+
+                errorCode = errorCode + codeFile2;
+
+                deferred.resolve(errorCode);
+
+              },function (error) {
+                deferred.reject(error);
+              });
+
+            },function (error) {
+              deferred.reject(error);
+            });
+
+          },function (error) {
+            deferred.reject(error);
+
+          });
+
+          // $http.get(APP_SETTINGS.TRUCK_ERROR_CODE_FILE).then(function (codeFile) {
+          //   deferred.resolve(codeFile.data);
+          // }, function (error) {
+          //   deferred.reject(error);
+          // });
+
+
+
+          return deferred.promise;
+
+        };
+
+        service.getErrorCodeTxtAllData = function (fileName) {
+
+          var deferred = $q.defer();
+
+          getAppEntry(fileName).then(function (appEntry) {
+
+            readFile(appEntry).then(function (result) {
+
+              const codeResult = base64.decode(result);
+
+              deferred.resolve(codeResult);
+
+
+            }, function (error) {
+              deferred.reject(error);
+            });
+
           }, function (error) {
             deferred.reject(error);
           });
 
           return deferred.promise;
 
+        };
+
+        function getAppEntry(fileName) {
+          return new Promise((resolve, reject) => {
+            const fileURL = `${cordova.file.applicationDirectory}www/app/core/configuration/${fileName}`;
+            window.resolveLocalFileSystemURL(fileURL,
+              appEntry => {
+                resolve(appEntry);
+              }, error => {
+                reject(error);
+              });
+          });
+        };
+
+        function readFile (fileEntry) {
+          return new Promise((resolve, reject) => {
+            fileEntry.file(file => {
+              const reader = new FileReader();
+              reader.onloadend = function () {
+                resolve(this.result);
+              };
+              reader.readAsText(file);
+
+            }, onErrorReadFile => {
+              reject(onErrorReadFile);
+            });
+          });
         };
 
 
@@ -131,32 +212,3 @@
         }
 
       });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

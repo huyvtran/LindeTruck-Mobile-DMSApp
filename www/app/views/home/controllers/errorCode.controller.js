@@ -1,5 +1,5 @@
 angular.module('oinio.ErrorCodeController', [])
-  .controller('ErrorCodeController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams, ConnectionMonitor, LocalCacheService, ErrorCodeServices) {
+  .controller('ErrorCodeController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,  ConnectionMonitor, LocalCacheService, ErrorCodeServices) {
 
     var vm = this;
     $scope.seriesIds = [];
@@ -23,7 +23,17 @@ angular.module('oinio.ErrorCodeController', [])
 
       }, function (error) {
         $log.error('ErrorCodeController.ionicView.beforeEnter Error ' + error);
+      });
+
+      ErrorCodeServices.getErrorCodeTxtAllData().then(function (seriesIds) {
+
+        console.log('codeFile',seriesIds);
+
+
+      }, function (error) {
+
       })
+
 
     });
     $scope.$on('$ionicView.enter', function () {
