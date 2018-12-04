@@ -59,6 +59,7 @@
             'oinio.serviceManagementController',
             'oinio.RefundController',
             'oinio.PurChaseController',
+            'oinio.goH5Controller',
             'oinio.ErrorCodeController'
         ]);
 
@@ -149,117 +150,146 @@
                     // refresh translation
                     $translate.use(user['LanguageLocaleKey']);
 
-                    // checks whether all necessary folders are already created, if not, create them
-                    FileService.initializeUserFolders().then(function () {
+                    ///ionic 利用localStorage存储
+                    var firstLogin = "";
+                    //循环遍历，取key值firstLogin的value
+                    for (var i = localStorage.length - 1; i >= 0; i--) {
+                        if (localStorage.key(i) == "firstLogin") {
+                            firstLogin = localStorage.getItem(localStorage.key(i));
+                            console.log("firstLogin getted:::", firstLogin);
+                        }
+                    }
 
-                        MetaService.soupInitialized().then(function (setupSoupDone) {
+                    if (firstLogin == "first") {
+                        console.log("current firstLogin:::", firstLogin); //初始化后 永远走此分支
+                        $state.go(APP_SETTINGS.START_VIEW);
+                    } else {
+                        console.log("current firstLogin:::", firstLogin);
+                        // checks whether all necessary folders are already created, if not, create them
+                        FileService.initializeUserFolders().then(function () {
 
-                            // if local soups not already set up, setup soups now
-                            if (setupSoupDone === false) {
-                                // setup global, framework and business ojbect soups
-                                SmartStoreService.setupSoups().then(function (result) {
-                                    $log.debug('>>>> setup soups done');
+                            MetaService.soupInitialized().then(function (setupSoupDone) {
 
-                                    IonicLoadingService.hide();
-                                    console.log('current time:::', new Date());
-                                    // local login
-                                    localLogin(true);
-                                }, function (error) {
-                                    // TODO: This is only a quick and very dirty fix. Use $q.defer / reject / resolve instead
-                                    // hide spinner
-                                    IonicLoadingService.hide();
+                                // if local soups not already set up, setup soups now
+                                if (setupSoupDone === false) {
+                                    // setup global, framework and business ojbect soups
+                                    SmartStoreService.setupSoups().then(function (result) {
+                                        $log.debug('>>>> setup soups done');
 
-                                    var alertPopup = $ionicPopup.alert({
-                                        title: 'Initialization failed',
-                                        template: 'Soups could not be setup. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
-                                    });
-
-                                    alertPopup.then(function (result) {
-                                        $log.debug('setupSoups failure ==> ' + error);
-                                    });
-                                });
-                            } else {
-                                // check if database should be dropped due to configuration changes
-                                var dropDBOnVersionChange = APP_SETTINGS.DROP_DATABASE_ON_VERSION_CHANGE;
-
-                                var utilService = $injector.get('UtilService');
-                                utilService.checkAppVersionChanged().then(function (changed) {
-                                    if (changed && dropDBOnVersionChange) {
-
+                                        IonicLoadingService.hide();
+                                        console.log('current time:::', new Date());
+                                        // local login
+                                        localLogin(true);
+                                    }, function (error) {
+                                        // TODO: This is only a quick and very dirty fix. Use $q.defer / reject / resolve instead
+                                        // hide spinner
                                         IonicLoadingService.hide();
 
                                         var alertPopup = $ionicPopup.alert({
-                                            title: 'Application Update',
-                                            template: 'Application needs to be updated. All not synchronized data will be uploaded to Salesforce and the App will be restarted.' +
-                                            '<br/><br/>Please ensure a stable internet connection'
+                                            title: 'Initialization failed',
+                                            template: 'Soups could not be setup. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
                                         });
 
-                                        alertPopup.then(function () {
-                                            IonicLoadingService.show('<ion-spinner icon="ripple" style="stroke: #ffffff; fill: #ffffff"></ion-spinner>' +
-                                                '<br/><span>Synchronizing</span>', false);
-
-                                            // sync up all not synchronized records
-                                            LocalSyncService.syncUpObjectByAll().then(function (done) {
-                                                IonicLoadingService.hide();
-                                            }).catch(function (error) {
-                                            }).finally(function () {
-
-                                                IonicLoadingService.show('<ion-spinner icon="ripple" style="stroke: #ffffff; fill: #ffffff"></ion-spinner>' +
-                                                    '<br/><span>Restart Application</span>', false);
-
-                                                // drop business soups
-                                                SmartStoreService.dropSoupByConfig(false, false, true).then(function () {
-
-                                                    // restart app
-                                                    var timeout = $injector.get('$timeout');
-                                                    timeout(function () {
-                                                        IonicLoadingService.hide();
-                                                        window.location.reload();
-                                                    }, 500);
-                                                });
-                                            });
+                                        alertPopup.then(function (result) {
+                                            $log.debug('setupSoups failure ==> ' + error);
                                         });
-                                    } else {
-                                        // reset soup spec by configuration include all framework soups.
-                                        SmartStoreService.resetSoupSpecByConfig(true, false, true).then(function (result) {
+                                    });
+                                } else {
+                                    // check if database should be dropped due to configuration changes
+                                    var dropDBOnVersionChange = APP_SETTINGS.DROP_DATABASE_ON_VERSION_CHANGE;
 
-                                            // soups already set up, go to local login
-                                            $log.debug('>>>> soups already initialized');
+                                    var utilService = $injector.get('UtilService');
+                                    utilService.checkAppVersionChanged().then(function (changed) {
+                                        if (changed && dropDBOnVersionChange) {
 
-                                            // if current user's language is changed, then setupSoups to refresh related data
-                                            var currentUser = LocalCacheService.get('currentUser');
-                                            if (currentUser && currentUser.isLanguageChanged) {
-                                                $log.debug('>>>> user language changed, reload describeSObjects, describeLayouts, picklists, recordtypes');
-
-                                                // reload describeSObjects, describeLayouts, picklists, recordtypes
-                                                LocalSyncService.syncForLanguageChange().then(function () {
-                                                    $log.debug('>>>> reloaded necessary information when user language changed');
-
-                                                    // local login
-                                                    localLogin(true);
-                                                }, function (error) {
-                                                    $log.debug('setupSoups error ' + error);
-                                                });
-                                            } else {
-                                                localLogin(false);
-                                            }
-                                        }, function (error) {
-                                            // TODO: This is only a quick and very dirty fix. Use $q.defer / reject / resolve instead
-                                            // hide spinner
                                             IonicLoadingService.hide();
 
                                             var alertPopup = $ionicPopup.alert({
-                                                title: 'Initialization failed',
-                                                template: 'Soups could not be reset spec. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
+                                                title: 'Application Update',
+                                                template: 'Application needs to be updated. All not synchronized data will be uploaded to Salesforce and the App will be restarted.' +
+                                                    '<br/><br/>Please ensure a stable internet connection'
                                             });
 
-                                            alertPopup.then(function (result) {
-                                                $log.debug('reset soup spec failure ==> ' + error);
+                                            alertPopup.then(function () {
+                                                IonicLoadingService.show('<ion-spinner icon="ripple" style="stroke: #ffffff; fill: #ffffff"></ion-spinner>' +
+                                                    '<br/><span>Synchronizing</span>', false);
+
+                                                // sync up all not synchronized records
+                                                LocalSyncService.syncUpObjectByAll().then(function (done) {
+                                                    IonicLoadingService.hide();
+                                                }).catch(function (error) {
+                                                }).finally(function () {
+
+                                                    IonicLoadingService.show('<ion-spinner icon="ripple" style="stroke: #ffffff; fill: #ffffff"></ion-spinner>' +
+                                                        '<br/><span>Restart Application</span>', false);
+
+                                                    // drop business soups
+                                                    SmartStoreService.dropSoupByConfig(false, false, true).then(function () {
+
+                                                        // restart app
+                                                        var timeout = $injector.get('$timeout');
+                                                        timeout(function () {
+                                                            IonicLoadingService.hide();
+                                                            window.location.reload();
+                                                        }, 500);
+                                                    });
+                                                });
                                             });
-                                        });
-                                    }
+                                        } else {
+                                            // reset soup spec by configuration include all framework soups.
+                                            SmartStoreService.resetSoupSpecByConfig(true, false, true).then(function (result) {
+
+                                                // soups already set up, go to local login
+                                                $log.debug('>>>> soups already initialized');
+
+                                                // if current user's language is changed, then setupSoups to refresh related data
+                                                var currentUser = LocalCacheService.get('currentUser');
+                                                if (currentUser && currentUser.isLanguageChanged) {
+                                                    $log.debug('>>>> user language changed, reload describeSObjects, describeLayouts, picklists, recordtypes');
+
+                                                    // reload describeSObjects, describeLayouts, picklists, recordtypes
+                                                    LocalSyncService.syncForLanguageChange().then(function () {
+                                                        $log.debug('>>>> reloaded necessary information when user language changed');
+
+                                                        // local login
+                                                        localLogin(true);
+                                                    }, function (error) {
+                                                        $log.debug('setupSoups error ' + error);
+                                                    });
+                                                } else {
+                                                    localLogin(false);
+                                                }
+                                            }, function (error) {
+                                                // TODO: This is only a quick and very dirty fix. Use $q.defer / reject / resolve instead
+                                                // hide spinner
+                                                IonicLoadingService.hide();
+
+                                                var alertPopup = $ionicPopup.alert({
+                                                    title: 'Initialization failed',
+                                                    template: 'Soups could not be reset spec. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
+                                                });
+
+                                                alertPopup.then(function (result) {
+                                                    $log.debug('reset soup spec failure ==> ' + error);
+                                                });
+                                            });
+                                        }
+                                    });
+                                }
+                            }, function (error) {
+                                // TODO: This is only a quick and very dirty fix. Use $q.defer / reject / resolve instead
+                                // hide spinner
+                                IonicLoadingService.hide();
+
+                                var alertPopup = $ionicPopup.alert({
+                                    title: 'Initialization failed',
+                                    template: 'Soups could not be initialized. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
                                 });
-                            }
+
+                                alertPopup.then(function (result) {
+                                    $log.debug('soupInitialized failure ==> ' + error);
+                                });
+                            });
                         }, function (error) {
                             // TODO: This is only a quick and very dirty fix. Use $q.defer / reject / resolve instead
                             // hide spinner
@@ -267,27 +297,18 @@
 
                             var alertPopup = $ionicPopup.alert({
                                 title: 'Initialization failed',
-                                template: 'Soups could not be initialized. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
+                                template: 'User folder could not be initialized. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
                             });
 
                             alertPopup.then(function (result) {
-                                $log.debug('soupInitialized failure ==> ' + error);
+                                $log.debug('folerInitialized failure ==> ' + error);
                             });
                         });
-                    }, function (error) {
-                        // TODO: This is only a quick and very dirty fix. Use $q.defer / reject / resolve instead
-                        // hide spinner
-                        IonicLoadingService.hide();
+                        //localStorage.setItem("firstLogin", "first"); //初次存储
+                    }
 
-                        var alertPopup = $ionicPopup.alert({
-                            title: 'Initialization failed',
-                            template: 'User folder could not be initialized. Please contact your administrator, if the problem persists.<br /><br /><span style="color:#CCCCCC">' + error + '</span>'
-                        });
-
-                        alertPopup.then(function (result) {
-                            $log.debug('folerInitialized failure ==> ' + error);
-                        });
-                    });
+                    /*
+                    */
                 }, function (error) {
                     $log.debug('Initialized log setting error ' + error);
                 });
@@ -406,7 +427,7 @@
         service.showLoading = function () {
             $ionicLoading.show({
                 template: '<ion-spinner icon="ripple"></ion-spinner>' +
-                '<br /><span>' + $filter('translate')('cl.global.msg_waitLoading') + '</span>'
+                    '<br /><span>' + $filter('translate')('cl.global.msg_waitLoading') + '</span>'
             });
         };
 

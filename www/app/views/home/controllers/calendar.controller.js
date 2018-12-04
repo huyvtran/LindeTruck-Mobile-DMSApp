@@ -21,23 +21,23 @@
             $(document).ready(function () {
                 document.addEventListener('click', newHandle);//初始化弹框
 
-                ///ionic 利用localStorage存储
-                var firstLogin = "";
-                //循环遍历，取key值firstLogin的value
-                for (var i = localStorage.length - 1; i >= 0; i--) {
-                    if (localStorage.key(i) == "firstLogin") {
-                        firstLogin = localStorage.getItem(localStorage.key(i));
-                        console.log("firstLogin1", firstLogin);
-                    }
-                }
+                // ///ionic 利用localStorage存储
+                // var firstLogin = "";
+                // //循环遍历，取key值firstLogin的value
+                // for (var i = localStorage.length - 1; i >= 0; i--) {
+                //     if (localStorage.key(i) == "firstLogin") {
+                //         firstLogin = localStorage.getItem(localStorage.key(i));
+                //         console.log("firstLogin1", firstLogin);
+                //     }
+                // }
 
-                if (firstLogin == "first") {
-                    console.log("firstLogin2", firstLogin); //初始化后 永远走此分支
+                // if (firstLogin == "first") {
+                //     console.log("firstLogin2", firstLogin); //初始化后 永远走此分支
 
-                } else {
-                    console.log("firstLogin3", firstLogin);
-                    localStorage.setItem("firstLogin", "first"); //初次存储
-                }
+                // } else {
+                //     console.log("firstLogin3", firstLogin);
+                //     localStorage.setItem("firstLogin", "first"); //初次存储
+                // }
 
             });
 
@@ -73,7 +73,7 @@
                 } else if (type === "Not Started") {    //未开始
                     returnType = "table_Right warning_Icon"
                 } else if (type === "Not Completed") {  //进行中
-                    returnType = "table_Right checkmark_Icon "
+                    returnType = "table_Right workon_Icon "
                 }else if (type === "Service Completed") {  //已完成
                     returnType = "table_Right checkmark_Icon "
                 }

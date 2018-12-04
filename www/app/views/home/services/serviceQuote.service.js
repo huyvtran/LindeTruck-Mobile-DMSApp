@@ -10,7 +10,7 @@
      */
     angular
         .module('oinio.services')
-        .service('SQuoteService', function($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService, SMARTSTORE_COMMON_SETTING) {
+        .service('SQuoteService', function($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService,ForceClientService, SMARTSTORE_COMMON_SETTING) {
 
             let service = this;
 
@@ -175,6 +175,45 @@
                 console.log('searchTrucks::', deferred.promise);
                 return deferred.promise;
             };
+
+            /**
+             * get Maintenance_Key_Level_Parts__c info with name
+             * @param keyword {String}  Maintenance_Key_Level_Parts__c name
+             * @param isOnline {Boolean} Online is true
+             * @returns {*}
+             */
+            this.getMaintenanceLevelsAndDescriptionsInfo = function (keyword, isOnline) {
+                let deferred = $q.defer();
+                let result = new Object();
+                if(isOnline){
+                    let requestUrl = '/TruckFleetService?';
+                    if(keyword != null && keyword != ''){
+                        requestUrl += 'MaintenanceKey=' + keyword;
+                    }else{
+                        deferred.reject('keyword lost !');
+                    }
+
+                    ForceClientService.getForceClient()
+                        .apexrest(
+                            requestUrl,
+                            'GET',
+                            {
+
+                            },null,function success(res) {
+                                console.log(res);
+                                result =  res;
+                                deferred.resolve(result);
+                            },
+                            function error(msg) {
+                                console.log(msg);
+                                deferred.reject(msg);
+                            });
+                }else{
+                    let res = this.getMaintenanceLevelsAndDescriptions(keyword);
+                    deferred.resolve(res);
+                }
+                return deferred.promise;
+            }
 
 
 

@@ -125,7 +125,10 @@ angular.module('oinio.NewOfferController', [])
         };
 
         $scope.getMainLevelsAndDesc = function (obj) {
-            SQuoteService.getMaintenanceLevelsAndDescriptions(obj.Maintenance_Key__c).then(function (response) {
+            if (!obj.Maintenance_Key__c) {
+                return;
+            }
+            SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,true).then(function (response) {
                 console.log("getMainLevelsAndDesc", response);
                 if (!response.levels || !response.descriptions) {
                     return;
@@ -143,11 +146,13 @@ angular.module('oinio.NewOfferController', [])
                 //AppUtilService.hideLoading();
             });
         }
-        $scope.getTrucks = function (keyWord) {
+        $scope.getTrucks = function (acctId) {
             $scope.contentTruckItems = [];
-            // console.log("getTrucks::", keyWord);
+            console.log("searchTruckFleets::", acctId);
 
-            SQuoteService.searchTrucks(keyWord).then(function (response) {
+            HomeService.searchTruckFleets("",acctId,"20",true).then(function (response) {
+                console.log("searchTruckFleets", response);
+
                 let trucks = [];
                 if (response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
@@ -165,7 +170,6 @@ angular.module('oinio.NewOfferController', [])
                             });
                         }
                     },300);
-                    console.log("getTrucks", trucks);
                 }
                 else {
                     var ionPop = $ionicPopup.alert({
@@ -187,8 +191,15 @@ angular.module('oinio.NewOfferController', [])
         $scope.getTrucksWithKey = function (keyWord) {
             $scope.contentTruckItems = [];
 
-            HomeService.searchTrucks(keyWord,selectAcctSetId).then(function (response) {
+            HomeService.searchTruckFleets(keyWord,selectAcctSetId,"20",true).then(function (response) {
                 console.log("getTrucks::",keyWord);
+                if (typeof(response)=="string"){
+                    $ionicPopup.alert({
+                        title: "结果",
+                        template: "没有数据"
+                    });
+                    return;
+                }
                 let trucks = [];
                 if (response.length > 0) {
                     for (let index = 0; index < response.length; index++) {

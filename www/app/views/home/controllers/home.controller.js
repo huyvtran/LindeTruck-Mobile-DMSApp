@@ -78,18 +78,20 @@ angular.module('oinio.controllers', [])
       };
 
       $scope.addCustomer = function () {
-        $http({
-          method: 'GET',
-          url: 'http://api.map.baidu.com/place/v2/search?query=' +
-               JSON.stringify('东丽区华明工业园区华瑞路10号')
-               + '&bounds=19.356894,73.324615,53.583491,134.845176&output=json&ak=RBfIl5ZzQ4BowljtLFOHurr4DEp8hAoo'
-        }).then(function successCallback(response) {
-          // 请求成功执行代码
-          console.log('successCallback', response);
-        }, function errorCallback(response) {
-          // 请求失败执行代码
-          console.log('errorCallback', response);
-        });
+        // $http({
+        //   method: 'GET',
+        //   url: 'http://api.map.baidu.com/place/v2/search?query=' +
+        //        JSON.stringify('东丽区华明工业园区华瑞路10号')
+        //        + '&bounds=19.356894,73.324615,53.583491,134.845176&output=json&ak=RBfIl5ZzQ4BowljtLFOHurr4DEp8hAoo'
+        // }).then(function successCallback(response) {
+        //   // 请求成功执行代码
+        //   console.log('successCallback', response);
+        // }, function errorCallback(response) {
+        //   // 请求失败执行代码
+        //   console.log('errorCallback', response);
+        // });
+        // $state.go('app.goH5');
+
       };
 
       $scope.addNewWork1 = function () {

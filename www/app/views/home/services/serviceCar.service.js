@@ -49,7 +49,7 @@
 
                     newItem = service.cloneObj(sobject);
 
-                    newItem['CarNo__c'] = adr.CarNo__c;//车牌号
+                    newItem['Car_ID__c'] = adr.Car_ID__c;//车牌号
                     newItem['GasCost__c'] = Number(adr.GasCost__c);//加油费用(Number)
                     newItem['SelfMileage__c'] = Number(adr.SelfMileage__c);// 里程表-自用(Number)
                     newItem['DriveMileage__c'] = Number(adr.DriveMileage__c);//里程表-公务(Number)

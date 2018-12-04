@@ -729,9 +729,9 @@ angular.module('oinio.workDetailsControllers', [])
                                                             workHour: "  " + h + "小时" + m + "分钟",//workHour
                                                             workTimeTotal: [{
                                                                 workName: ownerName,
-                                                                workDate: arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate(),
-                                                                workStartTime: arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds(),
-                                                                workEndTime: arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds(),
+                                                                workDate: arriveTime!=null?arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate():"",
+                                                                workStartTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
+                                                                workEndTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
                                                                 miles: ""
 
                                                             }],//workTimeTotal
