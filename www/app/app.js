@@ -15,7 +15,6 @@
             'pascalprecht.translate',
             'angular-md5',
             'ab-base64',
-            'mdo-angular-cryptography',
             'nvd3',
             'angularMoment',
             'oinio.settings',
