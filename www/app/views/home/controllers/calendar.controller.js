@@ -298,6 +298,27 @@
                         }
 
             };
+
+            $scope.changeBackgroundColor = function(currentClickDate){
+                let currEle = $('td.fc-day[data-date="' + currentClickDate + '"]');
+                if(currEle != null && currEle.length > 0) {
+                    console.log('currEle::',currEle);
+                    if(currEle[0].style.backgroundColor === '#aaa' || currEle[0].style.backgroundColor === 'rgb(170, 170, 170)'){
+                        currEle[0].style.backgroundColor = 'transparent';
+                        $scope.resetAllDateBackground();
+                    } else {
+                        $scope.resetAllDateBackground();
+                        currEle[0].style.backgroundColor = '#aaa';
+                    }
+                }
+            };
+
+            $scope.resetAllDateBackground = function(){
+                $('td.fc-day').each(function (index, element) {
+                    element.style.backgroundColor = 'transparent';
+                });
+            };
+
             var getOrderById = function (sendId) {
                 for (let index = 0; index < allUser.length; index++) {
                     var userId = allUser[index].userId;
@@ -432,11 +453,13 @@
 
                         console.log("↓↓↓dayClick↓↓↓");
                         console.log('date: ' + date);
+
                         // console.log('jsEvent: ' + jsEvent);
                         // console.log('view: ' + view);
                         // $("tr:even").css("background-color", "#000");
                         var currentClickDate = date.format('YYYY-MM-DD');
                         $scope.toDisplayOrderListByData(currentClickDate);
+                        $scope.changeBackgroundColor(currentClickDate);
                     },
                     events: function (start, end, timezone, callback) {
 
