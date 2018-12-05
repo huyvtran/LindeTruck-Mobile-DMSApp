@@ -966,6 +966,78 @@
 		</div>
 	</div>
 
+
+	<div id="workPrintPage" style="display: none">
+		<link rel="stylesheet" href="././css/workListPrint.css">
+		<div class="workListPrint_header">
+			<div class="left_Box">
+			</div>
+			<div class="center_Box">
+				<div class="center_Title">工单打印</div>
+			</div>
+			<div class="right_Box">
+			</div>
+		</div>
+		<div class="workListPrint_bodyer">
+			<div class="big_Type_Group">
+				<div>
+					<div class="readonly_Inf_1">
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 客户名称：</div><div class="inf_Right_Text"> 达创科技有限公司达创科技有限公司达创科技有限公司</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 客户号：</div><div class="inf_Right_Text"> 223423443242</div>
+						</div>
+						<div class="inf_Box">
+							<table class="statistic_table">
+								<tr>
+									<td colspan="5" class="statistic"> 服务工作时间统计: </td>
+								</tr>
+								<tr>
+									<td class="statistic_Title"> 工程师 </td>
+									<td class="statistic_Title statistic_right"> 日期 </td>
+									<td class="statistic_Title statistic_right"> 工作起止时间 </td>
+									<td class="statistic_Title statistic_right"> 旅游起止时间 </td>
+									<td class="statistic_Title statistic_right"> 公里数 </td>
+								</tr>
+								<tr>
+									<td class="statistic_Text"> 某某某 </td>
+									<td class="statistic_Text statistic_right"> 20190101 </td>
+									<td class="statistic_Text statistic_right"> 20190101 </td>
+									<td class="statistic_Text statistic_right"> 20190101 </td>
+									<td class="statistic_Text statistic_right"> 45 </td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="readonly_Inf_2">
+						<div class="inf_Box">
+							<div class="inf_Title"> 配件费参见发货清单</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 报修需求：</div><div class="inf_Right_Text"> 张永生，叉车检查</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 故障描述：</div><div class="inf_Right_Text"> 描述内容，描述内容，描述内容，描述内容，描述内容</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text_2"> 工程师签名及日期：</div><div class="inf_Right_Text_2"> 客户签名及日期：</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Img_2"> <img src=""></div><div class="inf_Right_Img_2"><img src=""></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="workListPrint_footer">
+			<div class="footer_Btn" ng-click="hideWorkPrintPage();">取消</div>
+			<div class="footer_Btn save_Btn" ng-click="printWorkList();"> 保存</div>
+		</div>
+
+	</div>
+
+
 </body>
 
 </html>

@@ -16,7 +16,7 @@
             var firstRunFun = false;
             vm.isOnline = null;
             $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
-
+            $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
 
             $(document).ready(function () {
                 document.addEventListener('click', newHandle);//初始化弹框
@@ -191,16 +191,16 @@
             $scope.goNotStartedWorkDetails = function (item) {
                 for (let index = 0; index < currentOrder.length; index++) {
                     const element = currentOrder[index].Status__c;
-                    if (element == "Not Completed") {
-                        setTimeout(function() {
-                            myPopup = $ionicPopup.show({
-                                title: "已经有进行中的工单",
-                                scope: $scope,
-                                buttons: null
-                            });
-                        },100);
-                        return;
-                    }
+                    // if (element == "Not Completed") {
+                    //     setTimeout(function() {
+                    //         myPopup = $ionicPopup.show({
+                    //             title: "已经有进行中的工单",
+                    //             scope: $scope,
+                    //             buttons: null
+                    //         });
+                    //     },100);
+                    //     return;
+                    // }
                 }
                 AppUtilService.showLoading();
                 ForceClientService.getForceClient().apexrest(
@@ -222,7 +222,30 @@
                             //     workOrderId:item.Id,
                             //     isNewWorkList:true
                             // });
-                            $scope.goPageWorkDetails(item, true, goTime);
+                            ForceClientService.getForceClient().apexrest(
+                                $scope.departureUrl+item.Id+"&departureTime="+goTime.format("yyyy-MM-dd hh:mm:ss"),
+                                'POST',
+                                {},
+                                null,
+                                function callBack(res) {
+                                    console.log(res);
+                                    if (res.status.toLowerCase()=="success"){
+                                        $scope.goPageWorkDetails(item, true, goTime);
+                                    }else{
+                                        $ionicPopup.alert({
+                                            title:"记录出发时间失败"
+                                        });
+                                        return false;
+                                    }
+                                },
+                                function error(msg) {
+                                    console.log(msg);
+                                    $ionicPopup.alert({
+                                        title:"记录出发时间失败"
+                                    });
+                                    return false;
+                                }
+                            );
                         }else{
                             $ionicPopup.alert({
                                 title:"更新工单状态失败"
@@ -238,7 +261,33 @@
                         return false;
                     }
                 );
-            }
+            };
+            /**
+             * 日期格式化方法
+             * @param format
+             * @returns {*}
+             */
+            Date.prototype.format = function(format) {
+                var date = {
+                    "M+": this.getMonth() + 1,
+                    "d+": this.getDate(),
+                    "h+": this.getHours(),
+                    "m+": this.getMinutes(),
+                    "s+": this.getSeconds(),
+                    "q+": Math.floor((this.getMonth() + 3) / 3),
+                    "S+": this.getMilliseconds()
+                };
+                if (/(y+)/i.test(format)) {
+                    format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+                }
+                for (var k in date) {
+                    if (new RegExp("(" + k + ")").test(format)) {
+                        format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+                    }
+                }
+                return format;
+            };
+
             $scope.goPageWorkDetails = function (obj, isNewWork, goTime) {
                 $state.go('app.workDetails', {
                     SendInfo: obj._soupEntryId,

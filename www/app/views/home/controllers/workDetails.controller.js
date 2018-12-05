@@ -30,6 +30,7 @@ angular.module('oinio.workDetailsControllers', [])
             localLatitude=null,
             localLongitude=null,
             selectTypeIndex=0, //作业类型默认选择第一个
+            beforeAddMoreTrucks=[],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
@@ -60,6 +61,10 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.showFooter=true;
         $scope.imgUris = ["././img/images/will_add_Img.png"];
         $scope.selectedTruckItemsMore=[];
+        $scope.arrivalPostUrl="/WorkDetailService?action=arrival&sooId=";
+        $scope.leavePostUrl="/WorkDetailService?action=leave&sooId=";
+
+
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -407,6 +412,7 @@ angular.module('oinio.workDetailsControllers', [])
                 );
             }
             $scope.allTruckItems = truckItems;
+            beforeAddMoreTrucks=truckItems;
         };
 
         /**
@@ -497,7 +503,7 @@ angular.module('oinio.workDetailsControllers', [])
             } else {
                 return {
                     index: 2,
-                    mm: leaveTime.getMinutes + 60 - m
+                    mm: leaveTime.getMinutes() + 60 - m
                 };
             }
         };
@@ -512,14 +518,17 @@ angular.module('oinio.workDetailsControllers', [])
                 //     title: "请选择到达时间"
                 // });
 
-                var numArr1 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-                var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
+                var numArr1 = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+                var numArr2 = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
                 var mobileSelect3 = new MobileSelect({
                     trigger: '#leave',
                     title: '选择工作时长',
                     wheels: [
                         {
                             data: numArr1
+                        },
+                        {
+                            data:':'
                         },
                         {
                             data: numArr2
@@ -529,7 +538,7 @@ angular.module('oinio.workDetailsControllers', [])
                     callback: function (indexArr, data) {
                         $("#leave").text("离开");
                         h = parseInt(data[0].substring(6, 8));
-                        m = parseInt(data[1].substring(6, 8));
+                        m = parseInt(data[2].substring(6, 8));
                         //checkHours();
                         leaveTime = new Date();
                         var min =  checkMinutes();
@@ -538,11 +547,33 @@ angular.module('oinio.workDetailsControllers', [])
                         } else {
                             arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - h - 1) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
                         }
+                        ForceClientService.getForceClient().apexrest(
+                            $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss"),
+                            'POST',
+                            {},
+                            null,
+                            function callBack(res) {
+                                console.log(res);
+                                if (res.status.toLowerCase()=="success"){
+                                    $("#arriveBtn").prop("disabled","disabled");
+                                    $("#arriveBtn").css("backgroundColor","#00FF7F");
+                                    $("#leave").prop("disabled","disabled");
+                                    $("#leave").css("backgroundColor","#00FF7F");
+                                }else{
+                                    $ionicPopup.alert({
+                                        title:"记录到达/离开时间失败"
+                                    });
+                                    return false;
+                                }
 
-                        $("#arriveBtn").prop("disabled","disabled");
-                        $("#arriveBtn").css("backgroundColor","#00FF7F");
-                        $("#leave").prop("disabled","disabled");
-                        $("#leave").css("backgroundColor","#00FF7F");
+                            },function error(msg) {
+                                console.log(msg);
+                                $ionicPopup.alert({
+                                    title:"记录到达/离开时间失败"
+                                });
+                                return false;
+                                }
+                            );
                     }
                 });
 
@@ -561,8 +592,31 @@ angular.module('oinio.workDetailsControllers', [])
                         text: '确定',
                         onTap: function () {
                             leaveTime = new Date();
-                            $event.target.style.backgroundColor = "#00FF7F";
-                            $("#leave").prop("disabled","disabled");
+                            ForceClientService.getForceClient().apexrest(
+                                $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss"),
+                                'POST',
+                                {},
+                                null,
+                                function callBack(res) {
+                                    console.log(res);
+                                    if (res.status.toLowerCase()=="success"){
+                                        $event.target.style.backgroundColor = "#00FF7F";
+                                        $("#leave").prop("disabled","disabled");
+                                    }else{
+                                        $ionicPopup.alert({
+                                            title:"记录到达/离开时间失败"
+                                        });
+                                        return false;
+                                    }
+
+                                },function error(msg) {
+                                    console.log(msg);
+                                    $ionicPopup.alert({
+                                        title:"记录到达/离开时间失败"
+                                    });
+                                    return false;
+                                }
+                            );
                         }
                     }],
                 });
@@ -657,9 +711,35 @@ angular.module('oinio.workDetailsControllers', [])
                         navigator.geolocation.getCurrentPosition(function success(position) {
                             localLatitude=position.coords.latitude;
                             localLongitude=position.coords.longitude;
-                            $event.target.style.backgroundColor = "#00FF7F";
-                        },function error(msg) {
+                            ForceClientService.getForceClient().apexrest(
+                                $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
+                                'POST',
+                                {},
+                                null,
+                                function callBack(res) {
+                                    console.log(res);
+                                    if (res.status.toLowerCase()=="success"){
+                                        $event.target.style.backgroundColor = "#00FF7F";
+                                    }else{
+                                        $ionicPopup.alert({
+                                            title:"记录到达时间失败"
+                                        });
+                                        return false;
+                                    }
+                                },function error(msg) {
+                                    console.log(msg);
+                                    $ionicPopup.alert({
+                                        title:"记录到达时间失败"
+                                    });
+                                    return false;
+                                }
+                            );
+                            },function error(msg) {
                             console.log(msg);
+                            $ionicPopup.alert({
+                                title:"获取定位失败"
+                            });
+                            return false;
                         });
                     }
                 }],
@@ -671,132 +751,11 @@ angular.module('oinio.workDetailsControllers', [])
          * @param $event
          */
         $scope.doPrint = function ($event) {
-            var callStr = $("#call_str").val().trim();
-            // if (callStr == "" || callStr == null) {
-            //     $ionicPopup.alert({
-            //         title: "请填写来电是由!"
-            //     });
-            //     return;
-            // }
-
-            // if (arriveTime == null) {
-            //     $ionicPopup.alert({
-            //         title: "请选择到达时间"
-            //     });
-            //     return;
-            // }
-
-            // if (finishTime == null || leaveTime == null) {
-            //     $ionicPopup.alert({
-            //         title: "请选择工作时长"
-            //     });
-            //     return;
-            // }
-
-            var printPop = $ionicPopup.show({
-                title: "是否确定打印？",
-                buttons: [
-                    {
-                        text: "取消",
-                        onTap: function () {
-
-                        }
-                    },
-                    {
-                        text: "确定",
-                        onTap: function () {
-                            PrintPlugin.checkBlueTooth(null, function (result) {
-                                console.log(result);
-                                $log.info(result);
-                                if (result.status == 0) {
-                                    PrintPlugin.getBlueToothDevices(null, function (result) {
-                                        console.log(result);
-                                        if (result.length < 1) {
-                                            $log.info("请先在蓝牙中配对好设备！");
-                                        } else {
-                                            var arr = result[0].split('-');
-                                            PrintPlugin.connectBlueToothDevice(arr[1], function (res) {
-                                                console.log(res);
-                                                $log.info(res);
-                                                if (res.status == 0) {
-                                                    PrintPlugin.printTicket(
-                                                        {
-                                                            customerName: customerNameValue,//customerName
-                                                            customerAccount: customerAccountValue,//customerAccount
-                                                            customerAddress: customerAddressValue,//customerAddress
-                                                            workSingleNumber: $("#workSingleNumber").text(),//workSingleNumber
-                                                            noticeAccount: "",//noticeAccount
-                                                            goodsAccount: "",//goodsAccount
-                                                            TruckModel: truckNumber,//TruckModel
-                                                            workHour: "  " + h + "小时" + m + "分钟",//workHour
-                                                            workTimeTotal: [{
-                                                                workName: ownerName,
-                                                                workDate: arriveTime!=null?arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate():"",
-                                                                workStartTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
-                                                                workEndTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
-                                                                miles: ""
-
-                                                            }],//workTimeTotal
-                                                            listContent: "",//listContent
-                                                            demandForRequire: "   " + callStr,//demandForRequire
-                                                            workContent: $("#workContentStr").val(),//workContent
-                                                            resultAndSuggestions: $("#serviceSuggest").val(),//resultAndSuggestions
-                                                            responsibleEngineer: ownerName//responsibleEngineer
-                                                        }
-                                                        , function (response) {
-                                                            printPop.hide();
-                                                            console.log(response);
-                                                            $log.info(response);
-                                                            $event.target.style.backgroundColor = "#00FF7F";
-                                                        }, function (error) {
-                                                            console.log(error);
-                                                            $log.error(error);
-                                                            $ionicPopup.alert({
-                                                                title: "连接蓝牙设备失败"
-                                                            });
-                                                            printPop.hide();
-                                                            return false;
-                                                        });
-                                                }else{
-                                                    $ionicPopup.alert({
-                                                        title: "连接蓝牙设备失败"
-                                                    });
-                                                    printPop.hide();
-                                                    return false;
-                                                }
-                                            }, function (error) {
-                                                console.log(error);
-                                                $log.error(error);
-                                                $ionicPopup.alert({
-                                                    title: "连接蓝牙设备失败"
-                                                });
-                                                printPop.hide();
-                                                return false;
-                                            });
-                                        }
-                                    }, function (error) {
-                                        console.log(error);
-                                        $log.error(error);
-                                        $ionicPopup.alert({
-                                            title: "请先在设置中连接蓝牙设备"
-                                        });
-                                        printPop.hide();
-                                        return false;
-                                    });
-                                }
-                            }, function (error) {
-                                console.log(error);
-                                $log.error(error);
-                                $ionicPopup.alert({
-                                    title: "请确保设置中开启蓝牙功能"
-                                });
-                                printPop.hide();
-                                return false;
-                            });
-                        }
-                    }
-                ]
-            });
+            document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "none";
+            document.getElementById("selectWorkersPage").style.display = "none";
+            document.getElementById("workPrintPage").style.display = "block";
         };
         /**
          * 签单
@@ -1025,6 +984,8 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "block";
+            document.getElementById("workPrintPage").style.display = "none";
+
 
             for (var i=0;i<$scope.selectWorkersArr.length;i++){
                 $("input.ckbox_woker_searchresult_item").each(function (index, element) {
@@ -1040,6 +1001,7 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
+            document.getElementById("workPrintPage").style.display = "none";
         };
 
         $scope.showDetailsMoreInf = function () {
@@ -1940,6 +1902,7 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "block";
             document.getElementById("selectWorkersPage").style.display = "none";
+            document.getElementById("workPrintPage").style.display = "none";
         };
 
         /**
@@ -1950,6 +1913,31 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
+            document.getElementById("workPrintPage").style.display = "none";
+
+            truckItems=[];
+            for (var i = 0;i<$scope.selectedTruckItemsMore.length;i++){
+                truckItems.push(
+                    {
+                        Id: $scope.selectedTruckItemsMore[i].Id,
+                        truckItemNum: $scope.selectedTruckItemsMore[i].Name,
+                        Operation_Hour__c: 0,
+                        Service_Suggestion__c: "",
+                        isShow: false
+                    }
+                );
+                truckItemsSecond.push(
+                    {
+                        Id:  $scope.selectedTruckItemsMore[i].Id,
+                        Operation_Hour__c: 0,
+                        Service_Suggestion__c: "",
+                    }
+                );
+            }
+            $scope.allTruckItems = truckItems;
+            $scope.allTruckItems.push(beforeAddMoreTrucks);
+            $scope.SelectedTruckNum=$scope.allTruckItems.length;
+
         };
 
 
@@ -2041,6 +2029,7 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.selectedTruckItemsMore.push(searchResult);
                     }
                 });
+
             }else{
 
                 $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
@@ -2117,6 +2106,106 @@ angular.module('oinio.workDetailsControllers', [])
             });
             document.getElementById("ckbox_truck_add_searchresult_all").checked = false;
             $scope.selectedTruckItemsMore = new_temp;
+        };
+
+        $scope.hideWorkPrintPage=function(){
+            document.getElementById("workDetailTotal").style.display = "block";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "none";
+            document.getElementById("selectWorkersPage").style.display = "none";
+            document.getElementById("workPrintPage").style.display = "none";
+        };
+
+        $scope.printWorkList=function () {
+            var callStr = $("#call_str").val().trim();
+            PrintPlugin.checkBlueTooth(null, function (result) {
+                console.log(result);
+                $log.info(result);
+                if (result.status == 0) {
+                    PrintPlugin.getBlueToothDevices(null, function (result) {
+                        console.log(result);
+                        if (result.length < 1) {
+                            $log.info("请先在蓝牙中配对好设备！");
+                        } else {
+                            var arr = result[0].split('-');
+                            PrintPlugin.connectBlueToothDevice(arr[1], function (res) {
+                                console.log(res);
+                                $log.info(res);
+                                if (res.status == 0) {
+                                    PrintPlugin.printTicket(
+                                        {
+                                            customerName: customerNameValue,//customerName
+                                            customerAccount: customerAccountValue,//customerAccount
+                                            customerAddress: customerAddressValue,//customerAddress
+                                            workSingleNumber: $("#workSingleNumber").text(),//workSingleNumber
+                                            noticeAccount: "",//noticeAccount
+                                            goodsAccount: "",//goodsAccount
+                                            TruckModel: truckNumber,//TruckModel
+                                            workHour: "  " + h + "小时" + m + "分钟",//workHour
+                                            workTimeTotal: [{
+                                                workName: ownerName,
+                                                workDate: arriveTime!=null?arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate():"",
+                                                workStartTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
+                                                workEndTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
+                                                miles: ""
+
+                                            }],//workTimeTotal
+                                            listContent: "",//listContent
+                                            demandForRequire: "   " + callStr,//demandForRequire
+                                            workContent: $("#workContentStr").val(),//workContent
+                                            resultAndSuggestions: $("#serviceSuggest").val(),//resultAndSuggestions
+                                            responsibleEngineer: ownerName//responsibleEngineer
+                                        }
+                                        , function (response) {
+                                            printPop.hide();
+                                            console.log(response);
+                                            $log.info(response);
+                                            $event.target.style.backgroundColor = "#00FF7F";
+                                        }, function (error) {
+                                            console.log(error);
+                                            $log.error(error);
+                                            $ionicPopup.alert({
+                                                title: "连接蓝牙设备失败"
+                                            });
+                                            printPop.hide();
+                                            return false;
+                                        });
+                                }else{
+                                    $ionicPopup.alert({
+                                        title: "连接蓝牙设备失败"
+                                    });
+                                    printPop.hide();
+                                    return false;
+                                }
+                            }, function (error) {
+                                console.log(error);
+                                $log.error(error);
+                                $ionicPopup.alert({
+                                    title: "连接蓝牙设备失败"
+                                });
+                                printPop.hide();
+                                return false;
+                            });
+                        }
+                    }, function (error) {
+                        console.log(error);
+                        $log.error(error);
+                        $ionicPopup.alert({
+                            title: "请先在设置中连接蓝牙设备"
+                        });
+                        printPop.hide();
+                        return false;
+                    });
+                }
+            }, function (error) {
+                console.log(error);
+                $log.error(error);
+                $ionicPopup.alert({
+                    title: "请确保设置中开启蓝牙功能"
+                });
+                printPop.hide();
+                return false;
+            });
         };
     });
 
