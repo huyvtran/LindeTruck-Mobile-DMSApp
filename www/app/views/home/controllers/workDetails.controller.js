@@ -29,6 +29,7 @@ angular.module('oinio.workDetailsControllers', [])
             m = 0,
             localLatitude=null,
             localLongitude=null,
+            goTime=null,
             selectTypeIndex=0, //作业类型默认选择第一个
             beforeAddMoreTrucks=[],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -63,7 +64,8 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.selectedTruckItemsMore=[];
         $scope.arrivalPostUrl="/WorkDetailService?action=arrival&sooId=";
         $scope.leavePostUrl="/WorkDetailService?action=leave&sooId=";
-
+        $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
+        $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
 
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
@@ -494,16 +496,16 @@ angular.module('oinio.workDetailsControllers', [])
             });
         };
 
-        var checkMinutes = function () {
-            if (leaveTime.getMinutes() - m > 0) {
+        var checkMinutes = function (time) {
+            if (time.getMinutes() - m > 0) {
                 return {
                     index: 1,
-                    mm: leaveTime.getMinutes() - m
+                    mm: time.getMinutes() - m
                 };
             } else {
                 return {
                     index: 2,
-                    mm: leaveTime.getMinutes() + 60 - m
+                    mm: time.getMinutes() + 60 - m
                 };
             }
         };
@@ -513,11 +515,14 @@ angular.module('oinio.workDetailsControllers', [])
          * @param $event
          */
         $scope.doLeave = function ($event) {
-            if (arriveTime == null) {
-                // $ionicPopup.alert({
-                //     title: "请选择到达时间"
-                // });
+            if (goOffTimeFromPrefix==null){
+                $ionicPopup.alert({
+                    title:"请先选择到达"
+                });
+                return ;
+            }
 
+            if (arriveTime == null) {
                 var numArr1 = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
                 var numArr2 = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
                 var mobileSelect3 = new MobileSelect({
@@ -541,7 +546,7 @@ angular.module('oinio.workDetailsControllers', [])
                         m = parseInt(data[2].substring(6, 8));
                         //checkHours();
                         leaveTime = new Date();
-                        var min =  checkMinutes();
+                        var min =  checkMinutes(leaveTime);
                         if (min.index == 1) {
                             arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - h) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
                         } else {
@@ -576,7 +581,7 @@ angular.module('oinio.workDetailsControllers', [])
                             );
                     }
                 });
-
+                mobileSelect3.show();
             }else{
                 if (leaveTime!=null){
                     return false;
@@ -693,57 +698,180 @@ angular.module('oinio.workDetailsControllers', [])
          * @returns {boolean}
          */
         $scope.getArrivalTime = function ($event) {
+
             if (arriveTime != null) {
                 return false;
             }
-            $ionicPopup.show({
-                title: '是否确定到达？',
-                buttons: [{
-                    text: '取消',
-                    onTap: function () {
+            else{
+                arriveTime = new Date();
+                if (goOffTimeFromPrefix==null){
+                    var numArr1 = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+                    var numArr2 = ['00','01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
+                    var mobileSelect3 = new MobileSelect({
+                        trigger: '#arriveBtn',
+                        title: '选择旅途时长',
+                        wheels: [
+                            {
+                                data: numArr1
+                            },
+                            {
+                                data:':'
+                            },
+                            {
+                                data: numArr2
+                            }
+                        ],
+                        position: [0, 0, 0],
+                        callback: function (indexArr, data) {
+                            $("#arriveBtn").text("到达");
+                            h = parseInt(data[0].substring(6, 8));
+                            m = parseInt(data[2].substring(6, 8));
+                            var min =  checkMinutes(arriveTime);
+                            if (min.index == 1) {
+                                goOffTimeFromPrefix = new Date((arriveTime.getFullYear() + "-" + arriveTime.getMonth() + "-" + arriveTime.getDate() + " " + (arriveTime.getHours() - h) + ":" + min.mm + ":" + arriveTime.getSeconds()).replace(/-/, "/"));
+                            } else {
+                                goOffTimeFromPrefix = new Date((arriveTime.getFullYear() + "-" + arriveTime.getMonth() + "-" + arriveTime.getDate() + " " + (arriveTime.getHours() - h - 1) + ":" + min.mm + ":" + arriveTime.getSeconds()).replace(/-/, "/"));
+                            }
 
-                    }
-                }, {
-                    text: '确定',
-                    onTap: function () {
-                        arriveTime = new Date();
-                        console.log(arriveTime);
-                        navigator.geolocation.getCurrentPosition(function success(position) {
-                            localLatitude=position.coords.latitude;
-                            localLongitude=position.coords.longitude;
-                            ForceClientService.getForceClient().apexrest(
-                                $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
-                                'POST',
-                                {},
-                                null,
-                                function callBack(res) {
-                                    console.log(res);
-                                    if (res.status.toLowerCase()=="success"){
-                                        $event.target.style.backgroundColor = "#00FF7F";
-                                    }else{
+                            navigator.geolocation.getCurrentPosition(function success(position) {
+                                localLatitude=position.coords.latitude;
+                                localLongitude=position.coords.longitude;
+                                AppUtilService.showLoading();
+                                ForceClientService.getForceClient().apexrest(
+                                    $scope.updateDataStatusUrl + "&sooId=" + orderDetailsId + "&status=Not Completed",
+                                    'POST',
+                                    {},
+                                    null,function callBack(res) {
+                                        console.log(res);
+                                        if (res.status.toLowerCase()=="success"){
+                                            ForceClientService.getForceClient().apexrest(
+                                                $scope.departureUrl+orderDetailsId+"&departureTime="+goOffTimeFromPrefix.format("yyyy-MM-dd hh:mm:ss"),
+                                                'POST',
+                                                {},
+                                                null,
+                                                function callBack(res) {
+                                                    AppUtilService.hideLoading();
+                                                    console.log(res);
+                                                    if (res.status.toLowerCase()=="success"){
+                                                        ForceClientService.getForceClient().apexrest(
+                                                            $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
+                                                            'POST',
+                                                            {},
+                                                            null,
+                                                            function callBack(res) {
+                                                                console.log(res);
+                                                                if (res.status.toLowerCase()=="success"){
+                                                                    $event.target.style.backgroundColor = "#00FF7F";
+                                                                }else{
+                                                                    $ionicPopup.alert({
+                                                                        title:"记录到达时间失败"
+                                                                    });
+                                                                    return false;
+                                                                }
+                                                            },function error(msg) {
+                                                                AppUtilService.hideLoading();
+                                                                console.log(msg);
+                                                                $ionicPopup.alert({
+                                                                    title:"记录到达时间失败"
+                                                                });
+                                                                return false;
+                                                            }
+                                                        );
+                                                    }else{
+                                                        $ionicPopup.alert({
+                                                            title:"记录出发时间失败"
+                                                        });
+                                                        return false;
+                                                    }
+                                                },
+                                                function error(msg) {
+                                                    console.log(msg);
+                                                    $ionicPopup.alert({
+                                                        title:"记录出发时间失败"
+                                                    });
+                                                    return false;
+                                                }
+                                            );
+                                        }else{
+                                            $ionicPopup.alert({
+                                                title:"更新工单状态失败"
+                                            });
+                                            return false;
+                                        }
+                                    },function error(msg) {
+                                        console.log(msg);
                                         $ionicPopup.alert({
-                                            title:"记录到达时间失败"
+                                            title:"更新工单状态失败"
                                         });
                                         return false;
                                     }
-                                },function error(msg) {
-                                    console.log(msg);
-                                    $ionicPopup.alert({
-                                        title:"记录到达时间失败"
-                                    });
-                                    return false;
-                                }
-                            );
+                                );
+
+
+
+
+
                             },function error(msg) {
-                            console.log(msg);
-                            $ionicPopup.alert({
-                                title:"获取定位失败"
+                                console.log(msg);
+                                $ionicPopup.alert({
+                                    title:"获取定位失败"
+                                });
+                                return false;
                             });
-                            return false;
-                        });
-                    }
-                }],
-            });
+                        }
+                    });
+                    mobileSelect3.show();
+                }else{
+                    $event.target.style.backgroundColor = "#00FF7F";
+                }
+            }
+
+            // $ionicPopup.show({
+            //     title: '是否确定到达？',
+            //     buttons: [{
+            //         text: '取消',
+            //         onTap: function () {
+            //
+            //         }
+            //     }, {
+            //         text: '确定',
+            //         onTap: function () {
+            //             navigator.geolocation.getCurrentPosition(function success(position) {
+            //                 localLatitude=position.coords.latitude;
+            //                 localLongitude=position.coords.longitude;
+            //                 ForceClientService.getForceClient().apexrest(
+            //                     $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
+            //                     'POST',
+            //                     {},
+            //                     null,
+            //                     function callBack(res) {
+            //                         console.log(res);
+            //                         if (res.status.toLowerCase()=="success"){
+            //                             $event.target.style.backgroundColor = "#00FF7F";
+            //                         }else{
+            //                             $ionicPopup.alert({
+            //                                 title:"记录到达时间失败"
+            //                             });
+            //                             return false;
+            //                         }
+            //                     },function error(msg) {
+            //                         console.log(msg);
+            //                         $ionicPopup.alert({
+            //                             title:"记录到达时间失败"
+            //                         });
+            //                         return false;
+            //                     }
+            //                 );
+            //                 },function error(msg) {
+            //                 console.log(msg);
+            //                 $ionicPopup.alert({
+            //                     title:"获取定位失败"
+            //                 });
+            //                 return false;
+            //             });
+            //         }
+            //     }],
+            // });
         };
 
         /**

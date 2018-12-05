@@ -191,16 +191,16 @@
             $scope.goNotStartedWorkDetails = function (item) {
                 for (let index = 0; index < currentOrder.length; index++) {
                     const element = currentOrder[index].Status__c;
-                    // if (element == "Not Completed") {
-                    //     setTimeout(function() {
-                    //         myPopup = $ionicPopup.show({
-                    //             title: "已经有进行中的工单",
-                    //             scope: $scope,
-                    //             buttons: null
-                    //         });
-                    //     },100);
-                    //     return;
-                    // }
+                    if (element == "Not Completed") {
+                        setTimeout(function() {
+                            myPopup = $ionicPopup.show({
+                                title: "已经有进行中的工单",
+                                scope: $scope,
+                                buttons: null
+                            });
+                        },100);
+                        return;
+                    }
                 }
                 AppUtilService.showLoading();
                 ForceClientService.getForceClient().apexrest(
