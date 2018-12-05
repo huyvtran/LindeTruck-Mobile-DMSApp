@@ -59,6 +59,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.carServices = [];
         $scope.showFooter=true;
         $scope.imgUris = ["././img/images/will_add_Img.png"];
+        $scope.selectedTruckItemsMore=[];
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -1932,7 +1933,8 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.selectWorkersStr = new_temp;
         };
 
-        //添加更多车体
+
+
         $scope.addMoreTruck = function () {
             document.getElementById("workDetailTotal").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
@@ -1949,14 +1951,15 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
         };
-        /**
-         *  search allTrucks by keyword
-         */
-        $scope.getAddTrucks=function (keyword) {
 
-            $scope.addTruckItems = [];
+
+        /**
+         * 工单详情页添加添加车体号功能
+         */
+        $scope.getTrucksMore = function (keyWord) {
+            $scope.contentTruckItemsMore = [];
             //AppUtilService.showLoading();
-            HomeService.searchTruckFleets(keyword,'',"20",doOnline).then(function success(response) {
+            HomeService.searchTruckFleets(keyWord,'',"20",doOnline).then(function success(response) {
                 //AppUtilService.hideLoading();
                 console.log(response);
                 let trucks = [];
@@ -1971,12 +1974,12 @@ angular.module('oinio.workDetailsControllers', [])
                     for (let index = 0; index < response.length; index++) {
                         trucks.push(response[index]);
                     }
-                    $scope.addTruckItems = trucks;
+                    $scope.contentTruckItemsMore = trucks;
 
                     setTimeout(function () {
-                        for (var i=0;i<$scope.selectedAddTruckItems.length;i++){
-                            $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
-                                if($(element).attr("data-recordid") == $scope.selectedAddTruckItems[i].Id) {
+                        for (var i=0;i<$scope.selectedTruckItemsMore.length;i++){
+                            $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                                if($(element).attr("data-recordid") == $scope.selectedTruckItemsMore[i].Id) {
                                     $(this).prop("checked", true);
                                 }
                             });
@@ -2002,17 +2005,16 @@ angular.module('oinio.workDetailsControllers', [])
                 return false;
             });
         };
-        /**
-         *  切换已选叉车以及搜索结果
-         */
-        $scope.changeAddTruckTab=function (index) {
-            if (index === '1') {
+
+
+        $scope.changeAddTruckTab = function (index) {
+            if(index === '1') {
                 $("#addTruck_Tab_1").addClass("selectTruck_Tab_Active");
                 $("#addTruck_Tab_2").removeClass("selectTruck_Tab_Active");
 
                 $('#addTruck_result').css('display', 'block');
                 $('#addTruck_checked').css('display', 'none');
-            } else if (index === '2') {
+            }else if (index === '2') {
                 $("#addTruck_Tab_1").removeClass("selectTruck_Tab_Active");
                 $("#addTruck_Tab_2").addClass("selectTruck_Tab_Active");
 
@@ -2021,32 +2023,100 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
 
-        /**
-         * 全部删除
-         */
-        $scope.delAllSelectedTruckItem =function () {
+        $scope.checkAllAddSearchResults = function () {
+            let ele = $("#ckbox_truck_add_searchresult_all");
+            if(ele.prop("checked")) {
+                $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
+                    $(this).prop("checked", true);
+                });
+
+                angular.forEach($scope.contentTruckItemsMore, function (searchResult) {
+                    let existFlag = false;
+                    angular.forEach($scope.selectedTruckItemsMore, function (selected) {
+                        if(searchResult.Id == selected.Id){
+                            existFlag = true;
+                        }
+                    });
+                    if(!existFlag){
+                        $scope.selectedTruckItemsMore.push(searchResult);
+                    }
+                });
+            }else{
+
+                $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
+                    console.log('666:::',element.checked);
+                    element.checked = false;
+                });
+
+                let arr_temp = [];
+                angular.forEach($scope.selectedTruckItemsMore, function (selected) {
+                    let existFlag = false;
+                    angular.forEach($scope.contentTruckItemsMore, function (searchResult) {
+                        if(searchResult.Id == selected.Id){
+                            existFlag = true;
+                        }
+                    });
+                    if(!existFlag){
+                        arr_temp.push(selected);
+                    }
+                });
+                $scope.selectedTruckItemsMore = arr_temp;
+            }
+        };
+
+        $scope.checkAddSearchResults = function (ele) {
+            let element = $("input.ckbox_truck_add_searchresult_item[data-recordid*='"+ele.Id+"']");
+            console.log('checkSearchResults::',element);
+
+            if(element != null && element.length > 0) {
+                if(element[0].checked) {
+                    let existFlag = false;
+                    for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
+                        if (ele.Id == $scope.selectedTruckItemsMore[i].Id) {
+                            existFlag = true;
+                        }
+                    }
+                    if (!existFlag) {
+                        $scope.selectedTruckItemsMore.push(ele);
+                    }
+                }else{
+                    let temp = [];
+                    for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
+                        if (ele.Id != $scope.selectedTruckItemsMore[i].Id) {
+                            temp.push($scope.selectedTruckItemsMore[i]);
+                        }
+                    }
+                    $scope.selectedTruckItemsMore = temp;
+                }
+            }else{
+                console.log('checkSearchResults::error');
+            }
+        };
+        $scope.delAllAddSelectedItem = function () {
             $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
                 element.checked = false;
             });
-            document.getElementById("ckbox_truck_add_searchresult_item").checked = false;
-
-            $scope.selectedAddTruckItems = [];
+            document.getElementById("ckbox_truck_add_searchresult_all").checked = false;
+            $scope.selectedTruckItemsMore = [];
         };
 
-        /**
-         * 全选
-         */
-        $scope.checkAllAddTruckResults =function () {
+        $scope.delSelectedAddItem = function (ele) {
+            //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
+            let new_temp = [];
 
+            for (var i=0;i<$scope.selectedTruckItemsMore.length;i++){
+                if(ele.Id != $scope.selectedTruckItemsMore[i].Id){
+                    new_temp.push($scope.selectedTruckItemsMore[i]);
+                }
+            }
 
+            $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
+                if($(element).attr("data-recordid") == ele.Id && element.checked) {
+                    element.checked = false;
+                }
+            });
+            document.getElementById("ckbox_truck_add_searchresult_all").checked = false;
+            $scope.selectedTruckItemsMore = new_temp;
         };
-        /**
-         * 单选
-         */
-        $scope.checkCurrentTruckResult=function () {
-
-        };
-
-
     });
 

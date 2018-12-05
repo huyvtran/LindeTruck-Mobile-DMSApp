@@ -893,10 +893,10 @@
 				<div class="back_Icon"></div>
 			</div>
 			<div class="search_All" >
-				<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAddTruckText"/>
+				<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchAddTruckChange()" ng-model="searchAddTruckText"/>
 				<!--<div class="search_Photo_Icon"></div>-->
 			</div>
-			<div class="search_right_Group" id="cancleBtn1" ng-click="getAddTrucks(searchAddTruckText);">
+			<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucksMore(searchAddTruckText);">
 				<div class="text_Cancel"> 搜索 </div>
 			</div>
 		</div>
@@ -911,10 +911,11 @@
 			</div>
 			<div class="add_del_bodyer">
 				<div id="addTruck_result" class="big_Box_Group" style="display: block;">
+
 					<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
 						<tr>
 							<th class="sv_Td">
-								<input id="ckbox_truck_searchresult_all" type="checkbox" ng-click="checkAllAddTruckResults();" />
+								<input id="ckbox_truck_add_searchresult_all" type="checkbox" ng-click="checkAllAddSearchResults();" />
 							</th>
 							<th class="sv_Td">
 								<div style="width: 150px;"> 车体号 </div>
@@ -929,11 +930,11 @@
 					</table>
 
 					<ion-list can-swipe="true">
-						<ion-item   ng-repeat="titem in addTruckItems" ng-cloak class="small_Box_Text_1">
+						<ion-item   ng-repeat="titem in contentTruckItemsMore" ng-cloak class="small_Box_Text_1">
 							<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
 								<tr>
 									<td class="sv_Td">
-										<input data-recordid={{titem.Id}} class="ckbox_truck_add_searchresult_item" ng-click="checkCurrentTruckResult(titem);"
+										<input data-recordid={{titem.Id}} class="ckbox_truck_add_searchresult_item" ng-click="checkAddSearchResults(titem);"
 											   type="checkbox" />
 									</td>
 									<td class="sv_Td">
@@ -949,14 +950,16 @@
 							</table>
 						</ion-item>
 					</ion-list>
+
+
 				</div>
 			</div>
 
 			<div id="addTruck_checked" class="big_Box_Group" style="display: none;">
-				<div class="small_Box_Title"> <img ng-click="delAllSelectedTruckItem();" src="././img/images/del_red_icon.png"/> 全选删除 </div>
+				<div class="small_Box_Title"> <img ng-click="delAllAddSelectedItem();" src="././img/images/del_red_icon.png"/> 全选删除 </div>
 				<ion-list can-swipe="true">
-					<ion-item id="items3" ng-repeat="ckitem in selectedAddTruckItems"  ng-cloak  class="small_Box_Text">
-						<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png"/></span> {{ckitem.Name}}
+					<ion-item id="items3" ng-repeat="ckitem in selectedTruckItemsMore"  ng-cloak  class="small_Box_Text">
+						<span ng-click="delSelectedAddItem(ckitem);"><img src="././img/images/del_red_icon.png"/></span> {{ckitem.Name}}
 					</ion-item>
 				</ion-list>
 			</div>
