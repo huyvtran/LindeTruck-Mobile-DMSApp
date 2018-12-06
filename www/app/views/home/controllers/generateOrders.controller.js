@@ -1,5 +1,8 @@
 angular.module('oinio.generateOrdersController', [])
-    .controller('generateOrdersController', function ($scope, $ionicHistory, $ionicPopup, ForceClientService, $stateParams, AppUtilService) {
+    .controller('generateOrdersController', function ($scope, $ionicHistory, $ionicPopup, ForceClientService, LocalCacheService, $stateParams, AppUtilService) {
+        var vm = this,
+        oCurrentUser = LocalCacheService.get('currentUser') || {};
+        console.log('oCurrentUser!', oCurrentUser);
 
         $scope.upsertSapOrder = "/ServicePartsOrder?action=upsertSapOrder&serviceOrderOverviewId=";
         $scope.saveServicePartOrder = "/ServicePartsOrder?action=saveServicePartOrder&serviceOrderOverviewId=";
@@ -17,14 +20,17 @@ angular.module('oinio.generateOrdersController', [])
 			calendar1.init({
 				'trigger': '#currentDate1',
 				'type': 'date'
-            });         
+            });   
+            $scope.Consignee__c = oCurrentUser.Name;
+            $scope.Delivery_Address__c = oCurrentUser.Address;
+
         });
         //         生成备件订单
         $scope.goToGenerate = function () {
             AppUtilService.showLoading();
             var payload1 = $scope.upsertSapOrder + $stateParams.workOrderId;
             var servicePartOrder = {};
-            // servicePartOrder["Consignee__c"] = element.itemNO;//收货联系人: Consignee__c (User Id)
+            servicePartOrder["Consignee__c"] = oCurrentUser.Id;//收货联系人: Consignee__c (User Id)
             servicePartOrder["Tel__c"] = $scope.Tel__c;// 联系电话
             servicePartOrder["Delivery_Address__c"] = $scope.Delivery_Address__c;//收货地址: Delivery_Address__c (Text 255)
             servicePartOrder["Part_Order_Type__c"] = "ZCS1";// 订单类型

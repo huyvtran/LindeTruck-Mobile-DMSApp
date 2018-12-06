@@ -48,6 +48,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.savePartsUrl = "/ServiceOrderMaterial?newServiceOrderMaterial=";
         $scope.getPartsForReadUrl = "/ServiceOrderMaterial/";
         $scope.getDeliveryOrder = "/DeliveryOrder/";
+        $scope.getNewWorkDetailService = "/NewWorkDetailService?sooId=";
         $scope.postDataToRemote="/WorkDetailService?action=saveAction";
         $scope.getInitDataUri="/WorkDetailService";
         $scope.workers=[];//全部派工人员
@@ -1805,6 +1806,7 @@ angular.module('oinio.workDetailsControllers', [])
             ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder+orderDetailsId, 'GET', {}, null, function (responseGetDelivery) {
                 // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null, function (responseGetDelivery) {
                 AppUtilService.hideLoading();
+                $scope.getNewWorkDetailServiceList();//备件接口get
                 console.log("responseGetDelivery:", responseGetDelivery);
                 $scope.rejectedItems = responseGetDelivery;
                 regroupVarRefundList = responseGetDelivery;
@@ -1816,13 +1818,21 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 }
                 console.log("responseGetDeliveryafter:", $scope.rejectedItems);
-
             }, function (error) {
                 console.log("responseGetDelivery_error:", error);
                 AppUtilService.hideLoading();
-
             });
-
+        }
+        //备件接口
+        $scope.getNewWorkDetailServiceList = function () {
+            ForceClientService.getForceClient().apexrest($scope.getNewWorkDetailService + orderDetailsId, 'GET', {}, null, function (responseNewWorkDetailService) {
+                AppUtilService.hideLoading();
+                console.log("getNewWorkDetailService:", responseNewWorkDetailService);
+               $scope.generateOrdersItems = responseNewWorkDetailService;
+            }, function (error) {
+                console.log("getNewWorkDetailService_error:", error);
+                AppUtilService.hideLoading();
+            });
         }
 
         $scope.checkAllBoxRefund = function () {
