@@ -30,6 +30,7 @@ angular.module('oinio.workDetailsControllers', [])
             localLatitude=null,
             localLongitude=null,
             goTime=null,
+            truckIds =[],
             selectTypeIndex=0, //作业类型默认选择第一个
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
@@ -836,7 +837,32 @@ angular.module('oinio.workDetailsControllers', [])
                     });
                     mobileSelect3.show();
                 }else{
-                    $event.target.style.backgroundColor = "#00FF7F";
+                    ForceClientService.getForceClient().apexrest(
+                        $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
+                        'POST',
+                        {},
+                        null,
+                        function callBack(res) {
+                            console.log(res);
+                            if (res.status.toLowerCase()=="success"){
+                                $event.target.style.backgroundColor = "#00FF7F";
+                            }else{
+                                $ionicPopup.alert({
+                                    title:"记录到达时间失败"
+                                });
+                                return false;
+                            }
+                        },function error(msg) {
+                            AppUtilService.hideLoading();
+                            console.log(msg);
+                            $ionicPopup.alert({
+                                title:"记录到达时间失败"
+                            });
+                            return false;
+                        }
+                    );
+
+
                 }
             }
 
@@ -998,9 +1024,11 @@ angular.module('oinio.workDetailsControllers', [])
                         "images":localUris,
                         "assignUsers":selectUserIds,
                         "str_suggestion":$('#workContentStr').val().trim(),
-                        "arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
-                        "leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
+                        //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
+                        //"leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
+                        "trucks":truckIds
                     }),null,function success(res) {
+                        AppUtilService.hideLoading();
                         console.log(res);
                         if(res.status.toLowerCase()!="fail"){
                             //*********保存配件************* */
@@ -2063,6 +2091,9 @@ angular.module('oinio.workDetailsControllers', [])
                 );
             }
             $scope.allTruckItems = truckItems;
+            for (var i =0;i<truckItems.length;i++){
+                truckIds.push(truckItems[i].Id);
+            }
             for(var i=0;i<beforeAddMoreTrucks.length;i++){
             $scope.allTruckItems.push(beforeAddMoreTrucks[i]);
             }
@@ -2251,6 +2282,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.printWorkList=function () {
             var callStr = $("#call_str").val().trim();
+            AppUtilService.showLoading();
             PrintPlugin.checkBlueTooth(null, function (result) {
                 console.log(result);
                 $log.info(result);
@@ -2290,53 +2322,42 @@ angular.module('oinio.workDetailsControllers', [])
                                             responsibleEngineer: ownerName//responsibleEngineer
                                         }
                                         , function (response) {
-                                            printPop.hide();
                                             console.log(response);
                                             $log.info(response);
-                                            $event.target.style.backgroundColor = "#00FF7F";
+                                            $scope.hideWorkPrintPage();
+                                            //$event.target.style.backgroundColor = "#00FF7F";
                                         }, function (error) {
                                             console.log(error);
                                             $log.error(error);
                                             $ionicPopup.alert({
                                                 title: "连接蓝牙设备失败"
                                             });
-                                            printPop.hide();
                                             return false;
                                         });
                                 }else{
                                     $ionicPopup.alert({
                                         title: "连接蓝牙设备失败"
                                     });
-                                    printPop.hide();
                                     return false;
                                 }
                             }, function (error) {
-                                console.log(error);
-                                $log.error(error);
                                 $ionicPopup.alert({
                                     title: "连接蓝牙设备失败"
                                 });
-                                printPop.hide();
                                 return false;
                             });
                         }
                     }, function (error) {
-                        console.log(error);
-                        $log.error(error);
                         $ionicPopup.alert({
                             title: "请先在设置中连接蓝牙设备"
                         });
-                        printPop.hide();
                         return false;
                     });
                 }
             }, function (error) {
-                console.log(error);
-                $log.error(error);
                 $ionicPopup.alert({
                     title: "请确保设置中开启蓝牙功能"
                 });
-                printPop.hide();
                 return false;
             });
         };
