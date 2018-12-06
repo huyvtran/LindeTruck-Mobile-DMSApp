@@ -31,7 +31,6 @@ angular.module('oinio.workDetailsControllers', [])
             localLongitude=null,
             goTime=null,
             selectTypeIndex=0, //作业类型默认选择第一个
-            beforeAddMoreTrucks=[],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
@@ -169,7 +168,7 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.initAssignUserData(res.assignUser);
                         $scope.initSavedUserData(res.savedUser,res.assignUser);
                         $scope.initTrucks(res.truckModels);
-
+                        $scope.initWorkItems(res.workItems);
                         //交货列表
                         $scope.getRefundList();
                         //*********读取配件*************** */
@@ -414,7 +413,26 @@ angular.module('oinio.workDetailsControllers', [])
                 );
             }
             $scope.allTruckItems = truckItems;
-            beforeAddMoreTrucks=truckItems;
+        };
+
+        $scope.initWorkItems=function(workItems){
+
+            if (workItems.length>0){
+                for (var i =0;i< workItems.length;i++){
+                    if (workItems[i].Arrival_Time__c!=null){
+                        $("#arriveBtn").prop("disabled","disabled");
+                        $("#arriveBtn").css("backgroundColor","#00FF7F");
+                        arriveTime=new Date(workItems[i].Arrival_Time__c);
+                        break;
+                    }
+                }
+                for (var i=0;i<workItems.length;i++){
+                    if (workItems[i].Departure_Time__c!=null){
+                        goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
+                        break;
+                    }
+                }
+            }
         };
 
         /**
@@ -807,10 +825,6 @@ angular.module('oinio.workDetailsControllers', [])
                                     }
                                 );
 
-
-
-
-
                             },function error(msg) {
                                 console.log(msg);
                                 $ionicPopup.alert({
@@ -935,22 +949,8 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.goSave = function () {
+
             AppUtilService.showLoading();
-            var callStr = $("#call_str").val().trim();
-            // if (callStr == "" || callStr == null) {
-            //     $ionicPopup.alert({
-            //         title: "请填写来电是由!"
-            //     });
-            //     return;
-            // }
-
-            // if (arriveTime == null || finishTime == null || startTime == null || leaveTime == null) {
-            //     var ionPop = $ionicPopup.alert({
-            //         title: "请确认到达和离开时间"
-            //     });
-            //     return;
-            // }
-
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
                     localUris.push(($scope.imgUris[i]).slice(23));
@@ -970,8 +970,6 @@ angular.module('oinio.workDetailsControllers', [])
             for(var i=0;i<$scope.selectWorkersArr.length;i++){
                 selectUserIds.push($scope.selectWorkersArr[i].label);
             }
-
-
 
             /**
              * 修改离线为在线提交
@@ -1644,8 +1642,8 @@ angular.module('oinio.workDetailsControllers', [])
                 //添加点击保存更改工单状态
                 if (responseSaveParts.status.toLowerCase()=="success"){
                     AppUtilService.hideLoading();
-                    $rootScope.getSomeData();
                     $state.go("app.home");
+                    $rootScope.getSomeData();
                 }else{
                     $ionicPopup.alert({
                         title: "保存失败"
@@ -2042,7 +2040,9 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
             document.getElementById("workPrintPage").style.display = "none";
-
+            var beforeAddMoreTrucks = $scope.allTruckItems;
+            var beforeAddMoreTrucksSecond = truckItemsSecond;
+            truckItemsSecond=[];
             truckItems=[];
             for (var i = 0;i<$scope.selectedTruckItemsMore.length;i++){
                 truckItems.push(
@@ -2063,7 +2063,12 @@ angular.module('oinio.workDetailsControllers', [])
                 );
             }
             $scope.allTruckItems = truckItems;
-            $scope.allTruckItems.push(beforeAddMoreTrucks);
+            for(var i=0;i<beforeAddMoreTrucks.length;i++){
+            $scope.allTruckItems.push(beforeAddMoreTrucks[i]);
+            }
+            for (var i=0;i<beforeAddMoreTrucksSecond.length;i++){
+                truckItemsSecond.push(beforeAddMoreTrucksSecond[i]);
+            }
             $scope.SelectedTruckNum=$scope.allTruckItems.length;
 
         };
