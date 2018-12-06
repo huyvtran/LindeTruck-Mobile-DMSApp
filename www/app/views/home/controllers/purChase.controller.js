@@ -4,7 +4,7 @@
 
     angular.module('oinio.PurChaseController', [])
         .controller('PurChaseController', function ($scope, $rootScope, $filter, $state,$log,$ionicPopup,$stateParams, ConnectionMonitor,
-                                                    LocalCacheService,ProcurementInfoService,AppUtilService) {
+                                                    LocalCacheService,ProcurementInfoService,AppUtilService,ForceClientService) {
 
             var vm = this,
                 supplierInfoSoupId = null,
@@ -23,6 +23,9 @@
             $scope.revenue=0;
             $scope.priceEach=0;
             vm.isOnline = null;
+            $scope.getSupplierInfoUrl="/ProcurementInformation?type=SupplierInformation&name=";
+            $scope.getServiceMaterialUrl="/ProcurementInformation?type=ServiceMaterial&name=";
+            $scope.postPurChaseUrl="/ProcurementInformation?newProcurementInfo=";
 
             /**
              * @func    $scope.$on('$ionicView.beforeEnter')
@@ -166,30 +169,54 @@
                     return;
                 }
                 //AppUtilService.showLoading();
-                ProcurementInfoService.querySupplierInformation(nameOrId).then(function success(res) {
-                    $log.info(res);
+                $scope.allBusinesses=[];
+                ForceClientService.getForceClient().apexrest(
+                    $scope.getSupplierInfoUrl+nameOrId,
+                    'GET',
+                    {},
+                    null,
+                    function callBack(res) {
                     console.log(res);
-                    if (res.length>0){
-                        angular.forEach(res,function (item,index,array){
-                            $scope.allBusinesses.push(item);
-                        });
-                    }else{
-                        $ionicPopup.alert({
-                            title:"没有搜索到相关数据!"
-                        });
-                        $scope.allBusinesses=[];
+                        if (res.length>0){
+                            angular.forEach(res,function (item,index,array){
+                                $scope.allBusinesses.push(item);
+                            });
+                        }else{
+                            $ionicPopup.alert({
+                                title:"没有搜索到相关数据!"
+                            });
+                            $scope.allBusinesses=[];
+                        }
+                    },function error(msg) {
+                        $log.error(msg);
+                        console.log(msg);
                     }
-                },function error(msg) {
-                    $log.error(msg);
-                    console.log(msg);
-                }).finally(function () {
-                    //AppUtilService.hideLoading();
-                });
+                );
+
+                // ProcurementInfoService.querySupplierInformation(nameOrId).then(function success(res) {
+                //     $log.info(res);
+                //     console.log(res);
+                //     if (res.length>0){
+                //         angular.forEach(res,function (item,index,array){
+                //             $scope.allBusinesses.push(item);
+                //         });
+                //     }else{
+                //         $ionicPopup.alert({
+                //             title:"没有搜索到相关数据!"
+                //         });
+                //         $scope.allBusinesses=[];
+                //     }
+                // },function error(msg) {
+                //     $log.error(msg);
+                //     console.log(msg);
+                // }).finally(function () {
+                //     //AppUtilService.hideLoading();
+                // });
             };
 
             $scope.chooseCurrentBusy =function(obj){
                 $scope.chooseItem = obj;
-                supplierInfoSoupId = obj._soupEntryId;
+                supplierInfoSoupId = obj.Id;
                 document.getElementById("busyAllContent").style.display = "block";
                 document.getElementById("serachBusinessContent").style.display= "none";
                 $scope.allBusinesses=[];
@@ -221,27 +248,51 @@
                 }
                 $scope.allMaterial=[];
                 //AppUtilService.showLoading();
-                ProcurementInfoService.queryServiceMaterial(searchName).then(function success(res) {
-                    $log.info(res);
-                    console.log(res);
-                    if (res.length>0){
-                        angular.forEach(res,function (item, index, array) {
-                            $scope.allMaterial.push(item);
-                        });
-                    }else{
-                        $ionicPopup.alert({
-                            title:"没有搜索到相关数据!"
-                        });
-                        $scope.allMaterial=[];
+                ForceClientService.getForceClient().apexrest(
+                    $scope.getServiceMaterialUrl+searchName,
+                    'GET',
+                    {},
+                    null,
+                    function callBack(res) {
+                        console.log(res);
+                        if (res.length>0){
+                            angular.forEach(res,function (item, index, array) {
+                                $scope.allMaterial.push(item);
+                            });
+                        }else{
+                            $ionicPopup.alert({
+                                title:"没有搜索到相关数据!"
+                            });
+                            $scope.allMaterial=[];
+                        }
+                    },function error(msg) {
+                        $log.error(msg);
+                        console.log(msg);
                     }
-                    //AppUtilService.hideLoading();
-                },function error(msg) {
-                    $log.error(msg);
-                    console.log(msg);
-                    //AppUtilService.hideLoading();
-                }).finally(function () {
-                    //AppUtilService.hideLoading();
-                });
+                );
+
+
+                // ProcurementInfoService.queryServiceMaterial(searchName).then(function success(res) {
+                //     $log.info(res);
+                //     console.log(res);
+                //     if (res.length>0){
+                //         angular.forEach(res,function (item, index, array) {
+                //             $scope.allMaterial.push(item);
+                //         });
+                //     }else{
+                //         $ionicPopup.alert({
+                //             title:"没有搜索到相关数据!"
+                //         });
+                //         $scope.allMaterial=[];
+                //     }
+                //     //AppUtilService.hideLoading();
+                // },function error(msg) {
+                //     $log.error(msg);
+                //     console.log(msg);
+                //     //AppUtilService.hideLoading();
+                // }).finally(function () {
+                //     //AppUtilService.hideLoading();
+                // });
             };
 
             $scope.chooseCurrentMaterial = function(obj){
@@ -332,29 +383,56 @@
                 });
 
 
-                var procurementInfo= {
-                    recordType:$('#recordTypeList option:selected').val(),
-                    Delivery_Date__c:planDate,
-                    Procurement_Description__c:$("#purchaseDesc").val().trim(),
-                    Status__c:$('#statusList option:selected').val(),
-                    Tax__c:$('#recordTypeList option:selected').val(),
-                    Revenue__c:$scope.revenue,
-                    Price_without_Tax__c:$scope.priceEach,
-                    Profit__c:$scope.profitRate,
-                    Remarks__c:$("#purchaseMore").val().trim()
-                };
+                var procurementInfo=[ {
+                        recordType:{
+                            Name:$('#recordTypeList option:selected').val()
+                        },
+                        Delivery_Date__c:planDate,
+                        Procurement_Description__c:$("#purchaseDesc").val().trim(),
+                        Status__c:$('#statusList option:selected').val(),
+                        Tax__c:$('#recordTypeList option:selected').val(),
+                        Revenue__c:$scope.revenue,
+                        Price_without_Tax__c:$scope.priceEach,
+                        Profit__c:$scope.profitRate,
+                        Remarks__c:$("#purchaseMore").val().trim()
+                    }];
                 AppUtilService.showLoading();
-                ProcurementInfoService.ProcurementInfoSaveButton(procurementInfo,supplierInfoSoupId, $scope.chooseMaterials).then(function success(res) {
-                        console.log(res);
-                        $log.info(res);
-                    AppUtilService.hideLoading();
-                    $state.go('app.home');
-                },function error(msg) {
-                        console.log(msg);
-                        $log.error(msg);
-                    AppUtilService.hideLoading();
-                });
 
+                //离线转在线
+                // ProcurementInfoService.ProcurementInfoSaveButton(procurementInfo,supplierInfoSoupId, $scope.chooseMaterials).then(function success(res) {
+                //         console.log(res);
+                //         $log.info(res);
+                //     AppUtilService.hideLoading();
+                //     $state.go('app.home');
+                // },function error(msg) {
+                //         console.log(msg);
+                //         $log.error(msg);
+                //     AppUtilService.hideLoading();
+                // });
+
+                ForceClientService.getForceClient().apexrest(
+                     $scope.postPurChaseUrl+JSON.stringify(procurementInfo)+'&recordType='+$('#recordTypeList option:selected').val()+"&newProcurementInfoItem="+JSON.stringify($scope.chooseMaterials),
+                    'POST',
+                    {},
+                    null,
+                    function callBack(res) {
+                        AppUtilService.hideLoading();
+                        if (res.status.toLowerCase()=="success"){
+                            $state.go('app.home');
+                        }else{
+                            $ionicPopup.alert({
+                                title:"保存数据失败"
+                            });
+                            return false;
+                        }
+                    },function error(msg) {
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title:"保存数据失败"
+                        });
+                        return false;
+                    }
+                );
             };
 
         });
