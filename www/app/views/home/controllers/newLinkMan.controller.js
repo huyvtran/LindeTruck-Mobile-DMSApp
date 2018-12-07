@@ -41,7 +41,7 @@ angular.module('oinio.NewLinkManController', [])
           console.log('$stateParams.userInfo',$stateParams.userInfo);
           if ($stateParams.userInfo) {
             $scope.chooseLinkManName = $stateParams.userInfo.Name;
-            $scope.chooseLinkManPhoneNumber = $stateParams.userInfo.Phone;
+            $scope.chooseLinkManPhoneNumber = $stateParams.userInfo.MobliePhone;
             // $scope.searchResultAcctName = ;
           }
 
