@@ -28,7 +28,6 @@ img {
     padding-left:  5%;
     padding-right:  5%;
     line-height: 64px;
-    display: flex;
 }
 .header2 {
     background: #aa0020;
@@ -37,13 +36,12 @@ img {
     position: relative;
     padding: 0 5%;
     line-height: 64px;
-    display: flex;
 
 }
 .left_Box {
     display: inline-flex;
     width: 10%;
-    align-items: center;
+    vertical-align: middle;
 }
 .back_Icon {
     background-repeat: no-repeat;
@@ -52,16 +50,16 @@ img {
     height: 24px;
 }
 .search_All {
-    display: inline-flex;
-    width: 75%;
+    display: inline-block;
+    width: 72%;
     position: relative;
-    align-items: center;
+    vertical-align: middle;
 }
 .search_right_Group {
-    display: inline-flex;
+    display: inline-block;
     width: 15%;
     color: #ffffff;
-    align-items: center;
+    vertical-align: middle;
 }
 .search_All input.search_Input {
     box-sizing: border-box;
@@ -76,6 +74,13 @@ img {
     -webkit-border-radius: 20px;
     border-radius: 20px;
     text-align: center;
+}
+
+.plan_Right_Box {
+    display: inline-flex;
+    justify-content: flex-end;
+    height: 100%;
+    width: 30%;
 }
 .search_Photo_Icon {
     background-repeat: no-repeat;
@@ -134,17 +139,17 @@ img {
     margin-bottom: 2%;
 }
 .small_Type_Box {
-
+    position: relative;
 }
 .small_Type_Input {
     color: #535353;
     width: 100%;
-    height: 20px;
+    height: 30px;
     border-bottom: 1px solid #535353;
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    padding: 0 10% 0 5%;
+    padding: 0 5%;
     font-size: 1rem;
 }
 .small_Type_Select {
@@ -195,14 +200,18 @@ img {
     padding-bottom: 2%;
     margin: 0 5%;
 }
-.search_Photo_Icon {
-    background-image: url(./img/images/search-photo_icon.png);
+
+.search_small_black {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 16px;
+    height: 16px;  
+    position: absolute;
+    top: calc(50% - 8px);
+    right: 0;
 }
-.back_Icon {
-    background-image: url(././img/images/back_icon.png);
-}
+
 .search_bodyer {
-    background-image: url(././img/images/bg_img.png);
     background-repeat: no-repeat;
     background-size: cover;
     overflow-y: auto;
