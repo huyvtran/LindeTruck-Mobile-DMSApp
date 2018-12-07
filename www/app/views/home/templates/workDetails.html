@@ -105,8 +105,7 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			overflow-y: auto;
-			height: calc(100vh - 64px);
-
+			height: calc(100vh - 168px);
 		}
 
 		.text_Cancel {
@@ -947,15 +946,15 @@
 				<div class="text_Cancel"> 搜索 </div>
 			</div>
 		</div>
-		<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
-			<div class="selectTruck_Tabs" style="">
-				<div id="addTruck_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeAddTruckTab('1');" style="">
-					<span class="selectTruck_Tab_Text" style="">搜索结果</span>
-				</div>
-				<div id="addTruck_Tab_2" class="selectTruck_Tab" ng-click="changeAddTruckTab('2');" style="">
-					<span class="selectTruck_Tab_Text" style="">已选车体</span>
-				</div>
+		<div class="selectTruck_Tabs" style="">
+			<div id="addTruck_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeAddTruckTab('1');" style="">
+				<span class="selectTruck_Tab_Text" style="">搜索结果</span>
 			</div>
+			<div id="addTruck_Tab_2" class="selectTruck_Tab" ng-click="changeAddTruckTab('2');" style="">
+				<span class="selectTruck_Tab_Text" style="">已选车体</span>
+			</div>
+		</div>
+		<div class="search_bodyer" style="background-color: white;">
 			<div class="add_del_bodyer">
 				<div id="addTruck_result" class="big_Box_Group" style="display: block;">
 
@@ -1011,6 +1010,10 @@
 				</ion-list>
 			</div>
 		</div>
+		<div class="footer">
+				<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+				<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+			</div>
 	</div>
 
 

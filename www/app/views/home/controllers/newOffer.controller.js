@@ -65,7 +65,7 @@ angular.module('oinio.NewOfferController', [])
                         $scope.selectAccountOfContacts();
                     }, 100);
                 }
-            });
+            }); 
         };
         $scope.closeSelectPage = function () {
             $('div.newWorkList_truckSelect').animate({

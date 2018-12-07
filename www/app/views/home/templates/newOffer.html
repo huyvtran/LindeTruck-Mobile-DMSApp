@@ -82,7 +82,7 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			overflow-y: auto;
-			height: calc(100vh - 64px);
+			height: calc(100vh - 168px);
 
 		}
 
@@ -102,15 +102,6 @@
 			width: 72%;
 			position: relative;
 			vertical-align: middle;
-		}
-
-		.search_bodyer {
-			background-color: white;
-			background-repeat: no-repeat;
-			background-size: cover;
-			overflow-y: auto;
-			height: calc(100vh - 64px);
-
 		}
 
 		.search_bodyer .big_Box_Group {
@@ -253,15 +244,15 @@
 					<div class="text_Cancel"> 搜索 </div>
 				</div>
 			</div>
-			<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
-				<div class="selectTruck_Tabs" style="">
-					<div id="selectTruck_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeTruckTab('1');" style="">
-						<span class="selectTruck_Tab_Text" style="">搜索结果</span>
-					</div>
-					<div id="selectTruck_Tab_2" class="selectTruck_Tab" ng-click="changeTruckTab('2');" style="">
-						<span class="selectTruck_Tab_Text" style="">已选车体</span>
-					</div>
+			<div class="selectTruck_Tabs" style="">
+				<div id="selectTruck_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeTruckTab('1');" style="">
+					<span class="selectTruck_Tab_Text" style="">搜索结果</span>
 				</div>
+				<div id="selectTruck_Tab_2" class="selectTruck_Tab" ng-click="changeTruckTab('2');" style="">
+					<span class="selectTruck_Tab_Text" style="">已选车体</span>
+				</div>
+			</div>
+			<div class="search_bodyer" style="background-color: white;">
 				<div class="add_del_bodyer">
 					<div id="selectTruck_result" class="big_Box_Group" style="display: block;">
 
@@ -333,9 +324,6 @@
 				</div>
 			</div>
 			<div class="footer">
-					<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-					<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
-			
 					<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
 					<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
 				</div>
