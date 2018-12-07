@@ -83,7 +83,6 @@
 			background-size: cover;
 			overflow-y: auto;
 			height: calc(100vh - 168px);
-
 		}
 
 		.text_Cancel {
@@ -167,7 +166,9 @@
 			background-color: #535353;
 			color: #ffffff;
 		}
-		input[type="checkbox"], input[type="radio"] {
+
+		input[type="checkbox"],
+		input[type="radio"] {
 			width: 20px;
 			height: 20px;
 			vertical-align: top;
@@ -185,8 +186,7 @@
 					<div class="back_Icon"></div>
 				</div>
 				<div class="search_All">
-					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAcctText"
-					/>
+					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAcctText" />
 					<!--<div class="search_Photo_Icon"></div>-->
 				</div>
 				<div class="search_right_Group" id="cancleBtn1" ng-click="getAccts(searchAcctText);" ng-show="searchAcctText">
@@ -210,8 +210,7 @@
 					<div class="back_Icon"></div>
 				</div>
 				<div class="search_All">
-					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAcctText1"
-					/>
+					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchAcctText1" />
 					<!--<div class="search_Photo_Icon"></div>-->
 				</div>
 				<div class="search_right_Group" id="cancleBtn1" ng-click="selectAccountOfContacts();" ng-show="searchAcctText1">
@@ -223,7 +222,7 @@
 					<div class="small_Box_Title"> 查询联系人 </div>
 					<ion-list can-swipe="true">
 						<ion-item id="items2" ng-repeat="item in contactsItems" ng-cloak ng-click="selectContacts(item);" class="small_Box_Text">
-							<P>姓名：{{item.Name}} </P> <br/>
+							<P>姓名：{{item.Name}} </P> <br />
 							<P>手机号：{{item.Phone}} </P>
 						</ion-item>
 					</ion-list>
@@ -236,8 +235,7 @@
 					<div class="back_Icon"></div>
 				</div>
 				<div class="search_All">
-					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText"
-					/>
+					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText" />
 					<!--<div class="search_Photo_Icon"></div>-->
 				</div>
 				<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucksWithKey(searchTruckText);" ng-show="searchTruckText">
@@ -288,12 +286,12 @@
 						</table>
 
 						<ion-list can-swipe="true">
-							<ion-item   ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text_1">
+							<ion-item ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text_1">
 								<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
 									<tr>
 										<td class="sv_Td">
 											<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" ng-click="checkSearchResults(titem);"
-												   type="checkbox" />
+											 type="checkbox" />
 										</td>
 										<td class="sv_Td">
 											<div style="width: 150px;"> {{titem.Name}}</div>
@@ -312,7 +310,8 @@
 					</div>
 				</div>
 				<div id="selectTruck_checked" class="big_Box_Group" style="display: none;">
-					<div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除 </div>
+					<div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除
+					</div>
 					<ion-list can-swipe="true">
 						<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
 						<!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
@@ -324,9 +323,9 @@
 				</div>
 			</div>
 			<div class="footer">
-					<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
-					<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
-				</div>
+				<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+				<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+			</div>
 		</div>
 	</div>
 
@@ -371,7 +370,7 @@
 							<div class="search_small_black"></div>
 						</div>
 					</div>
-					<div class="small_Type_Group" id="forPrintTextdiv" >
+					<div class="small_Type_Group" id="forPrintTextdiv">
 						<div class="small_Type_Title">报价描述:</div>
 						<div class="small_Type_Box">
 							<textarea id="forPrintText" class="small_Type_Textarea"></textarea>
@@ -379,8 +378,8 @@
 						<!-- <div class="small_Type_Title_G" ng-click="toPrintDownLoad()"> 打印 </div> -->
 					</div>
 					<div class="small_Type_Group">
-							<div class="small_Type_Title">审批状态:{{serviceSatus}}</div>
-						</div>
+						<div class="small_Type_Title">审批状态:{{serviceSatus}}</div>
+					</div>
 				</div>
 				<div>
 					<div class="small_Type_Title_Group" ng-click="toDisplayDelCarView()">
@@ -427,7 +426,7 @@
 
 									<td class="sv_Td">
 										<div class="pos_rel">
-											 {{item.Name}} 
+											{{item.Name}}
 										</div>
 									</td>
 									<td class="sv_Td">
@@ -445,7 +444,7 @@
 									</td>
 									<td class="sv_Td">
 										<select id="selectStatus2" class="selectStatusLevelsClass">
-											<option ng-repeat="itemlevels in item.levels" value={{itemlevels}} >{{itemlevels}}</option>
+											<option ng-repeat="itemlevels in item.levels" value={{itemlevels}}>{{itemlevels}}</option>
 										</select>
 									</td>
 									<td class="sv_Td">
@@ -473,14 +472,14 @@
 			</div>
 		</div>
 		<div class="footer">
-				<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-				<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
-		
-				<div class="footer_Btn" ng-click="goBack()">取消</div>
-				<div class="footer_Btn Save_Btn_Act" ng-click="goNextPage();">下一步</div>
-			</div>
+			<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+			<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
+
+			<div class="footer_Btn" ng-click="goBack()">取消</div>
+			<div class="footer_Btn Save_Btn_Act" ng-click="goNextPage();">下一步</div>
+		</div>
 	</div>
-	
+
 
 </body>
 

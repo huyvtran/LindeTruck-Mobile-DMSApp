@@ -631,6 +631,7 @@
 										</td>
 										<td class="sv_Td sv_Td_Long">
 											<div>{{item.parts_number__c}} </div>
+											<div>{{item.Name}} </div>
 										</td>
 										<td class="sv_Td">
 											<input type="text" class="sv_Input" ng-model="item.quantity"/>
@@ -1011,8 +1012,8 @@
 			</div>
 		</div>
 		<div class="footer">
-				<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
-				<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+				<div class="footer_Btn" ng-click="hideTruckAddPage();">取消</div>
+				<div class="footer_Btn Save_Btn_Act" ng-click="hideTruckAddPage();">确定</div>
 			</div>
 	</div>
 

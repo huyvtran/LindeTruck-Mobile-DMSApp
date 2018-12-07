@@ -1265,7 +1265,7 @@ angular.module('oinio.workDetailsControllers', [])
                 $('#selectLSG').css('display', 'none');
             }
 
-            $('div.workListDetails_bodyer').animate({
+            $('div.workListDetails_bodyer').animate({ 
                 opacity: '0.6'
             }, 'slow', 'swing', function () {
                 $('div.workListDetails_bodyer').hide();
@@ -1278,6 +1278,7 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.closeSelectPage = function () {
+            console.log("closeSelectPage");
             $('div.newWorkList_truckSelect').animate({
                 opacity: '0.6'
             }, 'slow', function () {
