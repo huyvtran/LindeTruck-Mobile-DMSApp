@@ -31,6 +31,7 @@ angular.module('oinio.workDetailsControllers', [])
             localLongitude=null,
             goTime=null,
             truckIds =[],
+            initTrucks=[];
             selectTypeIndex=0, //作业类型默认选择第一个
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
@@ -169,7 +170,10 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.initPhotoData(res.Photo);
                         $scope.initAssignUserData(res.assignUser);
                         $scope.initSavedUserData(res.savedUser,res.assignUser);
+                        $scope.SelectedTruckNum = res.truckModels.length;
                         $scope.initTrucks(res.truckModels);
+                        initTrucks=res.truckModels;
+                        $scope.allTruckItems = truckItems;
                         $scope.initWorkItems(res.workItems);
                         //交货列表
                         $scope.getRefundList();
@@ -394,7 +398,8 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.initTrucks=function(trucks){
-            $scope.SelectedTruckNum = trucks.length;
+            truckItems=[];
+            truckItemsSecond=[];
             for (var i =0;i<trucks.length;i++){
                 truckNumber+=trucks[i].Name;
                 truckItems.push(
@@ -414,7 +419,6 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 );
             }
-            $scope.allTruckItems = truckItems;
         };
 
         $scope.initWorkItems=function(workItems){
@@ -1011,6 +1015,16 @@ angular.module('oinio.workDetailsControllers', [])
             // }, function error(error) {
             //     $log.error(error);
             // });
+
+            truckItemsSecond=[];
+
+            for (var i=0;i<$scope.allTruckItems.length;i++){
+                truckItemsSecond.push({
+                    Id:  $scope.allTruckItems[i].Id,
+                    Operation_Hour__c: $scope.allTruckItems[i].Operation_Hour__c,
+                    Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
+                });
+            }
 
             /**
              * 在线保存工单详情页的数据
@@ -2078,10 +2092,9 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
             document.getElementById("workPrintPage").style.display = "none";
-            var beforeAddMoreTrucks = $scope.allTruckItems;
-            var beforeAddMoreTrucksSecond = truckItemsSecond;
-            truckItemsSecond=[];
-            truckItems=[];
+            $scope.allTruckItems=[];
+            $scope.initTrucks(initTrucks);
+            truckIds=[];
             for (var i = 0;i<$scope.selectedTruckItemsMore.length;i++){
                 truckItems.push(
                     {
@@ -2099,18 +2112,50 @@ angular.module('oinio.workDetailsControllers', [])
                         Service_Suggestion__c: "",
                     }
                 );
+                truckIds.push($scope.selectedTruckItemsMore[i].Id);
             }
-            $scope.allTruckItems = truckItems;
-            for (var i =0;i<truckItems.length;i++){
-                truckIds.push(truckItems[i].Id);
-            }
-            for(var i=0;i<beforeAddMoreTrucks.length;i++){
-            $scope.allTruckItems.push(beforeAddMoreTrucks[i]);
-            }
-            for (var i=0;i<beforeAddMoreTrucksSecond.length;i++){
-                truckItemsSecond.push(beforeAddMoreTrucksSecond[i]);
-            }
-            $scope.SelectedTruckNum=$scope.allTruckItems.length;
+
+            $scope.allTruckItems=truckItems;
+
+            $scope.SelectedTruckNum =$scope.allTruckItems.length;
+
+            // var beforeAddMoreTrucks = truckItems;
+            // $scope.allTruckItems=[];
+            // var beforeAddMoreTrucksSecond = truckItemsSecond;
+            // truckItemsSecond=[];
+            // truckItems=[];
+            // setTimeout(function () {
+            //     for (var i = 0;i<$scope.selectedTruckItemsMore.length;i++){
+            //         truckItems.push(
+            //             {
+            //                 Id: $scope.selectedTruckItemsMore[i].Id,
+            //                 truckItemNum: $scope.selectedTruckItemsMore[i].Name,
+            //                 Operation_Hour__c: 0,
+            //                 Service_Suggestion__c: "",
+            //                 isShow: false
+            //             }
+            //         );
+            //         truckItemsSecond.push(
+            //             {
+            //                 Id:  $scope.selectedTruckItemsMore[i].Id,
+            //                 Operation_Hour__c: 0,
+            //                 Service_Suggestion__c: "",
+            //             }
+            //         );
+            //     }
+            // },500);
+            //
+            // $scope.allTruckItems = truckItems;
+            // for (var i =0;i<truckItems.length;i++){
+            //     truckIds.push(truckItems[i].Id);
+            // }
+            // for(var i=0;i<beforeAddMoreTrucks.length;i++){
+            // $scope.allTruckItems.push(beforeAddMoreTrucks[i]);
+            // }
+            // for (var i=0;i<beforeAddMoreTrucksSecond.length;i++){
+            //     truckItemsSecond.push(beforeAddMoreTrucksSecond[i]);
+            // }
+            // $scope.SelectedTruckNum=$scope.allTruckItems.length;
 
         };
 
