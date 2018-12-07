@@ -87,10 +87,10 @@
 
 				<div class="inf_Box_Group" id="contactsInfo">
 					<ion-list can-swipe="true">
-						<ion-item id="items2" ng-repeat="item in contentItems">
+						<ion-item id="items2" ng-repeat="item in contentItems"  ng-click="goToContactsInfo(item)">
 							{{item.Name}}
 							<a href="tel:{{item.MobilePhone}}" ng-show="item.MobilePhone != null"> ： {{item.MobilePhone}}</a>
-							<div class="plan_Right_Box" ng-click="goToContactsInfo(item)">
+							<div class="plan_Right_Box">
 								<div class="search_small_black"></div>
 							</div>
 						</ion-item>

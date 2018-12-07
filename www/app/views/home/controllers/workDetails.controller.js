@@ -1291,6 +1291,7 @@ angular.module('oinio.workDetailsControllers', [])
                 onePartOriginals["materialId"] = $scope.searchTruckText;//物料号
                 onePartOriginals["saveId"] = "";//物料号
                 onePartOriginals["type"] = "";//配件类型
+                onePartOriginals["partsInsert"] = true;//添加不存在物理
                 $scope.selectedTruckFitItems.push(onePartOriginals);
                 $scope.searchTruckText = "";
             }
@@ -1667,6 +1668,7 @@ angular.module('oinio.workDetailsControllers', [])
                 if (element.priceCondition != null) {
                     onePartOriginals["Gross_Price__c"] = element.priceCondition.price;//公布价
                 }
+                onePartOriginals["partsInsert"] = element.partsInsert;//不存在物料
                 onePartOriginals["Reserved__c"] = element.View_Integrity__c;//预留
                 onePartOriginals["Service_Material__c"] = element.materialId;//物料号
                 onePartOriginals["Id"] = element.saveId;//物料号
