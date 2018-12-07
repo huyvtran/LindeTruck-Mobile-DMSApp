@@ -70,6 +70,15 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
 
         /**
+         * 打印页面显示
+         */
+
+
+
+
+
+
+        /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
          */
@@ -343,10 +352,15 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.initSoResult=function(soResult){
             if (soResult!=undefined && soResult!=null){
                 $scope.mobileName = soResult.Name!=undefined?soResult.Name:"";
+                //客户名称：
                 customerNameValue=soResult.Account_Ship_to__r.Name!=undefined?soResult.Account_Ship_to__r.Name:"";
+                //客户号：
                 customerAccountValue=soResult.Account_Ship_to__r.Id!=undefined?soResult.Account_Ship_to__r.Id:"";
+                //客户地址：
                 customerAddressValue=soResult.Account_Ship_to__r.Address__c!=undefined?soResult.Account_Ship_to__r.Address__c:"";
+                //责任人：
                 ownerName = soResult.Service_Order_Owner__r.Name!=undefined?soResult.Service_Order_Owner__r.Name:"";
+
                 $scope.callPhoneContent = soResult.Description__c!=undefined?soResult.Description__c:"";
                 $scope.suggestStr = soResult.Service_Suggestion__c!=undefined?soResult.Service_Suggestion__c:"";
                 $scope.workContent =soResult.Subject__c!=undefined?soResult.Subject__c:"";
@@ -929,6 +943,9 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
             document.getElementById("workPrintPage").style.display = "block";
+
+
+
         };
         /**
          * 签单
@@ -1038,7 +1055,7 @@ angular.module('oinio.workDetailsControllers', [])
                         "childOrders":truckItemsSecond,
                         "images":localUris,
                         "assignUsers":selectUserIds,
-                        "str_suggestion":$('#workContentStr').val().trim(),
+                        "str_suggestion":$('#serviceSuggest').val().trim(),
                         //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
                         //"leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
                         "trucks":truckIds
@@ -2356,14 +2373,14 @@ angular.module('oinio.workDetailsControllers', [])
                                 if (res.status == 0) {
                                     PrintPlugin.printTicket(
                                         {
-                                            customerName: customerNameValue,//customerName
-                                            customerAccount: customerAccountValue,//customerAccount
-                                            customerAddress: customerAddressValue,//customerAddress
-                                            workSingleNumber: $("#workSingleNumber").text(),//workSingleNumber
-                                            noticeAccount: "",//noticeAccount
-                                            goodsAccount: "",//goodsAccount
-                                            TruckModel: truckNumber,//TruckModel
-                                            workHour: "  " + h + "小时" + m + "分钟",//workHour
+                                            customerName: customerNameValue,//customerName  客户民称
+                                            customerAccount: customerAccountValue,//customerAccount 客户号
+                                            customerAddress: customerAddressValue,//customerAddress  客户地址
+                                            workSingleNumber: $("#workSingleNumber").text(),//workSingleNumber 工作单号
+                                            noticeAccount: "",//noticeAccount //通知单号
+                                            goodsAccount: "",//goodsAccount   //发货单号
+                                            TruckModel: truckNumber,//TruckModel //叉车型号
+                                            workHour: "  " + h + "小时" + m + "分钟",//workHour //工作时长
                                             workTimeTotal: [{
                                                 workName: ownerName,
                                                 workDate: arriveTime!=null?arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate():"",
@@ -2372,11 +2389,11 @@ angular.module('oinio.workDetailsControllers', [])
                                                 miles: ""
 
                                             }],//workTimeTotal
-                                            listContent: "",//listContent
-                                            demandForRequire: "   " + callStr,//demandForRequire
-                                            workContent: $("#workContentStr").val(),//workContent
-                                            resultAndSuggestions: $("#serviceSuggest").val(),//resultAndSuggestions
-                                            responsibleEngineer: ownerName//responsibleEngineer
+                                            listContent: "",//listContent  配件费参见发货清单
+                                            demandForRequire: "   " + callStr,//demandForRequire  报修需求
+                                            workContent: $("#workContentStr").val(),//workContent  工作信息
+                                            resultAndSuggestions: $("#serviceSuggest").val(),//resultAndSuggestions  结果及建议
+                                            responsibleEngineer: ownerName//responsibleEngineer  责任人
                                         }
                                         , function (response) {
                                             console.log(response);
