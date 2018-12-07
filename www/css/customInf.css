@@ -38,7 +38,7 @@ img {
     background-repeat: no-repeat;
     background-size: cover;
     width: 14px;
-    height: 24px;    
+    height: 24px;
 }
 .search_All {
     display: inline-flex;
@@ -75,11 +75,17 @@ img {
     width: 10%;
     align-items: center;
 }
+.plan_Right_Box {
+    display: inline-flex;
+    justify-content: flex-end;
+    height: 100%;
+    width: 30%;
+}
 .add_Icon_White {
     background-repeat: no-repeat;
     background-size: cover;
     width: 20px;
-    height: 20px;    
+    height: 20px;
     margin-left: auto;
 }
 .add_Arrow {
@@ -125,7 +131,7 @@ img {
 }
 .OpenClose_Btn {
     background-repeat: no-repeat;
-    background-size: cover; 
+    background-size: cover;
     display: inline-block;
     vertical-align: middle;
     margin: 1%;

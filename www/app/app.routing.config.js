@@ -168,7 +168,9 @@
 
             .state('app.newLinkMan', {
                 url: 'app/newLinkMan',
-                views: {
+              params:{'userInfo':null},
+
+              views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/newLinkMan.html',
                         controller: 'NewLinkManController as vm'

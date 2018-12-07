@@ -15,20 +15,14 @@
         /**
          * 获取全部Truck Series
          * */
-        service.getAllTruckSeries = function () {
+        service.getAllTruckSeries = function (codeFiles) {
 
           var deferred = $q.defer();
 
-          service.getErrorCodeAllData().then(function (codeFiles) {
+          const seriesIds = screenAllTruckSeries(codeFiles);
+          console.log('seriesIds', seriesIds);
 
-            const seriesIds = screenAllTruckSeries(JSON.parse(codeFiles));
-            console.log('seriesIds',seriesIds);
-
-            deferred.resolve(seriesIds);
-
-          }, function (error) {
-            deferred.reject(error);
-          });
+          deferred.resolve(seriesIds);
 
           return deferred.promise;
         };
@@ -37,20 +31,14 @@
         /**
          * 获取全部Truck Series 的 CarType
          * */
-        service.getTruckSeriesOfAllCarType = function (series) {
+        service.getTruckSeriesOfAllCarType = function (codeFiles, series) {
 
           var deferred = $q.defer();
 
-          service.getErrorCodeAllData().then(function (codeFiles) {
+          const carTypes = screenAllTruckCarType(codeFiles, series);
+          console.log('carTypes', carTypes);
 
-            const carTypes = screenAllTruckCarType(JSON.parse(codeFiles), series);
-            console.log('carTypes',carTypes);
-
-            deferred.resolve(carTypes);
-
-          }, function (error) {
-            deferred.reject(error);
-          });
+          deferred.resolve(carTypes);
 
           return deferred.promise;
 
@@ -79,7 +67,9 @@
         };
 
 
-
+        /**
+         * 获取所有error Code
+         * */
         service.getErrorCodeAllData = function () {
 
           var deferred = $q.defer();
@@ -111,14 +101,6 @@
             deferred.reject(error);
 
           });
-
-          // $http.get(APP_SETTINGS.TRUCK_ERROR_CODE_FILE).then(function (codeFile) {
-          //   deferred.resolve(codeFile.data);
-          // }, function (error) {
-          //   deferred.reject(error);
-          // });
-
-
 
           return deferred.promise;
 

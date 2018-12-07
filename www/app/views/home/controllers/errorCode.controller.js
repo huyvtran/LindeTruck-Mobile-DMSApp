@@ -1,7 +1,8 @@
 angular.module('oinio.ErrorCodeController', [])
-  .controller('ErrorCodeController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,  ConnectionMonitor, LocalCacheService, ErrorCodeServices) {
+  .controller('ErrorCodeController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams, AppUtilService, ConnectionMonitor, LocalCacheService, ErrorCodeServices) {
 
     var vm = this;
+    $scope.codeFiles = [];
     $scope.seriesIds = [];
     $scope.carTypes = [];
     $scope.codeDescription = '';
@@ -15,24 +16,26 @@ angular.module('oinio.ErrorCodeController', [])
      */
     $scope.$on('$ionicView.beforeEnter', function () {
 
-      ErrorCodeServices.getAllTruckSeries().then(function (seriesIds) {
 
-        console.log('codeFile',seriesIds);
 
-        $scope.seriesIds = seriesIds;
+      AppUtilService.showLoading();
+      ErrorCodeServices.getErrorCodeAllData().then(function (codeFiles) {
+
+        $scope.codeFiles = JSON.parse(codeFiles);
+
+        ErrorCodeServices.getAllTruckSeries(JSON.parse(codeFiles)).then(function (seriesIds) {
+
+          AppUtilService.hideLoading();
+          $scope.seriesIds = seriesIds;
+
+        }, function (error) {
+          $log.error('ErrorCodeController.ionicView.beforeEnter Error ' + error);
+        });
 
       }, function (error) {
+        AppUtilService.hideLoading();
         $log.error('ErrorCodeController.ionicView.beforeEnter Error ' + error);
       });
-
-      ErrorCodeServices.getErrorCodeTxtAllData().then(function (seriesIds) {
-
-        console.log('codeFile',seriesIds);
-
-
-      }, function (error) {
-
-      })
 
 
     });
@@ -68,7 +71,7 @@ angular.module('oinio.ErrorCodeController', [])
         return;
       }
       const errorCode = $("#truckErrorCode").val();
-      if (!series) {
+      if (!errorCode) {
         $ionicPopup.show({
           title: "请输入错误Code",
           buttons: [
@@ -80,7 +83,7 @@ angular.module('oinio.ErrorCodeController', [])
         return;
       }
 
-      ErrorCodeServices.queryTruckErrorInfo(series, carType, errorCode ).then(function (errorInfo) {
+      ErrorCodeServices.queryTruckErrorInfo(series, carType, errorCode).then(function (errorInfo) {
 
         $scope.codeDescription = _.first(errorInfo).CodeDescription;
         $scope.condition = _.first(errorInfo).Condition;
@@ -100,7 +103,7 @@ angular.module('oinio.ErrorCodeController', [])
     $scope.selectSeriesChange = function (seriesId) {
 
       console.log('seriesId',seriesId);
-      ErrorCodeServices.getTruckSeriesOfAllCarType(seriesId).then(function (carTypes) {
+      ErrorCodeServices.getTruckSeriesOfAllCarType($scope.codeFiles, seriesId).then(function (carTypes) {
         console.log('carTypes',carTypes);
         $scope.carTypes = carTypes;
       }, function (error) {

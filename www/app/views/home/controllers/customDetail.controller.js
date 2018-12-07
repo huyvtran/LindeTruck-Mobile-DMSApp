@@ -201,7 +201,7 @@
                     document.getElementById("div_WorkorderImg").className = "OpenClose_Btn arrow_Left_Red";
 
                 }
-               
+
                 cordova.plugins.backgroundMode.setDefaults({ silent: true });
                 cordova.plugins.backgroundMode.setDefaults({
                     title: 'TheTitleOfYourProcess',
@@ -211,6 +211,13 @@
                 // $rootScope.SetTimerInterval = setInterval($rootScope.tirarFoto, 10000);
 
             };
+
+
+          $scope.goToContactsInfo = function (item) {
+            $state.go('app.newLinkMan',{userInfo : item});
+
+          };
+
             $scope.goBack = function () {
                 // $ionicHistory.goBack();
                 window.history.back();

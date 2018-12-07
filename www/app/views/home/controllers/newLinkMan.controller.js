@@ -37,6 +37,13 @@ angular.module('oinio.NewLinkManController', [])
             vm.postionTypes.push({label:'Driver of Truck Using Department',value:'I'});
             vm.postionTypes.push({label:'Clerk of Truck Using',value:'J'});
 
+
+          console.log('$stateParams.userInfo',$stateParams.userInfo);
+          $scope.chooseLinkManName = $stateParams.userInfo.Name;
+          $scope.chooseLinkManPhoneNumber = $stateParams.userInfo.Phone;
+          // $scope.searchResultAcctName = ;
+
+
         });
 
         $scope.$on('$ionicView.enter', function () {
@@ -226,7 +233,7 @@ angular.module('oinio.NewLinkManController', [])
         };
 
 
-        
+
         var getContacts = function () {
             var options = new ContactFindOptions();
             var fields = ['displayName','phoneNumbers'];
