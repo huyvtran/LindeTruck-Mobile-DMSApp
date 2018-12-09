@@ -2450,24 +2450,36 @@ angular.module('oinio.workDetailsControllers', [])
                                 console.log(res);
                                 $log.info(res);
                                 if (res.status == 0) {
+                                    var workItemsTotal=[];
+                                    for(var i =0;i<$scope.localWorkItems.length;i++){
+                                        workItemsTotal.push({
+                                            ownerName:$scope.localWorkItems[i].ownerName,
+                                            departureTime:$scope.localWorkItems[i].departureTime,
+                                            arriveTime:$scope.localWorkItems[i].arriveTime,
+                                            leaveTime:$scope.localWorkItems[i].leaveTime,
+                                            miles:$scope.localWorkItems[i].workMiles
+                                        });
+                                    }
+
                                     PrintPlugin.printTicket(
                                         {
                                             customerName: customerNameValue,//customerName  客户民称
                                             customerAccount: customerAccountValue,//customerAccount 客户号
                                             customerAddress: customerAddressValue,//customerAddress  客户地址
-                                            workSingleNumber: $("#workSingleNumber").text(),//workSingleNumber 工作单号
+                                            workSingleNumber:$scope.mobileName,//workSingleNumber 工作单号
                                             noticeAccount: "",//noticeAccount //通知单号
                                             goodsAccount: "",//goodsAccount   //发货单号
                                             TruckModel: truckNumber,//TruckModel //叉车型号
                                             workHour: "  " + h + "小时" + m + "分钟",//workHour //工作时长
-                                            workTimeTotal: [{
-                                                workName: ownerName,
-                                                workDate: arriveTime!=null?arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate():"",
-                                                workStartTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
-                                                workEndTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
-                                                miles: ""
-
-                                            }],//workTimeTotal
+                                            // workTimeTotal: [{
+                                            //     workName: ownerName,
+                                            //     workDate: arriveTime!=null?arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate():"",
+                                            //     workStartTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
+                                            //     workEndTime: (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() + ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes() + ":" + leaveTime.getSeconds():"",
+                                            //     miles: ""
+                                            //
+                                            // }],//workTimeTotal
+                                            workTimeTotal:workItemsTotal,
                                             listContent: "",//listContent  配件费参见发货清单
                                             demandForRequire: "   " + callStr,//demandForRequire  报修需求
                                             workContent: $("#workContentStr").val(),//workContent  工作信息
