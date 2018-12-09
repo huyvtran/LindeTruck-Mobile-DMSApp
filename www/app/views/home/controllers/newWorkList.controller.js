@@ -588,6 +588,7 @@ angular.module('oinio.newWorkListControllers', [])
                                             AccountShipToC:$scope.searchResultAcctId,
                                             goOffTime:"",
                                             isNewWorkList:true,
+                                            enableArrivalBtn:false,
                                             selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
                                             workOrderId:currentWorkOrderId
                                         });

@@ -294,6 +294,7 @@
                     workDescription: null,
                     AccountShipToC: obj.Account_Ship_to__c,
                     workOrderId: obj.Id,
+                    enableArrivalBtn:true,
                     goOffTime: goTime,
                     isNewWorkList: isNewWork
                 });

@@ -436,8 +436,8 @@
 		<div class="workListDetails_bodyer" id="workListDetailBody">
 			<div class="workListDetails_header">
 				<div class="left_Box" ng-click="goBack();">
-					<div class="back_Icon"></div>
-					<!--<div class="back_Icon" ng-show="!showFooter"></div>-->
+					<!--<div class="back_Icon"></div>-->
+					<div class="back_Icon" ng-show="!showFooter"></div>
 				</div>
 				<div class="center_Box">
 					<div class="center_Title" id="workSingleNumber">工单号:{{mobileName}}</div>
@@ -824,7 +824,7 @@
 			</div>
 			<div class="footer" ng-show="showFooter">
 				<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-				<div class="footer_Btn" ng-click="goSave();">取消</div>
+				<div class="footer_Btn" ng-click="goBack();">取消</div>
 				<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
 			</div>
 		</div>
@@ -1034,28 +1034,28 @@
 				<div>
 					<div class="readonly_Inf_1">
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 客户名称：</div><div class="inf_Right_Text"> 达创科技有限公司</div>
+							<div class="inf_Left_Text"> 客户名称：</div><div class="inf_Right_Text">{{customerNameValueShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 客户号：</div><div class="inf_Right_Text"> 223423443242</div>
+							<div class="inf_Left_Text"> 客户号：</div><div class="inf_Right_Text"> {{customerAccountValueShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 客户地址：</div><div class="inf_Right_Text"> 223423443242</div>
+							<div class="inf_Left_Text"> 客户地址：</div><div class="inf_Right_Text"> {{customerAddressValueShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 工作单号：</div><div class="inf_Right_Text"> 223423443242</div>
+							<div class="inf_Left_Text"> 工作单号：</div><div class="inf_Right_Text"> {{mobileName}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 通知单号：</div><div class="inf_Right_Text"> 223423443242</div>
+							<div class="inf_Left_Text"> 通知单号：</div><div class="inf_Right_Text"> {{noticeAccountValueShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 发货单号：</div><div class="inf_Right_Text"> 223423443242</div>
+							<div class="inf_Left_Text"> 发货单号：</div><div class="inf_Right_Text"> {{goodsAccountValueShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 叉车型号：</div><div class="inf_Right_Text"> 223423443242</div>
+							<div class="inf_Left_Text"> 叉车型号：</div><div class="inf_Right_Text"> {{truckTypesValueShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 工作小时：</div><div class="inf_Right_Text"> 223423443242</div>
+							<div class="inf_Left_Text"> 工作小时：</div><div class="inf_Right_Text"> {{workHourShow}}</div>
 						</div>
 						<div class="inf_Box">
 							<table class="statistic_table">
@@ -1064,17 +1064,17 @@
 								</tr>
 								<tr>
 									<td class="statistic_Title"> 工程师 </td>
-									<td class="statistic_Title statistic_right"> 日期 </td>
-									<td class="statistic_Title statistic_right"> 工作起止时间 </td>
-									<td class="statistic_Title statistic_right"> 旅游起止时间 </td>
+									<td class="statistic_Title statistic_right"> 出发时间 </td>
+									<td class="statistic_Title statistic_right"> 到达时间 </td>
+									<td class="statistic_Title statistic_right"> 离开时间 </td>
 									<td class="statistic_Title statistic_right"> 公里数 </td>
 								</tr>
-								<tr>
-									<td class="statistic_Text"> 某某某 </td>
-									<td class="statistic_Text statistic_right"> 20190101 </td>
-									<td class="statistic_Text statistic_right"> 20190101 </td>
-									<td class="statistic_Text statistic_right"> 20190101 </td>
-									<td class="statistic_Text statistic_right"> 45 </td>
+								<tr ng-repeat="localWorkItem in localWorkItems">
+									<td class="statistic_Text"> {{localWorkItem.ownerName}} </td>
+									<td class="statistic_Text statistic_right"> {{localWorkItem.departureTime}} </td>
+									<td class="statistic_Text statistic_right"> {{localWorkItem.arriveTime}} </td>
+									<td class="statistic_Text statistic_right"> {{localWorkItem.leaveTime}} </td>
+									<td class="statistic_Text statistic_right"> {{localWorkItem.workMiles}} </td>
 								</tr>
 							</table>
 						</div>
@@ -1084,22 +1084,22 @@
 							<div class="inf_Title"> 配件费参见发货清单</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 报修需求：</div><div class="inf_Right_Text"> 张永生，叉车检查</div>
+							<div class="inf_Left_Text"> 报修需求：</div><div class="inf_Right_Text">{{callStrShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 工作信息：</div><div class="inf_Right_Text"> 描述内容，描述内容，描述内容，描述内容，描述内容</div>
+							<div class="inf_Left_Text"> 工作信息：</div><div class="inf_Right_Text"> {{workContentShow}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 结果及建议：</div><div class="inf_Right_Text"> 描述内容，描述内容，描述内容，描述内容，描述内容</div>
+							<div class="inf_Left_Text"> 结果及建议：</div><div class="inf_Right_Text">{{suggestionShoW}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 负责工程师：</div><div class="inf_Right_Text"> </div>
+							<div class="inf_Left_Text"> 负责工程师：</div><div class="inf_Right_Text"> {{ownerNameShow}}</div>
 						</div>
 						<div class="inf_Box">
 							<div class="inf_Left_Text_2"> 工程师签名及日期：</div><div class="inf_Right_Text_2"> 客户签名及日期：</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Img_2"> <img src=""></div><div class="inf_Right_Img_2"><img src=""></div>
+							<div class="inf_Left_Img_2" ng-click="getEnginnerImg();"> <img src=""></div><div class="inf_Right_Img_2" ng-click="getBusinessImg();"><img src=""></div>
 						</div>
 					</div>
 				</div>
@@ -1107,7 +1107,7 @@
 		</div>
 		<div class="workListPrint_footer">
 			<div class="footer_Btn" ng-click="hideWorkPrintPage();">取消</div>
-			<div class="footer_Btn save_Btn" ng-click="printWorkList();"> 保存</div>
+			<div class="footer_Btn save_Btn" ng-click="printWorkList();">打印</div>
 		</div>
 
 	</div>

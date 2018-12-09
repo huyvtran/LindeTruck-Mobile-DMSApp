@@ -25,14 +25,17 @@ angular.module('oinio.workDetailsControllers', [])
             truckItems = [],
             truckItemsSecond = [],
             regroupPartList = [], ///配件组装数据用于保存
+            ah=0,
+            am=0,
             h = 0,
             m = 0,
             localLatitude=null,
             localLongitude=null,
             goTime=null,
             truckIds =[],
-            initTrucks=[];
+            initTrucks=[],
             selectTypeIndex=0, //作业类型默认选择第一个
+            enableArrival=true,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
@@ -70,11 +73,22 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
 
         /**
-         * 打印页面显示
+         * 打印预览页面显示
          */
 
+        $scope.customerNameValueShow = "";   //客户名称
+        $scope.customerAccountValueShow = "";//客户号
+        $scope.customerAddressValueShow=""; //客户地址
+        $scope.noticeAccountValueShow="";//通知单号
+        $scope.goodsAccountValueShow="";//发货单号
+        $scope.truckTypesValueShow="";//叉车型号
+        $scope.ownerNameShow = "";//负责工程师
+        $scope.workHourShow="";//工作小时
+        $scope.callStrShow="";//报修需求
+        $scope.workContentShow="";//工作信息
+        $scope.suggestionShoW="";//结果及建议
 
-
+        $scope.localWorkItems = [];
 
 
 
@@ -89,6 +103,8 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("$stateParams.isNewWorkList", $stateParams.isNewWorkList);
             console.log("$stateParams.selectTypeIndex", $stateParams.selectWorkTypeIndex);
             console.log("$stateParams.workOrderId",$stateParams.workOrderId);
+            console.log("$stateParams.enableArrivalBtn",$stateParams.enableArrivalBtn);
+
             userInfoId = $stateParams.SendInfo;//原先工单数据的本地Id 现改为在线Id
             Account_Ship_to__c = $stateParams.AccountShipToC; //原工单
             workDescription = $stateParams.workDescription;
@@ -96,6 +112,7 @@ angular.module('oinio.workDetailsControllers', [])
             allowEdit = $stateParams.isNewWorkList;
             orderDetailsId=$stateParams.workOrderId;
             $scope.showFooter=$stateParams.isNewWorkList;
+            enableArrival=$stateParams.enableArrivalBtn;
 
             //获取作业类型选择索引
             if($stateParams.selectWorkTypeIndex!=null){
@@ -162,6 +179,19 @@ angular.module('oinio.workDetailsControllers', [])
                 $("#workContentStr").prop("disabled","disabled");
                 $("#serviceSuggest").prop("disabled","disabled");
             }
+
+            if (!enableArrival){
+                $("#arriveBtn").prop("disabled","disabled");
+                $("#arriveBtn").css("backgroundColor","#666666");
+                $("#leave").prop("disabled","disabled");
+                $("#leave").css("backgroundColor","#666666");
+            }else{
+                $("#arriveBtn").prop("disabled","");
+                $("#arriveBtn").css("backgroundColor","#ffffff");
+                $("#leave").prop("disabled","");
+                $("#leave").css("backgroundColor","#ffffff");
+            }
+
             /**
              * 初始化 详细信息／工作信息／配件需求／交货列表／服务建议
              */
@@ -184,6 +214,7 @@ angular.module('oinio.workDetailsControllers', [])
                         initTrucks=res.truckModels;
                         $scope.allTruckItems = truckItems;
                         $scope.initWorkItems(res.workItems);
+
                         //交货列表
                         $scope.getRefundList();
                         //*********读取配件*************** */
@@ -360,7 +391,6 @@ angular.module('oinio.workDetailsControllers', [])
                 customerAddressValue=soResult.Account_Ship_to__r.Address__c!=undefined?soResult.Account_Ship_to__r.Address__c:"";
                 //责任人：
                 ownerName = soResult.Service_Order_Owner__r.Name!=undefined?soResult.Service_Order_Owner__r.Name:"";
-
                 $scope.callPhoneContent = soResult.Description__c!=undefined?soResult.Description__c:"";
                 $scope.suggestStr = soResult.Service_Suggestion__c!=undefined?soResult.Service_Suggestion__c:"";
                 $scope.workContent =soResult.Subject__c!=undefined?soResult.Subject__c:"";
@@ -415,7 +445,7 @@ angular.module('oinio.workDetailsControllers', [])
             truckItems=[];
             truckItemsSecond=[];
             for (var i =0;i<trucks.length;i++){
-                truckNumber+=trucks[i].Name;
+                truckNumber+=trucks[i].Name+";";
                 truckItems.push(
                     {
                         Id: trucks[i].Id,
@@ -439,7 +469,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             if (workItems.length>0){
                 for (var i =0;i< workItems.length;i++){
-                    if (workItems[i].Arrival_Time__c!=null){
+                    if (workItems[i].Arrival_Time__c!=undefined){
                         $("#arriveBtn").prop("disabled","disabled");
                         $("#arriveBtn").css("backgroundColor","#00FF7F");
                         arriveTime=new Date(workItems[i].Arrival_Time__c);
@@ -452,6 +482,19 @@ angular.module('oinio.workDetailsControllers', [])
                         break;
                     }
                 }
+            }
+
+
+            for (var i =0;i<workItems.length;i++){
+                $scope.localWorkItems.push(
+                    {
+                        ownerName:ownerName,
+                        departureTime:workItems[i].Departure_Time__c!=undefined?workItems[i].Departure_Time__c.substring(0,10):"",
+                        arriveTime:workItems[i].Arrival_Time__c!=undefined?workItems[i].Arrival_Time__c.substring(0,10):"",
+                        leaveTime:workItems[i].Leave_Time__c!=undefined?workItems[i].Leave_Time__c.substring(0,10):"",
+                        workMiles:""
+                    }
+                );
             }
         };
 
@@ -534,7 +577,7 @@ angular.module('oinio.workDetailsControllers', [])
             });
         };
 
-        var checkMinutes = function (time) {
+        var checkMinutes = function (time,m) {
             if (time.getMinutes() - m > 0) {
                 return {
                     index: 1,
@@ -580,16 +623,17 @@ angular.module('oinio.workDetailsControllers', [])
                     position: [0, 0, 0],
                     callback: function (indexArr, data) {
                         $("#leave").text("离开");
-                        h = parseInt(data[0].substring(6, 8));
-                        m = parseInt(data[2].substring(6, 8));
+                        ah = parseInt(data[0].substring(6, 8));
+                        am = parseInt(data[2].substring(6, 8));
                         //checkHours();
                         leaveTime = new Date();
-                        var min =  checkMinutes(leaveTime);
+                        var min =  checkMinutes(leaveTime,am);
                         if (min.index == 1) {
-                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - h) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
+                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - ah) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
                         } else {
-                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - h - 1) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
+                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - ah - 1) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
                         }
+                        AppUtilService.showLoading();
                         ForceClientService.getForceClient().apexrest(
                             $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss"),
                             'POST',
@@ -597,11 +641,15 @@ angular.module('oinio.workDetailsControllers', [])
                             null,
                             function callBack(res) {
                                 console.log(res);
+                                AppUtilService.hideLoading();
                                 if (res.status.toLowerCase()=="success"){
                                     $("#arriveBtn").prop("disabled","disabled");
                                     $("#arriveBtn").css("backgroundColor","#00FF7F");
                                     $("#leave").prop("disabled","disabled");
                                     $("#leave").css("backgroundColor","#00FF7F");
+                                    $ionicPopup.alert({
+                                        title:"记录到达/离开时间成功"
+                                    });
                                 }else{
                                     $ionicPopup.alert({
                                         title:"记录到达/离开时间失败"
@@ -610,6 +658,7 @@ angular.module('oinio.workDetailsControllers', [])
                                 }
 
                             },function error(msg) {
+                                AppUtilService.hideLoading();
                                 console.log(msg);
                                 $ionicPopup.alert({
                                     title:"记录到达/离开时间失败"
@@ -635,6 +684,7 @@ angular.module('oinio.workDetailsControllers', [])
                         text: '确定',
                         onTap: function () {
                             leaveTime = new Date();
+                            AppUtilService.showLoading();
                             ForceClientService.getForceClient().apexrest(
                                 $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss"),
                                 'POST',
@@ -642,9 +692,13 @@ angular.module('oinio.workDetailsControllers', [])
                                 null,
                                 function callBack(res) {
                                     console.log(res);
+                                    AppUtilService.hideLoading();
                                     if (res.status.toLowerCase()=="success"){
                                         $event.target.style.backgroundColor = "#00FF7F";
                                         $("#leave").prop("disabled","disabled");
+                                        $ionicPopup.alert({
+                                            title:"记录到达/离开时间成功"
+                                        });
                                     }else{
                                         $ionicPopup.alert({
                                             title:"记录到达/离开时间失败"
@@ -653,6 +707,7 @@ angular.module('oinio.workDetailsControllers', [])
                                     }
 
                                 },function error(msg) {
+                                    AppUtilService.hideLoading();
                                     console.log(msg);
                                     $ionicPopup.alert({
                                         title:"记录到达/离开时间失败"
@@ -764,7 +819,7 @@ angular.module('oinio.workDetailsControllers', [])
                             $("#arriveBtn").text("到达");
                             h = parseInt(data[0].substring(6, 8));
                             m = parseInt(data[2].substring(6, 8));
-                            var min =  checkMinutes(arriveTime);
+                            var min =  checkMinutes(arriveTime,m);
                             if (min.index == 1) {
                                 goOffTimeFromPrefix = new Date((arriveTime.getFullYear() + "-" + arriveTime.getMonth() + "-" + arriveTime.getDate() + " " + (arriveTime.getHours() - h) + ":" + min.mm + ":" + arriveTime.getSeconds()).replace(/-/, "/"));
                             } else {
@@ -856,6 +911,7 @@ angular.module('oinio.workDetailsControllers', [])
                     });
                     mobileSelect3.show();
                 }else{
+                    AppUtilService.showLoading();
                     ForceClientService.getForceClient().apexrest(
                         $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
                         'POST',
@@ -863,8 +919,12 @@ angular.module('oinio.workDetailsControllers', [])
                         null,
                         function callBack(res) {
                             console.log(res);
+                            AppUtilService.hideLoading();
                             if (res.status.toLowerCase()=="success"){
                                 $event.target.style.backgroundColor = "#00FF7F";
+                                $ionicPopup.alert({
+                                    title:"记录到达时间成功"
+                                });
                             }else{
                                 $ionicPopup.alert({
                                     title:"记录到达时间失败"
@@ -945,6 +1005,23 @@ angular.module('oinio.workDetailsControllers', [])
             document.getElementById("workPrintPage").style.display = "block";
 
 
+            $scope.customerNameValueShow = customerNameValue;
+            $scope.customerAccountValueShow = customerAccountValue;
+            $scope.customerAddressValueShow=customerAddressValue;
+            $scope.ownerNameShow = ownerName;
+            $scope.noticeAccountValueShow="";//通知单号
+            $scope.goodsAccountValueShow="";//发货单号
+            $scope.truckTypesValueShow=truckNumber;//叉车型号
+            $scope.workHourShow="";//工作小时
+            $scope.callStrShow=$("#call_str").val().trim();//报修需求
+            $scope.workContentShow=$("#workContentStr").val();//工作信息
+            $scope.suggestionShoW=$("#serviceSuggest").val();//结果及建议
+
+
+
+
+
+
 
         };
         /**
@@ -997,7 +1074,6 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.goSave = function () {
-
             AppUtilService.showLoading();
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
@@ -2363,7 +2439,11 @@ angular.module('oinio.workDetailsControllers', [])
                     PrintPlugin.getBlueToothDevices(null, function (result) {
                         console.log(result);
                         if (result.length < 1) {
-                            $log.info("请先在蓝牙中配对好设备！");
+                            AppUtilService.hideLoading();
+                            $ionicPopup.alert({
+                                title: "请先在蓝牙中配对好设备"
+                            });
+                            return false;
                         } else {
                             var arr = result[0].split('-');
                             PrintPlugin.connectBlueToothDevice(arr[1], function (res) {
@@ -2397,23 +2477,30 @@ angular.module('oinio.workDetailsControllers', [])
                                         , function (response) {
                                             console.log(response);
                                             $log.info(response);
+                                            AppUtilService.hideLoading();
                                             $scope.hideWorkPrintPage();
+                                            $ionicPopup.alert({
+                                                title: "出票成功"
+                                            });
                                             //$event.target.style.backgroundColor = "#00FF7F";
                                         }, function (error) {
                                             console.log(error);
                                             $log.error(error);
+                                            AppUtilService.hideLoading();
                                             $ionicPopup.alert({
                                                 title: "连接蓝牙设备失败"
                                             });
                                             return false;
                                         });
                                 }else{
+                                    AppUtilService.hideLoading();
                                     $ionicPopup.alert({
                                         title: "连接蓝牙设备失败"
                                     });
                                     return false;
                                 }
                             }, function (error) {
+                                AppUtilService.hideLoading();
                                 $ionicPopup.alert({
                                     title: "连接蓝牙设备失败"
                                 });
@@ -2421,6 +2508,7 @@ angular.module('oinio.workDetailsControllers', [])
                             });
                         }
                     }, function (error) {
+                        AppUtilService.hideLoading();
                         $ionicPopup.alert({
                             title: "请先在设置中连接蓝牙设备"
                         });
@@ -2428,11 +2516,47 @@ angular.module('oinio.workDetailsControllers', [])
                     });
                 }
             }, function (error) {
+                AppUtilService.hideLoading();
                 $ionicPopup.alert({
                     title: "请确保设置中开启蓝牙功能"
                 });
                 return false;
             });
         };
+
+        /**
+         * 获取工程师签名
+         */
+        $scope.getEnginnerImg=function () {
+
+        };
+
+
+        /**
+         * 获取客户签名
+         */
+        $scope.getBusinessImg=function () {
+
+
+        };
+
+
+        /**
+         * 图片 byte[]转base64 数据
+         */
+
+        function arrayBufferToBase64( buffer ) {
+            var binary = '';
+            var bytes = new Uint8Array( buffer );
+            var len = bytes.byteLength;
+            for (var i = 0; i < len; i++) {
+                binary += String.fromCharCode( bytes[ i ] );
+            }
+            return window.btoa( binary );
+        }
+
+
+
+
     });
 
