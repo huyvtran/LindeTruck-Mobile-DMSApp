@@ -1,10 +1,11 @@
 angular.module('oinio.NewOfferController', [])
-    .controller('NewOfferController', function ($scope, $log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, ForceClientService, AppUtilService, SQuoteService) {
+    .controller('NewOfferController', function ($scope,$log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, ForceClientService, AppUtilService,SQuoteService) {
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
         let trucksDescriptions = [];
         let trucksLevels = [];
+        $scope.searchTruckText = '';
         $scope.contentTruckItems = [];
         $scope.selectedTruckItems = [];
         $scope.serviceSatusUrl = "/ServiceQuoteOverviewStatus/";
@@ -107,6 +108,7 @@ angular.module('oinio.NewOfferController', [])
                 //AppUtilService.hideLoading();
             });
         };
+
 
         $scope.selectAccount = function (acct) {
             SQuoteService.getAccount(acct.Id).then(function (response) {
@@ -293,17 +295,47 @@ angular.module('oinio.NewOfferController', [])
             }
         };
 
-        $scope.checkAllSearchResults = function () {
-            let ele = $("#ckbox_truck_searchresult_all");
+        //扫描二维码
+      $scope.scanCode = function () {
 
-            console.log('checkAllSearchResults:::', ele.prop("checked"));
-            if (ele.prop("checked")) {
-                $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                    $(this).prop("checked", true);
-                });
+        cordova.plugins.barcodeScanner.scan(
+          function (result) {
+            //扫码成功后执行的回调函数
+            console.log('result', result);
+            $scope.searchTruckText = result.text;
+            $scope.getTrucksWithKey(result.text);
+          },
+          function (error) {
+            //扫码失败执行的回调函数
+            alert('Scanning failed: ' + error);
+          }, {
+            preferFrontCamera: false, // iOS and Android 设置前置摄像头
+            showFlipCameraButton: false, // iOS and Android 显示旋转摄像头按钮
+            showTorchButton: true, // iOS and Android 显示打开闪光灯按钮
+            torchOn: false, // Android, launch with the torch switched on (if available)打开手电筒
+            prompt: '在扫描区域内放置二维码', // Android提示语
+            resultDisplayDuration: 500, // Android, display scanned text for X ms.
+            //0 suppresses it entirely, default 1500 设置扫码时间的参数
+            formats: 'QR_CODE', // 二维码格式可设置多种类型
+            orientation: 'portrait', // Android only (portrait|landscape),
+                                     //default unset so it rotates with the device在安卓上 landscape 是横屏状态
+            disableAnimations: true, // iOS     是否禁止动画
+            disableSuccessBeep: false // iOS      禁止成功后提示声音 “滴”
+          }
+        );
+      };
 
-                angular.forEach($scope.contentTruckItems, function (searchResult) {
-                    let existFlag = false;
+      $scope.checkAllSearchResults = function () {
+        let ele = $('#ckbox_truck_searchresult_all');
+
+        console.log('checkAllSearchResults:::', ele.prop('checked'));
+        if (ele.prop('checked')) {
+          $('input.ckbox_truck_searchresult_item').each(function (index, element) {
+            $(this).prop('checked', true);
+          });
+
+          angular.forEach($scope.contentTruckItems, function (searchResult) {
+            let existFlag = false;
                     angular.forEach($scope.selectedTruckItems, function (selected) {
                         if (searchResult.Id == selected.Id) {
                             existFlag = true;
@@ -450,8 +482,8 @@ angular.module('oinio.NewOfferController', [])
             // tr.innerHTML = '<tr id="tabExampleDiv"><td id="tabExample" class="ad_Right_Td_Group"><table cellpadding="0" cellspacing="0" border="0" class="ad_Right_Table"><tr id="tabSVViewId1"><td class="ad_Right_Td" ng-click="toTabSVView()"><div class="pos_rel"><div> 车体号1 </div><div class="del_red_icon"></div></div></td></tr><tr><td class="ad_Right_Td"><select id="selectStatusId"><option>全部</option><option>未安排</option></select></td></tr><tr><td class="ad_Right_Td "><div> 车型1 </div></td></tr><tr><td class="ad_Right_Td "><div> 车系1 </div></td></tr><tr><td class="ad_Right_Td "><select id="selectStatusId"><option>全部</option><option>未安排</option></select></td></tr><tr><td class="ad_Right_Td "><select id="selectStatusId"><option>保养任务</option></select></td></tr><tr><td class="ad_Right_Td"><input class="ad_Input" /></td></tr></table></td>';
             // tabAdd.parentNode.insertBefore(tr, tabAdd);
 
-            // var elements = tabExampleDiv.getElementsByTagName("table"); 
-            // for(var i=0; i<elements.length; i++){ 
+            // var elements = tabExampleDiv.getElementsByTagName("table");
+            // for(var i=0; i<elements.length; i++){
             //     console.log("elements[i].name","i:"+i +"elements:"+ elements[i].name+"id:"+elements[i].id);
             // }
             // var counttabSVViewNewIndex = "tabSVViewId" + parseInt(tabSVViewNewIndex-1);

@@ -71,6 +71,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.leavePostUrl="/WorkDetailService?action=leave&sooId=";
         $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
         $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
+        $scope.searchAddTruckText="";
 
 
         /**
@@ -1342,7 +1343,7 @@ angular.module('oinio.workDetailsControllers', [])
                 $('#selectLSG').css('display', 'none');
             }
 
-            $('div.workListDetails_bodyer').animate({ 
+            $('div.workListDetails_bodyer').animate({
                 opacity: '0.6'
             }, 'slow', 'swing', function () {
                 $('div.workListDetails_bodyer').hide();
@@ -1353,6 +1354,8 @@ angular.module('oinio.workDetailsControllers', [])
                 // $('#selectTruckFit').css('display', 'block');
             });
         };
+
+
 
         $scope.closeSelectPage = function () {
             console.log("closeSelectPage");
@@ -1439,7 +1442,7 @@ angular.module('oinio.workDetailsControllers', [])
                 if (element.type =="economical") {
                     setTimeout(function() {
                         $scope.selectedTruckFitItems.remove(element);
-                    },50);            
+                    },50);
                 }
             }
         }
@@ -1451,7 +1454,7 @@ angular.module('oinio.workDetailsControllers', [])
                 if (element.type =="common") {
                     setTimeout(function() {
                         $scope.selectedTruckFitItems.remove(element);
-                    },50);    
+                    },50);
                 }
             }
         }
@@ -1491,6 +1494,36 @@ angular.module('oinio.workDetailsControllers', [])
                 AppUtilService.hideLoading();
             });
 
+        };
+
+        $scope.scanCode = function () {
+
+          cordova.plugins.barcodeScanner.scan(
+
+            function(result) {
+              //扫码成功后执行的回调函数
+              console.log('result', result);
+              $scope.searchAddTruckText = result.text;
+              $scope.getTrucksWithKey(result.text);
+            },
+            function(error) {
+              //扫码失败执行的回调函数
+              alert("Scanning failed: " + error);
+            }, {
+              preferFrontCamera: false, // iOS and Android 设置前置摄像头
+              showFlipCameraButton: false, // iOS and Android 显示旋转摄像头按钮
+              showTorchButton: true, // iOS and Android 显示打开闪光灯按钮
+              torchOn: true, // Android, launch with the torch switched on (if available)打开手电筒
+              prompt: "在扫描区域内放置二维码", // Android提示语
+              resultDisplayDuration: 500, // Android, display scanned text for X ms.
+              //0 suppresses it entirely, default 1500 设置扫码时间的参数
+              formats: "QR_CODE", // 二维码格式可设置多种类型
+              orientation: "portrait", // Android only (portrait|landscape),
+                                       //default unset so it rotates with the device在安卓上 landscape 是横屏状态
+              disableAnimations: false, // iOS     是否禁止动画
+              disableSuccessBeep: false // iOS      禁止成功后提示声音 “滴”
+            }
+          );
         };
 
 
@@ -1848,7 +1881,7 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
 
-        
+
         $scope.goGenerateOrders = function () {
             $state.go('app.generateOrders',{workOrderId:orderDetailsId});
 

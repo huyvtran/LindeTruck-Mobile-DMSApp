@@ -85,6 +85,10 @@
 			background-image: url(././img/images/arrow_Left_Black.png);
 		}
 
+		.search_Photo_Icon {
+			background-image: url(././img/images/search-photo_icon.png);
+		}
+
 		.header2 {
 			background: #aa0020;
 			/* width: 90%; */
@@ -668,7 +672,7 @@
 									<th class="sv_Td">
 										<div> 备件订单号 </div>
 									</th>
-									
+
 								</tr>
 							</table>
 							<ion-list can-swipe="true" class="quoted_Table_list">
@@ -687,12 +691,12 @@
 											<td class="sv_Td">
 												<div> {{item.SAP_Part_Order_Number__c}} </div>
 											</td>
-										
+
 										</tr>
 									</table>
 								</ion-item>
 							</ion-list>
-	
+
 						</div>
 					</div>
 				<div>
@@ -941,7 +945,7 @@
 			</div>
 			<div class="search_All" >
 				<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchAddTruckChange()" ng-model="searchAddTruckText"/>
-				<!--<div class="search_Photo_Icon"></div>-->
+				<div class="search_Photo_Icon"  ng-click="scanCode()"></div>
 			</div>
 			<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucksMore(searchAddTruckText);">
 				<div class="text_Cancel"> 搜索 </div>

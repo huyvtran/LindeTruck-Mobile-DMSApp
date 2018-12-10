@@ -213,14 +213,14 @@ img {
 }
 .workListDetails_bodyer .arrow_quantity_icon {
     background-repeat: no-repeat;
-    background-size: cover; 
+    background-size: cover;
     display: inline-flex;
     width: 10px;
     height: 12px;
 }
 .workListDetails_bodyer .addcar_icon {
     background-repeat: no-repeat;
-    background-size: cover; 
+    background-size: cover;
     display: inline-flex;
     width: 12px;
     height: 12px;
@@ -252,7 +252,7 @@ img {
 }
 .workListDetails_bodyer .OpenClose_Btn {
     background-repeat: no-repeat;
-    background-size: cover; 
+    background-size: cover;
     display: inline-flex;
     width: 18px;
     height: 10px;
@@ -367,7 +367,7 @@ img {
     height: 10px;
     background: #00aa6d;
 }
-.workListDetails_bodyer .red_legend { 
+.workListDetails_bodyer .red_legend {
     width: 10px;
     height: 10px;
     background: #aa2000;
@@ -402,7 +402,7 @@ img {
     padding: 0;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td .sv_checkbox {
-    height: 25px;  
+    height: 25px;
     width: 25px;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td p {
@@ -418,7 +418,7 @@ img {
     background: #00aa6d;
     color: #ffffff;
 }
-.workListDetails_bodyer .quoted_Table .sv_Td.red_legend { 
+.workListDetails_bodyer .quoted_Table .sv_Td.red_legend {
     background:  #aa2000;
     color: #ffffff;
 }
@@ -428,7 +428,7 @@ img {
 .workListDetails_bodyer .quoted_Table .sv_Td.green_text_color {
     color: #00aa6d;
 }
-.workListDetails_bodyer .quoted_Table .sv_Td.red_text_color { 
+.workListDetails_bodyer .quoted_Table .sv_Td.red_text_color {
     color: #aa2000;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_noborder {
@@ -466,7 +466,7 @@ img {
     background: #00aa6d;
     color: #ffffff;
 }
-.workListDetails_bodyer .quoted_Table.red_legend .sv_Td:first-child { 
+.workListDetails_bodyer .quoted_Table.red_legend .sv_Td:first-child {
     background:  #aa2000;
     color: #ffffff;
 }
@@ -605,7 +605,7 @@ img {
     background-size: cover;
     width: 12px;
     height: 20px;
-}   
+}
 .footer {
     position: absolute;
     bottom: 0;
@@ -695,7 +695,7 @@ img {
     width: 80px;
 }
 .workListDetails_bodyer .refund_Table .sv_Td .sv_checkbox {
-    height: 25px;  
+    height: 25px;
     width: 25px;
 }
 .workListDetails_bodyer .refund_Table .explain_Icon {
@@ -777,4 +777,13 @@ img {
     width: 50%;
     font-size: 0.8rem;
     margin: 0 2px;
+}
+.search_Photo_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 21px;
+    height: 15px;
+    position: absolute;
+    top: calc(50% - 7.5px);
+    left: 5%;
 }

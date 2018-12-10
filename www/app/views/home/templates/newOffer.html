@@ -61,6 +61,11 @@
 			background-image: url(././img/images/onlyread_Img_1.jpg);
 		}
 
+		.search_Photo_Icon {
+			background-image: url(././img/images/search-photo_icon.png);
+		}
+
+
 		.header2 {
 			background: #aa0020;
 			width: 100%;
@@ -236,7 +241,7 @@
 				</div>
 				<div class="search_All">
 					<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText" />
-					<!--<div class="search_Photo_Icon"></div>-->
+					<div class="search_Photo_Icon" ng-click="scanCode()"></div>
 				</div>
 				<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucksWithKey(searchTruckText);" ng-show="searchTruckText">
 					<div class="text_Cancel"> 搜索 </div>
