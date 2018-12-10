@@ -1,5 +1,5 @@
 angular.module('oinio.NewOfferController', [])
-    .controller('NewOfferController', function ($scope,$log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, ForceClientService, AppUtilService,SQuoteService) {
+    .controller('NewOfferController', function ($scope, $log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, ForceClientService, AppUtilService, SQuoteService) {
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
@@ -65,7 +65,7 @@ angular.module('oinio.NewOfferController', [])
                         $scope.selectAccountOfContacts();
                     }, 100);
                 }
-            }); 
+            });
         };
         $scope.closeSelectPage = function () {
             $('div.newWorkList_truckSelect').animate({
@@ -128,7 +128,7 @@ angular.module('oinio.NewOfferController', [])
             if (!obj.Maintenance_Key__c) {
                 return;
             }
-            SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,true).then(function (response) {
+            SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c, true).then(function (response) {
                 console.log("getMainLevelsAndDesc", response);
                 if (!response.levels || !response.descriptions) {
                     return;
@@ -150,7 +150,7 @@ angular.module('oinio.NewOfferController', [])
             $scope.contentTruckItems = [];
             console.log("searchTruckFleets::", acctId);
 
-            HomeService.searchTruckFleets("",acctId,"20",true).then(function (response) {
+            HomeService.searchTruckFleets("", acctId, "20", true).then(function (response) {
                 console.log("searchTruckFleets", response);
 
                 let trucks = [];
@@ -162,14 +162,14 @@ angular.module('oinio.NewOfferController', [])
                     }
                     $scope.contentTruckItems = trucks;
                     setTimeout(function () {//再次搜索勾选之前已经选中的车辆
-                        for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                        for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
                             $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                                if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+                                if ($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
                                     $(this).prop("checked", true);
                                 }
                             });
                         }
-                    },300);
+                    }, 300);
                 }
                 else {
                     var ionPop = $ionicPopup.alert({
@@ -189,11 +189,17 @@ angular.module('oinio.NewOfferController', [])
         };
 
         $scope.getTrucksWithKey = function (keyWord) {
+            if ($scope.searchResultAcctName == null) {
+                var ionPop = $ionicPopup.alert({
+                    title: "请先选择客户"
+                });
+                return;
+            }
             $scope.contentTruckItems = [];
 
-            HomeService.searchTruckFleets(keyWord,selectAcctSetId,"20",true).then(function (response) {
-                console.log("getTrucks::",keyWord);
-                if (typeof(response)=="string"){
+            HomeService.searchTruckFleets(keyWord, selectAcctSetId, "20", true).then(function (response) {
+                console.log("getTrucks::", keyWord);
+                if (typeof (response) == "string") {
                     $ionicPopup.alert({
                         title: "结果",
                         template: "没有数据"
@@ -208,16 +214,16 @@ angular.module('oinio.NewOfferController', [])
                     $scope.contentTruckItems = trucks;
 
                     setTimeout(function () { //再次搜索勾选之前已经选中的车辆
-                        for (var i=0;i<$scope.selectedTruckItems.length;i++){
+                        for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
                             $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                                if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+                                if ($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
                                     $(this).prop("checked", true);
                                 }
                             });
                         }
-                    },300);
+                    }, 300);
 
-                    console.log("getTrucks",trucks);
+                    console.log("getTrucks", trucks);
                 }
                 else {
                     var ionPop = $ionicPopup.alert({
@@ -235,7 +241,7 @@ angular.module('oinio.NewOfferController', [])
                 //AppUtilService.hideLoading();
             });
         };
-        
+
 
         $scope.selectContacts = function (item) {
             $scope.selectContactsName = item.Name;
