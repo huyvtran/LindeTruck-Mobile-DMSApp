@@ -72,8 +72,6 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
         $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
 
-        $scope.enginnerImg=null;
-        $scope.busyImg=null;
 
         /**
          * 打印预览页面显示
@@ -2547,7 +2545,12 @@ angular.module('oinio.workDetailsControllers', [])
             Signature.getSignature(
                 function (imgData) {
                     if (!imgData) return;
-                    $scope.enginnerImg = "data:image/jpeg;base64,"+imgData;
+                    var canvas = $("#enginnerImg");
+                    var ctx = canvas[0].getContext('2d');
+                    canvas[0].width = imgData.width;
+                    canvas[0].height = imgData.height;
+                    ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+                    ctx.putImageData(imgData, 0, 0);
                 }, function (msg) {
                     alert('Could not obtain a signature due to an error: '+msg);
                 });
@@ -2562,7 +2565,12 @@ angular.module('oinio.workDetailsControllers', [])
             Signature.getSignature(
                 function (imgData) {
                     if (!imgData) return;
-                    $scope.busyImg = "data:image/jpeg;base64,"+imgData;
+                    var canvas = $("#busyImg");
+                    var ctx = canvas[0].getContext('2d');
+                    canvas[0].width = imgData.width;
+                    canvas[0].height = imgData.height;
+                    ctx.clearRect(0, 0,  canvas[0].width, canvas[0].height);
+                    ctx.putImageData(imgData, 0, 0);
                 }, function (msg) {
                     alert('Could not obtain a signature due to an error: '+msg);
                 });
@@ -2581,7 +2589,7 @@ angular.module('oinio.workDetailsControllers', [])
                 binary += String.fromCharCode( bytes[ i ] );
             }
             return window.btoa( binary );
-        }
+        };
 
         $scope.transformArrayBufferToBase64=function (buffer) {
             var binary = '';
@@ -2590,7 +2598,7 @@ angular.module('oinio.workDetailsControllers', [])
                 binary += String.fromCharCode(bytes[i]);
             }
             return window.btoa(binary);
-        }
+        };
 
 
     });
