@@ -528,6 +528,7 @@
                         // $(this).css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
                         var currentClickDate = event.start._i
                         $scope.toDisplayOrderListByData(currentClickDate);
+                        $scope.changeBackgroundColor(currentClickDate);
 
                     }
 

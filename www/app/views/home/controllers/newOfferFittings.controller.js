@@ -127,10 +127,27 @@ angular.module('oinio.NewOfferFittingsController', [])
             if (ele === 'selectLSG') {
                 $('#selectLSG').css('display', 'block');
                 $('#selectTruckFit').css('display', 'none');
+                $('#selectCommonPart').css('display', 'none');
+                $('#selectCommonPartWithKey').css('display', 'none');
                 $scope.getLSG();
-            } else {
+            }else if (ele === 'selectCommonPart') {
+                $('#selectCommonPart').css('display', 'block');
+                $('#selectTruckFit').css('display', 'none');
+                $('#selectLSG').css('display', 'none');
+                $('#selectCommonPartWithKey').css('display', 'none');
+
+                // $scope.getLSG();
+            }else if(ele ==='addDele'){
+                $('#selectCommonPart').css('display', 'none');
                 $('#selectTruckFit').css('display', 'block');
                 $('#selectLSG').css('display', 'none');
+                $('#selectCommonPartWithKey').css('display', 'none');
+
+            }else if(ele ==='addDeleCP'){
+                $('#selectCommonPart').css('display', 'none');
+                $('#selectCommonPartWithKey').css('display', 'block');
+                $('#selectLSG').css('display', 'none');
+                $('#selectTruckFit').css('display', 'none');
             }
 
             $('div.workListDetails_bodyer').animate({
@@ -140,8 +157,6 @@ angular.module('oinio.NewOfferFittingsController', [])
                 $('div.newWorkList_truckSelect').animate({
                     opacity: '1'
                 }, 'normal').show();
-
-                // $('#selectTruckFit').css('display', 'block');
             });
         };
         $scope.closeSelectPage = function () {
@@ -153,6 +168,12 @@ angular.module('oinio.NewOfferFittingsController', [])
                     opacity: '1'
                 }, 'normal').show();
             });
+        };
+        $scope.closeSelectPageWithCP = function () {
+            $('#selectCommonPart').css('display', 'block');
+            $('#selectCommonPartWithKey').css('display', 'none');
+            $('#selectLSG').css('display', 'none');
+            $('#selectTruckFit').css('display', 'none');
         };
         /**
          *删除数组指定下标或指定对象
@@ -346,7 +367,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             }
         };
         $scope.changeTruckTab = function (index) {
-            console.log('cssss:::', $('#selectCustomer'));
+            console.log('changeTruckTab:::', $('#selectTruckFit_result'));
             if (index === '1') {
                 $("#selectTruckFit_Tab_1").addClass("selectTruckFit_Tab_Active");
                 $("#selectTruckFit_Tab_2").removeClass("selectTruckFit_Tab_Active");
@@ -361,7 +382,22 @@ angular.module('oinio.NewOfferFittingsController', [])
                 $('#selectTruckFit_checked').css('display', 'block');
             }
         };
+        $scope.changeTruckTabWithCP = function (index) {
+            console.log('changeTruckTabWithCP:::', $('#selectTruckCP_result'));
+            if (index === '1') {
+                $("#selectTruckCP_Tab_1").addClass("selectTruckCP_Tab_Active");
+                $("#selectTruckCP_Tab_2").removeClass("selectTruckCP_Tab_Active");
 
+                $('#selectTruckCP_result').css('display', 'block');
+                $('#selectTruckCP_checked').css('display', 'none');
+            } else if (index === '2') {
+                $("#selectTruckCP_Tab_1").removeClass("selectTruckCP_Tab_Active");
+                $("#selectTruckCP_Tab_2").addClass("selectTruckCP_Tab_Active");
+
+                $('#selectTruckCP_result').css('display', 'none');
+                $('#selectTruckCP_checked').css('display', 'block');
+            }
+        };
         $scope.checkSearchResults = function (ele) {
             let element = $("input.ckbox_truck_searchresult_itemFit[data-recordid*='" + ele.Id + "']");
             console.log('checkSearchResults::', element);
@@ -794,6 +830,24 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.isGroupShown = function (group) {
             // console.log("isGroupShown:", group);
             return group.show;
+        };
+
+        //******************常用配件勾选框************************ */
+        $scope.checkAllSearchResultsCommonPart = function () {
+            let ele = $("#ckbox_truckCommonPart_searchresult_all");
+
+            console.log('checkAllSearchResultsCommonPart:::', ele.prop("checked"));
+            if (ele.prop("checked")) {
+                $("input.ckbox_truck_searchresult_itemCommonPart").each(function (index, element) {
+                    $(this).prop("checked", true);
+                });
+            } else {
+                $("input.ckbox_truck_searchresult_itemCommonPart").each(function (index, element) {
+                    console.log('666:::', element.checked);
+                    element.checked = false;
+                });
+
+            }
         };
 
         //******************LSG勾选框************************ */
