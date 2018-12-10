@@ -72,6 +72,9 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
         $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
 
+        $scope.enginnerImg=null;
+        $scope.busyImg=null;
+
         /**
          * 打印预览页面显示
          */
@@ -2540,7 +2543,14 @@ angular.module('oinio.workDetailsControllers', [])
          * 获取工程师签名
          */
         $scope.getEnginnerImg=function () {
-
+            var Signature = cordova.require('nl.codeyellow.signature.Signature');
+            Signature.getSignature(
+                function (imgData) {
+                    if (!imgData) return;
+                    $scope.enginnerImg = "data:image/jpeg;base64,"+imgData;
+                }, function (msg) {
+                    alert('Could not obtain a signature due to an error: '+msg);
+                });
         };
 
 
@@ -2548,8 +2558,14 @@ angular.module('oinio.workDetailsControllers', [])
          * 获取客户签名
          */
         $scope.getBusinessImg=function () {
-
-
+            var Signature = cordova.require('nl.codeyellow.signature.Signature');
+            Signature.getSignature(
+                function (imgData) {
+                    if (!imgData) return;
+                    $scope.busyImg = "data:image/jpeg;base64,"+imgData;
+                }, function (msg) {
+                    alert('Could not obtain a signature due to an error: '+msg);
+                });
         };
 
 
@@ -2557,7 +2573,7 @@ angular.module('oinio.workDetailsControllers', [])
          * 图片 byte[]转base64 数据
          */
 
-        function arrayBufferToBase64( buffer ) {
+        $scope.arrayBufferToBase64 = function ( buffer ) {
             var binary = '';
             var bytes = new Uint8Array( buffer );
             var len = bytes.byteLength;
@@ -2567,7 +2583,14 @@ angular.module('oinio.workDetailsControllers', [])
             return window.btoa( binary );
         }
 
-
+        $scope.transformArrayBufferToBase64=function (buffer) {
+            var binary = '';
+            var bytes = new Uint8Array(buffer);
+            for (var len = bytes.byteLength, i = 0; i < len; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
 
 
     });
