@@ -1146,8 +1146,8 @@ angular.module('oinio.workDetailsControllers', [])
                         //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
                         //"leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
                         "trucks":truckIds,
-                        "sigAcctImages":$scope.busyImgStr.replace(/data:image\/png;base64,/, ''),
-                        "sigEngineerImages":$scope.engineerImgStr.replace(/data:image\/png;base64,/, '')
+                        "sigAcctImages":$scope.busyImgStr!="data:image/jpeg;base64,undefined"?$scope.busyImgStr.replace(/data:image\/png;base64,/, ''):"",
+                        "sigEngineerImages":$scope.engineerImgStr!="data:image/jpeg;base64,undefined"?$scope.engineerImgStr.replace(/data:image\/png;base64,/, ''):""
                     }),null,function success(res) {
                         AppUtilService.hideLoading();
                         console.log(res);
