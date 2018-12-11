@@ -73,6 +73,9 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
         $scope.searchAddTruckText="";
 
+        $scope.engineerImgStr = "";
+        $scope.busyImgStr = "";
+
 
         /**
          * 打印预览页面显示
@@ -216,7 +219,7 @@ angular.module('oinio.workDetailsControllers', [])
                         initTrucks=res.truckModels;
                         $scope.allTruckItems = truckItems;
                         $scope.initWorkItems(res.workItems);
-
+                        $scope.initSignature(res.sigEngineerImage,res.sigAcctImage);
                         //交货列表
                         $scope.getRefundList();
                         //*********读取配件*************** */
@@ -466,6 +469,12 @@ angular.module('oinio.workDetailsControllers', [])
                 );
             }
         };
+
+        $scope.initSignature=function(uri1,uri2){
+            $scope.engineerImgStr="data:image/jpeg;base64,"+uri1;
+            $scope.busyImgStr="data:image/jpeg;base64,"+uri2;
+        };
+
 
         $scope.initWorkItems=function(workItems){
             console.log("workItems",workItems);
@@ -1136,7 +1145,9 @@ angular.module('oinio.workDetailsControllers', [])
                         "str_suggestion":$('#serviceSuggest').val().trim(),
                         //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
                         //"leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
-                        "trucks":truckIds
+                        "trucks":truckIds,
+                        "sigAcctImages":$scope.busyImgStr.replace(/data:image\/png;base64,/, ''),
+                        "sigEngineerImages":$scope.engineerImgStr.replace(/data:image\/png;base64,/, '')
                     }),null,function success(res) {
                         AppUtilService.hideLoading();
                         console.log(res);
@@ -2578,12 +2589,14 @@ angular.module('oinio.workDetailsControllers', [])
             Signature.getSignature(
                 function (imgData) {
                     if (!imgData) return;
-                    var canvas = $("#enginnerImg");
-                    var ctx = canvas[0].getContext('2d');
-                    canvas[0].width = imgData.width;
-                    canvas[0].height = imgData.height;
-                    ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext('2d');
+                    canvas.width = imgData.width;
+                    canvas.height = imgData.height;
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.putImageData(imgData, 0, 0);
+                    $scope.engineerImgStr=canvas.toDataURL();
+                    console.log($scope.engineerImgStr);
                 }, function (msg) {
                     alert('Could not obtain a signature due to an error: '+msg);
                 });
@@ -2598,12 +2611,14 @@ angular.module('oinio.workDetailsControllers', [])
             Signature.getSignature(
                 function (imgData) {
                     if (!imgData) return;
-                    var canvas = $("#busyImg");
-                    var ctx = canvas[0].getContext('2d');
-                    canvas[0].width = imgData.width;
-                    canvas[0].height = imgData.height;
-                    ctx.clearRect(0, 0,  canvas[0].width, canvas[0].height);
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext('2d');
+                    canvas.width = imgData.width;
+                    canvas.height = imgData.height;
+                    ctx.clearRect(0, 0,  canvas.width, canvas.height);
                     ctx.putImageData(imgData, 0, 0);
+                    $scope.busyImgStr=canvas.toDataURL();
+                    console.log($scope.busyImgStr);
                 }, function (msg) {
                     alert('Could not obtain a signature due to an error: '+msg);
                 });

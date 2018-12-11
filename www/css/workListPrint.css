@@ -167,12 +167,12 @@ img {
     justify-content: flex-start;
     width: 50%;
 }
-.workListPrint_bodyer .readonly_Inf_2 .inf_Left_Img_2 canvas {
+.workListPrint_bodyer .readonly_Inf_2 .inf_Left_Img_2 img {
     height: 40px;
     border-bottom: 1px solid #979797;
     width: 90%;
 }
-.workListPrint_bodyer .readonly_Inf_2 .inf_Right_Img_2 canvas {
+.workListPrint_bodyer .readonly_Inf_2 .inf_Right_Img_2 img {
     height: 40px;
     border-bottom: 1px solid #979797;
     width: 90%;
