@@ -202,6 +202,7 @@
                         return;
                     }
                 }
+
                 AppUtilService.showLoading();
                 ForceClientService.getForceClient().apexrest(
                     $scope.updateDataStatusUrl + "&sooId=" + item.Id + "&status=Not Completed",
@@ -232,18 +233,12 @@
                                     if (res.status.toLowerCase()=="success"){
                                         $scope.goPageWorkDetails(item, true, goTime);
                                     }else{
-                                        $ionicPopup.alert({
-                                            title:"记录出发时间失败"
-                                        });
-                                        return false;
+                                        $scope.updateOrderType(item,"Not Started");
                                     }
                                 },
                                 function error(msg) {
                                     console.log(msg);
-                                    $ionicPopup.alert({
-                                        title:"记录出发时间失败"
-                                    });
-                                    return false;
+                                    $scope.updateOrderType(item,"Not Started");
                                 }
                             );
                         }else{
@@ -262,6 +257,41 @@
                     }
                 );
             };
+            /**
+             * 上传出发时间失败重新更改状态为未开始
+             * @param obj
+             * @param status
+             */
+            $scope.updateOrderType=function(obj,status){
+
+                ForceClientService.getForceClient().apexrest(
+                    $scope.updateDataStatusUrl + "&sooId=" + obj.Id + "&status=" + status,
+                    "POST",
+                    {},
+                    null, function callBack(res) {
+                        console.log(res);
+                        //AppUtilService.hideLoading();
+                        if (res.status.toLowerCase() == "success") {
+                            $ionicPopup.alert({
+                                title:"记录出发时间失败，重置为未开始状态"
+                            });
+                        }else{
+                            $ionicPopup.alert({
+                                title:"更新工单状态失败"
+                            });
+                            return false;
+                        }
+                    }, function error(msg) {
+                        console.log(msg);
+                        //AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title:"更新工单状态失败"
+                        });
+                        return false;
+                    }
+                );
+            };
+
             /**
              * 日期格式化方法
              * @param format
