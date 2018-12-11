@@ -1,5 +1,5 @@
-angular.module('oinio.NewLinkManController', [])
-    .controller('NewLinkManController', function ($scope, $rootScope, $filter, $state, $log,$stateParams,$ionicPopup, ConnectionMonitor,
+angular.module('oinio.ChangeLinkManController', [])
+    .controller('ChangeLinkManController', function ($scope, $rootScope, $filter, $state, $log,$stateParams,$ionicPopup, ConnectionMonitor,
                                                    LocalCacheService,HomeService,ContactService) {
 
         var vm = this,
@@ -38,6 +38,18 @@ angular.module('oinio.NewLinkManController', [])
             vm.postionTypes.push({label:'Clerk of Truck Using',value:'J'});
 
 
+          console.log('$stateParams.userInfo',$stateParams.userInfo);
+          if ($stateParams.userInfo) {
+            $scope.chooseLinkManName = $stateParams.userInfo.Name;
+            $scope.chooseLinkManPhoneNumber = $stateParams.userInfo.MobilePhone;
+            // $scope.searchResultAcctName = ;
+          }
+
+          if ($stateParams.account) {
+            $scope.searchResultAcctName = $stateParams.account.Name;
+            selectAccountId = $stateParams.account.Id;
+            soupEntryId = $stateParams.account._soupEntryId;
+          }
 
         });
 
@@ -173,31 +185,25 @@ angular.module('oinio.NewLinkManController', [])
                             for(var i =0;i<result.length;i++){
                                 phoneAll.push(result[i].Phone);
                             }
-                            if (phoneAll.indexOf(linkManPhoneNumber)== -1){
-                                var obj = {};
-                                obj.Name = linManName;
-                                obj.Phone = linkManPhoneNumber;
-                                obj.MobilePhone = linkManPhoneNumber;
-                                obj.Email = linkManEmail;
-                                obj.Contact_State__c = linkManstatus;
-                                obj.Position_Type__c = linkManPostionType;
-                                obj.Account={Id:selectAccountId,_soupEntryId:soupEntryId};
-                                var objs = [obj];
-                                ContactService.addContacts(objs).then(function (response) {
-                                    console.log(response);
-                                    $state.go("app.home");
-                                    $log.info("add contact success!!!");
-                                },function (error) {
-                                    $log.error(error);
-                                });
-                            }else {
-                                var inoicPop = $ionicPopup.alert({
-                                    title: "已存在该联系人"
-                                });
-                                inoicPop.then(function () {
-                                    $("#chooseLinkManName").focus();
-                                });
-                            }
+
+                            var obj = {};
+                            obj.Name = linManName;
+                            obj.Phone = linkManPhoneNumber;
+                            obj.MobilePhone = linkManPhoneNumber;
+                            obj.Email = linkManEmail;
+                            obj.Contact_State__c = linkManstatus;
+                            obj.Position_Type__c = linkManPostionType;
+                            obj._soupEntryId = soupEntryId;
+                            obj.Account={Id:selectAccountId,_soupEntryId:soupEntryId};
+                            var objs = [obj];
+                            ContactService.updateContacts(objs).then(function (response) {
+                              console.log(response);
+                              $state.go("app.home");
+                              $log.info("add contact success!!!");
+                              },function (error) {
+                              $log.error(error);
+                            });
+
                         },function (err) {
                             $log.error(err);
                         });

@@ -55,6 +55,7 @@
             'oinio.NewOfferController',
             'oinio.NewOfferFittingsController',
             'oinio.NewLinkManController',
+            'oinio.ChangeLinkManController',
             'oinio.serviceManagementController',
             'oinio.RefundController',
             'oinio.PurChaseController',

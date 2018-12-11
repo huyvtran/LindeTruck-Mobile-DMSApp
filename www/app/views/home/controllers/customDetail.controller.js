@@ -7,6 +7,7 @@
             var myfileEntity;
             $scope.localLatitude = null;
             $scope.localLongitude = null;
+            $scope.account = null;
             var fileTextresult;
             // cordova.plugins.backgroundMode.overrideBackButton();
             //创建文件
@@ -63,6 +64,7 @@
                 AccountService.getAccountWithDetails($stateParams.SendPassId).then(function (account) {
                     console.log("getAccount", account);
                     if (account != null) {
+                        $scope.account = account;
                         $scope.accountName = account.Name;
                         $scope.accountAddress = account.Address__c;
                         $scope.accountSalesMan = account.Salesman_formula__c;
@@ -214,7 +216,7 @@
 
 
           $scope.goToContactsInfo = function (item) {
-            $state.go('app.newLinkMan',{userInfo : item});
+            $state.go('app.changeLinkMan',{userInfo : item, account : $scope.account});
 
           };
 

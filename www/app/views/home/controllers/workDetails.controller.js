@@ -94,6 +94,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.suggestionShoW="";//结果及建议
 
         $scope.localWorkItems = [];
+        $scope.workTimes = [];//工作时间列表
 
 
 
@@ -497,6 +498,11 @@ angular.module('oinio.workDetailsControllers', [])
 
 
             for (var i =0;i<workItems.length;i++){
+                $scope.workTimes.push({
+                  name: workItems[i].CreatedBy.Name != undefined ? workItems[i].CreatedBy.Name : "",
+                  departureTime: workItems[i].Departure_Time__c!=undefined?workItems[i].Departure_Time__c.substring(0,19):"",
+                  leaveTime: workItems[i].Leave_Time__c!=undefined?workItems[i].Leave_Time__c.substring(0,19):"",
+                });
                 $scope.localWorkItems.push(
                     {
                         ownerName:ownerName,

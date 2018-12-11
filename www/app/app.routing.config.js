@@ -168,12 +168,22 @@
 
             .state('app.newLinkMan', {
                 url: 'app/newLinkMan',
-              params:{'userInfo':null},
-
               views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/newLinkMan.html',
                         controller: 'NewLinkManController as vm'
+                    }
+                },
+                cache: false
+            })
+            .state('app.changeLinkMan', {
+                url: 'app/changeLinkMan',
+                params:{'userInfo':null,'account':null},
+
+                views: {
+                menuContent: {
+                    templateUrl: 'app/views/home/templates/changeLinkMan.html',
+                    controller: 'ChangeLinkManController as vm'
                     }
                 },
                 cache: false
