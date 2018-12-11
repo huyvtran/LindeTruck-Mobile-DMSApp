@@ -206,6 +206,30 @@
                 return deferred.promise;
             };
 
+            this.updateContacts = function (adrs) {
+                console.log('update contacts:: '+adrs);
+                var deferred = $q.defer();
+
+                LocalDataService.updateSObjects('Contact', adrs).then(function(result) {
+                    console.log('localSave:::',result);
+                    if (!result){
+                        //console.error("!result");
+                        deferred.reject('Failed to update result.');
+                        return;
+                    }
+                    console.log('localSave222:::',adrs);
+                    deferred.resolve(result);
+                    service.synchronize().then(function () {
+                        deferred.resolve('done');
+                    });
+                }, function (error) {
+                    // log error
+                    console.log(error);
+                });
+
+                return deferred.promise;
+            };
+
 
             /**
              * synchronize to salesforce if device is online
