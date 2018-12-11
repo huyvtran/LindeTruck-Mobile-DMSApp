@@ -31,6 +31,19 @@
 	<script src='app/core/lib/jquery.min.js'></script>
 </head>
 <body>
+<div id="loadingContainer" style="width: 100vw;height: 100vh;background-color:#999;filter:alpha(opacity=50);
+ 					-moz-opacity:0.5;opacity:0.5;position:absolute;left:0px;top:0px;display:none;z-index:1000; ">
+	<div style="width: 100vw; height: 100vh; position: absolute; left: 0px; top: 0px; z-index: 1000;">
+		<div style="background-color:#111;width: 150px;height: 150px;margin-left: auto;margin-right: auto;margin-top: calc(100% - 150px);border-radius:25px;">
+			<div style="width:48px;height:48px;margin-right: auto;margin-left: auto;padding-top: 30px;">
+				<img style="background-color: transparent;" src="././img/images/loading3.gif"/>
+				<br/><br/>
+				<span style="color:#eee;font-size:12px;">请稍候...</span>
+			</div>
+
+		</div>
+	</div>
+</div>
 
 <!--采购申请页面-->
 <div id="busyAllContent" style="display: block;">
@@ -139,8 +152,8 @@
 					<div class="small_Type_Group">
 						<div class="line_two">
 							<div class="small_Type_Title"> 服务单:</div>
-							<div class="small_Type_Box">
-								<input class="small_Type_Input_95"/>
+							<div class="small_Type_Box" ng-click="searchForWorkOrder();">
+								<input class="small_Type_Input_95" placeholder="服务单" value="{{chooseWorkOrder.Name}}" disabled="disabled"/>
 							</div>
 						</div>
 						<div class="line_two">
@@ -298,6 +311,32 @@
 			<ion-list can-swipe="true">
 				<ion-item  class="small_Box_Text" ng-repeat="materialItem in allMaterial" ng-click="chooseCurrentMaterial(materialItem);">
 					{{materialItem.Name}}
+				</ion-item>
+			</ion-list>
+		</div>
+	</div>
+</div>
+
+<div id="serachWorkOrderContent" style="display: none;">
+	<link rel="stylesheet" href="././css/serachBusiness.css">
+	<div class="header2">
+		<div class="left_Box" ng-click="showContentHideWorkOrder();">
+			<div class="back_Icon"></div>
+		</div>
+		<div class="search_All" >
+			<input type="text" id="searchBig3" placeholder="搜索" class="search_Input" />
+			<!--<div class="search_Photo_Icon"></div>-->
+		</div>
+		<div class="search_right_Group" ng-click="searchWorkOrderByNameAndId();">
+			<div class="text_Cancel"> 搜索 </div>
+		</div>
+	</div>
+	<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
+		<div class="big_Box_Group">
+			<div class="small_Box_Title"> 查询工单 </div>
+			<ion-list can-swipe="true">
+				<ion-item  class="small_Box_Text" ng-repeat="workOrder in allWorkOrders" ng-cloak ng-click="chooseCurrentWorkOrder(workOrder);">
+					{{workOrder.Name}}
 				</ion-item>
 			</ion-list>
 		</div>

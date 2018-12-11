@@ -17,14 +17,18 @@
             $scope.statuses =[];
             $scope.allBusinesses=[];
             $scope.allMaterial=[];
+            $scope.allWorkOrders=[];
             $scope.chooseItem=null;
             $scope.chooseMaterials=[];
+            $scope.chooseWorkOrder = null;
+            $scope.chooseWorkOrderId = null;
             $scope.profitRate=0;
             $scope.revenue=0;
             $scope.priceEach=0;
             vm.isOnline = null;
             $scope.getSupplierInfoUrl="/ProcurementInformation?type=SupplierInformation&name=";
             $scope.getServiceMaterialUrl="/ProcurementInformation?type=ServiceMaterial&name=";
+            $scope.getWorkOrdersUrl="/ProcurementInformation?type=WorkOrder&name=";
             $scope.postPurChaseUrl="/ProcurementInformation?newProcurementInfo=";
 
             /**
@@ -133,6 +137,75 @@
 
             };
 
+            $scope.showLoading = function(){
+                $('#loadingContainer').show();
+            };
+            $scope.hideLoading = function(){
+                $('#loadingContainer').hide();
+            };
+
+
+            $scope.searchForWorkOrder =function(){
+                if (document.getElementById("serachWorkOrderContent").style.display == "none") {
+                    document.getElementById("serachWorkOrderContent").style.display = "block";//显示
+                    document.getElementById("busyAllContent").style.display = "none";//隐藏
+                } else {
+                    document.getElementById("serachWorkOrderContent").style.display = "none";//隐藏
+                    document.getElementById("busyAllContent").style.display = "block";//显示
+                }
+            };
+
+            $scope.showContentHideWorkOrder = function(){
+                document.getElementById("busyAllContent").style.display = "block";
+                document.getElementById("serachWorkOrderContent").style.display = "none";
+                $scope.allWorkOrders=[];
+            };
+
+            $scope.searchWorkOrderByNameAndId = function(){
+                $scope.showLoading();
+                var nameOrId = $("#searchBig3").val();
+                if (nameOrId==null||nameOrId==""){
+                    $ionicPopup.alert({
+                        title:"搜索内容不能为空!"
+                    });
+                    return;
+                }
+                //AppUtilService.showLoading();
+                $scope.allWorkOrders=[];
+                ForceClientService.getForceClient().apexrest(
+                    $scope.getWorkOrdersUrl+nameOrId,
+                    'GET',
+                    {},
+                    null,
+                    function callBack(res) {
+                        console.log(res);
+                        if (res.length>0){
+                            angular.forEach(res,function (item,index,array){
+                                $scope.allWorkOrders.push(item);
+                            });
+                            $scope.hideLoading();
+                        }else{
+                            $ionicPopup.alert({
+                                title:"没有搜索到相关数据!"
+                            });
+                            $scope.allWorkOrders=[];
+                            $scope.hideLoading();
+                        }
+                    },function error(msg) {
+                        $log.error(msg);
+                        console.log(msg);
+                        $scope.hideLoading();
+                    }
+                );
+            };
+
+            $scope.chooseCurrentWorkOrder =function(obj){
+                $scope.chooseWorkOrder = obj;
+                $scope.chooseWorkOrderId = obj.Id;
+                document.getElementById("busyAllContent").style.display = "block";
+                document.getElementById("serachWorkOrderContent").style.display= "none";
+                $scope.allWorkOrders=[];
+            };
 
 
             $scope.addOrDelMaterial = function(){
@@ -161,6 +234,7 @@
 
 
             $scope.searchBusinessByNameAndId = function(){
+                $scope.showLoading();
                 var nameOrId = $("#searchBig").val();
                 if (nameOrId==null||nameOrId==""){
                     $ionicPopup.alert({
@@ -181,15 +255,18 @@
                             angular.forEach(res,function (item,index,array){
                                 $scope.allBusinesses.push(item);
                             });
+                            $scope.hideLoading();
                         }else{
                             $ionicPopup.alert({
                                 title:"没有搜索到相关数据!"
                             });
                             $scope.allBusinesses=[];
+                            $scope.hideLoading();
                         }
                     },function error(msg) {
                         $log.error(msg);
                         console.log(msg);
+                        $scope.hideLoading();
                     }
                 );
 
@@ -238,6 +315,7 @@
 
 
             $scope.searchMaterilaByName =function(){
+                $scope.showLoading();
                 var searchName = $("#searchBig2").val();
 
                 if (searchName==null||searchName==""){
@@ -259,15 +337,18 @@
                             angular.forEach(res,function (item, index, array) {
                                 $scope.allMaterial.push(item);
                             });
+                            $scope.hideLoading();
                         }else{
                             $ionicPopup.alert({
                                 title:"没有搜索到相关数据!"
                             });
                             $scope.allMaterial=[];
+                            $scope.hideLoading();
                         }
                     },function error(msg) {
                         $log.error(msg);
                         console.log(msg);
+                        $scope.hideLoading();
                     }
                 );
 
@@ -364,6 +445,7 @@
                     return;
                 }
 
+
                 if (!express.test($scope.revenue)){
                     $ionicPopup.alert({
                         title: "订单收入 请输入非负数"
@@ -394,7 +476,8 @@
                         Revenue__c:$scope.revenue,
                         Price_without_Tax__c:$scope.priceEach,
                         Profit__c:$scope.profitRate,
-                        Remarks__c:$("#purchaseMore").val().trim()
+                        Remarks__c:$("#purchaseMore").val().trim(),
+                        Service_Order_Overview__c:$scope.chooseWorkOrderId,
                     }];
                 AppUtilService.showLoading();
 
