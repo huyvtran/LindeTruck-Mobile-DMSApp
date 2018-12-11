@@ -206,7 +206,7 @@ angular.module('oinio.workDetailsControllers', [])
                     {
 
                     },null,function success(res) {
-                        console.log(res);
+                        console.log("getInitDataUri",res);
                         $scope.initSoResult(res.soResult);
                         $scope.initPhotoData(res.Photo);
                         $scope.initAssignUserData(res.assignUser);
@@ -468,7 +468,7 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
         $scope.initWorkItems=function(workItems){
-
+            console.log("workItems",workItems);
             if (workItems.length>0){
                 for (var i =0;i< workItems.length;i++){
                     if (workItems[i].Arrival_Time__c!=undefined){
