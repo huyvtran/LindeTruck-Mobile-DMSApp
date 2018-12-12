@@ -223,6 +223,9 @@
                                 Name: entry[0].Name,
                                 MobilePhone: entry[0].MobilePhone,
                                 Phone: entry[0].Phone,
+                                Email: entry[0].Email,
+                                Contact_State__c: entry[0].Contact_State__c,
+                                Position_Type__c: entry[0].Position_Type__c,
                                 _soupEntryId: entry[0]._soupEntryId
                             });
                         });

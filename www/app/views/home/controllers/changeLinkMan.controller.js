@@ -8,6 +8,7 @@ angular.module('oinio.ChangeLinkManController', [])
         vm.allStatus =[];
         vm.postionTypes = [];
         var selectAccountId = "",
+            userSoupEntryId = "",
             soupEntryId = "";
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
@@ -42,6 +43,8 @@ angular.module('oinio.ChangeLinkManController', [])
           if ($stateParams.userInfo) {
             $scope.chooseLinkManName = $stateParams.userInfo.Name;
             $scope.chooseLinkManPhoneNumber = $stateParams.userInfo.MobilePhone;
+            userSoupEntryId = $stateParams.userInfo._soupEntryId;
+
             // $scope.searchResultAcctName = ;
           }
 
@@ -193,7 +196,7 @@ angular.module('oinio.ChangeLinkManController', [])
                             obj.Email = linkManEmail;
                             obj.Contact_State__c = linkManstatus;
                             obj.Position_Type__c = linkManPostionType;
-                            obj._soupEntryId = soupEntryId;
+                            obj._soupEntryId = userSoupEntryId;
                             obj.Account={Id:selectAccountId,_soupEntryId:soupEntryId};
                             var objs = [obj];
                             ContactService.updateContacts(objs).then(function (response) {

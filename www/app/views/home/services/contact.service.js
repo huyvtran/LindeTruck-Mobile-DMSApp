@@ -207,7 +207,7 @@
             };
 
             this.updateContacts = function (adrs) {
-                console.log('update contacts:: '+adrs);
+                console.log('update contacts:: ',adrs);
                 var deferred = $q.defer();
                 var adrIds = [];
 
@@ -222,7 +222,7 @@
                             console.log('sobjects id:::',sobject._soupEntryId);
                             console.log('adrItem id:::',adrItem._soupEntryId);
                             if(sobject._soupEntryId == adrItem._soupEntryId){
-                                sobject['LastName'] = adrItem.Name;
+                                sobject['Name'] = adrItem.Name;
                                 sobject['AccountId'] = adrItem.Account.Id;
                                 sobject['AccountId_sid'] = adrItem.Account._soupEntryId;
                                 sobject['AccountId_type'] = 'Account';
@@ -255,7 +255,10 @@
                         console.log(error);
                     });
 
-                }, angular.noop);
+                },  function (error) {
+                  // log error
+                  console.log(error);
+                });
 
                 return deferred.promise;
             };
