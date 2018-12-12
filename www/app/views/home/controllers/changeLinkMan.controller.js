@@ -43,6 +43,9 @@ angular.module('oinio.ChangeLinkManController', [])
           if ($stateParams.userInfo) {
             $scope.chooseLinkManName = $stateParams.userInfo.Name;
             $scope.chooseLinkManPhoneNumber = $stateParams.userInfo.MobilePhone;
+            $scope.chooseLinkManEmail = $stateParams.userInfo.Email;
+            $scope.chooseLinkManStatus = $stateParams.userInfo.Contact_State__c;
+            $scope.chooseLinkManPostionType = $stateParams.userInfo.Position_Type__c;
             userSoupEntryId = $stateParams.userInfo._soupEntryId;
 
             // $scope.searchResultAcctName = ;
@@ -177,8 +180,8 @@ angular.module('oinio.ChangeLinkManController', [])
                 acctName = $scope.searchResultAcctName,
                 linkManPhoneNumber = $scope.chooseLinkManPhoneNumber,
                 linkManEmail =  $scope.chooseLinkManEmail,
-                linkManstatus = $("#chooseLinkManStatus").val(),
-                linkManPostionType = $("#chooseLinkManPostionType").val();
+                linkManstatus = $scope.chooseLinkManStatus,
+                linkManPostionType = $scope.chooseLinkManPostionType;
             if (linManName != null && linManName != "" && linkManPhoneNumber != null){
                 if (acctName != null && acctName != "" && selectAccountId!=null && selectAccountId!=""){
                         if (linkManEmail != null && re.test(linkManEmail)){
