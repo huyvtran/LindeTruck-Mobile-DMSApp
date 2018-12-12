@@ -61,6 +61,13 @@ img {
     height: 30px;    
     margin: 0 auto;
 }
+.filter_icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 23px;
+    height: 23px;    
+    margin: 0 auto;
+}
 .bodyer {
     overflow-y: auto;
     height: calc(100vh - 116px);

@@ -27,7 +27,9 @@
 		.download_icon {
 			background-image: url(././img/images/download_icon.png);
 		}
-
+		.filter_icon {
+			background-image: url(././img/images/filter_icon.png);
+		}
 		.del_red_icon {
 			background-image: url(././img/images/del_red_icon.png);
 		}
@@ -120,7 +122,7 @@
 			display: block;
 			padding: 0 10% 0 15%;
 			font-size: 0.8rem;
-			color: #D6D6D6;
+			color: #000000;
 			border: 1px solid #d6d6d6;
 			-moz-border-radius: 20px;
 			-webkit-border-radius: 20px;
@@ -328,7 +330,7 @@
 						<div class="center_Title">选择配件</div>
 					</div>
 					<div class="right_Box">
-						<div class="download_icon" ng-click="openSelectPage('addDeleCP');"></div>
+						<div class="filter_icon" ng-click="openSelectPage('addDeleCP');"></div>
 					</div>
 				</div>
 
@@ -405,7 +407,6 @@
 					</div>
 				</div>
 				<div class="search_bodyer" style="background-color: white;">
-					<div class="add_del_bodyer">
 						<div id="selectTruckCP_result" class="big_Box_Group" style="display: block;">
 
 							<div class="small_Box_Title"> <input id="ckbox_truck_searchresult_all" style="" type="checkbox" ng-click="checkAllSearchResults();" />
@@ -416,9 +417,8 @@
 									 type="checkbox" /> {{titem.Name}}
 								</ion-item>
 							</ion-list>
-							
+
 						</div>
-					</div>
 					<div id="selectTruckCP_checked" class="big_Box_Group" style="display: none;">
 						<div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除
 						</div>
