@@ -219,6 +219,8 @@
 
                     angular.forEach(sobjects, function (sobject) {
                         angular.forEach(adrs, function (adrItem){
+                            console.log('sobjects id:::',sobject._soupEntryId);
+                            console.log('adrItem id:::',adrItem._soupEntryId);
                             if(sobject._soupEntryId == adrItem._soupEntryId){
                                 sobject['LastName'] = adrItem.Name;
                                 sobject['AccountId'] = adrItem.Account.Id;
@@ -234,6 +236,8 @@
 
                     });
 
+                    console.log('before update obj:::',sobjects);
+
                     LocalDataService.updateSObjects('Service_Order__c', sobjects).then(function(result) {
                         console.log('localSave:::',result);
                         if (!result){
@@ -241,7 +245,6 @@
                             deferred.reject('Failed to get result.');
                             return;
                         }
-                        console.log('localSave222:::',result);
                         //deferred.resolve(result);
                         service.synchronize().then(function () {
                              //deferred.resolve('done');
