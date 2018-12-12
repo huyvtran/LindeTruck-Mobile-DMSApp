@@ -209,23 +209,50 @@
             this.updateContacts = function (adrs) {
                 console.log('update contacts:: '+adrs);
                 var deferred = $q.defer();
+                var adrIds = [];
 
-                LocalDataService.updateSObjects('Contact', adrs).then(function(result) {
-                    console.log('localSave:::',result);
-                    if (!result){
-                        //console.error("!result");
-                        deferred.reject('Failed to update result.');
-                        return;
-                    }
-                    console.log('localSave222:::',adrs);
-                    deferred.resolve(result);
-                    service.synchronize().then(function () {
-                        deferred.resolve('done');
-                    });
-                }, function (error) {
-                    // log error
-                    console.log(error);
+                angular.forEach(adrs, function (entry) {
+                    adrIds.push(entry._soupEntryId);
                 });
+
+                LocalDataService.getSObjects('Contact',adrIds).then(function(sobjects) {
+
+                    angular.forEach(sobjects, function (sobject) {
+                        angular.forEach(adrs, function (adrItem){
+                            if(sobject._soupEntryId == adrItem._soupEntryId){
+                                sobject['LastName'] = adrItem.Name;
+                                sobject['AccountId'] = adrItem.Account.Id;
+                                sobject['AccountId_sid'] = adrItem.Account._soupEntryId;
+                                sobject['AccountId_type'] = 'Account';
+                                sobject['Phone'] = adrItem.Phone;
+                                sobject['MobilePhone'] = adrItem.MobilePhone;
+                                sobject['Email'] = adrItem.Email;
+                                sobject['Contact_State__c'] = adrItem.Contact_State__c;
+                                sobject['Position_Type__c'] = adrItem.Position_Type__c;
+                            }
+                        });
+
+                    });
+
+                    LocalDataService.updateSObjects('Service_Order__c', sobjects).then(function(result) {
+                        console.log('localSave:::',result);
+                        if (!result){
+                            //console.error("!result");
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        console.log('localSave222:::',result);
+                        //deferred.resolve(result);
+                        service.synchronize().then(function () {
+                             //deferred.resolve('done');
+                            deferred.resolve(result);
+                        });
+                    }, function (error) {
+                        // log error
+                        console.log(error);
+                    });
+
+                }, angular.noop);
 
                 return deferred.promise;
             };
