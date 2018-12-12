@@ -138,10 +138,12 @@
             };
 
             $scope.showLoading = function(){
-                $('#loadingContainer').show();
+                //$('#loadingContainer').show();
+                AppUtilService.showLoading();
             };
             $scope.hideLoading = function(){
-                $('#loadingContainer').hide();
+                //$('#loadingContainer').hide();
+                AppUtilService.hideLoading();
             };
 
 
@@ -168,6 +170,7 @@
                     $ionicPopup.alert({
                         title:"搜索内容不能为空!"
                     });
+                    $scope.hideLoading();
                     return;
                 }
                 //AppUtilService.showLoading();
@@ -240,6 +243,7 @@
                     $ionicPopup.alert({
                         title:"搜索内容不能为空!"
                     });
+                    $scope.hideLoading();
                     return;
                 }
                 //AppUtilService.showLoading();
@@ -322,6 +326,7 @@
                     $ionicPopup.alert({
                         title:"搜索内容不能为空!"
                     });
+                    $scope.hideLoading();
                     return;
                 }
                 $scope.allMaterial=[];
@@ -420,7 +425,8 @@
               var localRevenue = Number($scope.revenue);
               var localProfitFach = Number($scope.priceEach);
               if (localProfitFach>0){
-                  $scope.profitRate=((localRevenue-localProfitFach-(localRevenue*taxRate))/localProfitFach)*100;
+                  //$scope.profitRate=((localRevenue-localProfitFach-(localRevenue*taxRate))/localProfitFach)*100;
+                  $scope.profitRate=((localRevenue/1.16-localProfitFach/(1+taxRate))/(localRevenue/1.16))*100;
               }
             };
 
