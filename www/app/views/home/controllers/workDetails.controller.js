@@ -76,6 +76,7 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.engineerImgStr = "";
         $scope.busyImgStr = "";
 
+        $scope.getOrderTypeUri="/NewWorkDetailService?serviceOrderViewId=";
 
         /**
          * 打印预览页面显示
@@ -191,11 +192,15 @@ angular.module('oinio.workDetailsControllers', [])
                 $("#arriveBtn").css("backgroundColor","#666666");
                 $("#leave").prop("disabled","disabled");
                 $("#leave").css("backgroundColor","#666666");
+                $("#signBillBtn").prop("disabled","disabled");
+                $("#signBillBtn").css("backgroundColor","#666666");
             }else{
                 $("#arriveBtn").prop("disabled","");
                 $("#arriveBtn").css("backgroundColor","#ffffff");
                 $("#leave").prop("disabled","");
                 $("#leave").css("backgroundColor","#ffffff");
+                $("#signBillBtn").prop("disabled","");
+                $("#signBillBtn").css("backgroundColor","#ffffff");
             }
 
             /**
@@ -1046,48 +1051,65 @@ angular.module('oinio.workDetailsControllers', [])
          * @param $event
          */
         $scope.signBill = function ($event) {
-            $ionicPopup.show({
-                title: "是否确定签单？",
-                buttons: [
-                    {
-                        text: "取消",
-                        onTap: function () {
 
-                        }
-                    },
-                    {
-                        text: "确定",
-                        onTap: function () {
-                            AppUtilService.showLoading();
-                            ForceClientService.getForceClient().apexrest(
-                                $scope.updateDataStatusUrl+"&sooId="+orderDetailsId+"&status=Service Completed",
-                                "POST",
-                                {},
-                                null,function callBack(res) {
-                                    console.log(res);
-                                    AppUtilService.hideLoading();
-                                    if (res.status.toLowerCase()=="success"){
-                                        AppUtilService.hideLoading();
-                                        $event.target.style.backgroundColor = "#00FF7F";
-                                    }else{
-                                        $ionicPopup.alert({
-                                            title:"更新工单状态失败"
-                                        });
-                                        return false;
+            ForceClientService.getForceClient().apexrest(
+                $scope.getOrderTypeUri+orderDetailsId,
+                "GET",
+                {},
+                null,function callBack(res) {
+                        console.log(res);
+                        if (!res){
+                            $ionicPopup.show({
+                                title: "是否确定签单？",
+                                buttons: [
+                                    {
+                                        text: "取消",
+                                        onTap: function () {
+
+                                        }
+                                    },
+                                    {
+                                        text: "确定",
+                                        onTap: function () {
+                                            AppUtilService.showLoading();
+                                            ForceClientService.getForceClient().apexrest(
+                                                $scope.updateDataStatusUrl+"&sooId="+orderDetailsId+"&status=Service Completed",
+                                                "POST",
+                                                {},
+                                                null,function callBack(res) {
+                                                    console.log(res);
+                                                    AppUtilService.hideLoading();
+                                                    if (res.status.toLowerCase()=="success"){
+                                                        AppUtilService.hideLoading();
+                                                        $event.target.style.backgroundColor = "#00FF7F";
+                                                    }else{
+                                                        $ionicPopup.alert({
+                                                            title:"更新工单状态失败"
+                                                        });
+                                                        return false;
+                                                    }
+                                                },function error(msg) {
+                                                    console.log(msg);
+                                                    AppUtilService.hideLoading();
+                                                    $ionicPopup.alert({
+                                                        title:"更新工单状态失败"
+                                                    });
+                                                    return false;
+                                                }
+                                            );
+                                        }
                                     }
-                                },function error(msg) {
-                                    console.log(msg);
-                                    AppUtilService.hideLoading();
-                                    $ionicPopup.alert({
-                                        title:"更新工单状态失败"
-                                    });
-                                    return false;
-                                }
-                            );
+                                ]
+                            });
+                        }else{
+                            $ionicPopup.alert({
+                                title:"请先点击离开"
+                            });
+                            return false;
                         }
-                    }
-                ]
-            });
+                },function error(msg) {
+                    console.log(msg);
+                });
         };
 
         $scope.goSave = function () {
@@ -1152,8 +1174,8 @@ angular.module('oinio.workDetailsControllers', [])
                         //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
                         //"leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
                         "trucks":truckIds,
-                        "sigAcctImages":$scope.busyImgStr!="data:image/jpeg;base64,undefined"?$scope.busyImgStr.replace(/data:image\/png;base64,/, ''):"",
-                        "sigEngineerImages":$scope.engineerImgStr!="data:image/jpeg;base64,undefined"?$scope.engineerImgStr.replace(/data:image\/png;base64,/, ''):""
+                        "sigAcctImages":$scope.busyImgStr!="data:image/jpeg;base64,undefined"?$scope.busyImgStr.replace(/data:image\/jpeg;base64,/, ''):"",
+                        "sigEngineerImages":$scope.engineerImgStr!="data:image/jpeg;base64,undefined"?$scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, ''):""
                     }),null,function success(res) {
                         AppUtilService.hideLoading();
                         console.log(res);
@@ -2601,7 +2623,7 @@ angular.module('oinio.workDetailsControllers', [])
                     canvas.height = imgData.height;
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.putImageData(imgData, 0, 0);
-                    $scope.engineerImgStr=canvas.toDataURL();
+                    $scope.engineerImgStr=canvas.toDataURL('image/jpeg');
                     console.log($scope.engineerImgStr);
                 }, function (msg) {
                     alert('Could not obtain a signature due to an error: '+msg);
@@ -2623,7 +2645,7 @@ angular.module('oinio.workDetailsControllers', [])
                     canvas.height = imgData.height;
                     ctx.clearRect(0, 0,  canvas.width, canvas.height);
                     ctx.putImageData(imgData, 0, 0);
-                    $scope.busyImgStr=canvas.toDataURL();
+                    $scope.busyImgStr=canvas.toDataURL('image/jpeg');
                     console.log($scope.busyImgStr);
                 }, function (msg) {
                     alert('Could not obtain a signature due to an error: '+msg);
