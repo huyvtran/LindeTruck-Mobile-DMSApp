@@ -238,7 +238,7 @@
 
                     console.log('before update obj:::',sobjects);
 
-                    LocalDataService.updateSObjects('Service_Order__c', sobjects).then(function(result) {
+                    LocalDataService.updateSObjects('Contact', sobjects).then(function(result) {
                         console.log('localSave:::',result);
                         if (!result){
                             //console.error("!result");
