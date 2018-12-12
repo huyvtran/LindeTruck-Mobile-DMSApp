@@ -96,7 +96,7 @@
                     setButtons = [
                         {
                             text: '<b>详情</b>',
-                            type: 'button-positive',
+                            type: 'button-assertive',
                             onTap: function (e) {
                                 // $state.go('app.workDetails', {
                                 //     SendInfo: item._soupEntryId,
@@ -125,6 +125,20 @@
                                     return "anpai";
                                 }
                             }
+                        },
+                        {
+                            text: '<b>增派</b>',
+                            type: 'button-calm',
+                            onTap: function (e) {
+                                
+                            }
+                        },
+                        {
+                            text: '<b>转派</b>',
+                            type: 'button-balanced',
+                            onTap: function (e) {
+
+                            }
                         }
                     ];
                 }
@@ -139,7 +153,7 @@
                         },
                         {
                             text: '<b>详情</b>',
-                            type: 'button-positive',
+                            type: 'button-assertive',
                             onTap: function (e) {
                                 // $state.go('app.workDetails', {
                                 //     SendInfo: item._soupEntryId,
@@ -154,14 +168,28 @@
                     ];
                 }
                 else if (item.Status__c =="Not Completed"){  //Not Completed  进行中  只显示详情
-                    $scope.goPageWorkDetails(item,true,null);
-                    return;
+                    setButtons=[
+                        {
+                            text: '编辑',
+                            type: 'button-positive',
+                            onTap:function (e) {
+                                $scope.goPageWorkDetails(item,true,null);
+                            }
+                        },
+                        {
+                            text: '增派',
+                            type: 'button-calm',
+                            onTap:function (e) {
+
+                            }
+                        }
+                    ];
                 }
                 else{  //Service Completed  已完成  只能查详情
                     setButtons=[
                         {
                             text: '<b>详情</b>',
-                            type: 'button-positive',
+                            type: 'button-assertive',
                             onTap: function (e) {
                                 // $state.go('app.workDetails', {
                                 //     SendInfo: item._soupEntryId,
