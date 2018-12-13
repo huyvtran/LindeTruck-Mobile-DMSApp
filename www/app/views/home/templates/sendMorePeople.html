@@ -1,10 +1,328 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html>
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width,height=device-height">
+    <title> work list details </title>
+    <link rel="stylesheet" href="././css/workDetails.css">
+    <link rel="stylesheet" href="././css/importLsg.css">
+
+    <style type="text/css">
+        .workListDetails_bodyer {
+            background-image: url(././img/images/bg_img.png);
+        }
+
+        .arrow_Down_White {
+            background-image: url(././img/images/arrow_Down_White.png);
+        }
+
+        .arrow_Left_White {
+            background-image: url(././img/images/arrow_Left_White.png);
+        }
+
+        .next_Schedule_Icon {
+            background-image: url(././img/images/next_Schedule_Icon.png);
+        }
+
+        .explain_Icon {
+            background-image: url(././img/images/explain_icon.png);
+        }
+
+        .has_Add_Img {
+            background-image: url(././img/images/has_add_img.png);
+        }
+
+        .will_Add_Img {
+            background-image: url(././img/images/will_add_img.png);
+        }
+
+        .arrow_quantity_icon {
+            background-image: url(././img/images/arrow_quantity_icon.png);
+        }
+
+        .btn_Import_Group {
+            background-image: url(././img/images/import_Group.png);
+        }
+
+        .btn_modify_Group {
+            background-image: url(././img/images/modify_Group.png);
+        }
+
+        .del_Img {
+            background-image: url(././img/images/del_red_icon.png);
+        }
+
+        .importLsg_bodyer {
+            background-image: url(././img/images/bg_img.png);
+        }
+        .addcar_icon {
+            background-image: url(././img/images/addcar_icon.png);
+        }
+        .search_small_add {
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 16px;
+            height: 16px;
+            position: absolute;
+            top: calc(50% - 8px);
+            right: 0;
+            background-image: url(././img/images/addperson_icon.png);
+        }
+        .arrow_Down_Black {
+            background-image: url(././img/images/arrow_Down_Black.png);
+        }
+
+        .arrow_Left_Black {
+            background-image: url(././img/images/arrow_Left_Black.png);
+        }
+
+        .arrow_Down_Black {
+            background-image: url(././img/images/arrow_Down_Black.png);
+        }
+
+        .arrow_Left_Black {
+            background-image: url(././img/images/arrow_Left_Black.png);
+        }
+
+        .search_Photo_Icon {
+            background-image: url(././img/images/search-photo_icon.png);
+        }
+
+        .header2 {
+            background: #aa0020;
+            /* width: 90%; */
+            height: 64px;
+            position: relative;
+            padding: 0 5%;
+            line-height: 64px;
+
+        }
+
+        .bodyer_nofooter {
+            overflow-y: auto;
+            height: calc(100vh - 96px);
+        }
+
+        .search_bodyer {
+            background-color: white;
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow-y: auto;
+            height: calc(100vh - 168px);
+        }
+        .search_bodyer_worker {
+            background-color: white;
+            background-repeat: no-repeat;
+            background-size: cover;
+            overflow-y: auto;
+            height:100vh;
+        }
+
+        .text_Cancel {
+            line-height: initial;
+            text-align: right;
+        }
+
+        .left_Box_Offer {
+            display: inline-flex;
+            width: 10%;
+            vertical-align: middle;
+        }
+
+        .search_All {
+            display: inline-block;
+            width: 72%;
+            position: relative;
+            vertical-align: middle;
+        }
+
+
+        .search_bodyer .big_Box_Group {
+            margin: 5% 0;
+        }
+
+        .search_bodyer_worker .big_Box_Group {
+            margin: 5% 0;
+        }
+
+        .search_right_Group {
+            display: inline-block;
+            width: 15%;
+            color: #ffffff;
+            vertical-align: middle;
+        }
+
+        .small_Box_TitleFit {
+            color: #aa0020;
+            border-bottom: 1px solid #aa0020;
+            padding-bottom: 2%;
+            margin: 20px 5%;
+        }
+
+        .search_All input.search_Input {
+            box-sizing: border-box;
+            width: 100%;
+            margin: 0 auto;
+            display: block;
+            padding: 0 10% 0 15%;
+            font-size: 0.8rem;
+            color: #000000;
+            border: 1px solid #d6d6d6;
+            -moz-border-radius: 20px;
+            -webkit-border-radius: 20px;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        .back_Icon {
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 14px;
+            height: 24px;
+            background-image: url(././img/images/back_icon.png);
+        }
+
+        .selectTruckFit_Tabs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 50px;
+            background-color: #d8d8d8;
+        }
+
+        .selectTruckFit_Tab {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .selectTruckFit_Tab_Text {
+            line-height: 50px;
+            font-size: 16px;
+        }
+
+        .selectTruckFit_Tab_Active {
+            background-color: #535353;
+            color: #ffffff;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            vertical-align: top;
+            background: #ffffff;
+        }
+
+        .small_Box_Text_1.item {
+            padding: 0;
+            width: 100%;
+            overflow: inherit;
+            border: 0;
+            background: none;
+            color: inherit;
+            font-size: inherit;
+            margin: 0;
+        }
+
+        .small_Box_Text_2.item {
+            border: 0;
+            margin: 0 20px;
+            border-bottom: 1px solid #dddddd;
+            padding: 10px 0;
+        }
+
+        .searchsout {
+            overflow-x: auto;
+            margin: 20px 0;
+            overflow-y: hidden;
+        }
+
+        .searchs_Table {
+            width: 172vw;
+        }
+
+        .searchs_Table th,
+        .searchs_Table td {
+            width: 27vw;
+            padding: 0 1%;
+            font-size: 0.8rem;
+            height: 40px;
+            text-align: center;
+            vertical-align: middle;
+            border: 1px solid #979797;
+        }
+
+        .searchs_Table th {
+            background: #d8d8d8;
+        }
+
+        .searchs_Table td {
+            background: #eee9e9;
+        }
+
+        .searchs_Table th div {
+            width: calc(27vw - 10px);
+        }
+
+        .searchs_Table th input {
+            width: 10vw;
+        }
+
+        .searchs_Table td input {
+            width: 10vw;
+        }
+
+        .searchs_Table td div {
+            width: calc(27vw - 10px);
+        }
+    </style>
+    <script src="../../../../../../CustomPlugin/print-plugin/www/print-plugin.js"></script>
+</head>
+
+<body>
+<!--选择派工人员-->
+<div id="selectWorkersPage">
+    <link rel="stylesheet" href="././css/selectWorkers.css">
+    <div class="header2">
+        <div class="left_Box" ng-click="goBack();">
+            <div class="back_Icon"></div>
+        </div>
+        <div class="search_All" >
+            <input type="text" id="searchWorkers" placeholder="搜索" class="search_Input" ng-model="searchWorkersText"/>
+        </div>
+        <div class="search_right_Group" id="cancleBtn2" ng-click="getWorkers(searchWorkersText);">
+            <div class="text_Cancel"> 搜索 </div>
+        </div>
+    </div>
+    <div class="bodyer_nofooter search_bodyer_worker" style="background-color: white;">
+        <div class="selectTruck_Tabs" style="">
+            <div id="addWorker_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeWorkerTab('1');">
+                <span class="selectTruck_Tab_Text" style="">搜索结果</span>
+            </div>
+            <div id="addWorker_Tab_2" class="selectTruck_Tab" ng-click="changeWorkerTab('2');">
+                <span class="selectTruck_Tab_Text" style="">已派人员</span>
+            </div>
+        </div>
+        <div id="addWorker_result" class="big_Box_Group" style="display: block;">
+            <div class="small_Box_Title"> <input id="ckbox_worker_searchresult_all" style="" type="checkbox" ng-click="checkAllWorkersResult();"/> 全选 </div>
+            <ion-list can-swipe="true">
+                <ion-item   ng-cloak  class="small_Box_Text" ng-repeat="workerItem in workers" ng-click="checkCurrentSelectWorker(workerItem);">
+                    <input  data-recordid={{workerItem.label}} class="ckbox_woker_searchresult_item"  type="checkbox"/>{{workerItem.value}}
+                </ion-item>
+            </ion-list>
+        </div>
+        <div id="addWorker_checked" class="big_Box_Group" style="display: none;">
+            <div class="small_Box_Title"> <img  src="././img/images/del_red_icon.png" ng-click="deleteAllWorkersResult();"/> 全选删除 </div>
+            <ion-list can-swipe="true">
+                <ion-item   ng-cloak  class="small_Box_Text" ng-repeat="selectedWorkerItem in selectWorkersArr" ng-click="deleteCurrentSelectWorker(selectedWorkerItem);">
+                    <span ><img src="././img/images/del_red_icon.png"/></span>{{selectedWorkerItem.value}}
+                </ion-item>
+            </ion-list>
+        </div>
+    </div>
+</div>
 </body>
+
 </html>

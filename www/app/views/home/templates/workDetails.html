@@ -111,6 +111,13 @@
 			overflow-y: auto;
 			height: calc(100vh - 168px);
 		}
+		.search_bodyer_worker {
+			background-color: white;
+			background-repeat: no-repeat;
+			background-size: cover;
+			overflow-y: auto;
+			height: 100vh;
+		}
 
 		.text_Cancel {
 			line-height: initial;
@@ -132,6 +139,10 @@
 
 
 		.search_bodyer .big_Box_Group {
+			margin: 5% 0;
+		}
+
+		.search_bodyer_worker .big_Box_Group {
 			margin: 5% 0;
 		}
 
@@ -949,7 +960,7 @@
 				<div class="text_Cancel"> 搜索 </div>
 			</div>
 		</div>
-		<div class="bodyer_nofooter search_bodyer" style="background-color: white;">
+		<div class="bodyer_nofooter search_bodyer_worker" style="background-color: white;">
 			<div class="selectTruck_Tabs" style="">
 				<div id="selectWorker_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeWorkerTab('1');">
 					<span class="selectTruck_Tab_Text" style="">搜索结果</span>
