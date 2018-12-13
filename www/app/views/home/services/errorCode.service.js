@@ -52,10 +52,10 @@
 
           var deferred = $q.defer();
           const errorInfo = _.where((codeFiles), {'Series': series, 'CarType': carType, 'Code': code});
-          if (errorInfo) {
+          if (errorInfo.length != 0) {
             deferred.resolve(errorInfo);
           } else {
-            deferred.reject(0);
+            deferred.reject("没有数据");
           }
 
           return deferred.promise;

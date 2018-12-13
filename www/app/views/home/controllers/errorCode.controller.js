@@ -93,8 +93,14 @@ angular.module('oinio.ErrorCodeController', [])
         AppUtilService.hideLoading();
       }, function (error) {
         AppUtilService.hideLoading();
-        $log.error('ErrorCodeController.goToSearch Error ' + error);
-
+        $ionicPopup.show({
+          title: "没有对应的错误信息",
+          buttons: [
+            {
+              text: "确定",
+            }
+          ]
+        });
       });
 
     };
