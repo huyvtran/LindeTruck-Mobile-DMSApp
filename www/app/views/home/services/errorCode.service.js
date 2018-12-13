@@ -48,19 +48,15 @@
         /**
          * 根据 series   carType  code 得到错误信息
          * */
-        service.queryTruckErrorInfo = function (series, carType, code) {
+        service.queryTruckErrorInfo = function (codeFiles, series, carType, code) {
 
           var deferred = $q.defer();
-
-          service.getErrorCodeAllData().then(function (codeFiles) {
-
-            const errorInfo = _.where(JSON.parse(codeFiles), {'Series': series, 'CarType': carType, 'Code': code});
+          const errorInfo = _.where((codeFiles), {'Series': series, 'CarType': carType, 'Code': code});
+          if (errorInfo) {
             deferred.resolve(errorInfo);
-
-          }, function (error) {
-
-            deferred.reject(error);
-          });
+          } else {
+            deferred.reject(0);
+          }
 
           return deferred.promise;
 
@@ -168,7 +164,9 @@
             truckSeries.push(series.Series);
           });
 
-          return _.uniq(truckSeries);
+          var trucks = _.uniq(truckSeries);
+
+          return trucks;
         }
 
 

@@ -83,14 +83,16 @@ angular.module('oinio.ErrorCodeController', [])
         return;
       }
 
-      ErrorCodeServices.queryTruckErrorInfo(series, carType, errorCode).then(function (errorInfo) {
+      AppUtilService.showLoading();
+      ErrorCodeServices.queryTruckErrorInfo($scope.codeFiles,series, carType, errorCode).then(function (errorInfo) {
 
         $scope.codeDescription = _.first(errorInfo).CodeDescription;
         $scope.condition = _.first(errorInfo).Condition;
         $scope.possibleReasion = _.first(errorInfo).PossibleReasion;
 
+        AppUtilService.hideLoading();
       }, function (error) {
-
+        AppUtilService.hideLoading();
         $log.error('ErrorCodeController.goToSearch Error ' + error);
 
       });
@@ -102,11 +104,13 @@ angular.module('oinio.ErrorCodeController', [])
      * */
     $scope.selectSeriesChange = function (seriesId) {
 
-      console.log('seriesId',seriesId);
+      AppUtilService.showLoading();
       ErrorCodeServices.getTruckSeriesOfAllCarType($scope.codeFiles, seriesId).then(function (carTypes) {
         console.log('carTypes',carTypes);
         $scope.carTypes = carTypes;
+        AppUtilService.hideLoading();
       }, function (error) {
+        AppUtilService.hideLoading();
         $log.error('ErrorCodeController.selectSeriesChange Error ' + error);
       })
 
