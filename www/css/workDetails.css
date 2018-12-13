@@ -380,6 +380,7 @@ img {
     width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
+    white-space: normal;
 }
 .workListDetails_bodyer .quoted_Table th.sv_Td {
     background: #d8d8d8;

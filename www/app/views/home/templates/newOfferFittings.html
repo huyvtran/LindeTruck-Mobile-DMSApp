@@ -577,14 +577,14 @@
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<div class="OpenClose_Btn arrow_Down_White"></div>
 					</div>
-					<!-- <div class="quoted_Price_All">
-						<div> 公布价合计：</div>
-						<div class="price_Color margin_r"> 1000</div>
-						<div> 折扣率：</div>
-						<input class="price_Input margin_r" />
-						<div> 优惠合计：</div>
-						<input class="price_Input margin_r" />
-					</div> -->
+					<div class="quoted_Price_All">
+						<div> 合计：</div>
+						<div class="price_Color margin_r"> {{priceConditionPriceAll}}</div>
+						<!--<div> 折扣率：</div>-->
+						<!--<input class="price_Input margin_r" />-->
+						<!--<div> 合计：</div>-->
+						<!--<input class="price_Input margin_r" ng-model="priceConditionPriceAll" />-->
+					</div>
 					<div class="legend_Group">
 						<div> 替代件 </div>
 						<div class="blue_legend"> </div>
@@ -633,7 +633,7 @@
 							<ion-item ng-repeat="item in selectedTruckFitItems" ng-cloak ng-click="showPopup(item)" class="quoted_Table_item">
 								<table cellpadding="0" cellspacing="0" border="0" class="quoted_Table_bodyer">
 									<tr>
-										<td class="sv_Td">
+										<td ng-class="isquoted_Table(item.type)">
 											<div>
 												<p>{{item.parts_number__c}} </p>
 
@@ -654,7 +654,7 @@
 										<td class="sv_Td">
 											<input class="sv_Input part_InputForListPrice" value="{{item.priceCondition.favourablePrice}}" />
 										</td>
-										<td class="sv_Td">
+										<td class="sv_Td" >
 											<div>
 												{{item.priceCondition.favourablePrice*priceNo-discountPriceCondition*item.priceCondition.favourablePrice*priceNo}}
 											</div>

@@ -58,14 +58,14 @@ img {
     background-repeat: no-repeat;
     background-size: cover;
     width: 30px;
-    height: 30px;    
+    height: 30px;
     margin: 0 auto;
 }
 .filter_icon {
     background-repeat: no-repeat;
     background-size: cover;
     width: 23px;
-    height: 23px;    
+    height: 23px;
     margin: 0 auto;
 }
 .bodyer {
@@ -155,7 +155,7 @@ img {
 }
 .OpenClose_Btn {
     background-repeat: no-repeat;
-    background-size: cover; 
+    background-size: cover;
     display: inline-flex;
     margin-right: 5%;
 }
@@ -165,7 +165,7 @@ img {
 }
 .arrow_Left_White {
     width: 10px;
-    height: 18px;   
+    height: 18px;
 }
 .quoted_Price_All {
     display: flex;
@@ -231,6 +231,7 @@ img {
     border-collapse: collapse;
     width: 189vw;
 }
+
 .quoted_Table .sv_Td div, .quoted_Table_bodyer .sv_Td div {
     width: 100%;
 }
@@ -248,6 +249,18 @@ img {
     text-align: center;
     vertical-align: middle;
 }
+
+.sv_Td.blue_type {
+    background: #008caa;
+    color: #ffffff;
+}
+.sv_Td.green_type {
+    background: #00aa6d;
+    color: #ffffff;
+}
+.sv_Td.blue_type div p, .sv_Td.green_type div p {
+    color: #ffffff;
+}
 .quoted_Table .sv_Td p, .quoted_Table_bodyer .sv_Td p {
     margin: 0;
 }
@@ -255,7 +268,7 @@ img {
 .quoted_Table_bodyer .sv_Td div, .quoted_Table_bodyer .sv_Td select, .quoted_Table_bodyer .sv_Td input {
     width: calc(27vw - 10px);
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
 }
 .quoted_Table .sv_Td .sv_Input, .quoted_Table_bodyer .sv_Td .sv_Input {
     height: 48px;
@@ -323,7 +336,7 @@ img {
 .service_Fit_Table_bodyer .sv_Td div, .service_Fit_Table_bodyer .sv_Td input {
     width: calc(27vw - 10px);
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
 }
 .service_Fit_Table .sv_Td Input, .service_Fit_Table_bodyer .sv_Td Input {
     height: 48px;
@@ -336,7 +349,7 @@ img {
     background-repeat: no-repeat;
     background-size: cover;
     width: 16px;
-    height: 16px; 
+    height: 16px;
 }
 .pos_rel {
     position: relative;
