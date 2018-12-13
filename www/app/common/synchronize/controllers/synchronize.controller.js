@@ -114,7 +114,7 @@
                         error.method = 'SynchronizeController';
                         $log.error(error);
                     });
-                    localStorage.setItem("firstLogin", "first"); //初次存储
+                  localStorage.setItem("firstLogin", "first"); //初次存储
                 }
 
                 function navigateToStart() {

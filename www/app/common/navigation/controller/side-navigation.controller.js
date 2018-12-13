@@ -23,7 +23,7 @@
             $scope.toggleLeft = function () {
                 $ionicSideMenuDelegate.toggleLeft();
             };
-            
+
             /**
              * @desc Returns JSON's help section for application parts where user is currently in
              *
@@ -265,6 +265,7 @@
                         // stop and destroy time interval for mobile data synchronisation
                         $scope.$broadcast('timer-stopped', 'destroy-timer');
                         cordova.require('com.salesforce.plugin.sfaccountmanager').logout();
+                        localStorage.setItem("firstLogin", "last"); //初次存储
                     }
                 });
             };
