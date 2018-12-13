@@ -264,7 +264,9 @@ angular.module('oinio.NewOfferFittingsController', [])
             }, 50);
           }
         }
-        $scope.calculatePriceConditionPriceAll();
+        setTimeout(function () {
+          $scope.calculatePriceConditionPriceAll();
+        }, 500);
       };
 
       //--使用经济件
@@ -277,7 +279,9 @@ angular.module('oinio.NewOfferFittingsController', [])
             }, 50);
           }
         }
-        $scope.calculatePriceConditionPriceAll();
+        setTimeout(function () {
+          $scope.calculatePriceConditionPriceAll();
+        }, 500);
       };
       //搜索配件--导入经济件
       $scope.getTrucksByEconomical = function () {
