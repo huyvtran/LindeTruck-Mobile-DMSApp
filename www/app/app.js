@@ -63,7 +63,9 @@
             'oinio.TransferRequestController',
             'oinio.TransferRequestListController',
             'oinio.generateOrdersController',
-            'oinio.ErrorCodeController'
+            'oinio.ErrorCodeController',
+            'oinio.TransferController',
+            'oinio.SendMorePeopleController'
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,

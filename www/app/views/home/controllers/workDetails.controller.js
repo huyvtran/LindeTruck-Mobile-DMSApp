@@ -486,6 +486,15 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("workItems",workItems);
             if (workItems.length>0){
                 for (var i =0;i< workItems.length;i++){
+
+                    if (workItems[i].Leave_Time__c!=undefined){
+                        $("#arriveBtn").prop("disabled","disabled");
+                        $("#arriveBtn").css("backgroundColor","#00FF7F");
+                        $("#leave").prop("disabled","disabled");
+                        $("#leave").css("backgroundColor","#00FF7F");
+                        break;
+                    }
+
                     if (workItems[i].Arrival_Time__c!=undefined){
                         $("#arriveBtn").prop("disabled","disabled");
                         $("#arriveBtn").css("backgroundColor","#00FF7F");
@@ -657,7 +666,7 @@ angular.module('oinio.workDetailsControllers', [])
                         }
                         AppUtilService.showLoading();
                         ForceClientService.getForceClient().apexrest(
-                            $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss"),
+                            $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss")+"&userId="+oCurrentUser.Id,
                             'POST',
                             {},
                             null,
@@ -674,7 +683,8 @@ angular.module('oinio.workDetailsControllers', [])
                                     });
                                 }else{
                                     $ionicPopup.alert({
-                                        title:"记录到达/离开时间失败"
+                                        title:"记录到达/离开时间失败",
+                                        template:res.message
                                     });
                                     return false;
                                 }
@@ -683,7 +693,8 @@ angular.module('oinio.workDetailsControllers', [])
                                 AppUtilService.hideLoading();
                                 console.log(msg);
                                 $ionicPopup.alert({
-                                    title:"记录到达/离开时间失败"
+                                    title:"记录到达/离开时间失败",
+                                    template:msg
                                 });
                                 return false;
                                 }
@@ -708,7 +719,7 @@ angular.module('oinio.workDetailsControllers', [])
                             leaveTime = new Date();
                             AppUtilService.showLoading();
                             ForceClientService.getForceClient().apexrest(
-                                $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss"),
+                                $scope.leavePostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&leaveTime="+leaveTime.format("yyyy-MM-dd hh:mm:ss")+"&userId="+oCurrentUser.Id,
                                 'POST',
                                 {},
                                 null,
@@ -723,7 +734,8 @@ angular.module('oinio.workDetailsControllers', [])
                                         });
                                     }else{
                                         $ionicPopup.alert({
-                                            title:"记录到达/离开时间失败"
+                                            title:"记录到达/离开时间失败",
+                                            template:res.message
                                         });
                                         return false;
                                     }
@@ -732,7 +744,8 @@ angular.module('oinio.workDetailsControllers', [])
                                     AppUtilService.hideLoading();
                                     console.log(msg);
                                     $ionicPopup.alert({
-                                        title:"记录到达/离开时间失败"
+                                        title:"记录到达/离开时间失败",
+                                        template:msg
                                     });
                                     return false;
                                 }
@@ -879,7 +892,8 @@ angular.module('oinio.workDetailsControllers', [])
                                                                     $event.target.style.backgroundColor = "#00FF7F";
                                                                 }else{
                                                                     $ionicPopup.alert({
-                                                                        title:"记录到达时间失败"
+                                                                        title:"记录到达时间失败",
+                                                                        template:res.message
                                                                     });
                                                                     return false;
                                                                 }
@@ -887,14 +901,16 @@ angular.module('oinio.workDetailsControllers', [])
                                                                 AppUtilService.hideLoading();
                                                                 console.log(msg);
                                                                 $ionicPopup.alert({
-                                                                    title:"记录到达时间失败"
+                                                                    title:"记录到达时间失败",
+                                                                    template:msg
                                                                 });
                                                                 return false;
                                                             }
                                                         );
                                                     }else{
                                                         $ionicPopup.alert({
-                                                            title:"记录出发时间失败"
+                                                            title:"记录出发时间失败",
+                                                            template:res.message
                                                         });
                                                         return false;
                                                     }
@@ -902,21 +918,24 @@ angular.module('oinio.workDetailsControllers', [])
                                                 function error(msg) {
                                                     console.log(msg);
                                                     $ionicPopup.alert({
-                                                        title:"记录出发时间失败"
+                                                        title:"记录出发时间失败",
+                                                        template:msg
                                                     });
                                                     return false;
                                                 }
                                             );
                                         }else{
                                             $ionicPopup.alert({
-                                                title:"更新工单状态失败"
+                                                title:"更新工单状态失败",
+                                                template:res.message
                                             });
                                             return false;
                                         }
                                     },function error(msg) {
                                         console.log(msg);
                                         $ionicPopup.alert({
-                                            title:"更新工单状态失败"
+                                            title:"更新工单状态失败",
+                                            template:msg
                                         });
                                         return false;
                                     }
@@ -925,7 +944,8 @@ angular.module('oinio.workDetailsControllers', [])
                             },function error(msg) {
                                 console.log(msg);
                                 $ionicPopup.alert({
-                                    title:"获取定位失败"
+                                    title:"获取定位失败",
+                                    template:msg
                                 });
                                 return false;
                             });
@@ -935,7 +955,7 @@ angular.module('oinio.workDetailsControllers', [])
                 }else{
                     AppUtilService.showLoading();
                     ForceClientService.getForceClient().apexrest(
-                        $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
+                        $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&userId="+oCurrentUser.Id,
                         'POST',
                         {},
                         null,
@@ -949,7 +969,8 @@ angular.module('oinio.workDetailsControllers', [])
                                 });
                             }else{
                                 $ionicPopup.alert({
-                                    title:"记录到达时间失败"
+                                    title:"记录到达时间失败",
+                                    template:res.message
                                 });
                                 return false;
                             }
@@ -957,7 +978,8 @@ angular.module('oinio.workDetailsControllers', [])
                             AppUtilService.hideLoading();
                             console.log(msg);
                             $ionicPopup.alert({
-                                title:"记录到达时间失败"
+                                title:"记录到达时间失败",
+                                template:msg
                             });
                             return false;
                         }
@@ -1084,7 +1106,8 @@ angular.module('oinio.workDetailsControllers', [])
                                                         $event.target.style.backgroundColor = "#00FF7F";
                                                     }else{
                                                         $ionicPopup.alert({
-                                                            title:"更新工单状态失败"
+                                                            title:"更新工单状态失败",
+                                                            template:res.message
                                                         });
                                                         return false;
                                                     }
@@ -1092,7 +1115,8 @@ angular.module('oinio.workDetailsControllers', [])
                                                     console.log(msg);
                                                     AppUtilService.hideLoading();
                                                     $ionicPopup.alert({
-                                                        title:"更新工单状态失败"
+                                                        title:"更新工单状态失败",
+                                                        template:msg
                                                     });
                                                     return false;
                                                 }
@@ -1184,7 +1208,8 @@ angular.module('oinio.workDetailsControllers', [])
                             $scope.regroupPartListForSave();
                         }else{
                             $ionicPopup.alert({
-                                title:"保存数据失败"
+                                title:"保存数据失败",
+                                template:res.message
                             });
                             return false;
                         }
@@ -1194,7 +1219,8 @@ angular.module('oinio.workDetailsControllers', [])
                         console.log(msg);
                         AppUtilService.hideLoading();
                         $ionicPopup.alert({
-                            title:"保存数据失败"
+                            title:"保存数据失败",
+                            template:msg
                         });
                         return false;
                     });

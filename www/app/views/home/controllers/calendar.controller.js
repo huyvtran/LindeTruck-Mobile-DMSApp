@@ -17,7 +17,7 @@
             vm.isOnline = null;
             $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
             $scope.departureUrl="/WorkDetailService?action=departure&sooId=";
-
+            $scope.getInitDataUri="/WorkDetailService";
             $(document).ready(function () {
                 document.addEventListener('click', newHandle);//初始化弹框
 
@@ -130,14 +130,16 @@
                             text: '<b>增派</b>',
                             type: 'button-calm',
                             onTap: function (e) {
-                                
+                                $state.go(
+                                    "app.sendMorePeople",
+                                    {workOrderId:item.Id});
                             }
                         },
                         {
                             text: '<b>转派</b>',
                             type: 'button-balanced',
                             onTap: function (e) {
-
+                                $state.go("app.transfer",{workOrderId:item.Id});
                             }
                         }
                     ];
@@ -146,6 +148,7 @@
                 else if(item.Status__c =="Not Started"){  //Not Started   未开始  只显示出发 详情
                     setButtons = [
                         { text: '出发',
+                            type: 'button-positive',
                             onTap:function (e) {
                                 //出发判断逻辑
                                 $scope.goNotStartedWorkDetails(item);
@@ -180,7 +183,7 @@
                             text: '增派',
                             type: 'button-calm',
                             onTap:function (e) {
-
+                                $state.go("app.sendMorePeople",{workOrderId:item.Id});
                             }
                         }
                     ];
@@ -252,7 +255,7 @@
                             //     isNewWorkList:true
                             // });
                             ForceClientService.getForceClient().apexrest(
-                                $scope.departureUrl+item.Id+"&departureTime="+goTime.format("yyyy-MM-dd hh:mm:ss"),
+                                $scope.departureUrl+item.Id+"&departureTime="+goTime.format("yyyy-MM-dd hh:mm:ss")+"&userId="+oCurrentUser.Id,
                                 'POST',
                                 {},
                                 null,
@@ -271,7 +274,8 @@
                             );
                         }else{
                             $ionicPopup.alert({
-                                title:"更新工单状态失败"
+                                title:"更新工单状态失败",
+                                template:res.message
                             });
                             return false;
                         }
@@ -279,7 +283,8 @@
                         console.log(msg);
                         AppUtilService.hideLoading();
                         $ionicPopup.alert({
-                            title:"更新工单状态失败"
+                            title:"更新工单状态失败",
+                            template:msg
                         });
                         return false;
                     }
@@ -305,7 +310,8 @@
                             });
                         }else{
                             $ionicPopup.alert({
-                                title:"更新工单状态失败"
+                                title:"更新工单状态失败",
+                                template:res.message
                             });
                             return false;
                         }
@@ -313,7 +319,8 @@
                         console.log(msg);
                         //AppUtilService.hideLoading();
                         $ionicPopup.alert({
-                            title:"更新工单状态失败"
+                            title:"更新工单状态失败",
+                            template:msg
                         });
                         return false;
                     }

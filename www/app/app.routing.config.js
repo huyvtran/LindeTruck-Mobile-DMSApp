@@ -131,6 +131,28 @@
                 },
                 cache:false
             })
+            .state('app.transfer',{
+                url:'app/transfer',
+                params:{workOrderId:null},
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/transfer.html',
+                        controller: 'TransferController as vm'
+                    }
+                },
+                cache:false
+            })
+            .state('app.sendMorePeople',{
+                url:'app/sendMorePeople',
+                params:{workOrderId:null},
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/sendMorePeople.html',
+                        controller: 'SendMorePeopleController as vm'
+                    }
+                },
+                cache:false
+            })
 
             .state('app.transferRequest',{
                 url:'app/transferRequest',
