@@ -109,7 +109,7 @@
             background-repeat: no-repeat;
             background-size: cover;
             overflow-y: auto;
-            height: calc(100vh - 168px);
+            height: calc(100vh - 120px);
         }
         .search_bodyer_worker {
             background-color: white;
@@ -296,7 +296,7 @@
             <div class="text_Cancel"> 搜索 </div>
         </div>
     </div>
-    <div class="bodyer_nofooter search_bodyer_worker" style="background-color: white;">
+    <div class="bodyer_nofooter search_bodyer" style="background-color: white;">
         <div class="selectTruck_Tabs" style="">
             <div id="addWorker_Tab_1" class="selectTruck_Tab selectTruck_Tab_Active" ng-click="changeWorkerTab('1');">
                 <span class="selectTruck_Tab_Text" style="">搜索结果</span>
@@ -321,6 +321,10 @@
                 </ion-item>
             </ion-list>
         </div>
+    </div>
+    <div class="footer">
+        <div class="footer_Btn" ng-click="goBack();">取消</div>
+        <div class="footer_Btn Save_Btn_Act" ng-click="submit();">保存</div>
     </div>
 </div>
 </body>

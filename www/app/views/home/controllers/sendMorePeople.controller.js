@@ -6,6 +6,7 @@ angular.module('oinio.SendMorePeopleController', [])
             localWorkers=[],
             currentOrderId=null,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
+
         $scope.workers=[];
         $scope.selectWorkersArr=[];
         $scope.getInitDataUri="/WorkDetailService";
@@ -63,6 +64,16 @@ angular.module('oinio.SendMorePeopleController', [])
                     }
                 }
             }
+
+            setTimeout(function () {
+                for (var i=0;i<$scope.selectWorkersArr.length;i++){
+                    $("input.ckbox_woker_searchresult_item").each(function (index, element) {
+                        if($(element).attr("data-recordid") == $scope.selectWorkersArr[i].label) {
+                            $(this).prop("checked", true);
+                        }
+                    });
+                }
+            },300);
         };
 
         $scope.goBack=function () {
@@ -208,5 +219,10 @@ angular.module('oinio.SendMorePeopleController', [])
             });
             document.getElementById("ckbox_worker_searchresult_all").checked = false;
             $scope.selectWorkersArr = new_temp;
+        };
+
+
+        $scope.submit=function () {
+            $state.go("app.home");
         };
     });

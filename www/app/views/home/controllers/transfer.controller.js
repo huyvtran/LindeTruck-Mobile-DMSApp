@@ -54,9 +54,6 @@ angular.module('oinio.TransferController', [])
         };
 
         $scope.submit=function () {
-            AppUtilService.showLoading();
-            ForceClientService.getForceClient().apexrest(
-                ""
-            );
+            $state.go("app.home");
         };
     });
