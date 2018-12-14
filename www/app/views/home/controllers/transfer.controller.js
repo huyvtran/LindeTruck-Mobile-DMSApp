@@ -6,6 +6,7 @@ angular.module('oinio.TransferController', [])
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         $scope.allWorkers=[];
         $scope.getInitDataUri="/WorkDetailService";
+        $scope.postUri="/services/apexrest/HomeService?action=reAssign&userId=";
         $scope.$on('$ionicView.beforeEnter', function () {
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
@@ -54,6 +55,37 @@ angular.module('oinio.TransferController', [])
         };
 
         $scope.submit=function () {
-            $state.go("app.home");
+            var index = $('option:selected', '#selectUserGroup').index();
+            var userId = $scope.allWorkers[index].userId;
+            AppUtilService.showLoading();
+            ForceClientService.getForceClient().apexrest(
+                $scope.postUri+userId+"&serviceOrderOverviewId="+currentOrderId,
+                'POST',
+                {},
+                null,
+                function callBack(res) {
+                    console.log(res);
+                    AppUtilService.hideLoading();
+                    if(res.status.toLowerCase()=="success"){
+                        $state.go("app.home");
+                        $rootScope.getSomeData();
+                    }else{
+                        $ionicPopup.alert({
+                            title:"提交失败",
+                            template:res.message
+                        });
+                        return false;
+                    }
+                },function error(msg) {
+                 AppUtilService.hideLoading();
+                 console.log(msg);
+                 $ionicPopup.alert({
+                     title:"提交失败",
+                     template:msg
+                 });
+                 return false;
+                }
+            );
+
         };
     });

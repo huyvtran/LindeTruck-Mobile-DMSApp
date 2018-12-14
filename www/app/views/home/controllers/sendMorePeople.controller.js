@@ -231,12 +231,14 @@ angular.module('oinio.SendMorePeopleController', [])
                     "Service_Order_Overview__c":currentOrderId
                 });
             }
+            AppUtilService.showLoading();
             ForceClientService.getForceClient().apexrest(
                 $scope.postUri+JSON.stringify(postData),
                 "POST",
                 {},
                 null,function callBack(res) {
                     console.log(res);
+                    AppUtilService.hideLoading();
                     if (res.status.toLowerCase()=="success"){
                         $state.go("app.home");
                         $rootScope.getSomeData();
@@ -249,6 +251,7 @@ angular.module('oinio.SendMorePeopleController', [])
                     }
                 },function error(msg) {
                     console.log(msg);
+                    AppUtilService.hideLoading();
                     $ionicPopup.alert({
                         title:"提交失败",
                         template:msg
