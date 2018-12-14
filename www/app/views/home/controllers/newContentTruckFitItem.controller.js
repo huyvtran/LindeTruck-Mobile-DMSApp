@@ -1,10 +1,17 @@
 angular.module('oinio.NewContentTruckFitItemController', [])
-  .controller('NewContentTruckFitItemController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams, AppUtilService, ConnectionMonitor, LocalCacheService, ErrorCodeServices) {
+  .controller('NewContentTruckFitItemController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams, AppUtilService, ConnectionMonitor, LocalCacheService, ForceClientService) {
 
     var vm = this;
-    $scope.contentTruckFitItems = [];//配件
+    $scope.contentTruckItems = [];//配件
     $scope.data = {};
 
+    var oCurrentUser = LocalCacheService.get('currentUser') || {};
+    console.log('oCurrentUser!', oCurrentUser);
+
+
+
+
+    $scope.getPersonalPartListService="/PersonalPartListService?action=getPartsWithKeyWord&userId=";
 
     /**
      * @func    $scope.$on('$ionicView.beforeEnter')
@@ -12,7 +19,24 @@ angular.module('oinio.NewContentTruckFitItemController', [])
      */
     $scope.$on('$ionicView.beforeEnter', function () {
 
+      AppUtilService.showLoading();
 
+      ForceClientService.getForceClient().apexrest(
+        $scope.getPersonalPartListService+oCurrentUser.Id+"&parentKeyWord=All",
+        'GET',
+        {},
+        null,
+        function callBack(res) {
+          $scope.contentTruckItems = res;
+          AppUtilService.hideLoading();
+
+          console.log(res);
+        },
+        function error(msg) {
+          AppUtilService.hideLoading();
+          console.log(msg);
+        }
+      );
     });
 
     $scope.$on('$ionicView.enter', function () {

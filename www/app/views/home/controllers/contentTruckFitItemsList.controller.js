@@ -1,9 +1,14 @@
 angular.module('oinio.ContentTruckFitItemsListController', [])
-  .controller('ContentTruckFitItemsListController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams, AppUtilService, ConnectionMonitor, LocalCacheService, ErrorCodeServices) {
+  .controller('ContentTruckFitItemsListController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams, AppUtilService, ConnectionMonitor, LocalCacheService, ForceClientService) {
 
     var vm = this;
     $scope.contentTruckFitItems = [];//配件
     $scope.data = {};
+    $scope.getPersonalPartListService="/PersonalPartListService?action=getParts&userId=";
+    $scope.createParentName="/PersonalPartListService?action=createParent&typeName=";
+
+    var oCurrentUser = LocalCacheService.get('currentUser') || {};
+
 
 
     /**
@@ -13,6 +18,25 @@ angular.module('oinio.ContentTruckFitItemsListController', [])
     $scope.$on('$ionicView.beforeEnter', function () {
 
       $scope.contentTruckFitItems = [{cartName:'ACCBT',cartList:[{itemIdentifier:'配件名1',quantity:'200'},{itemIdentifier:'配件名3',quantity:'200'},{itemIdentifier:'配件名2',quantity:'200'},{itemIdentifier:'配件名4',quantity:'200'}]}];
+
+      AppUtilService.showLoading();
+
+      ForceClientService.getForceClient().apexrest(
+        $scope.getPersonalPartListService+oCurrentUser.Id,
+        'GET',
+        {},
+        null,
+        function callBack(res) {
+          $scope.contentTruckFitItems = res;
+          AppUtilService.hideLoading();
+
+          console.log(res);
+        },
+        function error(msg) {
+          AppUtilService.hideLoading();
+          console.log(msg);
+        }
+      );
 
 
     });
@@ -52,7 +76,27 @@ angular.module('oinio.ContentTruckFitItemsListController', [])
                 //不允许用户关闭，除非他键入wifi密码
                 e.preventDefault();
               } else {
-                return $scope.data.fitItemName;
+                // return $scope.data.fitItemName;
+
+                AppUtilService.showLoading();
+
+                ForceClientService.getForceClient().apexrest(
+                  $scope.createParentName+$scope.data.fitItemName,
+                  'POST',
+                  {},
+                  null,
+                  function callBack(res) {
+                    $scope.contentTruckFitItems = res;
+                    AppUtilService.hideLoading();
+
+                    console.log(res);
+                  },
+                  function error(msg) {
+                    AppUtilService.hideLoading();
+                    console.log(msg);
+                  }
+                );
+
               }
             }
           },
