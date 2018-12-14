@@ -10,7 +10,7 @@ angular.module('oinio.SendMorePeopleController', [])
         $scope.workers=[];
         $scope.selectWorkersArr=[];
         $scope.getInitDataUri="/WorkDetailService";
-
+        $scope.postUri="/services/apexrest/HomeService?action=saveSE&SupportEngineerMap=";
         $scope.$on('$ionicView.beforeEnter', function () {
             LocalCacheService.set('previousStateForSCReady', $state.current.name);
             LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
@@ -223,6 +223,39 @@ angular.module('oinio.SendMorePeopleController', [])
 
 
         $scope.submit=function () {
-            $state.go("app.home");
+            var postData=[];
+            for (var i =0;i<$scope.selectWorkersArr.length;i++){
+                postData.push({
+                    "Name":$scope.selectWorkersArr[i].value,
+                    "Support_Engineer__c":$scope.selectWorkersArr[i].label,
+                    "Service_Order_Overview__c":currentOrderId
+                });
+            }
+            ForceClientService.getForceClient().apexrest(
+                $scope.postUri+JSON.stringify(postData),
+                "POST",
+                {},
+                null,function callBack(res) {
+                    console.log(res);
+                    if (res.status.toLowerCase()=="success"){
+                        $state.go("app.home");
+                        $rootScope.getSomeData();
+                    }else{
+                        $ionicPopup.alert({
+                            title:"提交失败",
+                            template:res.message
+                        });
+                        return false;
+                    }
+                },function error(msg) {
+                    console.log(msg);
+                    $ionicPopup.alert({
+                        title:"提交失败",
+                        template:msg
+                    });
+                    return false;
+                }
+            );
+
         };
     });
