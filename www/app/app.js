@@ -47,6 +47,8 @@
             'oinio.CalendarController',
             'oinio.GroupController',
             'oinio.PersonalController',
+            'oinio.ContentTruckFitItemsListController',
+            'oinio.NewContentTruckFitItemController',
             'oinio.Search_1controllers',
             'oinio.CustomDetailController',
             'oinio.CalendarArrangeController',

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> common Parts </title>
+	<link rel="stylesheet" href="././css/newOfferFittings.css">
+	<link rel="stylesheet" href="././css/importLsg.css">
+
+	<style type="text/css">
+		.errorCode_bodyer {
+			background-image: url(././img/bg_img.png);
+		}
+		.arrow_Down_Black {
+			background-image: url(././img/images/arrow_Down_Black.png);
+		}
+		.arrow_Up_Black {
+			background-image: url(././img/images/arrow_Up.png);
+		}
+		.addcar_icon {
+			background-image: url(././img/images/addcar_icon.png);
+		}
+		.del_Img {
+			background-image: url(././img/images/del_red_icon.png);
+		}
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+			background-image: url(././img/images/back_icon.png);
+		}
+	</style>
+</head>
+<body>
+<div class="importLsg_header">
+	<div class="left_Box">
+	</div>
+	<div class="center_Box">
+		<div class="center_Title">常用配件列表</div>
+	</div>
+	<div class="right_Box">
+	</div>
+</div>
+<div class="importLsg_bodyer">
+	<div id="selectLSG">
+		<div class="importLsg_bodyer">
+
+			<div class="big_Type_Group">
+				<div>
+					<div class="import_Head">
+						<div class="import_Center">
+							<div> 配件号 </div>
+						</div>
+						<div class="import_Right">
+							<div> 数量 </div>
+						</div>
+					</div>
+					<div>
+						<ion-list>
+							<div ng-repeat="group in contentTruckFitItems">
+								<ion-item class="item-stable" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
+									<div class="import_Body import_FirstBody">
+										<!-- <div class="import_Left"> <input type="checkbox" /> </div> -->
+										<div class="import_Center">
+											<i class="icon" ng-class="isGroupShown(group) ? 'arrow_Up_Black' : 'arrow_Down_Black'"></i>
+											&nbsp;
+											<div> {{group.cartName}} </div>
+
+											<div class="addcar_icon"  ng-click="addClassificationParts(group);" ></div>
+
+										</div>
+									</div>
+								</ion-item>
+								<ion-item class="item-accordion" ng-repeat="litems in group.cartList" ng-show="isGroupShown(group)">
+									<div class="import_Body import_SecondBody">
+										<div class="import_Left">
+											<div class="del_Img" ng-click="addMoreTruck();"></div>
+										</div>
+										<div class="import_Center">
+											<div> {{litems.itemIdentifier}} </div>
+										</div>
+										<div class="import_Right"> {{litems.quantity}} </div>
+									</div>
+								</ion-item>
+							</div>
+						</ion-list>
+
+					</div>
+				</div>
+
+			</div>
+			<div class="footer">
+				<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+				<div class="footer_Btn import_Btn_Act" ng-click="addFitItemList();">添加配件分类</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

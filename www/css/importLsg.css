@@ -30,6 +30,7 @@ img {
     line-height: 64px;
     display: flex;
 }
+
 .importLsg_header .left_Box {
     display: inline-flex;
     width: 10%;
@@ -126,6 +127,28 @@ img {
     background-repeat: no-repeat;
     background-size: cover;
     margin-right: 10px;
+}
+.importLsg_bodyer .arrow_Up_Black {
+    width: 18px;
+    height: 18px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 10px;
+}
+.importLsg_bodyer .addcar_icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: inline-flex;
+    width: 25px;
+    height: 25px;
+    margin: 15px;
+}
+.importLsg_bodyer .del_Img {
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    width: 25px;
+    height: 25px;
 }
 .importLsg_bodyer .arrow_Left_Black {
     width: 10px;

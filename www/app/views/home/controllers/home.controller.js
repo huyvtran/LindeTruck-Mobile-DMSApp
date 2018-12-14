@@ -113,6 +113,10 @@ angular.module('oinio.controllers', [])
         $state.go('app.errorCode');
       };
 
+      $scope.commonParts = function () {
+        $state.go('app.contentTruckFitItemsList');
+      };
+
       $scope.applyTransfer = function () {
         $state.go('app.transferRequestList');
       };

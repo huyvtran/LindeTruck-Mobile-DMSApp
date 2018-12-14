@@ -210,6 +210,26 @@
                 },
                 cache: false
             })
+            .state('app.contentTruckFitItemsList', {
+                url: 'app/contentTruckFitItemsList',
+                views: {
+                menuContent: {
+                    templateUrl: 'app/views/home/templates/contentTruckFitItemsList.html',
+                    controller: 'ContentTruckFitItemsListController as vm'
+                    }
+                },
+                cache: false
+            })
+            .state('app.newContentTruckFitItems', {
+                url: 'app/newContentTruckFitItems',
+                views: {
+                menuContent: {
+                    templateUrl: 'app/views/home/templates/newContentTruckFitItem.html',
+                    controller: 'NewContentTruckFitItemController as vm'
+                    }
+                },
+                cache: false
+            })
             .state('app.arrange', {
                 url: '/arrange',
                 params:{'SendAllUser':null,'SendSoupEntryId':null,'workOrderId':null},

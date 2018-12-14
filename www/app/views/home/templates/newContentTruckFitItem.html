@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> common Parts </title>
+	<!--<link rel="stylesheet" href="././css/importLsg.css">-->
+
+	<style type="text/css">
+
+		.search_Photo_Icon {
+			background-image: url(././img/images/search-photo_icon.png);
+		}
+
+		.back_Icon {
+			background-image: url(././img/images/back_icon.png);
+		}
+
+		.contentTrukFitItem_header {
+			background: #aa0020;
+			/* width: 90%; */
+			height: 64px;
+			position: relative;
+			padding: 0 5%;
+			line-height: 64px;
+		}
+		.left_Box {
+			display: inline-flex;
+			width: 10%;
+			vertical-align: middle;
+		}
+		.search_All {
+			display: inline-block;
+			width: 72%;
+			position: relative;
+			vertical-align: middle;
+		}
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+		}
+		.search_Photo_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 21px;
+			height: 15px;
+			position: absolute;
+			top: calc(50% - 7.5px);
+			left: 5%;
+		}
+		.text_Cancel {
+			line-height: initial;
+			text-align: right;
+		}
+
+		.search_right_Group {
+			display: inline-block;
+			width: 15%;
+			color: #ffffff;
+			vertical-align: middle;
+		}
+		.search_All input.search_Input {
+			box-sizing: border-box;
+			width: 100%;
+			margin: 0 auto;
+			display: block;
+			padding: 0 10% 0 15%;
+			font-size: 0.8rem;
+			color: #000000;
+			border: 1px solid #d6d6d6;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			border-radius: 20px;
+			text-align: center;
+		}
+		.selectTruck_Tabs {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			height: 50px;
+			background-color: #d8d8d8;
+		}
+
+		.selectTruck_Tab {
+			flex-grow: 1;
+			text-align: center;
+		}
+		.selectTruck_Tab_Text {
+			line-height: 50px;
+			font-size: 16px;
+		}
+		.footer {
+			position: absolute;
+			bottom: 0;
+			text-align: center;
+			margin: 0;
+			width: 100%;
+			display: flex;
+			border-top: 1px solid #535353;
+		}
+		.footer_Btn {
+			padding-top: 4%;
+			padding-bottom: 4%;
+			font-size: 1rem;
+			color: #535353;
+			background: #ffffff;
+			display: inline-flex;
+			width: calc(100% / 2);
+			justify-content: center;
+		}
+		.search_bodyer {
+			background-color: white;
+			background-repeat: no-repeat;
+			background-size: cover;
+			overflow-y: auto;
+			height: calc(100vh - 64px);
+
+		}
+		.small_Box_Title {
+			color: #aa0020;
+			font-weight: bold;
+			border-bottom: 1px solid #aa0020;
+			padding-bottom: 2%;
+			margin: 0 5%;
+		}
+		.small_Box_Text {
+			color: #535353;
+			font-size: 0.8rem;
+			padding-bottom: 1%;
+			margin: 2% 5% 2% 5%;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			width: 90%;
+			border-bottom: 1px solid #535353;
+			border-top: 0px solid #535353;
+			border-left: 0px solid #535353;
+			border-right: 0px solid #535353;
+			background-color: transparent;
+		}
+		.big_Box_Group {
+			margin: 5% 0;
+		}
+		.footer_Btn.Save_Btn_Act {
+			color: #ffffff;
+			background: #aa0020;
+		}
+		.selectTruckCP_Tab_Active {
+			background-color: #535353;
+			color: #ffffff;
+		}
+
+	</style>
+</head>
+<body>
+<div id="selectTruck" style="">
+
+	<div class="contentTrukFitItem_header">
+		<div class="left_Box">
+			<!--<div class="back_Icon"></div>-->
+		</div>
+		<div class="search_All">
+			<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()"
+				   ng-model="searchTruckText" />
+			<div class="search_Photo_Icon"  ng-click="scanCode()"></div>
+		</div>
+		<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);">
+			<div class="text_Cancel"> 搜索 </div>
+		</div>
+	</div>
+	<div class="selectTruck_Tabs" style="">
+		<div id="selectTruck_Tab_1" class="selectTruck_Tab selectTruckCP_Tab_Active" ng-click="changeTruckTab('1');"
+			 style="">
+			<span class="selectTruck_Tab_Text" style="">搜索结果</span>
+		</div>
+		<div id="selectTruck_Tab_2" class="selectTruck_Tab" ng-click="changeTruckTab('2');" style="">
+			<span class="selectTruck_Tab_Text" style="">已选</span>
+		</div>
+	</div>
+
+	<div class="search_bodyer" style="background-color: white;">
+		<div id="selectTruckCP_result" class="big_Box_Group" style="display: block;">
+
+			<div class="small_Box_Title">
+				<input id="ckbox_truck_searchresult_all" style="" type="checkbox" ng-click="checkAllSearchResults();" />
+				 配件名</div>
+			<ion-list can-swipe="true">
+				<ion-item id="items2" ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text">
+					<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);"
+						   type="checkbox" /> {{titem.Name}}
+				</ion-item>
+			</ion-list>
+
+		</div>
+		<div id="selectTruckCP_checked" class="big_Box_Group" style="display: none;">
+			<div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除
+			</div>
+			<ion-list can-swipe="true">
+				<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
+				<!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
+				<!--</ion-item>-->
+				<ion-item id="items3" ng-repeat="ckitem in selectedTruckItems" ng-cloak class="small_Box_Text">
+					<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png" /></span> {{ckitem.Name}}
+				</ion-item>
+			</ion-list>
+		</div>
+	</div>
+
+	<div class="footer">
+		<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+		<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+	</div>
+
+</div>
+</body>
+</html>
