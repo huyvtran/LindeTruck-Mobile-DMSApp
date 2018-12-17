@@ -583,22 +583,86 @@ img {
     align-items: center;
     justify-content: center;
     border-top: 1px solid #535353;
-    padding: 10px 0;
+    padding: 30px 0 10px 0;
 }
-.schedule_Group div {
+.slds-progress {
+    position: relative;
+    max-width: 90%;
+    flex: 1 1 auto;
+    margin: auto;
+}
+.slds-progress__list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    padding: 0;
+}
+.slds-progress__item {
     display: inline-flex;
-    margin: 1%;
+    align-self: center;
 }
-.schedule_Btn {
-    background: #ffffff;
-    border: 1px solid #979797;
-    padding: 2% 6%;
+.slds-progress__marker {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    background-clip: border-box;
+    line-height: 1.875rem;
+    color: #0070d2;
+    -webkit-appearance: none;
+    white-space: normal;
+    user-select: none;
+    width: 1rem;
+    height: 1rem;
+    position: relative;
+    border-radius: 50%;
+    background: #dddbda;
+    border: 4px solid #fff;
+    vertical-align: middle;
 }
-.next_Schedule_Icon {
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 12px;
-    height: 20px;
+.slds-progress__item.slds-is-active .slds-progress__marker {
+    background: #fff;
+    border-color: #1589ee;
+}
+.slds-progress__item.slds-is-active .slds-progress__marker {
+    box-shadow: 0 0 0 4px #fff;
+}
+.slds-progress-bar {
+    display: block;
+    width: 100%;
+    background: #dddbda;
+    border: 0;
+    appearance: none;
+    position: absolute;
+    top: 50%;
+    margin-top: -.0625rem;
+    height: .125rem;
+}
+.slds-progress-bar__value {
+    display: block;
+    background: #5eb4ff;
+    height: 100%;
+}
+.slds_textBtn {
+    position: absolute;
+    top: -18px;
+    width: 96%;
+    display: flex;
+    left: 0;
+    right: 0;
+    margin: 0 2%;
+}
+.textBtn {
+    width: 25%;
+    display: inline-flex;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: #dddbda;
+}
+.textBtn.textCompleted {
+    color: #0070d2;
 }
 .footer {
     position: absolute;

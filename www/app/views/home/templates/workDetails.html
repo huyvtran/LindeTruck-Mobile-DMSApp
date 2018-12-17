@@ -867,16 +867,53 @@
 				</div>
 			</div>
 			<div class="next_Footer" ng-show="showFooter">
+				<!--<div class="schedule_Group">-->
+					<!--<button class="schedule_Btn" id="arriveBtn" ng-click="getArrivalTime($event);">到达</button>-->
+					<!--<div class="next_Schedule_Icon"></div>-->
+					<!--<button class="schedule_Btn" id="leave" ng-click="doLeave($event);">离开</button>-->
+					<!--<div class="next_Schedule_Icon"></div>-->
+					<!--<button class="schedule_Btn" id="printBtn" ng-click="doPrint($event);">打印</button>-->
+					<!--<div class="next_Schedule_Icon"></div>-->
+					<!--<button class="schedule_Btn" id="signBillBtn" ng-click="signBill($event);">签单</button>-->
+				<!--</div>-->
 				<div class="schedule_Group">
-					<button class="schedule_Btn" id="arriveBtn" ng-click="getArrivalTime($event);">到达</button>
-					<div class="next_Schedule_Icon"></div>
-					<button class="schedule_Btn" id="leave" ng-click="doLeave($event);">离开</button>
-					<div class="next_Schedule_Icon"></div>
-					<button class="schedule_Btn" id="printBtn" ng-click="doPrint($event);">打印</button>
-					<div class="next_Schedule_Icon"></div>
-					<button class="schedule_Btn" id="signBillBtn" ng-click="signBill($event);">签单</button>
+					<div class="slds-progress">
+						<ol class="slds-progress__list">
+							<li class="slds-progress__item slds-is-active">
+								<button class="slds-button slds-progress__marker">
+								</button>
+							</li>
+							<li class="slds-progress__item">
+								<button class="slds-progress__marker">
+								</button>
+							</li>
+							<li class="slds-progress__item">
+								<button class="slds-progress__marker">
+								</button>
+							</li>
+							<li class="slds-progress__item">
+								<button class="slds-progress__marker">
+								</button>
+							</li>
+							<li class="slds-progress__item">
+								<button class="slds-progress__marker">
+								</button>
+							</li>
+						</ol>
+						<div class="slds-progress-bar">
+					<span class="slds-progress-bar__value" style="width: 25%;">
+					</span>
+						</div>
+						<div class="slds_textBtn">
+							<span class="textBtn textCompleted"> 到达 </span>
+							<span class="textBtn"> 离开 </span>
+							<span class="textBtn"> 打印 </span>
+							<span class="textBtn"> 签单 </span>
+						</div>
+					</div>
 				</div>
 			</div>
+
 			<div class="footer" ng-show="showFooter">
 				<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
 				<div class="footer_Btn" ng-click="goBack();">取消</div>
