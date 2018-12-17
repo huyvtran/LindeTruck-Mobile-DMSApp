@@ -188,19 +188,15 @@ angular.module('oinio.workDetailsControllers', [])
             }
 
             if (!enableArrival){
-                $("#arriveBtn").prop("disabled","disabled");
-                $("#arriveBtn").css("backgroundColor","#666666");
-                $("#leave").prop("disabled","disabled");
-                $("#leave").css("backgroundColor","#666666");
-                $("#signBillBtn").prop("disabled","disabled");
-                $("#signBillBtn").css("backgroundColor","#666666");
+                $("#arriveBtn").css("pointer-events","none");
+                $("#leave").css("pointer-events","none");
+                $("#printBtn").css("pointer-events","none");
+                $("#signBillBtn").css("pointer-events","none");
             }else{
-                $("#arriveBtn").prop("disabled","");
-                $("#arriveBtn").css("backgroundColor","#ffffff");
-                $("#leave").prop("disabled","");
-                $("#leave").css("backgroundColor","#ffffff");
-                $("#signBillBtn").prop("disabled","");
-                $("#signBillBtn").css("backgroundColor","#ffffff");
+                $("#arriveBtn").css("pointer-events","");
+                $("#leave").css("pointer-events","");
+                $("#printBtn").css("pointer-events","");
+                $("#signBillBtn").css("pointer-events","");
             }
 
             /**
@@ -488,16 +484,23 @@ angular.module('oinio.workDetailsControllers', [])
                 for (var i =0;i< workItems.length;i++){
 
                     if (workItems[i].Leave_Time__c!=undefined){
-                        $("#arriveBtn").prop("disabled","disabled");
-                        $("#arriveBtn").css("backgroundColor","#00FF7F");
-                        $("#leave").prop("disabled","disabled");
-                        $("#leave").css("backgroundColor","#00FF7F");
+                        $("ol li:eq(0)").addClass("slds-is-active");
+                        $("#arriveBtn").css("pointer-events","none");
+                        $("#arriveBtn").addClass("textCompleted");
+                        $("ol li:eq(1)").addClass("slds-is-active");
+                        $("#leave").css("pointer-events","none");
+                        $("#leave").addClass("textCompleted");
+                        $("ol li:eq(2)").addClass("slds-is-active");
+                        $("#sidProgressBar").css("width","50%");
                         break;
                     }
 
                     if (workItems[i].Arrival_Time__c!=undefined){
-                        $("#arriveBtn").prop("disabled","disabled");
-                        $("#arriveBtn").css("backgroundColor","#00FF7F");
+                        $("ol li:eq(0)").addClass("slds-is-active");
+                        $("#arriveBtn").css("pointer-events","none");
+                        $("#arriveBtn").addClass("textCompleted");
+                        $("ol li:eq(1)").addClass("slds-is-active");
+                        $("#sidProgressBar").css("width","25%");
                         arriveTime=new Date(workItems[i].Arrival_Time__c);
                         break;
                     }
@@ -626,7 +629,7 @@ angular.module('oinio.workDetailsControllers', [])
          * 点击离开按钮
          * @param $event
          */
-        $scope.doLeave = function ($event) {
+        $scope.doLeave = function () {
             if (goOffTimeFromPrefix==null){
                 $ionicPopup.alert({
                     title:"请先选择到达"
@@ -674,10 +677,14 @@ angular.module('oinio.workDetailsControllers', [])
                                 console.log(res);
                                 AppUtilService.hideLoading();
                                 if (res.status.toLowerCase()=="success"){
-                                    $("#arriveBtn").prop("disabled","disabled");
-                                    $("#arriveBtn").css("backgroundColor","#00FF7F");
-                                    $("#leave").prop("disabled","disabled");
-                                    $("#leave").css("backgroundColor","#00FF7F");
+                                    $("ol li:eq(0)").addClass("slds-is-active");
+                                    $("#arriveBtn").css("pointer-events","none");
+                                    $("#arriveBtn").addClass("textCompleted");
+                                    $("ol li:eq(1)").addClass("slds-is-active");
+                                    $("#leave").css("pointer-events","none");
+                                    $("#leave").addClass("textCompleted");
+                                    $("ol li:eq(2)").addClass("slds-is-active");
+                                    $("#sidProgressBar").css("width","50%");
                                     $ionicPopup.alert({
                                         title:"记录到达/离开时间成功"
                                     });
@@ -727,8 +734,10 @@ angular.module('oinio.workDetailsControllers', [])
                                     console.log(res);
                                     AppUtilService.hideLoading();
                                     if (res.status.toLowerCase()=="success"){
-                                        $event.target.style.backgroundColor = "#00FF7F";
-                                        $("#leave").prop("disabled","disabled");
+                                        //$event.target.style.backgroundColor = "#00FF7F";
+                                        $("#leave").addClass("textCompleted");
+                                        $("ol li:eq(2)").addClass("slds-is-active");
+                                        $("#sidProgressBar").css("width","50%");
                                         $ionicPopup.alert({
                                             title:"记录到达/离开时间成功"
                                         });
@@ -825,7 +834,7 @@ angular.module('oinio.workDetailsControllers', [])
          * @param $event
          * @returns {boolean}
          */
-        $scope.getArrivalTime = function ($event) {
+        $scope.getArrivalTime = function () {
 
             if (arriveTime != null) {
                 return false;
@@ -889,7 +898,12 @@ angular.module('oinio.workDetailsControllers', [])
                                                             function callBack(res) {
                                                                 console.log(res);
                                                                 if (res.status.toLowerCase()=="success"){
-                                                                    $event.target.style.backgroundColor = "#00FF7F";
+                                                                    //$event.target.style.backgroundColor = "#00FF7F";
+                                                                    $("ol li:eq(0)").addClass("slds-is-active");
+                                                                    $("#arriveBtn").css("pointer-events","none");
+                                                                    $("#arriveBtn").addClass("textCompleted");
+                                                                    $("ol li:eq(1)").addClass("slds-is-active");
+                                                                    $("#sidProgressBar").css("width","25%");
                                                                 }else{
                                                                     $ionicPopup.alert({
                                                                         title:"记录到达时间失败",
@@ -963,7 +977,12 @@ angular.module('oinio.workDetailsControllers', [])
                             console.log(res);
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase()=="success"){
-                                $event.target.style.backgroundColor = "#00FF7F";
+                                //$event.target.style.backgroundColor = "#00FF7F";
+                                $("ol li:eq(0)").addClass("slds-is-active");
+                                $("#arriveBtn").css("pointer-events","none");
+                                $("#arriveBtn").addClass("textCompleted");
+                                $("ol li:eq(1)").addClass("slds-is-active");
+                                $("#sidProgressBar").css("width","25%");
                                 $ionicPopup.alert({
                                     title:"记录到达时间成功"
                                 });
@@ -1041,7 +1060,7 @@ angular.module('oinio.workDetailsControllers', [])
          * 打印功能
          * @param $event
          */
-        $scope.doPrint = function ($event) {
+        $scope.doPrint = function () {
             document.getElementById("workDetailTotal").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
@@ -1060,19 +1079,12 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.callStrShow=$("#call_str").val().trim();//报修需求
             $scope.workContentShow=$("#workContentStr").val();//工作信息
             $scope.suggestionShoW=$("#serviceSuggest").val();//结果及建议
-
-
-
-
-
-
-
         };
         /**
          * 签单
          * @param $event
          */
-        $scope.signBill = function ($event) {
+        $scope.signBill = function () {
 
             ForceClientService.getForceClient().apexrest(
                 $scope.getOrderTypeUri+orderDetailsId,
@@ -1103,7 +1115,11 @@ angular.module('oinio.workDetailsControllers', [])
                                                     AppUtilService.hideLoading();
                                                     if (res.status.toLowerCase()=="success"){
                                                         AppUtilService.hideLoading();
-                                                        $event.target.style.backgroundColor = "#00FF7F";
+                                                        //$event.target.style.backgroundColor = "#00FF7F";
+                                                        $("#signBillBtn").css("pointer-events","none");
+                                                        $("#signBillBtn").addClass("textCompleted");
+                                                        $("ol li:eq(4)").addClass("slds-is-active");
+                                                        $("#sidProgressBar").css("width","100%");
                                                     }else{
                                                         $ionicPopup.alert({
                                                             title:"更新工单状态失败",
@@ -2635,6 +2651,10 @@ angular.module('oinio.workDetailsControllers', [])
                                             $ionicPopup.alert({
                                                 title: "出票成功"
                                             });
+                                            $("#printBtn").css("pointer-events","none");
+                                            $("#printBtn").addClass("textCompleted");
+                                            $("ol li:eq(3)").addClass("slds-is-active");
+                                            $("#sidProgressBar").css("width","75%");
                                             //$event.target.style.backgroundColor = "#00FF7F";
                                         }, function (error) {
                                             console.log(error);
