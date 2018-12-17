@@ -572,8 +572,15 @@ angular.module('oinio.NewOfferController', [])
 
         $('select.selectStatusServiceTypeClass').each(function (index, element) {
           let selected = selectedTruckItemsCopy[index];
-          selected['Service_Type__c'] = element.value;
-          // console.log('selectStatusServiceTypeClass:::',element.value+"  index"+index);
+          if (element.value =="修理"){
+            selected['Service_Type__c'] = "Repair";
+          }
+          if (element.value =="检查"){
+            selected['Service_Type__c'] = "Inspection";
+          }
+          if (element.value =="维护"){
+            selected['Service_Type__c'] = "Maintenance";
+          }
         });
 
         $('select.selectStatusLevelsClass').each(function (index, element) {
@@ -595,6 +602,10 @@ angular.module('oinio.NewOfferController', [])
 
           // console.log('sv_Input:::',element.value+"  index"+index);
         });
+        for (let i = 0; i <selectedTruckItemsCopy.length; i++) {
+          let selected = selectedTruckItemsCopy[i];
+          selected['Truck_Fleet__c'] = selected.Name;
+        }
         console.log('selectStatuClass:ALL::', selectedTruckItemsCopy);
 
         $state.go('app.newOfferFittings', {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: $scope.getIds[0]});

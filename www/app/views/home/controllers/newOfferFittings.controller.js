@@ -22,6 +22,7 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.contentLSGs = [];//LSG
       $scope.paramUrl1 = '/Parts/7990110000/' + $stateParams.SendSoupEntryId;
       $scope.paramUrl2 = '/Parts/7990110003/' + $stateParams.SendSoupEntryId;
+      $scope.getMaintenanceKeyLevelPartssBy2Url= '/getMaintenanceKeyLevelPartssBy2?name=';
       $scope.paramSaveUrl = '/ServiceQuoteOverview?';
       $scope.paramApprovalsUrl = '/v38.0/process/approvals';
       $scope.paramExeclUrl = '/excel/';
@@ -55,6 +56,24 @@ angular.module('oinio.NewOfferFittingsController', [])
         }, function (error) {
           console.log('error:', error);
           AppUtilService.hideLoading();
+        });
+
+      };
+
+      $scope.getByPart = function () {
+        AppUtilService.showLoading();
+        //保养级别带出的配件信息
+        // var priceCondition = {};
+        // onePartOriginals['name'] = '';//数量
+        // onePartOriginals['maintenanceLevel'] = priceCondition['price'];//公布价
+        var nameList = [];
+        var maintenanceLevelList = [];
+        var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+JSON.stringify(nameList)+"&maintenanceLevel="+JSON.stringify(maintenanceLevelList);
+        ForceClientService.getForceClient().apexrest(maintenanceKeyLevelPartssBy2Url, 'GET', {}, null, function (response) {
+          console.log('getMaintenanceKeyLevelPartssBy2:', response);
+
+        }, function (error) {
+          console.log('error:', error);
         });
 
       };
@@ -200,7 +219,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           var priceCondition = {};
           onePartOriginals['quantity'] = '';//数量
           onePartOriginals['priceCondition'] = priceCondition['price'];//公布价
-          onePartOriginals['View_Integrity__c'] = '';//预留
+          onePartOriginals['Reserved__c'] = '';//预留
           onePartOriginals['parts_number__c'] = $scope.searchTruckText;//物料信息
           onePartOriginals['Name'] = $scope.searchTruckText;//Name
           onePartOriginals['materialId'] = $scope.searchTruckText;//物料号
@@ -641,7 +660,6 @@ angular.module('oinio.NewOfferFittingsController', [])
         var part_InputForListPrice = [];//优惠单价 ？
         var part_InputForListNo = [];//数量
         var part_InputForListDiscount = [];//折扣
-        // var part_InputForListSpecial = [];//优惠总价
         var part_InputForListChecked = [];//预留状态
 
         $('input.part_InputForListPrice').each(function (index, element) {
@@ -656,10 +674,6 @@ angular.module('oinio.NewOfferFittingsController', [])
           part_InputForListDiscount.push(element.value);
           // console.log('sv_InputForListDiscount:::',element.value+"  index"+index);
         });
-        // $('input.part_InputForListSpecial').each(function (index, element) {
-        //     part_InputForListSpecial.push(element.value);
-        //     // console.log('sv_InputForListSpecial:::',element.value+"  index"+index);
-        // });
         $('input.ckbox_part').each(function (index, element) {
           part_InputForListChecked.push(element.checked);
         });
@@ -671,12 +685,12 @@ angular.module('oinio.NewOfferFittingsController', [])
             oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.priceCondition.price;
           }
           oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
+          oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
           oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
-          oneLabourOriginals4['View_Integrity__c'] = part_InputForListChecked[index];
-          // oneLabourOriginals4["Net_Amount__c"] = part_InputForListSpecial[index];
+          oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
+          oneLabourOriginals4["Net_Amount__c"] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
           oneLabourOriginals4['Material_Type__c'] = 'Part';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
-
         }
       };
       //保存
