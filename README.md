@@ -229,3 +229,19 @@ On Android, the login hosts are defined in [servers.xml](platforms/android/Sales
 </servers>
 ```
 The first server is used as default server. Production and Sandbox can be removed if no wanted.
+
+## 6.make sure settings.gradle file  content
+include ":"
+include ":CordovaLib"
+include ":app"
+include ":SalesforceAnalytics"
+include ":SalesforceSDK"
+include ":SmartStore"
+include ":SmartSync"
+include ":SalesforceHybrid"
+
+## 7.replace files
+please copy jniLibs to src/main
+please copy printer file and Printer.java to  src/main/java/com/capgemini/printDemo
+please copy SingleService.java Utils.java MainActivity.java src/main/java/com/capgemini/lindetruck/pda
+please copy AndroidManifest.xml to app path don't  copy to app/main
