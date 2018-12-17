@@ -116,8 +116,7 @@
 			background-repeat: no-repeat;
 			background-size: cover;
 			overflow-y: auto;
-			height: calc(100vh - 64px);
-
+			height: calc(100vh - 64px - 64px);
 		}
 		.small_Box_Title {
 			color: #aa0020;
@@ -167,7 +166,7 @@
 				   ng-model="searchTruckText" />
 			<div class="search_Photo_Icon"  ng-click="scanCode()"></div>
 		</div>
-		<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);">
+		<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);" ng-show="searchTruckText">
 			<div class="text_Cancel"> 搜索 </div>
 		</div>
 	</div>
@@ -211,7 +210,7 @@
 
 	<div class="footer">
 		<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
-		<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPage();">确定</div>
+		<div class="footer_Btn Save_Btn_Act" ng-click="addClassificationParts();">确定</div>
 	</div>
 
 </div>

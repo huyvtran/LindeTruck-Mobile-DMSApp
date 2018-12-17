@@ -65,22 +65,22 @@
 										<div class="import_Center">
 											<i class="icon" ng-class="isGroupShown(group) ? 'arrow_Up_Black' : 'arrow_Down_Black'"></i>
 											&nbsp;
-											<div> {{group.cartName}} </div>
+											<div> {{group.Name}} </div>
 
 											<div class="addcar_icon"  ng-click="addClassificationParts(group);" ></div>
 
 										</div>
 									</div>
 								</ion-item>
-								<ion-item class="item-accordion" ng-repeat="litems in group.cartList" ng-show="isGroupShown(group)">
+								<ion-item class="item-accordion" ng-repeat="litems in group.partList" ng-show="isGroupShown(group)">
 									<div class="import_Body import_SecondBody">
 										<div class="import_Left">
-											<div class="del_Img" ng-click="addMoreTruck();"></div>
+											<div class="del_Img" ng-click="deleteMoreTruck(litems);"></div>
 										</div>
 										<div class="import_Center">
-											<div> {{litems.itemIdentifier}} </div>
+											<div> {{litems.Name}} </div>
 										</div>
-										<div class="import_Right"> {{litems.quantity}} </div>
+										<div class="import_Right"> {{litems.Part_Number__c}} </div>
 									</div>
 								</ion-item>
 							</div>

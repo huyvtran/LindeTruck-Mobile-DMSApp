@@ -114,7 +114,7 @@ angular.module('oinio.controllers', [])
       };
 
       $scope.commonParts = function () {
-        $state.go('app.contentTruckFitItemsList');
+        $state.go('app.contentTruckPartList');
       };
 
       $scope.applyTransfer = function () {

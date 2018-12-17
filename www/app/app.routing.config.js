@@ -210,22 +210,23 @@
                 },
                 cache: false
             })
-            .state('app.contentTruckFitItemsList', {
-                url: 'app/contentTruckFitItemsList',
+            .state('app.contentTruckPartList', {
+                url: 'app/contentTruckPartList',
                 views: {
                 menuContent: {
-                    templateUrl: 'app/views/home/templates/contentTruckFitItemsList.html',
-                    controller: 'ContentTruckFitItemsListController as vm'
+                    templateUrl: 'app/views/home/templates/contentTruckPartList.html',
+                    controller: 'ContentTruckPartListController as vm'
                     }
                 },
                 cache: false
             })
-            .state('app.newContentTruckFitItems', {
-                url: 'app/newContentTruckFitItems',
+            .state('app.newContentTruckPart', {
+                url: 'app/newContentTruckPart',
+                params:{'partItem':null,},
                 views: {
                 menuContent: {
-                    templateUrl: 'app/views/home/templates/newContentTruckFitItem.html',
-                    controller: 'NewContentTruckFitItemController as vm'
+                    templateUrl: 'app/views/home/templates/newContentTruckPart.html',
+                    controller: 'NewContentTruckPartController as vm'
                     }
                 },
                 cache: false
