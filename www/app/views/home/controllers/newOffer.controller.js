@@ -129,10 +129,13 @@ angular.module('oinio.NewOfferController', [])
         $scope.closeSelectPage();
       };
 
+      //保养级别
       $scope.getMainLevelsAndDesc = function (obj) {
         if (!obj.Maintenance_Key__c) {
           return;
         }
+        console.log('obj.Maintenance_Key__c', obj.Maintenance_Key__c);
+
         SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c, true).then(function (response) {
           console.log('getMainLevelsAndDesc', response);
           if (!response.levels || !response.descriptions) {
@@ -140,6 +143,9 @@ angular.module('oinio.NewOfferController', [])
           }
           if (response.levels.length > 0) {
             obj['levels'] = response.levels;
+          }
+          if (response.names) {
+            obj['levelNames'] = response.names;
           }
           if (response.descriptions.length > 0) {
             obj['descriptions'] = response.descriptions;

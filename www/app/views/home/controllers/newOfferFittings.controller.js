@@ -27,7 +27,7 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.contentLSGs = [];//LSG
       $scope.paramUrl1 = '/Parts/7990110000/' + $stateParams.SendSoupEntryId;
       $scope.paramUrl2 = '/Parts/7990110003/' + $stateParams.SendSoupEntryId;
-      $scope.getMaintenanceKeyLevelPartssBy2Url= '/getMaintenanceKeyLevelPartssBy2?name=';
+      $scope.getMaintenanceKeyLevelPartssBy2Url= '/MaintenanceKeyLevelParts?names=';
       $scope.paramSaveUrl = '/ServiceQuoteOverview?';
       $scope.paramApprovalsUrl = '/v38.0/process/approvals';
       $scope.paramExeclUrl = '/excel/';
@@ -72,12 +72,20 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.getByPart = function () {
         AppUtilService.showLoading();
         //保养级别带出的配件信息
-        // var priceCondition = {};
-        // onePartOriginals['name'] = '';//数量
-        // onePartOriginals['maintenanceLevel'] = priceCondition['price'];//公布价
         var nameList = [];
         var maintenanceLevelList = [];
-        var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+JSON.stringify(nameList)+"&maintenanceLevel="+JSON.stringify(maintenanceLevelList);
+
+        console.log('$stateParams.SendAllUser:', $stateParams.SendAllUser);
+
+        angular.forEach($stateParams.SendAllUser, function (truckItem) {
+          nameList.push(truckItem.levelNames[truckItem.Maintenance_Level__c]);
+          maintenanceLevelList.push(truckItem.Maintenance_Level__c);
+        });
+          var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+JSON.stringify(nameList)+"&maintenanceLevels="+JSON.stringify(maintenanceLevelList);
+        // var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+"336-03M1"+"&maintenanceLevel=3000";
+
+        console.log('maintenanceKeyLevelPartssBy2Url:', maintenanceKeyLevelPartssBy2Url);
+
         ForceClientService.getForceClient().apexrest(maintenanceKeyLevelPartssBy2Url, 'GET', {}, null, function (response) {
           console.log('getMaintenanceKeyLevelPartssBy2:', response);
 
@@ -115,6 +123,15 @@ angular.module('oinio.NewOfferFittingsController', [])
         console.log('接受点击事件');
         document.addEventListener('click', newHandle);//初始化弹框
         $scope.get();
+        if ($stateParams.SendAllUser.length==0){ //如果没有选择车辆的处理
+          var serviceQuotesNull = {};
+          serviceQuotesNull['Truck_Fleet__c'] = null;
+          $stateParams.SendAllUser.push(serviceQuotesNull);
+        }else {
+          //获得车辆保养级别对应的配件
+          $scope.getByPart();
+        }
+
       });
 
       $scope.$on('$ionicView.beforeLeave', function () {
@@ -1084,6 +1101,17 @@ angular.module('oinio.NewOfferFittingsController', [])
         });
         var hhhh = _.every(clicks, 'isSele', true);
         return _.every(clicks, 'isSele', true);
+      };
+
+      <!--导入常用配件-->
+      $scope.setCommonPartList = function () {
+
+        var truckItems = $scope.contentTruckParts.map(function (parts) {
+          return _.filter(parts.partList, function (truckPart) {
+            return truckPart.isClick;
+          });
+        });
+        console.log('truckItems', truckItems);
       };
 
       <!--常用配件筛选-->
