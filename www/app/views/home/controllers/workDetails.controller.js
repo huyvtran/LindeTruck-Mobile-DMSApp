@@ -77,7 +77,6 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.busyImgStr = "";
 
         $scope.getOrderTypeUri="/NewWorkDetailService?serviceOrderViewId=";
-
         /**
          * 打印预览页面显示
          */
