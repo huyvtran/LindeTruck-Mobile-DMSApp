@@ -67,6 +67,14 @@ angular.module('oinio.NewOfferFittingsController', [])
           AppUtilService.hideLoading();
         });
 
+        //获得车辆保养级别对应的配件
+        if ($stateParams.SendAllUser.length==0){ //如果没有选择车辆的处理
+          var serviceQuotesNull = {};
+          serviceQuotesNull['Truck_Fleet__c'] = null;
+          $stateParams.SendAllUser.push(serviceQuotesNull);
+        }else {
+          $scope.getByPart();
+        }
       };
 
       $scope.getByPart = function () {
@@ -75,19 +83,45 @@ angular.module('oinio.NewOfferFittingsController', [])
         var nameList = [];
         var maintenanceLevelList = [];
 
-        console.log('$stateParams.SendAllUser:', $stateParams.SendAllUser);
-
         angular.forEach($stateParams.SendAllUser, function (truckItem) {
-          nameList.push(truckItem.levelNames[truckItem.Maintenance_Level__c]);
-          maintenanceLevelList.push(truckItem.Maintenance_Level__c);
+          if (truckItem.Maintenance_Level__c){
+            nameList.push(truckItem.levelNames[truckItem.Maintenance_Level__c]);
+            maintenanceLevelList.push(truckItem.Maintenance_Level__c);
+          }
         });
-          var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+JSON.stringify(nameList)+"&maintenanceLevels="+JSON.stringify(maintenanceLevelList);
-        // var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+"336-03M1"+"&maintenanceLevel=3000";
-
-        console.log('maintenanceKeyLevelPartssBy2Url:', maintenanceKeyLevelPartssBy2Url);
-
+        if (maintenanceLevelList.length==0){
+          return;
+        }
+        var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+JSON.stringify(nameList)+"&maintenanceLevels="+JSON.stringify(maintenanceLevelList);
         ForceClientService.getForceClient().apexrest(maintenanceKeyLevelPartssBy2Url, 'GET', {}, null, function (response) {
           console.log('getMaintenanceKeyLevelPartssBy2:', response);
+
+          let parts_number__cList = [];
+          let partsQuantitys = [];
+          angular.forEach(response, function (truckItem) {
+            parts_number__cList.push(truckItem.Part_Number__c);
+            partsQuantitys.push(100000);
+          });
+
+            var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
+                                      + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+
+            ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
+              function (responsePartsRelateds) {
+                AppUtilService.hideLoading();
+                for (let i = 0; i < responsePartsRelateds.length; i++) {
+                  var responsePartsRelatedsList = responsePartsRelateds[i];
+                  $scope.selectedTruckFitItems.push(responsePartsRelatedsList[0]);
+                }
+
+                $scope.getTrucksWithSubstitution();
+              }, function (error) {
+                console.log('error:', error);
+                AppUtilService.hideLoading();
+
+              });
+
+
 
         }, function (error) {
           console.log('error:', error);
@@ -123,14 +157,6 @@ angular.module('oinio.NewOfferFittingsController', [])
         console.log('接受点击事件');
         document.addEventListener('click', newHandle);//初始化弹框
         $scope.get();
-        if ($stateParams.SendAllUser.length==0){ //如果没有选择车辆的处理
-          var serviceQuotesNull = {};
-          serviceQuotesNull['Truck_Fleet__c'] = null;
-          $stateParams.SendAllUser.push(serviceQuotesNull);
-        }else {
-          //获得车辆保养级别对应的配件
-          $scope.getByPart();
-        }
 
       });
 
@@ -240,7 +266,7 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
         $scope.closeSelectPage();
         $scope.getTrucksWithSubstitution();
-        if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != '') {
+        if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null) {
           var onePartOriginals = {};
           var priceCondition = {};
           onePartOriginals['quantity'] = '';//数量

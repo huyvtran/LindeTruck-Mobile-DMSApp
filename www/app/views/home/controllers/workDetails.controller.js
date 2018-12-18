@@ -1453,7 +1453,7 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
         $scope.closeSelectPage();
         $scope.getTrucksWithSubstitution();
-        if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != '') {
+        if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null) {
           var onePartOriginals = {};
           var priceCondition = {};
           onePartOriginals['quantity'] = '';//数量
