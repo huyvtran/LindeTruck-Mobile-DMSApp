@@ -27,16 +27,15 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.contentLSGs = [];//LSG
       $scope.paramUrl1 = '/Parts/7990110000/' + $stateParams.SendSoupEntryId;
       $scope.paramUrl2 = '/Parts/7990110003/' + $stateParams.SendSoupEntryId;
-      $scope.getMaintenanceKeyLevelPartssBy2Url= '/MaintenanceKeyLevelParts?names=';
+      $scope.getMaintenanceKeyLevelPartssBy2Url = '/MaintenanceKeyLevelParts?names=';
       $scope.paramSaveUrl = '/ServiceQuoteOverview?';
       $scope.paramApprovalsUrl = '/v38.0/process/approvals';
       $scope.paramExeclUrl = '/excel/';
       $scope.searchPartssUrl = '/Partss?keyword=';
       $scope.partsRelatedsUrl = '/PartsRelateds?partsNumbers=';
       $scope.partLSGServer = '/LSGServer';
-      $scope.getPersonalPartListService="/PersonalPartListService?action=getParts&userId=";
-      $scope.getPartsWithKeyWord="/PersonalPartListService?action=getPartsWithKeyWord&userId=";
-
+      $scope.getPersonalPartListService = '/PersonalPartListService?action=getParts&userId=';
+      $scope.getPartsWithKeyWord = '/PersonalPartListService?action=getPartsWithKeyWord&userId=';
 
       $scope.get = function () {
         AppUtilService.showLoading();
@@ -68,47 +67,46 @@ angular.module('oinio.NewOfferFittingsController', [])
         });
 
         //获得车辆保养级别对应的配件
-        if ($stateParams.SendAllUser.length==0){ //如果没有选择车辆的处理
+        if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
           var serviceQuotesNull = {};
           serviceQuotesNull['Truck_Fleet__c'] = null;
           $stateParams.SendAllUser.push(serviceQuotesNull);
-        }else {
+        } else {
           $scope.getByPart();
         }
       };
 
       $scope.getByPart = function () {
-        AppUtilService.showLoading();
         //保养级别带出的配件信息
         var nameList = [];
         var maintenanceLevelList = [];
 
         angular.forEach($stateParams.SendAllUser, function (truckItem) {
-          if (truckItem.Maintenance_Level__c){
+          if (truckItem.Maintenance_Level__c) {
             nameList.push(truckItem.levelNames[truckItem.Maintenance_Level__c]);
             maintenanceLevelList.push(truckItem.Maintenance_Level__c);
           }
         });
-        if (maintenanceLevelList.length==0){
+        if (maintenanceLevelList.length == 0) {
           return;
         }
-        var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url+JSON.stringify(nameList)+"&maintenanceLevels="+JSON.stringify(maintenanceLevelList);
-        ForceClientService.getForceClient().apexrest(maintenanceKeyLevelPartssBy2Url, 'GET', {}, null, function (response) {
-          console.log('getMaintenanceKeyLevelPartssBy2:', response);
-
-          let parts_number__cList = [];
-          let partsQuantitys = [];
-          angular.forEach(response, function (truckItem) {
-            parts_number__cList.push(truckItem.Part_Number__c);
-            partsQuantitys.push(100000);
-          });
+        var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url + JSON.stringify(nameList)
+                                              + '&maintenanceLevels=' + JSON.stringify(maintenanceLevelList);
+        ForceClientService.getForceClient().apexrest(maintenanceKeyLevelPartssBy2Url, 'GET', {}, null,
+          function (response) {
+            console.log('getMaintenanceKeyLevelPartssBy2:', response);
+            let parts_number__cList = [];
+            let partsQuantitys = [];
+            angular.forEach(response, function (truckItem) {
+              parts_number__cList.push(truckItem.Part_Number__c);
+              partsQuantitys.push(100000);
+            });
 
             var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                       + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
 
             ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
               function (responsePartsRelateds) {
-                AppUtilService.hideLoading();
                 for (let i = 0; i < responsePartsRelateds.length; i++) {
                   var responsePartsRelatedsList = responsePartsRelateds[i];
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[0]);
@@ -117,15 +115,11 @@ angular.module('oinio.NewOfferFittingsController', [])
                 $scope.getTrucksWithSubstitution();
               }, function (error) {
                 console.log('error:', error);
-                AppUtilService.hideLoading();
-
               });
 
-
-
-        }, function (error) {
-          console.log('error:', error);
-        });
+          }, function (error) {
+            console.log('error:', error);
+          });
 
       };
       $scope.toDisplayImportDiv = function () {
@@ -440,12 +434,13 @@ angular.module('oinio.NewOfferFittingsController', [])
           });
 
       };
-      $scope.calculatePriceConditionPriceAll = function(){
+      $scope.calculatePriceConditionPriceAll = function () {
         //计算合计
         $scope.priceConditionPriceAll = 0;
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           if ($scope.selectedTruckFitItems[i].priceCondition) {
-            $scope.priceConditionPriceAll = $scope.selectedTruckFitItems[i].priceCondition.price+$scope.priceConditionPriceAll;
+            $scope.priceConditionPriceAll =
+              $scope.selectedTruckFitItems[i].priceCondition.price + $scope.priceConditionPriceAll;
           }
         }
       };
@@ -497,13 +492,13 @@ angular.module('oinio.NewOfferFittingsController', [])
       //经济件 替代件 常规件
       $scope.isquoted_Table = function (type) {
         //   console.log("type:", type);
-        var returnType = "sv_Td";
-        if (type === "economical") {
-          returnType = "sv_Td green_type"
-        } else if (type === "substitution") {
-          returnType = "sv_Td blue_type"
-        } else if (type === "common") {
-          returnType = "sv_Td"
+        var returnType = 'sv_Td';
+        if (type === 'economical') {
+          returnType = 'sv_Td green_type';
+        } else if (type === 'substitution') {
+          returnType = 'sv_Td blue_type';
+        } else if (type === 'common') {
+          returnType = 'sv_Td';
         }
         return returnType;
       };
@@ -740,7 +735,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
           oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
-          oneLabourOriginals4["Net_Amount__c"] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
+          oneLabourOriginals4['Net_Amount__c'] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
           oneLabourOriginals4['Material_Type__c'] = 'Part';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
         }
@@ -939,8 +934,6 @@ angular.module('oinio.NewOfferFittingsController', [])
         });
       };
 
-
-
       $scope.getLSG = function () {
         AppUtilService.showLoading();
         $scope.contentLSGs = [];
@@ -967,8 +960,6 @@ angular.module('oinio.NewOfferFittingsController', [])
           AppUtilService.hideLoading();
         });
       };
-
-
 
       //******************LSG勾选框************************ */
       $scope.checkAllSearchResultsLSG = function () {
@@ -1057,7 +1048,6 @@ angular.module('oinio.NewOfferFittingsController', [])
         );
       };
 
-
       $scope.toggleGroup = function (group) {
         group.show = !group.show;
         // console.log("toggleGroup:", group);
@@ -1071,13 +1061,13 @@ angular.module('oinio.NewOfferFittingsController', [])
       //******************常用配件勾选框************************ */
       $scope.checkAllSearchResultsCommonPart = function () {
 
-        var  clicks = [];
+        var clicks = [];
         _.each($scope.contentTruckParts, function (item) {
           var isSelect = _.every(item.partList, 'isClick', true);
-          clicks.push({'isSele':isSelect});
+          clicks.push({'isSele': isSelect});
         });
         var hhhh = _.every(clicks, 'isSele', true);
-        if(_.every(clicks, 'isSele', true)) {
+        if (_.every(clicks, 'isSele', true)) {
 
           _.each($scope.contentTruckParts, function (item) {
             _.each(item.partList, function (partItem) {
@@ -1085,7 +1075,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             });
           });
 
-        }else{
+        } else {
 
           _.each($scope.contentTruckParts, function (item) {
             _.each(item.partList, function (partItem) {
@@ -1109,7 +1099,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         });
       };
 
-      $scope.isTruckPartSelected = function(partItem) {
+      $scope.isTruckPartSelected = function (partItem) {
         if (_.isEmpty(partItem)) {
           return false;
         }
@@ -1120,10 +1110,10 @@ angular.module('oinio.NewOfferFittingsController', [])
         if (_.isEmpty($scope.contentTruckParts)) {
           return false;
         }
-        var  clicks = [];
+        var clicks = [];
         _.each($scope.contentTruckParts, function (item) {
           var isSelect = _.every(item.partList, 'isClick', true);
-          clicks.push({'isSele':isSelect});
+          clicks.push({'isSele': isSelect});
         });
         var hhhh = _.every(clicks, 'isSele', true);
         return _.every(clicks, 'isSele', true);
@@ -1158,7 +1148,6 @@ angular.module('oinio.NewOfferFittingsController', [])
               partItem.isClick = false;
             });
 
-
             $scope.contentTruckItems = res;
             console.log(res);
           },
@@ -1191,17 +1180,15 @@ angular.module('oinio.NewOfferFittingsController', [])
         return partItem.isClick;
       };
 
-
-
       $scope.checkAllSearchPart = function () {
 
-        if(_.every($scope.contentTruckItems, 'isClick', true)) {
+        if (_.every($scope.contentTruckItems, 'isClick', true)) {
 
           _.each($scope.contentTruckItems, function (partItem) {
             partItem.isClick = false;
           });
 
-        }else{
+        } else {
 
           _.each($scope.contentTruckItems, function (partItem) {
             partItem.isClick = true;
@@ -1256,7 +1243,6 @@ angular.module('oinio.NewOfferFittingsController', [])
         }
 
       };
-
 
     });
 
