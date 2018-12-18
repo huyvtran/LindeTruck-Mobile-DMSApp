@@ -164,7 +164,7 @@ angular.module('oinio.NewContentTruckPartController', [])
 
       if (truckItems.length > 0){
         angular.forEach(truckItems, function (truckItem) {
-          partObj.push({"Id":truckItem.Id, "Name":truckItem.Name});
+          partObj.push({"Id":truckItem.Id, "Name":truckItem.Name, 'parts_number__c':truckItem.parts_number__c});
         });
 
         AppUtilService.showLoading();
