@@ -449,7 +449,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.initTrucks=function(trucks){
             truckItems=[];
-            truckItemsSecond=[];
+            //truckItemsSecond=[];
             for (var i =0;i<trucks.length;i++){
                 truckNumber+=trucks[i].Name+";";
                 truckItems.push(
@@ -458,16 +458,18 @@ angular.module('oinio.workDetailsControllers', [])
                         truckItemNum: trucks[i].Name,
                         Operation_Hour__c: 0,
                         Service_Suggestion__c: "",
+                        chooseCheckBox:false,
+                        Operation_Hour__c_second:0,
                         isShow: false
                     }
                 );
-                truckItemsSecond.push(
-                    {
-                        Id:  trucks[i].Id,
-                        Operation_Hour__c: 0,
-                        Service_Suggestion__c: "",
-                    }
-                );
+                // truckItemsSecond.push(
+                //     {
+                //         Id:  trucks[i].Id,
+                //         Operation_Hour__c: 0,
+                //         Service_Suggestion__c: "",
+                //     }
+                // );
             }
         };
 
@@ -1192,7 +1194,7 @@ angular.module('oinio.workDetailsControllers', [])
             for (var i=0;i<$scope.allTruckItems.length;i++){
                 truckItemsSecond.push({
                     Id:  $scope.allTruckItems[i].Id,
-                    Operation_Hour__c: $scope.allTruckItems[i].Operation_Hour__c,
+                    Operation_Hour__c: $scope.allTruckItems[i].chooseCheckBox?$scope.allTruckItems[i].Operation_Hour__c_second:$scope.allTruckItems[i].Operation_Hour__c,
                     Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
                 });
             }
@@ -2351,17 +2353,19 @@ angular.module('oinio.workDetailsControllers', [])
                         Id: $scope.selectedTruckItemsMore[i].Id,
                         truckItemNum: $scope.selectedTruckItemsMore[i].Name,
                         Operation_Hour__c: 0,
+                        chooseCheckBox:false,
+                        Operation_Hour__c_second:0,
                         Service_Suggestion__c: "",
                         isShow: false
                     }
                 );
-                truckItemsSecond.push(
-                    {
-                        Id:  $scope.selectedTruckItemsMore[i].Id,
-                        Operation_Hour__c: 0,
-                        Service_Suggestion__c: "",
-                    }
-                );
+                // truckItemsSecond.push(
+                //     {
+                //         Id:  $scope.selectedTruckItemsMore[i].Id,
+                //         Operation_Hour__c: 0,
+                //         Service_Suggestion__c: "",
+                //     }
+                // );
                 truckIds.push($scope.selectedTruckItemsMore[i].Id);
             }
 

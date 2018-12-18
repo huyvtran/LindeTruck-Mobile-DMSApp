@@ -974,13 +974,13 @@
 					<div class="small_Type_Group">
 						<div class="small_Type_Title"> 是否整单交货: </div>
 						<div class="small_Type_Box">
-							<input type="checkbox" ng-model="chooseValue"/>
+							<input type="checkbox" ng-model="chooseItem.chooseCheckBox"/>
 						</div>
 					</div>
-					<div class="small_Type_Group" ng-show="chooseValue">
+					<div class="small_Type_Group" ng-show="chooseItem.chooseCheckBox">
 						<div class="small_Type_Title">新表工作小时数:</div>
 						<div class="small_Type_Box">
-							<input class="small_Type_Input" value="{{chooseItem.Operation_Hour__c}}" ng-model="chooseItem.Operation_Hour__c" />
+							<input class="small_Type_Input" value="{{chooseItem.Operation_Hour__c_second}}" ng-model="chooseItem.Operation_Hour__c_second" />
 						</div>
 					</div>
 					<div class="small_Type_Group">
