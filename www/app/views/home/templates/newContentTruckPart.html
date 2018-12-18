@@ -184,11 +184,11 @@
 		<div id="selectTruckCP_result" class="big_Box_Group" style="display: block;">
 
 			<div class="small_Box_Title">
-				<input id="ckbox_truck_searchresult_all" style="" type="checkbox" ng-click="checkAllSearchResults();" />
+				<input id="ckbox_truck_searchresult_all" style="" type="checkbox"  ng-checked="isAllSelected()" ng-click="checkAllSearchResults();" />
 				 配件名</div>
 			<ion-list can-swipe="true">
 				<ion-item id="items2" ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text">
-					<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);"
+					<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" ng-checked="isTruckPartSelected(titem)" ng-click="checkSearchResults(titem);"
 						   type="checkbox" /> {{titem.Name}}
 				</ion-item>
 			</ion-list>
@@ -201,7 +201,7 @@
 				<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
 				<!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
 				<!--</ion-item>-->
-				<ion-item id="items3" ng-repeat="ckitem in selectedTruckItems" ng-cloak class="small_Box_Text">
+				<ion-item id="items3" ng-repeat="ckitem in contentSelectTruckItems();" ng-cloak class="small_Box_Text">
 					<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png" /></span> {{ckitem.Name}}
 				</ion-item>
 			</ion-list>

@@ -338,7 +338,7 @@
 					<div>
 						<div class="import_Head">
 							<div class="import_Left">
-								<input id="ckbox_truckCommonPart_searchresult_all" type="checkbox" ng-click="checkAllSearchResultsCommonPart();" />
+								<input ng-model="ckbox_truckCommonPart_searchresult_all" type="checkbox" ng-checked="isAllSelected()" ng-click="checkAllSearchResultsCommonPart();" />
 
 							</div>
 							<div class="import_Center">
@@ -350,25 +350,24 @@
 						</div>
 						<div>
 							<ion-list>
-								<div ng-repeat="group in contentLSGs">
+								<div ng-repeat="group in contentTruckParts">
 									<ion-item class="item-stable" ng-click="toggleGroup(group)" ng-class="{active: isGroupShown(group)}">
 										<div class="import_Body import_FirstBody">
-											<!-- <div class="import_Left"> <input type="checkbox" /> </div> -->
 											<div class="import_Center">
 												<i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
 												&nbsp;
-												<div> {{group.cartName}} </div>
+												<div> {{group.Name}} </div>
 											</div>
 										</div>
 									</ion-item>
-									<ion-item class="item-accordion" ng-repeat="litems in group.cartList" ng-show="isGroupShown(group)">
+									<ion-item class="item-accordion" ng-repeat="litems in group.partList" ng-show="isGroupShown(group)">
 										<div class="import_Body import_SecondBody">
 											<div class="import_Left"> </div>
 											<div class="import_Center">
-												<input data-recordid={{litems.itemIdentifier}} class="ckbox_truck_searchresult_itemCommonPart" type="checkbox" />
-												<div> {{litems.itemIdentifier}} </div>
+												<input data-recordid={{litems.Id}} ng-click="checkSearchResultsCommonPart(litems)"  class="ckbox_truck_searchresult_itemCommonPart" type="checkbox" ng-checked="isTruckPartSelected(litems)"  />
+												<div> {{litems.Name}} </div>
 											</div>
-											<div class="import_Right"> {{litems.quantity}} </div>
+											<div class="import_Right"> {{litems.Part_Number__c}} </div>
 										</div>
 									</ion-item>
 								</div>
@@ -391,10 +390,10 @@
 						<div class="back_Icon"></div>
 					</div>
 					<div class="search_All">
-						<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckText" />
+						<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()" ng-model="searchTruckPartText" />
 						<!--<div class="search_Photo_Icon"></div>-->
 					</div>
-					<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucksWithKey(searchTruckText);" ng-show="searchTruckText">
+					<div class="search_right_Group" id="cancleBtn1" ng-click="getTrucksWithKey(searchTruckPartText);" ng-show="searchTruckPartText">
 						<div class="text_Cancel"> 搜索 </div>
 					</div>
 				</div>
@@ -409,32 +408,32 @@
 				<div class="search_bodyer" style="background-color: white;">
 						<div id="selectTruckCP_result" class="big_Box_Group" style="display: block;">
 
-							<div class="small_Box_Title"> <input id="ckbox_truck_searchresult_all" style="" type="checkbox" ng-click="checkAllSearchResults();" />
-								全选 </div>
+							<div class="small_Box_Title"> <input ng-model="ckbox_truck_searchresult_all" style="" type="checkbox" ng-checked="isSearchAllSelected()" ng-click="checkAllSearchPart();" />
+								常用配件名 </div>
 							<ion-list can-swipe="true">
 								<ion-item id="items2" ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text">
-									<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" style="" ng-click="checkSearchResults(titem);"
-									 type="checkbox" /> {{titem.Name}}
+									<input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item" ng-checked="isSearchTruckPartSelected(titem)"  ng-click="checkSearchPartItem(titem);"
+									 type="checkbox"/> {{titem.Name}}
 								</ion-item>
 							</ion-list>
 
 						</div>
 					<div id="selectTruckCP_checked" class="big_Box_Group" style="display: none;">
-						<div class="small_Box_Title"> <img ng-click="delAllSelectedItem();" src="././img/images/del_red_icon.png" /> 全选删除
+						<div class="small_Box_Title"> <img ng-click="delAllSelectedPrat();" src="././img/images/del_red_icon.png" /> 全选删除
 						</div>
 						<ion-list can-swipe="true">
 							<!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
 							<!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
 							<!--</ion-item>-->
-							<ion-item id="items3" ng-repeat="ckitem in selectedTruckItems" ng-cloak class="small_Box_Text">
-								<span ng-click="delSelectedItem(ckitem);"><img src="././img/images/del_red_icon.png" /></span> {{ckitem.Name}}
+							<ion-item id="items3" ng-repeat="ckitem in contentSelectTruckItems();" ng-cloak class="small_Box_Text">
+								<span ng-click="delSelectedPrat(ckitem);"><img src="././img/images/del_red_icon.png" /></span> {{ckitem.Name}}
 							</ion-item>
 						</ion-list>
 					</div>
 				</div>
 				<div class="footer">
 					<div class="footer_Btn" ng-click="closeSelectPageWithCP();">取消</div>
-					<div class="footer_Btn Save_Btn_Act" ng-click="closeSelectPageWithCP();">确定</div>
+					<div class="footer_Btn Save_Btn_Act" ng-click="saveSelectPageWithCP();">确定</div>
 				</div>
 			</div>
 			<!--添加删除车辆-->

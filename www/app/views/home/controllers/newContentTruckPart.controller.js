@@ -3,7 +3,6 @@ angular.module('oinio.NewContentTruckPartController', [])
 
     var vm = this;
     $scope.contentTruckItems = [];//配件
-    $scope.selectedTruckItems=[];
     $scope.data = {};
     $scope.searchTruckText ='';
     $scope.searchResultTruckName ='';
@@ -21,7 +20,7 @@ angular.module('oinio.NewContentTruckPartController', [])
      * @desc
      */
     $scope.$on('$ionicView.beforeEnter', function () {
-      
+
     });
 
     //搜索配件
@@ -51,6 +50,9 @@ angular.module('oinio.NewContentTruckPartController', [])
               var responsePartsRelatedsList = responsePartsRelateds[i];
               $scope.contentTruckItems.push(responsePartsRelatedsList[0]);
             }
+            _.each($scope.contentTruckItems, function (partItem) {
+              partItem.isClick = false;
+            });
           }, function (error) {
             console.log('error:', error);
             AppUtilService.hideLoading();
@@ -63,42 +65,11 @@ angular.module('oinio.NewContentTruckPartController', [])
       });
     };
 
-    $scope.checkSearchResults = function (ele) {
-      let element = $("input.ckbox_truck_searchresult_item[data-recordid*='"+ele.Id+"']");
-      console.log('checkSearchResults::',element);
-
-      if(element != null && element.length > 0) {
-        if(element[0].checked) {
-          let existFlag = false;
-          for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
-            if (ele.Id == $scope.selectedTruckItems[i].Id) {
-              existFlag = true;
-            }
-          }
-          if (!existFlag) {
-            $scope.selectedTruckItems.push(ele);
-            $scope.updateTruckString();
-          }
-        }else{
-          let temp = [];
-          for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
-            if (ele.Id != $scope.selectedTruckItems[i].Id) {
-              temp.push($scope.selectedTruckItems[i]);
-            }
-          }
-          $scope.selectedTruckItems = temp;
-          $scope.updateTruckString();
-        }
-      }else{
-        console.log('checkSearchResults::error');
-      }
+    $scope.contentSelectTruckItems = function () {
+      return _.filter($scope.contentTruckItems, function (truckPart) {
+        return truckPart.isClick;
+      });
     };
-
-
-    $scope.$on('$ionicView.enter', function () {
-      // check if device is online/offline
-
-    });
 
 
     $scope.changeTruckTab = function (index) {
@@ -118,131 +89,115 @@ angular.module('oinio.NewContentTruckPartController', [])
     };
 
 
+    $scope.isAllSelected = function () {
+      if (_.isEmpty($scope.contentTruckItems)) {
+        return false;
+      }
+      var isSelect = _.every($scope.contentTruckItems, 'isClick', true);
+      return isSelect;
+    };
+
+    $scope.isTruckPartSelected = function(partItem) {
+      if (_.isEmpty(partItem)) {
+        return false;
+      }
+      return partItem.isClick;
+    };
+
     $scope.checkAllSearchResults = function () {
-      let ele = $("#ckbox_truck_searchresult_all");
 
-      console.log('checkAllSearchResults:::',ele.prop("checked"));
-      if(ele.prop("checked")) {
-        $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-          $(this).prop("checked", true);
+      if(_.every($scope.contentTruckItems, 'isClick', true)) {
+
+        _.each($scope.contentTruckItems, function (partItem) {
+          partItem.isClick = false;
         });
 
-        angular.forEach($scope.contentTruckItems, function (searchResult) {
-          let existFlag = false;
-          angular.forEach($scope.selectedTruckItems, function (selected) {
-            if(searchResult.Id == selected.Id){
-              existFlag = true;
-            }
-          });
-          if(!existFlag){
-            $scope.selectedTruckItems.push(searchResult);
-            $scope.updateTruckString();
-          }
-        });
       }else{
 
-        $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-          console.log('666:::',element.checked);
-          element.checked = false;
+        _.each($scope.contentTruckItems, function (partItem) {
+          partItem.isClick = true;
         });
-
-        let arr_temp = [];
-        angular.forEach($scope.selectedTruckItems, function (selected) {
-          let existFlag = false;
-          angular.forEach($scope.contentTruckItems, function (searchResult) {
-            if(searchResult.Id == selected.Id){
-              existFlag = true;
-            }
-          });
-          if(!existFlag){
-            arr_temp.push(selected);
-          }
-        });
-        $scope.selectedTruckItems = arr_temp;
-        $scope.updateTruckString();
-
       }
+    };
+
+    $scope.checkSearchResults = function (titem) {
+
+      _.each($scope.contentTruckItems, function (partItem) {
+        if (_.isEqual(partItem, titem)) {
+          if (partItem.isClick === true) {
+            _.assign(partItem, {isClick: false});
+          } else {
+            _.assign(partItem, {isClick: true});
+          }
+        }
+      });
+
     };
 
     $scope.delSelectedItem = function (ele) {
-      //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
-      let new_temp = [];
 
-      for (var i=0;i<$scope.selectedTruckItems.length;i++){
-        if(ele.Id != $scope.selectedTruckItems[i].Id){
-          new_temp.push($scope.selectedTruckItems[i]);
-        }
-      }
-
-      $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-        if($(element).attr("data-recordid") == ele.Id && element.checked) {
-          element.checked = false;
+      _.each($scope.contentTruckItems, function (partItem) {
+        if (_.isEqual(partItem, ele)) {
+          _.assign(partItem, {isClick: false});
         }
       });
-      document.getElementById("ckbox_truck_searchresult_all").checked = false;
-
-      $scope.selectedTruckItems = new_temp;
-      $scope.updateTruckString();
-
     };
 
     $scope.delAllSelectedItem = function () {
-      $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-        element.checked = false;
+      _.each($scope.contentTruckItems, function (partItem) {
+        partItem.isClick = false;
       });
-      document.getElementById("ckbox_truck_searchresult_all").checked = false;
-
-      $scope.selectedTruckItems = [];
-      $scope.updateTruckString();
     };
 
-    $scope.updateTruckString = function () {
-      let new_temp = '';
 
-      for (var i=0;i<$scope.selectedTruckItems.length;i++){
-        new_temp = new_temp + $scope.selectedTruckItems[i].Name + ';';
-      }
-
-      $scope.searchResultTruckName = new_temp;
-
-    };
 
     //添加分类配件
     $scope.addClassificationParts = function () {
 
-      // { "partObjs": [{"Id":xx, "Name":xx}], "perPartListParentId":xx, "userId": xx }
+
+
       var partObj = [];
       // $stateParams.partItem;
-      angular.forEach($scope.selectedTruckItems, function (truckItem) {
-        partObj.push({"Id":truckItem.Id, "Name":truckItem.Name});
+      var truckItems =  _.filter($scope.contentTruckItems, function (truckPart) {
+        return truckPart.isClick;
       });
 
-     var personalPartListData = { "partObjs" : partObj, "perPartListParentId" : $stateParams.partItem.Id, "userId" : oCurrentUser.Id };
-
-      ForceClientService.getForceClient().apexrest($scope.createPartListUrl + JSON.stringify(personalPartListData), 'POST', {}, null,
-        function (responsePartsRelateds) {
-          AppUtilService.hideLoading();
-          console.log('getPartsRelatedsUrlRes:', responsePartsRelateds);
-
-          if (responsePartsRelateds.status == "Success"){
-            var ionPop = $ionicPopup.alert({
-              title: '保存成功'
-            });
-            ionPop.then(function (res) {
-              window.history.back();
-            });
-          }else{
-            $ionicPopup.alert({
-              title: "保存失败"
-            });
-          }
-        }, function (error) {
-          console.log('error:', error);
-          AppUtilService.hideLoading();
-
+      if (truckItems.length > 0){
+        angular.forEach(truckItems, function (truckItem) {
+          partObj.push({"Id":truckItem.Id, "Name":truckItem.Name});
         });
-      
 
+        AppUtilService.showLoading();
+
+        var personalPartListData = { "partObjs" : partObj, "perPartListParentId" : $stateParams.partItem.Id, "userId" : oCurrentUser.Id };
+
+        ForceClientService.getForceClient().apexrest($scope.createPartListUrl + JSON.stringify(personalPartListData), 'POST', {}, null,
+          function (responsePartsRelateds) {
+            AppUtilService.hideLoading();
+            console.log('getPartsRelatedsUrlRes:', responsePartsRelateds);
+
+            if (responsePartsRelateds.status == "Success"){
+              var ionPop = $ionicPopup.alert({
+                title: '保存成功'
+              });
+              ionPop.then(function (res) {
+                window.history.back();
+              });
+            }else{
+              $ionicPopup.alert({
+                title: "保存失败"
+              });
+            }
+          }, function (error) {
+            console.log('error:', error);
+            AppUtilService.hideLoading();
+
+          });
+      } else {
+        $ionicPopup.alert({
+          title: "请选择配件"
+        });
+      }
     };
 
     $scope.closeSelectPage =function () {
