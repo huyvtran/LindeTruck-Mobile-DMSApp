@@ -361,7 +361,8 @@
                     workOrderId: obj.Id,
                     enableArrivalBtn:true,
                     goOffTime: goTime,
-                    isNewWorkList: isNewWork
+                    isNewWorkList: isNewWork,
+                    accountId:obj. Account_Ship_to__r.Id
                 });
             };
 

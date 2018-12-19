@@ -34,6 +34,7 @@ angular.module('oinio.workDetailsControllers', [])
             goTime=null,
             truckIds =[],
             initTrucks=[],
+            orderAccountId=null,
             selectTypeIndex=0, //作业类型默认选择第一个
             enableArrival=true,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -110,6 +111,7 @@ angular.module('oinio.workDetailsControllers', [])
             console.log("$stateParams.selectTypeIndex", $stateParams.selectWorkTypeIndex);
             console.log("$stateParams.workOrderId",$stateParams.workOrderId);
             console.log("$stateParams.enableArrivalBtn",$stateParams.enableArrivalBtn);
+            console.log("$stateParams.accountId",$stateParams.accountId);
 
             userInfoId = $stateParams.SendInfo;//原先工单数据的本地Id 现改为在线Id
             Account_Ship_to__c = $stateParams.AccountShipToC; //原工单
@@ -119,6 +121,7 @@ angular.module('oinio.workDetailsControllers', [])
             orderDetailsId=$stateParams.workOrderId;
             $scope.showFooter=$stateParams.isNewWorkList;
             enableArrival=$stateParams.enableArrivalBtn;
+            orderAccountId=$stateParams.accountId;
 
             //获取作业类型选择索引
             if($stateParams.selectWorkTypeIndex!=null){
@@ -2778,5 +2781,17 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
 
+        /**
+         * 工单转报价
+         */
+       $scope.goNewOfferFittings =function () {
+
+
+           $state.go('app.newOfferFittings',
+               {
+                    SendAllUser:$scope.allTruckItems,
+                    SendSoupEntryId:orderAccountId
+               });
+       };
     });
 

@@ -621,7 +621,8 @@ angular.module('oinio.newWorkListControllers', [])
                                             isNewWorkList:true,
                                             enableArrivalBtn:false,
                                             selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
-                                            workOrderId:currentWorkOrderId
+                                            workOrderId:currentWorkOrderId,
+                                            accountId:$scope.searchResultAcctId
                                         });
                                 }else{
                                     $ionicPopup.alert({
