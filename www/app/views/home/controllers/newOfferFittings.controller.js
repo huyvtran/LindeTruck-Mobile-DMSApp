@@ -1121,13 +1121,44 @@ angular.module('oinio.NewOfferFittingsController', [])
 
       <!--导入常用配件-->
       $scope.setCommonPartList = function () {
-
+        $scope.closeSelectPage();
+        AppUtilService.showLoading();
         var truckItems = $scope.contentTruckParts.map(function (parts) {
           return _.filter(parts.partList, function (truckPart) {
             return truckPart.isClick;
           });
         });
         console.log('truckItems', truckItems);
+
+        let parts_number__cList = [];
+        let partsQuantitys = [];
+        angular.forEach(truckItems, function (forEachItem) {
+          angular.forEach(forEachItem, function (forEachItemTwo) {
+            parts_number__cList.push(forEachItemTwo.Part_Number__c);
+            partsQuantitys.push(100000);
+          });
+
+        });
+
+        var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+
+        ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
+          function (responsePartsRelateds) {
+            AppUtilService.hideLoading();
+
+            for (let i = 0; i < responsePartsRelateds.length; i++) {
+              var responsePartsRelatedsList = responsePartsRelateds[i];
+              $scope.selectedTruckFitItems.push(responsePartsRelatedsList[0]);
+            }
+
+            $scope.getTrucksWithSubstitution();
+          }, function (error) {
+            console.log('error:', error);
+            AppUtilService.hideLoading();
+
+          });
+
       };
 
       <!--常用配件筛选-->
