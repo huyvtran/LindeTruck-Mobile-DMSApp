@@ -2786,7 +2786,11 @@ angular.module('oinio.workDetailsControllers', [])
          */
        $scope.goNewOfferFittings =function () {
 
-
+           var truckItemsPost=[];
+           for (var i =0;i<$scope.allTruckItems.length;i++){
+               $scope.allTruckItems[i].Name=$scope.allTruckItems[i].truckItemNum;
+               $scope.allTruckItems[i].Truck_Fleet__c=$scope.allTruckItems[i].truckItemNum;
+           }
            $state.go('app.newOfferFittings',
                {
                     SendAllUser:$scope.allTruckItems,
