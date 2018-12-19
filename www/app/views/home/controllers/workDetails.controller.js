@@ -459,7 +459,7 @@ angular.module('oinio.workDetailsControllers', [])
                         Operation_Hour__c: 0,
                         Service_Suggestion__c: "",
                         chooseCheckBox:false,
-                        Operation_Hour__c_second:0,
+                        New_Operation_Hour__c:0,
                         isShow: false
                     }
                 );
@@ -1190,14 +1190,24 @@ angular.module('oinio.workDetailsControllers', [])
             // });
 
             truckItemsSecond=[];
-
             for (var i=0;i<$scope.allTruckItems.length;i++){
                 truckItemsSecond.push({
-                    Id:  $scope.allTruckItems[i].Id,
-                    Operation_Hour__c: $scope.allTruckItems[i].chooseCheckBox?$scope.allTruckItems[i].Operation_Hour__c_second:$scope.allTruckItems[i].Operation_Hour__c,
+                    Truck_Serial_Number__c:  $scope.allTruckItems[i].Id,
+                    Operation_Hour__c: Number($scope.allTruckItems[i].Operation_Hour__c),
                     Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
+                    New_Operation_Hour__c:Number($scope.allTruckItems[i].New_Operation_Hour__c),
+                    //Measure_Date__c:new Date()
                 });
             }
+            var newTrucks=[];
+            for (var i = 0;i<truckIds.length;i++){
+                for (var j =0;j<truckItemsSecond.length;j++){
+                        if (truckIds[i]==truckItemsSecond[j].Truck_Serial_Number__c){
+                            newTrucks.push(truckItemsSecond[j]);
+                        }
+                }
+            }
+
 
             /**
              * 在线保存工单详情页的数据
@@ -1214,7 +1224,7 @@ angular.module('oinio.workDetailsControllers', [])
                         "str_suggestion":$('#serviceSuggest').val().trim(),
                         //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
                         //"leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
-                        "trucks":truckIds,
+                        "truckOrders":newTrucks,
                         "sigAcctImages":$scope.busyImgStr!="data:image/jpeg;base64,undefined"?$scope.busyImgStr.replace(/data:image\/jpeg;base64,/, ''):"",
                         "sigEngineerImages":$scope.engineerImgStr!="data:image/jpeg;base64,undefined"?$scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, ''):""
                     }),null,function success(res) {
@@ -2354,7 +2364,7 @@ angular.module('oinio.workDetailsControllers', [])
                         truckItemNum: $scope.selectedTruckItemsMore[i].Name,
                         Operation_Hour__c: 0,
                         chooseCheckBox:false,
-                        Operation_Hour__c_second:0,
+                        New_Operation_Hour__c:0,
                         Service_Suggestion__c: "",
                         isShow: false
                     }
