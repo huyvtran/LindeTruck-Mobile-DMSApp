@@ -27,20 +27,20 @@
 	  		<div>
 	  			<div class="small_Type_Group">
 		  			<div class="small_Type_Title"> 转出客户: </div>
-					<div class="small_Type_Box">
-		  				<input class="small_Type_Input" placeHolder="地址/电话/客户编码"/>
+					<div class="small_Type_Box" ng-click="openSelectPage('getCustomer');">
+		  				<input class="small_Type_Input" placeHolder="地址/电话/客户编码" readonly="true" ng-model="getCustomerText"/>
 		  			</div>
 		  		</div>
 		  		<div class="small_Type_Group">
 		  			<div class="small_Type_Title"> 转入客户: </div>
-					<div class="small_Type_Box">
-		  				<input class="small_Type_Input" placeHolder="地址/电话/客户编码"/>
+					<div class="small_Type_Box" ng-click="openSelectPage('outCustomer');">
+		  				<input class="small_Type_Input" placeHolder="地址/电话/客户编码" readonly="true" ng-model="outCustomerText"/>
 		  			</div>
 		  		</div>
 		  		<div class="small_Type_Group">
 		  			<div class="small_Type_Title"> 转出车档号: </div>
-					<div class="small_Type_Box">
-		  				<input class="small_Type_Input" placeHolder="车型/门架号/发动机号"/>
+					<div class="small_Type_Box" ng-click="openVehicleNumberPage();">
+		  				<input class="small_Type_Input" placeHolder="车型/门架号/发动机号" readonly="true" ng-model="vehicleTypeText"/>
 		  			</div>
 		  		</div>
 	  			<div class="small_Type_Group">
@@ -53,7 +53,7 @@
 	  	</div>
   	</div>
   	<div class="transferRequest_footer">
-  		<div class="footer_Btn">取消</div>
+  		<div class="footer_Btn" ng-click="goBack()">取消</div>
   		<div class="footer_Btn Submit_Btn">提交</div>
   	</div>
 </body>

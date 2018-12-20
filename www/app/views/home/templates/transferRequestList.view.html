@@ -40,9 +40,17 @@
 	<div class="transferRequestList_bodyer">
 	  	<div class="big_Type_Group">
 		  	<div>
+				<div class="selectTruckCP_Tabs" style="">
+					<div id="selectTruckCP_Tab_1" class="selectTruckCP_Tab selectTruckCP_Tab_Active" ng-click="changeTruckTabWithCP('1');" style="">
+						<span class="selectTruckCP_Tab_Text" style="">转移申请</span>
+					</div>
+					<div id="selectTruckCP_Tab_2" class="selectTruckCP_Tab" ng-click="changeTruckTabWithCP('2');" style="">
+						<span class="selectTruckCP_Tab_Text" style="">报废申请</span>
+					</div>
+				</div>
 	  			<div class="">
 	  				<select class="small_Type_Select">
-	  					<option>转移申请状态选择</option>
+	  					<option> {{selectedTapIndex == '1' ? '转移申请状态选择' : '报废申请状态选择'}}</option>
 	  				</select>
 	  			</div>
 		  		<table cellpadding="0" cellspacing="0" border="0" class="transferRequestList_Table">
@@ -73,6 +81,9 @@
 		  		</table>
 		  	</div>
 	  	</div>
+		<div class="footer">
+			<div class="footer_Btn_Act" ng-click="goTransferRequest();">转出申请</div>
+		</div>
   	</div>
 </body>
 </html>

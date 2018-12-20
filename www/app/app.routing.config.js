@@ -154,6 +154,29 @@
                 cache:false
             })
 
+            .state('app.searchCustomer',{
+                url:'app/searchCustomer',
+                params:{customerType:null},
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/searchCustomer.view.html',
+                        controller: 'SearchCustomerController as vm'
+                    }
+                },
+                cache:false
+            })
+            .state('app.searchVehicle',{
+                url:'app/searchVehicle',
+                params:{acctId:null},
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/searchVehicle.view.html',
+                        controller: 'SearchVehicleController as vm'
+                    }
+                },
+                cache:false
+            })
+
             .state('app.transferRequest',{
                 url:'app/transferRequest',
                 views:{

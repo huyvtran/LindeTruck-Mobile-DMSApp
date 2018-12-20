@@ -1,0 +1,115 @@
+body {
+	margin: 0;
+	font-size: 1rem;
+    font-family: 微软雅黑, 华文黑体, sans-serif;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    background-position: 50%;
+    overflow: hidden;
+}
+img {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.to_Open {
+    display: block!important;
+}
+.to_Hide {
+    display: none!important;
+}
+/* head */
+.customer_header {
+    background: #aa0020;
+    /*width: 90%;*/
+    height: 64px;
+    position: relative;
+    padding: 0 5%;
+    line-height: 64px;
+}
+.customer_header .left_Box {
+    display: inline-flex;
+    width: 10%;
+    vertical-align: middle;
+}
+
+.search_All {
+    display: inline-block;
+    width: 72%;
+    position: relative;
+    vertical-align: middle;
+}
+
+.search_All input.search_Input {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+    padding: 0 10% 0 15%;
+    font-size: 0.8rem;
+    color: #000000;
+    border: 1px solid #d6d6d6;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    text-align: center;
+}
+
+.search_right_Group {
+    display: inline-block;
+    width: 15%;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+.text_Cancel {
+    line-height: initial;
+    text-align: right;
+}
+
+/*.search_bodyer {*/
+    /*background-color: white;*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: cover;*/
+    /*overflow-y: auto;*/
+    /*height: calc(100vh - 64px);*/
+/*}*/
+
+/* body */
+.customer_bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 64px);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+}
+
+.big_Box_Group {
+    margin: 5% 0;
+}
+
+.small_Box_Title {
+    color: #aa0020;
+    font-weight: bold;
+    border-bottom: 1px solid #aa0020;
+    padding-bottom: 2%;
+    margin: 0 5%;
+}
+
+.small_Box_Text {
+    color: #535353;
+    font-size: 0.8rem;
+    padding-bottom: 1%;
+    margin: 2% 5% 2% 5%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
+    border-bottom: 1px solid #535353;
+    border-top: 0px solid #535353;
+    border-left: 0px solid #535353;
+    border-right: 0px solid #535353;
+    background-color: transparent;
+}

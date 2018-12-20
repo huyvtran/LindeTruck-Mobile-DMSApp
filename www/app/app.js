@@ -66,6 +66,8 @@
             'oinio.TransferRequestListController',
             'oinio.generateOrdersController',
             'oinio.ErrorCodeController',
+            'oinio.SearchCustomerController',
+            'oinio.SearchVehicleController',
             'oinio.TransferController',
             'oinio.SendMorePeopleController'
         ]);

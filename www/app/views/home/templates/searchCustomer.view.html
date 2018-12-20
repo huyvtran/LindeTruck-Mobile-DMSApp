@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> error Code </title>
+	<link rel="stylesheet" href="././css/searchCustomer.css">
+
+	<style type="text/css">
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+			background-image: url(././img/images/back_icon.png);
+		}
+	</style>
+</head>
+<body>
+<div class="customer_header">
+	<div class="left_Box" ng-click="goBack()">
+		<div class="back_Icon"></div>
+	</div>
+	<div class="search_All">
+		<input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()"
+			   ng-model="searchAcctText" />
+	</div>
+	<div class="search_right_Group" id="cancleBtn1" ng-click="getAccts(searchAcctText);" ng-show="searchAcctText">
+		<div class="text_Cancel"> 搜索 </div>
+	</div>
+</div>
+<div class="customer_bodyer" style="background-color: white;">
+	<div class="big_Box_Group">
+		<div class="small_Box_Title"> 查询客户 </div>
+		<ion-list can-swipe="true">
+			<ion-item id="items2" ng-repeat="item in contentItems" ng-cloak ng-click="selectAccount(item);"
+					  class="small_Box_Text">
+				{{item.Name}}
+			</ion-item>
+		</ion-list>
+	</div>
+</div>
+</body>
+</html>

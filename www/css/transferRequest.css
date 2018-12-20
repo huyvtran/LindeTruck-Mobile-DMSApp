@@ -23,7 +23,7 @@ img {
 /* head */
 .transferRequest_header {
     background: #aa0020;
-    width: 90%;
+    width: 100%;
     height: 64px;
     position: relative;
     padding: 0 5%;
@@ -83,7 +83,7 @@ img {
 }
 .transferRequest_bodyer .OpenClose_Btn {
     background-repeat: no-repeat;
-    background-size: cover; 
+    background-size: cover;
     display: inline-flex;
     width: 18px;
     height: 10px;
