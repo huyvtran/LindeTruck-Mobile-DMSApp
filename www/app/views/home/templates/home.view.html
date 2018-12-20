@@ -65,6 +65,29 @@
             background-repeat: no-repeat;
             background-size: cover;
         }
+
+        .homeCalendar_Tabs {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 30px;
+            background-color: white;
+        }
+
+        .homeCalendar_Tab {
+            width: 50%;
+            text-align: center;
+        }
+
+        .homeCalendar_Tab_Text {
+            line-height: 30px;
+            font-size: 16px;
+        }
+
+        .homeCalendar_Tab_Active {
+            background-color: #d8d8d8;
+        }
     </style>
 </head>
 
@@ -155,6 +178,15 @@
                         </div>
                     </div>
                     <div class="calendar_bodyer">
+                        <div class="homeCalendar_Tabs" style="">
+                            <div id="selectTruck_Tab_1" class="homeCalendar_Tab homeCalendar_Tab_Active" ng-click="changeCalendarTab('1');"
+                                 style="">
+                                <span class="homeCalendar_Tab_Text" style="">工单</span>
+                            </div>
+                            <div id="selectTruck_Tab_2" class="homeCalendar_Tab" ng-click="changeCalendarTab('2');" style="">
+                                <span class="homeCalendar_Tab_Text" style="">工作计划</span>
+                            </div>
+                        </div>
                         <!-- 日历 -->
                         <div id="calendarAll" on-swipe-left="onSwipeLeft()" on-swipe-right="onSwipeRight()"></div>
                         <table class="screen_Btn_Group">

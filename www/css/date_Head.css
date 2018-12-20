@@ -139,8 +139,8 @@ img {
 }
 
 .calendar_bodyer .fc-toolbar.fc-header-toolbar {
-    margin: 1% 0 0 0;
-    background: #ffffff;
+    margin: 4px 0 4px 0;
+    background: transparent;
 }
 .calendar_bodyer .fc-month-view tr:first-child > td > .fc-day-grid-event {
     margin-top: -7px;
