@@ -76,15 +76,17 @@ angular.module('oinio.NewOfferFittingsController', [])
         }
 
         //获得工单转报价对应的配件
-        if ($stateParams.OrderTruckItem.length == 0) { //如果没有选择车辆的处理
-          var serviceQuotesNull = {};
-          serviceQuotesNull['Truck_Fleet__c'] = null;
-          $stateParams.SendAllUser.push(serviceQuotesNull);
-        } else {
-          $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
-          $scope.getTrucksWithSubstitution();
-
+        if ($stateParams.OrderTruckItem){
+          if ($stateParams.OrderTruckItem.length == 0) { //如果没有选择车辆的处理
+            var serviceQuotesNull = {};
+            serviceQuotesNull['Truck_Fleet__c'] = null;
+            $stateParams.SendAllUser.push(serviceQuotesNull);
+          } else {
+            $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
+            $scope.getTrucksWithSubstitution();
+          }
         }
+
 
       };
 
