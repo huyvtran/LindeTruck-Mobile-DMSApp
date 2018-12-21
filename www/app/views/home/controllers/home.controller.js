@@ -42,8 +42,8 @@ angular.module('oinio.controllers', [])
       // });
       //新加弹框点击事件
       var newHandle = function (e) {
-        console.log('e.target', e.target);
-        console.log('document.getElementById(btn_modify_Btn)', document.getElementById('add_bgbox1_Btn'));
+        //console.log('e.target', e.target);
+        //console.log('document.getElementById(btn_modify_Btn)', document.getElementById('add_bgbox1_Btn'));
         if (e.target === document.getElementById('add_bgbox1_Btn')) {
           $scope.toDisplayModifyDiv();
         } else {

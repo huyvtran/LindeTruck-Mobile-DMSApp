@@ -179,54 +179,95 @@
                     </div>
                     <div class="calendar_bodyer">
                         <div class="homeCalendar_Tabs" style="">
-                            <div id="selectTruck_Tab_1" class="homeCalendar_Tab homeCalendar_Tab_Active" ng-click="changeCalendarTab('1');"
+                            <div id="homeCalendar_Tab_1" class="homeCalendar_Tab homeCalendar_Tab_Active" ng-click="changeCalendarTab('1');"
                                  style="">
                                 <span class="homeCalendar_Tab_Text" style="">工单</span>
                             </div>
-                            <div id="selectTruck_Tab_2" class="homeCalendar_Tab" ng-click="changeCalendarTab('2');" style="">
+                            <div id="homeCalendar_Tab_2" class="homeCalendar_Tab" ng-click="changeCalendarTab('2');" style="">
                                 <span class="homeCalendar_Tab_Text" style="">工作计划</span>
                             </div>
                         </div>
                         <!-- 日历 -->
-                        <div id="calendarAll" on-swipe-left="onSwipeLeft()" on-swipe-right="onSwipeRight()"></div>
-                        <table class="screen_Btn_Group">
-                            <tr>
-                                <td class="screen_Left">
-                                    <select id="selectStatusId">
-                                        <option>全部</option>
-                                        <option>未安排</option>
-                                        <option>未开始</option>
-                                        <option>进行中</option>
-                                        <option>已完成</option>
-                                    </select>
-                                </td>
-                                <td class="screen_Right">
-                                    <select id="selectUserId">
-                                        <option ng-repeat="itemuser in allUser">{{itemuser.userName}}</option>
-                                    </select>
-                                </td>
-                            </tr>
-                        </table>
-                        <div id="orderListClassType" class="big_Type_Group">
-                            <ion-list can-swipe="true" >
-                                <ion-item id="orderlist" ng-repeat="item in currentOrder" ng-cloak ng-click="showPopup(item)" class="small_Type_Table">
-                                        <!-- ng-class="isquoted_Table(item.type)" -->
-                                    <table cellpadding="0" cellspacing="0">
-                                        <tr>
-                                            <td class="table_Left"> 客户名称： </td>
-                                            <td class="table_Center"> {{item.Account_Ship_to__r.Name}}</td>
-                                            <td ng-class="isOlder_Table(item.Status__c)" rowspan="2">
-                                                <div class="table_Img"></div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="table_Left"> 服务项目：</td>
-                                            <td class="table_Center state_Color"> {{item.Service_Order_Type__c}}</td>
-                                        </tr>
-                                    </table>
-                                </ion-item>
+                        <div id="homeCalendar_1" style="display: block;">
+                            <div id="calendarAll" on-swipe-left="onSwipeLeft()" on-swipe-right="onSwipeRight()"></div>
+                            <table class="screen_Btn_Group">
+                                <tr>
+                                    <td class="screen_Left">
+                                        <select id="selectStatusId">
+                                            <option>全部</option>
+                                            <option>未安排</option>
+                                            <option>未开始</option>
+                                            <option>进行中</option>
+                                            <option>已完成</option>
+                                        </select>
+                                    </td>
+                                    <td class="screen_Right">
+                                        <select id="selectUserId">
+                                            <option ng-repeat="itemuser in allUser">{{itemuser.userName}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="orderListClassType" class="big_Type_Group">
+                                <ion-list can-swipe="true" >
+                                    <ion-item id="orderlist" ng-repeat="item in currentOrder" ng-cloak ng-click="showPopup(item)" class="small_Type_Table">
+                                            <!-- ng-class="isquoted_Table(item.type)" -->
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td class="table_Left"> 客户名称： </td>
+                                                <td class="table_Center"> {{item.Account_Ship_to__r.Name}}</td>
+                                                <td ng-class="isOlder_Table(item.Status__c)" rowspan="2">
+                                                    <div class="table_Img"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="table_Left"> 服务项目：</td>
+                                                <td class="table_Center state_Color"> {{item.Service_Order_Type__c}}</td>
+                                            </tr>
+                                        </table>
+                                    </ion-item>
 
-                            </ion-list>
+                                </ion-list>
+                            </div>
+                        </div>
+
+                        <div id="homeCalendar_2" style="display: none;">
+                            <div id="calendarWorkPlan"></div>
+                            <table class="screen_Btn_Group">
+                                <tr>
+                                    <td class="screen_Left">
+                                        <select ng-cloak id="selectWorkPlanType">
+                                            <option ng-cloak ng-repeat="item_WorkPlanType in workPlanTypes" value={{item_WorkPlanType.value}}>{{item_WorkPlanType.label}}</option>
+                                        </select>
+                                    </td>
+                                    <td class="screen_Right">
+                                        <select ng-cloak id="selectWorkPlanUser">
+                                            <option ng-cloak ng-repeat="item_WorkPlanUser in workPlanUsers" value={{item_WorkPlanUser.value}}>{{item_WorkPlanUser.label}}</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="WorkPlanListClassType" class="big_Type_Group">
+                                <ion-list>
+                                    <ion-item id="workPlanList" ng-repeat="item in currentWorkPlan" ng-cloak class="small_Type_Table">
+                                        <!-- ng-class="isquoted_Table(item.type)" -->
+                                        <table cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td class="table_Left"> 客户名称： </td>
+                                                <td class="table_Center"> {{item.workPlan.Account_Ship_to__r.Name}}</td>
+                                                <td ng-class="workplan_listIcon(item.workPlan.Type__c)" rowspan="2">
+                                                    <div class="table_Img"></div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="table_Left"> 类型：</td>
+                                                <td class="table_Center state_Color"> {{item.workPlan.Type__c}}</td>
+                                            </tr>
+                                        </table>
+                                    </ion-item>
+
+                                </ion-list>
+                            </div>
                         </div>
                     </div>
                 </ion-view>
