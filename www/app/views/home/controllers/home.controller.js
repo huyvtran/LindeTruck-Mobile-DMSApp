@@ -90,8 +90,6 @@ angular.module('oinio.controllers', [])
         //   // 请求失败执行代码
         //   console.log('errorCallback', response);
         // });
-        // $state.go('app.goH5');
-
       };
 
       $scope.addNewWork1 = function () {
@@ -104,7 +102,9 @@ angular.module('oinio.controllers', [])
       $scope.serviceManager = function () {
         $state.go('app.serviceManagement');
       };
-
+      $scope.webManager = function () {
+        $state.go('app.goH5',{SendURL:"http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM/UserPage/WH_MyOutInStorageRecord.aspx?curuser="+oCurrentUser.Id});
+      };
       $scope.doPurChase = function () {
         $state.go('app.purchase');
       };

@@ -77,7 +77,7 @@
             })
             .state('app.newOfferFittings', {
                 url: 'app/newOfferFittings',
-                params:{'SendAllUser':null,'SendSoupEntryId':null},
+                params:{'SendAllUser':null,'SendSoupEntryId':null,'OrderTruckItem':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/newOfferFittings.html',
@@ -267,6 +267,7 @@
             })
             .state('app.goH5', {
                 url: '/goH5',
+                params:{'SendURL':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/goH5.html',

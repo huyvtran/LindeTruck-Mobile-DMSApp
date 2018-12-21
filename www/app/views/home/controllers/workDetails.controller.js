@@ -1453,6 +1453,8 @@ angular.module('oinio.workDetailsControllers', [])
             } else {
                 $('#selectTruckFit').css('display', 'block');
                 $('#selectLSG').css('display', 'none');
+              $('#selectCommonPart').css('display', 'none');
+              $('#selectCommonPartWithKey').css('display', 'none');
             }
 
             $('div.workListDetails_bodyer').animate({
@@ -2808,11 +2810,14 @@ angular.module('oinio.workDetailsControllers', [])
         for (var i =0;i<$scope.allTruckItems.length;i++){
           $scope.allTruckItems[i].Name=$scope.allTruckItems[i].truckItemNum;
           $scope.allTruckItems[i].Truck_Fleet__c=$scope.allTruckItems[i].truckItemNum;
+          $scope.allTruckItems[i].Work_Time__c=$scope.allTruckItems[i].Operation_Hour__c;
+
         }
         $state.go('app.newOfferFittings',
           {
             SendAllUser:$scope.allTruckItems,
-            SendSoupEntryId:orderAccountId
+            SendSoupEntryId:orderAccountId,
+            OrderTruckItem:$scope.selectedTruckFitItems
           });
       };
 
@@ -2936,7 +2941,7 @@ angular.module('oinio.workDetailsControllers', [])
         });
 
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c;
 
         ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
           function (responsePartsRelateds) {

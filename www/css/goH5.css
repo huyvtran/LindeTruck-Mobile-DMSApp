@@ -1,0 +1,189 @@
+body {
+	margin: 0;
+	font-size: 1rem;
+    font-family: 微软雅黑, 华文黑体, sans-serif;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    background-position: 50%;
+    overflow: hidden;
+}
+img {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.to_Open {
+    display: block;
+}
+.to_Hide {
+    display: none;
+}
+.header {
+    background: #aa0020;
+    /* width: 90%; */
+    height: 64px;
+    position: relative;
+    padding: 0 5%;
+    line-height: 64px;
+    display: flex;
+}
+.back_Icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 14px;
+    height: 24px;
+}
+.left_Box {
+    display: inline-flex;
+    width: 10%;
+    align-items: center;
+}
+.center_Box {
+    display: inline-flex;
+    width: 80%;
+    position: relative;
+    align-items: center;
+}
+.center_Title {
+    text-align: center;
+    color: #ffffff;
+}
+.right_Box {
+    position: relative;
+    display: inline-flex;
+    width: 10%;
+    align-items: center;
+}
+.add_Icon_White {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+}
+.add_Arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #ffffff;
+    top: 19px;
+    right: 25%;
+}
+.add_Group {
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0 1px 2px #aa0020;
+    top: 39px;
+    right: 0;
+    display: inline-block;
+    width: 130px;
+}
+.add_Box {
+    white-space: nowrap;
+    color: #535353;
+    padding: 8%;
+    line-height: 1.2rem;
+}
+.arrange_bodyer {
+    overflow-y: auto;
+    height: calc(100vh - 64px);
+}
+.arrange_bodyer .big_Type_Group_1 {
+    margin: 5% 0;
+}
+.arrange_bodyer .small_Type_Group {
+    margin-bottom: 5%;
+}
+.arrange_bodyer .small_Type_Title {
+    color: #979797;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 2%;
+    padding: 0 5%;
+}
+.arrange_bodyer .small_Type_Box {
+    padding: 0 5%;
+}
+.arrange_bodyer .small_Type_Box_2 {
+    padding: 0;
+}
+.arrange_bodyer .small_Type_Input {
+    color: #535353;
+    width: 90%;
+    height: 40px;
+    border-bottom: 1px solid #535353;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 0 5%;
+    font-size: 1rem;
+}
+.arrange_bodyer .small_Type_Select {
+    color: #535353;
+    width: 100%;
+    height: 40px;
+    padding: 0 5%;
+    font-size: 1rem;
+}
+.arrange_bodyer .fc-scroller.fc-day-grid-container {
+    height: 192px!important;
+}
+.arrange_bodyer .fc-scroller.fc-time-grid-container {
+    height: 192px!important;
+}
+.arrange_bodyer .fc-toolbar.fc-header-toolbar {
+    margin: 1% 0 0 0;
+    background: #ffffff;
+}
+.arrange_bodyer tr:first-child > td > .fc-day-grid-event {
+    margin-top: -6px;
+}
+.arrange_bodyer .fc table {
+    font-size: 0.8rem;
+    background: transparent;
+}
+.arrange_bodyer .fc-icon-left-single-arrow:after {
+    font-size: 100%;
+}
+.arrange_bodyer .fc-icon-right-single-arrow:after {
+    font-size: 100%;
+}
+.arrange_bodyer .fc button {
+    font-size: 0.8rem;
+    border-radius: 0;
+}
+.arrange_bodyer .fc-toolbar h2 {
+    font-size: 0.8rem;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    margin: 0;
+    width: 100%;
+    display: flex;
+    border-top: 1px solid #535353;
+}
+.footer_Btn {
+    padding-top: 4%;
+    padding-bottom: 4%;
+    font-size: 1rem;
+    color: #535353;
+    background: #ffffff;
+    display: inline-flex;
+    width: calc(100% / 2);
+    justify-content: center;
+}
+.footer_Btn.Save_Btn_Act {
+    color: #ffffff;
+    background: #aa0020;
+}
+.footer_Btn.Save_Btn_Uact {
+    color: #ffffff;
+    background: #979797;
+}

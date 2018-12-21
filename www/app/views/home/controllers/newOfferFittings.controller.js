@@ -74,6 +74,18 @@ angular.module('oinio.NewOfferFittingsController', [])
         } else {
           $scope.getByPart();
         }
+
+        //获得工单转报价对应的配件
+        if ($stateParams.OrderTruckItem.length == 0) { //如果没有选择车辆的处理
+          var serviceQuotesNull = {};
+          serviceQuotesNull['Truck_Fleet__c'] = null;
+          $stateParams.SendAllUser.push(serviceQuotesNull);
+        } else {
+          $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
+          $scope.getTrucksWithSubstitution();
+
+        }
+
       };
 
       $scope.getByPart = function () {
@@ -122,6 +134,39 @@ angular.module('oinio.NewOfferFittingsController', [])
           });
 
       };
+
+      <!--导入工单转配件-->
+      $scope.sendOrderPartList = function () {
+        AppUtilService.showLoading();
+        console.log('$stateParams.OrderTruckItem', $stateParams.OrderTruckItem);
+        let parts_number__cList = [];
+        let partsQuantitys = [];
+        angular.forEach($stateParams.OrderTruckItem, function (forEachItem) {
+            parts_number__cList.push(forEachItem.Part_Number__c);
+            partsQuantitys.push(100000);
+        });
+
+        var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+
+        ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
+          function (responsePartsRelateds) {
+            AppUtilService.hideLoading();
+
+            for (let i = 0; i < responsePartsRelateds.length; i++) {
+              var responsePartsRelatedsList = responsePartsRelateds[i];
+              $scope.selectedTruckFitItems.push(responsePartsRelatedsList[0]);
+            }
+
+            $scope.getTrucksWithSubstitution();
+          }, function (error) {
+            console.log('error:', error);
+            AppUtilService.hideLoading();
+
+          });
+
+      };
+
       $scope.toDisplayImportDiv = function () {
         document.getElementById('btn_modify_Div').style.display = 'none';//隐藏
 
