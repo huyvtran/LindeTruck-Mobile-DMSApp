@@ -170,17 +170,17 @@ img {
     text-align: right;
 }
 .transferRequestList_Table td.width_1 {
-    width: 20%;
+    width: 17%;
 }
 .transferRequestList_Table td.width_2 {
-    width: 20%;
+    width: 17%;
 }
 .transferRequestList_Table td.width_3 {
-    width: 35%;
+    width: 30%;
     text-decoration: underline;
 }
 .transferRequestList_Table td.width_4 {
-    width: 10%;
+    width: 21%;
 }
 .transferRequestList_Table td.width_5 {
     width: 15%;
@@ -216,6 +216,16 @@ img {
     width: 100%;
     display: flex;
     border-top: 1px solid #535353;
+}
+.footer_Btn {
+    padding-top: 4%;
+    padding-bottom: 4%;
+    font-size: 1rem;
+    color: #535353;
+    background: #ffffff;
+    display: inline-flex;
+    width: calc(100% / 2);
+    justify-content: center;
 }
 .footer_Btn_Act {
     padding-top: 4%;

@@ -118,6 +118,7 @@ angular.module('oinio.controllers', [])
       };
 
       $scope.applyTransfer = function () {
+        LocalCacheService.set('tapIndex','1');
         $state.go('app.transferRequestList');
       };
 
