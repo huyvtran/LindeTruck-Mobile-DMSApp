@@ -179,6 +179,7 @@
 
             .state('app.transferRequest',{
                 url:'app/transferRequest',
+                params:{transfer:null},
                 views:{
                 menuContent: {
                     templateUrl: 'app/views/home/templates/transferRequest.view.html',

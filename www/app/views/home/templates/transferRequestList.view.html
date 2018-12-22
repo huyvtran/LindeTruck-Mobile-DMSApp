@@ -49,40 +49,47 @@
 					</div>
 				</div>
 	  			<div class="">
-	  				<select class="small_Type_Select">
-	  					<option> {{selectedTapIndex == '1' ? '转移申请状态选择' : '报废申请状态选择'}}</option>
+	  				<select class="small_Type_Select"  ng-show="selectedTapIndex == '1'"  ng-model = "status"  ng-change="selectTransChange(status)">
+						<option value='' disabled selected style='display:none;'>转移申请状态选择</option>
+						<option ng-repeat="status in statusTypes">{{status.name}}</option>
+	  				</select>
+					<select class="small_Type_Select"  ng-show="selectedTapIndex == '2'"  ng-model = "statusScrap" ng-change="selectScrapChange(statusScrap)">
+						<option value='' disabled selected style='display:none;'>报废申请状态选择</option>
+						<option ng-repeat="statusScrap in statusTypes">{{statusScrap.name}}</option>
 	  				</select>
 	  			</div>
 		  		<table cellpadding="0" cellspacing="0" border="0" class="transferRequestList_Table">
 		  			<tr>
 		  				<td class="transferRequestList_Td width_1"> 转出客户 </td>
-		  				<td class="transferRequestList_Td width_2"> 转入客户 </td>
+		  				<td class="transferRequestList_Td width_2" ng-show="selectedTapIndex == '1'"> 转入客户 </td>
 		  				<td class="transferRequestList_Td width_3"> 车档号 </td>
 		  				<td class="transferRequestList_Td width_4"> 备注 </td>
 		  				<td class="transferRequestList_Td width_5 transferRequestList_Td_Right"> 状态 </td>
 		  			</tr>
-		  			<tr>
-		  				<td class="transferRequestList_Td width_1"> 上海米其林公司 </td>
-		  				<td class="transferRequestList_Td width_2"> 广东米其林公司 </td>
-		  				<td class="transferRequestList_Td width_3"> C1X19928300182 </td>
-		  				<td class="transferRequestList_Td width_4">
-		  					<div style="position: relative;">
-								<div class="explain_Icon"> </div>
-								<div class="explain_Text to_Hide">
-									<div>
-										<span>备注:</span>
-										<span>备注内容</span>
-									</div>
-								</div>
-							</div>
-						</td>
-		  				<td class="transferRequestList_Td width_5 transferRequestList_Td_Right stateColor"> 已转移 </td>
+		  			<tr ng-repeat="transfer in selectedTapIndex == '1' ? transferList : scrapLists" ng-click="goToTransferDetails(transfer)">
+		  				<td class="transferRequestList_Td width_1"> {{transfer.Source_Account_ShipTo__r.Name}} </td>
+		  				<td class="transferRequestList_Td width_2" ng-show="selectedTapIndex == '1'"> {{transfer.Target_Account_ShipTo__r.Name}} </td>
+		  				<td class="transferRequestList_Td width_3"> {{transfer.Truck_Fleet__r.Name}} </td>
+		  				<td class="transferRequestList_Td width_4">{{transfer.Description__c}}</td>
+		  					<!--<div style="position: relative;">-->
+								<!--<div class="explain_Icon"> </div>-->
+								<!--<div class="explain_Text to_Hide">-->
+									<!--<div>-->
+										<!--&lt;!&ndash;<span>备注:</span>&ndash;&gt;-->
+										<!--<span>{{transfer.Description__c}}</span>-->
+										<!--&lt;!&ndash;<span>备注内容</span>&ndash;&gt;-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</td>-->
+		  				<td class="transferRequestList_Td width_5 transferRequestList_Td_Right stateColor"> {{getStatusType(transfer.Status__c)}} </td>
 		  			</tr>
 		  		</table>
 		  	</div>
 	  	</div>
 		<div class="footer">
-			<div class="footer_Btn_Act" ng-click="goTransferRequest();">转出申请</div>
+			<div class="footer_Btn_Act" ng-click="goTransferRequest();" ng-show="selectedTapIndex == '1'"> 转移申请</div>
+			<div class="footer_Btn_Act" ng-click="goScrapListsRequest();" ng-show="selectedTapIndex == '2'"> 报废申请</div>
 		</div>
   	</div>
 </body>
