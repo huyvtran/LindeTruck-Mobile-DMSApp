@@ -265,6 +265,18 @@
                 },
                 cache: false
             })
+
+            .state('app.truckFleetConfig', {
+                url: 'app/truckFleetConfig',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/truckFleetConfig.html',
+                        controller: 'TruckFleetConfigController as vm'
+                    }
+                },
+                cache: false
+            })
+
             .state('app.goH5', {
                 url: '/goH5',
                 params:{'SendURL':null},
