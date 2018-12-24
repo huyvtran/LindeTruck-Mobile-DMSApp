@@ -282,7 +282,7 @@
                 url: 'app/truckFleetConfig',
                 views: {
                     menuContent: {
-                        templateUrl: 'app/views/home/templates/truckFleetConfig.html',
+                        templateUrl: 'app/views/home/templates/frokliftTruckConfiguration.html',
                         controller: 'TruckFleetConfigController as vm'
                     }
                 },
