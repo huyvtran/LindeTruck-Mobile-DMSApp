@@ -24,6 +24,7 @@ angular.module('oinio.TransferRequestController', [])
         $scope.getCustomerInfo = $stateParams.transfer.Source_Account_ShipTo__r;
         $scope.outCustomerInfo = $stateParams.transfer.Target_Account_ShipTo__r;
         $scope.vehicle = $stateParams.transfer.Truck_Fleet__r;
+        $scope.remarksText = $stateParams.transfer.Description__c;
       }
 
       if ($scope.getCustomerInfo) {

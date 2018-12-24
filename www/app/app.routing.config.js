@@ -197,6 +197,16 @@
                 },
                 cache:false
             })
+            .state('app.priceDetail',{
+                url:'app/priceDetail',
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/priceDetail.view.html',
+                        controller: 'PriceDetailController as vm'
+                    }
+                },
+                cache:false
+            })
 
             .state('app.transferRequest',{
                 url:'app/transferRequest',

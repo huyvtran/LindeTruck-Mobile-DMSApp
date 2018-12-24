@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> price list </title>
+    <link rel="stylesheet" href="././css/priceDateil.css">
+    <link rel="stylesheet" href="././css/importLsg.css">
+
+    <style type="text/css">
+        .priceList_bodyer {
+            background-image: url(././images/bg_img.png);
+        }
+
+        .arrow_quantity_icon {
+            background-image: url(././img/images/arrow_quantity_icon.png);
+        }
+
+        .back_Icon {
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 14px;
+            height: 24px;
+            background-image: url(././img/images/back_icon.png);
+        }
+
+        .arrow_Down_White {
+            background-image: url(././img/images/arrow_Down_White.png);
+        }
+
+        .filter_icon {
+            background-image: url(././img/images/filter_icon.png);
+        }
+        .del_red_icon {
+            background-image: url(././img/images/del_red_icon.png);
+        }
+
+        .back_Icon {
+            background-image: url(././img/images/back_icon.png);
+        }
+
+        .btn_import_Group {
+            background-image: url(././img/images/import_Group.png);
+        }
+
+        .btn_modify_Group {
+            background-image: url(././img/images/modify_Group.png);
+        }
+    </style>
+</head>
+<body>
+    <div class="newWorkList_truckSelect" style="height:100vh;width:100vw;position:absolute;opacity:0;">
+        <!--导入LSG-->
+        <div id="selectLSG">
+            <div class="importLsg_bodyer">
+                <div class="importLsg_header">
+                    <div class="left_Box">
+                    </div>
+                    <div class="center_Box">
+                        <div class="center_Title">选择配件</div>
+                    </div>
+                    <div class="right_Box">
+                    </div>
+                </div>
+
+                <div class="big_Type_Group">
+                    <div>
+                        <div class="import_Head">
+                            <div class="import_Left">
+                                <input id="ckbox_truckLSG_searchresult_all" type="checkbox"
+                                       ng-click="checkAllSearchResultsLSG();"/>
+
+                            </div>
+                            <div class="import_Center">
+                                <div> 配件号</div>
+                            </div>
+                            <div class="import_Right">
+                                <div> 数量</div>
+                            </div>
+                        </div>
+                        <div>
+                            <ion-list>
+                                <div ng-repeat="group in contentLSGs">
+                                    <ion-item class="item-stable" ng-click="toggleGroup(group)"
+                                              ng-class="{active: isGroupShown(group)}">
+                                        <div class="import_Body import_FirstBody">
+                                            <!-- <div class="import_Left"> <input type="checkbox" /> </div> -->
+                                            <div class="import_Center">
+                                                <i class="icon"
+                                                   ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+                                                &nbsp;
+                                                <div> {{group.cartName}}</div>
+                                            </div>
+                                        </div>
+                                    </ion-item>
+                                    <ion-item class="item-accordion" ng-repeat="litems in group.cartList"
+                                              ng-show="isGroupShown(group)">
+                                        <div class="import_Body import_SecondBody">
+                                            <div class="import_Left"></div>
+                                            <div class="import_Center">
+                                                <input data-recordid={{litems.itemIdentifier}}
+                                                       class="ckbox_truck_searchresult_itemLSG" type="checkbox"/>
+                                                <div> {{litems.itemIdentifier}}</div>
+                                            </div>
+                                            <div class="import_Right"> {{litems.quantity}}</div>
+                                        </div>
+                                    </ion-item>
+                                </div>
+                            </ion-list>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="footer">
+                    <div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+                    <div class="footer_Btn import_Btn_Act" ng-click="setLSGList();">导入</div>
+                </div>
+            </div>
+        </div>
+        <!--导入常用配件-->
+        <div id="selectCommonPart">
+            <div class="importLsg_bodyer">
+                <div class="importLsg_header">
+                    <div class="left_Box">
+                    </div>
+                    <div class="center_Box">
+                        <div class="center_Title">导入常用配件</div>
+                    </div>
+                    <div class="right_Box">
+                        <div class="filter_icon" ng-click="openSelectPage('addDeleCP');"></div>
+                    </div>
+                </div>
+
+                <div class="big_Type_Group">
+                    <div>
+                        <div class="import_Head">
+                            <div class="import_Left">
+                                <input ng-model="ckbox_truckCommonPart_searchresult_all" type="checkbox"
+                                       ng-checked="isAllSelected()" ng-click="checkAllSearchResultsCommonPart();"/>
+
+                            </div>
+                            <div class="import_Center">
+                                <div> 配件号</div>
+                            </div>
+                            <div class="import_Right">
+                                <!--<div> 数量 </div>-->
+                            </div>
+                        </div>
+                        <div>
+                            <ion-list>
+                                <div ng-repeat="group in contentTruckParts">
+                                    <ion-item class="item-stable" ng-click="toggleGroup(group)"
+                                              ng-class="{active: isGroupShown(group)}">
+                                        <div class="import_Body import_FirstBody">
+                                            <div class="import_Center">
+                                                <i class="icon"
+                                                   ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+                                                &nbsp;
+                                                <div> {{group.Name}}</div>
+                                            </div>
+                                        </div>
+                                    </ion-item>
+                                    <ion-item class="item-accordion" ng-repeat="litems in group.partList"
+                                              ng-show="isGroupShown(group)">
+                                        <div class="import_Body import_SecondBody">
+                                            <div class="import_Left"></div>
+                                            <div class="import_Center">
+                                                <input data-recordid={{litems.Id}}
+                                                       ng-click="checkSearchResultsCommonPart(litems)"
+                                                       class="ckbox_truck_searchresult_itemCommonPart" type="checkbox"
+                                                       ng-checked="isTruckPartSelected(litems)"/>
+                                                <div> {{litems.Name}}</div>
+                                            </div>
+                                            <div class="import_Right"> {{litems.Quality__c}}</div>
+                                        </div>
+                                    </ion-item>
+                                </div>
+                            </ion-list>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="footer">
+                    <div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+                    <div class="footer_Btn import_Btn_Act" ng-click="setCommonPartList();">导入</div>
+                </div>
+            </div>
+        </div>
+        <!--常用配件筛选-->
+        <div id="selectCommonPartWithKey" style="">
+            <div class="header2">
+                <div class="left_Box_Offer" ng-click="closeSelectPageWithCP();">
+                    <div class="back_Icon"></div>
+                </div>
+                <div class="search_All">
+                    <input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()"
+                           ng-model="searchTruckPartText"/>
+                    <!--<div class="search_Photo_Icon"></div>-->
+                </div>
+                <div class="search_right_Group" id="cancleBtn1" ng-click="getTrucksWithKey(searchTruckPartText);"
+                     ng-show="searchTruckPartText">
+                    <div class="text_Cancel"> 搜索</div>
+                </div>
+            </div>
+            <div class="selectTruckCP_Tabs" style="">
+                <div id="selectTruckCP_Tab_1" class="selectTruckCP_Tab selectTruckCP_Tab_Active"
+                     ng-click="changeTruckTabWithCP('1');" style="">
+                    <span class="selectTruckCP_Tab_Text" style="">搜索结果</span>
+                </div>
+                <div id="selectTruckCP_Tab_2" class="selectTruckCP_Tab" ng-click="changeTruckTabWithCP('2');" style="">
+                    <span class="selectTruckCP_Tab_Text" style="">已选</span>
+                </div>
+            </div>
+            <div class="search_bodyer" style="background-color: white;">
+                <div id="selectTruckCP_result" class="big_Box_Group" style="display: block;">
+
+                    <div class="small_Box_Title"><input ng-model="ckbox_truck_searchresult_all" style="" type="checkbox"
+                                                        ng-checked="isSearchAllSelected()"
+                                                        ng-click="checkAllSearchPart();"/>
+                        常用配件名
+                    </div>
+                    <ion-list can-swipe="true">
+                        <ion-item id="items2" ng-repeat="titem in contentTruckItems" ng-cloak class="small_Box_Text">
+                            <input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_item"
+                                   ng-checked="isSearchTruckPartSelected(titem)" ng-click="checkSearchPartItem(titem);"
+                                   type="checkbox"/> {{titem.Name}}
+                        </ion-item>
+                    </ion-list>
+
+                </div>
+                <div id="selectTruckCP_checked" class="big_Box_Group" style="display: none;">
+                    <div class="small_Box_Title"><img ng-click="delAllSelectedPrat();"
+                                                      src="././img/images/del_red_icon.png"/> 全选删除
+                    </div>
+                    <ion-list can-swipe="true">
+                        <!--<ion-item id="items2" ng-repeat="titem in contentTruckItems"  ng-cloak class="small_Box_Text">-->
+                        <!--<input type="checkbox" class="ckbox_truck_class" html-tvalue={{titem.Name}} name="trucks" value={{titem.Id}} ng-click="checkboxTrucks();"/> {{titem.Name}}-->
+                        <!--</ion-item>-->
+                        <ion-item id="items3" ng-repeat="ckitem in contentSelectTruckItems();" ng-cloak
+                                  class="small_Box_Text">
+                            <span ng-click="delSelectedPrat(ckitem);"><img
+                                    src="././img/images/del_red_icon.png"/></span> {{ckitem.Name}}
+                        </ion-item>
+                    </ion-list>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="footer_Btn" ng-click="closeSelectPageWithCP();">取消</div>
+                <div class="footer_Btn Save_Btn_Act" ng-click="saveSelectPageWithCP();">确定</div>
+            </div>
+        </div>
+        <!--添加删除车辆-->
+        <div id="selectTruckFit" style="">
+            <div class="header2">
+                <div class="left_Box_Offer" ng-click="closeSelectPage();">
+                    <div class="back_Icon"></div>
+                </div>
+                <div class="search_All">
+                    <input type="text" id="searchBig" placeholder="搜索" class="search_Input" ng-change="searchChange()"
+                           ng-model="searchTruckText"/>
+                </div>
+                <div class="search_right_Group" id="cancleBtn1" ng-click="getTrucks(searchTruckText);"
+                     ng-show="searchTruckText">
+                    <div class="text_Cancel"> 搜索</div>
+                </div>
+            </div>
+            <div class="selectTruckFit_Tabs" style="">
+                <div id="selectTruckFit_Tab_1" class="selectTruckFit_Tab selectTruckFit_Tab_Active"
+                     ng-click="changeTruckTab('1');"
+                     style="">
+                    <span class="selectTruckFit_Tab_Text" style="">搜索结果</span>
+                </div>
+                <div id="selectTruckFit_Tab_2" class="selectTruckFit_Tab" ng-click="changeTruckTab('2');" style="">
+                    <span class="selectTruckFit_Tab_Text" style="">已选配件</span>
+                </div>
+            </div>
+            <div class="add_del_bodyer">
+                <div id="selectTruckFit_result" class="searchsout">
+                    <table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+                        <tr>
+                            <th class="sv_Td">
+                                <input id="ckbox_truckFit_searchresult_all" type="checkbox"
+                                       ng-click="checkAllSearchResults();"/>
+                            </th>
+                            <th class="sv_Td">
+                                <div style="width: 150px;"> 客户物料号</div>
+                            </th>
+                            <th class="sv_Td">
+                                <div> 可发货数量</div>
+                            </th>
+                            <th class="sv_Td">
+                                <div> 本仓</div>
+                            </th>
+                            <th class="sv_Td">
+                                <div> 本大区</div>
+                            </th>
+                            <th class="sv_Td">
+                                <div> 总部</div>
+                            </th>
+                            <th class="sv_Td">
+                                <div> 其他大区</div>
+                            </th>
+                        </tr>
+                    </table>
+
+                    <ion-list can-swipe="true">
+                        <ion-item id="items2" ng-repeat="titem in contentTruckFitItems" ng-cloak
+                                  class="small_Box_Text_1">
+                            <table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
+                                <tr>
+                                    <th class="sv_Td">
+                                        <input data-recordid={{titem.Id}} class="ckbox_truck_searchresult_itemFit"
+                                               ng-click="checkSearchResults(titem);"
+                                               type="checkbox"/>
+                                    </th>
+                                    <th class="sv_Td">
+                                        <div style="width: 150px;"> {{titem.Name}} <br/> {{titem.parts_number__c}}</div>
+                                    </th>
+                                    <th class="sv_Td">
+                                        <div> {{titem.inventory.sku}}</div>
+                                    </th>
+                                    <th class="sv_Td">
+                                        <div> {{titem.inventory.BR_QTY}}</div>
+                                    </th>
+                                    <th class="sv_Td">
+                                        <div> {{titem.inventory.RG_QTY}}</div>
+                                    </th>
+                                    <th class="sv_Td">
+                                        <div> {{titem.inventory.HQ_QTY}}</div>
+                                    </th>
+                                    <th class="sv_Td">
+                                        <div> {{titem.inventory.ORG_QTY}}</div>
+                                    </th>
+                                </tr>
+                            </table>
+                        </ion-item>
+                    </ion-list>
+                </div>
+                <div id="selectTruckFit_checked" class="big_Box_Group" style="display: none;">
+                    <div class="small_Box_TitleFit"><img ng-click="delAllSelectedItem();"
+                                                         src="././img/images/del_red_icon.png"/>
+                        全选删除
+                    </div>
+                    <ion-list can-swipe="true">
+
+                        <ion-item id="items3" ng-repeat="ckitem in selectedTruckFitItems" ng-cloak
+                                  class="small_Box_Text_2">
+                            <span ng-click="delSelectedItem(ckitem);"><img
+                                    src="././img/images/del_red_icon.png"/></span>
+                            {{ckitem.Name}}
+                        </ion-item>
+                    </ion-list>
+                </div>
+            </div>
+            <div class="footer">
+                <!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+                <!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
+
+                <div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
+                <div class="footer_Btn Save_Btn_Act" ng-click="addDelePartConfirmBtn();">确定</div>
+            </div>
+        </div>
+    </div>
+    <div class="workListDetails_bodyer">
+
+        <div class="priceList_header">
+            <div class="left_Box" ng-click="goBack()">
+                <div class="back_Icon"></div>
+            </div>
+            <div class="center_Box">
+                <div class="center_Title">报价详情</div>
+            </div>
+            <div class="right_Box">
+            </div>
+        </div>
+        <div class="priceList_bodyer">
+            <div class="displayQuantity" ng-click="toDescribInfDiv();">
+                <div class="arrow_quantity_icon"></div>
+                <div class="displayQuantity_text">已选共{{SelectedTruckNum}}台</div>
+                <div class="describ_Inf_Div" id="describInfDiv" style="display: none">
+                    <div class="des_Inf_Head">
+                        <div class="des_Inf_Left">
+                            <!--<input id="selectTruckAll" type="checkbox" ng-click="choooseAllCheckBox();" /> -->
+                        </div>
+                        <div class="des_Inf_Center">
+                            <div> 车体号</div>
+                        </div>
+                        <div class="des_Inf_Right">
+                            <!--<div> 工作小时数 </div>-->
+                        </div>
+                    </div>
+                    <div>
+                        <div class="des_Inf_Body" ng-cloak ng-repeat="truckItem in allTruckItems">
+                            <div class="des_Inf_Left">
+                                <!--<input type="checkbox" class="selectTruckItem" /> -->
+                            </div>
+                            <div class="des_Inf_Center">
+                                <div ng-cloak>{{truckItem.truckItemNum}}</div>
+                            </div>
+                            <div class="des_Inf_Right">
+                                <!--<input class="workDetailCustomeHourclas" type="text" ng-cloak value="{{truckItem.Operation_Hour__c}}" ng-model="truckItem.Operation_Hour__c" />-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="small_Type_Title_Group">
+                    <div class="small_Type_Title_G"> 设备编号</div>
+                    <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+                    <div class="OpenClose_Btn arrow_Down_White"></div>
+                </div>
+                <div class="readonly_supplier_Inf">
+                    <div class="inf_Box">
+                        <div class="inf_Left_Text"> 叉车序列号：</div>
+                        <div class="inf_Right_Text"> 1000000</div>
+                    </div>
+                    <div class="inf_Box">
+                        <div class="inf_Left_Text"> 保修起始日：</div>
+                        <div class="inf_Right_Text"> 2018/2/2</div>
+                    </div>
+                    <div class="inf_Box">
+                        <div class="inf_Left_Text"> 保修结束日：</div>
+                        <div class="inf_Right_Text"> 2018/2/2</div>
+                    </div>
+                    <div class="inf_Box">
+                        <div class="inf_Left_Text"> 车型：</div>
+                        <div class="inf_Right_Text">111</div>
+                    </div>
+                    <div class="inf_Box">
+                        <div class="inf_Left_Text"> 车系：</div>
+                        <div class="inf_Right_Text">111</div>
+                    </div>
+                    <div class="inf_Box">
+                        <div class="inf_Left_Text"> 车辆地址：</div>
+                        <div class="inf_Right_Text">111</div>
+                    </div>
+                </div>
+            </div>
+            <div class="big_Type_Group">
+                <div>
+                    <div class="small_Type_Title_Group_Fittings">
+                        <div class="small_Type_Title_G_Fittings"> 配件报价</div>
+                        <!-- 点击btn_I/或者btn_M,添加click_Style -->
+                        <div class="btn_I">
+                            <div id="btn_import_Btn" class="btn_import_Group"></div>
+                        </div>
+                        <div class="btn_M">
+                            <div id="btn_modify_Btn" class="btn_modify_Group"></div>
+                        </div>
+                        <div id="btn_import_Div" class="btn_Import_Div" style="display: none">
+                            <div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG</div>
+                            <div class="Import_Btn" ng-click="getTrucksByEconomical();"> 导入经济件</div>
+                            <div class="Import_Btn" ng-click="openSelectPage('selectCommonPart');"> 导入常用配件</div>
+                        </div>
+                        <div id="btn_modify_Div" class="btn_modify_Div" style="display: none">
+                            <div class="Modify_Btn" ng-click="openSelectPage('addDele');"> 添加/删除</div>
+                            <div class="Modify_Btn" ng-click="delByEconomical();"> 清空经济件</div>
+                            <div class="Modify_Btn" ng-click="useByEconomical();"> 使用经济件</div>
+                        </div>
+                        <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+                        <div class="OpenClose_Btn arrow_Down_White"></div>
+                    </div>
+                    <div class="quoted_Price_All">
+                        <div> 合计：</div>
+                        <div class="price_Color margin_r"> {{priceConditionPriceAll}}</div>
+                        <!--<div> 折扣率：</div>-->
+                        <!--<input class="price_Input margin_r" />-->
+                        <!--<div> 合计：</div>-->
+                        <!--<input class="price_Input margin_r" ng-model="priceConditionPriceAll" />-->
+                    </div>
+                    <div class="legend_Group">
+                        <div> 替代件</div>
+                        <div class="blue_legend"></div>
+                        <div> 经济件</div>
+                        <div class="green_legend"></div>
+                        <div> 视图不完整</div>
+                        <div class="red_legend"></div>
+                    </div>
+                    <div class="service_Group">
+                        <table cellpadding="0" cellspacing="0" border="0" class="quoted_Table">
+                            <tr>
+                                <th class="sv_Td">
+                                    <div> 物料号</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 公布价</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 总价</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 数量</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 折扣</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 优惠单价</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 优惠总价</div>
+                                </th>
+                                <th class="sv_Td" style="color: #F85360;">
+                                    <div> SPN价/协议折扣</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 交货期</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 预留状态</div>
+                                </th>
+                            </tr>
+                        </table>
+
+                        <ion-list can-swipe="true" class="quoted_Table_list">
+                            <ion-item ng-repeat="item in selectedTruckFitItems" ng-cloak ng-click="showPopup(item)"
+                                      class="quoted_Table_item">
+                                <table cellpadding="0" cellspacing="0" border="0" class="quoted_Table_bodyer">
+                                    <tr>
+                                        <td ng-class="isquoted_Table(item.type)">
+                                            <div>
+                                                <p>{{item.parts_number__c}} </p>
+
+                                            </div>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <div> {{item.priceCondition.price}}</div>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <div> {{item.priceCondition.price*priceNo}}</div>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <input ng-model="priceNo" class="sv_Input part_InputForListNo"/>
+                                        </td>
+                                        <td class="sv_Td"
+                                            ng-init="discountPriceCondition = item.priceCondition.discount">
+                                            <input class="sv_Input part_InputForListDiscount"
+                                                   ng-model="discountPriceCondition"/>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <input class="sv_Input part_InputForListPrice"
+                                                   value="{{item.priceCondition.favourablePrice}}"/>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <div class="part_InputForListSpecial">
+                                                {{item.part_InputForListSpecial =
+                                                item.priceCondition.favourablePrice*priceNo-discountPriceCondition*item.priceCondition.favourablePrice*priceNo}}
+                                            </div>
+                                        </td>
+                                        <td class="sv_Td" style="color: #F85360;">
+                                            <!-- <input class="sv_Input" value="{{item.priceCondition.spnPrice}}"/> -->
+                                            <div>{{item.priceCondition.spnPrice}}</div>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <div>
+                                                <div>{{item.inventory.estimatedDeliveryDate}}</div>
+                                            </div>
+                                        </td>
+                                        <td class="sv_Td" ng-init="ckboxBool = item.View_Integrity__c">
+                                            <input type="checkbox" class="ckbox_part" checked="ckboxBool"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ion-item>
+                        </ion-list>
+
+                    </div>
+                </div>
+                <div>
+                    <div class="small_Type_Title_Group_Fittings">
+                        <div class="small_Type_Title_G_Fittings"> 劳务费添加</div>
+                        <!-- <div class="refresh_icon" style="left: 30%;"></div> -->
+                        <div class="price_Group">
+                            <div class="price_Title"> 合计</div>
+                            <input class="price_Input"/>
+                        </div>
+                        <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+                        <div class="OpenClose_Btn arrow_Down_White"></div>
+                    </div>
+                    <div class="service_Group">
+                        <table cellpadding="0" cellspacing="0" border="0" class="service_Fit_Table">
+                            <tr>
+                                <th class="sv_Td">
+                                    <div> 劳务项目</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 单价</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 数量</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 总价</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 折扣</div>
+                                </th>
+                                <th class="sv_Td">
+                                    <div> 优惠总价</div>
+                                </th>
+                            </tr>
+                            <tr>
+                                <td class="sv_Td">
+                                    <div> 人工</div>
+                                </td>
+                                <td class="sv_Td">
+                                    <input id="priceId1" ng-model="manMadePrice1" class="sv_Input"/>
+                                </td>
+                                <td class="sv_Td">
+                                    <input value="{{manMadeNo1}}" placeholder="0" ng-model="manMadeNo1" class="sv_Input"
+                                           ng-keyup="sum(this);"/>
+                                </td>
+
+                                <td class="sv_Td">
+                                    <div> {{manMadePrice1*manMadeNo1}}</div>
+                                </td>
+                                <td class="sv_Td">
+                                    <input id="discountId1" ng-model="discountPrice1" class="sv_Input"/>
+                                </td>
+                                <td class="sv_Td">
+                                    <input class="sv_Input"
+                                           value="{{manMadePrice1*manMadeNo1-discountPrice1*manMadePrice1*manMadeNo1}}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="sv_Td">
+                                    <div> 交通</div>
+                                </td>
+                                <td class="sv_Td">
+                                    <input id="priceId2" ng-model="manMadePrice2" class="sv_Input"/>
+                                </td>
+                                <td class="sv_Td">
+                                    <input value="{{manMadeNo2}}" placeholder="0" ng-model="manMadeNo2" class="sv_Input"
+                                           ng-keyup="sum(this);"/>
+                                </td>
+                                <td class="sv_Td">
+                                    <div> {{manMadePrice2*manMadeNo2}}</div>
+                                </td>
+                                <td class="sv_Td">
+                                    <input id="discountId2" ng-model="discountPrice2" class="sv_Input"/>
+                                </td>
+                                <td class="sv_Td">
+                                    <input class="sv_Input"
+                                           value="{{manMadePrice2*manMadeNo2-discountPrice2*manMadePrice2*manMadeNo2}}"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <ion-list can-swipe="true" class="service_Fit_list">
+                            <ion-item ng-repeat="item in serviceFeeList track by $index" ng-cloak
+                                      ng-click="showPopup(item)" class="service_Fit_item">
+                                <table cellpadding="0" cellspacing="0" border="0" class="service_Fit_Table_bodyer">
+
+                                    <tr id="tabExampleSV">
+                                        <td class="sv_Td">
+                                            <div class="pos_rel">
+                                                <div> {{item}}</div>
+                                                <div class="del_red_icon" ng-click="toDelSVView($index)"></div>
+                                            </div>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <input ng-model="manMadePrice3" class="sv_InputForListPrice"/>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo"/>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <div> {{manMadePrice3*manMadeNo3}}</div>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <input ng-model="discountPrice3" class="sv_InputForListDiscount"/>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <input class="sv_InputForListSpecial"
+                                                   value="{{manMadePrice3*manMadeNo3-discountPrice3*manMadePrice3*manMadeNo3}}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </ion-item>
+
+                        </ion-list>
+
+                    </div>
+                    <div class="add_Group">
+                        <input class="sv_Input" id="serviceFeeName"/>
+                        <div class="btn_Add" ng-click="toAddSVView()">
+                            添加
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
+            <!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
+
+            <div class="footer_Btn" ng-click="goBack()">取消</div>
+            <div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()">保存</div>
+            <div class="footer_Btn Save_Btn_Act">保存并预留</div>
+            <div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()">提交审批</div>
+        </div>
+
+</body>
+</html>
