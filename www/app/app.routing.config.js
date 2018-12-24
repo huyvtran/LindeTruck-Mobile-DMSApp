@@ -86,6 +86,16 @@
                 },
                 cache: false
             })
+          .state('app.deliveryList', {
+            url: 'app/deliveryList',
+            views: {
+              menuContent: {
+                templateUrl: 'app/views/home/templates/deliveryList.html',
+                controller: 'deliveryListController as vm'
+              }
+            },
+            cache: false
+          })
             .state('app.workDetails', {
                 url: 'app/workDetails',
                 params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null,'goOffTime':null,'isNewWorkList':null,'selectWorkTypeIndex':null,'workOrderId':null,'enableArrivalBtn':null,"accountId":null},

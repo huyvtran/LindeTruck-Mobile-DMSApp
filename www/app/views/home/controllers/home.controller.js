@@ -108,7 +108,9 @@ angular.module('oinio.controllers', [])
       $scope.doPurChase = function () {
         $state.go('app.purchase');
       };
-
+      $scope.deliveryListView = function () {
+        $state.go('app.deliveryList');
+      };
       $scope.errorCodeView = function () {
         $state.go('app.errorCode');
       };
