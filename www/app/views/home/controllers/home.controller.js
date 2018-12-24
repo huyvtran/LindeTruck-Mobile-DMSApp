@@ -111,6 +111,9 @@ angular.module('oinio.controllers', [])
       $scope.deliveryListView = function () {
         $state.go('app.deliveryList');
       };
+      $scope.truckConfiguration=function(){
+          $state.go('app.truckFleetConfig');
+      };
       $scope.errorCodeView = function () {
         $state.go('app.errorCode');
       };

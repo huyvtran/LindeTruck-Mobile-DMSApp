@@ -22,5 +22,11 @@ angular.module('oinio.TruckFleetConfigController', [])
                 vm.username = oCurrentUser.Name;
             }
         });
+        /**
+         * back to pre page
+         */
+        $scope.goBack=function () {
+            window.history.back();
+        };
     });
 

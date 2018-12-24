@@ -14,14 +14,22 @@
 		.arrow_Down_White {
 			background-image: url(./images/arrow_Down_White.png);
 		}
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+			background-image: url(././img/images/back_icon.png);
+		}
 		.arrow_Left_White {
 			background-image: url(./images/arrow_Left_White.png);
 		}
 	</style>
 </head>
 <body>
-	<div class="frokliftTruckConfiguration_header">
+	<div class="frokliftTruckConfiguration_header" ng-click="goBack();">
 		<div class="left_Box">
+			<div class="back_Icon"></div>
 		</div>
   		<div class="center_Box">
 	  		<div class="center_Title">叉车配置</div>
