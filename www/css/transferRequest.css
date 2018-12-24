@@ -181,10 +181,11 @@ img {
     color: #535353;
     background: #ffffff;
     display: inline-flex;
-    width: calc(100% / 2);
+    width: calc(100% / 3);
     justify-content: center;
 }
-.transferRequest_footer .footer_Btn.Submit_Btn {
+
+.transferRequest_footer .Submit_Btn {
     color: #ffffff;
     background: #aa0020;
 }
