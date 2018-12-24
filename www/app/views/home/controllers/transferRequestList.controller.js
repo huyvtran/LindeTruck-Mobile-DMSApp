@@ -41,6 +41,7 @@ angular.module('oinio.TransferRequestListController', [])
         $('#selectTruckCP_checked').css('display', 'block');
       }
 
+      AppUtilService.showLoading();
 
       ForceClientService.getForceClient().apexrest(
         $scope.truckFleetTransfer + oCurrentUser.Id,

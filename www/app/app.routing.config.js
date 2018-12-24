@@ -176,6 +176,17 @@
                 },
                 cache:false
             })
+            .state('app.priceList',{
+                url:'app/priceList',
+                params:{acctId:null},
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/priceList.view.html',
+                        controller: 'PriceListController as vm'
+                    }
+                },
+                cache:false
+            })
 
             .state('app.transferRequest',{
                 url:'app/transferRequest',

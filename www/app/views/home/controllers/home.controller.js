@@ -117,6 +117,10 @@ angular.module('oinio.controllers', [])
         $state.go('app.contentTruckPartList');
       };
 
+      $scope.goPriceList = function () {
+        $state.go('app.priceList');
+      };
+
       $scope.applyTransfer = function () {
         LocalCacheService.set('tapIndex','1');
         $state.go('app.transferRequestList');

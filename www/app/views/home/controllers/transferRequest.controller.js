@@ -19,6 +19,13 @@ angular.module('oinio.TransferRequestController', [])
       $scope.getCustomerInfo = LocalCacheService.get('getCustomerInfo');
       $scope.outCustomerInfo = LocalCacheService.get('outCustomerInfo');
       $scope.vehicle = LocalCacheService.get('vehicle');
+
+      if ($stateParams.transfer) {
+        $scope.getCustomerInfo = $stateParams.transfer.Source_Account_ShipTo__r;
+        $scope.outCustomerInfo = $stateParams.transfer.Target_Account_ShipTo__r;
+        $scope.vehicle = $stateParams.transfer.Truck_Fleet__r;
+      }
+
       if ($scope.getCustomerInfo) {
         $scope.getCustomerText = $scope.getCustomerInfo.Address__c + '/' + $scope.getCustomerInfo.Phone + '/' + $scope.getCustomerInfo.Id;
       }
@@ -28,13 +35,6 @@ angular.module('oinio.TransferRequestController', [])
       if ($scope.vehicle) {
         $scope.vehicleTypeText = $scope.vehicle.Model__c + '/' + $scope.vehicle.Ship_To_CS__c + '/' + $scope.vehicle.Name;
       }
-
-      if ($stateParams.transfer) {
-        $scope.getCustomerInfo = $stateParams.transfer;
-        $scope.outCustomerInfo = $stateParams.transfer;
-        $scope.vehicle = $stateParams.transfer;
-      }
-
     });
 
 
@@ -98,7 +98,7 @@ angular.module('oinio.TransferRequestController', [])
         Truck_Fleet_Transfer__c.Target_Account_CS_Manager__c = $scope.outCustomerInfo.Service_Group_Default__r && $scope.outCustomerInfo.Service_Group_Default__r.Manager__c;
         Truck_Fleet_Transfer__c.Truck_Fleet__c = $scope.vehicle.Id;
         Truck_Fleet_Transfer__c.Description__c = $scope.remarksText;
-        if ($stateParams.transferId) {
+        if ($stateParams.transfer) {
           Truck_Fleet_Transfer__c.Id = $stateParams.transfer.Id;
         }
 
@@ -108,7 +108,7 @@ angular.module('oinio.TransferRequestController', [])
         Truck_Fleet_Transfer__c.Source_Account_CS_Manager__c = $scope.getCustomerInfo.Service_Group_Default__r && $scope.getCustomerInfo.Service_Group_Default__r.Manager__c;
         Truck_Fleet_Transfer__c.Truck_Fleet__c = $scope.vehicle.Id;
         Truck_Fleet_Transfer__c.Description__c = $scope.remarksText;
-        if ($stateParams.transferId) {
+        if ($stateParams.transfer) {
           Truck_Fleet_Transfer__c.Id = $stateParams.transfer.Id;
         }
       }

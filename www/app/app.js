@@ -70,7 +70,8 @@
             'oinio.SearchVehicleController',
             'oinio.TransferController',
             'oinio.SendMorePeopleController',
-            'oinio.TruckFleetConfigController'
+            'oinio.TruckFleetConfigController',
+            'oinio.PriceListController'
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,

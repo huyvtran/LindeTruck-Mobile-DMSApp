@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title> price list </title>
+	<link rel="stylesheet" href="././css/priceList.css">
+
+	<style type="text/css">
+		.priceList_bodyer {
+			background-image: url(././images/bg_img.png);
+		}
+		.back_Icon {
+			background-repeat: no-repeat;
+			background-size: cover;
+			width: 14px;
+			height: 24px;
+			background-image: url(././img/images/back_icon.png);
+		}
+	</style>
+</head>
+<body>
+	<div class="priceList_header">
+		<div class="left_Box" ng-click="goBack()">
+			<div class="back_Icon"></div>
+		</div>
+  		<div class="center_Box">
+	  		<div class="center_Title">报价单列表</div>
+		</div>
+		<div class="right_Box">
+		</div>
+	</div>
+	<div class="priceList_bodyer">
+	  	<div class="big_Type_Group">
+		  	<div>
+	  			<div class="">
+	  				<select class="small_Type_Select">
+	  					<option>报价单状态选择</option>
+	  				</select>
+	  			</div>
+		  		<table cellpadding="0" cellspacing="0" border="0" class="priceList_Table">
+		  			<tr>
+		  				<td class="priceList_Td width_1"> 单号 </td>
+		  				<td class="priceList_Td width_2"> 关联工单 </td>
+		  				<td class="priceList_Td width_3"> 客户名称 </td>
+		  				<td class="priceList_Td width_4 priceList_Td_Right"> 状态 </td>
+		  			</tr>
+		  			<tr>
+		  				<td class="priceList_Td width_1 textDecoration"> 10938223829 </td>
+		  				<td class="priceList_Td width_2 textDecoration"> C1X19928300182 </td>
+		  				<td class="priceList_Td width_3"> XXX公司 </td>
+		  				<td class="priceList_Td width_4 priceList_Td_Right stateColor"> 已保存 </td>
+		  			</tr>
+		  		</table>
+		  	</div>
+	  	</div>
+  	</div>
+</body>
+</html>
