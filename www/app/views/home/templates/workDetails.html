@@ -6,6 +6,7 @@
 	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no,width=device-width,height=device-height">
 	<title> work list details </title>
 	<link rel="stylesheet" href="././css/workDetails.css">
+	<link rel="stylesheet" href="././css/workDetailPopup.css">
 	<link rel="stylesheet" href="././css/importLsg.css">
 
 	<style type="text/css">
@@ -646,11 +647,23 @@
                             <div class="line_two">
                                 <div class="small_Type_Title">服务类型:</div>
                                 <div class="small_Type_Box">
-                                    <select class="small_Type_Select" id="select_service_type">
+                                    <select class="small_Type_Select" id="select_service_type" onchange="changeServiceType();">
                                         <option ng-repeat="carService in carServices" value="{{carService.label}}">{{carService.value}}</option>
                                     </select>
                                 </div>
                             </div>
+						</div>
+                        <div class="small_Type_Group" id="mainTainCheck" style="display: none">
+                             保修:
+                            <div class="small_Type_Box">
+                                <input type="checkbox" id="mcbCheckBox" ng-model="mcb"/>
+                            </div>
+                        </div>
+						<div class="small_Type_Group" ng-show="mcb" id="causeReson">
+							<div class="small_Type_Title">引起故障零件:</div>
+							<div class="small_Type_Box">
+                                <input type="button"  style="background-color:transparent;" class="small_Type_Input"/>
+							</div>
 						</div>
 						<div class="small_Type_Group">
 							<div class="small_Type_Title">保养级别:</div>
@@ -1342,5 +1355,18 @@
 
 
 </body>
-
+<div class="mask_div"style="display:none;"></div>
+<div class="maintain_popup" style="display: none;">
+	<div class="maintain_header"> 保养选择 </div>
+	<div class="maintain_bodyer">
+		<div class="maintain_detail">
+			<input type="checkbox" class="maintain_checkbox"/>
+			<span class="maintain_text" > xxxxxx </span>
+		</div>
+	</div>
+	<div class="maintain_footer">
+		<div class="maintain_Cancel_Btn" ng-click="dismissServiceModal();">取消</div>
+		<div class="maintain_Sure_Btn" ng-click="confirmServiceModal();">确定</div>
+	</div>
+</div>
 </html>

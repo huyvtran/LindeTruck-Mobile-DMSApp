@@ -101,8 +101,8 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.localWorkItems = [];
         $scope.workTimes = [];//工作时间列表
 
-
-
+        $scope.maintainType=false;
+        $scope.mcb=false;
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -236,6 +236,12 @@ angular.module('oinio.workDetailsControllers', [])
                     function error(msg) {
                         AppUtilService.hideLoading();
                         console.log(msg);
+                    }).then(function () {
+                        if (allowEdit){
+                            $scope.showModal();
+                        }else{
+                            $scope.dismissModal();
+                        }
                     });
 
 
@@ -3099,7 +3105,47 @@ angular.module('oinio.workDetailsControllers', [])
         $('#selectTruckFit').css('display', 'none');
       };
 
+        /**
+         * choose cancel dismiss modal
+         */
+        $scope.dismissServiceModal =function () {
+            $scope.dismissModal();
+        };
 
+        /**
+         * choose save dismiss modal
+         */
+        $scope.confirmServiceModal =function () {
+            $scope.dismissModal();
+        };
 
+        /**
+         * hide modal
+         */
+        $scope.dismissModal=function () {
+            $('.mask_div').css('display', 'none');
+            $('.maintain_popup').css('display', 'none');
+        };
+        $scope.showModal=function(){
+            $('.mask_div').css('display', 'block');
+            $('.maintain_popup').css('display', 'block');
+        };
     });
-
+        var changeServiceType = function (){
+            var index = $('option:selected', '#select_service_type').index();
+            switch (index){
+                case 0:
+                    $('.mask_div').css('display', 'block');
+                    $('.maintain_popup').css('display', 'block');
+                    $('#mainTainCheck').css('display', 'none');
+                    break;
+                case 1:
+                    $('.mask_div').css('display', 'none');
+                    $('.maintain_popup').css('display', 'none');
+                    $('#mainTainCheck').css('display', 'block');
+                    break;
+                case 2:
+                    $('#mainTainCheck').css('display', 'block');
+                    break;
+            }
+        };

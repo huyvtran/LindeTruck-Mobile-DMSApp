@@ -1,0 +1,66 @@
+.mask_div {
+    background: #f6f7f8;
+    opacity: 0.8;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+}
+.maintain_popup {
+    position: fixed;
+    z-index: 99999;
+    top: 30%;
+    width: 90%;
+    margin: 0 5%;
+    box-shadow: 0px 0px 2px #676767;
+    background: #ffffff;
+}
+.maintain_header {
+    text-align: center;
+    padding: 2% 1%;
+}
+.maintain_bodyer {
+    min-height: 38px;
+    max-height: 196px;
+    overflow-y: auto;
+}
+.maintain_detail {
+    border-top: 1px solid #979797;
+    padding: 2%;
+}
+.maintain_text {
+    vertical-align: middle;
+}
+.maintain_checkbox {
+    height: 25px;
+    width: 25px;
+    margin: 0;
+    vertical-align: middle;
+}
+.maintain_footer {
+    text-align: center;
+    margin: 0;
+    width: 100%;
+    display: flex;
+}
+.maintain_Cancel_Btn {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    font-size: 1rem;
+    color: #ffffff;
+    background: #535353;
+    display: inline-flex;
+    width: calc(100% / 2);
+    justify-content: center;
+}
+.maintain_Sure_Btn {
+    padding-top: 2%;
+    padding-bottom: 2%;
+    font-size: 1rem;
+    color: #ffffff;
+    background: #aa0020;
+    display: inline-flex;
+    width: calc(100% / 2);
+    justify-content: center;
+}
