@@ -54,8 +54,8 @@
   	</div>
   	<div class="transferRequest_footer">
   		<div class="footer_Btn" ng-click="goBack()">取消</div>
-  		<div class="footer_Btn Submit_Btn" ng-click="submit()">保存</div>
-  		<div class="footer_Btn Submit_Btn" ng-click="submit()">保存并提交</div>
+  		<div class="footer_Btn Submit_Btn" ng-click="draftSubmit()" ng-show="transfer.Status__c !== 'Submit'">保存</div>
+  		<div class="footer_Btn Submit_Btn" ng-click="submit()" ng-show="transfer.Status__c  !== 'Submit'">保存并提交</div>
   	</div>
 </body>
 </html>

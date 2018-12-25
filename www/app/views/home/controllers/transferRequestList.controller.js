@@ -23,6 +23,8 @@ angular.module('oinio.TransferRequestListController', [])
       LocalCacheService.del('getCustomerInfo');
       LocalCacheService.del('outCustomerInfo');
       LocalCacheService.del('vehicle');
+      LocalCacheService.del('transfer');
+
 
       if ($scope.selectedTapIndex === '1') {
 
@@ -69,7 +71,7 @@ angular.module('oinio.TransferRequestListController', [])
     $scope.getStatusType = function (status){
       if (status == 'Draft') {
         return '草稿';
-      } else if (status == 'Sub') {
+      } else if (status == 'Submit') {
         return '已提交';
       } else if (status == 'Approval') {
         return '已审批';
@@ -83,7 +85,7 @@ angular.module('oinio.TransferRequestListController', [])
       if (status == '草稿') {
         statusType = 'Draft';
       } else if (status == '已提交') {
-        statusType = 'Sub';
+        statusType = 'Submit';
       } else if (status == '已审批') {
         statusType = 'Approval';
       }
@@ -99,7 +101,7 @@ angular.module('oinio.TransferRequestListController', [])
       if (status == '草稿') {
         statusType = 'Draft';
       } else if (status == '已提交') {
-        statusType = 'Sub';
+        statusType = 'Submit';
       } else if (status == '已审批') {
         statusType = 'Approval';
       }
