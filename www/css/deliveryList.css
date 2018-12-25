@@ -243,3 +243,16 @@ img {
     display: inline-block;
     vertical-align: middle;
 }
+.deliveryList_bodyer .list {
+    padding: 0;
+}
+.deliveryList_bodyer .item {
+    padding: 0;
+    width: 100%;
+    overflow: inherit;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+}

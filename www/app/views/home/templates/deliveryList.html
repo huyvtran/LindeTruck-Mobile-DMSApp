@@ -1,117 +1,127 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title> Delivery List </title>
-	<link rel="stylesheet" href="././css/deliveryList.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Delivery List </title>
+    <link rel="stylesheet" href="././css/deliveryList.css">
 
-	<style type="text/css">
-		.deliveryList_bodyer {
-			background-image: url(././img/images/bg_img.png);
-		}
-		.arrow_Down_White {
-			background-image: url(././img/images/arrow_Down_White.png);
-		}
-		.arrow_Left_White {
-			background-image: url(././img/images/arrow_Left_White.png);
-		}
-		.explain_Icon {
-			background-image: url(././img/images/explain_icon.png);
-		}
-		.back_Icon {
-			background-image: url(././img/images/back_icon.png);
-		}
-	</style>
+    <style type="text/css">
+        .deliveryList_bodyer {
+            background-image: url(././img/images/bg_img.png);
+        }
+
+        .arrow_Down_White {
+            background-image: url(././img/images/arrow_Down_White.png);
+        }
+
+        .arrow_Left_White {
+            background-image: url(././img/images/arrow_Left_White.png);
+        }
+
+        .explain_Icon {
+            background-image: url(././img/images/explain_icon.png);
+        }
+
+        .back_Icon {
+            background-image: url(././img/images/back_icon.png);
+        }
+    </style>
 </head>
 <body>
-	<div class="deliveryList_header">
-		<div class="left_Box" ng-click="goBack()">
-			<div class="back_Icon"></div>
-		</div>
-  		<div class="center_Box">
-	  		<div class="center_Title">交货列表</div>
-		</div>
-		<div class="right_Box">
-		</div>
-	</div>
-	<div class="deliveryList_bodyer">
-	  	<div class="big_Type_Group">
-	  		<div>
-	  			<div class="small_Type_Title_Group">
-	  				<div class="small_Type_Title_G"> 草稿列表 </div>
-	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-	  				<div class="OpenClose_Btn arrow_Down_White"></div>
-	  			</div>
-	  			<table cellpadding="0" cellspacing="0" border="0" class="draftList_Table">
-		  			<tr>
-		  				<td class="draftList_Td width_1"> 单号 </td>
-		  				<td class="draftList_Td width_2"> 退件单号 </td>
-		  				<td class="draftList_Td width_3"> 关联工单 </td>
-		  			</tr>
-		  			<tr>
-		  				<td class="draftList_Td width_1">
-		  					<input type="checkbox" class="draftList_Checkbox">
-		  				</td>
-		  				<td class="draftList_Td width_2 textDecoration"> 10938223829 </td>
-		  				<td class="draftList_Td width_3 textDecoration"> C1X19928300182 </td>
-		  			</tr>
-		  		</table>
-		  		<div class="draftList_Btn"> 进入 </div>
-	  		</div>
-		  	<div>
-		  		<div class="small_Type_Title_Group">
-	  				<div class="small_Type_Title_G"> 交货列表 </div>
-	  				<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-	  				<div class="OpenClose_Btn arrow_Down_White"></div>
-	  			</div>
+<div class="deliveryList_header">
+    <div class="left_Box" ng-click="goBack()">
+        <div class="back_Icon"></div>
+    </div>
+    <div class="center_Box">
+        <div class="center_Title">交货列表</div>
+    </div>
+    <div class="right_Box">
+    </div>
+</div>
+<div class="deliveryList_bodyer">
+    <div class="big_Type_Group">
+        <div>
+            <div class="small_Type_Title_Group">
+                <div class="small_Type_Title_G"> 草稿列表</div>
+                <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+                <div class="OpenClose_Btn arrow_Down_White"></div>
+            </div>
+            <table cellpadding="0" cellspacing="0" border="0" class="draftList_Table">
+                <tr>
+                    <td class="draftList_Td width_1"> 单号</td>
+                    <td class="draftList_Td width_2"> 退件单号</td>
+                    <td class="draftList_Td width_3"> 关联工单</td>
+                </tr>
+            </table>
+            <ion-list can-swipe="true" class="quoted_Table_list">
+                <ion-item ng-repeat="item in nowSendRefund" ng-cloak>
+                    <table cellpadding="0" cellspacing="0" border="0" class="draftList_Table">
+                        <tr>
+                            <td class="draftList_Td width_1">
+                                <input type="checkbox" class="draftList_Checkbox">
+                            </td>
+                            <td class="draftList_Td width_2 textDecoration"> 10938223829</td>
+                            <td class="draftList_Td width_3 textDecoration"> C1X19928300182</td>
+                        </tr>
+                    </table>
+                </ion-item>
+            </ion-list>
+            <div class="draftList_Btn" ng-click="goRefundView()"> 进入</div>
+        </div>
+        <div>
+            <div class="small_Type_Title_Group">
+                <div class="small_Type_Title_G"> 交货列表</div>
+                <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+                <div class="OpenClose_Btn arrow_Down_White"></div>
+            </div>
 
-	  			<div class="">
-	  				<select class="small_Type_Select">
-	  					<option>交货状态选择</option>
-	  				</select>
-	  			</div>
-		  		<table cellpadding="0" cellspacing="0" border="0" class="deliveryList_Table">
-		  			<tr>
-		  				<td class="deliveryList_Td width_1"> 退件单号 </td>
-		  				<td class="deliveryList_Td width_2"> 关联工单 </td>
-		  				<td class="deliveryList_Td width_3 deliveryList_Td_Right">状态</td>
-		  			</tr>
-		  			<tr>
-		  				<td class="deliveryList_Td width_1 textDecoration"> 10938223829 </td>
-		  				<td class="deliveryList_Td width_2 textDecoration"> C1X19928300182 </td>
-		  				<td class="deliveryList_Td width_4 deliveryList_Td_Right stateColor">
-		  					<div class="cus_display">已交货</div>
-		  					<div class="cus_display" style="position: relative;">
-								<div class="explain_Icon"> </div>
-								<div class="explain_Text to_Hide">
-									<div class="dis_flex">
-										<span>交货单状态:</span>
-										<span class="red_span">open</span>
-									</div>
-									<div class="dis_flex">
-										<span>到货物流单号:</span>
-										<span class="red_span">2348</span>
-									</div>
-									<div class="dis_flex">
-										<span>到货物流状态:</span>
-										<span class="red_span">已签收</span>
-									</div>
-									<div class="dis_flex">
-										<span>退货物流单号:</span>
-										<span class="red_span">2324</span>
-									</div>
-									<div class="dis_flex">
-										<span>退货物流状态:</span>
-										<span class="red_span">已签收</span>
-									</div>
-								</div>
-							</div>
-						</td>
-		  			</tr>
-		  		</table>
-		  	</div>
-	  	</div>
-  	</div>
+            <div class="">
+                <select class="small_Type_Select">
+                    <option>交货状态选择</option>
+                </select>
+            </div>
+            <table cellpadding="0" cellspacing="0" border="0" class="deliveryList_Table">
+                <tr>
+                    <td class="deliveryList_Td width_1"> 退件单号</td>
+                    <td class="deliveryList_Td width_2"> 关联工单</td>
+                    <td class="deliveryList_Td width_3 deliveryList_Td_Right">状态</td>
+                </tr>
+                <tr>
+                    <td class="deliveryList_Td width_1 textDecoration"> 10938223829</td>
+                    <td class="deliveryList_Td width_2 textDecoration"> C1X19928300182</td>
+                    <td class="deliveryList_Td width_4 deliveryList_Td_Right stateColor">
+                        <div class="cus_display">已交货</div>
+                        <div class="cus_display" style="position: relative;">
+                            <div class="explain_Icon"></div>
+                            <div class="explain_Text to_Hide">
+                                <div class="dis_flex">
+                                    <span>交货单状态:</span>
+                                    <span class="red_span">open</span>
+                                </div>
+                                <div class="dis_flex">
+                                    <span>到货物流单号:</span>
+                                    <span class="red_span">2348</span>
+                                </div>
+                                <div class="dis_flex">
+                                    <span>到货物流状态:</span>
+                                    <span class="red_span">已签收</span>
+                                </div>
+                                <div class="dis_flex">
+                                    <span>退货物流单号:</span>
+                                    <span class="red_span">2324</span>
+                                </div>
+                                <div class="dis_flex">
+                                    <span>退货物流状态:</span>
+                                    <span class="red_span">已签收</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>

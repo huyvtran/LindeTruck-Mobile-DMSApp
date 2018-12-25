@@ -20,7 +20,7 @@ angular.module('oinio.generateOrdersController', [])
 			calendar1.init({
 				'trigger': '#currentDate1',
 				'type': 'date'
-            });   
+            });
             $scope.Consignee__c = oCurrentUser.Name;
             $scope.Delivery_Address__c = oCurrentUser.Address;
 
@@ -29,6 +29,8 @@ angular.module('oinio.generateOrdersController', [])
         $scope.goToGenerate = function () {
             AppUtilService.showLoading();
             var payload1 = $scope.upsertSapOrder + $stateParams.workOrderId;
+            console.log("payload1", payload1);
+
             var servicePartOrder = {};
             servicePartOrder["Consignee__c"] = oCurrentUser.Id;//收货联系人: Consignee__c (User Id)
             servicePartOrder["Tel__c"] = $scope.Tel__c;// 联系电话
@@ -42,12 +44,14 @@ angular.module('oinio.generateOrdersController', [])
             console.log("payload2", payload2);
 
             ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response1) { //生成备件接口一
-                console.log("POST_success:", response1);
+                console.log("POST_success1:", response1);
                 ForceClientService.getForceClient().apexrest(payload2, 'POST', {}, null, function (response2) { //生成备件接口二
-                    console.log("POST_success:", response2);
+                    console.log("POST_success2:", response2);
                     var payload3 = $scope.preparePart + response2.servicePartOrderId;
+                    console.log("payload3", payload3);
+
                     ForceClientService.getForceClient().apexrest(payload3, 'POST', {}, null, function (response3) { //生成备件接口二
-                        console.log("POST_success:", response3);
+                        console.log("POST_success3:", response3);
                         AppUtilService.hideLoading();
                         var ionPop = $ionicPopup.alert({
                             title: "生成备件成功"
@@ -55,9 +59,9 @@ angular.module('oinio.generateOrdersController', [])
                         ionPop.then(function (res) {
                             $ionicHistory.goBack();
                         });
-    
+
                     }, function (error) {
-                        console.log("POST_error:", error);
+                        console.log("response2POST_error:", error);
                         AppUtilService.hideLoading();
                         var ionPop = $ionicPopup.alert({
                             title: "生成备件失败"
@@ -65,7 +69,7 @@ angular.module('oinio.generateOrdersController', [])
                     });
 
                 }, function (error) {
-                    console.log("POST_error:", error);
+                    console.log("response1POST_error:", error);
                     AppUtilService.hideLoading();
                     var ionPop = $ionicPopup.alert({
                         title: "生成备件失败"

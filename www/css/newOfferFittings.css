@@ -427,7 +427,7 @@ img {
   .list .item.item-accordion.ng-hide-remove {
     display: block !important;
   }
-  .importLsg_bodyer .list {
+.importLsg_bodyer .list {
     padding: 0;
 }
 .importLsg_bodyer .item {
