@@ -36,7 +36,7 @@ angular.module('oinio.NewContentTruckPartController', [])
         for (let index = 0; index < response.results.length; index++) {
           let element = response.results[index];
           parts_number__cList.push(element.parts_number__c);
-          partsQuantitys.push(100000);
+          partsQuantitys.push(1);//默认库存
         }
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                   + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;

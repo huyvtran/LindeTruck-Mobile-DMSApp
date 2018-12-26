@@ -1,37 +1,65 @@
 angular.module('oinio.deliveryListController', [])
-  .controller('deliveryListController', function ($scope, $state, $stateParams) {
-    $scope.nowSendRefund = [1,2,3];
+  .controller('deliveryListController', function ($scope, $state, $stateParams ,ForceClientService ,AppUtilService) {
+    $scope.nowSendRefund = [];
+    $scope.getDeliveryOrder = "/DeliverOrderService?action=queryAll";
+    $scope.rejectedItems = [];
+    $scope.draftRejectedItems = [];
     $scope.goBack = function () {
       $state.go("app.home");
     };
 
     $scope.goRefundView = function () {
+      _.each($scope.rejectedItems, function (partItem) {
+        console.log('partItem.isClick:', partItem.isClick);
+        if (partItem.isClick){
+          $scope.nowSendRefund.push(partItem);
+        }
+      });
+      console.log(' $scope.nowSendRefund:',  $scope.nowSendRefund);
+
       $state.go('app.refund', { refundInfo: $scope.nowSendRefund ,orderDetailsId: ""});
     };
-    $scope.$on('$ionicView.beforeEnter', function () {
-
+    $scope.$on('$ionicView.enter', function () {
+      $scope.getRefundList();
     });
     //退件接口
     $scope.getRefundList = function () {
-      ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + orderDetailsId, 'GET', {}, null,
+      AppUtilService.showLoading();
+
+      ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder , 'GET', {}, null,
         function (responseGetDelivery) {
-          // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {}, null,
-          // function (responseGetDelivery) {
           AppUtilService.hideLoading();
           console.log('responseGetDelivery:', responseGetDelivery);
-          $scope.rejectedItems = responseGetDelivery;
-          for (var i = 0; i < $scope.rejectedItems.length; i++) {
-            for (var j = 0; j < $scope.rejectedItems[i].Delivery_Line_Item__r.length; j++) {
-              var elementget = $scope.rejectedItems[i].Delivery_Line_Item__r[j];
-              elementget['checkBool'] = false;
+          if (responseGetDelivery.length!=0){
+            _.each(responseGetDelivery, function (partItem) {
+              partItem.isClick = false;
 
-            }
+              if (partItem.Delivery_Order_Status__c == "null"){
+                $scope.draftRejectedItems.push(partItem);
+
+              }else if (partItem.Delivery_Order_Status__c =="03") {
+                $scope.rejectedItems.push(partItem);
+              }
+            });
+
+
           }
-          console.log('responseGetDeliveryafter:', $scope.rejectedItems);
+
         }, function (error) {
           console.log('responseGetDelivery_error:', error);
           AppUtilService.hideLoading();
         });
     };
+
+    $scope.isRefundSelected = function (partItem) {
+      console.log('partItem:', partItem);
+
+      if (partItem.isClick === true) {
+        _.assign(partItem, {isClick: false});
+      } else {
+        _.assign(partItem, {isClick: true});
+      }
+    };
+
   });
 

@@ -113,7 +113,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             let partsQuantitys = [];
             angular.forEach(response, function (truckItem) {
               parts_number__cList.push(truckItem.Part_Number__c);
-              partsQuantitys.push(100000);
+              partsQuantitys.push(1);//默认库存
             });
 
             var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
@@ -145,7 +145,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         let partsQuantitys = [];
         angular.forEach($stateParams.OrderTruckItem, function (forEachItem) {
             parts_number__cList.push(forEachItem.Part_Number__c);
-            partsQuantitys.push(100000);
+          partsQuantitys.push(1);//默认库存
         });
 
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
@@ -335,7 +335,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           for (let index = 0; index < response.results.length; index++) {
             let element = response.results[index];
             parts_number__cList.push(element.parts_number__c);
-            partsQuantitys.push(100000);
+            partsQuantitys.push(1);//默认库存
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                     + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
@@ -405,7 +405,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           let element = $scope.selectedTruckFitItems[index];
           if (element.type == 'common') {
             parts_number__cList.push(element.parts_number__c);
-            partsQuantitys.push(100000);
+            partsQuantitys.push(1);//默认库存
           }
         }
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
@@ -450,7 +450,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           if ($scope.selectedTruckFitItems[i].type == 'common') {
             parts_number__cList.push($scope.selectedTruckFitItems[i].parts_number__c);
-            partsQuantitys.push(100000);
+            partsQuantitys.push(1);//默认库存
           }
         }
         $scope.selectedTruckFitItems = [];
@@ -1036,7 +1036,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         });
         let partsQuantitys = [];
         for (let i = 0; i < contentLSGsGetList.length; i++) {
-          partsQuantitys.push(100000);
+          partsQuantitys.push(1);//默认库存
         }
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList) + '&partsQuantitys='
                                   + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
@@ -1182,7 +1182,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         angular.forEach(truckItems, function (forEachItem) {
           angular.forEach(forEachItem, function (forEachItemTwo) {
             parts_number__cList.push(forEachItemTwo.Part_Number__c);
-            partsQuantitys.push(100000);
+            partsQuantitys.push(1);//默认库存
           });
 
         });
