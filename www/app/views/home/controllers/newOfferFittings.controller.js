@@ -97,6 +97,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           if (truckItem.Maintenance_Level__c) {
             nameList.push(truckItem.levelNames[truckItem.Maintenance_Level__c]);
             maintenanceLevelList.push(truckItem.Maintenance_Level__c);
+            truckItem.levelNames = '';//清空levelNames字段防止接口报错
           }
         });
         if (maintenanceLevelList.length == 0) {
