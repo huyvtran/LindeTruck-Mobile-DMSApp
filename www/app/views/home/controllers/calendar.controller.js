@@ -14,11 +14,15 @@
             let events = [];
             var currentOrder = [];
             var firstRunFun = false;
+            $scope.firstRunWorkPlan = false;
+            var workPlanEvents = [];
 
             $scope.workPlanTypes = [];
             $scope.workPlanUsers = [];
             $scope.allWorkPlanData = [];
             $scope.currentWorkPlan = [];
+            $scope.workPlanCalendar = null;
+            $scope.getWorkPlanCount = null;
 
             vm.isOnline = null;
             $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
@@ -421,8 +425,9 @@
 
             };
 
+
             $scope.changeBackgroundColor = function(currentClickDate){
-                let currEle = $('td.fc-day[data-date="' + currentClickDate + '"]');
+                let currEle = $('#homeCalendar_1 td.fc-day[data-date="' + currentClickDate + '"]');
                 if(currEle != null && currEle.length > 0) {
                     console.log('currEle::',currEle);
                     if(currEle[0].style.backgroundColor === '#aaa' || currEle[0].style.backgroundColor === 'rgb(170, 170, 170)'){
@@ -436,7 +441,7 @@
             };
 
             $scope.resetAllDateBackground = function(){
-                $('td.fc-day').each(function (index, element) {
+                $('#homeCalendar_1 td.fc-day').each(function (index, element) {
                     element.style.backgroundColor = 'transparent';
                 });
             };
@@ -585,7 +590,7 @@
                     },
                     events: function (start, end, timezone, callback) {
 
-                        console.log('events: function!:' + currentOrder);
+                        console.log('events: function!:',currentOrder);
                         // 数据处理，将返回的数据添加到events中
 
                         callback(getCount(currentOrder));
@@ -713,12 +718,147 @@
                     }
                 };
 
+                $scope.loadWorkPlanData = function () {
+                    ForceClientService.getForceClient().apexrest(
+                        "/MobileNewCalendarService?type=getWorkPlansForCalendar",
+                        "GET",
+                        {},
+                        null, function callBack(res) {
+                            console.log('loadWorkPlanData::callBack:::',res);
+                            //AppUtilService.hideLoading();
+                            if (res.status.toLowerCase() == "success") {
+                                let jsonObject = JSON.parse(res.message);
+                                $scope.workPlanTypes = jsonObject.list_typeSelect;
+                                $scope.workPlanUsers = jsonObject.list_userSelect;
+                                $scope.allWorkPlanData = jsonObject.list_datas;
+                                console.log('allWorkPlanData::',$scope.allWorkPlanData);
+                                $scope.currentWorkPlan = $scope.getCurrentWorkPlanData('全部',jsonObject.list_userSelect[0].value,$scope.allWorkPlanData);
+                            }else{
+
+                            }
+                        }, function error(msg) {
+                            console.log('loadWorkPlanData::ERROR:::',msg);
+
+                            return false;
+                        }
+                    );
+                };
+
+                $scope.initWorkPlanPicklistAction = function (){
+                    var selectWorkPlanType = document.getElementById("selectWorkPlanType");
+                    var selectWorkPlanUser = document.getElementById("selectWorkPlanUser");
+                    selectWorkPlanType.onchange = function (el) {
+                        $scope.changeWorkPlanFilter();
+                    };
+                    selectWorkPlanUser.onchange = function (el) {
+                        $scope.changeWorkPlanFilter();
+                    };
+                };
+
+                $scope.getCurrentWorkPlanData = function (str_type,str_userId,allData) {
+                    var tempArray = [];
+                    for(var i=0;i<allData.length;i++){
+                        if(str_type === '全部'){
+                            if(str_userId === allData[i].str_userId){
+                                tempArray.push(allData[i]);
+                            }
+                        }else{
+                            if(str_type === allData[i].str_type && str_userId === allData[i].str_userId){
+                                tempArray.push(allData[i]);
+                            }
+                        }
+                    }
+                    console.log('getCurrentWorkPlanData::',tempArray);
+                    return tempArray;
+                };
+
+
+
+                $scope.workplan_listIcon = function (type) {
+                    var returnType = 'table_Right checkmark_Icon';
+                    if (type === "Not Planned") {           //未安排
+                        returnType = "table_Right info_Icon"
+                    } else if (type === "Not Started") {    //未开始
+                        returnType = "table_Right warning_Icon"
+                    } else if (type === "Not Completed") {  //进行中
+                        returnType = "table_Right workon_Icon "
+                    }else if (type === "Service Completed") {  //已完成
+                        returnType = "table_Right checkmark_Icon "
+                    }
+                    return returnType;
+                };
+
+                $scope.toDisplayWorkPlanListByData = function (isDayClick,currentClickDate) {
+                    var selectDateWorkPlans = [];
+                    var type_select = $("#selectWorkPlanType").val();
+                    var user_select = $("#selectWorkPlanUser").val();
+
+                    console.log('toDisplayWorkPlanListByData::',type_select+user_select);
+                    var allDatas_workplan = $scope.getCurrentWorkPlanData(type_select,user_select,$scope.allWorkPlanData);
+                    for (let index = 0; index < allDatas_workplan.length; index++) {
+
+                        var indexDate = allDatas_workplan[index].workPlan == null ? null : allDatas_workplan[index].workPlan.Plan_Date__c;
+                        console.log("currentClickDate：", currentClickDate + "  indexDate:" + indexDate);
+
+                        if (currentClickDate == indexDate) {
+                            selectDateWorkPlans.push(allDatas_workplan[index]);
+                        }
+                    }
+                    console.log("selectDateWorkPlans.count", selectDateWorkPlans.length + "   selectDateWorkPlans:" + selectDateWorkPlans);
+
+                    $scope.currentWorkPlan = selectDateWorkPlans;
+                    if(!isDayClick) {
+                        $scope.workPlanCalendar.fullCalendar("addEventSource", $scope.getWorkPlanCount($scope.currentWorkPlan));
+                    }
+                };
+
 
                 $scope.loadWorkPlanData();
                 $scope.initWorkPlanPicklistAction();
 
+                $scope.getWorkPlanCount = function (arr) {
+                    console.log('$scope.firstRunWorkPlan::',$scope.firstRunWorkPlan);
+                    if ($scope.firstRunWorkPlan) {
+                        $scope.workPlanCalendar.fullCalendar("removeEvents");
+                    } else {
+                        $scope.firstRunWorkPlan = true;
+                    }
+                    var plan_Date_List = [];
+                    for (let index = 0; index < arr.length; index++) {
+                        var plan_Date__c = arr[index].workPlan.Plan_Date__c;
+                        plan_Date_List.push(plan_Date__c);
+                    }
+                    workPlanEvents = [];
+                    var obj = {},
+                        k, arr1 = [];
+                    for (var i = 0, len = plan_Date_List.length; i < len; i++) {
+                        k = plan_Date_List[i];
+                        if (obj[k])
+                            obj[k]++;
+                        else
+                            obj[k] = 1;
+                    }
+                    //保存结果{el-'元素'，count-出现次数}
+                    for (var o in obj) {
+                        arr1.push({
+                            el: o,
+                            count: obj[o]
+                        });
+                    }
+                    for (let index = 0; index < arr1.length; index++) {
+                        var item = arr1[index];
+                        workPlanEvents.push({
+                            // 标题，即你想展示的内容
+                            title: item['count'],
+                            start: item['el']
+                        });
+                        //它可以将刚刚获取到的events数据渲染到日历中
+                    }
+                    return workPlanEvents;
+                };
 
-                var workPlanCalendar = $('#calendarWorkPlan').fullCalendar({
+
+                $scope.workPlanCalendar = $('#calendarWorkPlan').fullCalendar({
                     displayEventTime: false,
                     titleFormat: "MM",
                     // allDaySlot : false,
@@ -737,94 +877,33 @@
                         right: 'month,basicWeek'
                     },
                     dayClick: function (date, jsEvent, view) {
-
-                        console.log("↓↓↓dayClick↓↓↓");
-                        console.log('date: ' + date);
-
-                        // console.log('jsEvent: ' + jsEvent);
-                        // console.log('view: ' + view);
-                        // $("tr:even").css("background-color", "#000");
                         var currentClickDate = date.format('YYYY-MM-DD');
-                        //$scope.toDisplayOrderListByData(currentClickDate);
-                        //$scope.changeBackgroundColor(currentClickDate);
+                        $scope.toDisplayWorkPlanListByData(true,currentClickDate);
+                        $scope.changeWorkPlanBackgroundColor(currentClickDate);
                     },
                     events: function (start, end, timezone, callback) {
 
-                        console.log('events: function!:' + currentOrder);
-                        // 数据处理，将返回的数据添加到events中
-
-                        //callback(getCount(currentOrder));
+                        console.log('workPlanCalendar::events::',$scope.currentWorkPlan);
+                        var wp_results = $scope.getWorkPlanCount($scope.currentWorkPlan);
+                        console.log('workPlanCalendar::events22::',wp_results);
+                        callback(wp_results);
 
                     },
                     eventClick: function (event, jsEvent, view) {
                         console.log('eventClick: event.start._i!:' , event.start._i);
-                        // 此处可添加修改日程的代码
-                        // var red = Math.round(255 * Math.random());
-                        // var green = Math.round(255 * Math.random());
-                        // var blue = Math.round(255 * Math.random());
-                        // $(this).css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
-                        var currentClickDate = event.start._i
-                        //$scope.toDisplayOrderListByData(currentClickDate);
-                        //$scope.changeBackgroundColor(currentClickDate);
+                        var currentClickDate = event.start._i;
+                        $scope.toDisplayWorkPlanListByData(true,currentClickDate);
+                        $scope.changeWorkPlanBackgroundColor(currentClickDate);
 
                     }
 
                 });
+
+
+                $scope.fixPrevAndNextButtonTap();
+
             });
 
-            $scope.loadWorkPlanData = function () {
-                ForceClientService.getForceClient().apexrest(
-                    "/MobileNewCalendarService?type=getWorkPlansForCalendar",
-                    "GET",
-                    {},
-                    null, function callBack(res) {
-                        console.log('loadWorkPlanData::callBack:::',res);
-                        //AppUtilService.hideLoading();
-                        if (res.status.toLowerCase() == "success") {
-                            let jsonObject = JSON.parse(res.message);
-                            $scope.workPlanTypes = jsonObject.list_typeSelect;
-                            $scope.workPlanUsers = jsonObject.list_userSelect;
-                            $scope.allWorkPlanData = jsonObject.list_datas;
-                            console.log('allWorkPlanData::',$scope.allWorkPlanData);
-                            $scope.currentWorkPlan = $scope.getCurrentWorkPlanData('全部',jsonObject.list_userSelect[0].value,$scope.allWorkPlanData);
-                        }else{
-
-                        }
-                    }, function error(msg) {
-                        console.log('loadWorkPlanData::ERROR:::',msg);
-
-                        return false;
-                    }
-                );
-            };
-
-            $scope.initWorkPlanPicklistAction = function (){
-                var selectWorkPlanType = document.getElementById("selectWorkPlanType");
-                var selectWorkPlanUser = document.getElementById("selectWorkPlanUser");
-                selectWorkPlanType.onchange = function (el) {
-                    $scope.changeWorkPlanFilter();
-                };
-                selectWorkPlanUser.onchange = function (el) {
-                    $scope.changeWorkPlanFilter();
-                };
-            };
-
-            $scope.getCurrentWorkPlanData = function (str_type,str_userId,allData) {
-                var tempArray = [];
-                for(var i=0;i<allData.length;i++){
-                    if(str_type === '全部'){
-                        if(str_userId === allData[i].str_userId){
-                            tempArray.push(allData[i]);
-                        }
-                    }else{
-                        if(str_type === allData[i].str_type && str_userId === allData[i].str_userId){
-                            tempArray.push(allData[i]);
-                        }
-                    }
-                }
-                console.log('getCurrentWorkPlanData::',tempArray);
-                return tempArray;
-            };
 
             $scope.changeWorkPlanFilter = function () {
                 var type_select = $("#selectWorkPlanType").val();
@@ -832,22 +911,44 @@
 
                 console.log('changeWorkPlanFilter::',type_select+user_select);
                 $scope.currentWorkPlan = $scope.getCurrentWorkPlanData(type_select,user_select,$scope.allWorkPlanData);
+                $scope.workPlanCalendar.fullCalendar("addEventSource", $scope.getWorkPlanCount($scope.currentWorkPlan));
                 console.log('currentWorkPlan::',$scope.currentWorkPlan);
             };
 
-            $scope.workplan_listIcon = function (type) {
-                var returnType = 'table_Right checkmark_Icon';
-                if (type === "Not Planned") {           //未安排
-                    returnType = "table_Right info_Icon"
-                } else if (type === "Not Started") {    //未开始
-                    returnType = "table_Right warning_Icon"
-                } else if (type === "Not Completed") {  //进行中
-                    returnType = "table_Right workon_Icon "
-                }else if (type === "Service Completed") {  //已完成
-                    returnType = "table_Right checkmark_Icon "
+
+            $scope.changeWorkPlanBackgroundColor = function(currentClickDate){
+                var currEle = $('#homeCalendar_2 td.fc-day[data-date="' + currentClickDate + '"]');
+                if(currEle != null && currEle.length > 0) {
+                    console.log('currEle::',currEle);
+                    if(currEle[0].style.backgroundColor === '#aaa' || currEle[0].style.backgroundColor === 'rgb(170, 170, 170)'){
+                        currEle[0].style.backgroundColor = 'transparent';
+                        $scope.resetAllWorkPlanBackground();
+                        $scope.changeWorkPlanFilter();
+                    } else {
+                        $scope.resetAllWorkPlanBackground();
+                        currEle[0].style.backgroundColor = '#aaa';
+                    }
                 }
-                return returnType;
             };
+
+            $scope.resetAllWorkPlanBackground = function(){
+                $('#homeCalendar_2 td.fc-day').each(function (index, element) {
+                    element.style.backgroundColor = 'transparent';
+                });
+            };
+
+            $scope.fixPrevAndNextButtonTap = function(){
+                $("#homeCalendar_2 button.fc-prev-button").click(function(){
+                    $scope.changeWorkPlanFilter();
+                });
+                $("#homeCalendar_2 button.fc-next-button").click(function(){
+                    $scope.changeWorkPlanFilter();
+                });
+                $("#homeCalendar_2 button.fc-today-button").click(function(){
+                    $scope.changeWorkPlanFilter();
+                });
+            };
+
         });
 
 })();
