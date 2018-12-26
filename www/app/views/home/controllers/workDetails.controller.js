@@ -68,6 +68,8 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.workTypes = [];
         $scope.carServices = [];
         $scope.showFooter=true;
+        // $scope.imgObjbefore= [];
+        // $scope.imgObjafter=[];
         $scope.imgUris = ["././img/images/will_add_Img.png"];
         $scope.selectedTruckItemsMore=[];
         $scope.arrivalPostUrl="/WorkDetailService?action=arrival&sooId=";
@@ -177,6 +179,55 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.workTypes.push({ label: 'ZS08_Z81', value: 'Z81 Warranty job1' });
             $scope.workTypes.push({ label: 'ZS08_Z82', value: 'Z82 Warranty job2' });
             $scope.workTypes.push({ label: 'ZS08_Z83', value: 'Z83 Warranty job3' });
+
+            //before
+            // $scope.imgObjbefore.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            // $scope.imgObjbefore.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            // $scope.imgObjbefore.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            // $scope.imgObjbefore.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            //
+            //
+            // $scope.imgObjafter.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            // $scope.imgObjafter.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            // $scope.imgObjafter.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            // $scope.imgObjafter.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
+            // $scope.imgObjafter.push(
+            //     {
+            //         uri:'',
+            //         message:"整车"
+            //     });
         });
 
         $scope.$on('$ionicView.enter', function () {
@@ -1076,6 +1127,7 @@ angular.module('oinio.workDetailsControllers', [])
          */
         $scope.doPrint = function () {
             document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("truckConfigPage").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
@@ -1350,6 +1402,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.selectWorkers = function () {
             document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("truckConfigPage").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "block";
@@ -1367,6 +1420,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.hideSelectWorkersPage=function(){
             document.getElementById("workDetailTotal").style.display = "block";
+            document.getElementById("truckConfigPage").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
@@ -2369,6 +2423,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.addMoreTruck = function () {
             document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("truckConfigPage").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "block";
             document.getElementById("selectWorkersPage").style.display = "none";
@@ -2380,6 +2435,7 @@ angular.module('oinio.workDetailsControllers', [])
          */
         $scope.hideTruckAddPage=function () {
             document.getElementById("workDetailTotal").style.display = "block";
+            document.getElementById("truckConfigPage").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
@@ -2623,6 +2679,7 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.hideWorkPrintPage=function(){
             document.getElementById("workDetailTotal").style.display = "block";
+            document.getElementById("truckConfigPage").style.display = "none";
             document.getElementById("workDetailPart").style.display = "none";
             document.getElementById("selectTruckAddPage").style.display = "none";
             document.getElementById("selectWorkersPage").style.display = "none";
@@ -3130,6 +3187,37 @@ angular.module('oinio.workDetailsControllers', [])
             $('.mask_div').css('display', 'block');
             $('.maintain_popup').css('display', 'block');
         };
+
+        $scope.goTruckConfig=function (truckId) {
+            document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("truckConfigPage").style.display = "block";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "none";
+            document.getElementById("selectWorkersPage").style.display = "none";
+            document.getElementById("workPrintPage").style.display = "none";
+            AppUtilService.showLoading();
+            ForceClientService.getForceClient().apexrest(
+                '/TruckFleetService?truckId='+truckId,
+                'GET',
+                null,
+                {},function callBack(res) {
+                    AppUtilService.hideLoading();
+                    console.log(res);
+                },function error(msg) {
+                    AppUtilService.hideLoading();
+                    console.log(msg);
+                });
+        };
+
+        $scope.hideTruckConfigPage = function () {
+            document.getElementById("workDetailTotal").style.display = "none";
+            document.getElementById("truckConfigPage").style.display = "none";
+            document.getElementById("workDetailPart").style.display = "none";
+            document.getElementById("selectTruckAddPage").style.display = "block";
+            document.getElementById("selectWorkersPage").style.display = "none";
+            document.getElementById("workPrintPage").style.display = "none";
+        };
+
     });
         var changeServiceType = function (){
             var index = $('option:selected', '#select_service_type').index();

@@ -10,6 +10,9 @@
 	<link rel="stylesheet" href="././css/importLsg.css">
 
 	<style type="text/css">
+		.frokliftTruckConfiguration_bodyer {
+			background-image: url(./images/bg_img.png);
+		}
 		.workListDetails_bodyer {
 			background-image: url(././img/images/bg_img.png);
 		}
@@ -700,21 +703,72 @@
 								<textarea class="small_Type_Textarea" id="workContentStr">{{workContent}}</textarea>
 							</div>
 						</div>
-						<div class="small_Type_Group">
-							<div class="small_Type_Title">上传图片:</div>
-							<div class="small_Type_Box">
-								<div class="img_Group" id="photoGroup">
-									<div class="item_Img" ng-repeat="itemUri in imgUris">
-										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
-										 id="{{itemUri}}" ng-click="getPhoto($event);">
-											<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<!--<div class="small_Type_Group">-->
+							<!--<div class="small_Type_Title">上传图片:</div>-->
+							<!--<div class="small_Type_Box">-->
+								<!--<div class="img_Group" id="photoGroup">-->
+									<!--<div class="item_Img" ng-repeat="itemUri in imgUris">-->
+										<!--<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"-->
+										 <!--id="{{itemUri}}" ng-click="getPhoto($event);">-->
+											<!--<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>-->
+										<!--</div>-->
+                                        <!--<input style="width: 80px;height: 30px;">-->
+									<!--</div>-->
+								<!--</div>-->
+							<!--</div>-->
+						<!--</div>-->
 					</div>
 				</div>
+                <div>
+                    <div class="small_Type_Title_Group" ng-click="sameDisPlayInfo('beforeMaintainPic','beforeMaintainImg');">
+                        <div class="small_Type_Title_G"> 维修前图片 </div>
+                        <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+                        <div class="OpenClose_Btn arrow_Down_White" id="beforeMaintainImg"></div>
+                    </div>
+                    <div id="beforeMaintainPic">
+                        <div class="small_Type_Group">
+                            <div class="small_Type_Box">
+                                <div class="img_Group">
+                                    <!--自动添加-->
+                                    <div class="item_Img" ng-repeat="itemUri in imgUris">
+                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
+                                             id="{{itemUri}}" ng-click="getPhoto($event);">
+                                            <div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+                                        </div>
+                                        <input style="width: 80px;height: 30px;">
+                                        <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="small_Type_Title_Group" ng-click="sameDisPlayInfo('afterMaintainPic','afterMaintainImg');">
+                        <div class="small_Type_Title_G"> 维修后图片 </div>
+                        <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+                        <div class="OpenClose_Btn arrow_Down_White" id="afterMaintainImg"></div>
+                    </div>
+                    <div id="afterMaintainPic">
+                        <div class="small_Type_Group">
+                            <div class="small_Type_Box">
+                                <div class="img_Group">
+                                    <!--自动添加-->
+                                    <div class="item_Img" ng-repeat="itemUri in imgUris">
+                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
+                                             id="{{itemUri}}" ng-click="getPhoto($event);">
+                                            <div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+                                        </div>
+                                        <input style="width: 80px;height: 30px;">
+                                        <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 				<div>
 					<div class="small_Type_Title_Group">
 						<div class="small_Type_Title_G_2"> 配件需求 </div>
@@ -1220,7 +1274,7 @@
 					<ion-list can-swipe="true">
 						<ion-item   ng-repeat="titem in contentTruckItemsMore" ng-cloak class="small_Box_Text_1">
 							<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
-								<tr>
+								<tr ng-click="goTruckConfig(titem.Id);">
 									<td class="sv_Td">
 										<input data-recordid={{titem.Id}} class="ckbox_truck_add_searchresult_item" ng-click="checkAddSearchResults(titem);"
 											   type="checkbox" />
@@ -1238,8 +1292,6 @@
 							</table>
 						</ion-item>
 					</ion-list>
-
-
 				</div>
 			</div>
 
@@ -1353,6 +1405,74 @@
 
 	</div>
 
+	<div id="truckConfigPage" style="display: none;">
+		<link rel="stylesheet" href="././css/frokliftTruckConfiguration.css">
+		<div class="frokliftTruckConfiguration_header" ng-click="hideTruckConfigPage();">
+			<div class="left_Box">
+				<div class="back_Icon"></div>
+			</div>
+			<div class="center_Box">
+				<div class="center_Title">叉车配置</div>
+			</div>
+			<div class="right_Box">
+			</div>
+		</div>
+		<div class="frokliftTruckConfiguration_bodyer">
+			<div class="big_Type_Group">
+				<div>
+					<div class="small_Type_Title_Group">
+						<div class="small_Type_Title_G"> 设备编号 </div>
+						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+						<div class="OpenClose_Btn arrow_Down_White"></div>
+					</div>
+					<div class="readonly_supplier_Inf">
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 叉车序列号：</div><div class="inf_Right_Text"> 1000000</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 保修起始日：</div><div class="inf_Right_Text"> 2018/2/2</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 保修结束日：</div><div class="inf_Right_Text"> 2018/2/2</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 车型：</div><div class="inf_Right_Text">111</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 车系：</div><div class="inf_Right_Text">111</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 车辆地址：</div><div class="inf_Right_Text">111</div>
+						</div>
+					</div>
+				</div>
+				<div>
+					<div class="small_Type_Title_Group">
+						<div class="small_Type_Title_G"> 设备特性 </div>
+						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
+						<div class="OpenClose_Btn arrow_Down_White"></div>
+					</div>
+					<div class="readonly_supplier_Inf">
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 特性编码：</div><div class="inf_Right_Text"> 1111111</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 特征名称：</div><div class="inf_Right_Text"> 1111111</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 特性描述：</div><div class="inf_Right_Text"> 1111111 111111 111111 1111111 111111 111111 1111111 111111 111111</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 特性值：</div><div class="inf_Right_Text"> 1111111</div>
+						</div>
+						<div class="inf_Box">
+							<div class="inf_Left_Text"> 特性值文本：</div><div class="inf_Right_Text"> 1111111</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </body>
 <div class="mask_div"style="display:none;"></div>

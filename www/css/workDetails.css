@@ -562,8 +562,9 @@ img {
     margin-bottom: 1%;
 }
 .workListDetails_bodyer .img_Group .item_Img {
-    display: inline-flex;
+    display: inline-grid;
     width: calc(97% / 3);
+    margin-bottom: 15px;
 }
 .workListDetails_bodyer .has_Add_Img {
     width: 80px;

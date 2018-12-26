@@ -300,6 +300,7 @@
 
             .state('app.truckFleetConfig', {
                 url: 'app/truckFleetConfig',
+                params:{'truckId':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/frokliftTruckConfiguration.html',

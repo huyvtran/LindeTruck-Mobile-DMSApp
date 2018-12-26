@@ -1,6 +1,6 @@
 angular.module('oinio.TruckFleetConfigController', [])
     .controller('TruckFleetConfigController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-                                            LocalCacheService) {
+                                            LocalCacheService,ForceClientService) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -21,7 +21,22 @@ angular.module('oinio.TruckFleetConfigController', [])
             if (oCurrentUser) {
                 vm.username = oCurrentUser.Name;
             }
+            //初始化叉车配置页面
+            $scope.initTruckFleetConfig($stateParams.truckId);
         });
+
+        $scope.initTruckFleetConfig =function(truckId){
+            ForceClientService.getForceClient().apexrest(
+                '/TruckFleetService?truckId='+truckId,
+                'GET',
+                null,
+                {},function callBack(res) {
+                    console.log(res);
+                },function error(msg) {
+                    console.log(msg);
+                });
+        };
+
         /**
          * back to pre page
          */
