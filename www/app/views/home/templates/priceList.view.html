@@ -45,11 +45,11 @@
 		  				<td class="priceList_Td width_3"> 客户名称 </td>
 		  				<td class="priceList_Td width_4 priceList_Td_Right"> 状态 </td>
 		  			</tr>
-		  			<tr ng-click="goToPriceListDetails(transfer)">
-		  				<td class="priceList_Td width_1 textDecoration"> 10938223829 </td>
-		  				<td class="priceList_Td width_2 textDecoration"> C1X19928300182 </td>
-		  				<td class="priceList_Td width_3"> XXX公司 </td>
-		  				<td class="priceList_Td width_4 priceList_Td_Right stateColor"> 已保存 </td>
+		  			<tr ng-repeat="priceItem in priceListItems"  ng-click="goToPriceListDetails(priceItem)">
+		  				<td class="priceList_Td width_1 textDecoration"> {{priceItem.Name}} </td>
+		  				<td class="priceList_Td width_2 textDecoration"> {{priceItem.Service_Quote_Overview__r.Name}} </td>
+		  				<td class="priceList_Td width_3"> {{priceItem.Ship_To__r.Name}} </td>
+		  				<td class="priceList_Td width_4 priceList_Td_Right stateColor"> {{priceItem.Quotation_Status__c}} </td>
 		  			</tr>
 		  		</table>
 		  	</div>

@@ -86,8 +86,6 @@ angular.module('oinio.NewOfferFittingsController', [])
             $scope.getTrucksWithSubstitution();
           }
         }
-
-
       };
 
       $scope.getByPart = function () {

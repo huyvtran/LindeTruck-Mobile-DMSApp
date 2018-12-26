@@ -198,7 +198,6 @@
             })
             .state('app.priceList',{
                 url:'app/priceList',
-                params:{acctId:null},
                 views:{
                     menuContent: {
                         templateUrl: 'app/views/home/templates/priceList.view.html',
@@ -209,6 +208,7 @@
             })
             .state('app.priceDetail',{
                 url:'app/priceDetail',
+                params:{overviewId:null},
                 views:{
                     menuContent: {
                         templateUrl: 'app/views/home/templates/priceDetail.view.html',

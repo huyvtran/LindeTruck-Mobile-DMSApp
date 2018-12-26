@@ -17,6 +17,7 @@ angular.module('oinio.PriceDetailController', [])
     $scope.manMadePrice3 = 0;
     $scope.discountPrice3 = 0;
     $scope.priceConditionPriceAll = 0;
+    $scope.priceDetail = {};
     var manMadeNo1Id;
     var manMadeNo2Id;
     var manMadeNo1Name;
@@ -33,6 +34,7 @@ angular.module('oinio.PriceDetailController', [])
     $scope.partLSGServer = '/LSGServer';
     $scope.getPersonalPartListService = '/PersonalPartListService?action=getParts&userId=';
     $scope.getPartsWithKeyWord = '/PersonalPartListService?action=getPartsWithKeyWord&userId=';
+    $scope.queryDetail = '/ServiceQuoteOverviewService?action=queryDetail&serviceQuoteOvId=';
 
     $scope.get = function () {
       AppUtilService.showLoading();
@@ -189,6 +191,17 @@ angular.module('oinio.PriceDetailController', [])
     $scope.$on('$ionicView.beforeEnter', function () {
       document.getElementById('btn_modify_Div').style.display = 'none';//隐藏
       document.getElementById('btn_import_Div').style.display = 'none';//隐藏
+
+      AppUtilService.showLoading();
+      //人工
+      ForceClientService.getForceClient().apexrest($scope.queryDetail +  $stateParams.overviewId, 'GET', {}, null, function (response) {
+        console.log('success:', response);
+        $scope.priceDetail = response;
+        AppUtilService.hideLoading();
+      }, function (error) {
+        console.log('error:', error);
+        AppUtilService.hideLoading();
+      });
 
     });
     $scope.$on('$ionicView.enter', function () {
