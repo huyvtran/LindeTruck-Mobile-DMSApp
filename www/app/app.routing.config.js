@@ -119,7 +119,17 @@
                 },
                 cache: false
             })
-
+          .state('app.refundDetail', {
+              url: 'app/refundDetail',
+              params:{'refundInfo':null,'orderDetailsId':null},
+              views: {
+                  menuContent: {
+                      templateUrl: 'app/views/home/templates/refundDetail.html',
+                      controller: 'RefundDetailController as vm'
+                  }
+              },
+              cache: false
+          })
             .state('app.purchase',{
                 url:'app/purchase',
                 views:{

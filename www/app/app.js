@@ -60,6 +60,7 @@
             'oinio.ChangeLinkManController',
             'oinio.serviceManagementController',
             'oinio.RefundController',
+            'oinio.RefundDetailController',
             'oinio.PurChaseController',
             'oinio.goH5Controller',
             'oinio.TransferRequestController',

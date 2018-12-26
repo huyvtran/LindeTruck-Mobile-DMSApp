@@ -93,13 +93,14 @@
                     <table cellpadding="0" cellspacing="0" border="0" class="deliveryList_Table">
 
                         <tr>
-                            <td class="deliveryList_Td width_1 textDecoration">  {{item.SAP_Delivery_Order__c}}</td>
+                            <td class="deliveryList_Td width_1 textDecoration" ng-click="goRefundDetailView(item)">  {{item.SAP_Delivery_Order__c}}</td>
 
                             <td class="deliveryList_Td width_2 textDecoration"> {{item.Service_Part_Order__c}}</td>
                             <td class="deliveryList_Td width_4 deliveryList_Td_Right stateColor">
                                 <div class="cus_display">{{item.Return_Status__c}}</div>
                                 <div class="cus_display" style="position: relative;">
-                                    <div class="explain_Icon"></div>
+                                    <div class="explain_Icon" ng-click="popupRefundContext(item)"> </div>
+
                                     <!--<div class="explain_Text to_Hide">-->
                                     <!--<div class="dis_flex">-->
                                     <!--<span>交货单状态:</span>-->
