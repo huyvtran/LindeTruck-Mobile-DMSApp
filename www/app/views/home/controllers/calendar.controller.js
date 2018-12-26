@@ -712,7 +712,7 @@
                     }else if (index === '2') {
                         $("#homeCalendar_Tab_1").removeClass("homeCalendar_Tab_Active");
                         $("#homeCalendar_Tab_2").addClass("homeCalendar_Tab_Active");
-
+                        $scope.setDefaultUserForWorkplan();
                         $("#homeCalendar_1").hide();
                         $("#homeCalendar_2").show();
                     }
@@ -733,6 +733,7 @@
                                 $scope.allWorkPlanData = jsonObject.list_datas;
                                 console.log('allWorkPlanData::',$scope.allWorkPlanData);
                                 $scope.currentWorkPlan = $scope.getCurrentWorkPlanData('全部',jsonObject.list_userSelect[0].value,$scope.allWorkPlanData);
+                                //setTimeout($scope.setDefaultUserForWorkplan(), 2000);
                             }else{
 
                             }
@@ -901,7 +902,6 @@
 
 
                 $scope.fixPrevAndNextButtonTap();
-
             });
 
 
@@ -947,6 +947,25 @@
                 $("#homeCalendar_2 button.fc-today-button").click(function(){
                     $scope.changeWorkPlanFilter();
                 });
+            };
+
+            $scope.setDefaultUserForWorkplan = function() {
+                try {
+                    console.log('匹配当前用户workplan:ing');
+                    var matchResult = false;
+                    for(let i=0;i<$scope.workPlanUsers.length;i++){
+                        if($scope.workPlanUsers[i].value === oCurrentUser.Id){
+                            console.log('匹配当前用户workplan成功。');
+                            matchResult = true;
+                            console.log('sssing::',$('#selectWorkPlanUser option').length);
+                            $('#selectWorkPlanUser option')[i].selected = 'selected';
+                            $scope.changeWorkPlanFilter();
+                        }
+                    }
+                    console.log('匹配当前用户workplan::Result::',matchResult);
+                } catch (e) {
+                    console.log('匹配当前用户:出错啦::',e);
+                }
             };
 
         });
