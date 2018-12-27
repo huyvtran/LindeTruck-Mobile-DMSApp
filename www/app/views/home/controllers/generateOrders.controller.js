@@ -36,6 +36,8 @@ angular.module('oinio.generateOrdersController', [])
             servicePartOrder["Tel__c"] = $scope.Tel__c;// 联系电话
             servicePartOrder["Delivery_Address__c"] = $scope.Delivery_Address__c;//收货地址: Delivery_Address__c (Text 255)
             servicePartOrder["Part_Order_Type__c"] = "ZCS1";// 订单类型
+            servicePartOrder["Account__c"] = $stateParams.accountId;// 客户ID
+            servicePartOrder["Service_Order_Overview__c"] = $stateParams.workOrderId;//工单ID
             servicePartOrder["Priority__c"] = document.getElementById("Priority__c").value;//订单等级
             var seleCurrentDate = document.getElementById("currentDate").value;
             servicePartOrder["Delivery_Date__c"] = new Date(Date.parse(seleCurrentDate.replace(/-/g, "/"))).format('yyyy-MM-dd');// 订单日期

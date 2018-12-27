@@ -333,7 +333,7 @@
             })
             .state('app.generateOrders', {
                 url: '/generateOrders',
-                params:{'workOrderId':null},
+                params:{'workOrderId':null,'accountId':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/generateOrders.html',

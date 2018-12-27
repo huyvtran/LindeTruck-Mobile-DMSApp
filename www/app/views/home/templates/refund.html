@@ -91,8 +91,8 @@
 									<td class="sv_Td">
 										<div> {{itemDetail.Used_Quantity__c}} </div>
 									</td>
-									<td class="sv_Td sv_Td_200">
-										<div> {{itemDetail.SAP_Delivery_Order_Line_Item__c}} </div>
+									<td class="sv_Td sv_Td_200" ng-init="SAP_Delivery_Order_Line_Item__c = itemDetail.SAP_Delivery_Order_Line_Item__c">
+										<input type="text" class="sv_Input" ng-model="itemDetail.SAP_Delivery_Order_Line_Item__c"/>
 									</td>
 									<td class="sv_Td" ng-init="Return_Quantity = itemDetail.Return_Quantity">
 										<input type="text" class="sv_Input" ng-model="itemDetail.Return_Quantity"/>
@@ -110,8 +110,9 @@
 					<div class="small_Type_Group">
 						<div class="small_Type_Title"> 退件原因: </div>
 						<div class="small_Type_Box">
-							<select class="small_Type_Select">
-								<option>{{reitemDetail.Return_Status__c}}</option>
+
+							<select class="small_Type_Select" ng-init="reitemDetail.Temp_Return_Reason__c">
+								<option ng-repeat="x in diffReasonSites" value="{{reitemDetail.Temp_Return_Reason__r = x.site}}">{{x.name}}</option>
 							</select>
 						</div>
 					</div>

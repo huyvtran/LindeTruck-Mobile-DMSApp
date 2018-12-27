@@ -62,7 +62,7 @@
                                 <input type="checkbox" class="draftList_Checkbox" ng-click="isRefundSelected(item)">
                             </td>
                             <td class="draftList_Td width_2 textDecoration"> {{item.SAP_Delivery_Order__c}}</td>
-                            <td class="draftList_Td width_3 textDecoration"> {{item.Service_Part_Order__c}}</td>
+                            <td class="draftList_Td width_3 textDecoration"> {{item.Service_Order_Overview__c}}</td>
                         </tr>
                     </table>
                 </ion-item>
@@ -95,34 +95,11 @@
                         <tr>
                             <td class="deliveryList_Td width_1 textDecoration" ng-click="goRefundDetailView(item)">  {{item.SAP_Delivery_Order__c}}</td>
 
-                            <td class="deliveryList_Td width_2 textDecoration"> {{item.Service_Part_Order__c}}</td>
+                            <td class="deliveryList_Td width_2 textDecoration"> {{item.Service_Order_Overview__c}}</td>
                             <td class="deliveryList_Td width_4 deliveryList_Td_Right stateColor">
                                 <div class="cus_display">{{item.Return_Status__c}}</div>
                                 <div class="cus_display" style="position: relative;">
                                     <div class="explain_Icon" ng-click="popupRefundContext(item)"> </div>
-
-                                    <!--<div class="explain_Text to_Hide">-->
-                                    <!--<div class="dis_flex">-->
-                                    <!--<span>交货单状态:</span>-->
-                                    <!--<span class="red_span">open</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="dis_flex">-->
-                                    <!--<span>到货物流单号:</span>-->
-                                    <!--<span class="red_span">2348</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="dis_flex">-->
-                                    <!--<span>到货物流状态:</span>-->
-                                    <!--<span class="red_span">已签收</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="dis_flex">-->
-                                    <!--<span>退货物流单号:</span>-->
-                                    <!--<span class="red_span">2324</span>-->
-                                    <!--</div>-->
-                                    <!--<div class="dis_flex">-->
-                                    <!--<span>退货物流状态:</span>-->
-                                    <!--<span class="red_span">已签收</span>-->
-                                    <!--</div>-->
-                                    <!--</div>-->
                                 </div>
                             </td>
                         </tr>

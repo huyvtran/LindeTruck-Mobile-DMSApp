@@ -2155,7 +2155,7 @@ angular.module('oinio.workDetailsControllers', [])
           ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'POST', {}, null, function (responseSaveParts) {
             AppUtilService.hideLoading();
             console.log("responseSaveParts:", responseSaveParts);
-            $state.go('app.generateOrders',{workOrderId:orderDetailsId});//跳转备件页面
+            $state.go('app.generateOrders',{workOrderId:orderDetailsId, accountId:$stateParams.accountId});//跳转备件页面
 
           }, function (error) {
             console.log("responseSaveParts_error:", error);

@@ -5,7 +5,12 @@ angular.module('oinio.RefundController', [])
         $scope.selectRefundInfo = [];
         $scope.paramSaveDeliveryOrdersUrl = "/UpdateDeliveryOrders/";
         $scope.paramSaveAndSubminDeliveryOrdersUrl = "/submitDeliverOrders/";
-
+      $scope.diffReasonSites = [
+        {site : "1", name : "多订"},
+        {site : "2", name : "订错件"},
+        {site : "3", name : "故障判断有误"},
+        {site : "4", name : "客户原因取消"}
+      ];
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -16,8 +21,21 @@ angular.module('oinio.RefundController', [])
 
         });
         $scope.$on('$ionicView.enter', function () {
-            $scope.selectRefundInfo = $stateParams.refundInfo;
-            console.log("$scope.selectRefundInfo:", $scope.selectRefundInfo);
+
+          // _.each($scope.selectRefundInfo, function (refundItems) {
+          //   _.each(refundItems, function (refundItem) {
+          //     partItem.isClick = false;
+          //   });
+          // });
+          if ($stateParams.refundInfo.length!=0) {
+            _.each($stateParams.refundInfo, function (refundItem) {
+              refundItem.Temp_Return_Reason__c = $stateParams.refundInfo[0].Delivery_Line_Item__r[0].Return_Reason__c;
+            });
+          }
+          $scope.selectRefundInfo = $stateParams.refundInfo;
+          console.log("$scope.selectRefundInfo:", $scope.selectRefundInfo);
+
+
         });
 
         $scope.goBackgw = function () {
@@ -93,7 +111,7 @@ angular.module('oinio.RefundController', [])
                 ionPop.then(function (res) {
                     $ionicHistory.goBack();
                 });
-    
+
                 }, function (error) {
                     console.log("POST_error2:", error);
                     AppUtilService.hideLoading();
