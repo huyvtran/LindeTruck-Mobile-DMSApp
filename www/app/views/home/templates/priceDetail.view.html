@@ -381,7 +381,7 @@
         <div class="priceList_bodyer">
             <div class="displayQuantity" ng-click="toDescribInfDiv();">
                 <div class="arrow_quantity_icon"></div>
-                <div class="displayQuantity_text">已选共{{priceDetail.trucksList.length}}台</div>
+                <div class="displayQuantity_text">已选共{{proceTrucksList.length}}台</div>
                 <div class="describ_Inf_Div" id="describInfDiv" style="display: none">
                     <div class="des_Inf_Head">
                         <div class="des_Inf_Left">
@@ -395,7 +395,7 @@
                         </div>
                     </div>
                     <div>
-                        <div class="des_Inf_Body" ng-cloak ng-repeat="truckItem in priceDetail.trucksList">
+                        <div class="des_Inf_Body" ng-cloak ng-repeat="truckItem in proceTrucksList">
                             <div class="des_Inf_Left">
                                 <!--<input type="checkbox" class="selectTruckItem" /> -->
                             </div>
@@ -418,23 +418,23 @@
                 <div class="readonly_supplier_Inf">
                     <div class="inf_Box">
                         <div class="inf_Left_Text"> 客户名称：</div>
-                        <div class="inf_Right_Text"> {{priceDetail.basicInfo.Ship_To__r.Name}}</div>
+                        <div class="inf_Right_Text"> {{basicInfo.Ship_To__r.Name}}</div>
                     </div>
                     <div class="inf_Box">
                         <div class="inf_Left_Text"> 地址：</div>
-                        <div class="inf_Right_Text"> {{priceDetail.basicInfo.Ship_To__r.Address__c}}</div>
+                        <div class="inf_Right_Text"> {{basicInfo.Ship_To__r.Address__c}}</div>
                     </div>
                     <div class="inf_Box">
                         <div class="inf_Left_Text"> 联系人：</div>
-                        <div class="inf_Right_Text">{{priceDetail.basicInfo.Contact__r.Name}}</div>
+                        <div class="inf_Right_Text">{{basicInfo.Contact__r.Name}}</div>
                     </div>
                     <div class="inf_Box">
                         <div class="inf_Left_Text"> 报价描述：</div>
-                        <div class="inf_Right_Text">{{priceDetail.basicInfo.Quotation_Status__c}}</div>
+                        <div class="inf_Right_Text">{{basicInfo.Subject__c}}</div>
                     </div>
                     <div class="inf_Box">
                         <div class="inf_Left_Text"> 审批状态：</div>
-                        <div class="inf_Right_Text">{{priceDetail.basicInfo.Quotation_Status__c}}</div>
+                        <div class="inf_Right_Text">{{basicInfo.Quotation_Status__c}}</div>
                     </div>
                 </div>
             </div>
@@ -444,17 +444,17 @@
                         <div class="small_Type_Title_G_Fittings"> 配件报价</div>
                         <!-- 点击btn_I/或者btn_M,添加click_Style -->
                         <div class="btn_I">
-                            <div id="btn_import_Btn" class="btn_import_Group"></div>
+                            <div id="btn_import_Btn" class="btn_import_Group"  ng-show="basicInfo.Quotation_Status__c == 'Draft'"></div>
                         </div>
                         <div class="btn_M">
-                            <div id="btn_modify_Btn" class="btn_modify_Group"></div>
+                            <div id="btn_modify_Btn" class="btn_modify_Group" ng-show="basicInfo.Quotation_Status__c == 'Draft'"></div>
                         </div>
-                        <div id="btn_import_Div" class="btn_Import_Div" style="display: none">
+                        <div id="btn_import_Div" class="btn_Import_Div" style="display: none" ng-show="basicInfo.Quotation_Status__c == 'Draft'">
                             <div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG</div>
                             <div class="Import_Btn" ng-click="getTrucksByEconomical();"> 导入经济件</div>
                             <div class="Import_Btn" ng-click="openSelectPage('selectCommonPart');"> 导入常用配件</div>
                         </div>
-                        <div id="btn_modify_Div" class="btn_modify_Div" style="display: none">
+                        <div id="btn_modify_Div" class="btn_modify_Div" style="display: none" ng-show="basicInfo.Quotation_Status__c == 'Draft'">
                             <div class="Modify_Btn" ng-click="openSelectPage('addDele');"> 添加/删除</div>
                             <div class="Modify_Btn" ng-click="delByEconomical();"> 清空经济件</div>
                             <div class="Modify_Btn" ng-click="useByEconomical();"> 使用经济件</div>
@@ -515,51 +515,51 @@
                         </table>
 
                         <ion-list can-swipe="true" class="quoted_Table_list">
-                            <ion-item ng-repeat="item in priceDetail.partQuoteList" ng-cloak ng-click="showPopup(item)"
+                            <ion-item ng-repeat="item in selectedTruckFitItems" ng-cloak ng-click="showPopup(item)"
                                       class="quoted_Table_item">
                                 <table cellpadding="0" cellspacing="0" border="0" class="quoted_Table_bodyer">
                                     <tr>
                                         <td ng-class="isquoted_Table(item.type)">
                                             <div>
-                                                <p>{{item.parts_number__c}} </p>
+                                                <p>{{item.Name}} </p>
 
                                             </div>
                                         </td>
                                         <td class="sv_Td">
-                                            <div> {{item.priceCondition.price}}</div>
+                                            <div> {{item.Gross_Amount__c}}</div>
                                         </td>
                                         <td class="sv_Td">
-                                            <div> {{item.priceCondition.price*priceNo}}</div>
-                                        </td>
-                                        <td class="sv_Td">
-                                            <input ng-model="priceNo" class="sv_Input part_InputForListNo"/>
+                                            <div> {{item.Gross_Amount__c * priceNo}}</div>
                                         </td>
                                         <td class="sv_Td"
-                                            ng-init="discountPriceCondition = item.priceCondition.discount">
-                                            <input class="sv_Input part_InputForListDiscount"
-                                                   ng-model="discountPriceCondition"/>
+                                            ng-init="priceNo = item.Quantity__c">
+                                            <input ng-model="priceNo" class="sv_Input part_InputForListNo" type="text"/>
                                         </td>
-                                        <td class="sv_Td">
-                                            <input class="sv_Input part_InputForListPrice"
-                                                   value="{{item.priceCondition.favourablePrice}}"/>
+                                        <td class="sv_Td" ng-init="item.Discount__c = discountPriceCondition = item.Discount__c">
+                                            <input class="sv_Input part_InputForListDiscount" ng-model="discountPriceCondition" type="text"/>
+                                        </td>
+                                        <td class="sv_Td" ng-init="item.Net_Price__c = favourablePrice = item.Net_Price__c">
+                                            <input class="sv_Input part_InputForListPrice" ng-model="favourablePrice" type="text"/>
                                         </td>
                                         <td class="sv_Td">
                                             <div class="part_InputForListSpecial">
-                                                {{item.part_InputForListSpecial =
-                                                item.priceCondition.favourablePrice*priceNo-discountPriceCondition*item.priceCondition.favourablePrice*priceNo}}
+                                                {{item.Net_Amount__c = favourablePrice * priceNo - discountPriceCondition * favourablePrice * priceNo}}
                                             </div>
+                                            <!--<div class="part_InputForListSpecial">-->
+                                                <!--{{item.Net_Amount__c}}-->
+                                            <!--</div>-->
                                         </td>
                                         <td class="sv_Td" style="color: #F85360;">
                                             <!-- <input class="sv_Input" value="{{item.priceCondition.spnPrice}}"/> -->
-                                            <div>{{item.priceCondition.spnPrice}}</div>
+                                            <div>{{item.SPN_Price__c}}</div>
                                         </td>
                                         <td class="sv_Td">
                                             <div>
-                                                <div>{{item.inventory.estimatedDeliveryDate}}</div>
+                                                <div>{{item.estimatedDeliveryDate}}</div>
                                             </div>
                                         </td>
-                                        <td class="sv_Td" ng-init="ckboxBool = item.View_Integrity__c">
-                                            <input type="checkbox" class="ckbox_part" checked="ckboxBool"/>
+                                        <td class="sv_Td" ng-init="ckboxBool = item.Reserved__c">
+                                            <input type="checkbox" class="ckbox_part" checked="ckboxBool" />
                                         </td>
                                     </tr>
                                 </table>
@@ -601,51 +601,50 @@
                                     <div> 优惠总价</div>
                                 </th>
                             </tr>
-                            <tr>
+                            <tr ng-repeat="labour in labourQuoteList">
                                 <td class="sv_Td">
-                                    <div> 人工</div>
+                                    <div> {{labour.Material_Number__c == '7990110000' ? '人工':'交通'}}</div>
                                 </td>
-                                <td class="sv_Td">
-                                    <input id="priceId1" ng-model="manMadePrice1" class="sv_Input"/>
+                                <td class="sv_Td" ng-init="labour.Gross_Amount__c = manMadePrice = labour.Gross_Amount__c">
+                                    <input id="priceId" ng-model="manMadePrice" class="sv_Input_Price"/>
                                 </td>
-                                <td class="sv_Td">
-                                    <input value="{{manMadeNo1}}" placeholder="0" ng-model="manMadeNo1" class="sv_Input"
-                                           ng-keyup="sum(this);"/>
-                                </td>
-
-                                <td class="sv_Td">
-                                    <div> {{manMadePrice1*manMadeNo1}}</div>
-                                </td>
-                                <td class="sv_Td">
-                                    <input id="discountId1" ng-model="discountPrice1" class="sv_Input"/>
-                                </td>
-                                <td class="sv_Td">
-                                    <input class="sv_Input"
-                                           value="{{manMadePrice1*manMadeNo1-discountPrice1*manMadePrice1*manMadeNo1}}"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="sv_Td">
-                                    <div> 交通</div>
-                                </td>
-                                <td class="sv_Td">
-                                    <input id="priceId2" ng-model="manMadePrice2" class="sv_Input"/>
-                                </td>
-                                <td class="sv_Td">
-                                    <input value="{{manMadeNo2}}" placeholder="0" ng-model="manMadeNo2" class="sv_Input"
+                                <td class="sv_Td" ng-init="labour.Quantity__c = manMadeNo = labour.Quantity__c">
+                                    <input placeholder="0" ng-model="manMadeNo" class="sv_Input_Number"
                                            ng-keyup="sum(this);"/>
                                 </td>
                                 <td class="sv_Td">
-                                    <div> {{manMadePrice2*manMadeNo2}}</div>
+                                    <div> {{manMadePrice * manMadeNo}}</div>
                                 </td>
-                                <td class="sv_Td">
-                                    <input id="discountId2" ng-model="discountPrice2" class="sv_Input"/>
+                                <td class="sv_Td" ng-init="labour.Discount__c = discountPrice = labour.Discount__c">
+                                    <input id="discountId" ng-model="discountPrice" class="sv_Input_Discount"/>
                                 </td>
                                 <td class="sv_Td">
                                     <input class="sv_Input"
-                                           value="{{manMadePrice2*manMadeNo2-discountPrice2*manMadePrice2*manMadeNo2}}"/>
+                                           value="{{manMadePrice * manMadeNo - discountPrice * manMadePrice * manMadeNo}}"/>
                                 </td>
                             </tr>
+                            <!--<tr>-->
+                                <!--<td class="sv_Td">-->
+                                    <!--<div> 交通</div>-->
+                                <!--</td>-->
+                                <!--<td class="sv_Td">-->
+                                    <!--<input id="priceId2" ng-model="manMadePrice2" class="sv_Input"/>-->
+                                <!--</td>-->
+                                <!--<td class="sv_Td">-->
+                                    <!--<input value="{{manMadeNo2}}" placeholder="0" ng-model="manMadeNo2" class="sv_Input"-->
+                                           <!--ng-keyup="sum(this);"/>-->
+                                <!--</td>-->
+                                <!--<td class="sv_Td">-->
+                                    <!--<div> {{manMadePrice2*manMadeNo2}}</div>-->
+                                <!--</td>-->
+                                <!--<td class="sv_Td">-->
+                                    <!--<input id="discountId2" ng-model="discountPrice2" class="sv_Input"/>-->
+                                <!--</td>-->
+                                <!--<td class="sv_Td">-->
+                                    <!--<input class="sv_Input"-->
+                                           <!--value="{{manMadePrice2*manMadeNo2-discountPrice2*manMadePrice2*manMadeNo2}}"/>-->
+                                <!--</td>-->
+                            <!--</tr>-->
                         </table>
                         <ion-list can-swipe="true" class="service_Fit_list">
                             <ion-item ng-repeat="item in serviceFeeList track by $index" ng-cloak
@@ -682,7 +681,7 @@
                         </ion-list>
 
                     </div>
-                    <div class="add_Group">
+                    <div class="add_Group" ng-show="basicInfo.Quotation_Status__c == 'Draft'">
                         <input class="sv_Input" id="serviceFeeName"/>
                         <div class="btn_Add" ng-click="toAddSVView()">
                             添加
@@ -696,9 +695,9 @@
             <!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
 
             <div class="footer_Btn" ng-click="goBack()">取消</div>
-            <div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()">保存</div>
-            <div class="footer_Btn Save_Btn_Act">保存并预留</div>
-            <div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()">提交审批</div>
+            <div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()"  ng-show="basicInfo.Quotation_Status__c == 'Draft'">保存</div>
+            <div class="footer_Btn Save_Btn_Act"  ng-show="basicInfo.Quotation_Status__c == 'Draft'">保存并预留</div>
+            <div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()"  ng-show="basicInfo.Quotation_Status__c == 'Draft'">提交审批</div>
         </div>
 
 </body>

@@ -97,8 +97,8 @@ angular.module('oinio.NewOfferFittingsController', [])
           if (truckItem.Maintenance_Level__c) {
             nameList.push(truckItem.levelNames[truckItem.Maintenance_Level__c]);
             maintenanceLevelList.push(truckItem.Maintenance_Level__c);
-            truckItem.levelNames = '';//清空levelNames字段防止接口报错
           }
+          truckItem.levelNames = "";//清空levelNames字段防止接口报错
         });
         if (maintenanceLevelList.length == 0) {
           return;
@@ -773,13 +773,13 @@ angular.module('oinio.NewOfferFittingsController', [])
         for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
           var oneLabourOriginals4 = {};
           var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
-          oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.parts_number__c;//name等于parts_number__c
+          oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.parts_number__c;
           if (selectedTruckFitItemsIndex.priceCondition) {
-            oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.priceCondition.price;//单价
+            oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.priceCondition.price;
           }
-          oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];//数量
+          oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
           oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
-          oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];//折扣
+          oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
           oneLabourOriginals4['Net_Amount__c'] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
           oneLabourOriginals4['Material_Type__c'] = 'Part';
