@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService) {
+                                                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService,SQuoteService) {
 
         var vm = this,
             doOnline = true,
@@ -68,8 +68,8 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.workTypes = [];
         $scope.carServices = [];
         $scope.showFooter=true;
-        // $scope.imgObjbefore= [];
-        // $scope.imgObjafter=[];
+        $scope.bfObjs= [];
+        $scope.afObjs=[];
         $scope.imgUris = ["././img/images/will_add_Img.png"];
         $scope.selectedTruckItemsMore=[];
         $scope.arrivalPostUrl="/WorkDetailService?action=arrival&sooId=";
@@ -105,6 +105,8 @@ angular.module('oinio.workDetailsControllers', [])
 
         $scope.maintainType=false;
         $scope.mcb=false;
+        $scope.serviceLevels = [];
+        $scope.serviceNames=[];
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -181,53 +183,53 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.workTypes.push({ label: 'ZS08_Z83', value: 'Z83 Warranty job3' });
 
             //before
-            // $scope.imgObjbefore.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            // $scope.imgObjbefore.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            // $scope.imgObjbefore.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            // $scope.imgObjbefore.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            //
-            //
-            // $scope.imgObjafter.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            // $scope.imgObjafter.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            // $scope.imgObjafter.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            // $scope.imgObjafter.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
-            // $scope.imgObjafter.push(
-            //     {
-            //         uri:'',
-            //         message:"整车"
-            //     });
+            $scope.bfObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*整车"
+                });
+            $scope.bfObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*车体号"
+                });
+            $scope.bfObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*小时数"
+                });
+            $scope.bfObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*维修部位"
+                });
+
+            //after
+            $scope.afObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*整车"
+                });
+            $scope.afObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*维修部位"
+                });
+            $scope.afObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*更换旧件"
+                });
+            $scope.afObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*维修现场"
+                });
+            $scope.afObjs.push(
+                {
+                    uri:'././img/images/will_add_Img.png',
+                    message:"*服务车外观及后备箱"
+                });
         });
 
         $scope.$on('$ionicView.enter', function () {
@@ -276,6 +278,9 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.SelectedTruckNum = res.truckModels.length;
                         $scope.initTrucks(res.truckModels);
                         initTrucks=res.truckModels;
+                        if (initTrucks.length>0){
+                            $scope.getMainLevelsAndDesc(initTrucks[0]);
+                        }
                         $scope.allTruckItems = truckItems;
                         $scope.initWorkItems(res.workItems);
                         $scope.initSignature(res.sigEngineerImage,res.sigAcctImage);
@@ -521,6 +526,7 @@ angular.module('oinio.workDetailsControllers', [])
                         Id: trucks[i].Id,
                         truckItemNum: trucks[i].Name,
                         Operation_Hour__c: 0,
+                        Maintenance_Key__c:trucks[i].Maintenance_Key__c!=undefined?trucks[i].Maintenance_Key__c:null,
                         Service_Suggestion__c: "",
                         chooseCheckBox:false,
                         New_Operation_Hour__c:0,
@@ -536,6 +542,7 @@ angular.module('oinio.workDetailsControllers', [])
                 // );
             }
         };
+
 
         $scope.initSignature=function(uri1,uri2){
             $scope.engineerImgStr="data:image/jpeg;base64,"+uri1;
@@ -675,6 +682,15 @@ angular.module('oinio.workDetailsControllers', [])
                 ]
             });
         };
+
+
+        $scope.getBfAfPic=function ($event,currentObj,allObjes) {
+            if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
+                return false;
+            }
+
+        };
+
 
         var checkMinutes = function (time,m) {
             if (time.getMinutes() - m > 0) {
@@ -858,7 +874,17 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 ]
             });
+        };
 
+        /**
+         * 删除维修前或者维修后的图片
+         */
+        $scope.deleteBfAfImg=function(singleObj,allObjes){
+            for (var i = 0;i<allObjes.length;i++){
+                if (singleObj.message==allObjes[i].message){
+                    allObjes[i].message='././img/images/will_add_Img.png';
+                }
+            }
         };
         /**
          * 详细信息／工作信息／配件需求／交货列表／服务建议  共用
@@ -2449,6 +2475,7 @@ angular.module('oinio.workDetailsControllers', [])
                         Id: $scope.selectedTruckItemsMore[i].Id,
                         truckItemNum: $scope.selectedTruckItemsMore[i].Name,
                         Operation_Hour__c: 0,
+                        Maintenance_Key__c:$scope.selectedTruckItemsMore[i].Maintenance_Key__c,
                         chooseCheckBox:false,
                         New_Operation_Hour__c:0,
                         Service_Suggestion__c: "",
@@ -2468,6 +2495,9 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.allTruckItems=truckItems;
 
             $scope.SelectedTruckNum =$scope.allTruckItems.length;
+
+            $scope.getMainLevelsAndDesc($scope.allTruckItems[0]);
+
 
             // var beforeAddMoreTrucks = truckItems;
             // $scope.allTruckItems=[];
@@ -2509,6 +2539,33 @@ angular.module('oinio.workDetailsControllers', [])
 
         };
 
+
+        //保养级别
+        $scope.getMainLevelsAndDesc = function (obj) {
+            $scope.serviceLevels = [];
+            $scope.serviceNames = [];
+            if (!obj.Maintenance_Key__c) {
+                return;
+            }
+            SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c, true).then(function (response) {
+                console.log('getMainLevelsAndDesc', response);
+                if (!response.levels) {
+                    return;
+                }
+                if (response.levels.length > 0) {
+                    $scope.serviceLevels=response.levels;
+                }
+                // if (response.levels.length > 0 && response.names!=null){
+                //     for (var i =0;i<$scope.serviceLevels.length ;i++ ){
+                //         $scope.serviceNames.push(response.names[$scope.serviceLevels[i]]);
+                //     }
+                // }
+            }, function (error) {
+                $log.error('HomeService.searchTrucks Error ' + error);
+            }).finally(function () {
+                //AppUtilService.hideLoading();
+            });
+        };
 
         /**
          * 工单详情页添加添加车体号功能
@@ -2598,7 +2655,27 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.selectedTruckItemsMore.push(searchResult);
                     }
                 });
+                let mk='';
+                if ($scope.selectedTruckItemsMore.length>0){
+                    mk = $scope.selectedTruckItemsMore[0].Maintenance_Key__c;
+                    for(var i =0;i<$scope.selectedTruckItemsMore.length;i++){
+                        if(mk!=$scope.selectedTruckItemsMore[i].Maintenance_Key__c){
+                            $scope.selectedTruckItemsMore.splice(i,1);
+                        }
+                        ele.prop("checked",false);
+                        $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
+                            if(i==index){
+                                $(this).prop("checked", false);
+                            }
+                        });
+                        $ionicPopup.alert({
+                            title: '保养只能选择同保养策略的车'
+                        });
+                        return;
+                    }
+                }else{
 
+                }
             }else{
 
                 $("input.ckbox_truck_add_searchresult_item").each(function (index, element) {
@@ -2635,7 +2712,21 @@ angular.module('oinio.workDetailsControllers', [])
                         }
                     }
                     if (!existFlag) {
-                        $scope.selectedTruckItemsMore.push(ele);
+                        if ($scope.selectedTruckItemsMore.length>0){
+                            let mk = $scope.selectedTruckItemsMore[0].Maintenance_Key__c;
+                            if (mk==ele.Maintenance_Key__c){
+                                $scope.selectedTruckItemsMore.push(ele);
+                            }else{
+                                element[0].checked=false;
+                                $ionicPopup.alert({
+                                    title: '保养只能选择同保养策略的车'
+                                });
+                                return;
+                            }
+                        }else{
+                            $scope.selectedTruckItemsMore.push(ele);
+                        }
+
                     }
                 }else{
                     let temp = [];

@@ -752,6 +752,26 @@ angular.module('oinio.newWorkListControllers', [])
                         $scope.updateTruckString();
                     }
                 });
+                let mk ='';
+                if ($scope.selectedTruckItems.length>0){
+                    mk=$scope.selectedTruckItems[0].Maintenance_Key__c;
+                    for (var i = 0;i<$scope.selectedTruckItems.length;i++){
+                        if (mk!=$scope.selectedTruckItems[i].Maintenance_Key__c){
+                            $scope.selectedTruckItems.splice(i,1);
+                            ele.prop("checked",false);
+                            $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                                if (i==index) {
+                                    $(this).prop("checked", false);
+                                }
+                            });
+                            $scope.updateTruckString();
+                            $ionicPopup.alert({
+                                title: '保养只能选择同保养策略的车'
+                            });
+                            return;
+                        }
+                    }
+                }
             }else{
 
                 $("input.ckbox_truck_searchresult_item").each(function (index, element) {
@@ -791,8 +811,21 @@ angular.module('oinio.newWorkListControllers', [])
                         }
                     }
                     if (!existFlag) {
-                        $scope.selectedTruckItems.push(ele);
-                        $scope.updateTruckString();
+                        if ($scope.selectedTruckItems.length>0){
+                            if ($scope.selectedTruckItems[0].Maintenance_Key__c==ele.Maintenance_Key__c){
+                                $scope.selectedTruckItems.push(ele);
+                                $scope.updateTruckString();
+                            }else{
+                                element[0].checked=false;
+                                $ionicPopup.alert({
+                                    title: '保养只能选择同保养策略的车'
+                                });
+                                return;
+                            }
+                        }else{
+                            $scope.selectedTruckItems.push(ele);
+                            $scope.updateTruckString();
+                        }
                     }
                 }else{
                     let temp = [];

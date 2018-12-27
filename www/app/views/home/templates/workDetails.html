@@ -672,6 +672,7 @@
 							<div class="small_Type_Title">保养级别:</div>
 							<div class="small_Type_Box">
 								<select class="small_Type_Select" id="select_care_type">
+									<option ng-repeat="singleService in serviceLevels">{{singleService}}</option>
 								</select>
 							</div>
 						</div>
@@ -729,6 +730,14 @@
                         <div class="small_Type_Group">
                             <div class="small_Type_Box">
                                 <div class="img_Group">
+									<div class="item_Img" ng-repeat="bfobj in bfObjs">
+										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{bfobj.uri}});"
+											 id="{{bfobj.uri}}" ng-click="getBfAfPic($event,bfobj,bfObjs);">
+											<div class="del_Img" ng-show="bfobj.uri!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(bfobj,bfObjs)"></div>
+										</div>
+										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{bfobj.message}}"/>
+									</div>
+
                                     <!--自动添加-->
                                     <div class="item_Img" ng-repeat="itemUri in imgUris">
                                         <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
@@ -754,7 +763,14 @@
                         <div class="small_Type_Group">
                             <div class="small_Type_Box">
                                 <div class="img_Group">
-                                    <!--自动添加-->
+									<div class="item_Img" ng-repeat="afobj in afObjs">
+										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{afobj.uri}});"
+											 id="{{afobj.uri}}" ng-click="getBfAfPic($event,afobj,afObjs);">
+											<div class="del_Img" ng-show="afobj.uri!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(afobj,afObjs)"></div>
+										</div>
+										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{afobj.message}}"/>
+									</div>
+									<!--自动添加-->
                                     <div class="item_Img" ng-repeat="itemUri in imgUris">
                                         <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
                                              id="{{itemUri}}" ng-click="getPhoto($event);">
@@ -1095,20 +1111,21 @@
 						</div>
 						<div class="slds_textBtn">
 							<!--textCompleted-->
+							<div id="departureBtn" class="textBtn" disabled=""> 出发 </div>
 							<div id="arriveBtn" class="textBtn" ng-click="getArrivalTime();" disabled=""> 到达</div>
 							<div id="leave" class="textBtn" ng-click="doLeave();" disabled=""> 离开 </div>
-							<div id="printBtn" class="textBtn" ng-click="doPrint();" disabled=""> 打印 </div>
-							<div id="signBillBtn" class="textBtn" ng-click="signBill();" disabled=""> 签单 </div>
+							<div id="printBtn" class="textBtn" ng-click="doPrint();" disabled=""> 签单 </div>
+							<!--<div id="signBillBtn" class="textBtn" ng-click="signBill();" disabled=""> 签单 </div>-->
 						</div>
 					</div>
 				</div>
 			</div>
 
-			<div class="footer" ng-show="showFooter">
-				<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
-				<div class="footer_Btn" ng-click="goBack();">取消</div>
-				<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>
-			</div>
+			<!--<div class="footer" ng-show="showFooter">-->
+				<!--&lt;!&ndash; Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact &ndash;&gt;-->
+				<!--<div class="footer_Btn" ng-click="goBack();">取消</div>-->
+				<!--<div class="footer_Btn Save_Btn_Act" ng-click="goSave();">保存</div>-->
+			<!--</div>-->
 		</div>
 	</div>
 
@@ -1274,18 +1291,18 @@
 					<ion-list can-swipe="true">
 						<ion-item   ng-repeat="titem in contentTruckItemsMore" ng-cloak class="small_Box_Text_1">
 							<table cellpadding="0" cellspacing="0" border="0" class="searchs_Table">
-								<tr ng-click="goTruckConfig(titem.Id);">
+								<tr>
 									<td class="sv_Td">
 										<input data-recordid={{titem.Id}} class="ckbox_truck_add_searchresult_item" ng-click="checkAddSearchResults(titem);"
 											   type="checkbox" />
 									</td>
-									<td class="sv_Td">
+									<td class="sv_Td" ng-click="goTruckConfig(titem.Id);">
 										<div style="width: 150px;"> {{titem.Name}}</div>
 									</td>
-									<td class="sv_Td">
+									<td class="sv_Td" ng-click="goTruckConfig(titem.Id);">
 										<div> {{titem.inventory.Truck_Type__c}} </div>
 									</td>
-									<td class="sv_Td">
+									<td class="sv_Td" ng-click="goTruckConfig(titem.Id);">
 										<div> {{titem.inventory.Warranty_End_Date__c}} </div>
 									</td>
 								</tr>
@@ -1400,6 +1417,8 @@
 		</div>
 		<div class="workListPrint_footer">
 			<div class="footer_Btn" ng-click="hideWorkPrintPage();">取消</div>
+			<div class="footer_Btn save_Btn" ng-click="goSave();">保存</div>
+			<div class="footer_Btn" ng-click="signBill();">保存并签单</div>
 			<div class="footer_Btn save_Btn" ng-click="printWorkList();">打印</div>
 		</div>
 
@@ -1479,9 +1498,9 @@
 <div class="maintain_popup" style="display: none;">
 	<div class="maintain_header"> 保养选择 </div>
 	<div class="maintain_bodyer">
-		<div class="maintain_detail">
+		<div class="maintain_detail" ng-repeat="serviceName in serviceNames">
 			<input type="checkbox" class="maintain_checkbox"/>
-			<span class="maintain_text" > xxxxxx </span>
+			<span class="maintain_text" > {{serviceName}} </span>
 		</div>
 	</div>
 	<div class="maintain_footer">
