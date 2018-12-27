@@ -740,10 +740,10 @@ angular.module('oinio.NewOfferFittingsController', [])
         for (let index = 0; index < $scope.serviceFeeList.length; index++) {
           var oneLabourOriginals3 = {};
           oneLabourOriginals3['Name'] = $scope.serviceFeeList[index];
-          oneLabourOriginals3['Gross_Amount__c'] = sv_InputForListPrice[index];
-          oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];
-          oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];
-          oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];
+          oneLabourOriginals3['Gross_Amount__c'] = sv_InputForListPrice[index];//单价
+          oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];//数量
+          oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];//折扣
+          oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];//优惠总价
           oneLabourOriginals3['Material_Type__c'] = 'Labour';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
 
@@ -773,13 +773,13 @@ angular.module('oinio.NewOfferFittingsController', [])
         for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
           var oneLabourOriginals4 = {};
           var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
-          oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.parts_number__c;
+          oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.parts_number__c;//name等于parts_number__c
           if (selectedTruckFitItemsIndex.priceCondition) {
-            oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.priceCondition.price;
+            oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.priceCondition.price;//单价
           }
-          oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
+          oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];//数量
           oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
-          oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
+          oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];//折扣
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
           oneLabourOriginals4['Net_Amount__c'] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
           oneLabourOriginals4['Material_Type__c'] = 'Part';

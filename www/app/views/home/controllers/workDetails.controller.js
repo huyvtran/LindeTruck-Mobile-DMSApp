@@ -2035,6 +2035,7 @@ angular.module('oinio.workDetailsControllers', [])
                 var onePartOriginals = {};
                 onePartOriginals["Line_Item__c"] = element.itemNO;//行项
                 onePartOriginals["Parent_Line_Item__c"] = element.itemNO;//行项
+                onePartOriginals["Name"] = element.Name;//name
                 onePartOriginals["Quantity__c"] = element.quantity;//数量
                 if (element.priceCondition != null) {
                     onePartOriginals["Gross_Price__c"] = element.priceCondition.price;//公布价
@@ -2127,7 +2128,44 @@ angular.module('oinio.workDetailsControllers', [])
 
 
         $scope.goGenerateOrders = function () {
-            $state.go('app.generateOrders',{workOrderId:orderDetailsId});
+          //跳转备件页面前先保存配件信息
+          AppUtilService.showLoading();
+          regroupPartList = [];
+          for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
+            const element = $scope.selectedTruckFitItems[i];
+            var onePartOriginals = {};
+            onePartOriginals["Line_Item__c"] = element.itemNO;//行项
+            onePartOriginals["Parent_Line_Item__c"] = element.itemNO;//行项
+            onePartOriginals["Name"] = element.Name;//name
+            onePartOriginals["Quantity__c"] = element.quantity;//数量
+            if (element.priceCondition != null) {
+              onePartOriginals["Gross_Price__c"] = element.priceCondition.price;//公布价
+            }
+            onePartOriginals["Reserved__c"] = element.View_Integrity__c;//预留
+            onePartOriginals["Service_Material__c"] = element.materialId;//物料号
+            onePartOriginals["Id"] = element.saveId;//物料号
+            onePartOriginals["Parts_Type__c"] = element.type;//配件类型
+            onePartOriginals["Service_Order_Overview__c"] = orderDetailsId;//工单ID
+            regroupPartList.push(onePartOriginals);
+          }
+          console.log("regroupPartList:", regroupPartList);
+
+          var savePartsUrlVar = $scope.savePartsUrl + JSON.stringify(regroupPartList);
+          console.log("savePartsUrl:", savePartsUrlVar);
+          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'POST', {}, null, function (responseSaveParts) {
+            AppUtilService.hideLoading();
+            console.log("responseSaveParts:", responseSaveParts);
+            $state.go('app.generateOrders',{workOrderId:orderDetailsId});//跳转备件页面
+
+          }, function (error) {
+            console.log("responseSaveParts_error:", error);
+            AppUtilService.hideLoading();
+            $ionicPopup.alert({
+              title: "保存失败"
+            });
+            return false;
+          });
+
 
         };
 
