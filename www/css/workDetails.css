@@ -130,7 +130,7 @@ img {
 
 .workListDetails_bodyer {
     overflow-y: auto;
-    height: calc(100vh - 65px);
+    height: calc(100vh - 120px);
     background-repeat: no-repeat;
     background-size: cover;
     width: 100%;
@@ -601,7 +601,7 @@ img {
 /* foot */
 .next_Footer {
     position: absolute;
-    bottom: 10px;
+    bottom: 50px;
     width: 100%;
     background: #ffffff;
 }
