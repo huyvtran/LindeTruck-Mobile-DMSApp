@@ -2693,7 +2693,11 @@ angular.module('oinio.workDetailsControllers', [])
                 if (response.levels.length > 0) {
                     $scope.serviceLevels=response.levels;
                 }
-                $scope.initChidOrderInfo(childOrders);
+                setTimeout(function () {
+                    if ($scope.serviceLevels.length>0){
+                        $scope.initChidOrderInfo(childOrders);
+                    }
+                },200);
                 // if (response.levels.length > 0 && response.names!=null){
                 //     for (var i =0;i<$scope.serviceLevels.length ;i++ ){
                 //         $scope.serviceNames.push(response.names[$scope.serviceLevels[i]]);
