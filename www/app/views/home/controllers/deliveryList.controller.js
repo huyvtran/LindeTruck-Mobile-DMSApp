@@ -10,6 +10,18 @@ angular.module('oinio.deliveryListController', [])
       $state.go("app.home");
     };
 
+    $scope.goWorkItemView = function (orderWorkId) {
+      // $state.go('app.workDetails', {
+      //   SendInfo: orderWorkId,
+      //   workDescription: null,
+      //   AccountShipToC: null,
+      //   workOrderId:orderWorkId,
+      //   enableArrivalBtn:null,
+      //   goOffTime: null,
+      //   isNewWorkList: null,
+      //   accountId:null
+      // });
+    };
     $scope.selectStateChange = function (stateS) {
       console.log('stateS:', stateS);
       if (stateS =="Open"){

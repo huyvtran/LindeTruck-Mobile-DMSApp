@@ -248,7 +248,7 @@ angular.module('oinio.PriceDetailController', [])
     $scope.$on('$ionicView.enter', function () {
       console.log('接受点击事件');
       document.addEventListener('click', newHandle);//初始化弹框
-      $scope.get();
+      // $scope.get();
 
     });
 
@@ -1544,7 +1544,7 @@ angular.module('oinio.PriceDetailController', [])
         return '等待审批';
       }
     };
-    
+
 
     $scope.toDescribInfDiv = function () {
       if (document.getElementById("describInfDiv").style.display == "none") {

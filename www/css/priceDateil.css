@@ -690,7 +690,19 @@ input[type="radio"] {
     font-size: inherit;
     margin: 0;
 }
-
+.add_del_bodyer .list {
+    padding: 0;
+}
+.add_del_bodyer .item {
+    padding: 0;
+    width: 100%;
+    overflow: inherit;
+    border: 0;
+    background: none;
+    color: inherit;
+    font-size: inherit;
+    margin: 0;
+}
 .add_del_bodyer {
     overflow-y: auto;
     height: calc(100vh - 170px);
