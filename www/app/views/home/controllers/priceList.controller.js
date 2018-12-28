@@ -6,6 +6,9 @@ angular.module('oinio.PriceListController', [])
 
     $scope.queryList = '/ServiceQuoteOverviewService?action=queryList&userId=';
     $scope.priceListItems = [];
+    $scope.priceListStatusItems = [];
+    $scope.statusTypes = ['草稿','等待审批','拒绝','等待客户确认','赢单','丢单'];
+
 
 
 
@@ -19,12 +22,54 @@ angular.module('oinio.PriceListController', [])
       ForceClientService.getForceClient().apexrest($scope.queryList +  oCurrentUser.Id, 'GET', {}, null, function (response) {
         console.log('success:', response);
         $scope.priceListItems = response;
+        $scope.priceListStatusItems = response;
         AppUtilService.hideLoading();
       }, function (error) {
         console.log('error:', error);
         AppUtilService.hideLoading();
       });
     });
+
+    $scope.getStatusType = function (status){
+      if (status == 'Draft') {
+        return '草稿';
+      } else if (status == 'Pending') {
+        return '等待审批';
+      } else if (status == 'Reject') {
+        return '拒绝';
+      } else if (status == 'Waiting For Customer') {
+        return '等待客户确认';
+      } else if (status == 'Win') {
+        return '赢单';
+      }else if (status == 'Lost') {
+        return '丢单';
+      }
+    };
+
+
+    $scope.selectStatusChange = function (status) {
+
+      var statusType = '';
+      if (status == '草稿') {
+        statusType = 'Draft';
+      } else if (status == '等待审批') {
+        statusType = 'Pending';
+      } else if (status == '拒绝') {
+        statusType = 'Reject';
+      } else if (status == '等待客户确认') {
+        statusType = 'Waiting For Customer';
+      } else if (status == '赢单') {
+        statusType = 'Win';
+      } else if (status == '丢单') {
+        statusType = 'Lost';
+      }
+
+      $scope.priceListStatusItems =  _.filter($scope.priceListItems, function (statusItem) {
+        return statusItem.Quotation_Status__c == statusType;
+      });
+
+    };
+
 
     $scope.goToPriceListDetails = function (priceItem) {
       $state.go('app.priceDetail',{overviewId:priceItem.Id});

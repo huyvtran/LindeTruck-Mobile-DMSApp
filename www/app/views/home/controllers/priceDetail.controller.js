@@ -969,21 +969,20 @@ angular.module('oinio.PriceDetailController', [])
       $scope.addLabourOriginalsList();//组织劳务费数据
       var serviceQuoteOverview = {};
       serviceQuoteOverview['Ship_to__c'] = $scope.basicInfo.Ship_To__c;
+      serviceQuoteOverview['Id'] = $scope.basicInfo.Id;
 
-      var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
-                    + '&serviceQuotes=' + JSON.stringify($scope.basicInfo) + '&quoteLabourOriginals='
+      var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview) + '&serviceQuotes=null' + '&quoteLabourOriginals='
                     + JSON.stringify($scope.quoteLabourOriginalsList);
       console.log('payload', payload);
 
-      ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
+      ForceClientService.getForceClient().apexrest(payload, 'PUT', {}, null, function (response) {
         AppUtilService.hideLoading();
         console.log('POST_success:', response);
         var ionPop = $ionicPopup.alert({
           title: '保存成功'
         });
         ionPop.then(function (res) {
-          window.history.back(-1);
-          window.history.back(-1);
+          window.history.back();
         });
       }, function (error) {
         console.log('POST_error:', error);
@@ -1031,7 +1030,8 @@ angular.module('oinio.PriceDetailController', [])
       AppUtilService.showLoading();
       $scope.addLabourOriginalsList();//组织劳务费数据
       var serviceQuoteOverview = {};
-      serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
+      serviceQuoteOverview['Ship_to__c'] = $scope.basicInfo.Ship_To__c;
+      serviceQuoteOverview['Id'] = $scope.priceDetail.Id;
 
       var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                     + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='

@@ -34,9 +34,10 @@
 	  	<div class="big_Type_Group">
 		  	<div>
 	  			<div class="">
-	  				<select class="small_Type_Select">
-	  					<option>报价单状态选择</option>
-	  				</select>
+	  				<select class="small_Type_Select"  ng-model = "status" ng-change="selectStatusChange(status)">
+						<option value='' disabled selected style='display:none;'>报价单状态选择</option>
+						<option ng-repeat="status in statusTypes">{{status}}</option>
+					</select>
 	  			</div>
 		  		<table cellpadding="0" cellspacing="0" border="0" class="priceList_Table">
 		  			<tr>
@@ -45,11 +46,11 @@
 		  				<td class="priceList_Td width_3"> 客户名称 </td>
 		  				<td class="priceList_Td width_4 priceList_Td_Right"> 状态 </td>
 		  			</tr>
-		  			<tr ng-repeat="priceItem in priceListItems"  ng-click="goToPriceListDetails(priceItem)">
+		  			<tr ng-repeat="priceItem in priceListStatusItems"  ng-click="goToPriceListDetails(priceItem)">
 		  				<td class="priceList_Td width_1 textDecoration"> {{priceItem.Name}} </td>
 		  				<td class="priceList_Td width_2 textDecoration"> {{priceItem.Service_Quote_Overview__r.Name}} </td>
 		  				<td class="priceList_Td width_3"> {{priceItem.Ship_To__r.Name}} </td>
-		  				<td class="priceList_Td width_4 priceList_Td_Right stateColor"> {{priceItem.Quotation_Status__c}} </td>
+		  				<td class="priceList_Td width_4 priceList_Td_Right stateColor"> {{getStatusType(priceItem.Quotation_Status__c)}}</td>
 		  			</tr>
 		  		</table>
 		  	</div>
