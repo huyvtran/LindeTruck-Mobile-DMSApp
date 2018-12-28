@@ -434,7 +434,7 @@
                     </div>
                     <div class="inf_Box">
                         <div class="inf_Left_Text"> 审批状态：</div>
-                        <div class="inf_Right_Text">{{basicInfo.Quotation_Status__c}}</div>
+                        <div class="inf_Right_Text">{{getStatusType(basicInfo.Quotation_Status__c)}}</div>
                     </div>
                 </div>
             </div>
@@ -533,7 +533,7 @@
                                         </td>
                                         <td class="sv_Td"
                                             ng-init="priceNo = item.Quantity__c">
-                                            <input ng-model="priceNo" class="sv_Input part_InputForListNo" type="text"/>
+                                             <input ng-model="priceNo" class="sv_Input part_InputForListNo" type="text"/>
                                         </td>
                                         <td class="sv_Td" ng-init="item.Discount__c = discountPriceCondition = item.Discount__c">
                                             <input class="sv_Input part_InputForListDiscount" ng-model="discountPriceCondition" type="text"/>
@@ -659,7 +659,7 @@
                                             </div>
                                         </td>
                                         <td class="sv_Td">
-                                            <input ng-model="manMadePrice3" class="sv_InputForListPrice"/>
+                                            <input ng-model="manMadePrice3" placeholder="0" class="sv_InputForListPrice"/>
                                         </td>
                                         <td class="sv_Td">
                                             <input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo"/>
@@ -668,10 +668,10 @@
                                             <div> {{manMadePrice3*manMadeNo3}}</div>
                                         </td>
                                         <td class="sv_Td">
-                                            <input ng-model="discountPrice3" class="sv_InputForListDiscount"/>
+                                            <input ng-model="discountPrice3" placeholder="0" class="sv_InputForListDiscount"/>
                                         </td>
                                         <td class="sv_Td">
-                                            <input class="sv_InputForListSpecial"
+                                            <input class="sv_InputForListSpecial" placeholder="0"
                                                    value="{{manMadePrice3*manMadeNo3-discountPrice3*manMadePrice3*manMadeNo3}}"/>
                                         </td>
                                     </tr>

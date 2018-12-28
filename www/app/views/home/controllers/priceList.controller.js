@@ -7,7 +7,7 @@ angular.module('oinio.PriceListController', [])
     $scope.queryList = '/ServiceQuoteOverviewService?action=queryList&userId=';
     $scope.priceListItems = [];
     $scope.priceListStatusItems = [];
-    $scope.statusTypes = ['草稿','等待审批','拒绝','等待客户确认','赢单','丢单'];
+    $scope.statusTypes = ['草稿','等待审批','拒绝','等待客户确认','赢单','丢单','关闭'];
 
 
 
@@ -33,7 +33,7 @@ angular.module('oinio.PriceListController', [])
     $scope.getStatusType = function (status){
       if (status == 'Draft') {
         return '草稿';
-      } else if (status == 'Pending') {
+      } else if (status == 'Waiting For Approval') {
         return '等待审批';
       } else if (status == 'Reject') {
         return '拒绝';
@@ -43,6 +43,10 @@ angular.module('oinio.PriceListController', [])
         return '赢单';
       }else if (status == 'Lost') {
         return '丢单';
+      }else if (status == 'Closed') {
+        return '关闭';
+      }else {
+        return '等待审批';
       }
     };
 
@@ -53,7 +57,7 @@ angular.module('oinio.PriceListController', [])
       if (status == '草稿') {
         statusType = 'Draft';
       } else if (status == '等待审批') {
-        statusType = 'Pending';
+        statusType = 'Waiting For Approval';
       } else if (status == '拒绝') {
         statusType = 'Reject';
       } else if (status == '等待客户确认') {
@@ -62,6 +66,8 @@ angular.module('oinio.PriceListController', [])
         statusType = 'Win';
       } else if (status == '丢单') {
         statusType = 'Lost';
+      }else if (status == '关闭') {
+        return 'Closed';
       }
 
       $scope.priceListStatusItems =  _.filter($scope.priceListItems, function (statusItem) {

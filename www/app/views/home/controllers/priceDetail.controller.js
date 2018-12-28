@@ -15,6 +15,7 @@ angular.module('oinio.PriceDetailController', [])
     $scope.priceConditionPriceAll = 0;
     $scope.priceDetail = {};
     $scope.basicInfo = {};
+    $scope.serviceQuotes = {};
     $scope.proceTrucksList = [];
     $scope.contentLSGs = [];//LSG
     $scope.paramUrl1 = '/Parts/7990110000/' + $stateParams.SendSoupEntryId;
@@ -227,11 +228,14 @@ angular.module('oinio.PriceDetailController', [])
         $scope.proceTrucksList = response.trucksList;
         $scope.basicInfo = response.basicInfo;
         $scope.selectedTruckFitItems = response.partQuoteList;
+        $scope.serviceQuotes = response.serviceQuotes;
         _.each($scope.selectedTruckFitItems, function (partItem) {
           partItem.type = 'common';
         });
         $scope.labourQuoteList = response.labourQuoteList;
         $scope.priceDetail = response;
+
+
         AppUtilService.hideLoading();
 
         $scope.calculatePriceConditionPriceAll();
@@ -832,6 +836,8 @@ angular.module('oinio.PriceDetailController', [])
       // }
     };
 
+
+
     //组装劳务费 配件列表
     $scope.addLabourOriginalsList = function (obj) {
       // var oneLabourOriginals1 = {};
@@ -864,7 +870,7 @@ angular.module('oinio.PriceDetailController', [])
       // }
 
 
-
+      $scope.quoteLabourOriginalsList = [];
 
       var sv_Input_PriceList  = [];//单价
       var sv_Input_NumberList = [];//数量
@@ -882,13 +888,13 @@ angular.module('oinio.PriceDetailController', [])
 
 
       for (let index = 0; index < $scope.labourQuoteList.length; index++) {
+        var oneLabourOriginals3 = $scope.labourQuoteList[index];
         console.log('$scope.labourQuoteList',$scope.labourQuoteList[index]);
-        $scope.labourQuoteList[index]["Gross_Amount__c"] =  sv_Input_PriceList[index];
-        $scope.labourQuoteList[index]["Quantity__c"] =  sv_Input_NumberList[index];
-        $scope.labourQuoteList[index]["Discount__c"] =  sv_Input_DiscountList[index];
+        oneLabourOriginals3["Gross_Amount__c"] =  sv_Input_PriceList[index];
+        oneLabourOriginals3["Quantity__c"] =  sv_Input_NumberList[index];
+        oneLabourOriginals3["Discount__c"] =  sv_Input_DiscountList[index];
+        $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
       }
-
-      $scope.quoteLabourOriginalsList = $scope.labourQuoteList;
 
       var sv_InputForListPrice = [];//单价
       var sv_InputForListNo = [];//数量
@@ -917,7 +923,7 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals3['Gross_Amount__c'] = sv_InputForListPrice[index];
         oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];
         oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];
-        oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];
+        oneLabourOriginals3['Net_Amount__c'] = _.isNaN(sv_InputForListSpecial[index]) ? '0' : sv_InputForListSpecial[index];
         oneLabourOriginals3['Material_Type__c'] = 'Labour';
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
       }
@@ -927,6 +933,7 @@ angular.module('oinio.PriceDetailController', [])
       var part_InputForListNo = [];//数量
       var part_InputForListDiscount = [];//折扣
       var part_InputForListChecked = [];//预留状态
+      var part_InputForListSpecialList = [];//总价
 
       $('input.part_InputForListPrice').each(function (index, element) {
         part_InputForListPrice.push(element.value);
@@ -939,6 +946,9 @@ angular.module('oinio.PriceDetailController', [])
       $('input.part_InputForListDiscount').each(function (index, element) {
         part_InputForListDiscount.push(element.value);
         // console.log('sv_InputForListDiscount:::',element.value+"  index"+index);
+      });
+      $('input.part_InputForListSpecial').each(function (index, element) {
+        part_InputForListSpecialList.push(element.checked);
       });
       $('input.ckbox_part').each(function (index, element) {
         part_InputForListChecked.push(element.checked);
@@ -958,7 +968,7 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
         oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
         oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
-        oneLabourOriginals4['Net_Amount__c'] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
+        oneLabourOriginals4['Net_Amount__c'] = part_InputForListSpecialList[index];//优惠总价
         oneLabourOriginals4['Material_Type__c'] = 'Part';
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
       }
@@ -971,7 +981,7 @@ angular.module('oinio.PriceDetailController', [])
       serviceQuoteOverview['Ship_to__c'] = $scope.basicInfo.Ship_To__c;
       serviceQuoteOverview['Id'] = $scope.basicInfo.Id;
 
-      var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview) + '&serviceQuotes=null' + '&quoteLabourOriginals='
+      var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview) + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes)  + '&quoteLabourOriginals='
                     + JSON.stringify($scope.quoteLabourOriginalsList);
       console.log('payload', payload);
 
@@ -1013,7 +1023,6 @@ angular.module('oinio.PriceDetailController', [])
         });
         ionPop.then(function (res) {
           window.history.back(-1);
-          window.history.back(-1);
         });
       }, function (error) {
         console.log('toSubmitCheckFunction_error:', error);
@@ -1031,16 +1040,16 @@ angular.module('oinio.PriceDetailController', [])
       $scope.addLabourOriginalsList();//组织劳务费数据
       var serviceQuoteOverview = {};
       serviceQuoteOverview['Ship_to__c'] = $scope.basicInfo.Ship_To__c;
-      serviceQuoteOverview['Id'] = $scope.priceDetail.Id;
+      serviceQuoteOverview['Id'] = $scope.basicInfo.Id;
 
       var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
-                    + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
+                    + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes) + '&quoteLabourOriginals='
                     + JSON.stringify($scope.quoteLabourOriginalsList);
       console.log('payload', payload);
 
-      ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
+      ForceClientService.getForceClient().apexrest(payload, 'PUT', {}, null, function (response) {
         console.log('POST_success:', response);
-        $scope.toSubmitCheckFunction(response.Id);//提交审核接口
+        $scope.toSubmitCheckFunction(response.serviceQuoteOverview.Id);//提交审核接口
 
       }, function (error) {
         console.log('POST_error:', error);
@@ -1057,10 +1066,12 @@ angular.module('oinio.PriceDetailController', [])
       AppUtilService.showLoading();
       $scope.addLabourOriginalsList();//组织劳务费数据
       var serviceQuoteOverview = {};
-      serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
+      // serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
+      serviceQuoteOverview['Ship_to__c'] = $scope.basicInfo.Ship_To__c;
+      serviceQuoteOverview['Id'] = $scope.basicInfo.Id;
 
       var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
-                    + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
+                    + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes) + '&quoteLabourOriginals='
                     + JSON.stringify($scope.quoteLabourOriginalsList);
       console.log('payload', payload);
 
@@ -1513,6 +1524,27 @@ angular.module('oinio.PriceDetailController', [])
       }
 
     };
+
+    $scope.getStatusType = function (status){
+      if (status == 'Draft') {
+        return '草稿';
+      } else if (status == 'Waiting For Approval') {
+        return '等待审批';
+      } else if (status == 'Reject') {
+        return '拒绝';
+      } else if (status == 'Waiting For Customer') {
+        return '等待客户确认';
+      } else if (status == 'Win') {
+        return '赢单';
+      }else if (status == 'Lost') {
+        return '丢单';
+      }else if (status == 'Closed') {
+        return '关闭';
+      }else {
+        return '等待审批';
+      }
+    };
+    
 
     $scope.toDescribInfDiv = function () {
       if (document.getElementById("describInfDiv").style.display == "none") {
