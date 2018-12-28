@@ -230,8 +230,8 @@
             };
             //出发逻辑判断
             $scope.goNotStartedWorkDetails = function (item) {
-                for (let index = 0; index < currentOrder.length; index++) {
-                    const element = currentOrder[index].On_Order__c;
+                for (let index = 0; index < $scope.currentOrder.length; index++) {
+                    const element = $scope.currentOrder[index].On_Order__c;
                     if (element) {
                         setTimeout(function() {
                             myPopup = $ionicPopup.show({

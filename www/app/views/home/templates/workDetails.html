@@ -577,8 +577,8 @@
 		<div class="workListDetails_bodyer" id="workListDetailBody">
 			<div class="workListDetails_header">
 				<div class="left_Box" ng-click="goBack();">
-					<!--<div class="back_Icon"></div>-->
-					<div class="back_Icon" ng-show="!showFooter"></div>
+					<div class="back_Icon"></div>
+					<!--<div class="back_Icon" ng-show="!showFooter"></div>-->
 				</div>
 				<div class="center_Box">
 					<div class="center_Title" id="workSingleNumber">工单号:{{mobileName}}</div>
@@ -650,7 +650,8 @@
                             <div class="line_two">
                                 <div class="small_Type_Title">服务类型:</div>
                                 <div class="small_Type_Box">
-                                    <select class="small_Type_Select" id="select_service_type" onchange="changeServiceType();">
+                                    <!--<select class="small_Type_Select" id="select_service_type" onchange="changeServiceType();">-->
+										<select class="small_Type_Select" id="select_service_type">
                                         <option ng-repeat="carService in carServices" value="{{carService.label}}">{{carService.value}}</option>
                                     </select>
                                 </div>
@@ -672,7 +673,7 @@
 							<div class="small_Type_Title">保养级别:</div>
 							<div class="small_Type_Box">
 								<select class="small_Type_Select" id="select_care_type">
-									<option ng-repeat="singleService in serviceLevels">{{singleService}}</option>
+									<option ng-repeat="singleService in serviceLevels" value="{{singleService}}">{{singleService}}</option>
 								</select>
 							</div>
 						</div>
@@ -704,86 +705,89 @@
 								<textarea class="small_Type_Textarea" id="workContentStr">{{workContent}}</textarea>
 							</div>
 						</div>
-						<!--<div class="small_Type_Group">-->
-							<!--<div class="small_Type_Title">上传图片:</div>-->
-							<!--<div class="small_Type_Box">-->
-								<!--<div class="img_Group" id="photoGroup">-->
-									<!--<div class="item_Img" ng-repeat="itemUri in imgUris">-->
-										<!--<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"-->
-										 <!--id="{{itemUri}}" ng-click="getPhoto($event);">-->
-											<!--<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>-->
-										<!--</div>-->
+						<!--还原代码-->
+						<div class="small_Type_Group">
+							<div class="small_Type_Title">上传图片:</div>
+							<div class="small_Type_Box">
+								<div class="img_Group" id="photoGroup">
+									<div class="item_Img" ng-repeat="itemUri in imgUris">
+										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
+										 id="{{itemUri}}" ng-click="getPhoto($event);">
+											<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+										</div>
                                         <!--<input style="width: 80px;height: 30px;">-->
-									<!--</div>-->
-								<!--</div>-->
-							<!--</div>-->
-						<!--</div>-->
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
-                <div>
-                    <div class="small_Type_Title_Group" ng-click="sameDisPlayInfo('beforeMaintainPic','beforeMaintainImg');">
-                        <div class="small_Type_Title_G"> 维修前图片 </div>
-                        <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-                        <div class="OpenClose_Btn arrow_Down_White" id="beforeMaintainImg"></div>
-                    </div>
-                    <div id="beforeMaintainPic">
-                        <div class="small_Type_Group">
-                            <div class="small_Type_Box">
-                                <div class="img_Group">
-									<div class="item_Img" ng-repeat="bfobj in bfObjs">
-										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{bfobj.uri}});"
-											 id="{{bfobj.uri}}" ng-click="getBfAfPic($event,bfobj,bfObjs);">
-											<div class="del_Img" ng-show="bfobj.uri!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(bfobj,bfObjs)"></div>
-										</div>
-										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{bfobj.message}}"/>
-									</div>
+				<!--隐藏代码 维修前图片-->
+                <!--<div>-->
+                    <!--<div class="small_Type_Title_Group" ng-click="sameDisPlayInfo('beforeMaintainPic','beforeMaintainImg');">-->
+                        <!--<div class="small_Type_Title_G"> 维修前图片 </div>-->
+                        <!--&lt;!&ndash; 切换收缩开关arrow_Down_White / arrow_Left_White &ndash;&gt;-->
+                        <!--<div class="OpenClose_Btn arrow_Down_White" id="beforeMaintainImg"></div>-->
+                    <!--</div>-->
+                    <!--<div id="beforeMaintainPic">-->
+                        <!--<div class="small_Type_Group">-->
+                            <!--<div class="small_Type_Box">-->
+                                <!--<div class="img_Group">-->
+									<!--<div class="item_Img" ng-repeat="bfobj in bfObjs">-->
+										<!--<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{bfobj.uri}});"-->
+											 <!--id="{{bfobj.uri}}" ng-click="getBfAfPic($event,bfobj,bfObjs);">-->
+											<!--<div class="del_Img" ng-show="bfobj.uri!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(bfobj,bfObjs)"></div>-->
+										<!--</div>-->
+										<!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{bfobj.message}}"/>-->
+									<!--</div>-->
 
-                                    <!--自动添加-->
-                                    <div class="item_Img" ng-repeat="itemUri in imgUris">
-                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
-                                             id="{{itemUri}}" ng-click="getPhoto($event);">
-                                            <div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
-                                        </div>
-                                        <input style="width: 80px;height: 30px;">
-                                        <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                    <!--&lt;!&ndash;自动添加&ndash;&gt;-->
+                                    <!--<div class="item_Img" ng-repeat="itemUri in imgUris">-->
+                                        <!--<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"-->
+                                             <!--id="{{itemUri}}" ng-click="getPhoto($event);">-->
+                                            <!--<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>-->
+                                        <!--</div>-->
+                                        <!--<input style="width: 80px;height: 30px;">-->
+                                        <!--&lt;!&ndash;<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>&ndash;&gt;-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
-                <div>
-                    <div class="small_Type_Title_Group" ng-click="sameDisPlayInfo('afterMaintainPic','afterMaintainImg');">
-                        <div class="small_Type_Title_G"> 维修后图片 </div>
-                        <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
-                        <div class="OpenClose_Btn arrow_Down_White" id="afterMaintainImg"></div>
-                    </div>
-                    <div id="afterMaintainPic">
-                        <div class="small_Type_Group">
-                            <div class="small_Type_Box">
-                                <div class="img_Group">
-									<div class="item_Img" ng-repeat="afobj in afObjs">
-										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{afobj.uri}});"
-											 id="{{afobj.uri}}" ng-click="getBfAfPic($event,afobj,afObjs);">
-											<div class="del_Img" ng-show="afobj.uri!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(afobj,afObjs)"></div>
-										</div>
-										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{afobj.message}}"/>
-									</div>
-									<!--自动添加-->
-                                    <div class="item_Img" ng-repeat="itemUri in imgUris">
-                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
-                                             id="{{itemUri}}" ng-click="getPhoto($event);">
-                                            <div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
-                                        </div>
-                                        <input style="width: 80px;height: 30px;">
-                                        <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+				<!-- 隐藏代码 维修后图片-->
+                <!--<div>-->
+                    <!--<div class="small_Type_Title_Group" ng-click="sameDisPlayInfo('afterMaintainPic','afterMaintainImg');">-->
+                        <!--<div class="small_Type_Title_G"> 维修后图片 </div>-->
+                        <!--&lt;!&ndash; 切换收缩开关arrow_Down_White / arrow_Left_White &ndash;&gt;-->
+                        <!--<div class="OpenClose_Btn arrow_Down_White" id="afterMaintainImg"></div>-->
+                    <!--</div>-->
+                    <!--<div id="afterMaintainPic">-->
+                        <!--<div class="small_Type_Group">-->
+                            <!--<div class="small_Type_Box">-->
+                                <!--<div class="img_Group">-->
+									<!--<div class="item_Img" ng-repeat="afobj in afObjs">-->
+										<!--<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{afobj.uri}});"-->
+											 <!--id="{{afobj.uri}}" ng-click="getBfAfPic($event,afobj,afObjs);">-->
+											<!--<div class="del_Img" ng-show="afobj.uri!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(afobj,afObjs)"></div>-->
+										<!--</div>-->
+										<!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{afobj.message}}"/>-->
+									<!--</div>-->
+									<!--&lt;!&ndash;自动添加&ndash;&gt;-->
+                                    <!--<div class="item_Img" ng-repeat="itemUri in imgUris">-->
+                                        <!--<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"-->
+                                             <!--id="{{itemUri}}" ng-click="getPhoto($event);">-->
+                                            <!--<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>-->
+                                        <!--</div>-->
+                                        <!--<input style="width: 80px;height: 30px;">-->
+                                        <!--&lt;!&ndash;<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>&ndash;&gt;-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
 
 				<div>
 					<div class="small_Type_Title_Group">
@@ -1111,7 +1115,7 @@
 						</div>
 						<div class="slds_textBtn">
 							<!--textCompleted-->
-							<div id="departureBtn" class="textBtn" disabled=""> 出发 </div>
+							<div id="departureBtn" class="textBtn" disabled="" ng-click="doDeparture();"> 出发 </div>
 							<div id="arriveBtn" class="textBtn" ng-click="getArrivalTime();" disabled=""> 到达</div>
 							<div id="leave" class="textBtn" ng-click="doLeave();" disabled=""> 离开 </div>
 							<div id="printBtn" class="textBtn" ng-click="doPrint();" disabled=""> 签单 </div>

@@ -14,7 +14,7 @@ angular.module('oinio.workDetailsControllers', [])
             userInfoId = "",
             Account_Ship_to__c = "",
             localSoupEntryId = "",
-            localUris = [],
+            localUris =[],
             regroupVarRefundList = [],
             customerNameValue = "",
             customerAccountValue = "",
@@ -33,6 +33,7 @@ angular.module('oinio.workDetailsControllers', [])
             localLongitude=null,
             goTime=null,
             truckIds =[],
+            initChildOrders=[],
             initTrucks=[],
             orderAccountId=null,
             selectTypeIndex=0, //作业类型默认选择第一个
@@ -135,6 +136,17 @@ angular.module('oinio.workDetailsControllers', [])
             if($stateParams.selectWorkTypeIndex!=null){
                 selectTypeIndex = $stateParams.selectWorkTypeIndex;
             }
+
+            if (goOffTimeFromPrefix!=null){
+                for (var i=0;i<2;i++){
+                    $("ol li:eq("+i+")").addClass("slds-is-active");
+                }
+                $("#departureBtn").css("pointer-events","none");
+                $("#departureBtn").addClass("textCompleted");
+                $("#sidProgressBar").css("width","25%");
+            }
+
+
             /**
              * 本地初始化服务类型数据
              */
@@ -247,10 +259,11 @@ angular.module('oinio.workDetailsControllers', [])
             }
 
             if (!enableArrival){
+                $("#departureBtn").css("pointer-events","none");
                 $("#arriveBtn").css("pointer-events","none");
                 $("#leave").css("pointer-events","none");
-                $("#printBtn").css("pointer-events","none");
-                $("#signBillBtn").css("pointer-events","none");
+                // $("#printBtn").css("pointer-events","none");
+                // $("#signBillBtn").css("pointer-events","none");
             }else{
                 $("#arriveBtn").css("pointer-events","");
                 $("#leave").css("pointer-events","");
@@ -278,11 +291,12 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.SelectedTruckNum = res.truckModels.length;
                         $scope.initTrucks(res.truckModels);
                         initTrucks=res.truckModels;
+                        initChildOrders=res.childOrders;
                         if (initTrucks.length>0){
-                            $scope.getMainLevelsAndDesc(initTrucks[0]);
+                            $scope.getMainLevelsAndDesc(initTrucks[0],initChildOrders);
                         }
                         $scope.allTruckItems = truckItems;
-                        $scope.initWorkItems(res.workItems);
+                        $scope.initWorkItems(res.workItems,res.soResult.On_Order__c);
                         $scope.initSignature(res.sigEngineerImage,res.sigAcctImage);
                         //交货列表
                         $scope.getRefundList();
@@ -293,11 +307,11 @@ angular.module('oinio.workDetailsControllers', [])
                         AppUtilService.hideLoading();
                         console.log(msg);
                     }).then(function () {
-                        if (allowEdit){
-                            $scope.showModal();
-                        }else{
-                            $scope.dismissModal();
-                        }
+                        // if (allowEdit){
+                        //     $scope.showModal();
+                        // }else{
+                        //     $scope.dismissModal();
+                        // }
                     });
 
 
@@ -475,6 +489,20 @@ angular.module('oinio.workDetailsControllers', [])
             }
         };
 
+        /**
+         *  初始化保养级别
+         */
+        $scope.initChidOrderInfo = function(childOrders){
+            if (childOrders.length>0){
+                var serviceLevel=childOrders[0].Maintenance_Level__c;
+                $("#select_care_type").find("option[value = "+serviceLevel+"]").attr("selected", true);
+            }
+        };
+
+        /**
+         * 初始化上传图片
+         * @param photoes
+         */
         $scope.initPhotoData=function(photoes){
             if (photoes!=undefined && photoes!=null){
                 if (photoes.length>0){
@@ -550,36 +578,42 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
 
-        $scope.initWorkItems=function(workItems){
+        $scope.initWorkItems=function(workItems,onOrder){
             console.log("workItems",workItems);
             if (workItems.length>0){
                 for (var i =0;i< workItems.length;i++){
 
-                    if (workItems[i].Leave_Time__c!=undefined){
-                        $("ol li:eq(0)").addClass("slds-is-active");
-                        $("#arriveBtn").css("pointer-events","none");
-                        $("#arriveBtn").addClass("textCompleted");
-                        $("ol li:eq(1)").addClass("slds-is-active");
-                        $("#leave").css("pointer-events","none");
-                        $("#leave").addClass("textCompleted");
-                        $("ol li:eq(2)").addClass("slds-is-active");
-                        $("#sidProgressBar").css("width","50%");
-                        break;
-                    }
+                                    // if (workItems[i].Leave_Time__c!=undefined){
+                                    //     for(var i =0;i<4;i++){
+                                    //         $("ol li:eq("+i+")").addClass("slds-is-active");
+                                    //     }
+                                    //     $("#departureBtn").css("pointer-events","none");
+                                    //     $("#departureBtn").addClass("textCompleted");
+                                    //     $("#arriveBtn").css("pointer-events","none");
+                                    //     $("#arriveBtn").addClass("textCompleted");
+                                    //     $("#leave").css("pointer-events","none");
+                                    //     $("#leave").addClass("textCompleted");
+                                    //     $("#sidProgressBar").css("width","75%");
+                                    //     break;
+                                    // }
 
-                    if (workItems[i].Arrival_Time__c!=undefined){
-                        $("ol li:eq(0)").addClass("slds-is-active");
-                        $("#arriveBtn").css("pointer-events","none");
-                        $("#arriveBtn").addClass("textCompleted");
-                        $("ol li:eq(1)").addClass("slds-is-active");
-                        $("#sidProgressBar").css("width","25%");
-                        arriveTime=new Date(workItems[i].Arrival_Time__c);
-                        break;
-                    }
-                }
+                                    if (workItems[i].Arrival_Time__c!=undefined&&onOrder){
+                                        for(var j =0;j<3;j++){
+                                            $("ol li:eq("+j+")").addClass("slds-is-active");
+                                        }
+                                        $("#departureBtn").css("pointer-events","none");
+                                        $("#departureBtn").addClass("textCompleted");
+                                        $("#arriveBtn").css("pointer-events","none");
+                                        $("#arriveBtn").addClass("textCompleted");
+                                        $("#sidProgressBar").css("width","50%");
+                                        arriveTime=new Date(workItems[i].Arrival_Time__c);
+                                        goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
+                                        break;
+                                    }
+                                }
                 for (var i=0;i<workItems.length;i++){
                     if (workItems[i].Departure_Time__c!=null){
-                        goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
+                        //goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
                         break;
                     }
                 }
@@ -758,14 +792,14 @@ angular.module('oinio.workDetailsControllers', [])
                                 console.log(res);
                                 AppUtilService.hideLoading();
                                 if (res.status.toLowerCase()=="success"){
-                                    $("ol li:eq(0)").addClass("slds-is-active");
+                                    $("#sidProgressBar").css("width","75%");
+                                    for(var i=0;i<4;i++){
+                                        $("ol li:eq("+i+")").addClass("slds-is-active");
+                                    }
                                     $("#arriveBtn").css("pointer-events","none");
                                     $("#arriveBtn").addClass("textCompleted");
-                                    $("ol li:eq(1)").addClass("slds-is-active");
                                     $("#leave").css("pointer-events","none");
                                     $("#leave").addClass("textCompleted");
-                                    $("ol li:eq(2)").addClass("slds-is-active");
-                                    $("#sidProgressBar").css("width","50%");
                                     $ionicPopup.alert({
                                         title:"记录到达/离开时间成功"
                                     });
@@ -817,8 +851,10 @@ angular.module('oinio.workDetailsControllers', [])
                                     if (res.status.toLowerCase()=="success"){
                                         //$event.target.style.backgroundColor = "#00FF7F";
                                         $("#leave").addClass("textCompleted");
-                                        $("ol li:eq(2)").addClass("slds-is-active");
-                                        $("#sidProgressBar").css("width","50%");
+                                        for (var i =0;i<=3;i++){
+                                            $("ol li:eq("+i+")").addClass("slds-is-active");
+                                        }
+                                        $("#sidProgressBar").css("width","75%");
                                         $ionicPopup.alert({
                                             title:"记录到达/离开时间成功"
                                         });
@@ -920,6 +956,59 @@ angular.module('oinio.workDetailsControllers', [])
             // window.history.back();
             $state.go("app.home");
         };
+
+        /**
+         * 新建工单页面跳转工单详情页  点击出发
+         */
+        $scope.doDeparture = function(){
+            var departureTime= new Date();
+            goOffTimeFromPrefix=departureTime;
+            AppUtilService.showLoading();
+            ForceClientService.getForceClient().apexrest(
+                $scope.updateDataStatusUrl + "&sooId=" + orderDetailsId + "&status=Not Completed",
+                'POST',
+                {},
+                null,function callBack(res) {
+                    if (res.status.toLowerCase()=="success"){
+                        ForceClientService.getForceClient().apexrest(
+                            $scope.departureUrl+orderDetailsId+"&departureTime="+departureTime.format("yyyy-MM-dd hh:mm:ss")+"&userId="+oCurrentUser.Id,
+                            'POST',
+                            {},
+                            null,function callBack(res) {
+                                AppUtilService.hideLoading();
+                                if (res.status.toLowerCase()=="success"){
+                                    for (var i = 0;i<2;i++){
+                                        $("ol li:eq("+i+")").addClass("slds-is-active");
+                                    }
+                                    $("#departureBtn").css("pointer-events","none");
+                                    $("#departureBtn").addClass("textCompleted");
+                                    $("#sidProgressBar").css("width","25%");
+                                }else{
+                                    $ionicPopup.alert({
+                                        title:res.message
+                                    });
+                                    return;
+                                }
+                            },function error(msg) {
+                                AppUtilService.hideLoading();
+                                console.log(msg);
+                                $ionicPopup.alert({
+                                    title:msg
+                                });
+                                return;
+                            }
+                        );
+                    }
+                },function error(msg) {
+                    AppUtilService.hideLoading();
+                    console.log(msg);
+                    $ionicPopup.alert({
+                        title:msg
+                    });
+                    return;
+                });
+        };
+
         /**
          * 点击到达获取到达时间
          * @param $event
@@ -973,7 +1062,7 @@ angular.module('oinio.workDetailsControllers', [])
                                         console.log(res);
                                         if (res.status.toLowerCase()=="success"){
                                             ForceClientService.getForceClient().apexrest(
-                                                $scope.departureUrl+orderDetailsId+"&departureTime="+goOffTimeFromPrefix.format("yyyy-MM-dd hh:mm:ss"),
+                                                $scope.departureUrl+orderDetailsId+"&departureTime="+goOffTimeFromPrefix.format("yyyy-MM-dd hh:mm:ss")+"&userId="+oCurrentUser.Id,
                                                 'POST',
                                                 {},
                                                 null,
@@ -981,8 +1070,14 @@ angular.module('oinio.workDetailsControllers', [])
                                                     AppUtilService.hideLoading();
                                                     console.log(res);
                                                     if (res.status.toLowerCase()=="success"){
+                                                        for (var i=0;i<2;i++){
+                                                            $("ol li:eq("+i+")").addClass("slds-is-active");
+                                                        }
+                                                        $("#departureBtn").css("pointer-events","none");
+                                                        $("#departureBtn").addClass("textCompleted");
+                                                        $("#sidProgressBar").css("width","25%");
                                                         ForceClientService.getForceClient().apexrest(
-                                                            $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss"),
+                                                            $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd hh:mm:ss")+"&userId="+oCurrentUser.Id,
                                                             'POST',
                                                             {},
                                                             null,
@@ -990,11 +1085,12 @@ angular.module('oinio.workDetailsControllers', [])
                                                                 console.log(res);
                                                                 if (res.status.toLowerCase()=="success"){
                                                                     //$event.target.style.backgroundColor = "#00FF7F";
-                                                                    $("ol li:eq(0)").addClass("slds-is-active");
+                                                                    $("#sidProgressBar").css("width","50%");
+                                                                    for (var i=0;i<3;i++){
+                                                                        $("ol li:eq("+i+")").addClass("slds-is-active");
+                                                                    }
                                                                     $("#arriveBtn").css("pointer-events","none");
                                                                     $("#arriveBtn").addClass("textCompleted");
-                                                                    $("ol li:eq(1)").addClass("slds-is-active");
-                                                                    $("#sidProgressBar").css("width","25%");
                                                                 }else{
                                                                     $ionicPopup.alert({
                                                                         title:"记录到达时间失败",
@@ -1069,11 +1165,12 @@ angular.module('oinio.workDetailsControllers', [])
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase()=="success"){
                                 //$event.target.style.backgroundColor = "#00FF7F";
-                                $("ol li:eq(0)").addClass("slds-is-active");
+                                $("#sidProgressBar").css("width","50%");
+                                for (var i=0;i<3;i++){
+                                    $("ol li:eq("+i+")").addClass("slds-is-active");
+                                }
                                 $("#arriveBtn").css("pointer-events","none");
                                 $("#arriveBtn").addClass("textCompleted");
-                                $("ol li:eq(1)").addClass("slds-is-active");
-                                $("#sidProgressBar").css("width","25%");
                                 $ionicPopup.alert({
                                     title:"记录到达时间成功"
                                 });
@@ -1177,7 +1274,6 @@ angular.module('oinio.workDetailsControllers', [])
          * @param $event
          */
         $scope.signBill = function () {
-
             ForceClientService.getForceClient().apexrest(
                 $scope.getOrderTypeUri+orderDetailsId,
                 "GET",
@@ -1210,8 +1306,9 @@ angular.module('oinio.workDetailsControllers', [])
                                                         //$event.target.style.backgroundColor = "#00FF7F";
                                                         $("#signBillBtn").css("pointer-events","none");
                                                         $("#signBillBtn").addClass("textCompleted");
-                                                        $("ol li:eq(4)").addClass("slds-is-active");
+                                                        $("ol li:eq(5)").addClass("slds-is-active");
                                                         $("#sidProgressBar").css("width","100%");
+                                                        $scope.goSave();
                                                     }else{
                                                         $ionicPopup.alert({
                                                             title:"更新工单状态失败",
@@ -1249,6 +1346,7 @@ angular.module('oinio.workDetailsControllers', [])
             for (var i = 0; i < $scope.imgUris.length; i++) {
                 if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
                     localUris.push(($scope.imgUris[i]).slice(23));
+                    //localUris.set("url",($scope.imgUris[i]).slice(23));
                 }
             }
             console.log(localUris);
@@ -1287,6 +1385,7 @@ angular.module('oinio.workDetailsControllers', [])
                     Operation_Hour__c: Number($scope.allTruckItems[i].Operation_Hour__c),
                     Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
                     New_Operation_Hour__c:Number($scope.allTruckItems[i].New_Operation_Hour__c),
+                    Maintenance_Level__c:$('#select_care_type option:selected').val(),
                     //Measure_Date__c:new Date()
                 });
             }
@@ -1311,6 +1410,7 @@ angular.module('oinio.workDetailsControllers', [])
                         "order":orderObj,
                         "childOrders":truckItemsSecond,
                         "images":localUris,
+                        //"imageMap":localUris,
                         "assignUsers":selectUserIds,
                         "str_suggestion":$('#serviceSuggest').val().trim(),
                         //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
@@ -2534,7 +2634,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             $scope.SelectedTruckNum =$scope.allTruckItems.length;
 
-            $scope.getMainLevelsAndDesc($scope.allTruckItems[0]);
+            $scope.getMainLevelsAndDesc($scope.allTruckItems[0],initChildOrders);
 
 
             // var beforeAddMoreTrucks = truckItems;
@@ -2579,7 +2679,7 @@ angular.module('oinio.workDetailsControllers', [])
 
 
         //保养级别
-        $scope.getMainLevelsAndDesc = function (obj) {
+        $scope.getMainLevelsAndDesc = function (obj,childOrders) {
             $scope.serviceLevels = [];
             $scope.serviceNames = [];
             if (!obj.Maintenance_Key__c) {
@@ -2593,6 +2693,7 @@ angular.module('oinio.workDetailsControllers', [])
                 if (response.levels.length > 0) {
                     $scope.serviceLevels=response.levels;
                 }
+                $scope.initChidOrderInfo(childOrders);
                 // if (response.levels.length > 0 && response.names!=null){
                 //     for (var i =0;i<$scope.serviceLevels.length ;i++ ){
                 //         $scope.serviceNames.push(response.names[$scope.serviceLevels[i]]);
