@@ -61,8 +61,8 @@
                             <td class="draftList_Td width_1">
                                 <input type="checkbox" class="draftList_Checkbox" ng-click="isRefundSelected(item)">
                             </td>
-                            <td class="draftList_Td width_2 textDecoration"> {{item.SAP_Delivery_Order__c}}</td>
-                            <td class="draftList_Td width_3 textDecoration"> {{item.Service_Order_Overview__c}}</td>
+                            <td class="draftList_Td width_2 "> {{item.SAP_Delivery_Order__c}}</td>
+                            <td class="draftList_Td width_3 "> {{item.Service_Order_Overview__c}}</td>
                         </tr>
                     </table>
                 </ion-item>
@@ -77,8 +77,10 @@
             </div>
 
             <div class="">
-                <select class="small_Type_Select">
+                <select class="small_Type_Select" ng-change="selectStateChange(stateS)" ng-model="stateS" ng-init="stateS = '交货状态选择'">
                     <option>交货状态选择</option>
+                    <option>Open</option>
+                    <option>Close</option>
                 </select>
             </div>
             <table cellpadding="0" cellspacing="0" border="0" class="deliveryList_Table">
@@ -89,15 +91,15 @@
                 </tr>
             </table>
             <ion-list can-swipe="true" class="quoted_Table_list">
-                <ion-item ng-repeat="item in draftRejectedItems" ng-cloak>
+                <ion-item ng-repeat="item in OpenCdraftRejectedItems" ng-cloak>
                     <table cellpadding="0" cellspacing="0" border="0" class="deliveryList_Table">
 
                         <tr>
                             <td class="deliveryList_Td width_1 textDecoration" ng-click="goRefundDetailView(item)">  {{item.SAP_Delivery_Order__c}}</td>
 
-                            <td class="deliveryList_Td width_2 textDecoration"> {{item.Service_Order_Overview__c}}</td>
+                            <td class="deliveryList_Td width_2"> {{item.Service_Order_Overview__c}}</td>
                             <td class="deliveryList_Td width_4 deliveryList_Td_Right stateColor">
-                                <div class="cus_display">{{item.Return_Status__c}}</div>
+                                <div class="cus_display">{{item.D_Status__c}}</div>
                                 <div class="cus_display" style="position: relative;">
                                     <div class="explain_Icon" ng-click="popupRefundContext(item)"> </div>
                                 </div>

@@ -11,6 +11,7 @@ angular.module('oinio.RefundController', [])
         {site : "3", name : "故障判断有误"},
         {site : "4", name : "客户原因取消"}
       ];
+      $scope.deleteIds = [];
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -29,7 +30,16 @@ angular.module('oinio.RefundController', [])
           // });
           if ($stateParams.refundInfo.length!=0) {
             _.each($stateParams.refundInfo, function (refundItem) {
+              if (!$stateParams.refundInfo[0].Delivery_Line_Item__r[0]){
+                return;
+              }
               refundItem.Temp_Return_Reason__c = $stateParams.refundInfo[0].Delivery_Line_Item__r[0].Return_Reason__c;
+              _.each($scope.diffReasonSites, function (diffItem) {
+                if (diffItem.name ==$stateParams.refundInfo[0].Delivery_Line_Item__r[0].Return_Reason__c) {
+                  refundItem.Temp_Return_Reason__index = diffItem.site;
+                }
+              });
+
             });
           }
           $scope.selectRefundInfo = $stateParams.refundInfo;
@@ -42,6 +52,10 @@ angular.module('oinio.RefundController', [])
             // window.history.back();
             $ionicHistory.goBack();
         };
+      $scope.selectDiffChange = function (item) {
+       console.log("selectDiffChange",item)
+        item.Return_Reason__c = item.Delivery_Line_Item__r[0].Return_Reason__c
+      };
 
         /**
 *删除数组指定下标或指定对象
@@ -67,17 +81,23 @@ angular.module('oinio.RefundController', [])
         };
         $scope.toDelTwoRefundView = function (bigObj, obj) {
             // console.log("$scope.index:",index);
-            // console.log("$scope.obj:",obj);
-
+            console.log("obj:",obj);
+            $scope.deleteIds.push(obj.Id);
             bigObj.remove(obj);
 
         };
         $scope.goToSave = function () {
+          _.each($scope.selectRefundInfo, function (refundItem) {
+            _.each(refundItem.Delivery_Line_Item__r, function (refundItemDetail) {
+              refundItemDetail.CRM_Return_Quantity__c = Number(refundItemDetail.CRM_Return_Quantity__c);
+            });
+          });
             AppUtilService.showLoading();
-            var payload = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo);
+            var payload = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo)+"&deleteIds="+JSON.stringify($scope.deleteIds);
             console.log("payload", payload);
             ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
                 console.log("POST_success:", response);
+              $scope.deleteIds = [];
                 AppUtilService.hideLoading();
                 var ionPop = $ionicPopup.alert({
                 title: "保存成功"
@@ -95,16 +115,22 @@ angular.module('oinio.RefundController', [])
             });
         };
         $scope.goToSaveAndSubmit = function () {
+          _.each($scope.selectRefundInfo, function (refundItem) {
+            _.each(refundItem.Delivery_Line_Item__r, function (refundItemDetail) {
+              refundItemDetail.CRM_Return_Quantity__c = Number(refundItemDetail.CRM_Return_Quantity__c);
+            });
+          });
             AppUtilService.showLoading();
-            var payload1 = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo)+"&recordId="+$stateParams.orderDetailsId;
-            // console.log("payload", payload);
+            var payload1 = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders="+JSON.stringify($scope.selectRefundInfo)+"&recordId="+$stateParams.orderDetailsId+"&deleteIds="+$scope.deleteIds;
+            console.log("payload1", payload1);
             ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response) {
                 console.log("POST_success1:", response);
                 var payload2 = $scope.paramSaveAndSubminDeliveryOrdersUrl +"?recordId="+$stateParams.orderDetailsId + "&deliveryorders="+JSON.stringify($scope.selectRefundInfo);
-                // console.log("payload", payload);
+                console.log("payload2", payload2);
                 ForceClientService.getForceClient().apexrest(payload2, 'POST', {}, null, function (response) {
                     console.log("POST_success2:", response);
-                    AppUtilService.hideLoading();
+                  $scope.deleteIds = [];
+                  AppUtilService.hideLoading();
                     var ionPop = $ionicPopup.alert({
                     title: "提交成功"
                 });

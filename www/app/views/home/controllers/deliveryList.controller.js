@@ -5,10 +5,34 @@ angular.module('oinio.deliveryListController', [])
     $scope.rejectedItems = [];
     var myPopup = null;
     $scope.draftRejectedItems = [];
+    $scope.OpenCdraftRejectedItems = [];
     $scope.goBack = function () {
       $state.go("app.home");
     };
 
+    $scope.selectStateChange = function (stateS) {
+      console.log('stateS:', stateS);
+      if (stateS =="Open"){
+        $scope.OpenCdraftRejectedItems = [];
+
+        _.each($scope.draftRejectedItems, function (partItem) {
+          if (partItem.D_Status__c =="Open"){
+            $scope.OpenCdraftRejectedItems.push(partItem);
+          }
+        });
+
+      } else if(stateS =="Close"){
+        $scope.OpenCdraftRejectedItems = [];
+
+        _.each($scope.draftRejectedItems, function (partItem) {
+          if (partItem.D_Status__c =="Close"){
+            $scope.OpenCdraftRejectedItems.push(partItem);
+          }
+        });
+      }else {
+        $scope.OpenCdraftRejectedItems = $scope.draftRejectedItems;
+      }
+    };
     $scope.goRefundView = function () {
       _.each($scope.rejectedItems, function (partItem) {
         console.log('partItem.isClick:', partItem.isClick);
@@ -18,7 +42,7 @@ angular.module('oinio.deliveryListController', [])
       });
       console.log(' $scope.nowSendRefund:',  $scope.nowSendRefund);
 
-      $state.go('app.refund', { refundInfo: $scope.nowSendRefund ,orderDetailsId: ""});
+      $state.go('app.refund', { refundInfo: $scope.nowSendRefund ,orderDetailsId: $scope.nowSendRefund[0].Service_Order_Overview__c});
     };
 
     $scope.goRefundDetailView = function (itemDetail) {
@@ -59,14 +83,15 @@ angular.module('oinio.deliveryListController', [])
             _.each(responseGetDelivery, function (partItem) {
               partItem.isClick = false;
 
-              if (partItem.Delivery_Order_Status__c == "null"){
-                $scope.draftRejectedItems.push(partItem);
+              if (partItem.Delivery_Order_Status__c == "null" ||!partItem.Delivery_Order_Status__c){ //草稿列表
 
-              }else if (partItem.Delivery_Order_Status__c =="03") {
                 $scope.rejectedItems.push(partItem);
+              }else if (partItem.Delivery_Order_Status__c =="03") {   //交货列表
+                $scope.draftRejectedItems.push(partItem);
               }
             });
 
+            $scope.OpenCdraftRejectedItems = $scope.draftRejectedItems;
 
           }
 
