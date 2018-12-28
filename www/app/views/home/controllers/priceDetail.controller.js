@@ -923,7 +923,7 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals3['Gross_Amount__c'] = sv_InputForListPrice[index];
         oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];
         oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];
-        oneLabourOriginals3['Net_Amount__c'] = _.isNaN(sv_InputForListSpecial[index]) ? '0' : sv_InputForListSpecial[index];
+        oneLabourOriginals3['Net_Amount__c'] = _.isNaN(sv_InputForListSpecial[index]) ?  sv_InputForListSpecial[index] : '0';
         oneLabourOriginals3['Material_Type__c'] = 'Labour';
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
       }
