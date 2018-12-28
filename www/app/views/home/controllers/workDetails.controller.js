@@ -2633,9 +2633,9 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.allTruckItems=truckItems;
 
             $scope.SelectedTruckNum =$scope.allTruckItems.length;
-
-            $scope.getMainLevelsAndDesc($scope.allTruckItems[0],initChildOrders);
-
+            if ($scope.allTruckItems.length>0){
+                $scope.getMainLevelsAndDesc($scope.allTruckItems[0],initChildOrders);
+            }
 
             // var beforeAddMoreTrucks = truckItems;
             // $scope.allTruckItems=[];
