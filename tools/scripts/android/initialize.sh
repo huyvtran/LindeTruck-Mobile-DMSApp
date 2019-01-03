@@ -155,6 +155,9 @@ cordova plugin add https://github.com/lampaa/com.lampa.startapp.git
 echo '\x1B[0;90m✓ cordova-plugin-appavailability.\x1B[0m'
 cordova plugin add cordova-plugin-appavailability --save
 
+echo '\x1B[0;90m✓ cordova-plugin-nativestorage.\x1B[0m'
+cordova plugin add cordova-plugin-nativestorage
+
 # Check salesforce sdk
 if [ ! -d plugins/com.salesforce ]; then
     echo '\x1B[0;91mx SalesForce Cordova Plugin not correctly installed. Exiting here.\x1B[0m'
