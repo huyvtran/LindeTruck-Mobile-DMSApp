@@ -929,7 +929,7 @@ angular.module('oinio.PriceDetailController', [])
       }
 
       //配件
-      var part_InputForListPrice = [];//优惠单价 ？
+      var part_InputForListPrice = [];//优惠单价
       var part_InputForListNo = [];//数量
       var part_InputForListDiscount = [];//折扣
       var part_InputForListChecked = [];//预留状态
@@ -1075,7 +1075,7 @@ angular.module('oinio.PriceDetailController', [])
                     + JSON.stringify($scope.quoteLabourOriginalsList);
       console.log('payload', payload);
 
-      ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
+      ForceClientService.getForceClient().apexrest(payload, 'PUT', {}, null, function (response) {
         console.log('POST_success:', response);
         //下载excel接口
         var serviceQuoteOverviewId = {};
@@ -1083,7 +1083,7 @@ angular.module('oinio.PriceDetailController', [])
         var excelTemplateCode = {};
         excelTemplateCode['excelTemplateCode'] = '1';
         // var payload = $scope.paramExeclUrl + serviceQuoteOverviewId + "/" + excelTemplateCode;
-        var payload = $scope.paramExeclUrl + response.Id + '/1';
+        var payload = $scope.paramExeclUrl + response.serviceQuoteOverview.Id + '/1';
 
         ForceClientService.getForceClient().apexrest(payload, 'GET', {}, null, function (response_exc) {
           console.log('Execl_success:', response_exc);
