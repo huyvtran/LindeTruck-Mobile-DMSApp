@@ -41,6 +41,8 @@ angular.module('oinio.workDetailsControllers', [])
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
+        //$scope.checkNinePices = false;
+
         //配件相关init
         $scope.contentTruckFitItems = [];//配件
         $scope.selectedTruckFitItems = [];
@@ -72,6 +74,11 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.bfObjs= [];
         $scope.afObjs=[];
         $scope.imgUris = ["././img/images/will_add_Img.png"];
+        //Maintain before
+        $scope.imgUrisBefore=[];
+        //Maintain after
+        $scope.imgAfter=[];
+
         $scope.selectedTruckItemsMore=[];
         $scope.arrivalPostUrl="/WorkDetailService?action=arrival&sooId=";
         $scope.leavePostUrl="/WorkDetailService?action=leave&sooId=";
@@ -197,50 +204,50 @@ angular.module('oinio.workDetailsControllers', [])
             //before
             $scope.bfObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*整车"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*整车"
                 });
             $scope.bfObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*车体号"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*车体号"
                 });
             $scope.bfObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*小时数"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*小时数"
                 });
             $scope.bfObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*维修部位"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*维修部位"
                 });
 
             //after
             $scope.afObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*整车"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*整车"
                 });
             $scope.afObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*维修部位"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*维修部位"
                 });
             $scope.afObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*更换旧件"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*更换旧件"
                 });
             $scope.afObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*维修现场"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*维修现场"
                 });
             $scope.afObjs.push(
                 {
-                    uri:'././img/images/will_add_Img.png',
-                    message:"*服务车外观及后备箱"
+                    imageBody:'././img/images/will_add_Img.png',
+                    imageName:"*服务车外观及后备箱"
                 });
         });
 
@@ -718,10 +725,70 @@ angular.module('oinio.workDetailsControllers', [])
         };
 
 
-        $scope.getBfAfPic=function ($event,currentObj,allObjes) {
+        $scope.getBfAfPic=function ($event,currentObj) {
             if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
                 return false;
             }
+
+            $ionicPopup.show({
+                title: '选择图片',
+                buttons: [
+                    {
+                        text: '拍照',
+                        onTap: function (e) {
+                            try {
+                                navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
+                                        currentObj.imageBody="data:image/jpeg;base64,"+imgUri;
+                                    },
+                                    function onError(error) {
+                                        return;
+                                    }
+                                    , {
+                                        quality: 50,
+                                        saveToPhotoAlbum: false,
+                                        destinationType: navigator.camera.DestinationType.DATA_URL,
+                                        mediaType: Camera.MediaType.PICTURE,
+                                        encodingType: Camera.EncodingType.JPEG
+                                    }
+                                );
+                            } catch (e) {
+                                return;
+                            }
+                        }
+                    },
+                    {
+                        text: '相册',
+                        onTap: function (e) {
+                            try {
+                                navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
+                                        currentObj.imageBody="data:image/jpeg;base64,"+imgUri;
+                                    },
+                                    function onFail(error) {
+                                        return;
+                                    },
+                                    {
+                                        quality: 50,
+                                        saveToPhotoAlbum: false,
+                                        destinationType: navigator.camera.DestinationType.DATA_URL,
+                                        sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                                        mediaType: Camera.MediaType.PICTURE,
+                                        encodingType: Camera.EncodingType.JPEG
+                                    });
+                            } catch (e) {
+                                return;
+                            }
+
+                        }
+                    },
+                ]
+            });
+            
+
+
+
+
+
+            
 
         };
 
@@ -915,12 +982,24 @@ angular.module('oinio.workDetailsControllers', [])
         /**
          * 删除维修前或者维修后的图片
          */
-        $scope.deleteBfAfImg=function(singleObj,allObjes){
-            for (var i = 0;i<allObjes.length;i++){
-                if (singleObj.message==allObjes[i].message){
-                    allObjes[i].message='././img/images/will_add_Img.png';
-                }
-            }
+        $scope.deleteBfAfImg=function(singleObj){
+            $ionicPopup.show({
+                title: "确认删除图片？",
+                buttons: [
+                    {
+                        text: "否",
+                        onTap: function () {
+                            return false;
+                        }
+                    },
+                    {
+                        text: "是",
+                        onTap: function () {
+                            singleObj.imageBody='././img/images/will_add_Img.png';
+                        }
+                    }
+                ]
+            });
         };
         /**
          * 详细信息／工作信息／配件需求／交货列表／服务建议  共用
