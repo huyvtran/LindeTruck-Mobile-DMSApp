@@ -41,7 +41,7 @@ angular.module('oinio.workDetailsControllers', [])
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
-        //$scope.checkNinePices = false;
+        $scope.checkNinePices=false;
 
         //配件相关init
         $scope.contentTruckFitItems = [];//配件
@@ -73,11 +73,26 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.showFooter=true;
         $scope.bfObjs= [];
         $scope.afObjs=[];
-        $scope.imgUris = ["././img/images/will_add_Img.png"];
+        $scope.imgUris = [
+                    {
+                    imageBody:"././img/images/will_add_Img.png",
+                    imageName:""
+                    }
+            ];
         //Maintain before
-        $scope.imgUrisBefore=[];
+        $scope.imgUrisBefore=[
+            {
+                imageBody:"././img/images/will_add_Img.png",
+                imageName:""
+            }
+        ];
         //Maintain after
-        $scope.imgAfter=[];
+        $scope.imgUrisAfter=[
+            {
+                imageBody:"././img/images/will_add_Img.png",
+                imageName:""
+            }
+        ];
 
         $scope.selectedTruckItemsMore=[];
         $scope.arrivalPostUrl="/WorkDetailService?action=arrival&sooId=";
@@ -516,11 +531,21 @@ angular.module('oinio.workDetailsControllers', [])
                     //删除默认的图片  第一张
                     $scope.imgUris.splice(0, 1);
                     for (var i=0;i<photoes.length;i++){
-                        $scope.imgUris.push("data:image/jpeg;base64,"+photoes[i]);
+                            $scope.imgUris.push(
+                                {
+                                imageBody:"data:image/jpeg;base64,"+photoes[i],
+                                imageName:""
+                                }
+                        );
                     }
                     if (allowEdit){
                         //添加默认图片
-                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                        $scope.imgUris.push(
+                                    {
+                                        imageBody:"././img/images/will_add_Img.png",
+                                        imageName:""
+                                    }
+                            );
                     }
                 }
             }
@@ -650,7 +675,7 @@ angular.module('oinio.workDetailsControllers', [])
          * 1.拍照
          * 2.从相册取
          */
-        $scope.getPhoto = function ($event) {
+        $scope.getPhoto = function ($event,imgs) {
             if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
                 return false;
             }
@@ -662,14 +687,20 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                                $scope.imgUris.splice(i, 1);
+                                        for (var i = 0; i < imgs.length; i++) {
+                                            if (imgs[i].imageBody == '././img/images/will_add_Img.png' || imgs[i].imageBody == imgUri) {
+                                                imgs.splice(i, 1);
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                                        imgs.push({
+                                            imageBody:"data:image/jpeg;base64," + imgUri,
+                                            imageName:""
+                                        });
+                                        imgs.push({
+                                            imageBody:"././img/images/will_add_Img.png",
+                                            imageName:""
+                                        });
                                         console.log(imgUri);
                                     },
                                     function onError(error) {
@@ -693,14 +724,21 @@ angular.module('oinio.workDetailsControllers', [])
                         onTap: function (e) {
                             try {
                                 navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                                        for (var i = 0; i < $scope.imgUris.length; i++) {
-                                            if ($scope.imgUris[i] == '././img/images/will_add_Img.png' || $scope.imgUris[i] == imgUri) {
-                                                $scope.imgUris.splice(i, 1);
+                                        for (var i = 0; i < imgs.length; i++) {
+                                            if (imgs[i].imageBody == '././img/images/will_add_Img.png' || imgs[i].imageBody == imgUri) {
+                                                imgs.splice(i, 1);
                                                 i--;
                                             }
                                         }
-                                        $scope.imgUris.push("data:image/jpeg;base64," + imgUri);
-                                        $scope.imgUris.push("././img/images/will_add_Img.png");
+                                        imgs.push(
+                                            {
+                                                imageBody:"data:image/jpeg;base64," + imgUri,
+                                                imageName:""
+                                            });
+                                        imgs.push({
+                                            imageBody:"././img/images/will_add_Img.png",
+                                            imageName:""
+                                        });
                                         console.log(imgUri);
                                     },
                                     function onFail(error) {
@@ -967,7 +1005,7 @@ angular.module('oinio.workDetailsControllers', [])
                         text: "是",
                         onTap: function () {
                             for (var i = 0; i < $scope.imgUris.length; i++) {
-                                if ($scope.imgUris[i] == imgUri) {
+                                if ($scope.imgUris[i].imageBody == imgUri.imageBody) {
                                     $scope.imgUris.splice(i, 1);
                                     i--;
                                 }
@@ -1420,15 +1458,61 @@ angular.module('oinio.workDetailsControllers', [])
                 });
         };
 
+
         $scope.goSave = function () {
             AppUtilService.showLoading();
-            for (var i = 0; i < $scope.imgUris.length; i++) {
-                if ($scope.imgUris[i] != '././img/images/will_add_Img.png') {
-                    localUris.push(($scope.imgUris[i]).slice(23));
-                    //localUris.set("url",($scope.imgUris[i]).slice(23));
+            localUris=[];
+
+            //是否点击checkbox
+            if ($scope.checkNinePices){
+                for (var i=0;i<$scope.bfObjs.length;i++){
+                    if ($scope.bfObjs[i].imageBody=='././img/images/will_add_Img.png'){
+                        $scope.bfObjs[i].imageBody='';
+                        localUris.push($scope.bfObjs[i]);
+                    }else{
+                        $scope.bfObjs[i].imageBody = $scope.bfObjs[i].imageBody.slice(23);
+                        localUris.push($scope.bfObjs[i]);
+                    }
                 }
+
+                for (var i=0;i<$scope.afObjs.length;i++){
+                    if ($scope.afObjs[i].imageBody=='././img/images/will_add_Img.png'){
+                        $scope.afObjs[i].imageBody='';
+                        localUris.push($scope.afObjs[i]);
+                    }else{
+                        $scope.afObjs[i].imageBody=$scope.afObjs[i].imageBody.slice(23);
+                        localUris.push($scope.afObjs[i]);
+                    }
+                }
+
+                //维修前固定图片后增加的
+                for (var i =0;i<$scope.imgUrisBefore.length;i++){
+                    if ($scope.imgUrisBefore[i].imageBody!='././img/images/will_add_Img.png'){
+                        $scope.imgUrisBefore[i].imageBody=$scope.imgUrisBefore[i].imageBody.slice(23);
+                        localUris.push($scope.imgUrisBefore[i]);
+                    }
+                }
+                //维修后固定图片后增加的
+                for (var i =0;i<$scope.imgUrisAfter.length;i++){
+                    if ($scope.imgUrisAfter[i].imageBody!='././img/images/will_add_Img.png'){
+                        $scope.imgUrisAfter[i].imageBody=$scope.imgUrisAfter[i].imageBody.slice(23);
+                        localUris.push($scope.imgUrisAfter[i]);
+                    }
+                }
+            }else{
+                //未勾选
+                for (var i = 0; i < $scope.imgUris.length; i++) {
+                    if ($scope.imgUris[i].imageBody != '././img/images/will_add_Img.png') {
+                        $scope.imgUris[i].imageBody=$scope.imgUris[i].imageBody.slice(23);
+                        localUris.push($scope.imgUris[i]);
+                        //localUris.set("url",($scope.imgUris[i]).slice(23));
+                    }
+                }
+                console.log(localUris);
             }
-            console.log(localUris);
+
+
+
             var orderObj = [{
                 "Id": orderDetailsId,
                 "Mobile_Offline_Name__c": $scope.mobileName,

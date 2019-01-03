@@ -719,9 +719,9 @@
 							<div class="small_Type_Box">
 								<div class="img_Group" id="photoGroup">
 									<div class="item_Img" ng-repeat="itemUri in imgUris">
-										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
-										 id="{{itemUri}}" ng-click="getPhoto($event);">
-											<div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri.imageBody}});"
+										 id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUris);">
+											<div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody)"></div>
 										</div>
                                         <input style="width: 80px;height: 30px;">
 									</div>
@@ -750,10 +750,10 @@
 									</div>
 
                                     <!--自动添加-->
-                                    <div class="item_Img" ng-repeat="itemUri in imgUris">
-                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
-                                             id="{{itemUri}}" ng-click="getPhoto($event);">
-                                            <div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+                                    <div class="item_Img" ng-repeat="itemUri in imgUrisBefore">
+                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri.imageBody}});"
+                                             id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisBefore);">
+                                            <div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody)"></div>
                                         </div>
                                         <input style="width: 80px;height: 30px;">
                                         <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
@@ -783,10 +783,10 @@
 										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{afobj.imageName}}"/>
 									</div>
 									<!--自动添加-->
-                                    <div class="item_Img" ng-repeat="itemUri in imgUris">
-                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri}});"
-                                             id="{{itemUri}}" ng-click="getPhoto($event);">
-                                            <div class="del_Img" ng-show="itemUri!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri)"></div>
+                                    <div class="item_Img" ng-repeat="itemUri in imgUrisAfter">
+                                        <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri.imageBody}});"
+                                             id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisAfter);">
+                                            <div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody)"></div>
                                         </div>
                                         <input style="width: 80px;height: 30px;">
                                         <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
