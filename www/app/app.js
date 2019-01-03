@@ -161,6 +161,12 @@
 
                     var user = LocalCacheService.get('currentUser');
 
+                    NativeStorage.setItem("CurrentUserId",user.Id,function success(res) {
+                        console.log(res);
+                    },function error(msg) {
+                        console.log(msg);
+                    });
+
                     // refresh translation
                     $translate.use(user['LanguageLocaleKey']);
 
