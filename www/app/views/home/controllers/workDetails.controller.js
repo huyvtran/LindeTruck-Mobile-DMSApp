@@ -3422,6 +3422,8 @@ angular.module('oinio.workDetailsControllers', [])
             $('.maintain_popup').css('display', 'block');
         };
 
+        $scope.singleTruckFleetConfig = null;
+        $scope.singleTruckFleetSuper = null;
         $scope.goTruckConfig=function (truckId) {
             document.getElementById("workDetailTotal").style.display = "none";
             document.getElementById("truckConfigPage").style.display = "block";
@@ -3437,6 +3439,14 @@ angular.module('oinio.workDetailsControllers', [])
                 {},function callBack(res) {
                     AppUtilService.hideLoading();
                     console.log(res);
+                    //设备编号
+                    if (res.hasOwnProperty("Truck Fleet")){
+                        $scope.singleTruckFleetConfig = res["Truck Fleet"];
+                    }
+                    //设备特性
+                    if (res.hasOwnProperty("Sales Config")){
+                        $scope.singleTruckFleetSuper=res["Sales Config"];
+                    }
                 },function error(msg) {
                     AppUtilService.hideLoading();
                     console.log(msg);
