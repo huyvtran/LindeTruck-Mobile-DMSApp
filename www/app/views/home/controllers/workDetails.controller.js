@@ -615,37 +615,35 @@ angular.module('oinio.workDetailsControllers', [])
             if (workItems.length>0){
                 for (var i =0;i< workItems.length;i++){
 
-                                    // if (workItems[i].Leave_Time__c!=undefined){
-                                    //     for(var i =0;i<4;i++){
-                                    //         $("ol li:eq("+i+")").addClass("slds-is-active");
-                                    //     }
-                                    //     $("#departureBtn").css("pointer-events","none");
-                                    //     $("#departureBtn").addClass("textCompleted");
-                                    //     $("#arriveBtn").css("pointer-events","none");
-                                    //     $("#arriveBtn").addClass("textCompleted");
-                                    //     $("#leave").css("pointer-events","none");
-                                    //     $("#leave").addClass("textCompleted");
-                                    //     $("#sidProgressBar").css("width","75%");
-                                    //     break;
-                                    // }
 
-                                    if (workItems[i].Arrival_Time__c!=undefined&&onOrder){
-                                        for(var j =0;j<3;j++){
-                                            $("ol li:eq("+j+")").addClass("slds-is-active");
-                                        }
-                                        $("#departureBtn").css("pointer-events","none");
-                                        $("#departureBtn").addClass("textCompleted");
-                                        $("#arriveBtn").css("pointer-events","none");
-                                        $("#arriveBtn").addClass("textCompleted");
-                                        $("#sidProgressBar").css("width","50%");
-                                        arriveTime=new Date(workItems[i].Arrival_Time__c);
-                                        goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
-                                        break;
-                                    }
-                                }
-                for (var i=0;i<workItems.length;i++){
-                    if (workItems[i].Departure_Time__c!=null){
-                        //goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
+                    if(workItems[i].Arrival_Time__c!=undefined&&onOrder){
+                        for(var j =0;j<3;j++){
+                            $("ol li:eq("+j+")").addClass("slds-is-active");
+                        }
+                        $("#departureBtn").css("pointer-events","none");
+                        $("#departureBtn").addClass("textCompleted");
+                        $("#arriveBtn").css("pointer-events","none");
+                        $("#arriveBtn").addClass("textCompleted");
+                        $("#sidProgressBar").css("width","50%");
+                        arriveTime=new Date(workItems[i].Arrival_Time__c);
+                        goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
+                        break;
+                    }
+                    else if (workItems[i].Departure_Time__c!=undefined&&onOrder){
+                        for(var j =0;j<2;j++){
+                            $("ol li:eq("+j+")").addClass("slds-is-active");
+                        }
+                        $("#departureBtn").css("pointer-events","none");
+                        $("#departureBtn").addClass("textCompleted");
+                        $("#sidProgressBar").css("width","25%");
+                        goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
+                        break;
+                    }
+                    else if(workItems[i].Leave_Time__c!=undefined&&onOrder){
+                        goOffTimeFromPrefix=new Date(workItems[i].Departure_Time__c);
+                        break;
+                    }else {
+                        goOffTimeFromPrefix=null;
                         break;
                     }
                 }
@@ -883,9 +881,9 @@ angular.module('oinio.workDetailsControllers', [])
                         leaveTime = new Date();
                         var min =  checkMinutes(leaveTime,am);
                         if (min.index == 1) {
-                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - ah) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
+                            arriveTime = new Date((leaveTime.getFullYear() + "-" + (leaveTime.getMonth()+1) + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - ah) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "-"));
                         } else {
-                            arriveTime = new Date((leaveTime.getFullYear() + "-" + leaveTime.getMonth() + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - ah - 1) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "/"));
+                            arriveTime = new Date((leaveTime.getFullYear() + "-" + (leaveTime.getMonth()+1) + "-" + leaveTime.getDate() + " " + (leaveTime.getHours() - ah - 1) + ":" + min.mm + ":" + leaveTime.getSeconds()).replace(/-/, "-"));
                         }
                         AppUtilService.showLoading();
                         ForceClientService.getForceClient().apexrest(
@@ -1162,9 +1160,9 @@ angular.module('oinio.workDetailsControllers', [])
                             m = parseInt(data[2].substring(6, 8));
                             var min =  checkMinutes(arriveTime,m);
                             if (min.index == 1) {
-                                goOffTimeFromPrefix = new Date((arriveTime.getFullYear() + "-" + arriveTime.getMonth() + "-" + arriveTime.getDate() + " " + (arriveTime.getHours() - h) + ":" + min.mm + ":" + arriveTime.getSeconds()).replace(/-/, "/"));
+                                goOffTimeFromPrefix = new Date((arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate() + " " + (arriveTime.getHours() - h) + ":" + min.mm + ":" + arriveTime.getSeconds()).replace(/-/, "-"));
                             } else {
-                                goOffTimeFromPrefix = new Date((arriveTime.getFullYear() + "-" + arriveTime.getMonth() + "-" + arriveTime.getDate() + " " + (arriveTime.getHours() - h - 1) + ":" + min.mm + ":" + arriveTime.getSeconds()).replace(/-/, "/"));
+                                goOffTimeFromPrefix = new Date((arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) + "-" + arriveTime.getDate() + " " + (arriveTime.getHours() - h - 1) + ":" + min.mm + ":" + arriveTime.getSeconds()).replace(/-/, "-"));
                             }
 
                             navigator.geolocation.getCurrentPosition(function success(position) {
@@ -1199,6 +1197,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                             {},
                                                             null,
                                                             function callBack(res) {
+                                                                AppUtilService.hideLoading();
                                                                 console.log(res);
                                                                 if (res.status.toLowerCase()=="success"){
                                                                     //$event.target.style.backgroundColor = "#00FF7F";
@@ -1234,6 +1233,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                     }
                                                 },
                                                 function error(msg) {
+                                                    AppUtilService.hideLoading();
                                                     console.log(msg);
                                                     $ionicPopup.alert({
                                                         title:"记录出发时间失败",
@@ -1243,6 +1243,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 }
                                             );
                                         }else{
+                                            AppUtilService.hideLoading();
                                             $ionicPopup.alert({
                                                 title:"更新工单状态失败",
                                                 template:res.message
@@ -1250,6 +1251,7 @@ angular.module('oinio.workDetailsControllers', [])
                                             return false;
                                         }
                                     },function error(msg) {
+                                        AppUtilService.hideLoading();
                                         console.log(msg);
                                         $ionicPopup.alert({
                                             title:"更新工单状态失败",
@@ -1296,6 +1298,7 @@ angular.module('oinio.workDetailsControllers', [])
                                     title:"记录到达时间失败",
                                     template:res.message
                                 });
+                                arriveTime=null;
                                 return false;
                             }
                         },function error(msg) {
@@ -1305,6 +1308,7 @@ angular.module('oinio.workDetailsControllers', [])
                                 title:"记录到达时间失败",
                                 template:msg
                             });
+                            arriveTime=null;
                             return false;
                         }
                     );
