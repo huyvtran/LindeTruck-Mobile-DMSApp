@@ -818,13 +818,13 @@ angular.module('oinio.workDetailsControllers', [])
                     },
                 ]
             });
-            
 
 
 
 
 
-            
+
+
 
         };
 
@@ -2360,7 +2360,9 @@ angular.module('oinio.workDetailsControllers', [])
                     element["itemNO"] = i;
                     element["materialId"] = responseGetParts[i].Service_Material__c;
                     element["saveId"] = responseGetParts[i].Id;
-
+                    if (!element.Name){
+                      element["Name"] = responseGetParts[i].Name;
+                    }
                     $scope.selectedTruckFitItems.push(element);
                 }
                 console.log("$scope.selectedTruckFitItems:", $scope.selectedTruckFitItems);

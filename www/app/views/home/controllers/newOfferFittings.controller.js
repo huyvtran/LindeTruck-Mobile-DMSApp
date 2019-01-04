@@ -400,17 +400,25 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.contentTruckFitItems = [];
         let parts_number__cList = [];
         let partsQuantitys = [];
+        let forOrdParts = [];
+
         for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
           let element = $scope.selectedTruckFitItems[index];
-          if (element.type == 'common') {
+          if (element.type == 'common' && !element.edit) {
             parts_number__cList.push(element.parts_number__c);
             partsQuantitys.push(1);//默认库存
+          }
+          if (element.edit){
+            forOrdParts.push(element);
           }
         }
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                   + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
         console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
         $scope.selectedTruckFitItems = [];// 清空列表
+        _.each(forOrdParts, function (item) { //为了保留之前保存过的配件
+          $scope.selectedTruckFitItems.push(item);
+        });
         ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
           function (responsePartsRelateds) {
             AppUtilService.hideLoading();
@@ -418,7 +426,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             for (let i = 0; i < responsePartsRelateds.length; i++) {
               var responsePartsRelatedsList = responsePartsRelateds[i];
               for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                // responsePartsRelatedsList[j]["itemNO"] = j;
+                responsePartsRelatedsList[j]["edit"] = true;
                 if (responsePartsRelatedsList[j].type == 'common') {
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 }
@@ -446,13 +454,20 @@ angular.module('oinio.NewOfferFittingsController', [])
         AppUtilService.showLoading();
         let parts_number__cList = [];
         let partsQuantitys = [];
+        let forOrdParts = [];
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-          if ($scope.selectedTruckFitItems[i].type == 'common') {
+          if ($scope.selectedTruckFitItems[i].type == 'common' && !$scope.selectedTruckFitItems[i].edit) {
             parts_number__cList.push($scope.selectedTruckFitItems[i].parts_number__c);
             partsQuantitys.push(1);//默认库存
           }
+          if ($scope.selectedTruckFitItems[i].edit){
+            forOrdParts.push($scope.selectedTruckFitItems[i]);
+          }
         }
         $scope.selectedTruckFitItems = [];
+        _.each(forOrdParts, function (item) { //为了保留之前保存过的配件
+          $scope.selectedTruckFitItems.push(item);
+        });
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                   + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
         console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
@@ -463,7 +478,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             for (let i = 0; i < responsePartsRelateds.length; i++) {
               var responsePartsRelatedsList = responsePartsRelateds[i];
               for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                // responsePartsRelatedsList[j]["itemNO"] = j;
+                responsePartsRelatedsList[j]["edit"] = true;
                 if (responsePartsRelatedsList[j].type == 'common') {
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 }
@@ -700,7 +715,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         var oneLabourOriginals2 = {};
         oneLabourOriginals2['Service_Quote__c'] = manMadeNo2Id;
         oneLabourOriginals2['Name'] = manMadeNo2Name;
-        oneLabourOriginals1['Gross_Amount__c'] = $scope.manMadePrice2;
+        oneLabourOriginals2['Gross_Amount__c'] = $scope.manMadePrice2;
         oneLabourOriginals2['Quantity__c'] = $scope.manMadeNo2;
         oneLabourOriginals2['Discount__c'] = $scope.discountPrice2;
         oneLabourOriginals2['Material_Type__c'] = 'Labour';
@@ -792,6 +807,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.addLabourOriginalsList();//组织劳务费数据
         var serviceQuoteOverview = {};
         serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
+        serviceQuoteOverview['Subject__c'] = $stateParams.SubjectC;
+        serviceQuoteOverview['Service_Type__c'] = $stateParams.SendAllUser[0].Service_Type__c;
 
         var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                       + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
@@ -855,6 +872,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.addLabourOriginalsList();//组织劳务费数据
         var serviceQuoteOverview = {};
         serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
+        serviceQuoteOverview['Subject__c'] = $stateParams.SubjectC;
+        serviceQuoteOverview['Service_Type__c'] = $stateParams.SendAllUser[0].Service_Type__c;
 
         var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                       + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
@@ -881,6 +900,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         $scope.addLabourOriginalsList();//组织劳务费数据
         var serviceQuoteOverview = {};
         serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
+        serviceQuoteOverview['Subject__c'] = $stateParams.SubjectC;
+        serviceQuoteOverview['Service_Type__c'] = $stateParams.SendAllUser[0].Service_Type__c;
 
         var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                       + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='

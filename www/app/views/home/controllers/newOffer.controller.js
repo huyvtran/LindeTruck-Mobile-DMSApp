@@ -614,7 +614,7 @@ angular.module('oinio.NewOfferController', [])
         }
         console.log('selectStatuClass:ALL::', selectedTruckItemsCopy);
 
-        $state.go('app.newOfferFittings', {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: selectAcctSetId});
+        $state.go('app.newOfferFittings', {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: selectAcctSetId ,SubjectC:$scope.SubjectC});
 
         // $state.go('app.newOfferFittings');
 
