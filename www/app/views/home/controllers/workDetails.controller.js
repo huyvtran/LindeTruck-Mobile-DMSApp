@@ -1968,13 +1968,20 @@ angular.module('oinio.workDetailsControllers', [])
         AppUtilService.showLoading();
         let parts_number__cList = [];
         let partsQuantitys = [];
+        let forOrdParts = [];
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-          if ($scope.selectedTruckFitItems[i].type == 'common') {
+          if ($scope.selectedTruckFitItems[i].type == 'common' && !$scope.selectedTruckFitItems[i].saveId) {
             parts_number__cList.push($scope.selectedTruckFitItems[i].parts_number__c);
             partsQuantitys.push(1);//默认库存
           }
+          if ($scope.selectedTruckFitItems[i].saveId){
+            forOrdParts.push($scope.selectedTruckFitItems[i]);
+          }
         }
         $scope.selectedTruckFitItems = [];
+        _.each(forOrdParts, function (item) { //为了保留之前保存过的配件
+          $scope.selectedTruckFitItems.push(item);
+        });
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                   + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c;
         console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
