@@ -603,7 +603,7 @@
                             </tr>
                             <tr ng-repeat="labour in labourQuoteList">
                                 <td class="sv_Td">
-                                    <div> {{labour.Material_Number__c == '7990110000' ? '人工':'交通'}}</div>
+                                    <div> {{labour.Name}}</div>
                                 </td>
                                 <td class="sv_Td" ng-init="labour.Gross_Amount__c = manMadePrice = labour.Gross_Amount__c">
                                     <input id="priceId" ng-model="manMadePrice" class="sv_Input_Price"/>

@@ -1079,7 +1079,7 @@ angular.module('oinio.PriceDetailController', [])
         console.log('POST_success:', response);
         //下载excel接口
         var serviceQuoteOverviewId = {};
-        serviceQuoteOverviewId['serviceQuoteOverviewId'] = response.Id;
+        serviceQuoteOverviewId['serviceQuoteOverviewId'] = response.serviceQuoteOverview.Id;
         var excelTemplateCode = {};
         excelTemplateCode['excelTemplateCode'] = '1';
         // var payload = $scope.paramExeclUrl + serviceQuoteOverviewId + "/" + excelTemplateCode;
