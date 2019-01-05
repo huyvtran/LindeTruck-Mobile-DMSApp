@@ -172,9 +172,10 @@ angular.module('oinio.workDetailsControllers', [])
             /**
              * 本地初始化服务类型数据
              */
-            $scope.carServices.push({ label: '1', value: '保养' });
-            $scope.carServices.push({ label: '2', value: '维修' });
-            $scope.carServices.push({ label: '3', value: '服务' });
+            $scope.carServices.push({ label: 'Maintenance', value: '保养' });
+            $scope.carServices.push({ label: 'Repair', value: '维修' });
+            $scope.carServices.push({ label: 'Inspection', value: '巡检' });
+
             /**
              * 本地初始化作业类型数据
              */
@@ -508,6 +509,13 @@ angular.module('oinio.workDetailsControllers', [])
                 if (soResult.Work_Order_Type__c!=undefined){
                     $("#select_work_type").find("option[value = "+soResult.Work_Order_Type__c+"]").attr("selected", true);
                 }
+                if (soResult.Service_Order_Sub_Type__c!=undefined){
+                    try {
+                        $("#select_service_type").find("option[value = "+soResult.Service_Order_Sub_Type__c+"]").attr("selected", true);
+                    }catch (e) {
+                        $("#select_service_type").find("option[value = 'Maintenance']").attr("selected", true);
+                    }
+                }
             }
         };
 
@@ -653,8 +661,8 @@ angular.module('oinio.workDetailsControllers', [])
             for (var i =0;i<workItems.length;i++){
                 $scope.workTimes.push({
                   name: workItems[i].CreatedBy.Name != undefined ? workItems[i].CreatedBy.Name : "",
-                  departureTime: workItems[i].Departure_Time__c!=undefined?workItems[i].Departure_Time__c.substring(0,19):"",
-                  leaveTime: workItems[i].Leave_Time__c!=undefined?workItems[i].Leave_Time__c.substring(0,19):"",
+                  departureTime: workItems[i].Departure_Time__c!=undefined&&workItems[i].Departure_Time__c!=null?workItems[i].Departure_Time__c.substring(0,19).replace(/T/g," "):"",
+                  leaveTime: workItems[i].Leave_Time__c!=undefined&&workItems[i].Leave_Time__c!=null?workItems[i].Leave_Time__c.substring(0,19).replace(/T/g," "):"",
                 });
                 $scope.localWorkItems.push(
                     {
@@ -1523,7 +1531,8 @@ angular.module('oinio.workDetailsControllers', [])
                 "Work_Order_Type__c": $('#select_work_type option:selected').val(),
                 "Description__c": $('#call_str').val(),
                 "Service_Suggestion__c": $('#serviceSuggest').val(),
-                "Subject__c": $('#workContentStr').val()
+                "Subject__c": $('#workContentStr').val(),
+                "Service_Order_Sub_Type__c":$('#select_service_type option:selected').val(),
             }];
 
             var selectUserIds =[];
