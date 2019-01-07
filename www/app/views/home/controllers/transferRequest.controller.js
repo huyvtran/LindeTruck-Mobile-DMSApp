@@ -39,7 +39,6 @@ angular.module('oinio.TransferRequestController', [])
       $scope.outCustomerInfo = LocalCacheService.get('outCustomerInfo');
       $scope.vehicle = LocalCacheService.get('vehicle');
       $scope.transfer = LocalCacheService.get('transfer');
-      $scope.remarksText = $scope.transfer.Description__c;
 
 
       if ($scope.getCustomerInfo) {
