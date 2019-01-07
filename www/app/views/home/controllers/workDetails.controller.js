@@ -77,21 +77,21 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.imgUris = [
         {
           imageBody: '././img/images/will_add_Img.png',
-          imageName: ''
+          imageName: new Date().format('yyyyMMddhhmmss/')+' '
         }
       ];
       //Maintain before
       $scope.imgUrisBefore = [
         {
           imageBody: '././img/images/will_add_Img.png',
-          imageName: ''
+          imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+' '
         }
       ];
       //Maintain after
       $scope.imgUrisAfter = [
         {
           imageBody: '././img/images/will_add_Img.png',
-          imageName: ''
+          imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+' '
         }
       ];
 
@@ -221,49 +221,49 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.bfObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*整车'
+            imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*整车'
           });
         $scope.bfObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*车体号'
+            imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*车体号'
           });
         $scope.bfObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*小时数'
+            imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*小时数'
           });
         $scope.bfObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*维修部位'
+            imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*维修部位'
           });
 
         //after
         $scope.afObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*整车'
+            imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*整车'
           });
         $scope.afObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*维修部位'
+            imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*维修部位'
           });
         $scope.afObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*更换旧件'
+            imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*更换旧件'
           });
         $scope.afObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*维修现场'
+            imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*维修现场'
           });
         $scope.afObjs.push(
           {
             imageBody: '././img/images/will_add_Img.png',
-            imageName: '*服务车外观及后备箱'
+            imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*服务车外观及后备箱'
           });
       });
 
@@ -1372,47 +1372,62 @@ angular.module('oinio.workDetailsControllers', [])
         //是否点击checkbox
         if ($scope.checkNinePices) {
           for (var i = 0; i < $scope.bfObjs.length; i++) {
-            if ($scope.bfObjs[i].imageBody == '././img/images/will_add_Img.png') {
-              $scope.bfObjs[i].imageBody = '';
-              localUris.push($scope.bfObjs[i]);
-            } else {
-              $scope.bfObjs[i].imageBody = $scope.bfObjs[i].imageBody.slice(23);
-              localUris.push($scope.bfObjs[i]);
-            }
+            var aa = $scope.bfObjs[i];
+            setTimeout(function () {
+                if (aa.imageBody == '././img/images/will_add_Img.png') {
+                    aa.imageBody = '';
+                    localUris.push(aa);
+                } else {
+                    aa.imageBody = aa.imageBody.slice(23);
+                    localUris.push(aa);
+                }
+            },200);
           }
 
           for (var i = 0; i < $scope.afObjs.length; i++) {
-            if ($scope.afObjs[i].imageBody == '././img/images/will_add_Img.png') {
-              $scope.afObjs[i].imageBody = '';
-              localUris.push($scope.afObjs[i]);
-            } else {
-              $scope.afObjs[i].imageBody = $scope.afObjs[i].imageBody.slice(23);
-              localUris.push($scope.afObjs[i]);
-            }
+              var bb = $scope.afObjs[i];
+              setTimeout(function () {
+                  if (bb.imageBody == '././img/images/will_add_Img.png') {
+                      bb.imageBody = '';
+                      localUris.push(bb);
+                  } else {
+                      bb.imageBody = bb.imageBody.slice(23);
+                      localUris.push(bb);
+                  }
+              },200);
           }
 
           //维修前固定图片后增加的
           for (var i = 0; i < $scope.imgUrisBefore.length; i++) {
-            if ($scope.imgUrisBefore[i].imageBody != '././img/images/will_add_Img.png') {
-              $scope.imgUrisBefore[i].imageBody = $scope.imgUrisBefore[i].imageBody.slice(23);
-              localUris.push($scope.imgUrisBefore[i]);
-            }
+              var cc = $scope.imgUrisBefore[i];
+              setTimeout(function () {
+                if (cc.imageBody != '././img/images/will_add_Img.png') {
+                    cc.imageBody = cc.imageBody.slice(23);
+                    localUris.push(cc);
+                }
+            },200);
           }
           //维修后固定图片后增加的
           for (var i = 0; i < $scope.imgUrisAfter.length; i++) {
-            if ($scope.imgUrisAfter[i].imageBody != '././img/images/will_add_Img.png') {
-              $scope.imgUrisAfter[i].imageBody = $scope.imgUrisAfter[i].imageBody.slice(23);
-              localUris.push($scope.imgUrisAfter[i]);
-            }
+                var dd = $scope.imgUrisAfter[i];
+              setTimeout(function () {
+                  if (dd.imageBody != '././img/images/will_add_Img.png') {
+                      dd.imageBody = dd.imageBody.slice(23);
+                      localUris.push(dd);
+                  }
+              },200);
           }
         } else {
           //未勾选
           for (var i = 0; i < $scope.imgUris.length; i++) {
-            if ($scope.imgUris[i].imageBody != '././img/images/will_add_Img.png') {
-              $scope.imgUris[i].imageBody = $scope.imgUris[i].imageBody.slice(23);
-              localUris.push($scope.imgUris[i]);
-              //localUris.set("url",($scope.imgUris[i]).slice(23));
-            }
+              var aa = $scope.imgUris[i];
+              setTimeout(function () {
+                  if (aa.imageBody != '././img/images/will_add_Img.png') {
+                      aa.imageBody = aa.imageBody.slice(23);
+                      localUris.push(aa);
+                      //localUris.set("url",($scope.imgUris[i]).slice(23));
+                  }
+              },200);
           }
           console.log(localUris);
         }

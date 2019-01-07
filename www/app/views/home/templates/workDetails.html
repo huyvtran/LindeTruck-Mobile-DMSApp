@@ -746,7 +746,7 @@
 											 id="{{bfobj.imageBody}}" ng-click="getBfAfPic($event,bfobj);">
 											<div class="del_Img" ng-show="bfobj.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(bfobj)"></div>
 										</div>
-										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{bfobj.imageName}}"/>
+										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{bfobj.imageName.split('/')[1]}}"/>
 									</div>
 
                                     <!--自动添加-->
@@ -780,7 +780,7 @@
 											 id="{{afobj.imageBody}}" ng-click="getBfAfPic($event,afobj);">
 											<div class="del_Img" ng-show="afobj.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteBfAfImg(afobj)"></div>
 										</div>
-										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{afobj.imageName}}"/>
+										<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;text-align: center;" disabled="disabled" value="{{afobj.imageName.split('/')[1]}}"/>
 									</div>
 									<!--自动添加-->
                                     <div class="item_Img" ng-repeat="itemUri in imgUrisAfter">
