@@ -1,6 +1,6 @@
 angular.module('oinio.NewOfferFittingsController', [])
   .controller('NewOfferFittingsController',
-    function ($scope, $http, $ionicPopup, $stateParams, HomeService, $state, AppUtilService, $rootScope, SQuoteService,
+    function ($scope, $http, $ionicPopup, $stateParams, HomeService,$ionicHistory, $state, AppUtilService, $rootScope, SQuoteService,
               ForceClientService, LocalCacheService) {
 
       // var forceClient = ForceClientService.getForceClient();
@@ -43,8 +43,10 @@ angular.module('oinio.NewOfferFittingsController', [])
         ForceClientService.getForceClient().apexrest($scope.paramUrl1, 'GET', {}, null, function (response) {
           console.log('success:', response);
           let responseItem = response.priceCondition;
-          $scope.manMadePrice1 = responseItem.price;
-          $scope.discountPrice1 = responseItem.discount;
+          if (responseItem){
+            $scope.manMadePrice1 = responseItem.price;
+            $scope.discountPrice1 = responseItem.discount;
+          }
           manMadeNo1Id = response.Id;
           manMadeNo1Name = response.parts_description__c;
 
@@ -57,8 +59,10 @@ angular.module('oinio.NewOfferFittingsController', [])
           console.log('success:', response);
           AppUtilService.hideLoading();
           let responseItem = response.priceCondition;
-          $scope.manMadePrice2 = responseItem.price;
-          $scope.discountPrice2 = responseItem.discount;
+          if (responseItem){
+            $scope.manMadePrice2 = responseItem.price;
+            $scope.discountPrice2 = responseItem.discount;
+          }
           manMadeNo2Id = response.Id;
           manMadeNo2Name = response.parts_description__c;
         }, function (error) {
@@ -67,12 +71,14 @@ angular.module('oinio.NewOfferFittingsController', [])
         });
 
         //获得车辆保养级别对应的配件
-        if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
-          var serviceQuotesNull = {};
-          serviceQuotesNull['Truck_Fleet__c'] = null;
-          $stateParams.SendAllUser.push(serviceQuotesNull);
-        } else {
-          $scope.getByPart();
+        if ($stateParams.SendAllUser) {
+          if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
+            var serviceQuotesNull = {};
+            serviceQuotesNull['Truck_Fleet__c'] = null;
+            $stateParams.SendAllUser.push(serviceQuotesNull);
+          } else {
+            $scope.getByPart();
+          }
         }
 
         //获得工单转报价对应的配件
@@ -82,6 +88,14 @@ angular.module('oinio.NewOfferFittingsController', [])
             serviceQuotesNull['Truck_Fleet__c'] = null;
             $stateParams.SendAllUser.push(serviceQuotesNull);
           } else {
+            _.each($stateParams.OrderTruckItem,function (item) {
+              if (item.Quantity__c) {
+                item.quantity=item.Quantity__c;
+              }
+              // item.parts_number__c=item.parts_number__c;
+            });
+            console.log('$stateParams.OrderTruckItem:', $stateParams.OrderTruckItem);
+
             $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
             $scope.getTrucksWithSubstitution();
           }
@@ -230,7 +244,7 @@ angular.module('oinio.NewOfferFittingsController', [])
 
       };
       $scope.goBack = function () {
-        window.history.back();
+        $ionicHistory.goBack();
       };
 
       $scope.openSelectPage = function (ele) {

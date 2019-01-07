@@ -19,7 +19,9 @@ angular.module('oinio.NewOfferController', [])
 
       });
       $scope.goBack = function () {
-        window.history.back();
+        // window.history.back();
+        $state.go('app.home');
+
       };
 
       $scope.getServiceSatus = function (getId) {

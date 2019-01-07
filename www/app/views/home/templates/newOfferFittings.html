@@ -644,8 +644,8 @@
 										<td class="sv_Td">
 											<div> {{item.priceCondition.price*priceNo}} </div>
 										</td>
-										<td class="sv_Td">
-											<input ng-model="priceNo" class="sv_Input part_InputForListNo" />
+										<td class="sv_Td" ng-init="quantity = item.quantity">
+											<input ng-model="quantity" class="sv_Input part_InputForListNo" />
 										</td>
 										<td class="sv_Td" ng-init="discountPriceCondition = item.priceCondition.discount">
 											<input class="sv_Input part_InputForListDiscount" ng-model="discountPriceCondition" />
