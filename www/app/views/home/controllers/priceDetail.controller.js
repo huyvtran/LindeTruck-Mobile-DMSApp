@@ -29,7 +29,7 @@ angular.module('oinio.PriceDetailController', [])
     $scope.partLSGServer = '/LSGServer';
     $scope.getPersonalPartListService = '/PersonalPartListService?action=getParts&userId=';
     $scope.getPartsWithKeyWord = '/PersonalPartListService?action=getPartsWithKeyWord&userId=';
-    $scope.queryDetail = '/ServiceQuoteOverviewService?action=queryDetail&serviceQuoteOvId=';
+    $scope.queryDetail = '/ServiceQuoteOverview/';
 
     $scope.get = function () {
       AppUtilService.showLoading();
@@ -223,24 +223,28 @@ angular.module('oinio.PriceDetailController', [])
 
       AppUtilService.showLoading();
       //人工
-      ForceClientService.getForceClient().apexrest($scope.queryDetail +  $stateParams.overviewId, 'GET', {}, null, function (response) {
-        console.log('success:', response);
-        $scope.proceTrucksList = response.trucksList;
-        $scope.basicInfo = response.basicInfo;
-        $scope.selectedTruckFitItems = response.partQuoteList;
-        $scope.serviceQuotes = response.serviceQuotes;
-        _.each($scope.selectedTruckFitItems, function (partItem) {
-          partItem.type = 'common';
-        });
-        $scope.labourQuoteList = response.labourQuoteList;
-        $scope.priceDetail = response;
+      ForceClientService.getForceClient().apexrest($scope.queryDetail + $stateParams.overviewId, 'GET', {}, null,
+        function (response) {
+          console.log('success:', response);
+          $scope.proceTrucksList = response.Service_Quote__r ? response.Service_Quote__r : [];
+          $scope.basicInfo = response;
+          $scope.selectedTruckFitItems = _.filter(response.quoteLabourOriginals, function (partItem) {
+            return partItem.Material_Type__c == 'Part';
+          });
+          $scope.serviceQuotes = response.Service_Quote__r ? response.Service_Quote__r : [];
+          _.each($scope.selectedTruckFitItems, function (partItem) {
+            partItem.type = 'common';
+          });
+          $scope.labourQuoteList = _.filter(response.quoteLabourOriginals, function (partItem) {
+            return partItem.Material_Type__c == 'Labour';
+          });
+          $scope.priceDetail = response;
 
+          AppUtilService.hideLoading();
 
-        AppUtilService.hideLoading();
-
-        $scope.calculatePriceConditionPriceAll();
-      }, function (error) {
-        console.log('error:', error);
+          $scope.calculatePriceConditionPriceAll();
+        }, function (error) {
+          console.log('error:', error);
         AppUtilService.hideLoading();
       });
 
@@ -955,7 +959,7 @@ angular.module('oinio.PriceDetailController', [])
       });
       for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
 
-        var oneLabourOriginals4 = $scope.selectedTruckFitItems[index];
+        var oneLabourOriginals4 = {};
         var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
         oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
         if (selectedTruckFitItemsIndex.priceCondition) {
