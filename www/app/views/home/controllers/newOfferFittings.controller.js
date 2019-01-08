@@ -418,7 +418,7 @@ angular.module('oinio.NewOfferFittingsController', [])
 
         for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
           let element = $scope.selectedTruckFitItems[index];
-          if (element.type == 'common' && !element.edit) {
+          if (element.type == 'common') {
             parts_number__cList.push(element.parts_number__c);
             partsQuantitys.push(1);//默认库存
           }
@@ -430,9 +430,6 @@ angular.module('oinio.NewOfferFittingsController', [])
                                   + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
         console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
         $scope.selectedTruckFitItems = [];// 清空列表
-        _.each(forOrdParts, function (item) { //为了保留之前保存过的配件
-          $scope.selectedTruckFitItems.push(item);
-        });
         ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
           function (responsePartsRelateds) {
             AppUtilService.hideLoading();
@@ -453,6 +450,15 @@ angular.module('oinio.NewOfferFittingsController', [])
                 $scope.calculatePriceConditionPriceAll();
               }
             }
+
+            _.each(forOrdParts, function (oldItem) { //替换已经编辑过的配件
+              _.each($scope.selectedTruckFitItems, function (newItem) { //替换已经编辑过的配件
+                if (oldItem.materialId ==newItem.materialId){
+                  _.merge(newItem, oldItem);
+                }
+              });
+            });
+            forOrdParts = [];
           }, function (error) {
             console.log('error:', error);
             AppUtilService.hideLoading();
