@@ -55,13 +55,21 @@ angular.module('oinio.generateOrdersController', [])
                     ForceClientService.getForceClient().apexrest(payload3, 'POST', {}, null, function (response3) { //生成备件接口二
                         console.log("POST_success3:", response3);
                         AppUtilService.hideLoading();
-                        var ionPop = $ionicPopup.alert({
-                            title: "生成备件成功"
-                        });
-                        ionPop.then(function (res) {
-                            $ionicHistory.goBack();
-                        });
-
+                        if (response3.status == "success"){
+                            var ionPop = $ionicPopup.alert({
+                                title: "生成备件成功"
+                            });
+                            ionPop.then(function (res) {
+                                $ionicHistory.goBack();
+                            });
+                        }else {
+                            var ionPop = $ionicPopup.alert({
+                                title: response3.message
+                            });
+                            ionPop.then(function (res) {
+                                $ionicHistory.goBack();
+                            });
+                        }
                     }, function (error) {
                         console.log("response2POST_error:", error);
                         AppUtilService.hideLoading();

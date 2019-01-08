@@ -20,6 +20,7 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.manMadePrice3 = 0;
       $scope.discountPrice3 = 0;
       $scope.priceConditionPriceAll = 0;
+      $scope.serviceFeeListP3 = 0;
       var manMadeNo1Id;
       var manMadeNo2Id;
       var manMadeNo1Name;
@@ -711,13 +712,10 @@ angular.module('oinio.NewOfferFittingsController', [])
       };
 
       $scope.sum = function (obj) {
-        // var manMadePrice1 = document.getElementById("manMadePrice1");
-        // var manMadeNo1 = document.getElementById("manMadeNo1");
-
-        // if ($scope.manMadeNo1 != '') {
-        //     console.log("index", parseInt($scope.manMadePrice1)+ "  "+parseInt($scope.manMadeNo1));
-        //     $scope.sumPrice1 = parseInt($scope.manMadePrice1) * parseInt($scope.manMadeNo1);
-        // }
+        $scope.serviceFeeListP3 = 0;
+        $('input.sv_InputForListSpecial').each(function (index, element) {
+          $scope.serviceFeeListP3 = Number(element.value) +Number($scope.serviceFeeListP3);
+        });
       };
 
       //组装劳务费 配件列表

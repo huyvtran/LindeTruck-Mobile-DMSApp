@@ -683,7 +683,7 @@
 						<!-- <div class="refresh_icon" style="left: 30%;"></div> -->
 						<div class="price_Group">
 							<div class="price_Title"> 合计</div>
-							<input class="price_Input" />
+							<input class="price_Input" value="{{serviceFeeListP3 + manMadePrice1*manMadeNo1 + manMadePrice2*manMadeNo2}}"/>
 						</div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<div class="OpenClose_Btn arrow_Down_White"></div>
@@ -718,7 +718,7 @@
 									<input id="priceId1" ng-model="manMadePrice1" class="sv_Input" />
 								</td>
 								<td class="sv_Td">
-									<input value="{{manMadeNo1}}" placeholder="0" ng-model="manMadeNo1" class="sv_Input" ng-keyup="sum(this);" />
+									<input value="{{manMadeNo1}}" placeholder="0" ng-model="manMadeNo1" class="sv_Input" />
 								</td>
 
 								<td class="sv_Td">
@@ -764,10 +764,10 @@
 											</div>
 										</td>
 										<td class="sv_Td">
-											<input ng-model="manMadePrice3" class="sv_InputForListPrice" />
+											<input ng-model="manMadePrice3" class="sv_InputForListPrice" ng-keyup="sum(this);"/>
 										</td>
 										<td class="sv_Td">
-											<input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo" />
+											<input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo" ng-keyup="sum(this);"/>
 										</td>
 										<td class="sv_Td">
 											<div> {{manMadePrice3*manMadeNo3}} </div>
