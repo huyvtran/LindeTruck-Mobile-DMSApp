@@ -306,7 +306,7 @@ angular.module('oinio.workDetailsControllers', [])
             {}, null, function success(res) {
               console.log('getInitDataUri', res);
               $scope.initSoResult(res.soResult);
-              $scope.initPhotoData(res.Photo);
+              $scope.initPhotoData(res.images);
               $scope.initAssignUserData(res.assignUser);
               $scope.initSavedUserData(res.savedUser, res.assignUser);
               $scope.SelectedTruckNum = res.truckModels.length;
@@ -449,26 +449,58 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.initPhotoData = function (photoes) {
         if (photoes != undefined && photoes != null) {
           if (photoes.length > 0) {
-            //删除默认的图片  第一张
-            $scope.imgUris.splice(0, 1);
-            for (var i = 0; i < photoes.length; i++) {
-              $scope.imgUris.push(
-                {
-                  imageBody: 'data:image/jpeg;base64,' + photoes[i],
-                  imageName: ''
+              //删除默认的图片  第一张
+              $scope.imgUris.splice(0, 1);
+              $scope.imgUrisBefore.slice(0,1);
+              $scope.imgUrisAfter.slice(0,1);
+              for (var i =0;i<photoes.length;i++){
+                if (photoes[i].imageName.indexOf('bf_')>-1){
+                    for(var j =0;j<$scope.bfObjs.length;j++){
+                        if(photoes[i].imageName.split('/')[1]=== $scope.bfObjs[j].imageName.split('/')[1]){
+                            $scope.bfObjs[j].imageBody = 'data:image/jpeg;base64,'+photoes[i].imageBody;
+                            break;
+                        }
+                        //$scope.imgUrisBefore.push(photoes[i]);
+                    }
+                }else if (photoes[i].imageName.indexOf('af_')>-1) {
+                    for(var j =0;j<$scope.afObjs.length;j++){
+                        if(photoes[i].imageName.split('/')[1]=== $scope.afObjs[j].imageName.split('/')[1]){
+                            $scope.afObjs[j].imageBody = 'data:image/jpeg;base64,'+photoes[i].imageBody;
+                            break;
+                        }
+                        //$scope.imgUrisAfter.push(photoes[i]);
+                    }
+                }else{
+                    $scope.imgUris.push(
+                            {
+                                imageBody: 'data:image/jpeg;base64,' + photoes[i].imageBody,
+                                imageName:  new Date().format('yyyyMMddhhmmss/')+' '
+                            }
+                        );
                 }
-              );
             }
-            if (allowEdit) {
-              //添加默认图片
-              $scope.imgUris.push(
-                {
-                  imageBody: '././img/images/will_add_Img.png',
-                  imageName: ''
-                }
-              );
-            }
+              if (allowEdit){
+                  //添加默认图片
+                  $scope.imgUris.push(
+                      {
+                          imageBody: '././img/images/will_add_Img.png',
+                          imageName: new Date().format('yyyyMMddhhmmss/')+''
+                      }
+                  );
+
+                  $scope.imgUrisBefore.push( {
+                      imageBody: '././img/images/will_add_Img.png',
+                      imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+' '
+                  });
+
+                  $scope.imgUrisAfter.push( {
+                      imageBody: '././img/images/will_add_Img.png',
+                      imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+' '
+                  });
+
+              }
           }
+
         }
       };
 
@@ -593,7 +625,7 @@ angular.module('oinio.workDetailsControllers', [])
        * 1.拍照
        * 2.从相册取
        */
-      $scope.getPhoto = function ($event, imgs) {
+      $scope.getPhoto = function ($event, imgs,prefix) {
         if ($event.target.getAttribute('id') != '././img/images/will_add_Img.png') {
           return false;
         }
@@ -613,11 +645,11 @@ angular.module('oinio.workDetailsControllers', [])
                       }
                       imgs.push({
                         imageBody: 'data:image/jpeg;base64,' + imgUri,
-                        imageName: ''
+                        imageName: prefix+new Date().format('yyyyMMddhhmmss/')+' '
                       });
                       imgs.push({
                         imageBody: '././img/images/will_add_Img.png',
-                        imageName: ''
+                        imageName: prefix+new Date().format('yyyyMMddhhmmss/')+''
                       });
                       console.log(imgUri);
                     },
@@ -651,11 +683,11 @@ angular.module('oinio.workDetailsControllers', [])
                       imgs.push(
                         {
                           imageBody: 'data:image/jpeg;base64,' + imgUri,
-                          imageName: ''
+                          imageName: prefix+new Date().format('yyyyMMddhhmmss/')+' '
                         });
                       imgs.push({
                         imageBody: '././img/images/will_add_Img.png',
-                        imageName: ''
+                        imageName: prefix+new Date().format('yyyyMMddhhmmss/')+''
                       });
                       console.log(imgUri);
                     },
@@ -922,7 +954,7 @@ angular.module('oinio.workDetailsControllers', [])
               text: '是',
               onTap: function () {
                 for (var i = 0; i < $scope.imgUris.length; i++) {
-                  if ($scope.imgUris[i].imageBody == imgUri.imageBody) {
+                  if ($scope.imgUris[i].imageBody == imgUri) {
                     $scope.imgUris.splice(i, 1);
                     i--;
                   }
@@ -1373,61 +1405,44 @@ angular.module('oinio.workDetailsControllers', [])
         if ($scope.checkNinePices) {
           for (var i = 0; i < $scope.bfObjs.length; i++) {
             var aa = $scope.bfObjs[i];
-            setTimeout(function () {
-                if (aa.imageBody == '././img/images/will_add_Img.png') {
-                    aa.imageBody = '';
-                    localUris.push(aa);
-                } else {
-                    aa.imageBody = aa.imageBody.slice(23);
+                if (aa.imageBody != '././img/images/will_add_Img.png') {
+                        aa.imageBody = aa.imageBody.slice(23);
                     localUris.push(aa);
                 }
-            },200);
           }
 
           for (var i = 0; i < $scope.afObjs.length; i++) {
               var bb = $scope.afObjs[i];
-              setTimeout(function () {
-                  if (bb.imageBody == '././img/images/will_add_Img.png') {
-                      bb.imageBody = '';
-                      localUris.push(bb);
-                  } else {
-                      bb.imageBody = bb.imageBody.slice(23);
+                  if (bb.imageBody != '././img/images/will_add_Img.png') {
+                          bb.imageBody = bb.imageBody.slice(23);
                       localUris.push(bb);
                   }
-              },200);
           }
 
           //维修前固定图片后增加的
           for (var i = 0; i < $scope.imgUrisBefore.length; i++) {
               var cc = $scope.imgUrisBefore[i];
-              setTimeout(function () {
                 if (cc.imageBody != '././img/images/will_add_Img.png') {
-                    cc.imageBody = cc.imageBody.slice(23);
+                        cc.imageBody = cc.imageBody.slice(23);
                     localUris.push(cc);
                 }
-            },200);
           }
           //维修后固定图片后增加的
           for (var i = 0; i < $scope.imgUrisAfter.length; i++) {
                 var dd = $scope.imgUrisAfter[i];
-              setTimeout(function () {
                   if (dd.imageBody != '././img/images/will_add_Img.png') {
                       dd.imageBody = dd.imageBody.slice(23);
                       localUris.push(dd);
                   }
-              },200);
           }
         } else {
           //未勾选
           for (var i = 0; i < $scope.imgUris.length; i++) {
-              var aa = $scope.imgUris[i];
-              setTimeout(function () {
-                  if (aa.imageBody != '././img/images/will_add_Img.png') {
-                      aa.imageBody = aa.imageBody.slice(23);
+                  if ($scope.imgUris[i].imageBody != '././img/images/will_add_Img.png') {
+                      let aa = $scope.imgUris[i];
+                      aa.imageBody = $scope.imgUris[i].imageBody.slice(23);
                       localUris.push(aa);
-                      //localUris.set("url",($scope.imgUris[i]).slice(23));
                   }
-              },200);
           }
           console.log(localUris);
         }
@@ -1486,11 +1501,8 @@ angular.module('oinio.workDetailsControllers', [])
               'order': orderObj,
               'childOrders': truckItemsSecond,
               'images': localUris,
-              //"imageMap":localUris,
               'assignUsers': selectUserIds,
               'str_suggestion': $('#serviceSuggest').val().trim(),
-              //"arrivaltime":arriveTime!=null?arriveTime.format("yyyy-MM-dd hh:mm:ss"):null,
-              //"leaveTime":leaveTime!=null?leaveTime.format("yyyy-MM-dd hh:mm:ss"):null
               'truckOrders': newTrucks,
               'sigAcctImages': $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(
                 /data:image\/jpeg;base64,/, '') : '',

@@ -720,10 +720,10 @@
 								<div class="img_Group" id="photoGroup">
 									<div class="item_Img" ng-repeat="itemUri in imgUris">
 										<div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri.imageBody}});"
-										 id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUris);">
+										 id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUris,'');">
 											<div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody)"></div>
 										</div>
-                                        <input style="width: 80px;height: 30px;">
+                                        <input style="width: 80px;height: 30px;" value="{{itemUri.imageName.split('/')[1]}}" />
 									</div>
 								</div>
 							</div>
@@ -752,10 +752,10 @@
                                     <!--自动添加-->
                                     <div class="item_Img" ng-repeat="itemUri in imgUrisBefore">
                                         <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri.imageBody}});"
-                                             id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisBefore);">
+                                             id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisBefore,'bf_');">
                                             <div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody)"></div>
                                         </div>
-                                        <input style="width: 80px;height: 30px;">
+                                        <input style="width: 80px;height: 30px;"  value="{{itemUri.imageName.split('/')[1]}}"/>
                                         <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
                                     </div>
                                 </div>
@@ -785,10 +785,10 @@
 									<!--自动添加-->
                                     <div class="item_Img" ng-repeat="itemUri in imgUrisAfter">
                                         <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri.imageBody}});"
-                                             id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisAfter);">
+                                             id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisAfter,af_);">
                                             <div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody)"></div>
                                         </div>
-                                        <input style="width: 80px;height: 30px;">
+                                        <input style="width: 80px;height: 30px;" value="{{itemUri.imageName.split('/')[1]}}"/>
                                         <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
                                     </div>
                                 </div>
