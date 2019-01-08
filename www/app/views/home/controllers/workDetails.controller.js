@@ -84,14 +84,14 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.imgUrisBefore = [
         {
           imageBody: '././img/images/will_add_Img.png',
-          imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+' '
+          imageName: 'bfth_'+new Date().format('yyyyMMddhhmmss/')+' '
         }
       ];
       //Maintain after
       $scope.imgUrisAfter = [
         {
           imageBody: '././img/images/will_add_Img.png',
-          imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+' '
+          imageName: 'afth_'+new Date().format('yyyyMMddhhmmss/')+' '
         }
       ];
 
@@ -458,18 +458,18 @@ angular.module('oinio.workDetailsControllers', [])
                     for(var j =0;j<$scope.bfObjs.length;j++){
                         if(photoes[i].imageName.split('/')[1]=== $scope.bfObjs[j].imageName.split('/')[1]){
                             $scope.bfObjs[j].imageBody = 'data:image/jpeg;base64,'+photoes[i].imageBody;
-                            break;
                         }
-                        //$scope.imgUrisBefore.push(photoes[i]);
                     }
                 }else if (photoes[i].imageName.indexOf('af_')>-1) {
                     for(var j =0;j<$scope.afObjs.length;j++){
                         if(photoes[i].imageName.split('/')[1]=== $scope.afObjs[j].imageName.split('/')[1]){
                             $scope.afObjs[j].imageBody = 'data:image/jpeg;base64,'+photoes[i].imageBody;
-                            break;
                         }
-                        //$scope.imgUrisAfter.push(photoes[i]);
                     }
+                }else if(photoes[i].imageName.indexOf('bfth_')>-1){
+                    $scope.imgUrisBefore.push(photoes[i]);
+                }else if (photoes[i].imageName.indexOf('afth_')>-1){
+                    $scope.imgUrisAfter.push(photoes[i]);
                 }else{
                     $scope.imgUris.push(
                             {
@@ -490,12 +490,12 @@ angular.module('oinio.workDetailsControllers', [])
 
                   $scope.imgUrisBefore.push( {
                       imageBody: '././img/images/will_add_Img.png',
-                      imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+' '
+                      imageName: 'bfth_'+new Date().format('yyyyMMddhhmmss/')+' '
                   });
 
                   $scope.imgUrisAfter.push( {
                       imageBody: '././img/images/will_add_Img.png',
-                      imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+' '
+                      imageName: 'afth_'+new Date().format('yyyyMMddhhmmss/')+' '
                   });
 
               }
@@ -940,7 +940,7 @@ angular.module('oinio.workDetailsControllers', [])
       /**
        * 删除当前图片
        */
-      $scope.deleteCurrentImg = function (imgUri) {
+      $scope.deleteCurrentImg = function (imgUri,imgUris) {
         $ionicPopup.show({
           title: '确认删除图片？',
           buttons: [
@@ -953,9 +953,9 @@ angular.module('oinio.workDetailsControllers', [])
             {
               text: '是',
               onTap: function () {
-                for (var i = 0; i < $scope.imgUris.length; i++) {
-                  if ($scope.imgUris[i].imageBody == imgUri) {
-                    $scope.imgUris.splice(i, 1);
+                for (var i = 0; i <imgUris.length; i++) {
+                  if (imgUris[i].imageBody == imgUri) {
+                    imgUris.splice(i, 1);
                     i--;
                   }
                 }
@@ -1404,7 +1404,7 @@ angular.module('oinio.workDetailsControllers', [])
         //是否点击checkbox
         if ($scope.checkNinePices) {
           for (var i = 0; i < $scope.bfObjs.length; i++) {
-            var aa = $scope.bfObjs[i];
+            var aa = Object.assign({}, $scope.bfObjs[i]);
                 if (aa.imageBody != '././img/images/will_add_Img.png') {
                         aa.imageBody = aa.imageBody.slice(23);
                     localUris.push(aa);
@@ -1412,7 +1412,7 @@ angular.module('oinio.workDetailsControllers', [])
           }
 
           for (var i = 0; i < $scope.afObjs.length; i++) {
-              var bb = $scope.afObjs[i];
+              var bb =Object.assign({}, $scope.afObjs[i]);
                   if (bb.imageBody != '././img/images/will_add_Img.png') {
                           bb.imageBody = bb.imageBody.slice(23);
                       localUris.push(bb);
@@ -1421,7 +1421,7 @@ angular.module('oinio.workDetailsControllers', [])
 
           //维修前固定图片后增加的
           for (var i = 0; i < $scope.imgUrisBefore.length; i++) {
-              var cc = $scope.imgUrisBefore[i];
+              var cc = Object.assign({}, $scope.imgUrisBefore[i]);
                 if (cc.imageBody != '././img/images/will_add_Img.png') {
                         cc.imageBody = cc.imageBody.slice(23);
                     localUris.push(cc);
@@ -1429,7 +1429,7 @@ angular.module('oinio.workDetailsControllers', [])
           }
           //维修后固定图片后增加的
           for (var i = 0; i < $scope.imgUrisAfter.length; i++) {
-                var dd = $scope.imgUrisAfter[i];
+                var dd =Object.assign({}, $scope.imgUrisAfter[i]);
                   if (dd.imageBody != '././img/images/will_add_Img.png') {
                       dd.imageBody = dd.imageBody.slice(23);
                       localUris.push(dd);
@@ -1439,7 +1439,7 @@ angular.module('oinio.workDetailsControllers', [])
           //未勾选
           for (var i = 0; i < $scope.imgUris.length; i++) {
                   if ($scope.imgUris[i].imageBody != '././img/images/will_add_Img.png') {
-                      let aa = $scope.imgUris[i];
+                      let aa =Object.assign({}, $scope.imgUris[i]);
                       aa.imageBody = $scope.imgUris[i].imageBody.slice(23);
                       localUris.push(aa);
                   }
