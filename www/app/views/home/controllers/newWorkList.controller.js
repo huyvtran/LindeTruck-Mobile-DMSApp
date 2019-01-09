@@ -624,6 +624,8 @@ angular.module('oinio.newWorkListControllers', [])
                                             workOrderId:currentWorkOrderId,
                                             accountId:$scope.searchResultAcctId
                                         });
+                                    $rootScope.getSomeData();//刷新日历下方工单列表
+
                                 }else{
                                     $ionicPopup.alert({
                                         title: "保存失败"
@@ -711,7 +713,6 @@ angular.module('oinio.newWorkListControllers', [])
             //     // });
             // }
 
-            $rootScope.getSomeData();//刷新日历下方工单列表
         };
 
         $scope.changeTruckTab = function (index) {

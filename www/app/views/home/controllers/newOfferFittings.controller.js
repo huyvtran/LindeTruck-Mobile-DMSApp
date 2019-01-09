@@ -709,6 +709,13 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.toDelSVView = function (index) {
         $scope.serviceFeeList.baoremove(index);
 
+        $('input.sv_InputForListSpecial').each(function (indexSub, element) {
+          if (indexSub ==index){
+            element.value = 0;
+          }
+        });
+
+        $scope.sum();
       };
 
       $scope.sum = function (obj) {
