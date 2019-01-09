@@ -475,40 +475,57 @@ angular.module('oinio.PriceDetailController', [])
       var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                 + JSON.stringify(partsQuantitys) + '&accountId=' +  $scope.basicInfo.Ship_To__c;
       console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
+
+      var truckFitByItems = angular.copy($scope.selectedTruckFitItems);
+
+      console.log('truckFitItems',truckFitByItems);
+
       $scope.selectedTruckFitItems = [];// 清空列表
       ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
-        function (responsePartsRelateds) {
+        function (responsePartsRelateds)
+        {
           AppUtilService.hideLoading();
           console.log('getPartsRelatedsUrlRes:', responsePartsRelateds);
-          for (let i = 0; i < responsePartsRelateds.length; i++) {
+
+          console.log('truckFitItems',truckFitByItems);
+
+          $scope.selectedTruckFitItems = _.filter(truckFitByItems, function (partItem) {
+            return partItem.type == 'common';
+          });
+
+          for (let i = 0; i < responsePartsRelateds.length; i++)
+          {
             var responsePartsRelatedsList = responsePartsRelateds[i];
             for (let j = 0; j < responsePartsRelatedsList.length; j++) {
               // responsePartsRelatedsList[j]["itemNO"] = j;
 
-              if (responsePartsRelatedsList[j].type == 'common') {
-                // $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
+              console.log('truckFitItems',truckFitByItems);
 
-                var partsItem = {};
-                // var responsePartsRelatedsList = responsePartsRelateds[i];
-                var truckFitItem = responsePartsRelatedsList[j];
-
-                partsItem.Name = truckFitItem.parts_number__c;
-                if (truckFitItem.priceCondition) {
-                  partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
-                } else {
-                  partsItem.Gross_Amount__c = '0';
-                }
-                partsItem.type = truckFitItem.type;
-                partsItem.Quantity__c = truckFitItem.quantity;
-                partsItem.Discount__c = truckFitItem.priceCondition && truckFitItem.priceCondition.discount;
-                partsItem.Net_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.favourablePrice;
-                partsItem.Net_Amount__c = '';
-                partsItem.SPN_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.spnPrice;
-                partsItem.estimatedDeliveryDate = truckFitItem.inventory && truckFitItem.inventory.estimatedDeliveryDate;
-
-                $scope.selectedTruckFitItems.push(partsItem);
-
-              }
+              // if (responsePartsRelatedsList[j].type == 'common') {
+              //   // $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
+              //
+              //   var partsItem = {};
+              //   // var responsePartsRelatedsList = responsePartsRelateds[i];
+              //   var truckFitItem = responsePartsRelatedsList[j];
+              //
+              //   partsItem.Name = truckFitItem.parts_number__c;
+              //   partsItem.parts_number__c = truckFitItem.parts_number__c;
+              //   if (truckFitItem.priceCondition) {
+              //     partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+              //   } else {
+              //     partsItem.Gross_Amount__c = '0';
+              //   }
+              //   partsItem.type = truckFitItem.type;
+              //   partsItem.Quantity__c = truckFitItem.quantity;
+              //   partsItem.Discount__c = truckFitItem.priceCondition && truckFitItem.priceCondition.discount;
+              //   partsItem.Net_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.favourablePrice;
+              //   partsItem.Net_Amount__c = '';
+              //   partsItem.SPN_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.spnPrice;
+              //   partsItem.estimatedDeliveryDate = truckFitItem.inventory && truckFitItem.inventory.estimatedDeliveryDate;
+              //
+              //   $scope.selectedTruckFitItems.push(partsItem);
+              //
+              // }
 
               if (responsePartsRelatedsList[j].type == 'economical') {
                 // $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
@@ -556,18 +573,17 @@ angular.module('oinio.PriceDetailController', [])
 
                 $scope.selectedTruckFitItems.push(partsItem);
               }
-
-              _.each(forOrdParts, function (oldItem) { //替换已经编辑过的配件
-                _.each($scope.selectedTruckFitItems, function (newItem) { //替换已经编辑过的配件
-                  if (oldItem.materialId == newItem.materialId){
-                    _.merge(newItem, oldItem);
-                  }
-                });
-              });
-
-              $scope.calculatePriceConditionPriceAll();
             }
           }
+          // _.each(forOrdParts, function (oldItem) { //替换已经编辑过的配件
+          //   _.each($scope.selectedTruckFitItems, function (newItem) { //替换已经编辑过的配件
+          //     if (oldItem.materialId == newItem.materialId){
+          //       _.merge(newItem, oldItem);
+          //     }
+          //   });
+          // });
+
+          $scope.calculatePriceConditionPriceAll();
         }, function (error) {
           console.log('error:', error);
           AppUtilService.hideLoading();
@@ -589,41 +605,54 @@ angular.module('oinio.PriceDetailController', [])
           partsQuantitys.push(1);//默认库存
         }
       }
+      var  truckFitItems = angular.copy($scope.selectedTruckFitItems);
+
+      console.log('truckFitItems',truckFitItems);
+
       $scope.selectedTruckFitItems = [];
       var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
                                 + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c;
       console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
+
+
       ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
         function (responsePartsRelateds) {
           AppUtilService.hideLoading();
+          console.log('truckFitItems',truckFitItems);
+
+          $scope.selectedTruckFitItems = _.filter(truckFitItems, function (partItem) {
+            return partItem.type == 'common';
+          });
+
           for (let i = 0; i < responsePartsRelateds.length; i++) {
             var responsePartsRelatedsList = responsePartsRelateds[i];
             for (let j = 0; j < responsePartsRelatedsList.length; j++) {
               // responsePartsRelatedsList[j]["itemNO"] = j;
-              if (responsePartsRelatedsList[j].type == 'common') {
-                // $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
-                var partsItem = {};
-                // var responsePartsRelatedsList = responsePartsRelateds[i];
-                var truckFitItem = responsePartsRelatedsList[j];
+              // if (responsePartsRelatedsList[j].type == 'common') {
+              //   // $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
+              //   var partsItem = {};
+              //   // var responsePartsRelatedsList = responsePartsRelateds[i];
+              //   var truckFitItem = responsePartsRelatedsList[j];
+              //
+              //   partsItem.Name = truckFitItem.parts_number__c;
+              //   partsItem.parts_number__c = truckFitItem.parts_number__c;
+              //   if (truckFitItem.priceCondition) {
+              //     partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+              //   } else {
+              //     partsItem.Gross_Amount__c = '0';
+              //   }
+              //   partsItem.type = truckFitItem.type;
+              //   partsItem.Quantity__c = truckFitItem.quantity;
+              //   partsItem.Discount__c = truckFitItem.priceCondition && truckFitItem.priceCondition.discount;
+              //   partsItem.Net_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.favourablePrice;
+              //   partsItem.Net_Amount__c = '';
+              //   partsItem.SPN_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.spnPrice;
+              //   partsItem.estimatedDeliveryDate = truckFitItem.inventory && truckFitItem.inventory.estimatedDeliveryDate;
+              //
+              //   $scope.selectedTruckFitItems.push(partsItem);
+              // }
 
-                partsItem.Name = truckFitItem.parts_number__c;
-                partsItem.parts_number__c = truckFitItem.parts_number__c;
-                if (truckFitItem.priceCondition) {
-                  partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
-                } else {
-                  partsItem.Gross_Amount__c = '0';
-                }
-                partsItem.type = truckFitItem.type;
-                partsItem.Quantity__c = truckFitItem.quantity;
-                partsItem.Discount__c = truckFitItem.priceCondition && truckFitItem.priceCondition.discount;
-                partsItem.Net_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.favourablePrice;
-                partsItem.Net_Amount__c = '';
-                partsItem.SPN_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.spnPrice;
-                partsItem.estimatedDeliveryDate = truckFitItem.inventory && truckFitItem.inventory.estimatedDeliveryDate;
-
-                $scope.selectedTruckFitItems.push(partsItem);
-              }
               if (responsePartsRelatedsList[j].type == 'substitution') {
                 // $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 var partsItem = {};
@@ -928,6 +957,7 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals3["Gross_Amount__c"] =  sv_Input_PriceList[index];
         oneLabourOriginals3["Quantity__c"] =  sv_Input_NumberList[index];
         oneLabourOriginals3["Discount__c"] =  sv_Input_DiscountList[index];
+        oneLabourOriginals3['Line_Item__c'] = index;
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
       }
       var sv_InputForListPrice = [];//单价
@@ -959,6 +989,8 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];
         oneLabourOriginals3['Net_Amount__c'] = _.isNaN(sv_InputForListSpecial[index]) ?  sv_InputForListSpecial[index] : '0';
         oneLabourOriginals3['Material_Type__c'] = 'Labour';
+        oneLabourOriginals3['Line_Item__c'] = $scope.labourQuoteList.length + index;
+        oneLabourOriginals3['Material_Number__c'] = $scope.labourQuoteList.length + index;
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
       }
 
@@ -992,12 +1024,12 @@ angular.module('oinio.PriceDetailController', [])
         var oneLabourOriginals4 = {};
         var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
         oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
-        if (selectedTruckFitItemsIndex.priceCondition) {
-          oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.Gross_Amount__c;
-        }
+        oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.Gross_Amount__c;
         if (selectedTruckFitItemsIndex.Id) {
           oneLabourOriginals4["Id"] = selectedTruckFitItemsIndex.Id;
         }
+        oneLabourOriginals4['Line_Item__c'] = index + 100;
+        oneLabourOriginals4['Material_Number__c'] = index + 100;
         oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
         oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
         oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
