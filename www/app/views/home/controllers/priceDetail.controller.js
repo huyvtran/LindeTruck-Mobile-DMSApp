@@ -13,6 +13,8 @@ angular.module('oinio.PriceDetailController', [])
     $scope.labourQuoteList = [];
     $scope.searchTruckPartText = '';
     $scope.priceConditionPriceAll = 0;
+    $scope.serviceFeeListP3 = 0;
+    $scope.serviceFeeListP4 = 0;
     $scope.priceDetail = {};
     $scope.basicInfo = {};
     $scope.serviceQuotes = {};
@@ -847,17 +849,26 @@ angular.module('oinio.PriceDetailController', [])
 
     $scope.toDelSVView = function (index) {
       $scope.serviceFeeList.baoremove(index);
+      $('input.sv_InputForListSpecial').each(function (indexSub, element) {
+        if (indexSub ==index){
+          element.value = 0;
+        }
+      });
+
+      $scope.sum();
 
     };
 
     $scope.sum = function (obj) {
-      // var manMadePrice1 = document.getElementById("manMadePrice1");
-      // var manMadeNo1 = document.getElementById("manMadeNo1");
+      $scope.serviceFeeListP3 = 0;
+      $('input.sv_InputForListSpecial').each(function (index, element) {
+        $scope.serviceFeeListP3 = Number(element.value) +Number($scope.serviceFeeListP3);
+      });
+      $scope.serviceFeeListP4 = 0;
+      _.forEach($scope.labourQuoteList,function (item) {
+        $scope.serviceFeeListP4 = Number(item.Quantity__c)*Number(item.Gross_Amount__c) +$scope.serviceFeeListP4;
+      });
 
-      // if ($scope.manMadeNo1 != '') {
-      //     console.log("index", parseInt($scope.manMadePrice1)+ "  "+parseInt($scope.manMadeNo1));
-      //     $scope.sumPrice1 = parseInt($scope.manMadePrice1) * parseInt($scope.manMadeNo1);
-      // }
     };
 
 
@@ -919,7 +930,6 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals3["Discount__c"] =  sv_Input_DiscountList[index];
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
       }
-
       var sv_InputForListPrice = [];//单价
       var sv_InputForListNo = [];//数量
       var sv_InputForListDiscount = [];//折扣

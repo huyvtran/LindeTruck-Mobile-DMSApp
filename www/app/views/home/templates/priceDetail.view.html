@@ -533,7 +533,7 @@
                                         </td>
                                         <td class="sv_Td"
                                             ng-init="priceNo = item.Quantity__c">
-                                             <input ng-model="priceNo" class="sv_Input part_InputForListNo" type="text"/>
+                                            <input ng-model="item.quantity" class="sv_Input part_InputForListNo" />
                                         </td>
                                         <td class="sv_Td" ng-init="item.Discount__c = discountPriceCondition = item.Discount__c">
                                             <input class="sv_Input part_InputForListDiscount" ng-model="discountPriceCondition" type="text"/>
@@ -574,7 +574,7 @@
                         <!-- <div class="refresh_icon" style="left: 30%;"></div> -->
                         <div class="price_Group">
                             <div class="price_Title"> 合计</div>
-                            <input class="price_Input"/>
+                            <input class="price_Input" value="{{serviceFeeListP3 +serviceFeeListP4}}"/>
                         </div>
                         <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
                         <div class="OpenClose_Btn arrow_Down_White"></div>
@@ -605,22 +605,22 @@
                                 <td class="sv_Td">
                                     <div> {{labour.Name}}</div>
                                 </td>
-                                <td class="sv_Td" ng-init="labour.Gross_Amount__c = manMadePrice = labour.Gross_Amount__c">
-                                    <input id="priceId" ng-model="manMadePrice" class="sv_Input_Price"/>
+                                <td class="sv_Td">
+                                    <input id="priceId" ng-model="labour.Gross_Amount__c" class="sv_Input_Price" ng-keyup="sum(this);"/>
                                 </td>
-                                <td class="sv_Td" ng-init="labour.Quantity__c = manMadeNo = labour.Quantity__c">
-                                    <input placeholder="0" ng-model="manMadeNo" class="sv_Input_Number"
-                                           ng-keyup="sum(this);"/>
+                                <td class="sv_Td" >
+                                    <input placeholder="0" ng-model="labour.Quantity__c" class="sv_Input_Number" ng-keyup="sum(this);"
+                                          />
                                 </td>
                                 <td class="sv_Td">
-                                    <div> {{manMadePrice * manMadeNo}}</div>
+                                    <div> {{labour.Gross_Amount__c * labour.Quantity__c}}</div>
                                 </td>
                                 <td class="sv_Td" ng-init="labour.Discount__c = discountPrice = labour.Discount__c">
                                     <input id="discountId" ng-model="discountPrice" class="sv_Input_Discount"/>
                                 </td>
                                 <td class="sv_Td">
                                     <input class="sv_Input"
-                                           value="{{manMadePrice * manMadeNo - discountPrice * manMadePrice * manMadeNo}}"/>
+                                           value="{{labour.Gross_Amount__c * labour.Quantity__c - discountPrice * labour.Gross_Amount__c * labour.Quantity__c}}"/>
                                 </td>
                             </tr>
                             <!--<tr>-->
@@ -659,10 +659,10 @@
                                             </div>
                                         </td>
                                         <td class="sv_Td">
-                                            <input ng-model="manMadePrice3" placeholder="0" class="sv_InputForListPrice"/>
+                                            <input ng-model="manMadePrice3" placeholder="0" class="sv_InputForListPrice"  ng-keyup="sum(this);"/>
                                         </td>
                                         <td class="sv_Td">
-                                            <input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo"/>
+                                            <input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo"  ng-keyup="sum(this);"/>
                                         </td>
                                         <td class="sv_Td">
                                             <div> {{manMadePrice3*manMadeNo3}}</div>
