@@ -604,17 +604,21 @@ angular.module('oinio.workDetailsControllers', [])
           for (var i = 0; i < workItems.length; i++) {
 
             if (workItems[i].Arrival_Time__c != undefined && onOrder) {
-              for (var j = 0; j < 3; j++) {
-                $('ol li:eq(' + j + ')').addClass('slds-is-active');
-              }
-              $('#departureBtn').css('pointer-events', 'none');
-              $('#departureBtn').addClass('textCompleted');
-              $('#arriveBtn').css('pointer-events', 'none');
-              $('#arriveBtn').addClass('textCompleted');
-              $('#sidProgressBar').css('width', '50%');
-              arriveTime = new Date(workItems[i].Arrival_Time__c);
-              goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
-              break;
+                if (workItems[i].Leave_Time__c != undefined && onOrder){
+                    continue;
+                }else{
+                    for (var j = 0; j < 3; j++) {
+                        $('ol li:eq(' + j + ')').addClass('slds-is-active');
+                    }
+                    $('#departureBtn').css('pointer-events', 'none');
+                    $('#departureBtn').addClass('textCompleted');
+                    $('#arriveBtn').css('pointer-events', 'none');
+                    $('#arriveBtn').addClass('textCompleted');
+                    $('#sidProgressBar').css('width', '50%');
+                    arriveTime = new Date(workItems[i].Arrival_Time__c);
+                    goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                    break;
+                }
             } else if (workItems[i].Departure_Time__c != undefined && onOrder) {
               for (var j = 0; j < 2; j++) {
                 $('ol li:eq(' + j + ')').addClass('slds-is-active');
