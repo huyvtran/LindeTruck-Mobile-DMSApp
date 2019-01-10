@@ -1,5 +1,5 @@
 {
-  "remoteAccessConsumerKey": "3MVG910YPh8zrcR20GPUef9T5cHNQPJSoblSeTZgeeyJ8Y0cB9fvCXziRFmIZdos4vPUhkPyUMr6Tr4PABpFn",
+  "remoteAccessConsumerKey": "3MVG910YPh8zrcR20GPUef9T5cNEizLbditygj3HnwDSORsZI.ssF4kzSuRckUqUCyw6aYtAGEX6VBDDzbPWJ",
 
   "oauthRedirectURI": "https://test.salesforce.com/services/oauth2/success",
   "oauthScopes": [

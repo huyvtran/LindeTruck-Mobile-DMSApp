@@ -13,11 +13,7 @@ angular.module('oinio.NewOfferController', [])
       $scope.serviceSatusUrl = '/ServiceQuoteOverviewStatus/';
       $(document).ready(function () {
       });
-      $scope.$on('$ionicView.enter', function () {
-        console.log('NewOfferController');
-        console.log('selectedTruckItems:ALL::', $scope.selectedTruckItems);
 
-      });
       $scope.goBack = function () {
         // window.history.back();
         $state.go('app.home');

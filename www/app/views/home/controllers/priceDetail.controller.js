@@ -366,7 +366,7 @@ angular.module('oinio.PriceDetailController', [])
     $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
       $scope.closeSelectPage();
       $scope.getTrucksWithSubstitution();
-      if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null) {
+      if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null && $scope.searchTruckText != "") {
         var onePartOriginals = {};
         var priceCondition = {};
         onePartOriginals['quantity'] = '';//数量
@@ -427,6 +427,7 @@ angular.module('oinio.PriceDetailController', [])
 
     //--清空经济件
     $scope.delByEconomical = function () {
+      $scope.contentTruckFitItems = [];
       for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
         let element = $scope.selectedTruckFitItems[index];
         if (element.type == 'economical') {
@@ -442,6 +443,7 @@ angular.module('oinio.PriceDetailController', [])
 
     //--使用经济件
     $scope.useByEconomical = function () {
+      $scope.contentTruckFitItems = [];
       for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
         let element = $scope.selectedTruckFitItems[index];
         if (element.type == 'common' || element.type == 'substitution') {

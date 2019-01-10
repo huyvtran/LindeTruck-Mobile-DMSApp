@@ -321,7 +321,7 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
         $scope.closeSelectPage();
         $scope.getTrucksWithSubstitution();
-        if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null) {
+        if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null && $scope.searchTruckText != "") {
           var onePartOriginals = {};
           var priceCondition = {};
           onePartOriginals['quantity'] = '';//数量
@@ -382,6 +382,7 @@ angular.module('oinio.NewOfferFittingsController', [])
 
       //--清空经济件
       $scope.delByEconomical = function () {
+        $scope.contentTruckFitItems = [];
         for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
           let element = $scope.selectedTruckFitItems[index];
           if (element.type == 'economical') {
@@ -397,6 +398,7 @@ angular.module('oinio.NewOfferFittingsController', [])
 
       //--使用经济件
       $scope.useByEconomical = function () {
+        $scope.contentTruckFitItems = [];
         for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
           let element = $scope.selectedTruckFitItems[index];
           if (element.type == 'common' || element.type == 'substitution') {
@@ -784,6 +786,9 @@ angular.module('oinio.NewOfferFittingsController', [])
           oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];//数量
           oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];//折扣
           oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];//优惠总价
+          oneLabourOriginals3['Line_Item__c'] = $scope.serviceFeeList.length + index;
+          oneLabourOriginals3['Material_Number__c'] = $scope.serviceFeeList.length + index;
+
           oneLabourOriginals3['Material_Type__c'] = 'Labour';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
 
@@ -822,6 +827,8 @@ angular.module('oinio.NewOfferFittingsController', [])
           oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
           oneLabourOriginals4['Net_Amount__c'] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
+          oneLabourOriginals4['Line_Item__c'] = 100 + index;
+          oneLabourOriginals4['Material_Number__c'] = selectedTruckFitItemsIndex.parts_number__c;;
           oneLabourOriginals4['Material_Type__c'] = 'Part';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
         }
