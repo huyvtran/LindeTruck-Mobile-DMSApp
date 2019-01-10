@@ -1489,6 +1489,19 @@ angular.module('oinio.workDetailsControllers', [])
           console.log(localUris);
         }
 
+
+        localUris.push({
+            imageId:'',
+            imageName:'工程师签名-'+new Date().format('yyyyMMddhhmmss'),
+            imageBody:$scope.engineerImgStr != 'data:image/jpeg;base64,undefined' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
+        });
+
+          localUris.push({
+              imageId:'',
+              imageName:'客户签名-'+new Date().format('yyyyMMddhhmmss'),
+              imageBody: $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
+          });
+
         var orderObj = [{
           'Id': orderDetailsId,
           'Mobile_Offline_Name__c': $scope.mobileName,
@@ -1547,7 +1560,7 @@ angular.module('oinio.workDetailsControllers', [])
               'str_suggestion': $('#serviceSuggest').val().trim(),
               'truckOrders': newTrucks
               // 'sigAcctImages': $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(
-              //   /data:image\/jpeg;base64,/, '') : '',
+              //       /data:image\/jpeg;base64,/, '') : '',
               // 'sigEngineerImages': $scope.engineerImgStr != 'data:image/jpeg;base64,undefined'
               //   ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
             }), null, function success(res) {
