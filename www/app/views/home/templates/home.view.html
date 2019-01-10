@@ -4,14 +4,16 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel='stylesheet' href='././css/fullcalendar.css' />
+    <link rel='stylesheet' href='././css/fullcalendar.css'/>
     <link rel="stylesheet" href="././css/homepage.css">
     <link rel="stylesheet" href="././css/date_Head.css">
     <link rel="stylesheet" href="././css/group.css">
     <link rel="stylesheet" href="././css/simplePerson.css">
-        <!--fullcalendar-->
-        <script src='app/core/lib/jquery.min.js'></script>
-        <script src='app/core/lib/fullcalendar.js'></script>
+    <link rel="stylesheet" href="././css/loadingPage.css">
+
+    <!--fullcalendar-->
+    <script src='app/core/lib/jquery.min.js'></script>
+    <script src='app/core/lib/fullcalendar.js'></script>
     <style type="text/css">
 
         .search_Photo_Icon {
@@ -35,15 +37,17 @@
         }
 
         /*.datepicker {*/
-            /*background-image: url(././img/images/datepicker.png);*/
+        /*background-image: url(././img/images/datepicker.png);*/
         /*}*/
 
         .checkmark_Icon .table_Img {
             background-image: url(././img/images/checkmark_Icon.png);
         }
+
         .workon_Icon .table_Img {
             background-image: url(././img/images/info_Icon.png);
         }
+
         .info_Icon .table_Img {
             background-image: url(././img/images/info_Icon.png);
         }
@@ -59,7 +63,12 @@
         .simplePerson_Head {
             background-image: url(././img/images/simplePerson_Head.jpg);
         }
-
+        .loadingPage_bodyer {
+            background-image: url(././img/images/bg_img.png);
+        }
+        .lindeLogo_red {
+            background-image: url(././img/images/lindeLogo-red.png);
+        }
         .main_bodyer, .personal_bodyer, .calendar_bodyer {
             background-image: url(././img/images/bg_img.png);
             background-repeat: no-repeat;
@@ -92,105 +101,166 @@
 </head>
 
 <body>
-    <ion-view>
-        <ion-tabs class="tabs-striped tabs-assertive ion_change_style">
+<ion-view>
+    <ion-tabs class="tabs-striped tabs-assertive ion_change_style" ng-class="{'tabs-item-hide': hideTabs}">
 
-            <ion-tab title="首页" ng-controller="HomeController" ng-click="selectTabWithIndex(0)">
-                <ion-view>
-                    <div class="main_header">
-                        <div class="left_Box">
-                            <button menu-toggle="left" class="button button-icon icon ion-navicon" style="color:#ffffff;"></button>
+        <ion-tab title="首页" ng-controller="HomeController" ng-click="selectTabWithIndex(0)">
+            <ion-view>
+                <div class="main_header">
+                    <div class="left_Box">
+                        <button menu-toggle="left" class="button button-icon icon ion-navicon"
+                                style="color:#ffffff;"></button>
+                    </div>
+                    <div class="search_All">
+                        <input type="text" placeholder="搜索" class="search_Input" disabled="disabled"/>
+                        <div class="search_Photo_Icon"></div>
+                    </div>
+                    <div class="right_Box">
+                        <div class="add_Icon_White" id="add_bgbox1_Btn"></div>
+                        <div class="add_Arrow " id="add_contactsImg1" style="display: none;"></div>
+                    </div>
+                    <div class="add_Group " id="add_bgbox1" style="display: none;">
+                        <div class="add_Box" ng-click="addCustomer();"> 添加客户</div>
+                        <div class="add_Box" ng-click="addNewLinkMan();"> 添加联系人</div>
+                        <div class="add_Box" ng-click="addNewWork1();"> 添加工单</div>
+                        <div class="add_Box" ng-click="addNewOffer()"> 添加报价</div>
+                    </div>
+                </div>
+                <div class="main_bodyer">
+                    <div class="main_big_Type_Group">
+                        <div class="main_small_Type_Group">
+                            <div class="main_small_Type_Title"> 工单</div>
+                            <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="main_small_Type_Box" style="color: #F85360;"
+                                        ng-click="selectCalenderStatus(0)">全部({{AllCount}})
+                                    </td>
+                                    <td class="main_small_Type_Box" ng-click="selectCalenderStatus(1)">
+                                        未安排({{NotPlannedCount}})
+                                    </td>
+                                    <td class="main_small_Type_Box" ng-click="selectCalenderStatus(2)">
+                                        未开始({{NotStartedCount}})
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="main_small_Type_Box" ng-click="selectCalenderStatus(3)">
+                                        进行中({{NotCompletedCount}})
+                                    </td>
+                                    <td class="main_small_Type_Box" ng-click="selectCalenderStatus(4)">
+                                        已完成({{ServiceCompletedCount}})
+                                    </td>
+                                    <td class="main_small_Type_Box" style="opacity: 0.3;"> &nbsp;</td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="search_All">
-                            <input type="text" placeholder="搜索" class="search_Input" disabled="disabled" />
-                            <div class="search_Photo_Icon"></div>
-                        </div>
-                        <div class="right_Box">
-                            <div class="add_Icon_White" id="add_bgbox1_Btn"></div>
-                            <div class="add_Arrow " id="add_contactsImg1" style="display: none;"></div>
-                        </div>
-                        <div class="add_Group " id="add_bgbox1" style="display: none;">
-                            <div class="add_Box" ng-click="addCustomer();"> 添加客户</div>
-                            <div class="add_Box" ng-click="addNewLinkMan();"> 添加联系人 </div>
-                            <div class="add_Box" ng-click="addNewWork1();"> 添加工单 </div>
-                            <div class="add_Box" ng-click="addNewOffer()"> 添加报价 </div>
+                        <div class="main_small_Type_Group">
+                            <div class="main_small_Type_Title"> 辅助功能</div>
+                            <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="main_small_Type_Box" style="background: #53A0F8;color:#ffffff;"
+                                        ng-click="serviceManager()">服务车管理
+                                    </td>
+                                    <td class="main_small_Type_Box" style="background: #A253F8;color:#ffffff;">叉车问题反馈
+                                    </td>
+                                    <td class="main_small_Type_Box" style="background: #FF7F24;color:#ffffff;"
+                                        ng-click="doPurChase()">采购申请
+                                    </td>
+                                    <!--<td class="main_small_Type_Box" style="opacity: 0.3;">&nbsp;</td>-->
+                                </tr>
+                                <tr>
+                                    <td class="main_small_Type_Box" style="background: #F85383;color:#ffffff;"
+                                        ng-click="applyTransfer()">申请转移
+                                    </td>
+                                    <td class="main_small_Type_Box" style="background: #F85360;color:#ffffff;"
+                                        ng-click="errorCodeView()">故障代码查询
+                                    </td>
+                                    <td class="main_small_Type_Box" style="background: #F85383;color:#ffffff;"> 应收账款查询
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="main_small_Type_Box" style="background: #A253F8;color:#ffffff;"
+                                        ng-click="commonParts()">常用配件
+                                    </td>
+                                    <td class="main_small_Type_Box" style="background: #FF7F24;color:#ffffff;"
+                                        ng-click="goPriceList()">报价单列表
+                                    </td>
+                                    <td class="main_small_Type_Box" style="background: #53A0F8;color:#ffffff;"
+                                        ng-click="webManager()">租赁出入库
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="main_small_Type_Box" style="background: #FF7F24;color:#ffffff;"
+                                        ng-click="deliveryListView()">交货列表
+                                    </td>
+                                    <!--<td class="main_small_Type_Box" style="background: #A253F8;color:#ffffff;" ng-click="truckConfiguration();">叉车配置</td>-->
+                                    <td class="main_small_Type_Box" style="background: #F85360;color:#ffffff;"
+                                        ng-click="ARListView()">AR报表展示
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
-                    <div class="main_bodyer">
-                            <div class="main_big_Type_Group">
-                                    <div class="main_small_Type_Group">
-                                        <div class="main_small_Type_Title"> 工单 </div>
-                                        <table cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td class="main_small_Type_Box" style="color: #F85360;" ng-click="selectCalenderStatus(0)">全部({{AllCount}}) </td>
-                                                <td class="main_small_Type_Box" ng-click="selectCalenderStatus(1)">未安排({{NotPlannedCount}})</td>
-                                                <td class="main_small_Type_Box" ng-click="selectCalenderStatus(2)">未开始({{NotStartedCount}})</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="main_small_Type_Box" ng-click="selectCalenderStatus(3)">进行中({{NotCompletedCount}})</td>
-                                                <td class="main_small_Type_Box" ng-click="selectCalenderStatus(4)">已完成({{ServiceCompletedCount}})</td>
-                                                <td class="main_small_Type_Box" style="opacity: 0.3;"> &nbsp;</td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="main_small_Type_Group">
-                                        <div class="main_small_Type_Title"> 辅助功能 </div>
-                                        <table cellpadding="0" cellspacing="0">
-                                            <tr>
-                                                <td class="main_small_Type_Box" style="background: #53A0F8;color:#ffffff;" ng-click="serviceManager()">服务车管理 </td>
-                                                <td class="main_small_Type_Box" style="background: #A253F8;color:#ffffff;">叉车问题反馈</td>
-                                                <td class="main_small_Type_Box" style="background: #FF7F24;color:#ffffff;"  ng-click="doPurChase()">采购申请</td>
-                                                <!--<td class="main_small_Type_Box" style="opacity: 0.3;">&nbsp;</td>-->
-                                            </tr>
-                                            <tr>
-                                                <td class="main_small_Type_Box" style="background: #F85383;color:#ffffff;" ng-click="applyTransfer()">申请转移</td>
-                                                <td class="main_small_Type_Box" style="background: #F85360;color:#ffffff;" ng-click="errorCodeView()">故障代码查询</td>
-                                                <td class="main_small_Type_Box" style="background: #F85383;color:#ffffff;"> 应收账款查询</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="main_small_Type_Box" style="background: #A253F8;color:#ffffff;" ng-click="commonParts()">常用配件</td>
-                                                <td class="main_small_Type_Box" style="background: #FF7F24;color:#ffffff;" ng-click="goPriceList()">报价单列表</td>
-                                                <td class="main_small_Type_Box" style="background: #53A0F8;color:#ffffff;" ng-click="webManager()">租赁出入库</td>
-                                            </tr>
-                                            <tr>
-                                                <td class="main_small_Type_Box" style="background: #FF7F24;color:#ffffff;"  ng-click="deliveryListView()">交货列表</td>
-                                                <!--<td class="main_small_Type_Box" style="background: #A253F8;color:#ffffff;" ng-click="truckConfiguration();">叉车配置</td>-->
-                                                <td class="main_small_Type_Box" style="background: #F85360;color:#ffffff;" ng-click="ARListView()">AR报表展示</td>
-                                            </tr>
-                                        </table>
-                                    </div>
+                </div>
+            </ion-view>
+        </ion-tab>
+        <ion-tab title="日历" ng-controller="CalendarController">
+            <ion-view>
+                <div class="calendar_header">
+                    <div class="left_Box"></div>
+
+                    <div class="search_All" ng-click="toRepair1()">
+                        <input type="text" readonly="readonly" placeholder="搜索" autocomplete="off"
+                               class="search_Input"/>
+                        <div class="search_Photo_Icon"></div>
+                    </div>
+                    <div class="right_Box">
+                        <div class="add_Icon_White" id="add_bgbox_Btn"></div>
+                        <div class="add_Arrow " id="add_contactsImg" style="display: none;"></div>
+                    </div>
+                    <div class="add_Group " id="add_bgbox" style="display: none;">
+                        <div class="add_Box" href="http://www.qq.com"> 添加客户</div>
+                        <!-- <div class="add_Box" ng-click="addCustomer();"> 添加客户</div> -->
+                        <div class="add_Box" ng-click="addNewLinkMan()"> 添加联系人</div>
+                        <div class="add_Box" ng-click="addNewWork()"> 添加工单</div>
+                        <div class="add_Box" ng-click="addNewOffer()"> 添加报价</div>
+                    </div>
+                </div>
+                <div class="calendar_mainSelect" style="">
+                    <div id="loadingPage_bodyer" class="loadingPage_bodyer">
+                        <div class="big_Type_Group">
+                            <div class="lindeLogo_red">
+                            </div>
+                            <div class="text_Div">
+                                <div class="text_large"> 您好，<span class="text_red"> {{personName}} </span> </div>
+                                <div class="text_large"> 欢迎回来！</div>
+                                <div class="text_small">（{{personDate}}）</div>
+                                <!--<div class="text_small"> 您花了 <span class="text_red"> 5小时56分钟 </span></div>-->
+                                <!--<div class="text_small">（4小时20分钟现场 + 1小时36分钟旅途）</div>-->
+                                <!--<div class="text_small"> 跑了<span class="text_red"> 80公里 </span> 的距离</div>-->
+                                <!--<div class="text_small"> 完成<span class="text_red"> 2个 </span> 服务单的工作。</div>-->
+                                <div class="text_small"> 感谢您的辛勤付出！</div>
+                                <!--<a href="" class="text_red">（若对上述有疑义请点此处并联系您的主管）</a>-->
+                            </div>
+                            <div class="btn_Div">
+                                <!--<div class="wait_Btn">-->
+                                    <!--请耐心等待一会儿...-->
+                                <!--</div>-->
+                                <div class="goto_Btn" ng-click="hideLoadingPage()">
+                                    点击开始新的一天
                                 </div>
+                            </div>
+                        </div>
                     </div>
-                </ion-view>
-            </ion-tab>
-            <ion-tab title="日历" ng-controller="CalendarController">
-                <ion-view>
-                    <div class="calendar_header">
-                        <div class="left_Box"></div>
 
-                        <div class="search_All" ng-click="toRepair1()">
-                            <input type="text" readonly="readonly" placeholder="搜索" autocomplete="off" class="search_Input" />
-                            <div class="search_Photo_Icon"></div>
-                        </div>
-                        <div class="right_Box">
-                            <div class="add_Icon_White" id="add_bgbox_Btn"></div>
-                            <div class="add_Arrow " id="add_contactsImg" style="display: none;"></div>
-                        </div>
-                        <div class="add_Group " id="add_bgbox" style="display: none;">
-                            <div class="add_Box" href="http://www.qq.com"> 添加客户</div>
-                            <!-- <div class="add_Box" ng-click="addCustomer();"> 添加客户</div> -->
-                            <div class="add_Box" ng-click="addNewLinkMan()"> 添加联系人</div>
-                            <div class="add_Box" ng-click="addNewWork()"> 添加工单</div>
-                            <div class="add_Box" ng-click="addNewOffer()"> 添加报价</div>
-                        </div>
-                    </div>
                     <div class="calendar_bodyer">
                         <div class="homeCalendar_Tabs" style="">
-                            <div id="homeCalendar_Tab_1" class="homeCalendar_Tab homeCalendar_Tab_Active" ng-click="changeCalendarTab('1');"
+                            <div id="homeCalendar_Tab_1" class="homeCalendar_Tab homeCalendar_Tab_Active"
+                                 ng-click="changeCalendarTab('1');"
                                  style="">
                                 <span class="homeCalendar_Tab_Text" style="">工单</span>
                             </div>
-                            <div id="homeCalendar_Tab_2" class="homeCalendar_Tab" ng-click="changeCalendarTab('2');" style="">
+                            <div id="homeCalendar_Tab_2" class="homeCalendar_Tab" ng-click="changeCalendarTab('2');"
+                                 style="">
                                 <span class="homeCalendar_Tab_Text" style="">工作计划</span>
                             </div>
                         </div>
@@ -216,12 +286,13 @@
                                 </tr>
                             </table>
                             <div id="orderListClassType" class="big_Type_Group">
-                                <ion-list can-swipe="true" >
-                                    <ion-item id="orderlist" ng-repeat="item in currentOrder" ng-cloak ng-click="showPopup(item)" class="small_Type_Table">
-                                            <!-- ng-class="isquoted_Table(item.type)" -->
+                                <ion-list can-swipe="true">
+                                    <ion-item id="orderlist" ng-repeat="item in currentOrder" ng-cloak
+                                              ng-click="showPopup(item)" class="small_Type_Table">
+                                        <!-- ng-class="isquoted_Table(item.type)" -->
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td class="table_Left"> 客户名称： </td>
+                                                <td class="table_Left"> 客户名称：</td>
                                                 <td class="table_Center"> {{item.Account_Ship_to__r.Name}}</td>
                                                 <td ng-class="isOlder_Table(item.Status__c)" rowspan="2">
                                                     <div class="table_Img"></div>
@@ -244,23 +315,28 @@
                                 <tr>
                                     <td class="screen_Left">
                                         <select ng-cloak id="selectWorkPlanType">
-                                            <option ng-cloak ng-repeat="item_WorkPlanType in workPlanTypes" value={{item_WorkPlanType.value}}>{{item_WorkPlanType.label}}</option>
+                                            <option ng-cloak ng-repeat="item_WorkPlanType in workPlanTypes"
+                                                    value={{item_WorkPlanType.value}}>{{item_WorkPlanType.label}}
+                                            </option>
                                         </select>
                                     </td>
                                     <td class="screen_Right">
                                         <select ng-cloak id="selectWorkPlanUser">
-                                            <option ng-cloak ng-repeat="item_WorkPlanUser in workPlanUsers" value={{item_WorkPlanUser.value}}>{{item_WorkPlanUser.label}}</option>
+                                            <option ng-cloak ng-repeat="item_WorkPlanUser in workPlanUsers"
+                                                    value={{item_WorkPlanUser.value}}>{{item_WorkPlanUser.label}}
+                                            </option>
                                         </select>
                                     </td>
                                 </tr>
                             </table>
                             <div id="WorkPlanListClassType" class="big_Type_Group">
                                 <ion-list>
-                                    <ion-item id="workPlanList" ng-repeat="item in currentWorkPlan" ng-cloak class="small_Type_Table">
+                                    <ion-item id="workPlanList" ng-repeat="item in currentWorkPlan" ng-cloak
+                                              class="small_Type_Table">
                                         <!-- ng-class="isquoted_Table(item.type)" -->
                                         <table cellpadding="0" cellspacing="0">
                                             <tr>
-                                                <td class="table_Left"> 客户名称： </td>
+                                                <td class="table_Left"> 客户名称：</td>
                                                 <td class="table_Center"> {{item.workPlan.Account_Ship_to__r.Name}}</td>
                                                 <td ng-class="workplan_listIcon(item.workPlan.Type__c)" rowspan="2">
                                                     <div class="table_Img"></div>
@@ -277,78 +353,87 @@
                             </div>
                         </div>
                     </div>
-                </ion-view>
-            </ion-tab>
-            <ion-tab title="小组" ng-controller="GroupController">
-                <ion-view>
-                    <div class="group_header">
-                        <div class="left_Box">
-                        </div>
-                        <div class="search_All">
-                            <input type="text" placeholder="搜索" class="search_Input" disabled="disabled" />
-                            <div class="search_Photo_Icon"></div>
-                        </div>
-                        <div class="right_Box">
-                            <div class="add_Icon_White"></div>
-                            <div class="add_Arrow to_Hide"></div>
-                            <div class="add_Group to_Hide">
-                                <div class="add_Box"> 添加客户 </div>
-                                <div class="add_Box"> 添加联系人 </div>
-                                <div class="add_Box"> 添加工单 </div>
-                                <div class="add_Box"> 添加报价 </div>
-                            </div>
+                </div>
+            </ion-view>
+        </ion-tab>
+        <ion-tab title="小组" ng-controller="GroupController">
+            <ion-view>
+                <div class="group_header">
+                    <div class="left_Box">
+                    </div>
+                    <div class="search_All">
+                        <input type="text" placeholder="搜索" class="search_Input" disabled="disabled"/>
+                        <div class="search_Photo_Icon"></div>
+                    </div>
+                    <div class="right_Box">
+                        <div class="add_Icon_White"></div>
+                        <div class="add_Arrow to_Hide"></div>
+                        <div class="add_Group to_Hide">
+                            <div class="add_Box"> 添加客户</div>
+                            <div class="add_Box"> 添加联系人</div>
+                            <div class="add_Box"> 添加工单</div>
+                            <div class="add_Box"> 添加报价</div>
                         </div>
                     </div>
-                    <div class="group_bodyer">
-                        <div class="group_Img">
+                </div>
+                <div class="group_bodyer">
+                    <div class="group_Img">
+                    </div>
+                </div>
+            </ion-view>
+        </ion-tab>
+        <ion-tab title="个人" ng-controller="PersonalController">
+            <ion-view>
+                <div class="personal_header">
+                    <div class="simplePerson_Head">
+                    </div>
+                </div>
+                <div class="personal_bodyer">
+                    <div class="personal_big_Type_Group">
+                        <div class="personal_small_Type_Group">
+                            <div class="personal_small_Type_Title"> 工单</div>
+                            <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="personal_small_Type_Box" style="color: #F85360;">全部(20)</td>
+                                    <td class="personal_small_Type_Box">待处理(11)</td>
+                                    <td class="personal_small_Type_Box">处理中(10)</td>
+                                </tr>
+                                <tr>
+                                    <td class="personal_small_Type_Box">已签单(5)</td>
+                                    <td class="personal_small_Type_Box">计划中(4)</td>
+                                    <td class="personal_small_Type_Box" style="opacity: 0.3;"> &nbsp;</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="personal_small_Type_Group">
+                            <div class="personal_small_Type_Title"> 辅助功能</div>
+                            <table cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="personal_small_Type_Box" style="background: #53A0F8;color:#ffffff;">
+                                        服务车管理
+                                    </td>
+                                    <td class="personal_small_Type_Box" style="background: #A253F8;color:#ffffff;">
+                                        叉车问题反馈
+                                    </td>
+                                    <td class="personal_small_Type_Box" style="opacity: 0.3;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td class="personal_small_Type_Box" style="opacity: 0.3;"></td>
+                                    <td class="personal_small_Type_Box" style="background: #F85360;color:#ffffff;">
+                                        故障代码查询
+                                    </td>
+                                    <td class="personal_small_Type_Box" style="background: #F85383;color:#ffffff;">
+                                        应收账款查询
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
-                </ion-view>
-            </ion-tab>
-            <ion-tab title="个人" ng-controller="PersonalController">
-                <ion-view>
-                    <div class="personal_header">
-                        <div class="simplePerson_Head">
-                        </div>
-                    </div>
-                    <div class="personal_bodyer">
-                        <div class="personal_big_Type_Group">
-                            <div class="personal_small_Type_Group">
-                                <div class="personal_small_Type_Title"> 工单 </div>
-                                <table cellpadding="0" cellspacing="0">
-                                    <tr>
-                                        <td class="personal_small_Type_Box" style="color: #F85360;">全部(20) </td>
-                                        <td class="personal_small_Type_Box">待处理(11)</td>
-                                        <td class="personal_small_Type_Box">处理中(10)</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="personal_small_Type_Box">已签单(5)</td>
-                                        <td class="personal_small_Type_Box">计划中(4)</td>
-                                        <td class="personal_small_Type_Box" style="opacity: 0.3;"> &nbsp;</td>
-                                    </tr>
-                                </table>
-                            </div>
-                            <div class="personal_small_Type_Group">
-                                <div class="personal_small_Type_Title"> 辅助功能 </div>
-                                <table cellpadding="0" cellspacing="0">
-                                    <tr>
-                                        <td class="personal_small_Type_Box" style="background: #53A0F8;color:#ffffff;">服务车管理 </td>
-                                        <td class="personal_small_Type_Box" style="background: #A253F8;color:#ffffff;">叉车问题反馈</td>
-                                        <td class="personal_small_Type_Box" style="opacity: 0.3;">&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="personal_small_Type_Box" style="opacity: 0.3;"></td>
-                                        <td class="personal_small_Type_Box" style="background: #F85360;color:#ffffff;">故障代码查询</td>
-                                        <td class="personal_small_Type_Box" style="background: #F85383;color:#ffffff;"> 应收账款查询</td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </ion-view>
-            </ion-tab>
-        </ion-tabs>
-    </ion-view>
+                </div>
+            </ion-view>
+        </ion-tab>
+    </ion-tabs>
+</ion-view>
 </body>
 
 </html>

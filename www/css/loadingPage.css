@@ -1,0 +1,77 @@
+body {
+	margin: 0;
+	font-size: 1rem;
+    font-family: 微软雅黑, 华文黑体, sans-serif;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    background-position: 50%;
+    overflow: hidden;
+}
+img {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.to_Open {
+    display: block!important;
+}
+.to_Hide {
+    display: none!important;
+}
+
+/* body */
+.loadingPage_bodyer {
+    overflow-y: auto;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+}
+.loadingPage_bodyer .big_Type_Group {
+    margin-bottom: 5%;
+}
+.loadingPage_bodyer .lindeLogo_red {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px;
+    height: 30px;
+    margin: 80px auto;
+}
+.loadingPage_bodyer .text_Div {
+    text-align: center;
+}
+.loadingPage_bodyer .text_large {
+    font-size: 1rem;
+    color: #535353;
+    margin: 1% 0;
+}
+.loadingPage_bodyer .text_small {
+    font-size: 0.8rem;
+    color: #535353;
+    margin: 1% 0;
+}
+.loadingPage_bodyer .text_red {
+    color: #aa0020;
+}
+.loadingPage_bodyer .btn_Div {
+    text-align: center;
+    margin: 5% 0;
+}
+.loadingPage_bodyer .btn_Div .wait_Btn {
+    display: inline-block;
+    background: #979797;
+    border: 1px solid #979797;
+    padding: 2%;
+    color: #ffffff;
+    border-radius: 5px;
+}
+.loadingPage_bodyer .btn_Div .goto_Btn {
+    display: inline-block;
+    background: #aa0020;
+    border: 1px solid #979797;
+    padding: 2%;
+    color: #ffffff;
+    border-radius: 5px;
+}

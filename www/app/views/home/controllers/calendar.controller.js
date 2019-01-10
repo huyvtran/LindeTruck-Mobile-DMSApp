@@ -48,8 +48,18 @@
                 //     console.log("firstLogin3", firstLogin);
                 //     localStorage.setItem("firstLogin", "first"); //初次存储
                 // }
+              $scope.personName = oCurrentUser.Name;
+              $scope.personDate =  new Date().format('YYYY-MM-dd');
+              $rootScope.hideTabs = true;
+              $('div.calendar_header').hide();
 
             });
+
+          $scope.hideLoadingPage = function () {
+            $rootScope.hideTabs = false;
+            $('div.loadingPage_bodyer').hide();
+            $('div.calendar_header').show();
+          };
 
           $scope.$on('$ionicView.beforeLeave', function () {
             console.log('移除点击事件');
@@ -539,6 +549,9 @@
                 $scope.getHomeService = function () {
                     HomeService.getEachOrder().then(function (res) {
                         console.log('res  ' , res);
+                        if (!res){
+                          return;
+                        }
                         allUser = res;
                         $rootScope.allUser = res;
 
