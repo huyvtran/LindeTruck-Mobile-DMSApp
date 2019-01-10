@@ -732,7 +732,11 @@
                                 $scope.workPlanUsers = jsonObject.list_userSelect;
                                 $scope.allWorkPlanData = jsonObject.list_datas;
                                 console.log('allWorkPlanData::',$scope.allWorkPlanData);
-                                $scope.currentWorkPlan = $scope.getCurrentWorkPlanData('全部',jsonObject.list_userSelect[0].value,$scope.allWorkPlanData);
+                                if(jsonObject.list_userSelect.length > 0) {
+                                    $scope.currentWorkPlan = $scope.getCurrentWorkPlanData('全部', jsonObject.list_userSelect[0].value, $scope.allWorkPlanData);
+                                }else{
+                                    $scope.currentWorkPlan = $scope.getCurrentWorkPlanData('全部', '', $scope.allWorkPlanData);
+                                }
                                 //setTimeout($scope.setDefaultUserForWorkplan(), 2000);
                             }else{
 
