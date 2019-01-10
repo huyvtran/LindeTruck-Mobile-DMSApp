@@ -1028,12 +1028,14 @@ angular.module('oinio.PriceDetailController', [])
         if (selectedTruckFitItemsIndex.Id) {
           oneLabourOriginals4["Id"] = selectedTruckFitItemsIndex.Id;
         }
+
         oneLabourOriginals4['Line_Item__c'] = index + 100;
-        oneLabourOriginals4['Material_Number__c'] = index + 100;
+        oneLabourOriginals4['Material_Number__c'] = selectedTruckFitItemsIndex.parts_number__c;
+        oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.Gross_Amount__c;
         oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
         oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
         oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
-        oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
+        oneLabourOriginals4['Reserved__c'] = null;//预留
         oneLabourOriginals4['Net_Amount__c'] = part_InputForListSpecialList[index];//优惠总价
         oneLabourOriginals4['Material_Type__c'] = 'Part';
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);

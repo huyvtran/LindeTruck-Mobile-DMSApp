@@ -536,8 +536,8 @@
                                             <div> {{item.Gross_Amount__c * priceNo}}</div>
                                         </td>
                                         <td class="sv_Td"
-                                            ng-init="priceNo = item.Quantity__c">
-                                            <input ng-model="item.quantity" class="sv_Input part_InputForListNo" />
+                                            ng-init="item.Quantity__c = priceNo = item.Quantity__c">
+                                            <input ng-model="priceNo" class="sv_Input part_InputForListNo" />
                                         </td>
                                         <td class="sv_Td" ng-init="item.Discount__c = discountPriceCondition = item.Discount__c">
                                             <input class="sv_Input part_InputForListDiscount" ng-model="discountPriceCondition" type="text"/>
