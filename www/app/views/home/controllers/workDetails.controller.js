@@ -76,22 +76,28 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.afObjs = [];
       $scope.imgUris = [
         {
+            imageId:'',
           imageBody: '././img/images/will_add_Img.png',
-          imageName: new Date().format('yyyyMMddhhmmss/')+' '
+          // imageName: new Date().format('yyyyMMddhhmmss/')+' '
+            imageName: ''
         }
       ];
       //Maintain before
       $scope.imgUrisBefore = [
         {
+            imageId:'',
           imageBody: '././img/images/will_add_Img.png',
-          imageName: 'bfth_'+new Date().format('yyyyMMddhhmmss/')+' '
+          // imageName: 'bfth_'+new Date().format('yyyyMMddhhmmss/')+' '
+            imageName: ''
         }
       ];
       //Maintain after
       $scope.imgUrisAfter = [
         {
+            imageId:'',
           imageBody: '././img/images/will_add_Img.png',
-          imageName: 'afth_'+new Date().format('yyyyMMddhhmmss/')+' '
+          // imageName: 'afth_'+new Date().format('yyyyMMddhhmmss/')+' '
+            imageName: ''
         }
       ];
 
@@ -220,21 +226,25 @@ angular.module('oinio.workDetailsControllers', [])
         //before
         $scope.bfObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*整车'
           });
         $scope.bfObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*车体号'
           });
         $scope.bfObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*小时数'
           });
         $scope.bfObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'bf_'+new Date().format('yyyyMMddhhmmss/')+'*维修部位'
           });
@@ -242,26 +252,31 @@ angular.module('oinio.workDetailsControllers', [])
         //after
         $scope.afObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*整车'
           });
         $scope.afObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*维修部位'
           });
         $scope.afObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*更换旧件'
           });
         $scope.afObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*维修现场'
           });
         $scope.afObjs.push(
           {
+              imageId:'',
             imageBody: '././img/images/will_add_Img.png',
             imageName: 'af_'+new Date().format('yyyyMMddhhmmss/')+'*服务车外观及后备箱'
           });
@@ -451,30 +466,45 @@ angular.module('oinio.workDetailsControllers', [])
           if (photoes.length > 0) {
               //删除默认的图片  第一张
               $scope.imgUris.splice(0, 1);
-              $scope.imgUrisBefore.slice(0,1);
-              $scope.imgUrisAfter.slice(0,1);
+              $scope.imgUrisBefore.splice(0,1);
+              $scope.imgUrisAfter.splice(0,1);
               for (var i =0;i<photoes.length;i++){
                 if (photoes[i].imageName.indexOf('bf_')>-1){
                     for(var j =0;j<$scope.bfObjs.length;j++){
                         if(photoes[i].imageName.split('/')[1]=== $scope.bfObjs[j].imageName.split('/')[1]){
+                            $scope.bfObjs[j].imageId=photoes[i].imageId;
                             $scope.bfObjs[j].imageBody = 'data:image/jpeg;base64,'+photoes[i].imageBody;
                         }
                     }
                 }else if (photoes[i].imageName.indexOf('af_')>-1) {
                     for(var j =0;j<$scope.afObjs.length;j++){
                         if(photoes[i].imageName.split('/')[1]=== $scope.afObjs[j].imageName.split('/')[1]){
+                            $scope.afObjs[j].imageId=photoes[i].imageId;
                             $scope.afObjs[j].imageBody = 'data:image/jpeg;base64,'+photoes[i].imageBody;
                         }
                     }
                 }else if(photoes[i].imageName.indexOf('bfth_')>-1){
-                    $scope.imgUrisBefore.push(photoes[i]);
+                    $scope.imgUrisBefore.push(
+                        {
+                            imageId: photoes[i].imageId,
+                            imageBody: 'data:image/jpeg;base64,' + photoes[i].imageBody,
+                            imageName:   photoes[i].imageName
+                        }
+                    );
                 }else if (photoes[i].imageName.indexOf('afth_')>-1){
-                    $scope.imgUrisAfter.push(photoes[i]);
+                    $scope.imgUrisAfter.push(
+                        {
+                            imageId: photoes[i].imageId,
+                            imageBody: 'data:image/jpeg;base64,' + photoes[i].imageBody,
+                            imageName:   photoes[i].imageName
+                        }
+                    );
                 }else{
                     $scope.imgUris.push(
                             {
+                                imageId: photoes[i].imageId,
                                 imageBody: 'data:image/jpeg;base64,' + photoes[i].imageBody,
-                                imageName:  new Date().format('yyyyMMddhhmmss/')+' '
+                                imageName:   photoes[i].imageName
                             }
                         );
                 }
@@ -483,19 +513,25 @@ angular.module('oinio.workDetailsControllers', [])
                   //添加默认图片
                   $scope.imgUris.push(
                       {
+                          imageId:'',
                           imageBody: '././img/images/will_add_Img.png',
-                          imageName: new Date().format('yyyyMMddhhmmss/')+''
+                          // imageName: new Date().format('yyyyMMddhhmmss/')+''
+                          imageName: ''
                       }
                   );
 
-                  $scope.imgUrisBefore.push( {
+                  $scope.imgUrisBefore.push({
+                      imageId:'',
                       imageBody: '././img/images/will_add_Img.png',
-                      imageName: 'bfth_'+new Date().format('yyyyMMddhhmmss/')+' '
+                      // imageName: 'bfth_'+new Date().format('yyyyMMddhhmmss/')+' '
+                      imageName: ''
                   });
 
-                  $scope.imgUrisAfter.push( {
+                  $scope.imgUrisAfter.push({
+                      imageId:'',
                       imageBody: '././img/images/will_add_Img.png',
-                      imageName: 'afth_'+new Date().format('yyyyMMddhhmmss/')+' '
+                      // imageName: 'afth_'+new Date().format('yyyyMMddhhmmss/')+' '
+                      imageName: ''
                   });
 
               }
@@ -644,12 +680,15 @@ angular.module('oinio.workDetailsControllers', [])
                         }
                       }
                       imgs.push({
+                          imageId:'',
                         imageBody: 'data:image/jpeg;base64,' + imgUri,
                         imageName: prefix+new Date().format('yyyyMMddhhmmss/')+' '
                       });
                       imgs.push({
+                          imageId:'',
                         imageBody: '././img/images/will_add_Img.png',
-                        imageName: prefix+new Date().format('yyyyMMddhhmmss/')+''
+                        // imageName: prefix+new Date().format('yyyyMMddhhmmss/')+''
+                           imageName: ''
                       });
                       console.log(imgUri);
                     },
@@ -682,12 +721,15 @@ angular.module('oinio.workDetailsControllers', [])
                       }
                       imgs.push(
                         {
+                            imageId:'',
                           imageBody: 'data:image/jpeg;base64,' + imgUri,
                           imageName: prefix+new Date().format('yyyyMMddhhmmss/')+' '
                         });
                       imgs.push({
+                          imageId:'',
                         imageBody: '././img/images/will_add_Img.png',
-                        imageName: prefix+new Date().format('yyyyMMddhhmmss/')+''
+                        // imageName: prefix+new Date().format('yyyyMMddhhmmss/')+''
+                          imageName: ''
                       });
                       console.log(imgUri);
                     },
@@ -1503,11 +1545,11 @@ angular.module('oinio.workDetailsControllers', [])
               'images': localUris,
               'assignUsers': selectUserIds,
               'str_suggestion': $('#serviceSuggest').val().trim(),
-              'truckOrders': newTrucks,
-              'sigAcctImages': $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(
-                /data:image\/jpeg;base64,/, '') : '',
-              'sigEngineerImages': $scope.engineerImgStr != 'data:image/jpeg;base64,undefined'
-                ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
+              'truckOrders': newTrucks
+              // 'sigAcctImages': $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(
+              //   /data:image\/jpeg;base64,/, '') : '',
+              // 'sigEngineerImages': $scope.engineerImgStr != 'data:image/jpeg;base64,undefined'
+              //   ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
             }), null, function success(res) {
               AppUtilService.hideLoading();
               console.log(res);
@@ -3558,13 +3600,14 @@ angular.module('oinio.workDetailsControllers', [])
       };
 
       $scope.hideTruckConfigPage = function () {
-        document.getElementById('workDetailTotal').style.display = 'none';
+        document.getElementById('workDetailTotal').style.display = 'block';
         document.getElementById('truckConfigPage').style.display = 'none';
         document.getElementById('workDetailPart').style.display = 'none';
-        document.getElementById('selectTruckAddPage').style.display = 'block';
+        document.getElementById('selectTruckAddPage').style.display = 'none';
         document.getElementById('selectWorkersPage').style.display = 'none';
         document.getElementById('workPrintPage').style.display = 'none';
       };
+
 
     });
 var changeServiceType = function () {

@@ -604,7 +604,7 @@
 						<div>
 							<div class="des_Inf_Body" ng-cloak ng-repeat="truckItem in allTruckItems">
 								<div class="des_Inf_Left"> <input type="checkbox" class="selectTruckItem" /> </div>
-								<div class="des_Inf_Center">
+								<div class="des_Inf_Center" ng-click="goTruckConfig(truckItem.Id);">
 									<div ng-cloak>{{truckItem.truckItemNum}}</div>
 								</div>
 								<div class="des_Inf_Right"> <input class="workDetailCustomeHourclas" type="text" ng-cloak value="{{truckItem.Operation_Hour__c}}" ng-model="truckItem.Operation_Hour__c" />
@@ -723,7 +723,7 @@
 										 id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUris,'');">
 											<div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody,imgUris)"></div>
 										</div>
-                                        <input style="width: 80px;height: 30px;" value="{{itemUri.imageName.split('/')[1]}}" />
+                                        <input  type="text" style=" width: 80px;height: 30px;" ng-model="itemUri.imageName"/>
 									</div>
 								</div>
 							</div>
@@ -755,7 +755,7 @@
                                              id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisBefore,'bfth_');">
                                             <div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody,imgUrisBefore)"></div>
                                         </div>
-                                        <input style="width: 80px;height: 30px;"  value="{{itemUri.imageName.split('/')[1]}}"/>
+                                        <input  type="text" style=" width: 80px;height: 30px;" ng-model="itemUri.imageName"/>
                                         <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
                                     </div>
                                 </div>
@@ -788,7 +788,7 @@
                                              id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisAfter,afth_);">
                                             <div class="del_Img" ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'" ng-click="deleteCurrentImg(itemUri.imageBody,imgUrisAfter)"></div>
                                         </div>
-                                        <input style="width: 80px;height: 30px;" value="{{itemUri.imageName.split('/')[1]}}"/>
+                                        <input type="text" style=" width: 80px;height: 30px;" ng-model="itemUri.imageName"/>
                                         <!--<input style="width: 80px;height: 30px;color:red;size: 3px;background-color: #ffffff;" disabled="disabled" value="＊服务车外观及后备箱"/>-->
                                     </div>
                                 </div>
@@ -1308,13 +1308,13 @@
 										<input data-recordid={{titem.Id}} class="ckbox_truck_add_searchresult_item" ng-click="checkAddSearchResults(titem);"
 											   type="checkbox" />
 									</td>
-									<td class="sv_Td" ng-click="goTruckConfig(titem.Id);">
+									<td class="sv_Td">
 										<div style="width: 150px;"> {{titem.Name}}</div>
 									</td>
-									<td class="sv_Td" ng-click="goTruckConfig(titem.Id);">
+									<td class="sv_Td">
 										<div> {{titem.inventory.Truck_Type__c}} </div>
 									</td>
-									<td class="sv_Td" ng-click="goTruckConfig(titem.Id);">
+									<td class="sv_Td">
 										<div> {{titem.inventory.Warranty_End_Date__c}} </div>
 									</td>
 								</tr>
