@@ -270,6 +270,11 @@
                 });
             };
 
+            vm.newRefreshAllData = function () {
+
+                $state.go('synchronize',{isNeededSync:true});
+            };
+
             /**
              * @function    onTimeout
              * @description The timer is running in seconds and stops at zero.

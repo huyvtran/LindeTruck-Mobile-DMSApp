@@ -343,7 +343,7 @@
                 cache: false
             })
             .state('app.synchronize', {
-                url: '/synchronize',
+                url: '/synchronize?',
                 views: {
                     menuContent: {
                         templateUrl: 'app/common/synchronize/templates/synchronize.view.html',
@@ -440,7 +440,7 @@
             // Login outer App Progress
             // routing before App is starting and local login is true
             .state('synchronize', {
-                url: '/synchronize',
+                url: '/synchronize?isNeededSync',
                 templateUrl: 'app/common/synchronize/templates/synchronize.view.html',
                 controller: 'SynchronizeController as vm',
                 cache: false

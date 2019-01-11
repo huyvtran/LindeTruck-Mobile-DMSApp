@@ -4,7 +4,7 @@
 
     angular
         .module('oinio.common.synchronize')
-        .controller('SynchronizeController', function ($state, $scope, $log, $timeout, $filter, LocalSyncService,
+        .controller('SynchronizeController', function ($state, $scope, $log, $timeout, $filter,$stateParams, LocalSyncService,
                                                        IonicLoadingService, $ionicScrollDelegate, $ionicPosition, MetaService, APP_SETTINGS, UserAssignmentService) {
             var vm = this;
             vm.sObjects = {};
@@ -23,7 +23,11 @@
                         console.log("firstLogin getted:::", firstLogin);
                     }
                 }
-
+                console.log('isNeededSync',$stateParams.isNeededSync);
+                if($stateParams.isNeededSync == 'true'){
+                    console.log('需要同步');
+                    firstLogin = "";
+                }
                 if (firstLogin == "first") {
                     console.log("current firstLogin:::", firstLogin); //初始化后 永远走此分支
                     navigateToStart();
