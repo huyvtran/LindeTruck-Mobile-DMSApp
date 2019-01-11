@@ -2305,6 +2305,7 @@ angular.module('oinio.workDetailsControllers', [])
           }
           onePartOriginals['Reserved__c'] = element.View_Integrity__c;//预留
           onePartOriginals['Service_Material__c'] = element.materialId;//物料号
+          onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
           onePartOriginals['Parts_Type__c'] = element.type;//配件类型
           onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
           regroupPartList.push(onePartOriginals);
@@ -2351,6 +2352,7 @@ angular.module('oinio.workDetailsControllers', [])
               const element = responseGetParts[i];
               element['Line_Item__c'] = i;
               element['materialId'] = responseGetParts[i].Service_Material__c;
+              element['parts_number__c'] = responseGetParts[i].Material_Number__c;
               element['Id'] = responseGetParts[i].Service_Material__c;
               element['edit'] = true;
               var priceCondition = {};
@@ -2413,6 +2415,7 @@ angular.module('oinio.workDetailsControllers', [])
           }
           onePartOriginals['Reserved__c'] = element.View_Integrity__c;//预留
           onePartOriginals['Service_Material__c'] = element.materialId;//物料号
+          onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
           onePartOriginals['Parts_Type__c'] = element.type;//配件类型
           onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
           regroupPartList.push(onePartOriginals);
