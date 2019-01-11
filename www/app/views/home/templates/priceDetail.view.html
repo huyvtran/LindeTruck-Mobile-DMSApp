@@ -448,15 +448,16 @@
                         <div class="small_Type_Title_G_Fittings"> 配件报价</div>
                         <!-- 点击btn_I/或者btn_M,添加click_Style -->
                         <div class="btn_I">
-                            <div id="btn_import_Btn" class="btn_import_Group"  ng-show="basicInfo.Quotation_Status__c == 'Draft'"></div>
+                            <div id="btn_import_Btn" class="btn_import_Group"></div>
                         </div>
                         <div class="btn_M">
                             <div id="btn_modify_Btn" class="btn_modify_Group" ng-show="basicInfo.Quotation_Status__c == 'Draft'"></div>
                         </div>
-                        <div id="btn_import_Div" class="btn_Import_Div" style="display: none" ng-show="basicInfo.Quotation_Status__c == 'Draft'">
-                            <div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG</div>
-                            <div class="Import_Btn" ng-click="getTrucksByEconomical();"> 导入经济件</div>
-                            <div class="Import_Btn" ng-click="openSelectPage('selectCommonPart');"> 导入常用配件</div>
+                        <div id="btn_import_Div" class="btn_Import_Div" style="display: none">
+                            <div class="Import_Btn" ng-show="basicInfo.Quotation_Status__c == 'Draft'" ng-click="openSelectPage('selectLSG');"> 导入LSG</div>
+                            <div class="Import_Btn" ng-show="basicInfo.Quotation_Status__c == 'Draft'" ng-click="getTrucksByEconomical();"> 导入经济件</div>
+                            <div class="Import_Btn" ng-show="basicInfo.Quotation_Status__c == 'Draft'" ng-click="openSelectPage('selectCommonPart');"> 导入常用配件</div>
+                            <div class="Import_Btn" ng-show="basicInfo.Quotation_Status__c == 'Win' || basicInfo.Quotation_Status__c == 'Waiting For Customer'" ng-click="goWorkDetails();"> 报价转工单</div>
                         </div>
                         <div id="btn_modify_Div" class="btn_modify_Div" style="display: none" ng-show="basicInfo.Quotation_Status__c == 'Draft'">
                             <div class="Modify_Btn" ng-click="openSelectPage('addDele');"> 添加/删除</div>
@@ -530,24 +531,23 @@
                                             </div>
                                         </td>
                                         <td class="sv_Td">
-                                            <div> {{item.Gross_Amount__c}}</div>
+                                            <div> {{item.Gross_Price__c}}</div>
                                         </td>
                                         <td class="sv_Td">
-                                            <div> {{item.Gross_Amount__c * priceNo}}</div>
+                                            <div> {{item.Gross_Price__c * item.Quantity__c}}</div>
                                         </td>
-                                        <td class="sv_Td"
-                                            ng-init="item.Quantity__c = priceNo = item.Quantity__c">
-                                            <input ng-model="priceNo" class="sv_Input part_InputForListNo" />
+                                        <td class="sv_Td">
+                                            <input ng-model="item.Quantity__c" class="sv_Input part_InputForListNo" />
                                         </td>
-                                        <td class="sv_Td" ng-init="item.Discount__c = discountPriceCondition = item.Discount__c">
-                                            <input class="sv_Input part_InputForListDiscount" ng-model="discountPriceCondition" type="text"/>
+                                        <td class="sv_Td">
+                                            <input class="sv_Input part_InputForListDiscount" ng-model="item.Discount__c" type="text"/>
                                         </td>
-                                        <td class="sv_Td" ng-init="item.Net_Price__c = favourablePrice = item.Net_Price__c">
-                                            <input class="sv_Input part_InputForListPrice" ng-model="favourablePrice" type="text"/>
+                                        <td class="sv_Td">
+                                            <input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>
                                         </td>
                                         <td class="sv_Td">
                                             <div class="part_InputForListSpecial">
-                                                {{item.Net_Amount__c = favourablePrice * priceNo - discountPriceCondition * favourablePrice * priceNo}}
+                                                {{item.Net_Amount__c = item.Net_Price__c * item.Quantity__c - item.Discount__c * item.Net_Price__c * item.Quantity__c}}
                                             </div>
                                             <!--<div class="part_InputForListSpecial">-->
                                                 <!--{{item.Net_Amount__c}}-->
@@ -700,7 +700,7 @@
 
             <div class="footer_Btn" ng-click="goBack()">取消</div>
             <div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()"  ng-show="basicInfo.Quotation_Status__c == 'Draft'">保存</div>
-            <div class="footer_Btn Save_Btn_Act"  ng-show="basicInfo.Quotation_Status__c == 'Draft'">保存并预留</div>
+            <div class="footer_Btn Save_Btn_Act"  ng-show="false">保存并预留</div>
             <div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()"  ng-show="basicInfo.Quotation_Status__c == 'Draft'">提交审批</div>
         </div>
 

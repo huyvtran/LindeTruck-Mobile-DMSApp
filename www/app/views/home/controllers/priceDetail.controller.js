@@ -538,9 +538,9 @@ angular.module('oinio.PriceDetailController', [])
                 partsItem.Name = truckFitItem.parts_number__c;
                 partsItem.parts_number__c = truckFitItem.parts_number__c;
                 if (truckFitItem.priceCondition) {
-                  partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+                  partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
                 } else {
-                  partsItem.Gross_Amount__c = '0';
+                  partsItem.Gross_Price__c = '0';
                 }
                 partsItem.type = truckFitItem.type;
                 partsItem.Quantity__c = truckFitItem.quantity;
@@ -561,9 +561,9 @@ angular.module('oinio.PriceDetailController', [])
                 partsItem.Name = truckFitItem.parts_number__c;
                 partsItem.parts_number__c = truckFitItem.parts_number__c;
                 if (truckFitItem.priceCondition) {
-                  partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+                  partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
                 } else {
-                  partsItem.Gross_Amount__c = '0';
+                  partsItem.Gross_Price__c = '0';
                 }
                 partsItem.type = truckFitItem.type;
                 partsItem.Quantity__c = truckFitItem.quantity;
@@ -664,9 +664,9 @@ angular.module('oinio.PriceDetailController', [])
                 partsItem.Name = truckFitItem.parts_number__c;
                 partsItem.parts_number__c = truckFitItem.parts_number__c;
                 if (truckFitItem.priceCondition) {
-                  partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+                  partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
                 } else {
-                  partsItem.Gross_Amount__c = '';
+                  partsItem.Gross_Price__c = '';
                 }
                 partsItem.type = truckFitItem.type;
                 partsItem.Quantity__c = truckFitItem.quantity;
@@ -692,9 +692,9 @@ angular.module('oinio.PriceDetailController', [])
       //计算合计
       $scope.priceConditionPriceAll = 0;
       for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-        if ($scope.selectedTruckFitItems[i].Gross_Amount__c) {
+        if ($scope.selectedTruckFitItems[i].Gross_Price__c) {
           $scope.priceConditionPriceAll =
-            $scope.selectedTruckFitItems[i].Gross_Amount__c + $scope.priceConditionPriceAll;
+            $scope.selectedTruckFitItems[i].Gross_Price__c + $scope.priceConditionPriceAll;
         }
       }
     };
@@ -956,7 +956,7 @@ angular.module('oinio.PriceDetailController', [])
       for (let index = 0; index < $scope.labourQuoteList.length; index++) {
         var oneLabourOriginals3 = $scope.labourQuoteList[index];
         console.log('$scope.labourQuoteList',$scope.labourQuoteList[index]);
-        oneLabourOriginals3["Gross_Amount__c"] =  sv_Input_PriceList[index];
+        oneLabourOriginals3["Gross_Price__c"] =  sv_Input_PriceList[index];
         oneLabourOriginals3["Quantity__c"] =  sv_Input_NumberList[index];
         oneLabourOriginals3["Discount__c"] =  sv_Input_DiscountList[index];
         oneLabourOriginals3['Line_Item__c'] = index;
@@ -986,7 +986,7 @@ angular.module('oinio.PriceDetailController', [])
       for (let index = 0; index < $scope.serviceFeeList.length; index++) {
         var oneLabourOriginals3 = {};
         oneLabourOriginals3['Name'] = $scope.serviceFeeList[index];
-        oneLabourOriginals3['Gross_Amount__c'] = sv_InputForListPrice[index];
+        oneLabourOriginals3['Gross_Price__c'] = sv_InputForListPrice[index];
         oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];
         oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];
         oneLabourOriginals3['Net_Amount__c'] = _.isNaN(sv_InputForListSpecial[index]) ?  sv_InputForListSpecial[index] : '0';
@@ -1026,15 +1026,15 @@ angular.module('oinio.PriceDetailController', [])
         var oneLabourOriginals4 = {};
         var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
         oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
-        oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.Gross_Amount__c;
         if (selectedTruckFitItemsIndex.Id) {
           oneLabourOriginals4["Id"] = selectedTruckFitItemsIndex.Id;
         }
 
         oneLabourOriginals4['Line_Item__c'] = index + 100;
         oneLabourOriginals4['Material_Number__c'] = selectedTruckFitItemsIndex.parts_number__c;
-        oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.Gross_Amount__c;
-        oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
+        oneLabourOriginals4['Gross_Price__c'] = selectedTruckFitItemsIndex.Gross_Price__c;
+        oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.Gross_Price__c * selectedTruckFitItemsIndex.Quantity__c;
+        oneLabourOriginals4['Quantity__c'] = selectedTruckFitItemsIndex.Quantity__c;
         oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
         oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
         oneLabourOriginals4['Reserved__c'] = null;//预留
@@ -1458,11 +1458,12 @@ angular.module('oinio.PriceDetailController', [])
 
             partsItem.Name = truckFitItem.parts_number__c;
             if (truckFitItem.priceCondition) {
-              partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+              partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
             } else {
-              partsItem.Gross_Amount__c = '0';
+              partsItem.Gross_Price__c = '0';
             }
             partsItem.type = truckFitItem.type;
+            partsItem.Gross_Amount__c = '';
             partsItem.Quantity__c = '';
             partsItem.Discount__c = '';
             partsItem.Net_Price__c = '';
@@ -1628,6 +1629,20 @@ angular.module('oinio.PriceDetailController', [])
     $scope.goBack =function () {
       window.history.back();
     };
+
+    $scope.goWorkDetails = function () {
+      // $state.go('app.workDetails', {
+      //   SendInfo: orderWorkId,
+      //   workDescription: null,
+      //   AccountShipToC: null,
+      //   workOrderId:orderWorkId,
+      //   enableArrivalBtn:null,
+      //   goOffTime: null,
+      //   isNewWorkList: null,
+      //   accountId:null
+      // });
+      $state.go('app.workDetails');
+    }
 
   });
 
