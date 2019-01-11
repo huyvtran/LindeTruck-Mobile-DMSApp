@@ -47,6 +47,13 @@ angular.module('oinio.generateOrdersController', [])
 
             ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response1) { //生成备件接口一
                 console.log("POST_success1:", response1);
+                if (response1.status =="fail"){
+                    AppUtilService.hideLoading();
+                    var ionPop = $ionicPopup.alert({
+                        title: response1.message
+                    });
+                    return;
+                }
                 ForceClientService.getForceClient().apexrest(payload2, 'POST', {}, null, function (response2) { //生成备件接口二
                     console.log("POST_success2:", response2);
                     var payload3 = $scope.preparePart + response2.servicePartOrderId;

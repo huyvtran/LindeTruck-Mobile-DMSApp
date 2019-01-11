@@ -20,6 +20,14 @@ img {
 .to_Hide {
     display: none!important;
 }
+.refresh_icon {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: calc(50% - 10px);
+}
 .calendar_header {
     background: #aa0020;
     /* width: 90%; */

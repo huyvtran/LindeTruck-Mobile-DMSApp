@@ -19,7 +19,9 @@
         .search_Photo_Icon {
             background-image: url(././img/images/search-photo_icon.png);
         }
-
+        .refresh_icon {
+            background-image: url(././img/images/refresh_icon.png);
+        }
         .add_Icon_White {
             background-image: url(././img/images/add_icon_white.png);
         }
@@ -206,7 +208,9 @@
         <ion-tab title="日历" ng-controller="CalendarController">
             <ion-view>
                 <div class="calendar_header">
-                    <div class="left_Box"></div>
+                    <div class="left_Box" ng-click="getSomeData()">
+                         <div class="refresh_icon"></div>
+                    </div>
 
                     <div class="search_All" ng-click="toRepair1()">
                         <input type="text" readonly="readonly" placeholder="搜索" autocomplete="off"
