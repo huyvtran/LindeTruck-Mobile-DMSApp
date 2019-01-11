@@ -642,7 +642,7 @@
 											<div> {{item.priceCondition.price}} </div>
 										</td>
 										<td class="sv_Td">
-											<div> {{item.priceCondition.price*priceNo}} </div>
+											<div> {{item.GrossAmountC = item.priceCondition.price*item.quantity}} </div>
 										</td>
 										<td class="sv_Td">
 											<input ng-model="item.quantity" class="sv_Input part_InputForListNo" />
@@ -655,7 +655,7 @@
 										</td>
 										<td class="sv_Td" >
 											<div class="part_InputForListSpecial">
-												{{item.part_InputForListSpecial = item.priceCondition.favourablePrice*priceNo-discountPriceCondition*item.priceCondition.favourablePrice*priceNo}}
+												{{item.part_InputForListSpecial = item.priceCondition.favourablePrice*item.quantity}}
 											</div>
 										</td>
 										<td class="sv_Td" style="color: #F85360;">
@@ -801,7 +801,7 @@
 
 			<div class="footer_Btn" ng-click="goBack()">取消</div>
 			<div class="footer_Btn Save_Btn_Act" ng-click="toSaveServiceQuoteOverview()">保存</div>
-			<div class="footer_Btn Save_Btn_Act">保存并预留</div>
+			<!--<div class="footer_Btn Save_Btn_Act">保存并预留</div>-->
 			<div class="footer_Btn Submit_Btn_Act" ng-click="toSubmitCheck()">提交审批</div>
 		</div>
 
