@@ -239,6 +239,8 @@ angular.module('oinio.PriceDetailController', [])
           $scope.serviceQuotes = response.Service_Quote__r ? response.Service_Quote__r : [];
           _.each($scope.selectedTruckFitItems, function (partItem) {
             partItem.type = 'common';
+            partItem.parts_number__c = partItem.Material_Number__c;
+
           });
           $scope.labourQuoteList = _.filter(response.quoteLabourOriginals, function (partItem) {
             return partItem.Material_Type__c == 'Labour';

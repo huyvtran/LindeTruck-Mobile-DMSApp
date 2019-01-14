@@ -524,9 +524,11 @@ angular.module('oinio.NewOfferFittingsController', [])
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           if ($scope.selectedTruckFitItems[i].priceCondition) {
             $scope.priceConditionPriceAll =
-              $scope.selectedTruckFitItems[i].priceCondition.price + $scope.priceConditionPriceAll;
+              Number($scope.selectedTruckFitItems[i].priceCondition.price) * Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll;
           }
         }
+        console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
+
       };
       $scope.checkAllSearchResults = function () {
         let ele = $('#ckbox_truckFit_searchresult_all');
@@ -735,6 +737,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         oneLabourOriginals1['Gross_Amount__c'] = $scope.manMadePrice1;
         oneLabourOriginals1['Quantity__c'] = $scope.manMadeNo1;
         oneLabourOriginals1['Discount__c'] = $scope.discountPrice1;
+        oneLabourOriginals1['Line_Item__c'] = 1;
         oneLabourOriginals1['Material_Type__c'] = 'Labour';
         oneLabourOriginals1['Material_Number__c'] = '7990110000';
         // oneLabourOriginals1["Net_Amount__c"] = $scope.discountPrice1; //优惠总价
@@ -745,6 +748,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         oneLabourOriginals2['Gross_Amount__c'] = $scope.manMadePrice2;
         oneLabourOriginals2['Quantity__c'] = $scope.manMadeNo2;
         oneLabourOriginals2['Discount__c'] = $scope.discountPrice2;
+        oneLabourOriginals2['Line_Item__c'] = 2;
         oneLabourOriginals2['Material_Type__c'] = 'Labour';
         oneLabourOriginals2['Material_Number__c'] = '7990110003';
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals2);
@@ -788,8 +792,8 @@ angular.module('oinio.NewOfferFittingsController', [])
           oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];//数量
           oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];//折扣
           oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];//优惠总价
-          oneLabourOriginals3['Line_Item__c'] = $scope.serviceFeeList.length + index;
-          oneLabourOriginals3['Material_Number__c'] = $scope.serviceFeeList.length + index;
+          oneLabourOriginals3['Line_Item__c'] = index+3;
+          oneLabourOriginals3['Material_Number__c'] = index+3;
 
           oneLabourOriginals3['Material_Type__c'] = 'Labour';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
@@ -820,7 +824,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
           var oneLabourOriginals4 = {};
           var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
-          oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.parts_number__c;
+          oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
           if (selectedTruckFitItemsIndex.priceCondition) {
             oneLabourOriginals4['Gross_Price__c'] = selectedTruckFitItemsIndex.priceCondition.price; //单价
             oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.GrossAmountC; //总价

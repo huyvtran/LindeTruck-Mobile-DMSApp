@@ -634,8 +634,8 @@
 									<tr>
 										<td ng-class="isquoted_Table(item.type)">
 											<div>
-												<p>{{item.parts_number__c}} </p>
-
+												<div>{{item.parts_number__c}} </div>
+												<div>{{item.Name}} </div>
 											</div>
 										</td>
 										<td class="sv_Td">
@@ -645,7 +645,7 @@
 											<div> {{item.GrossAmountC = item.priceCondition.price*item.quantity}} </div>
 										</td>
 										<td class="sv_Td">
-											<input ng-model="item.quantity" class="sv_Input part_InputForListNo" />
+											<input ng-model="item.quantity" class="sv_Input part_InputForListNo" ng-keyup="calculatePriceConditionPriceAll();"/>
 										</td>
 										<td class="sv_Td">
 											<input class="sv_Input part_InputForListDiscount" ng-model="item.priceCondition.discount" />
@@ -682,8 +682,8 @@
 						<div class="small_Type_Title_G_Fittings"> 劳务费添加 </div>
 						<!-- <div class="refresh_icon" style="left: 30%;"></div> -->
 						<div class="price_Group">
-							<div class="price_Title"> 合计</div>
-							<input class="price_Input" value="{{serviceFeeListP3 + manMadePrice1*manMadeNo1 + manMadePrice2*manMadeNo2}}"/>
+							<div class="price_Title"> 合计:</div>
+							<div class="price_Title"> {{serviceFeeListP3 + manMadePrice1*manMadeNo1 + manMadePrice2*manMadeNo2}}</div>
 						</div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<div class="OpenClose_Btn arrow_Down_White"></div>
