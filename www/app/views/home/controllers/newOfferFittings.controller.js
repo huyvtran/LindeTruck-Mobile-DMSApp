@@ -828,9 +828,9 @@ angular.module('oinio.NewOfferFittingsController', [])
           if (selectedTruckFitItemsIndex.priceCondition) {
             oneLabourOriginals4['Gross_Price__c'] = selectedTruckFitItemsIndex.priceCondition.price; //单价
             oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.GrossAmountC; //总价
+            oneLabourOriginals4['Net_Price__c'] = selectedTruckFitItemsIndex.priceCondition.favourablePrice;//优惠单价
           }
           oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
-          oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
           oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
           oneLabourOriginals4['Net_Amount__c'] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价

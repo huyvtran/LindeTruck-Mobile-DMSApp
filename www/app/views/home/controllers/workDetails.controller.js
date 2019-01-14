@@ -2299,9 +2299,16 @@ angular.module('oinio.workDetailsControllers', [])
         }
       };
 
+      // $('input.ckbox_part').each(function (index, element) {
+      //   part_InputForListChecked.push(element.checked);
+      // });
       $scope.regroupPartListForSave = function () {
         AppUtilService.showLoading();
         regroupPartList = [];
+        var part_InputForListChecked = [];//预留状态
+        $('input.partCheckbox').each(function (index, element) {
+          part_InputForListChecked.push(element.checked);
+        });
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           const element = $scope.selectedTruckFitItems[i];
           var onePartOriginals = {};
@@ -2315,6 +2322,7 @@ angular.module('oinio.workDetailsControllers', [])
           onePartOriginals['Service_Material__c'] = element.Service_Material__c;//Service_Material__c
           onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
           onePartOriginals['Parts_Type__c'] = element.type;//配件类型
+          onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
           onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
           regroupPartList.push(onePartOriginals);
         }
@@ -2367,11 +2375,16 @@ angular.module('oinio.workDetailsControllers', [])
               var priceCondition = {};
               priceCondition['price'] = responseGetParts[i].Gross_Price__c;
               element['priceCondition'] = priceCondition;//公布价
-              element['View_Integrity__c'] = responseGetParts[i].Reserved__c;
+              element['Reserved__c'] = responseGetParts[i].Reserved__c;
               element['quantity'] = responseGetParts[i].Quantity__c;
-
               $scope.selectedTruckFitItems.push(element);
             }
+
+            $('input.partCheckbox').each(function (index, element) {
+              element.checked = $scope.selectedTruckFitItems[index].Reserved__c;
+              console.log('$element.checked', element.checked);
+            });
+
             console.log('$scope.getServiceOrderMaterialSums:', $scope.selectedTruckFitItems);
 
           }, function (error) {
