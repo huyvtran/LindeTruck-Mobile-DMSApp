@@ -136,6 +136,9 @@ img {
     padding: 1%;
     display: flex;
 }
+.workListPrint_bodyer .readonly_Inf_2 .inf_Box_1 {
+    padding: 1%;
+}
 .workListPrint_bodyer .readonly_Inf_2 .inf_Left_Text {
     color: #979797;
     display: inline-flex;

@@ -1344,6 +1344,7 @@ angular.module('oinio.workDetailsControllers', [])
         // $ionicPopup.alert({ title:"获取定位失败" }); return false; }); } }], });
       };
 
+      $scope.goodsList=[];
       /**
        * 打印功能
        * @param $event
@@ -1365,6 +1366,15 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.callStrShow = $('#call_str').val().trim();//报修需求
         $scope.workContentShow = $('#workContentStr').val();//工作信息
         $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
+
+          $scope.goodsList=[];
+          for(var i = 0;i<$scope.rejectedItems.length;i++){
+              var items = $scope.rejectedItems[i];
+              for (var j=0;j<items.length;j++){
+                  $scope.goodsList.push(items[j]);
+              }
+          }
+
       };
       /**
        * 签单
@@ -3087,6 +3097,7 @@ angular.module('oinio.workDetailsControllers', [])
         document.getElementById('workPrintPage').style.display = 'none';
       };
 
+
       $scope.printWorkList = function () {
         var callStr = $('#call_str').val().trim();
         AppUtilService.showLoading();
@@ -3112,6 +3123,7 @@ angular.module('oinio.workDetailsControllers', [])
                     for (var i = 0; i < $scope.localWorkItems.length; i++) {
                       workItemsTotal.push({
                         ownerName: $scope.localWorkItems[i].ownerName,
+                        dame:$scope.localWorkItems[i].dame,
                         departureTime: $scope.localWorkItems[i].departureTime,
                         arriveTime: $scope.localWorkItems[i].arriveTime,
                         leaveTime: $scope.localWorkItems[i].leaveTime,
@@ -3121,28 +3133,23 @@ angular.module('oinio.workDetailsControllers', [])
 
                     PrintPlugin.printTicket(
                       {
-                        customerName: customerNameValue,//customerName  客户民称
-                        customerAccount: customerAccountValue,//customerAccount 客户号
-                        customerAddress: customerAddressValue,//customerAddress  客户地址
-                        workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
-                        TruckModel: truckNumber,//TruckModel //叉车型号
-                        workHour: '  ' + h + '小时' + m + '分钟',//workHour //工作时长
-                        // workTimeTotal: [{
-                        //     workName: ownerName,
-                        //     workDate: arriveTime!=null?arriveTime.getFullYear() + "-" + (arriveTime.getMonth()+1) +
-                        // "-" + arriveTime.getDate():"", workStartTime:
-                        // (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() +
-                        // ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes()
-                        // + ":" + leaveTime.getSeconds():"", workEndTime:
-                        // (arriveTime!=null&&leaveTime!=null)?arriveTime.getHours() + ":" + arriveTime.getMinutes() +
-                        // ":" + arriveTime.getSeconds() + " -- " + leaveTime.getHours() + ":" + leaveTime.getMinutes()
-                        // + ":" + leaveTime.getSeconds():"", miles: ""  }],//workTimeTotal
-                        workTimeTotal: workItemsTotal,
-                        listContent: '',//listContent  配件费参见发货清单
-                        demandForRequire: '   ' + callStr,//demandForRequire  报修需求
-                        workContent: $('#workContentStr').val(),//workContent  工作信息
-                        resultAndSuggestions: $('#serviceSuggest').val(),//resultAndSuggestions  结果及建议
-                        responsibleEngineer: ownerName//responsibleEngineer  责任人
+                          customerName: customerNameValue,//customerName  客户民称
+                          customerAccount: customerAccountValue,//customerAccount 客户号
+                          customerAddress: customerAddressValue,//customerAddress  客户地址
+                          workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
+                          TruckModel: truckNumber,//TruckModel //叉车型号
+                          workHour: '  ' + h + '小时' + m + '分钟',//workHour //工作时长
+                          workTimeTotal: workItemsTotal,
+                          goodsTotal: $scope.goodsList,
+                          listContent: '',//listContent  配件费参见发货清单
+                          demandForRequire: '   ' + callStr,//demandForRequire  报修需求
+                          workContent: $('#workContentStr').val(),//workContent  工作信息
+                          resultAndSuggestions: $('#serviceSuggest').val(),//resultAndSuggestions  结果及建议
+                          responsibleEngineer: ownerName,//responsibleEngineer  责任人
+                          printPart2Check: $("#printPart2").prop("checked"),
+                          printPart3Check: $("#printPart3").prop("checked"),
+                          engineerImg:$scope.engineerImgStr != 'data:image/jpeg;base64,undefined' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : null,
+                          busyImg:$scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, null) : ''
                       }
                       , function (response) {
                         console.log(response);
@@ -3152,10 +3159,10 @@ angular.module('oinio.workDetailsControllers', [])
                         $ionicPopup.alert({
                           title: '出票成功'
                         });
-                        $('#printBtn').css('pointer-events', 'none');
-                        $('#printBtn').addClass('textCompleted');
-                        $('ol li:eq(3)').addClass('slds-is-active');
-                        $('#sidProgressBar').css('width', '75%');
+                        // $('#printBtn').css('pointer-events', 'none');
+                        // $('#printBtn').addClass('textCompleted');
+                        // $('ol li:eq(3)').addClass('slds-is-active');
+                        // $('#sidProgressBar').css('width', '75%');
                         //$event.target.style.backgroundColor = "#00FF7F";
                       }, function (error) {
                         console.log(error);
