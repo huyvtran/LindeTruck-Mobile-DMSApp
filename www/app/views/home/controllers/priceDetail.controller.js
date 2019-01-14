@@ -1647,11 +1647,23 @@ angular.module('oinio.PriceDetailController', [])
       AppUtilService.showLoading();
       ForceClientService.getForceClient().apexrest(
         $scope.convertQuoteToOrder + $scope.basicInfo.Id,
-        'GET',
+        'PUT',
         {},
         null,
         function callBack(res) {
           AppUtilService.hideLoading();
+          if (res) {
+            $state.go('app.workDetails', {
+              SendInfo: res,
+              workDescription: null,
+              AccountShipToC: null,
+              workOrderId:res,
+              enableArrivalBtn:null,
+              goOffTime: null,
+              isNewWorkList: null,
+              accountId:null
+            });
+          }
           console.log(res);
         },
         function error(msg) {
@@ -1659,7 +1671,7 @@ angular.module('oinio.PriceDetailController', [])
           console.log(msg);
         }
       );
-      // $state.go('app.workDetails');
+      //
     }
 
   });
