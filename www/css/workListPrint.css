@@ -123,6 +123,9 @@ img {
 .workListPrint_bodyer .readonly_Inf_1 .statistic_right {
     text-align: right;
 }
+.workListPrint_bodyer .readonly_Inf_1 .statistic_center {
+    text-align: center;
+}
 .workListPrint_bodyer .readonly_Inf_2 {
     margin: 2% 5%;
     background: #ffffff;

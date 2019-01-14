@@ -1368,12 +1368,6 @@
 							<div class="inf_Left_Text"> 工作单号：</div><div class="inf_Right_Text"> {{mobileName}}</div>
 						</div>
 						<div class="inf_Box">
-							<div class="inf_Left_Text"> 通知单号：</div><div class="inf_Right_Text"> {{noticeAccountValueShow}}</div>
-						</div>
-						<div class="inf_Box">
-							<div class="inf_Left_Text"> 发货单号：</div><div class="inf_Right_Text"> {{goodsAccountValueShow}}</div>
-						</div>
-						<div class="inf_Box">
 							<div class="inf_Left_Text"> 叉车型号：</div><div class="inf_Right_Text"> {{truckTypesValueShow}}</div>
 						</div>
 						<div class="inf_Box">
@@ -1386,6 +1380,7 @@
 								</tr>
 								<tr>
 									<td class="statistic_Title"> 工程师 </td>
+									<td class="statistic_Title statistic_center"> 日期 </td>
 									<td class="statistic_Title statistic_right"> 出发时间 </td>
 									<td class="statistic_Title statistic_right"> 到达时间 </td>
 									<td class="statistic_Title statistic_right"> 离开时间 </td>
@@ -1393,6 +1388,7 @@
 								</tr>
 								<tr ng-repeat="localWorkItem in localWorkItems">
 									<td class="statistic_Text"> {{localWorkItem.ownerName}} </td>
+									<td class="statistic_Text statistic_right"> {{localWorkItem.dame}} </td>
 									<td class="statistic_Text statistic_right"> {{localWorkItem.departureTime}} </td>
 									<td class="statistic_Text statistic_right"> {{localWorkItem.arriveTime}} </td>
 									<td class="statistic_Text statistic_right"> {{localWorkItem.leaveTime}} </td>
@@ -1403,8 +1399,10 @@
 					</div>
 					<div class="readonly_Inf_2">
 						<div class="inf_Box">
-							<div class="inf_Title"> 配件费参见发货清单</div>
+							<div class="inf_Title">发货清单/交货清单</div>
 						</div>
+					</div>
+					<div class="readonly_Inf_2">
 						<div class="inf_Box">
 							<div class="inf_Left_Text"> 报修需求：</div><div class="inf_Right_Text">{{callStrShow}}</div>
 						</div>

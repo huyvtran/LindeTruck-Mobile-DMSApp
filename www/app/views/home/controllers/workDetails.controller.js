@@ -121,8 +121,6 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.customerNameValueShow = '';   //客户名称
       $scope.customerAccountValueShow = '';//客户号
       $scope.customerAddressValueShow = ''; //客户地址
-      $scope.noticeAccountValueShow = '';//通知单号
-      $scope.goodsAccountValueShow = '';//发货单号
       $scope.truckTypesValueShow = '';//叉车型号
       $scope.ownerNameShow = '';//负责工程师
       $scope.workHourShow = '';//工作小时
@@ -648,12 +646,11 @@ angular.module('oinio.workDetailsControllers', [])
           });
           $scope.localWorkItems.push(
             {
-              ownerName: ownerName,
-              departureTime: workItems[i].Departure_Time__c != undefined ? workItems[i].Departure_Time__c.substring(0,
-                10) : '',
-              arriveTime: workItems[i].Arrival_Time__c != undefined ? workItems[i].Arrival_Time__c.substring(0, 10)
-                : '',
-              leaveTime: workItems[i].Leave_Time__c != undefined ? workItems[i].Leave_Time__c.substring(0, 10) : '',
+              ownerName: ownerName.substring(0,4),
+              dame: workItems[i].Departure_Time__c != undefined ? new Date(workItems[i].Departure_Time__c).format('yyyy/MM/dd') : '',
+              departureTime: workItems[i].Departure_Time__c != undefined ? new Date(workItems[i].Departure_Time__c).format('hh:mm:ss') : '',
+              arriveTime: workItems[i].Arrival_Time__c != undefined ? new Date(workItems[i].Arrival_Time__c).format('hh:mm:ss') : '',
+              leaveTime: workItems[i].Leave_Time__c != undefined ? new Date(workItems[i].Leave_Time__c).format('hh:mm:ss') : '',
               workMiles: ''
             }
           );
@@ -1363,8 +1360,6 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.customerAccountValueShow = customerAccountValue;
         $scope.customerAddressValueShow = customerAddressValue;
         $scope.ownerNameShow = ownerName;
-        $scope.noticeAccountValueShow = '';//通知单号
-        $scope.goodsAccountValueShow = '';//发货单号
         $scope.truckTypesValueShow = truckNumber;//叉车型号
         $scope.workHourShow = '';//工作小时
         $scope.callStrShow = $('#call_str').val().trim();//报修需求
@@ -3130,8 +3125,6 @@ angular.module('oinio.workDetailsControllers', [])
                         customerAccount: customerAccountValue,//customerAccount 客户号
                         customerAddress: customerAddressValue,//customerAddress  客户地址
                         workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
-                        noticeAccount: '',//noticeAccount //通知单号
-                        goodsAccount: '',//goodsAccount   //发货单号
                         TruckModel: truckNumber,//TruckModel //叉车型号
                         workHour: '  ' + h + '小时' + m + '分钟',//workHour //工作时长
                         // workTimeTotal: [{
