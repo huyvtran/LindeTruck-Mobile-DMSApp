@@ -915,9 +915,9 @@ angular.module('oinio.PriceDetailController', [])
 
     $scope.sum = function (obj) {
       $scope.serviceFeeListP3 = 0;
-      $('input.sv_Input_Net_Amount').each(function (index, element) {
-        $scope.serviceFeeListP3 = Number(element.value) +Number($scope.serviceFeeListP3);
-      });
+      // $('input.sv_Input_Net_Amount').each(function (index, element) {
+      //   $scope.serviceFeeListP3 = Number(element.value) +Number($scope.serviceFeeListP3);
+      // });
       $scope.serviceFeeListP4 = 0;
       _.forEach($scope.labourQuoteList,function (item) {
         $scope.serviceFeeListP4 = Number(item.Quantity__c)*Number(item.Net_Price__c) +$scope.serviceFeeListP4;
