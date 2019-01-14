@@ -1651,36 +1651,48 @@ angular.module('oinio.PriceDetailController', [])
 
     $scope.goWorkDetails = function () {
 
-
-      AppUtilService.showLoading();
-      ForceClientService.getForceClient().apexrest(
-        $scope.convertQuoteToOrder + $scope.basicInfo.Id,
-        'PUT',
-        {},
-        null,
-        function callBack(res) {
-          AppUtilService.hideLoading();
-          if (res) {
-            $state.go('app.workDetails', {
-              SendInfo: res,
-              workDescription: null,
-              AccountShipToC: null,
-              workOrderId:res,
-              enableArrivalBtn:null,
-              goOffTime: null,
-              isNewWorkList: null,
-              accountId:null
-            });
+      if (!$scope.basicInfo.Service_Order_Overview__c) {
+        AppUtilService.showLoading();
+        ForceClientService.getForceClient().apexrest(
+          $scope.convertQuoteToOrder + $scope.basicInfo.Id,
+          'PUT',
+          {},
+          null,
+          function callBack(res) {
+            AppUtilService.hideLoading();
+            if (res) {
+              $state.go('app.workDetails', {
+                SendInfo: res,
+                workDescription: null,
+                AccountShipToC: null,
+                workOrderId: res,
+                enableArrivalBtn: null,
+                goOffTime: null,
+                isNewWorkList: null,
+                accountId: null
+              });
+            }
+            console.log(res);
+          },
+          function error(msg) {
+            AppUtilService.hideLoading();
+            console.log(msg);
           }
-          console.log(res);
-        },
-        function error(msg) {
-          AppUtilService.hideLoading();
-          console.log(msg);
-        }
-      );
-      //
-    }
+        );
+      } else {
+        $state.go('app.workDetails', {
+          SendInfo: $scope.basicInfo.Service_Order_Overview__c,
+          workDescription: null,
+          AccountShipToC: null,
+          workOrderId: $scope.basicInfo.Service_Order_Overview__c,
+          enableArrivalBtn: null,
+          goOffTime: null,
+          isNewWorkList: null,
+          accountId: null
+        });
+      }
+
+    };
 
   });
 
