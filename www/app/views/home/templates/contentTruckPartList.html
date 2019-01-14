@@ -25,7 +25,7 @@
 		}
 		.importLsg_bodyer {
 			overflow-y: auto;
-			height: calc(100vh - 100px);
+			height: calc(100vh - 120px);
 			background-repeat: no-repeat;
 			background-size: cover;
 			width: 100%;
@@ -60,7 +60,7 @@
 							<div> 配件号 </div>
 						</div>
 						<div class="import_Right">
-							<!--<div> 数量 </div>-->
+							<div> 数量 </div>
 						</div>
 					</div>
 					<div>
@@ -85,9 +85,9 @@
 											<div class="del_Img" ng-click="deleteMoreTruck(litems);"></div>
 										</div>
 										<div class="import_Center">
-											<div> {{litems.Name}} </div>
+											<div>{{litems.Name}}/{{litems.Part_Number__c}}</div>
 										</div>
-										<div class="import_Right"> {{litems.Quality__c}} </div>
+										<div class="import_Right"> {{litems.Quantity__c}} </div>
 									</div>
 								</ion-item>
 							</div>

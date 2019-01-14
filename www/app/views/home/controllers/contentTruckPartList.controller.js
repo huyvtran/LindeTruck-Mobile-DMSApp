@@ -18,7 +18,7 @@ angular.module('oinio.ContentTruckPartListController', [])
      */
     $scope.$on('$ionicView.beforeEnter', function () {
 
-      $scope.contentTruckFitItems = [{cartName:'ACCBT',cartList:[{itemIdentifier:'配件名1',quantity:'200'},{itemIdentifier:'配件名3',quantity:'200'},{itemIdentifier:'配件名2',quantity:'200'},{itemIdentifier:'配件名4',quantity:'200'}]}];
+      $scope.contentTruckFitItems = [];
 
       $scope.refreshrData();
 
