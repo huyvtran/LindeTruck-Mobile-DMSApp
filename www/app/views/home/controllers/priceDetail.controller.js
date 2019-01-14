@@ -793,6 +793,7 @@ angular.module('oinio.PriceDetailController', [])
       let element = $('input.ckbox_truck_searchresult_itemFit[data-recordid*=\'' + ele.Id + '\']');
       console.log('checkSearchResults::', element);
 
+      var partsItem = {};
       if (element != null && element.length > 0) {
         if (element[0].checked) {
           let existFlag = false;
@@ -802,7 +803,23 @@ angular.module('oinio.PriceDetailController', [])
             }
           }
           if (!existFlag) {
-            $scope.selectedTruckFitItems.push(ele);
+
+            partsItem.Name = ele.Name;
+            partsItem.parts_number__c = ele.parts_number__c;
+            if (ele.priceCondition) {
+              partsItem.Gross_Price__c = ele.priceCondition.price;
+            } else {
+              partsItem.Gross_Price__c = '';
+            }
+            partsItem.type = ele.type;
+            partsItem.Quantity__c = ele.quantity;
+            partsItem.Discount__c = ele.priceCondition && ele.priceCondition.discount;
+            partsItem.Net_Price__c = ele.priceCondition && ele.priceCondition.favourablePrice;
+            partsItem.Net_Amount__c = '';
+            partsItem.SPN_Price__c = ele.priceCondition && ele.priceCondition.spnPrice;
+            partsItem.estimatedDeliveryDate = ele.inventory && ele.inventory.estimatedDeliveryDate;
+
+            $scope.selectedTruckFitItems.push(partsItem);
             $scope.updateTruckString();
           }
         } else {
@@ -1633,16 +1650,7 @@ angular.module('oinio.PriceDetailController', [])
     };
 
     $scope.goWorkDetails = function () {
-      // $state.go('app.workDetails', {
-      //   SendInfo: orderWorkId,
-      //   workDescription: null,
-      //   AccountShipToC: null,
-      //   workOrderId:orderWorkId,
-      //   enableArrivalBtn:null,
-      //   goOffTime: null,
-      //   isNewWorkList: null,
-      //   accountId:null
-      // });
+
 
       AppUtilService.showLoading();
       ForceClientService.getForceClient().apexrest(
