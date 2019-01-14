@@ -32,6 +32,7 @@ angular.module('oinio.PriceDetailController', [])
     $scope.getPersonalPartListService = '/PersonalPartListService?action=getParts&userId=';
     $scope.getPartsWithKeyWord = '/PersonalPartListService?action=getPartsWithKeyWord&userId=';
     $scope.queryDetail = '/ServiceQuoteOverview/';
+    $scope.convertQuoteToOrder = '/ServiceQuoteOverviewService?type=convertQuoteToOrder&serviceQuoteOverviewId=';
 
     $scope.get = function () {
       AppUtilService.showLoading();
@@ -122,7 +123,8 @@ angular.module('oinio.PriceDetailController', [])
                 var responsePartsRelatedsList = responsePartsRelateds[i];
                 var truckFitItem = responsePartsRelatedsList[0];
 
-                partsItem.Name = truckFitItem.parts_number__c;
+                partsItem.Name = truckFitItem.Name;
+                partsItem.parts_number__c = truckFitItem.parts_number__c;
                 if (truckFitItem.priceCondition) {
                   partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
                 } else {
@@ -172,7 +174,8 @@ angular.module('oinio.PriceDetailController', [])
             var responsePartsRelatedsList = responsePartsRelateds[i];
             var truckFitItem = responsePartsRelatedsList[0];
 
-            partsItem.Name = truckFitItem.parts_number__c;
+            partsItem.Name = truckFitItem.Name;
+            partsItem.parts_number__c = truckFitItem.parts_number__c;
             if (truckFitItem.priceCondition) {
               partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
             } else {
@@ -224,7 +227,7 @@ angular.module('oinio.PriceDetailController', [])
       document.getElementById('btn_import_Div').style.display = 'none';//隐藏
 
       AppUtilService.showLoading();
-      //人工
+
       ForceClientService.getForceClient().apexrest($scope.queryDetail + $stateParams.overviewId, 'GET', {}, null,
         function (response) {
           console.log('success:', response);
@@ -236,8 +239,6 @@ angular.module('oinio.PriceDetailController', [])
           $scope.serviceQuotes = response.Service_Quote__r ? response.Service_Quote__r : [];
           _.each($scope.selectedTruckFitItems, function (partItem) {
             partItem.type = 'common';
-            const partName = partItem.Name;
-            partItem.parts_number__c = partName;
           });
           $scope.labourQuoteList = _.filter(response.quoteLabourOriginals, function (partItem) {
             return partItem.Material_Type__c == 'Labour';
@@ -661,7 +662,7 @@ angular.module('oinio.PriceDetailController', [])
                 // var responsePartsRelatedsList = responsePartsRelateds[i];
                 var truckFitItem = responsePartsRelatedsList[j];
 
-                partsItem.Name = truckFitItem.parts_number__c;
+                partsItem.Name = truckFitItem.Name;
                 partsItem.parts_number__c = truckFitItem.parts_number__c;
                 if (truckFitItem.priceCondition) {
                   partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
@@ -1456,7 +1457,8 @@ angular.module('oinio.PriceDetailController', [])
             var responsePartsRelatedsList = responsePartsRelateds[i];
             var truckFitItem = responsePartsRelatedsList[0];
 
-            partsItem.Name = truckFitItem.parts_number__c;
+            partsItem.Name = truckFitItem.Name;
+            partsItem.parts_number__c = truckFitItem.parts_number__c;
             if (truckFitItem.priceCondition) {
               partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
             } else {
@@ -1641,7 +1643,23 @@ angular.module('oinio.PriceDetailController', [])
       //   isNewWorkList: null,
       //   accountId:null
       // });
-      $state.go('app.workDetails');
+
+      AppUtilService.showLoading();
+      ForceClientService.getForceClient().apexrest(
+        $scope.convertQuoteToOrder + $scope.basicInfo.Id,
+        'GET',
+        {},
+        null,
+        function callBack(res) {
+          AppUtilService.hideLoading();
+          console.log(res);
+        },
+        function error(msg) {
+          AppUtilService.hideLoading();
+          console.log(msg);
+        }
+      );
+      // $state.go('app.workDetails');
     }
 
   });
