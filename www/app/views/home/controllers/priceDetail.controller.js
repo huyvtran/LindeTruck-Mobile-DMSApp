@@ -697,10 +697,8 @@ angular.module('oinio.PriceDetailController', [])
       //计算合计
       $scope.priceConditionPriceAll = 0;
       for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-        if ($scope.selectedTruckFitItems[i].priceCondition) {
           $scope.priceConditionPriceAll =
-            Number($scope.selectedTruckFitItems[i].priceCondition.price) * Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll;
-        }
+            Number($scope.selectedTruckFitItems[i].Discount__c) * Number($scope.selectedTruckFitItems[i].Gross_Price__c) * Number($scope.selectedTruckFitItems[i].Quantity__c)+ $scope.priceConditionPriceAll;
       }
       console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
     };
