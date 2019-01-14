@@ -1036,7 +1036,7 @@ angular.module('oinio.PriceDetailController', [])
         // console.log('sv_InputForListDiscount:::',element.value+"  index"+index);
       });
       $('input.part_InputForListSpecial').each(function (index, element) {
-        part_InputForListSpecialList.push(element.checked);
+        part_InputForListSpecialList.push(element.value);
       });
       $('input.ckbox_part').each(function (index, element) {
         part_InputForListChecked.push(element.checked);
@@ -1057,7 +1057,7 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals4['Quantity__c'] = selectedTruckFitItemsIndex.Quantity__c;
         oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
         oneLabourOriginals4['Discount__c'] = part_InputForListDiscount[index];
-        oneLabourOriginals4['Reserved__c'] = null;//预留
+        oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
         oneLabourOriginals4['Net_Amount__c'] = part_InputForListSpecialList[index];//优惠总价
         oneLabourOriginals4['Material_Type__c'] = 'Part';
         $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);

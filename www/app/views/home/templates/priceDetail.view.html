@@ -543,11 +543,12 @@
                                             <input class="sv_Input part_InputForListDiscount" ng-model="item.Discount__c" type="text"/>
                                         </td>
                                         <td class="sv_Td">
-                                            <input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>
+                                            <!--<input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>-->
+                                            <input class="sv_Input part_InputForListPrice" value="{{item.Net_Price__c=item.Discount__c*item.Gross_Price__c}}" ng-model="item.Net_Price__c" />
                                         </td>
                                         <td class="sv_Td">
                                             <div class="part_InputForListSpecial">
-                                                {{item.Net_Amount__c = item.Net_Price__c * item.Quantity__c}}
+                                                {{item.Net_Amount__c = item.Net_Price__c * item.Quantity__c - item.Discount__c * item.Net_Price__c * item.Quantity__c}}
                                             </div>
                                             <!--<div class="part_InputForListSpecial">-->
                                                 <!--{{item.Net_Amount__c}}-->
