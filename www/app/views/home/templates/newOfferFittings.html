@@ -651,7 +651,7 @@
 											<input class="sv_Input part_InputForListDiscount" ng-model="item.priceCondition.discount" />
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input part_InputForListPrice" ng-model="item.priceCondition.favourablePrice" />
+											<input class="sv_Input part_InputForListPrice" value="{{item.priceCondition.favourablePrice=item.priceCondition.discount*item.priceCondition.price}}" ng-model="item.priceCondition.favourablePrice" />
 										</td>
 										<td class="sv_Td" >
 											<div class="part_InputForListSpecial">
