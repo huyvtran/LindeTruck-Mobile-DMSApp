@@ -249,6 +249,8 @@ angular.module('oinio.PriceDetailController', [])
 
           AppUtilService.hideLoading();
 
+          $scope.sum();
+
           $scope.calculatePriceConditionPriceAll();
         }, function (error) {
           console.log('error:', error);
@@ -695,11 +697,12 @@ angular.module('oinio.PriceDetailController', [])
       //计算合计
       $scope.priceConditionPriceAll = 0;
       for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-        if ($scope.selectedTruckFitItems[i].Gross_Price__c) {
+        if ($scope.selectedTruckFitItems[i].priceCondition) {
           $scope.priceConditionPriceAll =
-            $scope.selectedTruckFitItems[i].Gross_Price__c + $scope.priceConditionPriceAll;
+            Number($scope.selectedTruckFitItems[i].priceCondition.price) * Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll;
         }
       }
+      console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
     };
     $scope.checkAllSearchResults = function () {
       let ele = $('#ckbox_truckFit_searchresult_all');
@@ -912,12 +915,12 @@ angular.module('oinio.PriceDetailController', [])
 
     $scope.sum = function (obj) {
       $scope.serviceFeeListP3 = 0;
-      $('input.sv_InputForListSpecial').each(function (index, element) {
+      $('input.sv_Input_Net_Amount').each(function (index, element) {
         $scope.serviceFeeListP3 = Number(element.value) +Number($scope.serviceFeeListP3);
       });
       $scope.serviceFeeListP4 = 0;
       _.forEach($scope.labourQuoteList,function (item) {
-        $scope.serviceFeeListP4 = Number(item.Quantity__c)*Number(item.Gross_Amount__c) +$scope.serviceFeeListP4;
+        $scope.serviceFeeListP4 = Number(item.Quantity__c)*Number(item.Net_Price__c) +$scope.serviceFeeListP4;
       });
 
     };
@@ -961,6 +964,8 @@ angular.module('oinio.PriceDetailController', [])
       var sv_Input_PriceList  = [];//单价
       var sv_Input_NumberList = [];//数量
       var sv_Input_DiscountList= [];//折扣
+      var sv_Input_Amount= [];//总价
+      var sv_Input_Net_Amount= [];//总价
 
       $('input.sv_Input_Price').each(function (index, element) {
         sv_Input_PriceList.push(element.value);
@@ -971,12 +976,21 @@ angular.module('oinio.PriceDetailController', [])
       $('input.sv_Input_Discount').each(function (index, element) {
         sv_Input_DiscountList.push(element.value);
       });
+      $('input.sv_Input_Amount').each(function (index, element) {
+        sv_Input_Amount.push(element.value);
+      });
+      $('input.sv_Input_Net_Amount').each(function (index, element) {
+        sv_Input_Net_Amount.push(element.value);
+      });
 
 
       for (let index = 0; index < $scope.labourQuoteList.length; index++) {
         var oneLabourOriginals3 = $scope.labourQuoteList[index];
         console.log('$scope.labourQuoteList',$scope.labourQuoteList[index]);
         oneLabourOriginals3["Gross_Price__c"] =  sv_Input_PriceList[index];
+        oneLabourOriginals3["Gross_Amount__c"] =  Number(sv_Input_PriceList[index]) * Number(sv_Input_NumberList[index]);
+        oneLabourOriginals3["Net_Amount__c"] =  sv_Input_Net_Amount[index];
+        oneLabourOriginals3["Net_Price__c"] =  Number(sv_Input_PriceList[index]) * Number(sv_Input_DiscountList[index]);
         oneLabourOriginals3["Quantity__c"] =  sv_Input_NumberList[index];
         oneLabourOriginals3["Discount__c"] =  sv_Input_DiscountList[index];
         oneLabourOriginals3['Line_Item__c'] = index;
@@ -1010,6 +1024,7 @@ angular.module('oinio.PriceDetailController', [])
         oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];
         oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];
         oneLabourOriginals3['Net_Amount__c'] = _.isNaN(sv_InputForListSpecial[index]) ?  sv_InputForListSpecial[index] : '0';
+        oneLabourOriginals3["Net_Price__c"] =  Number(sv_InputForListPrice[index]) * Number(sv_InputForListDiscount[index]);
         oneLabourOriginals3['Material_Type__c'] = 'Labour';
         oneLabourOriginals3['Line_Item__c'] = $scope.labourQuoteList.length + index;
         oneLabourOriginals3['Material_Number__c'] = $scope.labourQuoteList.length + index;
