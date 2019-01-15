@@ -56,13 +56,8 @@ angular.module('oinio.generateOrdersController', [])
                 }
                 ForceClientService.getForceClient().apexrest(payload2, 'POST', {}, null, function (response2) { //生成备件接口二
                     console.log("POST_success2:", response2);
-                    var payload3 = $scope.preparePart + response2.servicePartOrderId;
-                    console.log("payload3", payload3);
-
-                    ForceClientService.getForceClient().apexrest(payload3, 'POST', {}, null, function (response3) { //生成备件接口二
-                        console.log("POST_success3:", response3);
-                        AppUtilService.hideLoading();
-                        if (response3.status == "success"){
+                    AppUtilService.hideLoading();
+                        if (response2.status == "success"){
                             var ionPop = $ionicPopup.alert({
                                 title: "生成备件成功"
                             });
@@ -71,19 +66,39 @@ angular.module('oinio.generateOrdersController', [])
                             });
                         }else {
                             var ionPop = $ionicPopup.alert({
-                                title: response3.message
+                                title: response2.message
                             });
                             ionPop.then(function (res) {
                                 $ionicHistory.goBack();
                             });
                         }
-                    }, function (error) {
-                        console.log("response2POST_error:", error);
-                        AppUtilService.hideLoading();
-                        var ionPop = $ionicPopup.alert({
-                            title: "生成备件失败"
-                        });
-                    });
+                    // var payload3 = $scope.preparePart + response2.servicePartOrderId;
+                    // console.log("payload3", payload3);
+                    // ForceClientService.getForceClient().apexrest(payload3, 'POST', {}, null, function (response3) { //生成备件接口二
+                    //     console.log("POST_success3:", response3);
+                    //     AppUtilService.hideLoading();
+                    //     if (response3.status == "success"){
+                    //         var ionPop = $ionicPopup.alert({
+                    //             title: "生成备件成功"
+                    //         });
+                    //         ionPop.then(function (res) {
+                    //             $ionicHistory.goBack();
+                    //         });
+                    //     }else {
+                    //         var ionPop = $ionicPopup.alert({
+                    //             title: response3.message
+                    //         });
+                    //         ionPop.then(function (res) {
+                    //             $ionicHistory.goBack();
+                    //         });
+                    //     }
+                    // }, function (error) {
+                    //     console.log("response2POST_error:", error);
+                    //     AppUtilService.hideLoading();
+                    //     var ionPop = $ionicPopup.alert({
+                    //         title: "生成备件失败"
+                    //     });
+                    // });
 
                 }, function (error) {
                     console.log("response1POST_error:", error);
