@@ -563,8 +563,8 @@
                                                 <!--<div>{{item.estimatedDeliveryDate}}</div>-->
                                             <!--</div>-->
                                         <!--</td>-->
-                                        <td class="sv_Td">
-                                            <input type="checkbox" class="ckbox_part"/>
+                                        <td class="sv_Td" ng-click="redright=!redright" ng-init="redright = item.Reserved__c == 'true' ? true : false">
+                                            <input type="checkbox" ng-checked="redright" class="ckbox_part" />
                                         </td>
                                     </tr>
                                 </table>
@@ -579,7 +579,7 @@
                         <!-- <div class="refresh_icon" style="left: 30%;"></div> -->
                         <div class="price_Group">
                             <div class="price_Title"> 合计</div>
-                            <div class="price_Title">{{serviceFeeListP3 +serviceFeeListP4}}</div>
+                            <div class="price_Title">{{serviceFeeListP3 + serviceFeeListP4}}</div>
                         </div>
                         <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
                         <div class="OpenClose_Btn arrow_Down_White"></div>
@@ -669,14 +669,14 @@
                                             <input ng-model="manMadeNo3" placeholder="0" class="sv_InputForListNo"  ng-keyup="sum(this);"/>
                                         </td>
                                         <td class="sv_Td">
-                                            <div> {{manMadePrice3*manMadeNo3}}</div>
+                                            <div> {{manMadePrice3 * manMadeNo3}}</div>
                                         </td>
                                         <td class="sv_Td">
-                                            <input ng-model="discountPrice3" placeholder="0" class="sv_InputForListDiscount"/>
+                                            <input ng-model="discountPrice3" placeholder="0" class="sv_InputForListDiscount" ng-keyup="sum(this);"/>
                                         </td>
                                         <td class="sv_Td">
                                             <input class="sv_InputForListSpecial" placeholder="0"
-                                                   value="{{manMadePrice3*manMadeNo3-discountPrice3*manMadePrice3*manMadeNo3}}"/>
+                                                   value="{{manMadePrice3 * manMadeNo3 - discountPrice3 * manMadePrice3 * manMadeNo3}}"/>
                                         </td>
                                     </tr>
                                 </table>

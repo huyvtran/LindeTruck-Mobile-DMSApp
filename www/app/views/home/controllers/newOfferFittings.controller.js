@@ -738,6 +738,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         oneLabourOriginals1['Gross_Amount__c'] =  Number($scope.manMadePrice1)*Number($scope.manMadeNo1);
         oneLabourOriginals1['Quantity__c'] = $scope.manMadeNo1;
         oneLabourOriginals1['Discount__c'] = $scope.discountPrice1;
+        oneLabourOriginals1['Net_Amount__c'] = Number($scope.discountPrice1) * Number($scope.manMadePrice1) * Number($scope.manMadeNo1);//优惠总价
+        oneLabourOriginals1["Net_Price__c"] =  Number($scope.discountPrice1) * Number($scope.manMadePrice1);
         oneLabourOriginals1['Line_Item__c'] = 1;
         oneLabourOriginals1['Material_Type__c'] = 'Labour';
         oneLabourOriginals1['Material_Number__c'] = '7990110000';
@@ -747,9 +749,11 @@ angular.module('oinio.NewOfferFittingsController', [])
         oneLabourOriginals2['Service_Quote__c'] = manMadeNo2Id;
         oneLabourOriginals2['Name'] = manMadeNo2Name;
         oneLabourOriginals2['Gross_Price__c'] = $scope.manMadePrice2;
-        oneLabourOriginals2['Gross_Amount__c'] = Number($scope.manMadePrice2)*Number($scope.manMadeNo2);;
+        oneLabourOriginals2['Gross_Amount__c'] = Number($scope.manMadePrice2)*Number($scope.manMadeNo2);
         oneLabourOriginals2['Quantity__c'] = $scope.manMadeNo2;
         oneLabourOriginals2['Discount__c'] = $scope.discountPrice2;
+        oneLabourOriginals2['Net_Amount__c'] = Number($scope.discountPrice2) * Number($scope.manMadePrice2) * Number($scope.manMadeNo2);//优惠总价
+        oneLabourOriginals2["Net_Price__c"] =  Number($scope.discountPrice2) * Number($scope.manMadePrice2);
         oneLabourOriginals2['Line_Item__c'] = 2;
         oneLabourOriginals2['Material_Type__c'] = 'Labour';
         oneLabourOriginals2['Material_Number__c'] = '7990110003';
@@ -792,6 +796,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           oneLabourOriginals3['Gross_Price__c'] = sv_InputForListPrice[index];//单价
           oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];//数量
           oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];//折扣
+          oneLabourOriginals3['Net_Price__c'] = Number(sv_InputForListDiscount[index]) * Number(sv_InputForListPrice[index]);//优惠单价
           oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];//优惠总价
           oneLabourOriginals3['Line_Item__c'] = index+3;
           oneLabourOriginals3['Material_Number__c'] = index+3;

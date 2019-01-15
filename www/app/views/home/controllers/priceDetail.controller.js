@@ -916,6 +916,11 @@ angular.module('oinio.PriceDetailController', [])
       // $('input.sv_Input_Net_Amount').each(function (index, element) {
       //   $scope.serviceFeeListP3 = Number(element.value) +Number($scope.serviceFeeListP3);
       // });
+      $('input.sv_InputForListSpecial').each(function (index, element) {
+        $scope.serviceFeeListP3 =  Number(element.value) + Number($scope.serviceFeeListP3);
+      });
+
+      $scope.serviceFeeListP3 = _.isNaN($scope.serviceFeeListP3) ? 0 : $scope.serviceFeeListP3;
       $scope.serviceFeeListP4 = 0;
       _.forEach($scope.labourQuoteList,function (item) {
         $scope.serviceFeeListP4 = Number(item.Quantity__c)*Number(item.Net_Price__c) +$scope.serviceFeeListP4;
@@ -1650,6 +1655,10 @@ angular.module('oinio.PriceDetailController', [])
       }
     };
 
+
+    $scope.isReserve = function (item) {
+      return Boolean(item.Reserved__c);
+    };
 
     $scope.toDescribInfDiv = function () {
       if (document.getElementById("describInfDiv").style.display == "none") {
