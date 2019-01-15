@@ -67,6 +67,7 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.selectWorkersStr = '';//已选派工人员组成字符串
       $scope.searchWorkersText = '';
       $scope.updateDataStatusUrl = '/WorkDetailService?action=updateStatus';
+      $scope.getMaintanceChoiceUrl='/NewWorkDetailService?model=';
       $scope.HasTruckNum = 0;
       $scope.SelectedTruckNum = 0;
       $scope.workTypes = [];
@@ -74,6 +75,7 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.showFooter = true;
       $scope.bfObjs = [];
       $scope.afObjs = [];
+      $scope.mainTanceChioces=[];
       $scope.imgUris = [
         {
             imageId:'',
@@ -319,6 +321,7 @@ angular.module('oinio.workDetailsControllers', [])
             {}, null, function success(res) {
               console.log('getInitDataUri', res);
               $scope.initSoResult(res.soResult);
+              //$scope.initPartNumers(res.partNumers);
               $scope.initPhotoData(res.images);
               $scope.initAssignUserData(res.assignUser);
               $scope.initSavedUserData(res.savedUser, res.assignUser);
@@ -442,6 +445,16 @@ angular.module('oinio.workDetailsControllers', [])
               $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
             }
           }
+        }
+      };
+
+      $scope.errorFaults=[];
+      $scope.initPartNumers =function(partNumers){
+          $scope.errorFaults=[];
+        if (partNumers.length>0){
+            for (var i =0;i<partNumers.length;i++){
+                $scope.errorFaults.push(partNumers[i]);
+            }
         }
       };
 
@@ -1369,12 +1382,17 @@ angular.module('oinio.workDetailsControllers', [])
 
           $scope.goodsList=[];
           for(var i = 0;i<$scope.rejectedItems.length;i++){
-              var items = $scope.rejectedItems[i];
+              var items = $scope.rejectedItems[i].Delivery_Line_Item__r;
               for (var j=0;j<items.length;j++){
-                  $scope.goodsList.push(items[j]);
+                  $scope.goodsList.push({
+                      SAP_Delivery_Order_Line_Item__c:items[j].SAP_Delivery_Order_Line_Item__c,
+                      Service_Material__rparts_number__c:items[j].Service_Material__rparts_number__c,
+                      Service_Material__rName:items[j].Service_Material__rName.substring(0,4),
+                      Quantity__c:items[j].Quantity__c,
+                      Used_Quantity__c:items[j].Used_Quantity__c
+                  });
               }
           }
-
       };
       /**
        * 签单
@@ -1519,6 +1537,7 @@ angular.module('oinio.workDetailsControllers', [])
           'Service_Suggestion__c': $('#serviceSuggest').val(),
           'Subject__c': $('#workContentStr').val(),
           'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
+          //'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
         }];
 
         var selectUserIds = [];
@@ -3651,23 +3670,99 @@ angular.module('oinio.workDetailsControllers', [])
         document.getElementById('workPrintPage').style.display = 'none';
       };
 
+        $scope.changeServiceType = function () {
+            var index = $('option:selected', '#select_service_type').index();
+            switch (index) {
+                case 0:
+                    $('.mask_div').css('display', 'block');
+                    $('.maintain_popup').css('display', 'block');
+                    $('#mainTainCheck').css('display', 'none');
+                    $('#causeReson').css('display', 'none');
+                    break;
+                case 1:
+                    $('.mask_div').css('display', 'none');
+                    $('.maintain_popup').css('display', 'none');
+                    $('#mainTainCheck').css('display', 'block');
+                    break;
+                case 2:
+                    $('.mask_div').css('display', 'none');
+                    $('.maintain_popup').css('display', 'none');
+                    $('#mainTainCheck').css('display', 'none');
+                    $('#causeReson').css('display', 'none');
+                    break;
+            }
+        };
+        
+        $scope.changeWorkType =function (itemWorkType) {
+            $scope.mainTanceChioces=[];
+            if (itemWorkType.indexOf('Z80')>-1 || itemWorkType.indexOf('Z81')>-1 || itemWorkType.indexOf('Z82')>-1 || itemWorkType.indexOf('Z83')>-1){
+                $('#mainTainCheck').prop("checked",true);
+                $('#causeReson').css('display', 'block');
+            }
+            var careType = $('#select_care_type option:selected').val();
+            AppUtilService.showLoading();
+            ForceClientService.getForceClient().apexrest(
+                $scope.getMaintanceChoiceUrl+'E16C'+'&level='+careType,
+                'GET',
+                null,
+                {},
+                function callBack(res) {
+                    console.log(res);
+                    AppUtilService.hideLoading();
+                    if(res[0].status!=undefined && res[0].status.toLowerCase()=="fail"){
+                        $ionicPopup.alert({
+                            title: res[0].message
+                        });
+                        return;
+                    }else{
+                        for (var i =0;i<res.length;i++){
+                            $scope.mainTanceChioces.push(res[i].CH);
+                        }
+                    }
+                },function error(msg) {
+                    console.log(msg);
+                    AppUtilService.hideLoading();
+                    $ionicPopup.alert({
+                        title: msg
+                    });
+                    return;
+                }
+            );
+
+        };
+
+        $scope.changeCareType=function (careType) {
+            var workType = $('#select_work_type option:selected').val();
+            AppUtilService.showLoading();
+            ForceClientService.getForceClient().apexrest(
+                $scope.getMaintanceChoiceUrl+workType+'&level='+careType,
+                'GET',
+                null,
+                {},
+                function callBack(res) {
+                    console.log(res);
+                    AppUtilService.hideLoading();
+                    if(res[0].status!=undefined && res[0].status.toLowerCase()=="fail"){
+                        $ionicPopup.alert({
+                            title: res[0].message
+                        });
+                        return;
+                    }else{
+                        for (var i =0;i<res.length;i++){
+                            $scope.mainTanceChioces.push(res[i].CH);
+                        }
+                    }
+                },function error(msg) {
+                    console.log(msg);
+                    AppUtilService.hideLoading();
+                    $ionicPopup.alert({
+                        title: msg
+                    });
+                    return;
+                }
+            );
+        };
+
 
     });
-var changeServiceType = function () {
-  var index = $('option:selected', '#select_service_type').index();
-  switch (index) {
-    case 0:
-      $('.mask_div').css('display', 'block');
-      $('.maintain_popup').css('display', 'block');
-      $('#mainTainCheck').css('display', 'none');
-      break;
-    case 1:
-      $('.mask_div').css('display', 'none');
-      $('.maintain_popup').css('display', 'none');
-      $('#mainTainCheck').css('display', 'block');
-      break;
-    case 2:
-      $('#mainTainCheck').css('display', 'block');
-      break;
-  }
-};
+
