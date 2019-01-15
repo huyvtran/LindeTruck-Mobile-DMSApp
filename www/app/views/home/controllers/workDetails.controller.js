@@ -2380,10 +2380,14 @@ angular.module('oinio.workDetailsControllers', [])
               $scope.selectedTruckFitItems.push(element);
             }
 
-            $('input.partCheckbox').each(function (index, element) {
-              element.checked = $scope.selectedTruckFitItems[index].Reserved__c;
-              console.log('$element.checked', element.checked);
-            });
+            window.setTimeout(function () {
+              $('input.partCheckbox').each(function (index, element) {
+                if ($scope.selectedTruckFitItems[index].Reserved__c=="true"){
+                  element.checked = "true";
+                }
+              });
+              }, 200);
+
 
             console.log('$scope.getServiceOrderMaterialSums:', $scope.selectedTruckFitItems);
 
@@ -2435,7 +2439,7 @@ angular.module('oinio.workDetailsControllers', [])
           if (element.priceCondition != null) {
             onePartOriginals['Gross_Price__c'] = element.priceCondition.price;//公布价
           }
-          onePartOriginals['Reserved__c'] = element.View_Integrity__c;//预留
+          onePartOriginals['Reserved__c'] = element.Reserved__c;//预留
           onePartOriginals['Service_Material__c'] = element.Service_Material__c;//Service_Material__c
           onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
           onePartOriginals['Parts_Type__c'] = element.type;//配件类型

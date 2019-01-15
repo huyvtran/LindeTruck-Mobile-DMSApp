@@ -49,7 +49,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             $scope.discountPrice1 = responseItem.discount;
           }
           manMadeNo1Id = response.Id;
-          manMadeNo1Name = response.parts_description__c;
+          manMadeNo1Name = response.Name;
 
         }, function (error) {
           console.log('error:', error);
@@ -65,7 +65,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             $scope.discountPrice2 = responseItem.discount;
           }
           manMadeNo2Id = response.Id;
-          manMadeNo2Name = response.parts_description__c;
+          manMadeNo2Name = response.Name;
         }, function (error) {
           console.log('error:', error);
           AppUtilService.hideLoading();
@@ -734,7 +734,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         var oneLabourOriginals1 = {};
         oneLabourOriginals1['Service_Quote__c'] = manMadeNo1Id;
         oneLabourOriginals1['Name'] = manMadeNo1Name;
-        oneLabourOriginals1['Gross_Amount__c'] = $scope.manMadePrice1;
+        oneLabourOriginals1['Gross_Price__c'] = $scope.manMadePrice1;
+        oneLabourOriginals1['Gross_Amount__c'] =  Number($scope.manMadePrice1)*Number($scope.manMadeNo1);
         oneLabourOriginals1['Quantity__c'] = $scope.manMadeNo1;
         oneLabourOriginals1['Discount__c'] = $scope.discountPrice1;
         oneLabourOriginals1['Line_Item__c'] = 1;
@@ -745,7 +746,8 @@ angular.module('oinio.NewOfferFittingsController', [])
         var oneLabourOriginals2 = {};
         oneLabourOriginals2['Service_Quote__c'] = manMadeNo2Id;
         oneLabourOriginals2['Name'] = manMadeNo2Name;
-        oneLabourOriginals2['Gross_Amount__c'] = $scope.manMadePrice2;
+        oneLabourOriginals2['Gross_Price__c'] = $scope.manMadePrice2;
+        oneLabourOriginals2['Gross_Amount__c'] = Number($scope.manMadePrice2)*Number($scope.manMadeNo2);;
         oneLabourOriginals2['Quantity__c'] = $scope.manMadeNo2;
         oneLabourOriginals2['Discount__c'] = $scope.discountPrice2;
         oneLabourOriginals2['Line_Item__c'] = 2;
@@ -786,15 +788,13 @@ angular.module('oinio.NewOfferFittingsController', [])
         for (let index = 0; index < $scope.serviceFeeList.length; index++) {
           var oneLabourOriginals3 = {};
           oneLabourOriginals3['Name'] = $scope.serviceFeeList[index];
-          // oneLabourOriginals3['Gross_Amount__c'] = sv_InputForListPrice[index];//总价
+          oneLabourOriginals3['Gross_Amount__c'] = Number(sv_InputForListPrice[index])*Number(sv_InputForListNo[index]);//总价
           oneLabourOriginals3['Gross_Price__c'] = sv_InputForListPrice[index];//单价
-
           oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];//数量
           oneLabourOriginals3['Discount__c'] = sv_InputForListDiscount[index];//折扣
           oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];//优惠总价
           oneLabourOriginals3['Line_Item__c'] = index+3;
           oneLabourOriginals3['Material_Number__c'] = index+3;
-
           oneLabourOriginals3['Material_Type__c'] = 'Labour';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals3);
 

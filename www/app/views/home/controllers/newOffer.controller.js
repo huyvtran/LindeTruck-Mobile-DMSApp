@@ -59,7 +59,7 @@ angular.module('oinio.NewOfferController', [])
             $('#selectContactsDiv').css('display', 'none');
             $scope.getTrucks(selectAcctSetId);//获取当前选择用户下的车辆
 
-          } else if (ele === 'selectContactsDiv') {
+          } else if (ele === 'selectContactsDiv') { //联系人
             $('#selectTruck').css('display', 'none');
             $('#selectCustomer').css('display', 'none');
             $('#selectContactsDiv').css('display', 'block');
@@ -110,7 +110,7 @@ angular.module('oinio.NewOfferController', [])
           //AppUtilService.hideLoading();
         });
       };
-
+      //选择用户
       $scope.selectAccount = function (acct) {
         SQuoteService.getAccount(acct.Id).then(function (response) {
           console.log(' SQuoteService.getAccount', response);
@@ -165,6 +165,7 @@ angular.module('oinio.NewOfferController', [])
         AppUtilService.showLoading();
         $scope.contentTruckItems = [];
         console.log('searchTruckFleets::', acctId);
+        //搜索车体 在线/离线
         HomeService.searchTruckFleets('', acctId, '20', true).then(function (response) {
           console.log('searchTruckFleets', response);
           AppUtilService.hideLoading();
@@ -201,6 +202,7 @@ angular.module('oinio.NewOfferController', [])
         });
       };
 
+      //根据用户查找车体
       $scope.getTrucksWithKey = function (keyWord) {
         if ($scope.searchResultAcctName == null) {
           var ionPop = $ionicPopup.alert({
@@ -258,6 +260,7 @@ angular.module('oinio.NewOfferController', [])
         $scope.selectContactsName = item.Name;
         $scope.closeSelectPage();
       };
+      //联系人
       $scope.selectAccountOfContacts = function () {
         SQuoteService.getContacts(selectAcctSetId).then(function (response) {
           console.log('SQuoteService.getContacts', response);
@@ -333,6 +336,7 @@ angular.module('oinio.NewOfferController', [])
         );
       };
 
+      //全选
       $scope.checkAllSearchResults = function () {
         let ele = $('#ckbox_truck_searchresult_all');
 
@@ -379,6 +383,7 @@ angular.module('oinio.NewOfferController', [])
         }
       };
 
+      //单选
       $scope.checkSearchResults = function (ele) {
         let element = $('input.ckbox_truck_searchresult_item[data-recordid*=\'' + ele.Id + '\']');
 
@@ -424,6 +429,7 @@ angular.module('oinio.NewOfferController', [])
           }
         }
       };
+      //删除某个车体
         $scope.delSelectedItem = function (ele) {
           //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
           let new_temp = [];
@@ -465,99 +471,7 @@ angular.module('oinio.NewOfferController', [])
 
       };
 
-      $scope.toDisplayDelCarView = function () {
-        // var div = document.getElementById("addDelCarView");/*w和h都要用这部分，故单独定义一个div*/
-        // var OpenClose_ArrowDiv = document.getElementById("OpenClose_Arrow");
-        // var w = parseInt(div.style.width);
-        // var h = parseInt(div.style.height);
-        // // div.style.width=(w+30)+"px";
-        // if (toDisplayDelCarBool) {
-        //     div.style.height = '65px';
-        //     toDisplayDelCarBool = false;
-        //     OpenClose_ArrowDiv.className = 'arrow_Left_White';
-        // } else {
-        //     div.style.height = '275px';
-        //     toDisplayDelCarBool = true;
-        //     OpenClose_ArrowDiv.className = 'arrow_Down_White';
-
-        // }
-      };
-      $scope.toAddSVViewTest = function (element) {
-        console.log('toAddSVViewTest');
-        element.parentNode.removeChild(element.parentNode);
-      };
-      $scope.toAddTableView = function () {
-        // tabSVViewNewIndex++;
-        // tabSVViewSetId = "tabSVViewId" + tabSVViewNewIndex;
-
-        // var tabExample = document.getElementById("tabExample");
-        // var tabExampleDiv = document.getElementById("tabExampleDiv");
-        // var tabAdd = document.getElementById("tabExampleAdd");
-        // 获得h1里的内容
-        // var com = tabExample.innerHTML;
-        // 克隆节点
-        // var con = tabExample.cloneNode(true);
-        // // 将内容写到克隆的节点内
-        // con.innerHTML = com;
-        // console.log("con", con);
-
-        // var tr = document.createElement('tr')
-        // tr.innerHTML = '<tr id="tabExampleDiv"><td id="tabExample" class="ad_Right_Td_Group"><table cellpadding="0"
-        // cellspacing="0" border="0" class="ad_Right_Table"><tr id="tabSVViewId1"><td class="ad_Right_Td"
-        // ng-click="toTabSVView()"><div class="pos_rel"><div> 车体号1 </div><div
-        // class="del_red_icon"></div></div></td></tr><tr><td class="ad_Right_Td"><select
-        // id="selectStatusId"><option>全部</option><option>未安排</option></select></td></tr><tr><td class="ad_Right_Td
-        // "><div> 车型1 </div></td></tr><tr><td class="ad_Right_Td "><div> 车系1 </div></td></tr><tr><td
-        // class="ad_Right_Td "><select
-        // id="selectStatusId"><option>全部</option><option>未安排</option></select></td></tr><tr><td class="ad_Right_Td
-        // "><select id="selectStatusId"><option>保养任务</option></select></td></tr><tr><td class="ad_Right_Td"><input
-        // class="ad_Input" /></td></tr></table></td>'; tabAdd.parentNode.insertBefore(tr, tabAdd);
-
-        // var elements = tabExampleDiv.getElementsByTagName("table");
-        // for(var i=0; i<elements.length; i++){
-        //     console.log("elements[i].name","i:"+i +"elements:"+ elements[i].name+"id:"+elements[i].id);
-        // }
-        // var counttabSVViewNewIndex = "tabSVViewId" + parseInt(tabSVViewNewIndex-1);
-        // var tabSVViewNewId = document.getElementById(counttabSVViewNewIndex);
-
-        // console.log("tabSVViewNewId", tabSVViewNewId+" counttabSVViewNewIndex: "+counttabSVViewNewIndex+"
-        // tabSVViewNewIndex: "+tabSVViewNewIndex); let tr = document.createElement('tr') tr.innerHTML = '<tr><td id='
-        // + tabSVViewSetId + ' class="ad_Right_Td"
-        // onclick=\"angular.element(this).scope().toAddSVViewTest(angular.element(this))\"> <div class="pos_rel"><div>
-        // ' + "车体号1" + ' </div><div class="del_red_icon"></div></div></td></tr>';
-        // tabSVViewNewId.parentNode.replaceChild(tr, tabSVViewNewId);
-      };
-
-      $scope.toAddSVView = function () {
-        var tabExampleSV = document.getElementById('tabExampleSV');
-        var tabExampleSVAdd = document.getElementById('tabExampleSVAdd');
-        // 获得h1里的内容
-        var comSV = tabExampleSV.innerHTML;
-        // 克隆节点
-        var conSV = tabExampleSV.cloneNode(true);
-        // 将内容写到克隆的节点内
-        conSV.innerHTML = comSV;
-        // console.log(con);
-        tabExampleSVAdd.parentNode.insertBefore(conSV, tabExampleSVAdd);
-
-      };
-
-      $scope.toTabSVView = function () {
-        var tabExampleDiv = document.getElementById('tabExampleDiv');
-
-        for (var i = 0; i < tabExampleDiv.childNodes.length; i++) {//oList是做的ul的对象。
-          //nodeType是节点的类型，利用nodeType来判断节点类型，再去控制子节点
-          //nodeType==1 是元素节点
-          //nodeType==3 是文本节点
-          if (tabExampleDiv.childNodes[i].nodeType == 1) {//查找到oList内的元素节点
-            console.log(tabExampleDiv.childNodes[i]);//在控制器日志中显示找到的元素节点
-          }
-
-          console.log('tabExampleDiv:', tabExampleDiv.childNodes[i]);//在控制器日志中显示找到的元素节点
-
-        }
-
-      };
+      //下一步
       $scope.goNextPage = function () {
         if ($scope.searchResultAcctName == null) {
           var ionPop = $ionicPopup.alert({
