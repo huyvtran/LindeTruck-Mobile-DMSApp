@@ -116,8 +116,8 @@
           if (item.Status__c == 'Not Planned') { //Not Planned   未安排  只显示详情和安排
             setButtons = [
               {
-                text: '<b>详情</b>',
-                type: 'button-assertive',
+                text: '<b>编辑</b>',
+                type: 'button-positive',
                 onTap: function (e) {
                   // $state.go('app.workDetails', {
                   //     SendInfo: item._soupEntryId,
@@ -127,12 +127,12 @@
                   //     workOrderId:item.Id,
                   //     isNewWorkList:false
                   // });
-                  $scope.goPageWorkDetails(item, false, null);
+                  $scope.goPageWorkDetails(item, true, null);
                 }
               },
               {
                 text: '<b>安排</b>',
-                type: 'button-positive',
+                type: 'button-assertive',
                 onTap: function (e) {
                   {
                     console.log('Tapped！!', allUser);
@@ -167,46 +167,60 @@
           } else if (item.Status__c == 'Not Started') {  //Not Started   未开始  只显示出发 详情
             setButtons = [
               {
-                text: '出发',
-                type: 'button-positive',
+                  text: '<b>编辑</b>',
+                  type: 'button-positive',
+                  onTap: function (e) {
+                      // $state.go('app.workDetails', {
+                      //     SendInfo: item._soupEntryId,
+                      //     workDescription: null,
+                      //     AccountShipToC: item.Account_Ship_to__c,
+                      //     workOrderId:item.Id,
+                      //     isNewWorkList:false
+                      // });
+                      $scope.goPageWorkDetails(item, true, null);
+                  }
+              },
+              {
+                text: '<b>出发</b>',
+                type: 'button-assertive',
                 onTap: function (e) {
                   //出发判断逻辑
                   $scope.goNotStartedWorkDetails(item);
                 }
               },
               {
-                text: '<b>详情</b>',
-                type: 'button-assertive',
-                onTap: function (e) {
-                  // $state.go('app.workDetails', {
-                  //     SendInfo: item._soupEntryId,
-                  //     workDescription: null,
-                  //     AccountShipToC: item.Account_Ship_to__c,
-                  //     workOrderId:item.Id,
-                  //     isNewWorkList:false
-                  // });
-                  $scope.goPageWorkDetails(item, false, null);
-                }
+                  text: '<b>转派</b>',
+                  type: 'button-balanced',
+                  onTap: function (e) {
+                      $state.go('app.transfer', {workOrderId: item.Id});
+                  }
               }
             ];
           } else if (item.Status__c == 'Not Completed') {  //Not Completed  进行中  只显示详情
             setButtons = [
               {
-                text: '编辑',
+                text: '<b>编辑</b>',
                 type: 'button-positive',
                 onTap: function (e) {
                   $scope.goPageWorkDetails(item, true, null);
                 }
               },
               {
-                text: '增派',
+                text: '<b>增派</b>',
                 type: 'button-calm',
                 onTap: function (e) {
                   $state.go('app.sendMorePeople', {workOrderId: item.Id});
                 }
+              },
+              {
+                  text: '<b>转派</b>',
+                  type: 'button-balanced',
+                  onTap: function (e) {
+                      $state.go('app.transfer', {workOrderId: item.Id});
+                  }
               }
             ];
-          } else {  //Service Completed  已完成  只能查详情
+          } else if (item.Status__c == 'Service Completed') {  //Service Completed  已完成  只能查详情
             setButtons = [
               {
                 text: '<b>详情</b>',
