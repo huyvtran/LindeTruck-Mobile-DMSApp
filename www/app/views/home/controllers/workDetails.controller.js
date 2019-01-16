@@ -176,17 +176,12 @@ angular.module('oinio.workDetailsControllers', [])
           }
           $('#departureBtn').css('pointer-events', 'none');
           $('#departureBtn').addClass('textCompleted');
-          $('#sidProgressBar').css('width', '25%');
+          if (orderBelong){
+              $('#sidProgressBar').css('width', '25%');
+          }else{
+              $('#sidProgressBar').css('width', '33%');
+          }
         }
-
-        if (orderBelong){
-            $('.workListDetails_bodyer').css('height','calc(100vh - 120px)');
-            $('.textBtn').css('width','25%');
-        }else{
-            $('.workListDetails_bodyer').css('height', 'calc(100vh - 65px)');
-            $('.textBtn').css('width','33%');
-        }
-
 
         /**
          * 本地初始化服务类型数据
@@ -638,7 +633,11 @@ angular.module('oinio.workDetailsControllers', [])
                     $('#departureBtn').addClass('textCompleted');
                     $('#arriveBtn').css('pointer-events', 'none');
                     $('#arriveBtn').addClass('textCompleted');
-                    $('#sidProgressBar').css('width', '50%');
+                    if (orderBelong){
+                        $('#sidProgressBar').css('width', '50%');
+                    }else{
+                        $('#sidProgressBar').css('width', '66%');
+                    }
                     arriveTime = new Date(workItems[i].Arrival_Time__c);
                     goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
                     break;
@@ -649,7 +648,12 @@ angular.module('oinio.workDetailsControllers', [])
               }
               $('#departureBtn').css('pointer-events', 'none');
               $('#departureBtn').addClass('textCompleted');
-              $('#sidProgressBar').css('width', '25%');
+              if (orderBelong){
+                  $('#sidProgressBar').css('width', '25%');
+              }else{
+                  $('#sidProgressBar').css('width', '33%');
+              }
+
               goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
               break;
             } else if (workItems[i].Leave_Time__c != undefined && onOrder) {
@@ -681,6 +685,25 @@ angular.module('oinio.workDetailsControllers', [])
             }
           );
         }
+
+          if (orderBelong){
+              $('.workListDetails_bodyer').css('height','calc(100vh - 120px)');
+              $('.textBtn').css('width','25%');
+          }else{
+              $('.workListDetails_bodyer').css('height', 'calc(100vh)');
+              $('.textBtn').css('width','33.3%');
+              $('.next_Footer').css('bottom','0px');
+              if ($("#leave").hasClass("textCompleted")){
+                    $("#sidProgressBar").css('width','99%');
+              }else if ($("#arriveBtn").hasClass("textCompleted")){
+                    $("#sidProgressBar").css('width','66%');
+              }else if ($("#departureBtn").hasClass("textCompleted")){
+                    $("#sidProgressBar").css('width','33%');
+              }else{
+                    $("#sidProgressBar").css('width','0%');
+              }
+          }
+
       };
 
       /**
@@ -915,7 +938,11 @@ angular.module('oinio.workDetailsControllers', [])
                   console.log(res);
                   AppUtilService.hideLoading();
                   if (res.status.toLowerCase() == 'success') {
-                    $('#sidProgressBar').css('width', '75%');
+                    if (orderBelong){
+                        $('#sidProgressBar').css('width', '75%');
+                    }else{
+                        $('#sidProgressBar').css('width', '99%');
+                    }
                     for (var i = 0; i < 4; i++) {
                       $('ol li:eq(' + i + ')').addClass('slds-is-active');
                     }
@@ -978,7 +1005,11 @@ angular.module('oinio.workDetailsControllers', [])
                       for (var i = 0; i <= 3; i++) {
                         $('ol li:eq(' + i + ')').addClass('slds-is-active');
                       }
-                      $('#sidProgressBar').css('width', '75%');
+                      if (orderBelong){
+                          $('#sidProgressBar').css('width', '75%');
+                      }else{
+                          $('#sidProgressBar').css('width', '99%');
+                      }
                       $ionicPopup.alert({
                         title: '记录到达/离开时间成功'
                       });
@@ -1118,7 +1149,11 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                     $('#departureBtn').css('pointer-events', 'none');
                     $('#departureBtn').addClass('textCompleted');
-                    $('#sidProgressBar').css('width', '25%');
+                    if (orderBelong){
+                        $('#sidProgressBar').css('width', '25%');
+                    }else{
+                        $('#sidProgressBar').css('width', '33%');
+                    }
                   } else {
                     $ionicPopup.alert({
                       title: res.message
@@ -1220,7 +1255,11 @@ angular.module('oinio.workDetailsControllers', [])
                               }
                               $('#departureBtn').css('pointer-events', 'none');
                               $('#departureBtn').addClass('textCompleted');
-                              $('#sidProgressBar').css('width', '25%');
+                              if (orderBelong){
+                                  $('#sidProgressBar').css('width', '25%');
+                              }else{
+                                  $('#sidProgressBar').css('width', '33%');
+                              }
                               ForceClientService.getForceClient().apexrest(
                                 $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format(
                                 'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
@@ -1232,7 +1271,11 @@ angular.module('oinio.workDetailsControllers', [])
                                   console.log(res);
                                   if (res.status.toLowerCase() == 'success') {
                                     //$event.target.style.backgroundColor = "#00FF7F";
-                                    $('#sidProgressBar').css('width', '50%');
+                                    if (orderBelong){
+                                        $('#sidProgressBar').css('width', '50%');
+                                    }else{
+                                        $('#sidProgressBar').css('width', '66%');
+                                    }
                                     for (var i = 0; i < 3; i++) {
                                       $('ol li:eq(' + i + ')').addClass('slds-is-active');
                                     }
@@ -1316,7 +1359,11 @@ angular.module('oinio.workDetailsControllers', [])
                 AppUtilService.hideLoading();
                 if (res.status.toLowerCase() == 'success') {
                   //$event.target.style.backgroundColor = "#00FF7F";
-                  $('#sidProgressBar').css('width', '50%');
+                  if (orderBelong){
+                      $('#sidProgressBar').css('width', '50%');
+                  }else{
+                      $('#sidProgressBar').css('width', '66%');
+                  }
                   for (var i = 0; i < 3; i++) {
                     $('ol li:eq(' + i + ')').addClass('slds-is-active');
                   }

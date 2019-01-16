@@ -243,7 +243,7 @@
                   //     workOrderId:item.Id,
                   //     isNewWorkList:false
                   // });
-                  $scope.goPageWorkDetails(item, false, null,isBelongCurrentUser);
+                  $scope.goPageWorkDetails(item, false, null,false);
                 }
               }
             ];

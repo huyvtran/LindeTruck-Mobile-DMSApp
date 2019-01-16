@@ -349,7 +349,7 @@
 						</div>
 
 					</div>
-					<div class="footer">
+					<div class="footer" ng-show="showOrderBelong">
 						<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
 						<div class="footer_Btn import_Btn_Act" ng-click="setLSGList();">导入</div>
 					</div>
@@ -412,7 +412,7 @@
 						</div>
 
 					</div>
-					<div class="footer">
+					<div class="footer" ng-show="showOrderBelong">
 						<div class="footer_Btn" ng-click="closeSelectPage();">取消</div>
 						<div class="footer_Btn import_Btn_Act" ng-click="setCommonPartList();">导入</div>
 					</div>
@@ -466,7 +466,7 @@
 						</ion-list>
 					</div>
 				</div>
-				<div class="footer">
+				<div class="footer" ng-show="showOrderBelong">
 					<div class="footer_Btn" ng-click="closeSelectPageWithCP();">取消</div>
 					<div class="footer_Btn Save_Btn_Act" ng-click="saveSelectPageWithCP();">确定</div>
 				</div>
@@ -564,7 +564,7 @@
 						</ion-list>
 					</div>
 				</div>
-				<div class="footer">
+				<div class="footer" ng-show="showOrderBelong">
 					<!-- Save_Btn_Act可以保存，如果未填完整，Save_Btn_Uact -->
 					<!-- Submit_Btn_Act可以提交，如果未填完整，Submit_Btn_Uact -->
 
@@ -1337,7 +1337,7 @@
 				</ion-list>
 			</div>
 		</div>
-		<div class="footer">
+		<div class="footer" ng-show="showOrderBelong">
 				<div class="footer_Btn" ng-click="hideTruckAddPage();">取消</div>
 				<div class="footer_Btn Save_Btn_Act" ng-click="hideTruckAddPage();">确定</div>
 			</div>
