@@ -1089,6 +1089,38 @@ angular.module('oinio.PriceDetailController', [])
       serviceQuoteOverview['Ship_to__c'] = $scope.basicInfo.Ship_To__c;
       serviceQuoteOverview['Id'] = $scope.basicInfo.Id;
 
+      let truckFitItems = _.filter($scope.quoteLabourOriginalsList, function (part) {
+        return part.Material_Type__c == 'Part';
+      });
+      let labourItems = _.filter($scope.quoteLabourOriginalsList, function (part) {
+        return part.Material_Type__c == 'Labour';
+      });
+
+      serviceQuoteOverview['Total_Gross__c'] = _.sum( _.map($scope.quoteLabourOriginalsList, function (item) {
+        return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
+      }));
+      serviceQuoteOverview['Total_Net__c'] = _.sum(_.map($scope.quoteLabourOriginalsList, function (item) {
+        return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
+      }));
+      serviceQuoteOverview['Part_Sub_Total_Gross__c'] = _.sum(_.map(truckFitItems, function (item) {
+        return  _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
+      }));
+      serviceQuoteOverview['Part_Discount__c'] = _.sum(_.map(truckFitItems, function (item) {
+        return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
+      })) / truckFitItems.length;
+      serviceQuoteOverview['Part_Sub_Total_Net__c'] = _.sum(_.map(truckFitItems, function (item) {
+        return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
+      }));
+      serviceQuoteOverview['Labour_Sub_Total_Gross__c'] = _.sum(_.map(labourItems, function (item) {
+        return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
+      }));
+      serviceQuoteOverview['Labour_Discount__c'] = _.sum(_.map(labourItems, function (item) {
+        return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
+      })) / labourItems.length;
+      serviceQuoteOverview['Labour_Sub_Total_Net__c'] = _.sum(_.map(labourItems, function (item) {
+        return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
+      }));
+
       var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview) + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes)  + '&quoteLabourOriginals='
                     + JSON.stringify($scope.quoteLabourOriginalsList);
       console.log('payload', payload);
@@ -1149,6 +1181,38 @@ angular.module('oinio.PriceDetailController', [])
       var serviceQuoteOverview = {};
       serviceQuoteOverview['Ship_to__c'] = $scope.basicInfo.Ship_To__c;
       serviceQuoteOverview['Id'] = $scope.basicInfo.Id;
+
+      let truckFitItems = _.filter($scope.quoteLabourOriginalsList, function (part) {
+        return part.Material_Type__c == 'Part';
+      });
+      let labourItems = _.filter($scope.quoteLabourOriginalsList, function (part) {
+        return part.Material_Type__c == 'Labour';
+      });
+
+      serviceQuoteOverview['Total_Gross__c'] = _.sum( _.map($scope.quoteLabourOriginalsList, function (item) {
+        return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
+      }));
+      serviceQuoteOverview['Total_Net__c'] = _.sum(_.map($scope.quoteLabourOriginalsList, function (item) {
+        return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
+      }));
+      serviceQuoteOverview['Part_Sub_Total_Gross__c'] = _.sum(_.map(truckFitItems, function (item) {
+        return  _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
+      }));
+      serviceQuoteOverview['Part_Discount__c'] = _.sum(_.map(truckFitItems, function (item) {
+        return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
+      })) / truckFitItems.length;
+      serviceQuoteOverview['Part_Sub_Total_Net__c'] = _.sum(_.map(truckFitItems, function (item) {
+        return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
+      }));
+      serviceQuoteOverview['Labour_Sub_Total_Gross__c'] = _.sum(_.map(labourItems, function (item) {
+        return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
+      }));
+      serviceQuoteOverview['Labour_Discount__c'] = _.sum(_.map(labourItems, function (item) {
+        return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
+      })) / labourItems.length;
+      serviceQuoteOverview['Labour_Sub_Total_Net__c'] = _.sum(_.map(labourItems, function (item) {
+        return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
+      }));
 
       var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                     + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes) + '&quoteLabourOriginals='
