@@ -648,7 +648,7 @@
 											<input ng-model="item.quantity" class="sv_Input part_InputForListNo" ng-keyup="calculatePriceConditionPriceAll();"/>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input part_InputForListDiscount" ng-model="item.priceCondition.discount" />
+											<input class="sv_Input part_InputForListDiscount" ng-model="item.priceCondition.discount"/>
 										</td>
 										<td class="sv_Td">
 											<input class="sv_Input part_InputForListPrice" value="{{item.priceCondition.favourablePrice=item.priceCondition.discount*item.priceCondition.price}}" ng-model="item.priceCondition.favourablePrice" />
@@ -683,7 +683,7 @@
 						<!-- <div class="refresh_icon" style="left: 30%;"></div> -->
 						<div class="price_Group">
 							<div class="price_Title"> 合计:</div>
-							<div class="price_Title"> {{serviceFeeListP3 + manMadePrice1*manMadeNo1 + manMadePrice2*manMadeNo2}}</div>
+							<div class="price_Title"> {{serviceFeeListP3 + manMadePrice1 * manMadeNo1 * discountPrice1 + manMadePrice2 * manMadeNo2 * discountPrice2}}</div>
 						</div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<div class="OpenClose_Btn arrow_Down_White"></div>
