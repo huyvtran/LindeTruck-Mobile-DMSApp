@@ -123,7 +123,7 @@
           isBelongCurrentUser =$scope.checkOrderBelong(item.Service_Order_Owner__c,$('#selectUserId option:selected').val());
           $scope.data = {};
           var setButtons = [];
-          if (item.Status__c == 'Not Planned') { //Not Planned   未安排  只显示详情和安排
+          if (item.Status__c == 'Not Planned' || item.Status__c == 'to be assigned' ) { //Not Planned   未安排  只显示详情和安排
             setButtons = [
               {
                 text: '<b>编辑</b>',
@@ -206,7 +206,7 @@
                   }
               }
             ];
-          } else if (item.Status__c == 'Not Completed') {  //Not Completed  进行中  只显示详情
+          } else if (item.Status__c == 'Not Completed' || item.Status__c == 'Waiting for Parts' || item.Status__c == 'Assigned' || item.Status__c == 'Abnormal feedback' || item.Status__c == 'Quoting'|| item.Status__c == 'Applying Debt Release') {  //Not Completed  进行中  只显示详情
             setButtons = [
               {
                 text: '<b>编辑</b>',
