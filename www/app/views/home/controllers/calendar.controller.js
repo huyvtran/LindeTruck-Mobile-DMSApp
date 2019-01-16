@@ -107,10 +107,20 @@
         $scope.addNewOffer = function () {
           $state.go('app.newOffer');
         };
+
+        $scope.checkOrderBelong=function(ownerId,currentUserId){
+            if (ownerId === currentUserId) {
+                return true;
+            } else {
+                return false;
+            }
+        };
+          var isBelongCurrentUser=true;
         // Triggered on a button click, or some other target
         $scope.showPopup = function (item) {
           console.log('showPopup!allUser', allUser);
           console.log('showPopup!item', item);
+          isBelongCurrentUser =$scope.checkOrderBelong(item.Service_Order_Owner__c,$('#selectUserId option:selected').val());
           $scope.data = {};
           var setButtons = [];
           if (item.Status__c == 'Not Planned') { //Not Planned   未安排  只显示详情和安排
@@ -127,7 +137,7 @@
                   //     workOrderId:item.Id,
                   //     isNewWorkList:false
                   // });
-                  $scope.goPageWorkDetails(item, true, null);
+                  $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser);
                 }
               },
               {
@@ -177,7 +187,7 @@
                       //     workOrderId:item.Id,
                       //     isNewWorkList:false
                       // });
-                      $scope.goPageWorkDetails(item, true, null);
+                      $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser);
                   }
               },
               {
@@ -202,7 +212,7 @@
                 text: '<b>编辑</b>',
                 type: 'button-positive',
                 onTap: function (e) {
-                  $scope.goPageWorkDetails(item, true, null);
+                  $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser);
                 }
               },
               {
@@ -233,7 +243,7 @@
                   //     workOrderId:item.Id,
                   //     isNewWorkList:false
                   // });
-                  $scope.goPageWorkDetails(item, false, null);
+                  $scope.goPageWorkDetails(item, false, null,isBelongCurrentUser);
                 }
               }
             ];
@@ -387,7 +397,7 @@
           return format;
         };
 
-        $scope.goPageWorkDetails = function (obj, isNewWork, goTime) {
+        $scope.goPageWorkDetails = function (obj, isNewWork, goTime,belong) {
           $state.go('app.workDetails', {
             SendInfo: obj._soupEntryId,
             workDescription: null,
@@ -396,7 +406,8 @@
             enableArrivalBtn: true,
             goOffTime: goTime,
             isNewWorkList: isNewWork,
-            accountId: obj.Account_Ship_to__r.Id
+            accountId: obj.Account_Ship_to__r.Id,
+            orderBelong:belong
           });
         };
 

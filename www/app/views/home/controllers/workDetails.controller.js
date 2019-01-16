@@ -37,6 +37,7 @@ angular.module('oinio.workDetailsControllers', [])
           initChildOrders      = [],
           initTrucks           = [],
           orderAccountId       = null,
+          orderBelong=true,
           selectTypeIndex      = 0, //作业类型默认选择第一个
           enableArrival        = true,
           oCurrentUser         = LocalCacheService.get('currentUser') || {};
@@ -137,7 +138,8 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.mcb = false;
       $scope.serviceLevels = [];
       $scope.serviceNames = [];
-      /**
+      $scope.showOrderBelong =true;
+            /**
        * @func    $scope.$on('$ionicView.beforeEnter')
        * @desc
        */
@@ -150,6 +152,7 @@ angular.module('oinio.workDetailsControllers', [])
         console.log('$stateParams.workOrderId', $stateParams.workOrderId);
         console.log('$stateParams.enableArrivalBtn', $stateParams.enableArrivalBtn);
         console.log('$stateParams.accountId', $stateParams.accountId);
+        console.log('$stateParams.orderBelong', $stateParams.orderBelong);
 
         userInfoId = $stateParams.SendInfo;//原先工单数据的本地Id 现改为在线Id
         Account_Ship_to__c = $stateParams.AccountShipToC; //原工单
@@ -160,7 +163,8 @@ angular.module('oinio.workDetailsControllers', [])
         $scope.showFooter = $stateParams.isNewWorkList;
         enableArrival = $stateParams.enableArrivalBtn;
         orderAccountId = $stateParams.accountId;
-
+        orderBelong  = $stateParams.orderBelong;
+        $scope.showOrderBelong = orderBelong;
         //获取作业类型选择索引
         if ($stateParams.selectWorkTypeIndex != null) {
           selectTypeIndex = $stateParams.selectWorkTypeIndex;
@@ -174,6 +178,15 @@ angular.module('oinio.workDetailsControllers', [])
           $('#departureBtn').addClass('textCompleted');
           $('#sidProgressBar').css('width', '25%');
         }
+
+        if (orderBelong){
+            $('.workListDetails_bodyer').css('height','calc(100vh - 120px)');
+            $('.textBtn').css('width','25%');
+        }else{
+            $('.workListDetails_bodyer').css('height', 'calc(100vh - 65px)');
+            $('.textBtn').css('width','33%');
+        }
+
 
         /**
          * 本地初始化服务类型数据

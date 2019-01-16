@@ -98,7 +98,7 @@
           })
             .state('app.workDetails', {
                 url: 'app/workDetails',
-                params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null,'goOffTime':null,'isNewWorkList':null,'selectWorkTypeIndex':null,'workOrderId':null,'enableArrivalBtn':null,"accountId":null},
+                params:{'SendInfo':null,'workDescription':null,'AccountShipToC':null,'goOffTime':null,'isNewWorkList':null,'selectWorkTypeIndex':null,'workOrderId':null,'enableArrivalBtn':null,"accountId":null,'orderBelong':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/workDetails.html',
