@@ -1420,7 +1420,7 @@ angular.module('oinio.workDetailsControllers', [])
                     onTap: function () {
                       AppUtilService.showLoading();
                       ForceClientService.getForceClient().apexrest(
-                        $scope.updateDataStatusUrl + '&sooId=' + orderDetailsId + '&status=Service Completed',
+                        $scope.updateDataStatusUrl + '&sooId=' + orderDetailsId + '&status=Field Work Done',
                         'POST',
                         {},
                         null, function callBack(res) {
