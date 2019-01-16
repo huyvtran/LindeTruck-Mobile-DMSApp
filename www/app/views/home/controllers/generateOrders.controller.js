@@ -3,10 +3,50 @@ angular.module('oinio.generateOrdersController', [])
         var vm = this,
         oCurrentUser = LocalCacheService.get('currentUser') || {};
         console.log('oCurrentUser!', oCurrentUser);
-
+        $scope.workTypes = [];
         $scope.upsertSapOrder = "/ServicePartsOrder?action=upsertSapOrder&serviceOrderOverviewId=";
         $scope.saveServicePartOrder = "/ServicePartsOrder?action=saveServicePartOrder&serviceOrderOverviewId=";
         $scope.preparePart = "/ServicePartsOrder?action=preparePart&servicePartOrderId=";
+        /**
+         * 本地初始化作业类型数据
+         */
+        $scope.workTypes.push({label: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service'});
+        $scope.workTypes.push({label: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg'});
+        $scope.workTypes.push({label: 'ZS02_Z20', value: 'Z20 Service contract job\t'});
+        $scope.workTypes.push({label: 'ZS02_Z21', value: 'Z21 LTR service with Contract'});
+        $scope.workTypes.push({label: 'ZS02_Z22', value: 'Z22 LTR service with contract(RE)'});
+        $scope.workTypes.push({label: 'ZS03_Z30', value: 'Z30 Asset (STR) service'});
+        $scope.workTypes.push({label: 'ZS03_Z31', value: 'Z31 In-Stock Truck(cost only)'});
+        $scope.workTypes.push({label: 'ZS03_Z33', value: 'Z33 Support job for Service'});
+        $scope.workTypes.push({label: 'ZS03_Z35', value: 'Z35 Service Engineer Training'});
+        $scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 Service Marketing Campaign\t'});
+        $scope.workTypes.push({
+            label: 'ZS03_Z37',
+            value: 'Z37 Internal maintenance for in-Stock Truck(value change)'
+        });
+        $scope.workTypes.push({label: 'ZS03_Z38', value: 'Z38 Internal Cross-region billing'});
+        $scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 Asset (STR) service(RE)'});
+        $scope.workTypes.push({label: 'ZS03_Z3A', value: 'Z3A FOC Service from Truck Sales'});
+        $scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 HQ Truck maintenance'});
+        $scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 Testing truck event'});
+        $scope.workTypes.push({label: 'ZS03_ZH3', value: 'ZH3 QM analyses'});
+        $scope.workTypes.push({label: 'ZS03_ZH4', value: 'ZH4 anti-explosion truck reproduct'});
+        $scope.workTypes.push({label: 'ZS03_ZOC', value: 'ZOC aftersales order changed\t'});
+        $scope.workTypes.push({
+            label: 'ZS03_ZR1',
+            value: 'ZR1 Internal maintenance for rental truck refurbishment'
+        });
+        $scope.workTypes.push({label: 'ZS03_ZR2', value: 'ZR2 LRental truck refurbishment'});
+        $scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 SRental truck refurbishment\t'});
+        $scope.workTypes.push({label: 'ZS03_ZSS', value: 'ZSS sales support service'});
+        $scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD shipping damage'});
+        $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service\t'});
+        $scope.workTypes.push({label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)'});
+        $scope.workTypes.push({label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment'});
+        $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 Warranty'});
+        $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 Warranty job1'});
+        $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 Warranty job2'});
+        $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 Warranty job3'});
         $scope.goBack = function () {
             $ionicHistory.goBack();
         };
@@ -39,6 +79,7 @@ angular.module('oinio.generateOrdersController', [])
             servicePartOrder["Account__c"] = $stateParams.accountId;// 客户ID
             servicePartOrder["Service_Order_Overview__c"] = $stateParams.workOrderId;//工单ID
             servicePartOrder["Priority__c"] = document.getElementById("Priority__c").value;//订单等级
+            servicePartOrder["Work_Order_Type__c"] = $('#select_work_type option:selected').val();//作业类型
             var seleCurrentDate = document.getElementById("currentDate").value;
             servicePartOrder["Delivery_Date__c"] = new Date(Date.parse(seleCurrentDate.replace(/-/g, "/"))).format('yyyy-MM-dd');// 订单日期
             servicePartOrder["Entire__c"] = document.getElementById("Entire__c").checked;// 是否整单交货

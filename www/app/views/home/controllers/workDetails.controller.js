@@ -2350,7 +2350,7 @@ angular.module('oinio.workDetailsControllers', [])
           if (element.priceCondition != null) {
             onePartOriginals['Gross_Price__c'] = element.priceCondition.price;//公布价
           }
-          onePartOriginals['Reserved__c'] = element.View_Integrity__c;//预留
+          // onePartOriginals['View_Integrity__c'] = element.View_Integrity__c;//预留
           onePartOriginals['Service_Material__c'] = element.Id;//Service_Material__c
           onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
           onePartOriginals['Parts_Type__c'] = element.type;//配件类型
@@ -2472,6 +2472,10 @@ angular.module('oinio.workDetailsControllers', [])
         //跳转备件页面前先保存配件信息
         AppUtilService.showLoading();
         regroupPartList = [];
+        var part_InputForListChecked = [];//预留状态
+        $('input.partCheckbox').each(function (index, element) {
+          part_InputForListChecked.push(element.checked);
+        });
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           const element = $scope.selectedTruckFitItems[i];
           var onePartOriginals = {};
@@ -2482,7 +2486,7 @@ angular.module('oinio.workDetailsControllers', [])
             onePartOriginals['Gross_Price__c'] = element.priceCondition.price;//公布价
           }
 
-          onePartOriginals['Reserved__c'] = element.Reserved__c;//预留
+          onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
           onePartOriginals['Service_Material__c'] = element.Id;//Service_Material__c
           onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
           onePartOriginals['Parts_Type__c'] = element.type;//配件类型
@@ -3730,7 +3734,7 @@ angular.module('oinio.workDetailsControllers', [])
                     break;
             }
         };
-        
+
         $scope.changeWorkType =function (itemWorkType) {
             $scope.mainTanceChioces=[];
             if (itemWorkType.indexOf('Z80')>-1 || itemWorkType.indexOf('Z81')>-1 || itemWorkType.indexOf('Z82')>-1 || itemWorkType.indexOf('Z83')>-1){

@@ -498,6 +498,14 @@
               forNowlist.push(currentOrder[index]);
             }
 
+            if (status =="Not Completed"){  //进行中
+              if(userStatus !="Not Completed"&&userStatus !="Not Planned"&&userStatus !="Not Started"&&userStatus !="Service Completed"&&userStatus !="to be assigned"){
+                forNowlist.push(currentOrder[index]);
+              }
+            }
+            if (status =="Not Planned" &&userStatus =="to be assigned"){  //未安排
+                forNowlist.push(currentOrder[index]);
+            }
           }
           return forNowlist;
         };
@@ -578,8 +586,21 @@
               if (!res) {
                 return;
               }
-              allUser = res;
+              var allOrdersForAddArmy = {};
+              allOrdersForAddArmy['userId'] = "";
+              allOrdersForAddArmy['userName'] = "全部";
+              allOrdersForAddArmy['orders'] = [];
+              allOrdersForAddArmy['manageUserIds'] = [];
+              _.each(res,function (userItems) {
+                _.each(userItems.orders,function (userItem) {
+                  allOrdersForAddArmy.orders.push(userItem);
+                });
+              });
+              res.push(allOrdersForAddArmy);
+              console.log('res  all', res);
+
               $rootScope.allUser = res;
+              allUser = res;
 
               if (typeof (getOrderById(oCurrentUser.Id)) === 'undefined') {
                 currentOrder = allUser[0].orders;
@@ -826,6 +847,8 @@
               returnType = 'table_Right workon_Icon ';
             } else if (type === 'Service Completed') {  //已完成
               returnType = 'table_Right checkmark_Icon ';
+            }else {
+              returnType = 'table_Right workon_Icon ';//其他
             }
             return returnType;
           };
