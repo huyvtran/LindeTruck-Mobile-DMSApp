@@ -28,8 +28,10 @@ angular.module('oinio.SendMorePeopleController', [])
                 null,
                 function callBack(res) {
                     AppUtilService.hideLoading();
-                    $scope.initAssignUserData(res.assignUser);
-                    $scope.initSavedUserData(res.savedUser,res.assignUser);
+                    if (res.assignUser[0]!=="查找不到Sales Office!"){
+                        $scope.initAssignUserData(res.assignUser);
+                        $scope.initSavedUserData(res.savedUser,res.assignUser);
+                    }
                 },function error(msg) {
                     AppUtilService.hideLoading();
                     console.log(msg);
@@ -93,14 +95,14 @@ angular.module('oinio.SendMorePeopleController', [])
                         });
                     }
                 },300);
-
-
             }else{
                 var tempWorkers=$scope.workers;
                 $scope.workers=[];
-                for (var i=0;i<tempWorkers.length;i++){
-                    if (tempWorkers[i].value.trim().toLowerCase().indexOf(keyWords.toLowerCase())>-1){
-                        $scope.workers.push(tempWorkers[i]);
+                if (tempWorkers.length>0){
+                    for (var i=0;i<tempWorkers.length;i++){
+                        if (tempWorkers[i].value.trim().toLowerCase().indexOf(keyWords.toLowerCase())>-1){
+                            $scope.workers.push(tempWorkers[i]);
+                        }
                     }
                 }
             }
