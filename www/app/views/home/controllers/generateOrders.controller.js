@@ -67,10 +67,17 @@ angular.module('oinio.generateOrdersController', [])
         });
         //         生成备件订单
         $scope.goToGenerate = function () {
-            AppUtilService.showLoading();
-            var payload1 = $scope.upsertSapOrder + $stateParams.workOrderId;
+          var seleCurrentDate = document.getElementById("currentDate").value;
+          var getDelivery_Date__c = new Date(Date.parse(seleCurrentDate.replace(/-/g, "/"))).format('yyyy-MM-dd');
+            if (getDelivery_Date__c =="1970-01-01"){
+              var ionPop = $ionicPopup.alert({
+                title: "请选择订单日期"
+              });
+              return;
+            }
+          AppUtilService.showLoading();
+          var payload1 = $scope.upsertSapOrder + $stateParams.workOrderId;
             console.log("payload1", payload1);
-
             var servicePartOrder = {};
             servicePartOrder["Consignee__c"] = oCurrentUser.Id;//收货联系人: Consignee__c (User Id)
             servicePartOrder["Tel__c"] = $scope.Tel__c;// 联系电话
@@ -80,8 +87,7 @@ angular.module('oinio.generateOrdersController', [])
             servicePartOrder["Service_Order_Overview__c"] = $stateParams.workOrderId;//工单ID
             servicePartOrder["Priority__c"] = document.getElementById("Priority__c").value;//订单等级
             servicePartOrder["Work_Order_Type__c"] = $('#select_work_type option:selected').val();//作业类型
-            var seleCurrentDate = document.getElementById("currentDate").value;
-            servicePartOrder["Delivery_Date__c"] = new Date(Date.parse(seleCurrentDate.replace(/-/g, "/"))).format('yyyy-MM-dd');// 订单日期
+            servicePartOrder["Delivery_Date__c"] = getDelivery_Date__c;// 订单日期
             servicePartOrder["Entire__c"] = document.getElementById("Entire__c").checked;// 是否整单交货
             var payload2 = $scope.saveServicePartOrder + $stateParams.workOrderId + "&servicePartOrder="+JSON.stringify(servicePartOrder);
             console.log("payload2", payload2);

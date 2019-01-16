@@ -4,6 +4,7 @@ angular.module('oinio.RefundController', [])
 
         $scope.selectRefundInfo = [];
         $scope.paramSaveDeliveryOrdersUrl = "/UpdateDeliveryOrders/";
+        $scope.paramUpdateSubmitDeliverOrders = "/UpdateSubmitDeliverOrders?recordId=";
         $scope.paramSaveAndSubminDeliveryOrdersUrl = "/submitDeliverOrders/";
       $scope.diffReasonSites = [
         {site : "1", name : "多订"},
@@ -125,18 +126,30 @@ angular.module('oinio.RefundController', [])
             console.log("payload1", payload1);
             ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response) {
                 console.log("POST_success1:", response);
-                var payload2 = $scope.paramSaveAndSubminDeliveryOrdersUrl +"?recordId="+$stateParams.orderDetailsId + "&deliveryorders="+JSON.stringify($scope.selectRefundInfo);
+                var payload2 = $scope.paramUpdateSubmitDeliverOrders + $stateParams.orderDetailsId;
                 console.log("payload2", payload2);
                 ForceClientService.getForceClient().apexrest(payload2, 'POST', {}, null, function (response) {
-                    console.log("POST_success2:", response);
-                  $scope.deleteIds = [];
-                  AppUtilService.hideLoading();
+                  console.log("POST_success2:", response);
+                  var payload3 = $scope.paramSaveAndSubminDeliveryOrdersUrl +"?recordId="+$stateParams.orderDetailsId + "&deliveryorders="+JSON.stringify($scope.selectRefundInfo);
+                  console.log("payload3", payload3);
+                  ForceClientService.getForceClient().apexrest(payload3, 'POST', {}, null, function (response) {
+                    console.log("POST_success3:", response);
+                    $scope.deleteIds = [];
+                    AppUtilService.hideLoading();
                     var ionPop = $ionicPopup.alert({
-                    title: "提交成功"
-                });
-                ionPop.then(function (res) {
-                    $ionicHistory.goBack();
-                });
+                      title: "提交成功"
+                    });
+                    ionPop.then(function (res) {
+                      $ionicHistory.goBack();
+                    });
+
+                  }, function (error) {
+                    console.log("POST_error3:", error);
+                    AppUtilService.hideLoading();
+                    var ionPop = $ionicPopup.alert({
+                      title: "提交失败"
+                    });
+                  });
 
                 }, function (error) {
                     console.log("POST_error2:", error);

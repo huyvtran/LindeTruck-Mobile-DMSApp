@@ -2545,13 +2545,6 @@ angular.module('oinio.workDetailsControllers', [])
 
           }
         }
-        // _.each(regroupPartList,function (elementP) {
-        //   if (elementP.Procurement_Information__c!=null) {
-        //     regroupPartList.remove(elementP);
-        //     // setTimeout(function () {
-        //     // }, 50);
-        //   }
-        // });
         console.log('regroupPartList:', regroupPartList);
         var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId + '&materialSumJSON=' + JSON.stringify(
           regroupPartList);
