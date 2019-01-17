@@ -2,7 +2,7 @@
  * Module oinio.services HomeService
  */
 angular.module('oinio.services', [])
-    .service('HomeService', function HomeService($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalSyncService,ForceClientService, SMARTSTORE_COMMON_SETTING){
+    .service('HomeService', function HomeService($q, $filter, $log, LocalDataService, ConnectionMonitor, IonicLoadingService, LocalCacheService, LocalSyncService,ForceClientService, SMARTSTORE_COMMON_SETTING){
         let service = this;
 
         /*
@@ -312,10 +312,10 @@ angular.module('oinio.services', [])
                 });
 
                 //将当前用户排在前面
-                /*
+
                 let resultCurrent = [];
                 let resultsOther = [];
-                let resultsAll = [];
+                //let resultsAll = [];
                 angular.forEach(results, function (re) {
                     if(re.userId == LocalCacheService.get('currentUser')){
                         resultCurrent.push(re);
@@ -323,11 +323,9 @@ angular.module('oinio.services', [])
                         resultsOther.push(re);
                     }
                 }
-                resultsAll = resultCurrent.concat(resultsOther);
+                let resultsAll = resultCurrent.concat(resultsOther);
                 deferred.resolve(resultsAll);
-                   */
-                
-                deferred.resolve(result);
+                //deferred.resolve(result);
             } catch (err) {
                 $log.error(err);
                 console.error(err);
