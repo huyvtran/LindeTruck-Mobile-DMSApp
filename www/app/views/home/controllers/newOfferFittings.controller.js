@@ -46,7 +46,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           let responseItem = response.priceCondition;
           if (responseItem){
             $scope.manMadePrice1 = responseItem.price;
-            $scope.discountPrice1 = -responseItem.discount / 100;
+            $scope.discountPrice1 = (responseItem.discount + 100) / 100;
           }
           manMadeNo1Id = response.Id;
           manMadeNo1Name = response.Name;
@@ -62,7 +62,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           let responseItem = response.priceCondition;
           if (responseItem){
             $scope.manMadePrice2 = responseItem.price;
-            $scope.discountPrice2 = -responseItem.discount / 100;
+            $scope.discountPrice2 = (responseItem.discount + 100) / 100;
           }
           manMadeNo2Id = response.Id;
           manMadeNo2Name = response.Name;
@@ -93,7 +93,7 @@ angular.module('oinio.NewOfferFittingsController', [])
               if (item.Quantity__c) {
                 item.quantity=item.Quantity__c;
                 if (item.priceCondition) {
-                  item.priceCondition.discount = -item.priceCondition.discount / 100;
+                  item.priceCondition.discount = (item.priceCondition.discount + 100) / 100;
                 }
               }
               // item.parts_number__c=item.parts_number__c;
@@ -141,7 +141,7 @@ angular.module('oinio.NewOfferFittingsController', [])
                 for (let i = 0; i < responsePartsRelateds.length; i++) {
                   var responsePartsRelatedsList = responsePartsRelateds[i];
                   if (responsePartsRelatedsList[0].priceCondition) {
-                    responsePartsRelatedsList[0].priceCondition.discount = -responsePartsRelatedsList[0].priceCondition.discount / 100;
+                    responsePartsRelatedsList[0].priceCondition.discount = (responsePartsRelatedsList[0].priceCondition.discount + 100) / 100;
                   }
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[0]);
                 }
@@ -178,7 +178,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             for (let i = 0; i < responsePartsRelateds.length; i++) {
               var responsePartsRelatedsList = responsePartsRelateds[i];
               if (responsePartsRelatedsList[0].priceCondition) {
-                responsePartsRelatedsList[0].priceCondition.discount = -responsePartsRelatedsList[0].priceCondition.discount / 100;
+                responsePartsRelatedsList[0].priceCondition.discount = (responsePartsRelatedsList[0].priceCondition.discount + 100) / 100;
               }
               $scope.selectedTruckFitItems.push(responsePartsRelatedsList[0]);
             }
@@ -452,19 +452,19 @@ angular.module('oinio.NewOfferFittingsController', [])
                 responsePartsRelatedsList[j]["edit"] = true;
                 if (responsePartsRelatedsList[j].type == 'common') {
                   if (responsePartsRelatedsList[j].priceCondition) {
-                    responsePartsRelatedsList[j].priceCondition.discount = -responsePartsRelatedsList[j].priceCondition.discount / 100;
+                    responsePartsRelatedsList[j].priceCondition.discount = (responsePartsRelatedsList[j].priceCondition.discount + 100) / 100;
                   }
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 }
                 if (responsePartsRelatedsList[j].type == 'economical') {
                   if (responsePartsRelatedsList[j].priceCondition) {
-                    responsePartsRelatedsList[j].priceCondition.discount = -responsePartsRelatedsList[j].priceCondition.discount / 100;
+                    responsePartsRelatedsList[j].priceCondition.discount = (responsePartsRelatedsList[j].priceCondition.discount + 100)  / 100;
                   }
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 }
                 if (responsePartsRelatedsList[j].type == 'substitution') {
                   if (responsePartsRelatedsList[j].priceCondition) {
-                    responsePartsRelatedsList[j].priceCondition.discount = -responsePartsRelatedsList[j].priceCondition.discount / 100;
+                    responsePartsRelatedsList[j].priceCondition.discount = (responsePartsRelatedsList[j].priceCondition.discount + 100) / 100;
                   }
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 }
@@ -522,14 +522,14 @@ angular.module('oinio.NewOfferFittingsController', [])
                 responsePartsRelatedsList[j]["edit"] = true;
                 if (responsePartsRelatedsList[j].type == 'common') {
                   if (responsePartsRelatedsList[j].priceCondition) {
-                    responsePartsRelatedsList[j].priceCondition.discount = -responsePartsRelatedsList[j].priceCondition.discount / 100;
+                    responsePartsRelatedsList[j].priceCondition.discount = (responsePartsRelatedsList[j].priceCondition.discount + 100)  / 100;
                   }
                   //
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 }
                 if (responsePartsRelatedsList[j].type == 'substitution') {
                   if (responsePartsRelatedsList[j].priceCondition) {
-                    responsePartsRelatedsList[j].priceCondition.discount = -responsePartsRelatedsList[j].priceCondition.discount / 100;
+                    responsePartsRelatedsList[j].priceCondition.discount = (responsePartsRelatedsList[j].priceCondition.discount + 100)  / 100;
                   }
                   $scope.selectedTruckFitItems.push(responsePartsRelatedsList[j]);
                 }
@@ -546,12 +546,20 @@ angular.module('oinio.NewOfferFittingsController', [])
       $scope.calculatePriceConditionPriceAll = function () {
         //计算合计
         $scope.priceConditionPriceAll = 0;
-        for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-          if ($scope.selectedTruckFitItems[i].priceCondition) {
-            $scope.priceConditionPriceAll =
-              Number($scope.selectedTruckFitItems[i].priceCondition.favourablePrice) * Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll;
+        // for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
+        //   if ($scope.selectedTruckFitItems[i].priceCondition) {
+        //     $scope.priceConditionPriceAll =
+        //       Number($scope.selectedTruckFitItems[i].priceCondition.favourablePrice) * Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll;
+        //   }
+        // }
+
+        $scope.priceConditionPriceAll =  _.sum(_.map($scope.selectedTruckFitItems, function (item) {
+          if (item.priceCondition) {
+            console.log('favourablePrice',item.priceCondition.favourablePrice,'quantity',item.quantity);
+            return (_.isNaN(item.priceCondition.favourablePrice) ? 0 : Number(item.priceCondition.favourablePrice)) * (_.isNaN(item.quantity) ? 0 : Number(item.quantity));
           }
-        }
+        }));
+
         console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
 
       };
@@ -763,7 +771,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         oneLabourOriginals1['Gross_Price__c'] = $scope.manMadePrice1;
         oneLabourOriginals1['Gross_Amount__c'] =  Number($scope.manMadePrice1)*Number($scope.manMadeNo1);
         oneLabourOriginals1['Quantity__c'] = $scope.manMadeNo1;
-        oneLabourOriginals1['Discount__c'] = -(Number($scope.discountPrice1) * 100);
+        oneLabourOriginals1['Discount__c'] = (Number($scope.discountPrice1) * 100) - 100;
         oneLabourOriginals1['Net_Amount__c'] = Number($scope.discountPrice1) * Number($scope.manMadePrice1) * Number($scope.manMadeNo1);//优惠总价
         oneLabourOriginals1["Net_Price__c"] =  Number($scope.discountPrice1) * Number($scope.manMadePrice1);
         oneLabourOriginals1['Line_Item__c'] = 1;
@@ -777,7 +785,7 @@ angular.module('oinio.NewOfferFittingsController', [])
         oneLabourOriginals2['Gross_Price__c'] = $scope.manMadePrice2;
         oneLabourOriginals2['Gross_Amount__c'] = Number($scope.manMadePrice2)*Number($scope.manMadeNo2);
         oneLabourOriginals2['Quantity__c'] = $scope.manMadeNo2;
-        oneLabourOriginals2['Discount__c'] = -(Number($scope.discountPrice2) * 100);
+        oneLabourOriginals2['Discount__c'] = (Number($scope.discountPrice2) * 100) - 100;
         oneLabourOriginals2['Net_Amount__c'] = Number($scope.discountPrice2) * Number($scope.manMadePrice2) * Number($scope.manMadeNo2);//优惠总价
         oneLabourOriginals2["Net_Price__c"] =  Number($scope.discountPrice2) * Number($scope.manMadePrice2);
         oneLabourOriginals2['Line_Item__c'] = 2;
@@ -821,7 +829,7 @@ angular.module('oinio.NewOfferFittingsController', [])
           oneLabourOriginals3['Gross_Amount__c'] = Number(sv_InputForListPrice[index])*Number(sv_InputForListNo[index]);//总价
           oneLabourOriginals3['Gross_Price__c'] = sv_InputForListPrice[index];//单价
           oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];//数量
-          oneLabourOriginals3['Discount__c'] = -(Number(sv_InputForListDiscount[index]) * 100);//折扣
+          oneLabourOriginals3['Discount__c'] = (Number(sv_InputForListDiscount[index]) * 100) - 100;//折扣
           oneLabourOriginals3['Net_Price__c'] = Number(sv_InputForListDiscount[index]) * Number(sv_InputForListPrice[index]);//优惠单价
           oneLabourOriginals3['Net_Amount__c'] = sv_InputForListSpecial[index];//优惠总价
           oneLabourOriginals3['Line_Item__c'] = index+3;
@@ -862,7 +870,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             oneLabourOriginals4['Net_Price__c'] = selectedTruckFitItemsIndex.priceCondition.favourablePrice;//优惠单价
           }
           oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
-          oneLabourOriginals4['Discount__c'] = -(Number(part_InputForListDiscount[index]) * 100);
+          oneLabourOriginals4['Discount__c'] = (Number(part_InputForListDiscount[index]) * 100) - 100;
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
           oneLabourOriginals4['Net_Amount__c'] = selectedTruckFitItemsIndex.part_InputForListSpecial;//优惠总价
           oneLabourOriginals4['Line_Item__c'] = 100 + index;
@@ -1212,7 +1220,7 @@ angular.module('oinio.NewOfferFittingsController', [])
 
             for (let i = 0; i < rebuildListForLSG.length; i++) {
               if (rebuildListForLSG[i].priceCondition) {
-                rebuildListForLSG[i].priceCondition.discount = -rebuildListForLSG[i].priceCondition.discount / 100;
+                rebuildListForLSG[i].priceCondition.discount = (rebuildListForLSG[i].priceCondition.discount + 100) / 100;
               }
               $scope.selectedTruckFitItems.push(rebuildListForLSG[i]);
             }
@@ -1355,7 +1363,7 @@ angular.module('oinio.NewOfferFittingsController', [])
             for (let i = 0; i < responsePartsRelateds.length; i++) {
               var responsePartsRelatedsList = responsePartsRelateds[i];
               if (responsePartsRelatedsList[0].priceCondition) {
-                responsePartsRelatedsList[0].priceCondition.discount = -responsePartsRelatedsList[0].priceCondition.discount / 100;
+                responsePartsRelatedsList[0].priceCondition.discount = (responsePartsRelatedsList[0].priceCondition.discount + 100) / 100;
               }
               $scope.selectedTruckFitItems.push(responsePartsRelatedsList[0]);
             }
