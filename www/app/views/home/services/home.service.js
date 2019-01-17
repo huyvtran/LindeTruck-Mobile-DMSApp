@@ -312,6 +312,7 @@ angular.module('oinio.services', [])
                 });
 
                 //将当前用户排在前面
+                /*
                 let resultCurrent = [];
                 let resultsOther = [];
                 let resultsAll = [];
@@ -324,6 +325,9 @@ angular.module('oinio.services', [])
                 }
                 resultsAll = resultCurrent.concat(resultsOther);
                 deferred.resolve(resultsAll);
+                   */
+                
+                deferred.resolve(result);
             } catch (err) {
                 $log.error(err);
                 console.error(err);
