@@ -311,8 +311,19 @@ angular.module('oinio.services', [])
                     });
                 });
 
-
-                deferred.resolve(results);
+                //将当前用户排在前面
+                let resultCurrent = [];
+                let resultsOther = [];
+                let resultsAll = [];
+                angular.forEach(results, function (re) {
+                    if(re.userId == LocalCacheService.get('currentUser')){
+                        resultCurrent.push(re);
+                    }else{
+                        resultsOther.push(re);
+                    }
+                }
+                resultsAll = resultCurrent.concat(resultsOther);
+                deferred.resolve(resultsAll);
             } catch (err) {
                 $log.error(err);
                 console.error(err);
