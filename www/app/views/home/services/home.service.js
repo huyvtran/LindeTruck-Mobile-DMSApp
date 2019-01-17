@@ -240,6 +240,7 @@ angular.module('oinio.services', [])
                         let each = new Object();
                         each.userId = btu.Manager__c;
                         each.userName = btu.Manager__r == null? null : btu.Manager__r.Name;
+                        each.Team_Leader__c = btu.Team_Leader__c;
                         each.userSoupEntryId = btu.Manager__r == null? null : btu.Manager__r._soupEntryId;
                         each.manageUserIds = [];
                         each.manageUserIds.push(btu.Manager__c);
