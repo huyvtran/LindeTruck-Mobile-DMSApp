@@ -586,6 +586,8 @@
               if (!res) {
                 return;
               }
+              $rootScope.allUser = [];
+              allUser = [];
               var allOrdersForAddArmy = {};
               allOrdersForAddArmy['userId'] = "";
               allOrdersForAddArmy['userName'] = "全部";

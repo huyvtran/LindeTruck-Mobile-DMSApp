@@ -5,7 +5,23 @@ angular.module('oinio.CalendarArrangeController', [])
         $scope.goBack = function () {
             window.history.go(-1);
         };
-
+      /**
+       *删除数组指定下标或指定对象
+       */
+      Array.prototype.remove = function (obj) {
+        for (var i = 0; i < this.length; i++) {
+          var temp = this[i];
+          if (!isNaN(obj)) {
+            temp = i;
+          }
+          if (temp == obj) {
+            for (var j = i; j < this.length; j++) {
+              this[j] = this[j + 1];
+            }
+            this.length = this.length - 1;
+          }
+        }
+      };
         $scope.updateDataStatusUrl="/WorkDetailService?action=updateStatus";
         $scope.savePlanDateUrl="/services/apexrest/HomeService?orderId=";
         $scope.submitOrder = function () {
@@ -17,15 +33,15 @@ angular.module('oinio.CalendarArrangeController', [])
                 });
                 return;
             }
-            var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index           
+            var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index
             var selectUserEntryId = $scope.allUser[selectUserGroup].userSoupEntryId;//所有用户数组
             var selectUserId = $scope.allUser[selectUserGroup].userId;//所有用户ID
 
             // 提交请求
-            var userSoupEntryId = new Object(); 
+            var userSoupEntryId = new Object();
             userSoupEntryId.Id = selectUserId;
             userSoupEntryId._soupEntryId = selectUserEntryId;
-            var orderSoupEntryId = new Object(); 
+            var orderSoupEntryId = new Object();
             orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
             console.log($stateParams.workOrderId);
 
@@ -97,18 +113,24 @@ angular.module('oinio.CalendarArrangeController', [])
                         });
                         return false;
                     });
-            
+
         };
-        
+
         $(function () {
             var calendar = new lCalendar();
 			calendar.init({
 				'trigger': '#currentDate',
 				'type': 'date'
             });
-            
+
              $scope.allUser = angular.fromJson($stateParams.SendAllUser);
-        
+            _.each($scope.allUser,function (item) {
+              if (item.userName == "全部") {
+                setTimeout(function () {
+                  $scope.allUser.remove(item);
+                }, 50);
+              }
+            });
         });
     });
 
