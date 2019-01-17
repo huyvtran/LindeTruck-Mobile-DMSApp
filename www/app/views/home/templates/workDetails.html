@@ -397,12 +397,15 @@
 										</ion-item>
 										<ion-item class="item-accordion" ng-repeat="litems in group.partList" ng-show="isGroupShown(group)">
 											<div class="import_Body import_SecondBody">
-												<div class="import_Left"> </div>
-												<div class="import_Center">
+												<div class="import_Left" style="width: 1px;"> </div>
+												<div class="import_Center" style="width:85%;">
 													<input data-recordid={{litems.Id}} ng-click="checkSearchResultsCommonPart(litems)"  class="ckbox_truck_searchresult_itemCommonPart" type="checkbox" ng-checked="isTruckPartSelected(litems)"  />
-													<div> {{litems.Name}} </div>
+													<div>
+														<p style="line-height:12px;font-size:12px;">{{litems.Part_Number__c}}</p>
+														<p style="line-height:12px;font-size:12px;">{{litems.Part_Description__c}}</p>
+													</div>
 												</div>
-												<div class="import_Right"> {{litems.Quality__c}} </div>
+												<div class="import_Right" style="width:10%;"> {{litems.Quantity__c == null ? 0 : litems.Quantity__c}} </div>
 											</div>
 										</ion-item>
 									</div>
