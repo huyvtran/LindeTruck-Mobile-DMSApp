@@ -11,7 +11,7 @@
         var myPopup;
         var allUser = [];
         var allOrders = [];
-        var allUserName = [];
+        $rootScope.allUser = [];
         let events = [];
         var currentOrder = [];
         var firstRunFun = false;
@@ -597,16 +597,42 @@
                 });
               });
               res.push(allOrdersForAddArmy);
-              console.log('res  all', res);
 
-              $rootScope.allUser = res;
-              allUser = res;
+              //判断是否组长逻辑
+              var TeamLeaderOrNot = false;
+              _.each(res,function (userItems) {
+                if (oCurrentUser.Id ==userItems.userId){
+                  if(userItems.Team_Leader__c){
+                    TeamLeaderOrNot = true;
+                  }
+                }
+              });
+              if (TeamLeaderOrNot) {
+                $rootScope.allUser = res;
+                allUser = res;
+              }else {
+                _.each(res,function (userItems) {
+                  if (oCurrentUser.Id ==userItems.userId){
+                    $rootScope.allUser.push(userItems);
+                    allUser.push(userItems);
+                  }
+                  if(userItems.userName == "全部"){
+                    $rootScope.allUser.push(userItems);
+                    allUser.push(userItems);
+                  }
+                });
+              }
+
+              console.log('allUser  ', allUser);
+
 
               if (typeof (getOrderById(oCurrentUser.Id)) === 'undefined') {
                 currentOrder = allUser[0].orders;
               } else {
                 currentOrder = getOrderById(oCurrentUser.Id).orders;
               }
+
+
               //日历下方列表
               allOrders = currentOrder;
               $scope.currentOrder = getServiceOrderType(allOrders);
