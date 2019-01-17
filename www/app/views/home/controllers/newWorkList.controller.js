@@ -622,7 +622,8 @@ angular.module('oinio.newWorkListControllers', [])
                                             enableArrivalBtn:false,
                                             selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
                                             workOrderId:currentWorkOrderId,
-                                            accountId:$scope.searchResultAcctId
+                                            accountId:$scope.searchResultAcctId,
+                                            orderBelong:true
                                         });
                                     $rootScope.getSomeData();//刷新日历下方工单列表
 
