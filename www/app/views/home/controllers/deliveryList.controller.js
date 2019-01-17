@@ -95,10 +95,14 @@ angular.module('oinio.deliveryListController', [])
             _.each(responseGetDelivery, function (partItem) {
               partItem.isClick = false;
 
-              if (partItem.Delivery_Order_Status__c == "null" ||!partItem.Delivery_Order_Status__c){ //草稿列表
-
+              // if (partItem.Delivery_Order_Status__c == "null" ||!partItem.Delivery_Order_Status__c){ //草稿列表
+              //   $scope.rejectedItems.push(partItem);
+              // }else if (partItem.Delivery_Order_Status__c =="03") {   //交货列表
+              //   $scope.draftRejectedItems.push(partItem);
+              // }
+              if (partItem.Delivery_Order_Status__c =="03"){ //草稿列表
                 $scope.rejectedItems.push(partItem);
-              }else if (partItem.Delivery_Order_Status__c =="03") {   //交货列表
+              }else {   //交货列表
                 $scope.draftRejectedItems.push(partItem);
               }
             });
