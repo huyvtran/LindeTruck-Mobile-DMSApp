@@ -39,7 +39,7 @@
             <div class="small_Type_Title">工程师:</div>
             <div class="small_Type_Box">
                 <select class="small_Type_Select" id="selectUserGroup">
-                    <option ng-repeat="itemWorker in allWorkers">{{itemWorker.userName}} </option>
+                    <option ng-repeat="itemWorker in allWorkers" value="{{itemWorker.userId}}"> {{itemWorker.userName}} </option>
                 </select>
             </div>
         </div>

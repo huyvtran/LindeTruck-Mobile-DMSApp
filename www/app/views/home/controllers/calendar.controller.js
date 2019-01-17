@@ -170,7 +170,7 @@
                 text: '<b>转派</b>',
                 type: 'button-balanced',
                 onTap: function (e) {
-                  $state.go('app.transfer', {workOrderId: item.Id});
+                  $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
                 }
               }
             ];
@@ -202,7 +202,7 @@
                   text: '<b>转派</b>',
                   type: 'button-balanced',
                   onTap: function (e) {
-                      $state.go('app.transfer', {workOrderId: item.Id});
+                      $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
                   }
               }
             ];
@@ -226,7 +226,7 @@
                   text: '<b>转派</b>',
                   type: 'button-balanced',
                   onTap: function (e) {
-                      $state.go('app.transfer', {workOrderId: item.Id});
+                      $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
                   }
               }
             ];

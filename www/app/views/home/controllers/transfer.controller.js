@@ -1,8 +1,9 @@
 angular.module('oinio.TransferController', [])
     .controller('TransferController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,
-                                                ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService) {
+                                                ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService,HomeService) {
         var vm = this,
             currentOrderId=null,
+            currentOrderUserId="",
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         $scope.allWorkers=[];
         $scope.getInitDataUri="/WorkDetailService";
@@ -16,38 +17,37 @@ angular.module('oinio.TransferController', [])
         $scope.$on('$ionicView.enter', function () {
 
             console.log("$stateParams.workOrderId",$stateParams.workOrderId);
+            console.log("$stateParams.userId",$stateParams.userId);
+            currentOrderUserId = $stateParams.userId;
             currentOrderId= $stateParams.workOrderId;
             $scope.initPageAllWokers();
         });
 
         $scope.initPageAllWokers=function(){
             AppUtilService.showLoading();
-            ForceClientService.getForceClient().apexrest(
-                $scope.getInitDataUri+'/'+currentOrderId+'/'+oCurrentUser.Id,
-                "GET",
-                {},
-                null,
-                function callBack(res) {
-                    AppUtilService.hideLoading();
-                    $scope.allWorkers=[];
-                    if (res.assignUser.length>0){
-                        for (var i =0;i<res.assignUser.length;i++){
-                            var arr = res.assignUser[i].split(',');
-                            $scope.allWorkers.push({
-                                userId:arr[0],
-                                userName:arr[1]
-                            }) ;
-                        }
+            $scope.allWorkers=[];
+            HomeService.getEachOrder().then(function callBack(res) {
+                console.log(res);
+                AppUtilService.hideLoading();
+                if (res.length>0){
+                    for (var i =0;i<res.length;i++){
+                        $scope.allWorkers.push({
+                            userId:res[i].userId,
+                            userName:res[i].userName
+                        });
                     }
-                },function error(msg) {
-                    AppUtilService.hideLoading();
-                    console.log(msg);
-                    $ionicPopup.alert({
-                        title:"舒适化小组内成员数据失败"
-                    });
-                    return false;
+                   setTimeout(function () {
+                       $('#selectUserGroup').find('option[value = ' + currentOrderUserId+ ']').attr('selected', true);
+                   },500);
                 }
-            );
+            },function error(msg) {
+                AppUtilService.hideLoading();
+                console.log(msg);
+                $ionicPopup.alert({
+                    title:"初始化小组内成员数据失败"
+                });
+                return false;
+            });
         };
 
         $scope.goBack=function () {
