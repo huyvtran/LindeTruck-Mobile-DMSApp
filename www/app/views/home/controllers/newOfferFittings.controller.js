@@ -897,18 +897,18 @@ angular.module('oinio.NewOfferFittingsController', [])
         serviceQuoteOverview['Part_Sub_Total_Gross__c'] = _.sum(_.map(truckFitItems, function (item) {
           return  _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
         }));
-        serviceQuoteOverview['Part_Discount__c'] = -(_.sum(_.map(truckFitItems, function (item) {
+        serviceQuoteOverview['Part_Discount__c'] = _.sum(_.map(truckFitItems, function (item) {
           return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
-        })) / truckFitItems.length) * 100;
+        })) / truckFitItems.length;
         serviceQuoteOverview['Part_Sub_Total_Net__c'] = _.sum(_.map(truckFitItems, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
         }));
         serviceQuoteOverview['Labour_Sub_Total_Gross__c'] = _.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
         }));
-        serviceQuoteOverview['Labour_Discount__c'] = -(_.sum(_.map(labourItems, function (item) {
+        serviceQuoteOverview['Labour_Discount__c'] = _.sum(_.map(labourItems, function (item) {
           return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
-        })) / labourItems.length) * 100;
+        })) / labourItems.length;
         serviceQuoteOverview['Labour_Sub_Total_Net__c'] = _.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
         }));
@@ -994,18 +994,18 @@ angular.module('oinio.NewOfferFittingsController', [])
         serviceQuoteOverview['Part_Sub_Total_Gross__c'] = _.sum(_.map(truckFitItems, function (item) {
           return  _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
         }));
-        serviceQuoteOverview['Part_Discount__c'] = -(_.sum(_.map(truckFitItems, function (item) {
+        serviceQuoteOverview['Part_Discount__c'] = _.sum(_.map(truckFitItems, function (item) {
           return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
-        })) / truckFitItems.length) * 100;
+        })) / truckFitItems.length;
         serviceQuoteOverview['Part_Sub_Total_Net__c'] = _.sum(_.map(truckFitItems, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
         }));
         serviceQuoteOverview['Labour_Sub_Total_Gross__c'] = _.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
         }));
-        serviceQuoteOverview['Labour_Discount__c'] = -(_.sum(_.map(labourItems, function (item) {
+        serviceQuoteOverview['Labour_Discount__c'] = _.sum(_.map(labourItems, function (item) {
           return  _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
-        })) / labourItems.length) * 100;
+        })) / labourItems.length;
         serviceQuoteOverview['Labour_Sub_Total_Net__c'] = _.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
         }));
