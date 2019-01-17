@@ -317,12 +317,12 @@ angular.module('oinio.services', [])
                 let resultsOther = [];
                 //let resultsAll = [];
                 angular.forEach(results, function (re) {
-                    if(re.userId == LocalCacheService.get('currentUser')){
+                    if(re.userId == LocalCacheService.get('currentUser').Id){
                         resultCurrent.push(re);
                     }else{
                         resultsOther.push(re);
                     }
-                }
+                });
                 let resultsAll = resultCurrent.concat(resultsOther);
                 deferred.resolve(resultsAll);
                 //deferred.resolve(result);
