@@ -120,7 +120,7 @@
         $scope.showPopup = function (item) {
           console.log('showPopup!allUser', allUser);
           console.log('showPopup!item', item);
-          isBelongCurrentUser =$scope.checkOrderBelong(item.Service_Order_Owner__c,$('#selectUserId option:selected').val());
+          isBelongCurrentUser =$scope.checkOrderBelong(item.Service_Order_Owner__c,oCurrentUser.Id);
           $scope.data = {};
           var setButtons = [];
           if (item.Status__c == 'Not Planned' || item.Status__c == 'to be assigned' ) { //Not Planned   未安排  只显示详情和安排
@@ -305,7 +305,7 @@
                   function callBack(res) {
                     console.log(res);
                     if (res.status.toLowerCase() == 'success') {
-                      $scope.goPageWorkDetails(item, true, goTime);
+                      $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
                     } else {
                       $scope.updateOrderType(item, 'Not Started');
                     }
