@@ -36,7 +36,7 @@ angular.module('oinio.SendMorePeopleController', [])
                     AppUtilService.hideLoading();
                     console.log(msg);
                     $ionicPopup.alert({
-                        title:"舒适化小组内成员数据失败",
+                        title:"初始化小组内成员数据失败",
                         template:msg
                     });
                     return false;
