@@ -10,12 +10,12 @@
      */
     angular
         .module('oinio.services')
-        .service('dualModeService', function($q, $log, $filter,LocalDataService, SMARTSTORE_COMMON_SETTING,ConnectionMonitor,
+        .service('dualModeService', function($q, $log, $filter,LocalDataService, SMARTSTORE_COMMON_SETTING,ConnectionMonitor,ForceClientService,
                                             LocalSyncService,IonicLoadingService) {
 
 
             /*** INTERFACE ***/
-            this.queryAccountInfo(keyWord, isOnline){
+            this.queryAccountInfo(keyword, isOnline){
                 let deferred = $q.defer();
                 //let result = new Object();
                 if(isOnline){
