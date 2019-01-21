@@ -255,7 +255,7 @@ angular.module('oinio.newWorkListControllers', [])
          */
         $scope.getAccts = function (keyWord) {
             AppUtilService.showLoading();
-            dualModeService.queryAccountInfo(keyWord,true).then(function callBack(response) {
+            dualModeService.queryAccountInfo(keyWord,'20',true).then(function callBack(response) {
                 console.log("AccountServicegw",keyWord);
                 AppUtilService.hideLoading();
                 let accountsName = [];
