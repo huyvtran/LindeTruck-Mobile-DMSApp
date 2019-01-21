@@ -15,13 +15,15 @@
 
 
             /*** INTERFACE ***/
-            this.queryAccountInfo = function(keyword, isOnline){
+            this.queryAccountInfo = function(keyword, limitStr, isOnline){
                 let deferred = $q.defer();
                 //let result = new Object();
                 if(isOnline){
-                    let requestUrl = '/TruckFleetTransferService?action=queryAcct&';
+                    let requestUrl = '/TruckFleetTransferService?action=queryAcct&'; limitStr
                     if(keyword != null && keyword != ''){
                         requestUrl += 'keyWord=' + keyword;
+                    }else if(limitStr != null && limitStr != ''){
+                        requestUrl += 'limitStr=' + limitStr;
                     }else{
                         deferred.reject('keyword lost !');
                     }
