@@ -307,7 +307,7 @@
             this.sendRest = function (url,requestMethod) {
                 var deferred = $q.defer();
                 console.log('Service1Service::sendRest::param::',hosturl + url);
-                ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {}, null, function (response) {
+                ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {params:hosturl + url}, null, function (response) {
                     deferred.resolve(response);
                 }, function (error) {
                     console.log('Service1Service::sendRest::error::',error);
