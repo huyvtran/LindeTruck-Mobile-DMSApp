@@ -10,7 +10,7 @@
                                              ForceClientService) {
             //Service1Service content Start.
             let service = this;
-            let hosturl = '/services/apexrest/Service1Service?';
+            let hosturl = '/Service1Service?';
 
 
 
