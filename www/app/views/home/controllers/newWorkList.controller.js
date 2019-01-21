@@ -363,7 +363,10 @@ angular.module('oinio.newWorkListControllers', [])
                     $scope.contentTruckItems = trucks;
                     console.log("init20Trucks",trucks);
                 }
-                return HomeService.getLatest3ServiceOrders($scope.searchResultAcctSoupId);
+                //offline
+                //return HomeService.getLatest3ServiceOrders($scope.searchResultAcctSoupId);
+                //online
+                return Service1Service.getLatest3ServiceOrders($scope.searchResultAcctId,true);
             },function error(msg) {
                 console.log(msg);
             }).then(function (response) {
@@ -391,7 +394,7 @@ angular.module('oinio.newWorkListControllers', [])
                     //console.log("getLatest3ServiceOrders",accountsName);
                 }
             }, function (error) {
-                $log.error('HomeService.getLatest3ServiceOrders Error ' + error);
+                $log.error('Service1Service.getLatest3ServiceOrders Error ' , error);
             }).finally(function () {
                 //AppUtilService.hideLoading();
                 $scope.closeSelectPage();
