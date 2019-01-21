@@ -1,6 +1,6 @@
 angular.module('oinio.newWorkListControllers', [])
     .controller('newWorkListController', function ($scope, $rootScope, $filter, $state,$log, $stateParams, AppUtilService, ConnectionMonitor,
-                                            LocalCacheService,HomeService,$ionicPopup,ForceClientService) {
+                                            LocalCacheService,HomeService,$ionicPopup,ForceClientService,dualModeService) {
 
         var vm = this,
             doOnline=true,
@@ -249,10 +249,13 @@ angular.module('oinio.newWorkListControllers', [])
         };
 
 
+        /**
+         * HomeService.searchAccounts to  dualModeService.queryAccountInfo
+         * @param keyWord
+         */
         $scope.getAccts = function (keyWord) {
             AppUtilService.showLoading();
-            //调用接口获取结果
-            HomeService.searchAccounts(keyWord).then(function (response) {
+            dualModeService.queryAccountInfo(keyWord,true).then(function callBack(response) {
                 console.log("AccountServicegw",keyWord);
                 AppUtilService.hideLoading();
                 let accountsName = [];
@@ -276,12 +279,45 @@ angular.module('oinio.newWorkListControllers', [])
                         //$state.go("app.home");
                     });
                 }
-            }, function (error) {
+            },function error(msg) {
                 AppUtilService.hideLoading();
-                $log.error('AccountService.searchAccounts Error ' + error);
+                $log.error('AccountService.searchAccounts Error ' + msg);
             }).finally(function () {
                 AppUtilService.hideLoading();
             });
+
+            //old
+            //调用接口获取结果
+            // HomeService.searchAccounts(keyWord).then(function (response) {
+            //     console.log("AccountServicegw",keyWord);
+            //     AppUtilService.hideLoading();
+            //     let accountsName = [];
+            //     let accountsId = [];
+            //     if (response.length > 0) {
+            //         for (let index = 0; index < response.length; index++) {
+            //             accountsName.push(response[index]);
+            //             accountsId.push(response[index].Id);
+            //         }
+            //         $scope.contentItems = accountsName;
+            //         $scope.getIds = accountsId;
+            //         console.log("AccountServicegw11",accountsName);
+            //     }
+            //     else {
+            //         var ionPop = $ionicPopup.alert({
+            //             title: "结果",
+            //             template: "没有客户数据"
+            //         });
+            //         ionPop.then(function () {
+            //             //$ionicHistory.goBack();
+            //             //$state.go("app.home");
+            //         });
+            //     }
+            // }, function (error) {
+            //     AppUtilService.hideLoading();
+            //     $log.error('AccountService.searchAccounts Error ' + error);
+            // }).finally(function () {
+            //     AppUtilService.hideLoading();
+            // });
         };
 
         $scope.selectAccount = function (acct) {
