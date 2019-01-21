@@ -15,7 +15,7 @@
 
 
             /*** INTERFACE ***/
-            this.queryAccountInfo(keyword, isOnline){
+            this.queryAccountInfo = function(keyword, isOnline){
                 let deferred = $q.defer();
                 //let result = new Object();
                 if(isOnline){
