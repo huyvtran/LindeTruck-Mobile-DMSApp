@@ -44,7 +44,7 @@
                         console.error(err);
                         deferred.reject(err);
                     });
-                    console.log('getUserObjectById::', deferred.promise);
+                    //console.log('getUserObjectById::', deferred.promise);
                     return deferred.promise;
                 }
             };
@@ -58,7 +58,7 @@
              */
             this.searchAccounts = function(keyword,isOnline){
                 if(isOnline){
-                    let sql = "select id,Name,Customer_Number__c from Account where Name like '%" + keyword +
+                    let sql = "select id,Name,Customer_Number__c,Address__c,SAP_Number__c from Account where Name like '%" + keyword +
                                 "%' or Customer_Number__c like '%" + keyword + "%' limit 50";
                     let url = service.buildURL('querySobjects',sql);
                     let requestMethod = 'GET';
@@ -79,6 +79,8 @@
                                     Id: entry[0].Id,
                                     Name: entry[0].Name,
                                     Customer_Number__c: entry[0].Customer_Number__c,
+                                    Address__c: entry[0].Address__c,
+                                    SAP_Number__c: entry[0].SAP_Number__c,
                                     _soupEntryId: entry[0]._soupEntryId
                                 });
                             });
@@ -89,7 +91,7 @@
                         console.error(err);
                         deferred.reject(err);
                     });
-                    console.log('searchAccounts::', deferred.promise);
+                    //console.log('searchAccounts::', deferred.promise);
                     return deferred.promise;
                 }
             };
@@ -107,7 +109,6 @@
                     let requestMethod = 'GET';
                     return service.sendRest(url,requestMethod);
                 } else {
-                    console.log('getLatest3ServiceOrders.keyword:%s', acctId);
                     let deferred = $q.defer();
 
                     let sql = "select {Service_Order_Overview__c:_soup}\
@@ -140,7 +141,7 @@
                         console.error(err);
                         deferred.reject(err);
                     });
-                    console.log('getLatest3ServiceOrders::', deferred.promise);
+                    //console.log('getLatest3ServiceOrders::', deferred.promise);
                     return deferred.promise;
                 }
             };
@@ -151,12 +152,11 @@
              */
             this.getUsersObjectByName = function(str_name,isOnline) {
                 if(isOnline){
-                    let sql = "select Id,Name from user where Name like '%" + str_name + "%' limit 50"
+                    let sql = "select Id,Name from user where Name like '%" + str_name + "%' limit 50";
                     let url = service.buildURL('querySobjects',sql);
                     let requestMethod = 'GET';
                     return service.sendRest(url,requestMethod);
                 } else {
-                    console.log('getUsersObjectByName.Name:%s', str_name);
                     let deferred = $q.defer();
 
                     let sql = "select {User:_soup}\
@@ -180,11 +180,122 @@
                         console.error(err);
                         deferred.reject(err);
                     });
-                    console.log('getUsersObjectByName::', deferred.promise);
+                    //console.log('getUsersObjectByName::', deferred.promise);
                     return deferred.promise;
                 }
             };
 
+
+            /**
+             * replace function of AccountService.getAccountWithDetails
+             */
+            this.getAccountWithDetails = function(accountId,isOnline){
+                if(isOnline){
+                    return service.getAccountObjectById(accountId,true);
+                } else {
+                    let deferred = $q.defer();
+                    service.getAccountObjectById(accountId,false).then(function (account) {
+                        account['Sale_Group_Code__r'] = service.getBTUObjectById(account.Sale_Group_Code__c,false);
+                        deferred.resolve(account);
+                    }).catch(function (err) {
+                        $log.error(err);
+                        console.error(err);
+                        deferred.reject(err);
+                    });
+                    //console.log('getAccountWithDetails::', deferred.promise);
+                    return deferred.promise;
+                }
+            };
+
+
+            /**
+             * replace function of AccountService.getAccount
+             */
+            this.getAccountObjectById = function(accountId,isOnline) {
+                if(isOnline){
+                    let sql = "select Id,Name,SAP_Number__c,Address__c,Salesman__c,Salesman_formula__c," +
+                        "Sale_Group_Code__c,Customer_Number__c,Office_Address__c,Office_Location__longitude__s,Office_Location__latitude__s" +
+                        "Sale_Group_Code__r.Id,Sale_Group_Code__r.Name" +
+                        " from Account where Id = '" + accountId + "' limit 50";
+                    let url = service.buildURL('querySobject',sql);
+                    let requestMethod = 'GET';
+                    return service.sendRest(url,requestMethod);
+                } else {
+                    let deferred = $q.defer();
+
+                    let sql = "select {Account:_soup}\
+                         from {Account}\
+                         where {Account:Id}='" + accountId + "'";
+                    let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                    navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                        let account;
+                        if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                            angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                                account = {
+                                    Id: entry[0].Id,
+                                    Name: entry[0].Name,
+                                    SAP_Number__c: entry[0].SAP_Number__c,
+                                    Address__c: entry[0].Address__c,
+                                    Salesman__c: entry[0].Salesman__c,
+                                    Salesman_formula__c: entry[0].Salesman_formula__c,
+                                    Sale_Group_Code__c: entry[0].Sale_Group_Code__c,
+                                    Customer_Number__c: entry[0].Customer_Number__c,
+                                    Office_Address__c: entry[0].Office_Address__c,
+                                    Office_Location__longitude__s: entry[0].Office_Location__longitude__s,
+                                    Office_Location__latitude__s: entry[0].Office_Location__latitude__s,
+                                    _soupEntryId: entry[0]._soupEntryId
+                                };
+                            });
+                        }
+                        deferred.resolve(account);
+                    }, function (err) {
+                        $log.error(err);
+                        console.error(err);
+                        deferred.reject(err);
+                    });
+                    //console.log('getAccount::', deferred.promise);
+                    return deferred.promise;
+                }
+            };
+
+
+            /**
+             * replace function of AccountService.getBTU
+             */
+            this.getBTUObjectById = function(btuId,isOnline) {
+                if(isOnline){
+                    let sql = "select Id,Name from BTU__c where Id = '" + btuId + "' limit 50";
+                    let url = service.buildURL('querySobject',sql);
+                    let requestMethod = 'GET';
+                    return service.sendRest(url,requestMethod);
+                } else {
+                    let deferred = $q.defer();
+
+                    let sql = "select {BTU__c:_soup}\
+                         from {BTU__c}\
+                         where {BTU__c:Id}='" + btuId + "'";
+                    let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                    navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                        let BTU;
+                        if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                            angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                                BTU = {
+                                    Id: entry[0].Id,
+                                    Name: entry[0].Name,
+                                    _soupEntryId: entry[0]._soupEntryId
+                                };
+                            });
+                        }
+                        deferred.resolve(BTU);
+                    }, function (err) {
+                        $log.error(err);
+                        console.error(err);
+                        deferred.reject(err);
+                    });
+                    //console.log('getBTU::', deferred.promise);
+                    return deferred.promise;
+                }
+            };
 
 
 
@@ -199,8 +310,9 @@
                 ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {}, null, function (response) {
                     deferred.resolve(response);
                 }, function (error) {
+                    console.log('Service1Service::sendRest::param::',hosturl + url);
                     console.log('Service1Service::sendRest::error::',error);
-                    deferred.reject(new Exception(EXCEPTION_SEVERITY.RECOVERABLE, error.status, msg, error.stack, error));
+                    deferred.reject(error);
                 });
 
                 return deferred.promise;
