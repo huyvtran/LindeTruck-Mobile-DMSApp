@@ -19,14 +19,16 @@
                 let deferred = $q.defer();
                 //let result = new Object();
                 if(isOnline){
-                    let requestUrl = '/TruckFleetTransferService?action=queryAcct&'; limitStr
+                    let requestUrl = '/TruckFleetTransferService?action=queryAcct';
                     if(keyword != null && keyword != ''){
-                        requestUrl += 'keyWord=' + keyword;
-                    }else if(limitStr != null && limitStr != ''){
-                        requestUrl += 'limitStr=' + limitStr;
+                        requestUrl += '&keyWord=' + keyword;
+                        if(limitStr != null && limitStr != ''){
+                            requestUrl += '&limitStr=' + limitStr;
+                        }
                     }else{
                         deferred.reject('keyword lost !');
                     }
+
                     deferred.resolve(this.restRequest(requestUrl));
                 }else{
                     let res = this.searchAccounts(keyword);
