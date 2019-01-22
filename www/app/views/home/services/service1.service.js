@@ -212,7 +212,7 @@
             this.getAccountObjectById = function(accountId,isOnline) {
                 if(isOnline){
                     let sql = "select Id,Name,SAP_Number__c,Address__c,Salesman__c,Salesman_formula__c," +
-                        "Sale_Group_Code__c,Customer_Number__c,Office_Address__c,Office_Location__longitude__s,Office_Location__latitude__s" +
+                        "Sale_Group_Code__c,Customer_Number__c,Office_Address__c,Office_Location__longitude__s,Office_Location__latitude__s," +
                         "Sale_Group_Code__r.Id,Sale_Group_Code__r.Name" +
                         " from Account where Id = '" + accountId + "' limit 50";
                     let url = service.buildURL('querySobject',sql);
