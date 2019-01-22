@@ -2,8 +2,8 @@
   'use strict';
   angular.module('oinio.CalendarController', [])
     .controller('CalendarController',
-      function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor, HomeService, $ionicPopup,
-                LocalCacheService, ForceClientService, AppUtilService) {
+      function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor, $ionicPopup,
+                LocalCacheService, ForceClientService, AppUtilService ,Service1Service) {
 
         var vm           = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -580,7 +580,7 @@
 
           // 这里是ajax请求，替换为你正在使用的ajax方式就可以
           $scope.getHomeService = function () {
-            HomeService.getEachOrder().then(function (res) {
+            Service1Service.getOrdersWithGroup(true).then(function (res) {
               AppUtilService.hideLoading();
               console.log('res  ', res);
               if (!res) {

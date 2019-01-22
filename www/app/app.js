@@ -182,7 +182,8 @@
                         }
                     }
 
-                    if (firstLogin == "first") {
+                    // if (firstLogin == "first") {
+                    if (true) { //临时改为始终在线
                         console.log("current firstLogin:::", firstLogin); //初始化后 永远走此分支
                         $state.go(APP_SETTINGS.START_VIEW);
                     } else {
