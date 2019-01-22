@@ -466,12 +466,9 @@
              */
             this.getOrdersWithGroup = function(isOnline) {
                 if(isOnline){
-                    let str_fields = 'Id,Name,MobilePhone,Phone,Email,Contact_State__c,Position_Type__c';
-                    let sql = "select " + str_fields +
-                        " from Contact where accountId ='" + AccountId + "' limit 50";
-                    let url = service.buildURL('querySobjects',sql);
+                    let url = service.buildURL('getOrdersWithGroup','');
                     let requestMethod = 'GET';
-                    return service.sendRest(url,sql,requestMethod);
+                    return service.sendRest(url,sql,requestMethod,null);
                 } else {
                     let deferred = $q.defer();
                     let ret, bts, orders;
