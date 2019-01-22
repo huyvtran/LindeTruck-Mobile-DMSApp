@@ -3,7 +3,7 @@
 
     angular.module('oinio.CustomDetailController', [])
         .controller('CustomDetailController', function ($scope, $http,$ionicPopup, $filter, $rootScope, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService,
-                                                        AppUtilService) {
+                                                        AppUtilService,Service1Service) {
             var myfileEntity;
             $scope.localLatitude = null;
             $scope.localLongitude = null;
@@ -48,8 +48,8 @@
 
             $scope.$on("$ionicView.enter", function () {
                 //AppUtilService.showLoading();
-                getBaseInfo();
-                getContactInfo();
+                $scope.getBaseInfo();
+                $scope.getContactInfo();
             });
 
             $scope.$on("$ionicView.leave", function () {
@@ -57,52 +57,102 @@
             });
 
             //获取基础信息
-            var getBaseInfo = function () {
+            $scope.getBaseInfo = function () {
                 //调用接口获取结果
                 console.log("$stateParams.SendPassId", $stateParams.SendPassId);
+                //online
                 AppUtilService.showLoading();
-                AccountService.getAccountWithDetails($stateParams.SendPassId).then(function (account) {
-                    console.log("getAccount", account);
-                    if (account != null) {
-                        $scope.account = account;
-                        $scope.accountName = account.Name;
-                        $scope.accountAddress = account.Address__c;
-                        $scope.accountSalesMan = account.Salesman_formula__c;
+                Service1Service.getAccountWithDetails($stateParams.SendPassId,true)
+                    .then(function callBack(account) {
+                        AppUtilService.hideLoading();
+                        console.log("getAccount", account);
+                        if (account != null) {
+                            $scope.account = account;
+                            $scope.accountName = account.Name;
+                            $scope.accountAddress = account.Address__c;
+                            $scope.accountSalesMan = account.Salesman_formula__c;
+                            //online
+                            $scope.accountGroup = account.Sale_Group_Code__r.Name;
+                            //offline
+                            // account.Sale_Group_Code__r.then(function (account) {
+                            //     if (typeof (account) != 'undefined') {
+                            //         $scope.accountGroup = account.Name;
+                            //     }
+                            // }, function error(msg) {
+                            //     $log.error('getAccount(Id).then error ' ,msg);
+                            //     console.log(msg);
+                            // });
+                        }
+                        else {
+                            $ionicPopup.alert({
+                                title: "搜索结果",
+                                template: "没有数据"
+                            });
+                        }
+                    },function error(msg) {
+                        AppUtilService.hideLoading();
+                        $log.error('Service1Service.getAccountWithDetails Error ', msg);
+                    })
+                    .finally(function () {
+                        AppUtilService.hideLoading();
+                    });
 
-                        account.BTU__r.then(function (account) {
-                            if (typeof (account) != 'undefined') {
-                                $scope.accountGroup = account.Name;
-                            }
-
-                        }, function (error) {
-                            $log.error('getAccount(Id).then error ' + error);
-                        });
-
-                    }
-                    else {
-                        $ionicPopup.alert({
-                            title: "搜索结果",
-                            template: "没有数据"
-                        });
-                    }
-                }, function (error) {
-                    $log.error('AccountService.searchAccounts Error ' + error);
-                }).finally(function () {
-                    AppUtilService.hideLoading();
-                });
+                //offline
+                // AccountService.getAccountWithDetails($stateParams.SendPassId).then(function (account) {
+                //     console.log("getAccount", account);
+                //     if (account != null) {
+                //         $scope.account = account;
+                //         $scope.accountName = account.Name;
+                //         $scope.accountAddress = account.Address__c;
+                //         $scope.accountSalesMan = account.Salesman_formula__c;
+                //
+                //         account.BTU__r.then(function (account) {
+                //             if (typeof (account) != 'undefined') {
+                //                 $scope.accountGroup = account.Name;
+                //             }
+                //
+                //         }, function (error) {
+                //             $log.error('getAccount(Id).then error ' + error);
+                //         });
+                //
+                //     }
+                //     else {
+                //         $ionicPopup.alert({
+                //             title: "搜索结果",
+                //             template: "没有数据"
+                //         });
+                //     }
+                // }, function (error) {
+                //     $log.error('AccountService.searchAccounts Error ' + error);
+                // }).finally(function () {
+                //     AppUtilService.hideLoading();
+                // });
             };
 
             //获取联系人信息
-            var getContactInfo = function () {
-                //调用接口获取结果 $rootScope.accountId  "001p000000Qx9m2AAB"
-                AccountService.getContacts($stateParams.SendPassId).then(function (contacts) {
+            $scope.getContactInfo = function () {
+                //online
+                Service1Service.getContactsObjectByAcctId($stateParams.SendPassId,true).then(function callBack(contacts) {
                     console.log("getContacts", contacts);
                     if (contacts.length > 0) {
                         $scope.contentItems = contacts;
                     }
-                }, function (error) {
-                    $log.error('AccountService.searchAccounts Error ' + error);
+                },function error(msg) {
+                    $log.error('Service1Service.getContactsObjectByAcctId Error ' ,msg);
+                    console.log(msg);
                 });
+
+                //offline
+                //调用接口获取结果 $rootScope.accountId  "001p000000Qx9m2AAB"
+                // AccountService.getContacts($stateParams.SendPassId).then(function (contacts) {
+                //     console.log("getContacts", contacts);
+                //     if (contacts.length > 0) {
+                //         $scope.contentItems = contacts;
+                //     }
+                // }, function (error) {
+                //     $log.error('AccountService.searchAccounts Error ' + error);
+                //     console.log(msg);
+                // });
             };
 
             document.getElementById("contactsInfo").style.display = "none";//隐藏
@@ -233,11 +283,19 @@
                                 console.log(position);
                                 $scope.localLatitude = position.coords.latitude;
                                 $scope.localLongitude = position.coords.longitude;
-                                AccountService.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLongitude,$scope.localLatitude).then(function success(res) {
+                                //offline
+                                // AccountService.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLongitude,$scope.localLatitude).then(function success(res) {
+                                //     console.log(res);
+                                // },function error(msg) {
+                                //     console.log(msg);
+                                // });
+                                //online
+                                Service1Service.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLongitude,$scope.localLatitude,true).then(function callBack(res) {
                                     console.log(res);
                                 },function error(msg) {
                                     console.log(msg);
                                 });
+
                             }, function error(msg) {
 
                                 console.log(msg);
