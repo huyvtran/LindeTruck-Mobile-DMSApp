@@ -59,17 +59,18 @@
                 if(isOnline){
                     let sql = "select id,Name,Customer_Number__c,Address__c,SAP_Number__c,Office_Address__c" +
                                 " from Account where Name like '%" + keyword +
-                                "%' or Customer_Number__c like '%" + keyword + "%' limit 50";
+                                "%' or Customer_Number__c like '%" + keyword + "%' " +
+                                " or SAP_Number__c like '%" + keyword + "%' limit 50";
                     let url = service.buildURL('querySobjects',sql);
                     let requestMethod = 'GET';
                     return service.sendRest(url,sql,requestMethod);
                 } else {
                     let deferred = $q.defer();
 
-                    let sql = "select {Account:_soup}\
-                         from {Account}\
-                         where {Account:Name} like '%" + keyword + "%'\
-                             or {Account:Customer_Number__c} like '%" + keyword + "%'";
+                    let sql = "select {Account:_soup} from {Account} " +
+                                " where {Account:Name} like '%" + keyword + "%'" +
+                                " or {Account:Customer_Number__c} like '%" + keyword + "%'" +
+                                " or {Account:SAP_Number__c} like '%" + keyword + "%'";
                     let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                     navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                         let accounts = [];
@@ -374,6 +375,181 @@
                 }
             }
 
+            /**
+             * replace function of ContactService.addContacts
+             *
+             * @param {Contact[]} adrs
+             *  Contact.Name,
+             *  Contact.Account.Id
+             *  Contact.Account._soupEntryId   (Required if isOnline == false,Not allowed if isOnline)
+             *
+             *  Contact.Phone,
+             *  Contact.MobilePhone,
+             *  Contact.Email,
+             *
+             *  Contact.Contact_State__c,
+             *  Contact.Position_Type__c,
+             *
+             */
+            this.saveContacts = function (contacts,isOnline) {
+                if(isOnline){
+                    let arr_contacts = new Array();
+                    angular.forEach(contacts, function (entry) {
+                        let object = new Object();
+                        object.attributes = { type : "Contact" };
+                        object.AccountId = entry.Account.Id;
+                        object.LastName = entry.Name;
+                        object.Phone = entry.Phone;
+                        object.MobilePhone = entry.MobilePhone;
+                        object.Email = entry.Email;
+                        object.Contact_State__c = entry.Contact_State__c;
+                        object.Position_Type__c = entry.Position_Type__c;
+                        arr_contacts.push(object);
+                    });
+                    let param = JSON.stringify(arr_contacts);
+                    let url = service.buildURL('insertSobjects',param);
+                    let requestMethod = 'POST';
+                    return service.sendRest(url,param,requestMethod);
+                } else {
+                    var deferred = $q.defer();
+                    LocalDataService.createSObject('Contact', 'Service_Contact').then(function (sobject) {
+                        var newItem, adr;
+                        var adrsToSave = [];
+                        for (var i = 0; i < contacts.length; i++) {
+                            adr = contacts[i];
+                            newItem = service.cloneObj(sobject);
+                            newItem['LastName'] = adr.Name;
+                            newItem['AccountId'] = adr.Account.Id;
+                            newItem['AccountId_sid'] = adr.Account._soupEntryId;
+                            newItem['AccountId_type'] = 'Account';
+                            newItem['Phone'] = adr.Phone;
+                            newItem['MobilePhone'] = adr.MobilePhone;
+                            newItem['Email'] = adr.Email;
+                            newItem['Contact_State__c'] = adr.Contact_State__c;
+                            newItem['Position_Type__c'] = adr.Position_Type__c;
+                            adrsToSave.push(newItem);
+                        }
+                        LocalDataService.saveSObjects('Contact', adrsToSave).then(function (result) {
+                            if (!result) {
+                                deferred.reject('Failed to get result.');
+                                return;
+                            }
+                            for (var i = 0; i < result.length; i++) {
+                                if (result[i].success) {
+                                    contacts[i]._soupEntryId = result[i]._soupEntryId;
+                                }
+                            }
+                            deferred.resolve(contacts);
+                        }, function (error) {
+                            console.log(error);
+                        });
+
+                    }, angular.noop);
+
+                    return deferred.promise;
+                }
+            };
+
+            /**
+             * replace function of HomeService.getEachOrder
+             */
+            this.getOrdersWithGroup = function(isOnline) {
+                if(isOnline){
+                    let sql = "select Id,Name,MobilePhone,Phone,Email,Contact_State__c,Position_Type__c" +
+                        " from Contact where accountId ='" + AccountId + "' limit 50";
+                    let url = service.buildURL('querySobjects',sql);
+                    let requestMethod = 'GET';
+                    return service.sendRest(url,sql,requestMethod);
+                } else {
+                    let deferred = $q.defer();
+                    let ret, bts, orders;
+                    service.getOrdersWithGroupStep1().then(function (res) {
+                        ret = res;
+                        return service.getOrdersWithGroupStep2(res);
+                    }).then(function (btus) {
+                        bts = btus;
+                        return service.getOrdersList();
+                    }).then(function (os) {
+                        orders = os;
+                        return service.checkBTU(bts, orders);
+                    }).then(function (res) {
+                        ret = res;
+                        deferred.resolve(ret);
+                    }).catch(function (error) {
+                        deferred.reject(error);
+                    });
+                    return deferred.promise;
+                }
+            };
+
+            this.getOrdersWithGroupStep1 = function(){
+                let deferred = $q.defer();
+                let sql =  "select {BTU__c:_soup} from {BTU__c} order by {BTU__c:Manager__c}";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let result = new Object();
+                    let BTU = [];
+                    let userIds = [];
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            if(entry[0].Manager__c != null && entry[0].Manager__c != '') {
+                                BTU.push({
+                                    Id: entry[0].Id,
+                                    Name: entry[0].Name,
+                                    Manager__c: entry[0].Manager__c,
+                                    Team_Leader__c: entry[0].Team_Leader__c
+                                });
+                                if (userIds.indexOf(entry[0].Manager__c) == -1) {
+                                    userIds.push(entry[0].Manager__c);
+                                }
+                            }
+                        });
+                        result.BTU = BTU;
+                        result.userIds = userIds;
+                    }
+                    deferred.resolve(result);
+                }, function (err) {
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+            this.getOrdersWithGroupStep2 = function(Ids) {
+                let deferred = $q.defer();
+
+                if(Ids == null || Ids.userIds == null || Ids.userIds.length < 1){
+                    deferred.resolve(null);
+                    return deferred.promise;
+                }
+                let sql =  "select {User:_soup} from {User} ";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let user;
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            angular.forEach(Ids.BTU, function (btu) {
+                                if(btu.Manager__c == entry[0].Id){
+                                    user = {
+                                        Id: entry[0].Id,
+                                        Name: entry[0].Name,
+                                        _soupEntryId: entry[0]._soupEntryId
+                                    };
+                                    btu.Manager__r = user;
+                                }
+                            });
+                        });
+                    }
+                    deferred.resolve(Ids.BTU);
+                }, function (err) {
+                    console.error(err);
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+
+
 
             //Util Methods Start.
             this.buildURL = function (str_type,str_param) {
@@ -385,11 +561,22 @@
                 ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {}, {param:param}, function (response) {
                     deferred.resolve(response);
                 }, function (error) {
+                    console.log('Service1Service::sendRest::param::',url,'::',param);
                     console.log('Service1Service::sendRest::error::',error);
                     deferred.reject('sendRest::error::'+error);
                 });
 
                 return deferred.promise;
+            };
+
+            this.cloneObj = function (obj) {
+                var newObj = new Object();
+                if(obj.RecordTypeId != null && obj.RecordTypeId != '') {
+                    newObj['RecordTypeId'] = obj.RecordTypeId;
+                    newObj['RecordTypeId_sid'] = obj.RecordTypeId_sid;
+                    newObj['RecordTypeId_type'] = 'RecordType';
+                }
+                return newObj;
             };
 
         //Service1Service content End.
