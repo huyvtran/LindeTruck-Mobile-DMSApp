@@ -1,6 +1,6 @@
 angular.module('oinio.NewOfferFittingsController', [])
   .controller('NewOfferFittingsController',
-    function ($scope, $http, $ionicPopup, $stateParams, HomeService,$ionicHistory, $state, AppUtilService, $rootScope, SQuoteService,
+    function ($scope, $http, $ionicPopup, $stateParams,$ionicHistory, $state, AppUtilService, $rootScope,
               ForceClientService, LocalCacheService) {
 
       // var forceClient = ForceClientService.getForceClient();

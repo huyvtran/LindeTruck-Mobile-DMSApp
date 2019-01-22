@@ -1,6 +1,6 @@
 angular.module('oinio.NewLinkManController', [])
-    .controller('NewLinkManController', function ($scope, $rootScope, $filter, $state, $log,$stateParams,$ionicPopup, ConnectionMonitor,
-                                                   LocalCacheService,HomeService,ContactService) {
+    .controller('NewLinkManController', function ($scope, $rootScope, $filter, $state, $log,$stateParams,$ionicPopup, ConnectionMonitor,AppUtilService,
+                                                   LocalCacheService,Service1Service) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -99,9 +99,12 @@ angular.module('oinio.NewLinkManController', [])
          */
         $scope.getAccts = function (keyWord) {
             //调用接口获取结果
-            HomeService.searchAccounts(keyWord).then(function (response) {
+          AppUtilService.showLoading();
+          Service1Service.searchAccounts(keyWord ,true).then(function (response) {
                 console.log("AccountServicegw",keyWord);
-                let accountsName = [];
+            AppUtilService.hideLoading();
+
+            let accountsName = [];
                 let accountsId = [];
                 if (response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
@@ -123,8 +126,12 @@ angular.module('oinio.NewLinkManController', [])
                 }
             }, function (error) {
                 $log.error('AccountService.searchAccounts Error ' + error);
-            }).finally(function () {
-            });
+            AppUtilService.hideLoading();
+
+          }).finally(function () {
+            AppUtilService.hideLoading();
+
+          });
         };
 
 
@@ -167,7 +174,7 @@ angular.module('oinio.NewLinkManController', [])
             if (linManName != null && linManName != "" && linkManPhoneNumber != null){
                 if (acctName != null && acctName != "" && selectAccountId!=null && selectAccountId!=""){
                         if (linkManEmail != null && re.test(linkManEmail)){
-                        ContactService.getContacts(selectAccountId).then(function (result) {
+                          Service1Service.getContactsObjectByAcctId(selectAccountId,true).then(function (result) {
                             console.log(result);
                             var phoneAll = [];
                             for(var i =0;i<result.length;i++){
@@ -183,7 +190,7 @@ angular.module('oinio.NewLinkManController', [])
                                 obj.Position_Type__c = linkManPostionType;
                                 obj.Account={Id:selectAccountId,_soupEntryId:soupEntryId};
                                 var objs = [obj];
-                                ContactService.addContacts(objs).then(function (response) {
+                              Service1Service.saveContacts(objs,true).then(function (response) {
                                     console.log(response);
                                     $state.go("app.home");
                                     $log.info("add contact success!!!");

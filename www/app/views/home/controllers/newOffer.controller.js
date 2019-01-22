@@ -1,7 +1,7 @@
 angular.module('oinio.NewOfferController', [])
   .controller('NewOfferController',
     function ($scope, $log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, ForceClientService,
-              AppUtilService, SQuoteService) {
+              AppUtilService, SQuoteService ,Service1Service) {
       var toDisplayDelCarBool = false;
       var tabSVViewNewIndex = 1;
       var selectAcctSetId;
@@ -82,8 +82,12 @@ angular.module('oinio.NewOfferController', [])
         $scope.checkMaintenanceStandard();
       };
       $scope.getAccts = function (keyWord) {
-        //调用接口获取结果
-        SQuoteService.searchAccounts(keyWord).then(function (response) {
+        AppUtilService.showLoading();
+        //搜索客户
+        Service1Service.searchAccounts(keyWord,true).then(function (response) {
+          console.log(' Service1Service.searchAccounts', response);
+
+          AppUtilService.hideLoading();
           let accountsName = [];
           let accountsId = [];
           if (response.length > 0) {
@@ -105,15 +109,17 @@ angular.module('oinio.NewOfferController', [])
             });
           }
         }, function (error) {
-          $log.error('AccountService.searchAccounts Error ' + error);
+          $log.error('Service1Service.searchAccounts Error ' + error);
+          AppUtilService.hideLoading();
+
         }).finally(function () {
-          //AppUtilService.hideLoading();
+          AppUtilService.hideLoading();
         });
       };
       //选择用户
       $scope.selectAccount = function (acct) {
-        SQuoteService.getAccount(acct.Id).then(function (response) {
-          console.log(' SQuoteService.getAccount', response);
+        Service1Service.getAccountObjectById(acct.Id,true).then(function (response) {
+          console.log(' Service1Service.getAccountObjectById', response);
           selectAcctSetId = acct.Id;
           $scope.searchResultAddress = response.Address__c;
           $scope.searchResultAcctName = response.Name;
@@ -262,8 +268,8 @@ angular.module('oinio.NewOfferController', [])
       };
       //联系人
       $scope.selectAccountOfContacts = function () {
-        SQuoteService.getContacts(selectAcctSetId).then(function (response) {
-          console.log('SQuoteService.getContacts', response);
+        Service1Service.getContactsObjectByAcctId(selectAcctSetId,true).then(function (response) {
+          console.log('Service1Service.getContactsObjectByAcctId', response);
           let contactsAll = [];
           if (response.length > 0) {
             for (let index = 0; index < response.length; index++) {
