@@ -1,6 +1,6 @@
 angular.module('oinio.ChangeLinkManController', [])
     .controller('ChangeLinkManController', function ($scope, $rootScope, $filter, $state, $log,$stateParams,$ionicPopup, ConnectionMonitor,
-                                                   LocalCacheService,HomeService,ContactService) {
+                                                   LocalCacheService,HomeService,ContactService,dualModeService) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -116,8 +116,8 @@ angular.module('oinio.ChangeLinkManController', [])
          * @param keyWord
          */
         $scope.getAccts = function (keyWord) {
-            //调用接口获取结果
-            HomeService.searchAccounts(keyWord).then(function (response) {
+            //online
+            dualModeService.queryAccountInfo(keyWord,'30',true).then(function callBack(response) {
                 console.log("AccountServicegw",keyWord);
                 let accountsName = [];
                 let accountsId = [];
@@ -139,10 +139,38 @@ angular.module('oinio.ChangeLinkManController', [])
                         $state.go("app.home");
                     });
                 }
-            }, function (error) {
-                $log.error('AccountService.searchAccounts Error ' + error);
+            },function error(msg) {
+                $log.error(' dualModeService.queryAccountInfo Error ' , msg);
             }).finally(function () {
             });
+            //offline
+            //调用接口获取结果
+            // HomeService.searchAccounts(keyWord).then(function (response) {
+            //     console.log("AccountServicegw",keyWord);
+            //     let accountsName = [];
+            //     let accountsId = [];
+            //     if (response.length > 0) {
+            //         for (let index = 0; index < response.length; index++) {
+            //             accountsName.push(response[index]);
+            //             accountsId.push(response[index].Id);
+            //         }
+            //         $scope.contentItems = accountsName;
+            //         $scope.getIds = accountsId;
+            //         console.log("AccountServicegw11",accountsName);
+            //     }
+            //     else {
+            //         var ionPop = $ionicPopup.alert({
+            //             title: "结果",
+            //             template: "没有客户数据"
+            //         });
+            //         ionPop.then(function () {
+            //             $state.go("app.home");
+            //         });
+            //     }
+            // }, function (error) {
+            //     $log.error('AccountService.searchAccounts Error ', error);
+            // }).finally(function () {
+            // });
         };
 
 
