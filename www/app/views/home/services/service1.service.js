@@ -825,6 +825,7 @@
                     var strs = new Array();
                     strs = str_fields.split(",");
                     console.log('fixAllFieldsForResult::result::',result);
+                    console.log('fixAllFieldsForResult::str_fields::',str_fields);
                     if(result != null && !isNaN(result.length) && Number(result.length) >0) {
                         for (let i = 0; i < result.length; i++) {
                             for (let j = 0; j < strs.length; j++) {
@@ -842,6 +843,8 @@
                     } else {
                         return null;
                     }
+                    console.log('fixAllFieldsForResult::result2::',result);
+                    return result;
                 } else {
                     return result;
                 }
