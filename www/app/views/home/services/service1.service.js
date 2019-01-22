@@ -359,9 +359,9 @@
                     object.Office_Location__longitude__s = theLongitude;
                     object.Office_Location__latitude__s = theLatitude;
                     let param = JSON.stringify(object);
-                    let url = service.buildURL('updateSobject',param);
+                    let url = service.buildJSONURL('updateSobject',param);
                     let requestMethod = 'PUT';
-                    return service.sendRest(url,param,requestMethod);
+                    return service.sendJSONRest(url,param,requestMethod,null);
                 } else {
                     var deferred = $q.defer();
 
@@ -417,9 +417,9 @@
                         arr_contacts.push(object);
                     });
                     let param = JSON.stringify(arr_contacts);
-                    let url = service.buildURL('insertSobjects',param);
+                    let url = service.buildJSONURL('insertSobjects',param);
                     let requestMethod = 'POST';
-                    return service.sendRest(url,param,requestMethod);
+                    return service.sendJSONRest(url,param,requestMethod,null);
                 } else {
                     var deferred = $q.defer();
                     LocalDataService.createSObject('Contact', 'Service_Contact').then(function (sobject) {
@@ -785,6 +785,24 @@
                     console.log('Service1Service::sendRest::param::',url,'::',param);
                     console.log('Service1Service::sendRest::error::',error);
                     deferred.reject('sendRest::error::'+error);
+                });
+
+                return deferred.promise;
+            };
+
+            this.buildJSONURL = function (str_type,str_param) {
+                return 'type=' + str_type +'param='+ str_param;
+            };
+
+            this.sendJSONRest = function (url,param,requestMethod,str_fields) {
+                var deferred = $q.defer();
+                ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {}, null , function (response) {
+                    response = service.fixAllFieldsForResult(str_fields,response);
+                    deferred.resolve(response);
+                }, function (error) {
+                    console.log('Service1Service::sendJSONRest::param::',url,'::',param);
+                    console.log('Service1Service::sendJSONRest::error::',error);
+                    deferred.reject('sendJSONRest::error::'+error);
                 });
 
                 return deferred.promise;
