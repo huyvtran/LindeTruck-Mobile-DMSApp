@@ -468,7 +468,7 @@
                 if(isOnline){
                     let url = service.buildURL('getOrdersWithGroup','');
                     let requestMethod = 'GET';
-                    return service.sendRest(url,sql,requestMethod,null);
+                    return service.sendRest(url,'',requestMethod,null);
                 } else {
                     let deferred = $q.defer();
                     let ret, bts, orders;
