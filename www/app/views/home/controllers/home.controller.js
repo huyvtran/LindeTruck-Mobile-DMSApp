@@ -1,6 +1,6 @@
 angular.module('oinio.controllers', [])
-    .controller('HomeController', function ($scope,$http, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,$ionicTabsDelegate,
-                                            LocalCacheService, HomeService) {
+    .controller('HomeController', function ($scope,$http, $rootScope, $ionicPopup, $filter, $state, $stateParams, ConnectionMonitor,$ionicTabsDelegate,
+                                            LocalCacheService, HomeService, TimeCardService, AppUtilService) {
 
       var vm           = this,
           oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -147,6 +147,50 @@ angular.module('oinio.controllers', [])
         $rootScope.switchelectStatus(index);
       };
 
+
+      var formatDateToFormatString = function (date) {
+
+        var year = date.getFullYear(); //year
+        var month = date.getMonth(); //month
+        var day = date.getDate(); //day
+        var hours = date.getHours();//hours
+        var minutes = date.getMinutes();//minutes
+        var seconds = date.getSeconds();//Seconds
+
+        return year  + "-"+ month + "-" + day +  ' ' +  hours + ':' + minutes + ':' + seconds;
+
+      };
+
+      //commute
+      $scope.commute = function () {
+
+        AppUtilService.showLoading();
+
+        var payload = {
+          'DataType': 'AttData',
+          'CompanyCode': 'linde',
+          'BatchNo': '0123456789',
+          'cardDataList':
+            [{'EmployeeID':oCurrentUser.Id, 'TimeCardDate': formatDateToFormatString(new Date()), 'ControllerSN': 'A01'}]
+        };
+
+        TimeCardService.clickTimeCard(payload).then(function (response) {
+          console.log('response',response);
+          AppUtilService.hideLoading();
+
+          $ionicPopup.alert({
+            title:"打卡成功"
+          });
+
+        }, function (error) {
+          AppUtilService.hideLoading();
+
+          console.log('error',error);
+          $ionicPopup.alert({
+            title:"打卡失败请重新打卡"
+          });
+        });
+      };
 
 
       var getOrderByStates = function (status) {

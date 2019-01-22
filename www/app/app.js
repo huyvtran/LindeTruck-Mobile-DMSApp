@@ -78,11 +78,13 @@
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,
-                              LoginService, LocalCacheService, SmartStoreService, MetaService, TouchIdService,
+                              LoginService, LocalCacheService, SmartStoreService, MetaService, TouchIdService, TimeCardService,
                               LocalDataService, $translate, LocalSyncService, LocalesService, ConnectionMonitor, FileService,
                               $ionicPopup, Logger, $injector, UserAssignmentService,$ionicHistory) {
 
         console.log('>>>> App is starting');
+
+        TimeCardService.fetchAccesstoken();
 
         if (APP_SETTINGS.DEBUG_ROUTING === true) {
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
