@@ -23,7 +23,7 @@
                     let sql = "select id,Name from user where id = '" + str_userId + "' limit 50";
                     let url = service.buildURL('querySobject',sql);
                     let requestMethod = 'GET';
-                    return service.sendRest(url,requestMethod);
+                    return service.sendRest(url,sql,requestMethod);
                 } else {
                     let deferred = $q.defer();
 
@@ -40,7 +40,6 @@
                         }
                         deferred.resolve(user);
                     }, function (err) {
-                        $log.error(err);
                         console.error(err);
                         deferred.reject(err);
                     });
@@ -58,11 +57,12 @@
              */
             this.searchAccounts = function(keyword,isOnline){
                 if(isOnline){
-                    let sql = "select id,Name,Customer_Number__c,Address__c,SAP_Number__c from Account where Name like '%" + keyword +
+                    let sql = "select id,Name,Customer_Number__c,Address__c,SAP_Number__c,Office_Address__c" +
+                                " from Account where Name like '%" + keyword +
                                 "%' or Customer_Number__c like '%" + keyword + "%' limit 50";
                     let url = service.buildURL('querySobjects',sql);
                     let requestMethod = 'GET';
-                    return service.sendRest(url,requestMethod);
+                    return service.sendRest(url,sql,requestMethod);
                 } else {
                     let deferred = $q.defer();
 
@@ -80,6 +80,7 @@
                                     Name: entry[0].Name,
                                     Customer_Number__c: entry[0].Customer_Number__c,
                                     Address__c: entry[0].Address__c,
+                                    Office_Address__c: entry[0].Office_Address__c,
                                     SAP_Number__c: entry[0].SAP_Number__c,
                                     _soupEntryId: entry[0]._soupEntryId
                                 });
@@ -87,7 +88,6 @@
                         }
                         deferred.resolve(accounts);
                     }, function (err) {
-                        $log.error(err);
                         console.error(err);
                         deferred.reject(err);
                     });
@@ -107,7 +107,7 @@
                             " where Account_Ship_to__c ='" + acctId + "' order by Id desc limit 3";
                     let url = service.buildURL('querySobjects',sql);
                     let requestMethod = 'GET';
-                    return service.sendRest(url,requestMethod);
+                    return service.sendRest(url,sql,requestMethod);
                 } else {
                     let deferred = $q.defer();
 
@@ -137,7 +137,6 @@
                         }
                         deferred.resolve(orders);
                     }, function (err) {
-                        $log.error(err);
                         console.error(err);
                         deferred.reject(err);
                     });
@@ -155,7 +154,7 @@
                     let sql = "select Id,Name from user where Name like '%" + str_name + "%' limit 50";
                     let url = service.buildURL('querySobjects',sql);
                     let requestMethod = 'GET';
-                    return service.sendRest(url,requestMethod);
+                    return service.sendRest(url,sql,requestMethod);
                 } else {
                     let deferred = $q.defer();
 
@@ -176,7 +175,6 @@
                         }
                         deferred.resolve(users);
                     }, function (err) {
-                        $log.error(err);
                         console.error(err);
                         deferred.reject(err);
                     });
@@ -198,7 +196,6 @@
                         account['Sale_Group_Code__r'] = service.getBTUObjectById(account.Sale_Group_Code__c,false);
                         deferred.resolve(account);
                     }).catch(function (err) {
-                        $log.error(err);
                         console.error(err);
                         deferred.reject(err);
                     });
@@ -219,7 +216,7 @@
                         " from Account where Id = '" + accountId + "' limit 50";
                     let url = service.buildURL('querySobject',sql);
                     let requestMethod = 'GET';
-                    return service.sendRest(url,requestMethod);
+                    return service.sendRest(url,sql,requestMethod);
                 } else {
                     let deferred = $q.defer();
 
@@ -249,7 +246,6 @@
                         }
                         deferred.resolve(account);
                     }, function (err) {
-                        $log.error(err);
                         console.error(err);
                         deferred.reject(err);
                     });
@@ -267,7 +263,7 @@
                     let sql = "select Id,Name from BTU__c where Id = '" + btuId + "' limit 50";
                     let url = service.buildURL('querySobject',sql);
                     let requestMethod = 'GET';
-                    return service.sendRest(url,requestMethod);
+                    return service.sendRest(url,sql,requestMethod);
                 } else {
                     let deferred = $q.defer();
 
@@ -288,7 +284,6 @@
                         }
                         deferred.resolve(BTU);
                     }, function (err) {
-                        $log.error(err);
                         console.error(err);
                         deferred.reject(err);
                     });
@@ -298,16 +293,96 @@
             };
 
 
+            /**
+             * replace function of AccountService.getContacts
+             */
+            this.getContactsObjectByAcctId = function(AccountId,isOnline) {
+                if(isOnline){
+                    let sql = "select Id,Name,MobilePhone,Phone,Email,Contact_State__c,Position_Type__c" +
+                            " from Contact where accountId ='" + AccountId + "' limit 50";
+                    let url = service.buildURL('querySobjects',sql);
+                    let requestMethod = 'GET';
+                    return service.sendRest(url,sql,requestMethod);
+                } else {
+                    let deferred = $q.defer();
+
+                    let sql = "select {Contact:_soup}\
+                         from {Contact}\
+                         where {Contact:AccountId}='" + AccountId + "'";
+                    let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                    navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                        let contacts = [];
+                        if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                            angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                                contacts.push({
+                                    Id: entry[0].Id,
+                                    Name: entry[0].Name,
+                                    MobilePhone: entry[0].MobilePhone,
+                                    Phone: entry[0].Phone,
+                                    Email: entry[0].Email,
+                                    Contact_State__c: entry[0].Contact_State__c,
+                                    Position_Type__c: entry[0].Position_Type__c,
+                                    _soupEntryId: entry[0]._soupEntryId
+                                });
+                            });
+                        }
+                        deferred.resolve(contacts);
+                    }, function (err) {
+                        $log.error(err);
+                        console.error(err);
+                        deferred.reject(err);
+                    });
+                    //console.log('getContacts::', deferred.promise);
+                    return deferred.promise;
+                }
+            };
+
+            /**
+             * replace function of AccountService.updateAcctOfficeLocation
+             */
+            this.updateAcctOfficeLocation = function (acctId, theLongitude, theLatitude, isOnline) {
+                if(isOnline){
+                    let object = new Object();
+                    object.attributes = { type : "Account" };
+                    object.Id = acctId;
+                    object.Office_Location__longitude__s = theLongitude;
+                    object.Office_Location__latitude__s = theLatitude;
+                    let param = JSON.stringify(object);
+                    let url = service.buildURL('updateSobject',param);
+                    let requestMethod = 'PUT';
+                    return service.sendRest(url,param,requestMethod);
+                } else {
+                    var deferred = $q.defer();
+
+                    LocalDataService.getSObject('Account',acctId).then(function(sobject) {
+                        sobject['Office_Location__longitude__s'] = theLongitude;
+                        sobject['Office_Location__latitude__s'] = theLatitude;
+
+                        LocalDataService.updateSObjects('Account', [sobject]).then(function(result) {
+                            if (!result){
+                                deferred.reject('Failed to get result.');
+                                return;
+                            }
+                            deferred.resolve(result);
+                        }, function (error) {
+                            console.log(error);
+                        });
+
+                    }, angular.noop);
+
+                    return deferred.promise;
+                }
+            }
+
 
             //Util Methods Start.
             this.buildURL = function (str_type,str_param) {
-                return 'type=' + str_type + '&param=' + str_param;
+                return 'type=' + str_type;
             };
 
-            this.sendRest = function (url,requestMethod) {
+            this.sendRest = function (url,param,requestMethod) {
                 var deferred = $q.defer();
-                console.log('Service1Service::sendRest::param::',hosturl + url);
-                ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {params:hosturl + url}, null, function (response) {
+                ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {}, {param:param}, function (response) {
                     deferred.resolve(response);
                 }, function (error) {
                     console.log('Service1Service::sendRest::error::',error);
@@ -320,24 +395,6 @@
         //Service1Service content End.
         });
 })();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
