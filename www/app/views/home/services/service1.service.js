@@ -792,7 +792,7 @@
             };
 
             this.buildJSONURL = function (str_type,str_param) {
-                return 'type=' + str_type +'param='+ str_param;
+                return 'type=' + str_type +'&param='+ str_param;
             };
 
             this.sendJSONRest = function (url,param,requestMethod,str_fields) {
@@ -801,7 +801,7 @@
                     response = service.fixAllFieldsForResult(str_fields,response);
                     deferred.resolve(response);
                 }, function (error) {
-                    console.log('Service1Service::sendJSONRest::param::',url,'::',param);
+                    console.log('Service1Service::sendJSONRest::param::',url);
                     console.log('Service1Service::sendJSONRest::error::',error);
                     deferred.reject('sendJSONRest::error::'+error);
                 });
