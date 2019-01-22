@@ -6,6 +6,7 @@
         .service('Service1Service', function($q, $log, $filter,LocalDataService,SMARTSTORE_COMMON_SETTING,
                                              ConnectionMonitor,
                                              LocalSyncService,
+                                             LocalCacheService,
                                              IonicLoadingService,
                                              ForceClientService) {
             //Service1Service content Start.
@@ -823,7 +824,8 @@
                 if(str_fields != null && str_fields != '') {
                     var strs = new Array();
                     strs = str_fields.split(",");
-                    if(result != null && result.length != null) {
+                    console.log('fixAllFieldsForResult::result::',result);
+                    if(result != null && !isNaN(result.length) && Number(result.length) >0) {
                         for (let i = 0; i < result.length; i++) {
                             for (let j = 0; j < strs.length; j++) {
                                 if(result[i][strs[j]] == null){
