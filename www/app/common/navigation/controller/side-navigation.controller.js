@@ -17,6 +17,8 @@
             vm.username = '';
             vm.version = '';
             vm.isOnline = null;
+            vm.isMOnline = true;
+            $scope.onoffline = true;
             // set timer defined default value
             $scope.timer = APP_SETTINGS.SYNCHRONIZE_TIME_INTERVAL;
 
@@ -188,6 +190,22 @@
                 }
             });
 
+            $scope.changeOnOffLine = function(){
+
+                if ($scope.onoffline){
+                    $scope.onoffline = false;
+                    vm.newRefreshAllData();
+
+                }else {
+                    $scope.onoffline = true;
+
+                }
+
+                console.log('>>>> $scope.onoffline',$scope.onoffline);
+                localStorage.setItem("onoffline",$scope.onoffline)
+                console.log('>>>> get--onoffline',localStorage.getItem("onoffline"));
+                vm.isMOnline = $scope.onoffline;
+            };
             /**
              * @desc show smartstore inspector
              */
@@ -299,7 +317,8 @@
 
             /**
              * @description Once the event is broadcast via "timer-stopped" receives the synchronization process is
-             *              started when the device "online". Otherwise the timer will be reset or the timer is completely destroyed.
+             *              started when the device "online". Otherwise the timer will be reset or the timer is
+             *   completely destroyed.
              */
             $scope.$on('timer-stopped', function (event, data) {
                 // cancel $timeout

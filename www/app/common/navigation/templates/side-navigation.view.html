@@ -1,4 +1,29 @@
 <!-- VIEW SIDE NAVIGATION -->
+<style  type="text/css">
+    .custom-openclose-btn .item {
+        border: none;
+        background: none;
+        display: inline-block;
+        width: 50%;
+    }
+    .custom-openclose-btn .toggle-small.item-toggle .toggle {
+        top: 5px;
+    }
+    .custom-openclose-btn .toggle-small .track {
+        background: #ffffff;
+        border-color: white;
+    }
+    .custom-openclose-btn .toggle-small input:checked+.track {
+        background-color: #ffffff;
+    }
+    .custom-openclose-btn .custom-openclose-btn .toggle-small input:checked+.track {
+        background-color: #ffffff;
+    }
+    .custom-openclose-btn .toggle-small input:checked+.track .handle {
+        background-color: #4bc076;
+    }
+
+</style>
 <ion-side-menus enable-menu-with-back-views="true">
 
     <ion-side-menu-content drag-content="false">
@@ -16,9 +41,9 @@
         <div class="o-view-home">
             <div class="slds-grid slds-wrap o-wrap-device-connection">
                 <!-- Show if device online or offline -->
-                <div class="slds-size--1-of-1 o-device-connection" ng-class="vm.isOnline === true ? 'is-online' : 'is-offline'">
-                    <span ng-if="vm.isOnline">{{'cl.global.lb_online' | translate}}</span>
-                    <span ng-if="!vm.isOnline">{{'cl.global.lb_offline' | translate}}</span>
+                <div class="slds-size--1-of-1 o-device-connection" ng-class="vm.isMOnline === true ? 'is-online' : 'is-offline'">
+                    <span ng-if="vm.isMOnline">{{'在线' | translate}}</span>
+                    <span ng-if="!vm.isMOnline">{{'离线' | translate}}</span>
                 </div>
             </div>
         </div>
@@ -28,8 +53,11 @@
             <div class="slds-size--1-of-1 slds-p-around--xxx-small slds-p-top--medium">
                 <div class="slds-grid slds-wrap">
 
-                    <div class="slds-size--5-of-12 slds-medium-size--5-of-12 slds-large-size--7-of-12 o-logo-lettering-header">
+                    <div class="slds-size--6-of-12 slds-medium-size--6-of-12 slds-large-size--6-of-12 o-logo-lettering-header">
                         <img src="img/linde/linde-logo-lettering-transparent.png"/>
+                    </div>
+                    <div class="slds-size--6-of-12 slds-medium-size--6-of-12 slds-large-size--6-of-12 custom-openclose-btn">
+                        <ion-toggle ng-model="onoffline" ng-checked="onoffline" ng-change="changeOnOffLine();" ></ion-toggle>
                     </div>
                 </div>
             </div>

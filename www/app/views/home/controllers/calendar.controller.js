@@ -12,7 +12,7 @@
         var allUser = [];
         var allOrders = [];
         $rootScope.allUser = [];
-        let events = [];
+          let events = [];
         var currentOrder = [];
         var firstRunFun = false;
         $scope.firstRunWorkPlan = false;
@@ -580,9 +580,10 @@
 
           // 这里是ajax请求，替换为你正在使用的ajax方式就可以
           $scope.getHomeService = function () {
-            Service1Service.getOrdersWithGroup(true).then(function (res) {
+            Service1Service.getOrdersWithGroup(localStorage.getItem("onoffline")).then(function (res) {
               AppUtilService.hideLoading();
               console.log('res  ', res);
+              console.log('onoffline:  ', localStorage.getItem("onoffline"));
               if (!res) {
                 return;
               }

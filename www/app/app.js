@@ -183,11 +183,12 @@
                     }
 
                     // if (firstLogin == "first") {
-                    if (true) { //临时改为始终在线
+                    if (false) { //临时改为始终在线
                         console.log("current firstLogin:::", firstLogin); //初始化后 永远走此分支
                         $state.go(APP_SETTINGS.START_VIEW);
                     } else {
                         console.log("current firstLogin:::", firstLogin);
+                      localStorage.setItem("onoffline",true);//初始化在线离线标识
                         // checks whether all necessary folders are already created, if not, create them
                         FileService.initializeUserFolders().then(function () {
 
@@ -416,10 +417,12 @@
                         IonicLoadingService.hide();
 
                         if (initialized === false) {
-                            $state.go('synchronize');
+                            // $state.go('synchronize');
+                          $state.go(APP_SETTINGS.START_VIEW);
                         }
                         else if (APP_SETTINGS.SYNCHRONIZE_AFTER_LOGIN === true && ConnectionMonitor.isOnline()) {
-                            $state.go('synchronize');
+                            // $state.go('synchronize');
+                          $state.go(APP_SETTINGS.START_VIEW);
                         }
                         else {
                             $state.go(APP_SETTINGS.START_VIEW);

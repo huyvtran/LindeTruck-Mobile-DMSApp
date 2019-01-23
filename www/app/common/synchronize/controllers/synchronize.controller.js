@@ -28,7 +28,8 @@
                     console.log('需要同步');
                     firstLogin = "";
                 }
-                if (firstLogin == "first") {
+                // if (firstLogin == "first") {
+                if (false) {
                     console.log("current firstLogin:::", firstLogin); //初始化后 永远走此分支
                     navigateToStart();
                 } else {
