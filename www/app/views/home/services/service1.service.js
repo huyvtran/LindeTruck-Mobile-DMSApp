@@ -465,6 +465,7 @@
              * replace function of HomeService.getEachOrder
              */
             this.getOrdersWithGroup = function(isOnline) {
+                console.log('getOrdersWithGroup::isOnline::',isOnline);
                 if(isOnline){
                     let url = service.buildURL('getOrdersWithGroup','');
                     let requestMethod = 'GET';
