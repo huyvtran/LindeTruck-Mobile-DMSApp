@@ -1,6 +1,6 @@
 angular.module('oinio.TransferController', [])
     .controller('TransferController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,
-                                                ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService,HomeService) {
+                                                ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService,HomeService,Service1Service) {
         var vm = this,
             currentOrderId=null,
             currentOrderUserId="",
@@ -26,7 +26,8 @@ angular.module('oinio.TransferController', [])
         $scope.initPageAllWokers=function(){
             AppUtilService.showLoading();
             $scope.allWorkers=[];
-            HomeService.getEachOrder().then(function callBack(res) {
+
+            Service1Service.getOrdersWithGroup(true).then(function callBack(res) {
                 console.log(res);
                 AppUtilService.hideLoading();
                 if (res.length>0){
@@ -36,9 +37,9 @@ angular.module('oinio.TransferController', [])
                             userName:res[i].userName
                         });
                     }
-                   setTimeout(function () {
-                       $('#selectUserGroup').find('option[value = ' + currentOrderUserId+ ']').attr('selected', true);
-                   },500);
+                    setTimeout(function () {
+                        $('#selectUserGroup').find('option[value = ' + currentOrderUserId+ ']').attr('selected', true);
+                    },500);
                 }
             },function error(msg) {
                 AppUtilService.hideLoading();
@@ -48,6 +49,28 @@ angular.module('oinio.TransferController', [])
                 });
                 return false;
             });
+            // HomeService.getEachOrder().then(function callBack(res) {
+            //     console.log(res);
+            //     AppUtilService.hideLoading();
+            //     if (res.length>0){
+            //         for (var i =0;i<res.length;i++){
+            //             $scope.allWorkers.push({
+            //                 userId:res[i].userId,
+            //                 userName:res[i].userName
+            //             });
+            //         }
+            //        setTimeout(function () {
+            //            $('#selectUserGroup').find('option[value = ' + currentOrderUserId+ ']').attr('selected', true);
+            //        },500);
+            //     }
+            // },function error(msg) {
+            //     AppUtilService.hideLoading();
+            //     console.log(msg);
+            //     $ionicPopup.alert({
+            //         title:"初始化小组内成员数据失败"
+            //     });
+            //     return false;
+            // });
         };
 
         $scope.goBack=function () {

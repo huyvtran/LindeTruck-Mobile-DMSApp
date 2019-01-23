@@ -1597,6 +1597,7 @@ angular.module('oinio.workDetailsControllers', [])
           'Service_Suggestion__c': $('#serviceSuggest').val(),
           'Subject__c': $('#workContentStr').val(),
           'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
+            'Fault_Part_Code__c':''
           //'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
         }];
 

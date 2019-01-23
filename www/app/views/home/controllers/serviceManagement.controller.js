@@ -1,6 +1,6 @@
 angular.module('oinio.serviceManagementController', [])
     .controller('serviceManagementController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService,SCarService) {
+                                                   LocalCacheService,SCarService,AppUtilService) {
         var vm = this,
             licensePlateNumber ="",
             refuelingCost=0,
@@ -53,7 +53,9 @@ angular.module('oinio.serviceManagementController', [])
                         saveToPhotoAlbum: false,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         mediaType: Camera.MediaType.PICTURE,
-                        encodingType: Camera.EncodingType.JPEG
+                        encodingType: Camera.EncodingType.JPEG,
+                        targetWidth:300,
+                        targetHeight:300
                     }
                 );
             } catch (e) {
@@ -158,7 +160,9 @@ angular.module('oinio.serviceManagementController', [])
                         saveToPhotoAlbum: false,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         mediaType: Camera.MediaType.PICTURE,
-                        encodingType: Camera.EncodingType.JPEG
+                        encodingType: Camera.EncodingType.JPEG,
+                        targetWidth:300,
+                        targetHeight:300
                     }
                 );
             } catch (e) {
@@ -300,6 +304,7 @@ angular.module('oinio.serviceManagementController', [])
         };
 
         $scope.serviceManagementSubmit =function () {
+            AppUtilService.showLoading();
             licensePlateNumber = $("#licensePlateNumber").val().trim();
             refuelingCost= $("#refuelingCost").val().trim();
             odometerSelfUse = $("#odometerSelfUse").val().trim();
@@ -368,26 +373,87 @@ angular.module('oinio.serviceManagementController', [])
                 Remark__c:causeRemark //原因备注
             };
 
+            var picList=[];
+
             for (var i = 0; i < $scope.imgUris1.length; i++) {
                 if ($scope.imgUris1[i] != '././img/images/will_add_Img.png') {
                     localImgUris1.push(($scope.imgUris1[i]).slice(23));
+                    picList.push({
+                        Type:0,
+                        AttachName:new Date().getTime()+"",
+                        AttachContent:$scope.imgUris1[i].slice(23),
+                        CreateTime:new Date(),
+                        CreateBy:oCurrentUser.Id
+                    });
                 }
             }
 
             for (var i = 0; i < $scope.imgUris2.length; i++) {
                 if ($scope.imgUris2[i] != '././img/images/will_add_Img.png') {
                     localImgUris2.push(($scope.imgUris2[i]).slice(23));
+                    picList.push({
+                        Type:1,
+                        AttachName:new Date().getTime()+"",
+                        AttachContent:$scope.imgUris2[i].slice(23),
+                        CreateTime:new Date(),
+                        CreateBy:oCurrentUser.Id
+                    });
                 }
             }
-            //commit data to remote
-            SCarService.serviceCarSaveButton(obj,localImgUris1,localImgUris2).then(function success(result) {
-                console.log(result);
-                $log.info(result);
-                $state.go("app.home");
-            },function error(msg) {
-                console.log(msg);
-                $log.error(msg);
-            });
-        };
+            var baseInfo={
+                CarNo:licensePlateNumber,
+                DriveMileage:Number(odometerOfficialBusiness),
+                GasMileage:Number(odometerComeOn),
+                GasCost:Number(refuelingCost),
+                OtherCost:Number(otherExpenses),
+                Remark:causeRemark,
+                SelfMileage:Number(odometerSelfUse),
+                CreateTime:new Date(),
+                CreateBy:oCurrentUser.Id
+            };
+            var allInfo={
+              modelServiceCar:baseInfo,
+              listServiceCarAttach:picList
+            };
 
+      var soapData= '<?xml version="1.0" encoding="utf-8"?>';
+            soapData+='<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
+            soapData+='<soap:Body>';
+            soapData+='<SendServiceCar xmlns="http://tempuri.org/">';
+            soapData+='<jsonServiceCar>'+JSON.stringify(allInfo)+'</jsonServiceCar>';
+            soapData+='<key>2D04972DEFE24F9F946C658146EDD50A</key>';
+            soapData+='</SendServiceCar>';
+            soapData+='</soap:Body>';
+            soapData+='</soap:Envelope>';
+
+            $.ajax({
+                type:'POST',
+                url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM/ForCRMWS.asmx',
+                data:soapData,
+                beforeSend:function (request) {
+                    request.setRequestHeader("Content-Type","text/xml; charset=utf-8");
+                    request.setRequestHeader("SOAPAction","http://tempuri.org/SendServiceCar");
+                },
+                success:function (result) {
+                    AppUtilService.hideLoading();
+                    console.log(result);
+                    $state.go("app.home");
+                },
+                error:function (msg) {
+                    AppUtilService.hideLoading();
+                    console.log(msg);
+                }
+            });
+
+            //commit data to remote
+            // SCarService.serviceCarSaveButton(obj,localImgUris1,localImgUris2).then(function success(result) {
+            //     console.log(result);
+            //     $log.info(result);
+            //     $state.go("app.home");
+            // },function error(msg) {
+            //     console.log(msg);
+            //     $log.error(msg);
+            // });
+
+        };
     });
