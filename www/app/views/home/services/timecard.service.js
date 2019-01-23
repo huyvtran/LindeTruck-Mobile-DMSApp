@@ -7,7 +7,7 @@
 angular
   .module('oinio.services')
   .service('TimeCardService',
-    function ($q, $http, LocalSyncService) {
+    function ($q, $http, $interval, LocalSyncService) {
 
       var service = this;
       var lindechinaoa = 'https://lindechinaoatest.gaiaworkforce.com/api/';
@@ -28,6 +28,7 @@ angular
           console.log('response',response);
           accesstoken = response.data.data.accessToken;
           // setAccesstoken(response.data.data.accessToken);
+          setLoopFetchAccesstoken();
           deferred.resolve(response);
         }, function errorCallback(response) {
           console.log('response',response);
@@ -37,6 +38,27 @@ angular
         return deferred.promise;
 
       };
+
+
+      var setLoopFetchAccesstoken = function () {
+
+        var stopEvent = $interval(function(){
+          //每分钟执行一次定时任务
+          $http({
+            method: 'GET',
+            contentType: 'application/json',
+            url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
+          }).then(function successCallback(response) {
+            console.log('response',response);
+            accesstoken = response.data.data.accessToken;
+          }, function errorCallback(response) {
+            console.log('response',response);
+          });
+        },174000);
+
+      };
+
+
 
 
       var getRequestHeaders = function() {
