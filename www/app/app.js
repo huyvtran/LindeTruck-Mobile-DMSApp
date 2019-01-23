@@ -188,7 +188,7 @@
                         $state.go(APP_SETTINGS.START_VIEW);
                     } else {
                         console.log("current firstLogin:::", firstLogin);
-                      localStorage.setItem("onoffline",true);//初始化在线离线标识
+                      localStorage.setItem("onoffline",1);//初始化在线离线标识
                         // checks whether all necessary folders are already created, if not, create them
                         FileService.initializeUserFolders().then(function () {
 

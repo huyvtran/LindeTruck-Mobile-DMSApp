@@ -195,15 +195,16 @@
                 if ($scope.onoffline){
                     $scope.onoffline = false;
                     vm.newRefreshAllData();
+                    localStorage.setItem("onoffline",0)
 
                 }else {
                     $scope.onoffline = true;
+                    localStorage.setItem("onoffline",1)
 
                 }
 
                 console.log('>>>> $scope.onoffline',$scope.onoffline);
-                localStorage.setItem("onoffline",$scope.onoffline)
-                console.log('>>>> get--onoffline',localStorage.getItem("onoffline"));
+                console.log('>>>> get--onoffline',localStorage.onoffline);
                 vm.isMOnline = $scope.onoffline;
             };
             /**
