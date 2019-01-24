@@ -31,7 +31,7 @@
 
                     let sql =  "select {User:_soup}\
                          from {User}\
-                         where {User:Id}='"+Id+"'";
+                         where {User:Id}='"+str_userId+"'";
                     let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                     navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                         let user;
