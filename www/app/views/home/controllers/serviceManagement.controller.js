@@ -304,7 +304,6 @@ angular.module('oinio.serviceManagementController', [])
         };
 
         $scope.serviceManagementSubmit =function () {
-            AppUtilService.showLoading();
             licensePlateNumber = $("#licensePlateNumber").val().trim();
             refuelingCost= $("#refuelingCost").val().trim();
             odometerSelfUse = $("#odometerSelfUse").val().trim();
@@ -425,7 +424,7 @@ angular.module('oinio.serviceManagementController', [])
             soapData+='</SendServiceCar>';
             soapData+='</soap:Body>';
             soapData+='</soap:Envelope>';
-
+            AppUtilService.showLoading();
             $.ajax({
                 type:'POST',
                 url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM/ForCRMWS.asmx',
