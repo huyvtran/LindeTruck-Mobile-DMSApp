@@ -169,6 +169,12 @@
                         console.log(msg);
                     });
 
+                    NativeStorage.setItem("CurrentUserPhoneNum",user.MobilePhone,function success(res) {
+                        console.log(res);
+                    },function error(msg) {
+                        console.log(msg);
+                    });
+
                     // refresh translation
                     $translate.use(user['LanguageLocaleKey']);
 
