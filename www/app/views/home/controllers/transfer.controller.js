@@ -27,7 +27,7 @@ angular.module('oinio.TransferController', [])
             AppUtilService.showLoading();
             $scope.allWorkers=[];
 
-            Service1Service.getOrdersWithGroup(true).then(function callBack(res) {
+            Service1Service.getOrdersWithGroup(Number(localStorage.onoffline)).then(function callBack(res) {
                 console.log(res);
                 AppUtilService.hideLoading();
                 if (res.length>0){

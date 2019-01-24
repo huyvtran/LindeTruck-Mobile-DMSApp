@@ -62,7 +62,7 @@
                 console.log("$stateParams.SendPassId", $stateParams.SendPassId);
                 //online
                 AppUtilService.showLoading();
-                Service1Service.getAccountWithDetails($stateParams.SendPassId,true)
+                Service1Service.getAccountWithDetails($stateParams.SendPassId,Number(localStorage.onoffline))
                     .then(function callBack(account) {
                         AppUtilService.hideLoading();
                         console.log("getAccount", account);
@@ -132,7 +132,7 @@
             //获取联系人信息
             $scope.getContactInfo = function () {
                 //online
-                Service1Service.getContactsObjectByAcctId($stateParams.SendPassId,true).then(function callBack(contacts) {
+                Service1Service.getContactsObjectByAcctId($stateParams.SendPassId,Number(localStorage.onoffline)).then(function callBack(contacts) {
                     console.log("getContacts", contacts);
                     if (contacts.length > 0) {
                         $scope.contentItems = contacts;
@@ -290,7 +290,7 @@
                                 //     console.log(msg);
                                 // });
                                 //online
-                                Service1Service.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLongitude,$scope.localLatitude,true).then(function callBack(res) {
+                                Service1Service.updateAcctOfficeLocation($stateParams.SendPassId,$scope.localLongitude,$scope.localLatitude,Number(localStorage.onoffline)).then(function callBack(res) {
                                     console.log(res);
                                 },function error(msg) {
                                     console.log(msg);

@@ -148,7 +148,7 @@ angular.module('oinio.newWorkListControllers', [])
 
             let user = LocalCacheService.get('currentUser');
             if(user != null && user.Id != null) {
-                Service1Service.getUserObjectById(user.Id,true).then(function callBack(response) {
+                Service1Service.getUserObjectById(user.Id,Number(localStorage.onoffline)).then(function callBack(response) {
                     console.log("getUserObjectById::", response);
                     if (response != null) {
                         $scope.searchResultOwnerName = response.Name;
@@ -268,7 +268,7 @@ angular.module('oinio.newWorkListControllers', [])
          */
         $scope.getAccts = function (keyWord) {
             AppUtilService.showLoading();
-            dualModeService.queryAccountInfo(keyWord,'20',true).then(function callBack(response) {
+            dualModeService.queryAccountInfo(keyWord,'20',Number(localStorage.onoffline)).then(function callBack(response) {
                 console.log("AccountServicegw",keyWord);
                 AppUtilService.hideLoading();
                 let accountsName = [];
@@ -366,7 +366,7 @@ angular.module('oinio.newWorkListControllers', [])
                 //offline
                 //return HomeService.getLatest3ServiceOrders($scope.searchResultAcctSoupId);
                 //online
-                return Service1Service.getLatest3ServiceOrders($scope.searchResultAcctId,true);
+                return Service1Service.getLatest3ServiceOrders($scope.searchResultAcctId,Number(localStorage.onoffline));
             },function error(msg) {
                 console.log(msg);
             }).then(function (response) {
@@ -448,7 +448,7 @@ angular.module('oinio.newWorkListControllers', [])
 
         $scope.getUsers = function (keyWord) {
             //online
-            Service1Service.getUsersObjectByName(keyWord,true).then(function callBack(response) {
+            Service1Service.getUsersObjectByName(keyWord,Number(localStorage.onoffline)).then(function callBack(response) {
                 console.log("getUsersObjectByName",keyWord);
                 let users = [];
                 if (response!=null&&response.length > 0) {
@@ -679,7 +679,7 @@ angular.module('oinio.newWorkListControllers', [])
 
             if(userId != null && userId != '') {
                 //online
-                Service1Service.getUserObjectById(userId,true).then(function callBack(response) {
+                Service1Service.getUserObjectById(userId,Number(localStorage.onoffline)).then(function callBack(response) {
                     console.log("getUserObjectById::", response);
                     if (response != null) {
                         order2Save.Service_Order_Owner__c = userId;

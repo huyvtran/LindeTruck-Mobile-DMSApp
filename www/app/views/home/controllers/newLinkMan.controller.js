@@ -97,7 +97,7 @@ angular.module('oinio.NewLinkManController', [])
       $scope.getAccts = function (keyWord) {
         //调用接口获取结果
         AppUtilService.showLoading();
-        Service1Service.searchAccounts(keyWord, true).then(function (response) {
+        Service1Service.searchAccounts(keyWord, Number(localStorage.onoffline)).then(function (response) {
           console.log('AccountServicegw', keyWord);
           AppUtilService.hideLoading();
 
@@ -170,7 +170,7 @@ angular.module('oinio.NewLinkManController', [])
           if (acctName != null && acctName != '' && selectAccountId != null && selectAccountId != '') {
             if (linkManEmail != null && re.test(linkManEmail)) {
               AppUtilService.showLoading();
-              Service1Service.getContactsObjectByAcctId(selectAccountId, true).then(function (result) {
+              Service1Service.getContactsObjectByAcctId(selectAccountId, Number(localStorage.onoffline)).then(function (result) {
 
 
                 console.log('getContactsObjectByAcctId', result);
@@ -188,7 +188,7 @@ angular.module('oinio.NewLinkManController', [])
                   obj.Position_Type__c = linkManPostionType;
                   obj.Account = {Id: selectAccountId, _soupEntryId: soupEntryId};
                   var objs = [obj];
-                  Service1Service.saveContacts(objs, true).then(function (response) {
+                  Service1Service.saveContacts(objs, Number(localStorage.onoffline)).then(function (response) {
                     AppUtilService.hideLoading();
 
                     console.log('saveContacts：', response);
