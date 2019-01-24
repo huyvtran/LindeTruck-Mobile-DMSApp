@@ -2988,7 +2988,7 @@ angular.module('oinio.workDetailsControllers', [])
         if (!obj.Maintenance_Key__c) {
           return;
         }
-        SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c, true).then(function (response) {
+        SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c, Number(localStorage.onoffline)).then(function (response) {
           console.log('getMainLevelsAndDesc', response);
           if (!response.levels) {
             return;
