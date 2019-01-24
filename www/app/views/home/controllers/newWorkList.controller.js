@@ -157,7 +157,7 @@ angular.module('oinio.newWorkListControllers', [])
                         $scope.searchResultOwnerSoupId = response._soupEntryId;
                     }
                 },function error(msg) {
-                    $log.error('HomeService.getUserObjectById Error ' + error);
+                    $log.error('Service1Service.getUserObjectById Error ' + error);
                 });
 
                 // HomeService.getUserObjectById(user.Id).then(function (response) {
@@ -268,8 +268,8 @@ angular.module('oinio.newWorkListControllers', [])
          */
         $scope.getAccts = function (keyWord) {
             AppUtilService.showLoading();
-            dualModeService.queryAccountInfo(keyWord,'20',Number(localStorage.onoffline)).then(function callBack(response) {
-                console.log("AccountServicegw",keyWord);
+            Service1Service.searchAccounts(keyWord,Number(localStorage.onoffline)).then(function callBack(response) {
+                console.log("Service1Service",keyWord);
                 AppUtilService.hideLoading();
                 let accountsName = [];
                 let accountsId = [];
@@ -280,7 +280,7 @@ angular.module('oinio.newWorkListControllers', [])
                     }
                     $scope.contentItems = accountsName;
                     $scope.getIds = accountsId;
-                    console.log("AccountServicegw11",accountsName);
+                    console.log("Service1Service",accountsName);
                 }
                 else {
                     var ionPop = $ionicPopup.alert({
@@ -294,7 +294,7 @@ angular.module('oinio.newWorkListControllers', [])
                 }
             },function error(msg) {
                 AppUtilService.hideLoading();
-                $log.error('AccountService.searchAccounts Error ' + msg);
+                $log.error('Service1Service.searchAccounts Error ' + msg);
             }).finally(function () {
                 AppUtilService.hideLoading();
             });
@@ -728,7 +728,7 @@ angular.module('oinio.newWorkListControllers', [])
                 },function error(msg) {
                     AppUtilService.hideLoading();
 
-                    $log.error('HomeService.getUserObjectById Error ' + error);
+                    $log.error('Service1Service.getUserObjectById Error ' + error);
                 });
 
 

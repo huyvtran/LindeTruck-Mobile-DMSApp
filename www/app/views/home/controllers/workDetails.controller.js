@@ -560,7 +560,7 @@ angular.module('oinio.workDetailsControllers', [])
       };
 
       $scope.initAssignUserData = function (workersStrArr) {
-        if (workersStrArr != undefined && workersStrArr != null) {
+        if (workersStrArr != undefined && workersStrArr != null && workersStrArr[0]!="查找不到Sales Office!") {
           for (var i = 0; i < workersStrArr.length; i++) {
             var singleArr = workersStrArr[i].split(',');
             $scope.workers.push({label: singleArr[0], value: singleArr[1]});
