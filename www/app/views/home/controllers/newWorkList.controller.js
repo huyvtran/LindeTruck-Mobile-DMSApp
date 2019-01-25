@@ -273,7 +273,7 @@ angular.module('oinio.newWorkListControllers', [])
                 AppUtilService.hideLoading();
                 let accountsName = [];
                 let accountsId = [];
-                if (response.length > 0) {
+                if (response!=null&&response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
                         accountsName.push(response[index]);
                         accountsId.push(response[index].Id);
@@ -356,7 +356,7 @@ angular.module('oinio.newWorkListControllers', [])
             HomeService.searchTruckFleets("",keyWord,"20",doOnline).then(function success(response) {
                 console.log(response);
                 let trucks = [];
-                if (response.length > 0) {
+                if (response!=null && response.length > 0) {
                     for (let index = 0; index < response.length; index++) {
                         trucks.push(response[index]);
                     }
