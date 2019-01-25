@@ -433,7 +433,6 @@
 
         });
         $rootScope.getSomeData = function () {
-          AppUtilService.showLoading();
           $scope.getHomeService();
           document.getElementById('selectStatusId')[0].selected = true;
         };
@@ -580,8 +579,11 @@
 
           // 这里是ajax请求，替换为你正在使用的ajax方式就可以
           $scope.getHomeService = function () {
+            AppUtilService.showLoading();
             Service1Service.getOrdersWithGroup(Number(localStorage.onoffline)).then(function (res) {
-              AppUtilService.hideLoading();
+              setTimeout(function () {
+                AppUtilService.hideLoading();
+              }, 300);
               console.log('res  ', res);
               if (!res) {
                 return;
