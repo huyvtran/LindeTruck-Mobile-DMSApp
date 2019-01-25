@@ -806,8 +806,11 @@
           };
 
           $scope.loadWorkPlanData = function () {
+              var date = new Date();
+              var year = date.getFullYear();
+              var month = date.getMonth() + 1;
             ForceClientService.getForceClient().apexrest(
-              '/MobileNewCalendarService?type=getWorkPlansForCalendar',
+              '/MobileNewCalendarService?type=getWorkPlansForCalendar&year='+year+'&month='+month,
               'GET',
               {},
               null, function callBack(res) {
