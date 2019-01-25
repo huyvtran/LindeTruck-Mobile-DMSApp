@@ -134,7 +134,7 @@
                 //online
                 Service1Service.getContactsObjectByAcctId($stateParams.SendPassId,Number(localStorage.onoffline)).then(function callBack(contacts) {
                     console.log("getContacts", contacts);
-                    if (contacts.length > 0) {
+                    if (contacts!=null&&contacts.length > 0) {
                         $scope.contentItems = contacts;
                     }
                 },function error(msg) {
