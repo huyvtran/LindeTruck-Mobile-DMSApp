@@ -48,7 +48,7 @@
     },
     {
       "Name": "Service_Order_Overview__c",
-      "MobileVizArt__Fields__c": "Id,Name,Priority__c,Account_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId",
+      "MobileVizArt__Fields__c": "Id,Name,Priority__c,Account_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId,Service_Order_Sub_Type__c,Main_Service_Order__c",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Mobile_Offline_Name__c,Account_Ship_to__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
@@ -81,7 +81,7 @@
     },
     {
       "Name": "Service_Order__c",
-      "MobileVizArt__Fields__c": "Id,Name,Operation_Hour__c,Priority__c,Account_Name_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Service_Order_Overview__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId",
+      "MobileVizArt__Fields__c": "Id,Name,Operation_Hour__c,New_Operation_Hour__c,Maintenance_Level__c,Measure_Date__c,Need_Update_Truck_Hour__c,Priority__c,Account_Name_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Service_Order_Overview__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Service_Order_Overview__c,Mobile_Offline_Name__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
@@ -186,6 +186,17 @@
       "Name": "Procurement_Item_Information__c",
       "MobileVizArt__Fields__c": "Id,Name,procurement_information__c,item_code__c,required_quantity__c,item_description__c,factory__c,storage_quantity__c,unite_price__c,service_factory_storage__c,net_price__c,tax__c,delivery_date__c,item_status__c",
       "MobileVizArt__Search_Fields__c": null,
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "Support_Engineer__c",
+      "MobileVizArt__Fields__c": "Id,Name,Support_Engineer__c,Service_Order_Overview__c",
+      "MobileVizArt__Search_Fields__c": "Service_Order_Overview__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
