@@ -15,7 +15,7 @@
     },
     {
       "Name": "Account",
-      "MobileVizArt__Fields__c": "Id,Name,Address__c,Office_Location__longitude__s,Office_Location__latitude__s,Customer_Number__c,SAP_Number__c,Salesman__c,Salesman_formula__c,Sale_Group_Code__c,Office_Address__c,RecordTypeId,CreatedDate,IsDeleted,LastModifiedDate,OwnerId,SystemModstamp,AccountNumber,Phone,Rating,Site,AnnualRevenue,BillingCity,BillingCountry,BillingLatitude,BillingState,BillingStreet,BillingPostalCode,CreatedById,Sic,SicDesc,ShippingCity,ShippingState,ShippingPostalCode,TickerSymbol,Website",
+      "MobileVizArt__Fields__c": "Id,Name,EmployeeNumber,Address__c,Office_Location__longitude__s,Office_Location__latitude__s,Customer_Number__c,SAP_Number__c,Salesman__c,Salesman_formula__c,Sale_Group_Code__c,Office_Address__c,RecordTypeId,CreatedDate,IsDeleted,LastModifiedDate,OwnerId,SystemModstamp,AccountNumber,Phone,Rating,Site,AnnualRevenue,BillingCity,BillingCountry,BillingLatitude,BillingState,BillingStreet,BillingPostalCode,CreatedById,Sic,SicDesc,ShippingCity,ShippingState,ShippingPostalCode,TickerSymbol,Website",
       "MobileVizArt__Search_Fields__c": "Name,AccountNumber,Phone,Rating,Site,AnnualRevenue,SAP_Number__c,Customer_Number__c",
       "MobileVizArt__List_Content_Fields__c": "Name,BillingCity,BillingStreet",
       "MobileVizArt__Filter_Criteria__c": "Name != null",

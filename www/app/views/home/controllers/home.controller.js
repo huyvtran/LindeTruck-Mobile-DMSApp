@@ -171,7 +171,7 @@ angular.module('oinio.controllers', [])
           'CompanyCode': 'linde',
           'BatchNo': '0123456789',
           'cardDataList':
-            [{'EmployeeID':oCurrentUser.Id, 'TimeCardDate': formatDateToFormatString(new Date()), 'ControllerSN': 'A01'}]
+            [{'EmployeeID':oCurrentUser.EmployeeNumber, 'TimeCardDate': formatDateToFormatString(new Date()), 'ControllerSN': 'A01'}]
         };
 
         TimeCardService.clickTimeCard(payload).then(function (response) {
