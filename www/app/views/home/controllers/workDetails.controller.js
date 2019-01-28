@@ -1,7 +1,7 @@
 angular.module('oinio.workDetailsControllers', [])
   .controller('workDetailsController',
     function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-              LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService, SQuoteService) {
+              LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService, SQuoteService,dualModeService) {
 
       var vm                   = this,
           doOnline             = true,
@@ -430,6 +430,7 @@ angular.module('oinio.workDetailsControllers', [])
       $scope.initSoResult = function (soResult) {
         if (soResult != undefined && soResult != null) {
           $scope.mobileName = soResult.Name != undefined ? soResult.Name : '';
+          if (soResult.Account_Ship_to__r!=null){
           //客户名称：
           customerNameValue = soResult.Account_Ship_to__r.Name != undefined ? soResult.Account_Ship_to__r.Name : '';
           //客户号：
@@ -437,8 +438,12 @@ angular.module('oinio.workDetailsControllers', [])
           //客户地址：
           customerAddressValue =
             soResult.Account_Ship_to__r.Address__c != undefined ? soResult.Account_Ship_to__r.Address__c : '';
-          //责任人：
-          ownerName = soResult.Service_Order_Owner__r.Name != undefined ? soResult.Service_Order_Owner__r.Name : '';
+          }
+          if (soResult.Service_Order_Owner__r!=null){
+              //责任人：
+              ownerName = soResult.Service_Order_Owner__r.Name != undefined ? soResult.Service_Order_Owner__r.Name : '';
+          }
+
           $scope.callPhoneContent = soResult.Description__c != undefined ? soResult.Description__c : '';
           $scope.suggestStr = soResult.Service_Suggestion__c != undefined ? soResult.Service_Suggestion__c : '';
           $scope.workContent = soResult.Subject__c != undefined ? soResult.Subject__c : '';
@@ -470,7 +475,7 @@ angular.module('oinio.workDetailsControllers', [])
        *  初始化保养级别
        */
       $scope.initChidOrderInfo = function (childOrders) {
-        if (childOrders.length > 0) {
+        if (childOrders !=undefined && childOrders !=null && childOrders.length > 0) {
           var serviceLevel = childOrders[0].Maintenance_Level__c;
           $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
         }
@@ -586,30 +591,32 @@ angular.module('oinio.workDetailsControllers', [])
       };
 
       $scope.initTrucks = function (trucks) {
-        truckItems = [];
-        //truckItemsSecond=[];
-        for (var i = 0; i < trucks.length; i++) {
-          truckNumber += trucks[i].Name + ';';
-          truckItems.push(
-            {
-              Id: trucks[i].Id,
-              truckItemNum: trucks[i].Name,
-              Operation_Hour__c: 0,
-              Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
-              Service_Suggestion__c: '',
-              chooseCheckBox: false,
-              New_Operation_Hour__c: 0,
-              isShow: false
-            }
-          );
-          // truckItemsSecond.push(
-          //     {
-          //         Id:  trucks[i].Id,
-          //         Operation_Hour__c: 0,
-          //         Service_Suggestion__c: "",
-          //     }
-          // );
-        }
+          if (trucks != null && trucks.length > 0) {
+              truckItems = [];
+              //truckItemsSecond=[];
+              for (var i = 0; i < trucks.length; i++) {
+                  truckNumber += trucks[i].Name + ';';
+                  truckItems.push(
+                      {
+                          Id: trucks[i].Id,
+                          truckItemNum: trucks[i].Name,
+                          Operation_Hour__c: 0,
+                          Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
+                          Service_Suggestion__c: '',
+                          chooseCheckBox: false,
+                          New_Operation_Hour__c: 0,
+                          isShow: false
+                      }
+                  );
+                  // truckItemsSecond.push(
+                  //     {
+                  //         Id:  trucks[i].Id,
+                  //         Operation_Hour__c: 0,
+                  //         Service_Suggestion__c: "",
+                  //     }
+                  // );
+              }
+          }
       };
 
       $scope.initSignature = function (uri1, uri2) {
@@ -1637,45 +1644,93 @@ angular.module('oinio.workDetailsControllers', [])
         /**
          * 在线保存工单详情页的数据
          */
-        ForceClientService.getForceClient()
-          .apexrest(
-            $scope.postDataToRemote,
-            'POST',
-            JSON.stringify({
-              'order': orderObj,
-              'childOrders': truckItemsSecond,
-              'images': localUris,
-              'assignUsers': selectUserIds,
-              'str_suggestion': $('#serviceSuggest').val().trim(),
-              'truckOrders': newTrucks
-              // 'sigAcctImages': $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(
-              //       /data:image\/jpeg;base64,/, '') : '',
-              // 'sigEngineerImages': $scope.engineerImgStr != 'data:image/jpeg;base64,undefined'
-              //   ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
-            }), null, function success(res) {
+        // ForceClientService.getForceClient()
+        //   .apexrest(
+        //     $scope.postDataToRemote,
+        //     'POST',
+        //     JSON.stringify({
+        //       'order': orderObj,
+        //       'childOrders': truckItemsSecond,
+        //       'images': localUris,
+        //       'assignUsers': selectUserIds,
+        //       'str_suggestion': $('#serviceSuggest').val().trim(),
+        //       'truckOrders': newTrucks
+        //       // 'sigAcctImages': $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(
+        //       //       /data:image\/jpeg;base64,/, '') : '',
+        //       // 'sigEngineerImages': $scope.engineerImgStr != 'data:image/jpeg;base64,undefined'
+        //       //   ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
+        //     }), null, function success(res) {
+        //       AppUtilService.hideLoading();
+        //       console.log(res);
+        //       if (res.status.toLowerCase() != 'fail') {
+        //         //*********保存配件************* */
+        //         $scope.regroupPartListForSave();
+        //       } else {
+        //         $ionicPopup.alert({
+        //           title: '保存数据失败',
+        //           template: res.message
+        //         });
+        //         return false;
+        //       }
+        //
+        //     },
+        //     function error(msg) {
+        //       console.log(msg);
+        //       AppUtilService.hideLoading();
+        //       $ionicPopup.alert({
+        //         title: '保存数据失败',
+        //         template: msg
+        //       });
+        //       return false;
+        //     });
+
+        var requestBody = null;
+        if (Number(localStorage.onoffline)!=0){
+            requestBody= JSON.stringify({
+                'order': orderObj,
+                'childOrders': truckItemsSecond,
+                'images': localUris,
+                'assignUsers': selectUserIds,
+                'str_suggestion': $('#serviceSuggest').val().trim(),
+                'truckOrders': newTrucks
+            });
+        }else{
+            requestBody={
+                'order': orderObj,
+                'childOrders': truckItemsSecond,
+                'assignUsers': selectUserIds
+            };
+        }
+
+        dualModeService.updateWorkOrderUtilInfo(Number(localStorage.onoffline),requestBody).then(function callBack(res) {
               AppUtilService.hideLoading();
               console.log(res);
               if (res.status.toLowerCase() != 'fail') {
-                //*********保存配件************* */
-                $scope.regroupPartListForSave();
+                  if (Number(localStorage.onoffline)!=0){
+                      $scope.regroupPartListForSave();
+                  }else{
+                      $state.go('app.home');
+                      $rootScope.getSomeData();
+                  }
               } else {
-                $ionicPopup.alert({
-                  title: '保存数据失败',
-                  template: res.message
-                });
-                return false;
+                  $ionicPopup.alert({
+                      title: '保存数据失败',
+                      template: res.message
+                  });
+                  return false;
               }
-
-            },
-            function error(msg) {
+          },function error(msg) {
               console.log(msg);
               AppUtilService.hideLoading();
               $ionicPopup.alert({
-                title: '保存数据失败',
-                template: msg
+                  title: '保存数据失败',
+                  template: msg
               });
               return false;
-            });
+          });
+
+
+
       };
 
       /**
@@ -2988,7 +3043,7 @@ angular.module('oinio.workDetailsControllers', [])
         if (!obj.Maintenance_Key__c) {
           return;
         }
-        SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,true).then(function (response) {
+        SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,Number(localStorage.onoffline)).then(function (response) {
           console.log('getMainLevelsAndDesc', response);
           if (!response.levels) {
             return;
