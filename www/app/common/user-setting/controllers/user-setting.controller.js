@@ -7,7 +7,7 @@
         .controller('UserSettingController', UserSettingController);
 
     function UserSettingController($scope, $state, $ionicActionSheet, $filter, $cordovaAppVersion, $log, $injector,
-        LocalCacheService, APP_SETTINGS, FileService, IonicLoadingService, $window, Exception, EXCEPTION_SEVERITY) {
+        LocalCacheService, APP_SETTINGS, FileService, IonicLoadingService, Logger, $window, Exception, EXCEPTION_SEVERITY) {
         var vm = this;
 
         /**
@@ -25,7 +25,7 @@
         }
 
         vm.showSyncLogfiles = false;
-
+        vm.enableLogging = Logger.enabled;
         // Triggered on a button click, or some other target
         vm.showNote = function () {
 
@@ -159,6 +159,63 @@
                 }
             });
         });
+        var cancelForDoNoting = function () {
+            // do nothing, just override the default cancel which would goto home page.
+        };
+        var toastResult = function (result) {
+            // hide spinner
+            IonicLoadingService.hide();
+
+            $window.plugins.toast.showWithOptions({
+                message: result,
+                duration: 2500,
+                position: 'bottom',
+                styling: {
+                    opacity: 1.0, // 0.0 (transparent) to 1.0 (opaque). Default 0.8
+                    backgroundColor: '#54698d', // make sure you use #RRGGBB. Default #333333
+                    textColor: '#FFFFFF', // Ditto. Default #FFFFFF
+                    textSize: 13, // Default is approx. 13.
+                    cornerRadius: 4, // minimum is 0 (square). iOS default 20, Android default 100
+                    horizontalPadding: 24, // iOS default 16, Android default 50
+                    verticalPadding: 12 // iOS default 12, Android default 30
+                }
+            });
+        };
+        /**
+         * @desc send log file by email
+         */
+        vm.sendLog = function () {
+            if (vm.enableLogging) {
+                FileService.checkLogFolderEmpty().then(function (result) {
+                    if (result) {
+
+                        // show spinner
+                        IonicLoadingService.show('<ion-spinner icon="ripple" style="stroke: #ffffff; fill: #ffffff"></ion-spinner>' +
+                                                 '<br/><span>Preparing...</span>', false);
+
+                        FileService.sendLogFileByEmail().then(function () {
+
+                            // hide spinner
+                            IonicLoadingService.hide();
+                        }, function (error) {
+                            console.log('Send log file by email failed', error);
+
+                            if (error && typeof error.handle === 'function') {
+                                error.retry = vm.sendLog;
+                                error.cancel = cancelForDoNoting;
+                                error.handle();
+                            } else {
+                                new Exception(EXCEPTION_SEVERITY.RECOVERABLE, error.status, error.message, error.stack, error, vm.sendLog, cancelForDoNoting).handle();
+                            }
+                        });
+                    } else {
+                        toastResult('No logfile to send.');
+                    }
+                }, function (error) {
+                    $log.error('SendLog error occurs: ' + JSON.stringify(error));
+                });
+            }
+        };
 
         /**
          * synchronize data

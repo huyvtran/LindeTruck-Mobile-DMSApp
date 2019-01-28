@@ -579,6 +579,8 @@
 
           // 这里是ajax请求，替换为你正在使用的ajax方式就可以
           $scope.getHomeService = function () {
+            $rootScope.allUser = [];
+            allUser = [];
             AppUtilService.showLoading();
             Service1Service.getOrdersWithGroup(Number(localStorage.onoffline)).then(function (res) {
               setTimeout(function () {
@@ -588,8 +590,7 @@
               if (!res) {
                 return;
               }
-              $rootScope.allUser = [];
-              allUser = [];
+
               var allOrdersForAddArmy = {};
               allOrdersForAddArmy['userId'] = "";
               allOrdersForAddArmy['userName'] = "全部";
@@ -601,34 +602,8 @@
                 });
               });
               res.push(allOrdersForAddArmy);
-
-              //判断是否组长逻辑
-              var TeamLeaderOrNot = false;
-              _.each(res,function (userItems) {
-                if (oCurrentUser.Id ==userItems.userId){
-                  if(userItems.Team_Leader__c){
-                    TeamLeaderOrNot = true;
-                  }
-                }
-              });
-              if (TeamLeaderOrNot) {
-                $rootScope.allUser = res;
-                allUser = res;
-              }else {
-                _.each(res,function (userItems) {
-                  if (oCurrentUser.Id ==userItems.userId){
-                    $rootScope.allUser.push(userItems);
-                    allUser.push(userItems);
-                  }
-                  if(userItems.userName == "全部"){
-                    $rootScope.allUser.push(userItems);
-                    allUser.push(userItems);
-                  }
-                });
-              }
-
-              console.log('allUser  ', allUser);
-
+              $rootScope.allUser = res;
+              allUser = res;
 
               if (typeof (getOrderById(oCurrentUser.Id)) === 'undefined') {
                 currentOrder = allUser[0].orders;

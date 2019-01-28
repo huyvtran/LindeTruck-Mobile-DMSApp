@@ -48,6 +48,13 @@
                     <object class="o-linde-item o-icon-arrow" data="img/linde/icons/svg/Call-to-action-arrow-blue_RGB.svg"
                             type="image/svg+xml"></object>
                 </i>
+            </a><!-- SEND LOG FILE BY EMAIL-->
+            <a class="item item-icon-right slds-grid slds-grid--pull-padded slds-m-horizontal--x-small" ng-click="vm.sendLog()">
+                <h2 class="o-job-queue-title slds-size--5-of-8">{{'cl.navigation.lb_enableLogging' | translate}}</h2>
+                <i class="icon">
+                    <object class="o-linde-item o-icon-arrow" data="img/linde/icons/svg/Call-to-action-arrow-blue_RGB.svg"
+                            type="image/svg+xml"></object>
+                </i>
             </a>
             <!-- CHANGE PW -->
             <a class="item item-icon-right slds-grid slds-grid--pull-padded slds-m-horizontal--x-small" ui-sref="app.change-password">
@@ -57,6 +64,7 @@
                             type="image/svg+xml"></object>
                 </i>
             </a>
+
             <!-- SWITCH USER -->
             <a class="item item-icon-right slds-grid slds-grid--pull-padded slds-m-horizontal--x-small" ng-click="vm.showNote();">
                 <h2 class="o-job-queue-title slds-size--5-of-8">{{'cl.loginInteraction.btn_switchUser' | translate}}</h2>

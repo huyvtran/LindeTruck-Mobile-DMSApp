@@ -267,7 +267,7 @@
       "lb_date_time": "Date & Time",
       "lb_name": "Name"
     },
-    
+
     "steps": {
       "lb_steps": "Steps",
       "lb_step": "Step",
@@ -390,6 +390,7 @@
       "lb_accounts": "账号",
       "lb_synchronize": "同步",
       "lb_synchronize_logfiles": "同步日志",
+      "lb_enableLogging": "发送错误日志",
       "lb_messageCenter": "消息中心",
       "lb_sfdc_ui": "SFDC UI Examples",
       "lb_showInspector": "Show Inspector",
