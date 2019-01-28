@@ -32,9 +32,7 @@
                             'POST',
                             reqestBody
                             ,null,function success(res) {
-                                console.log(res);
-                                result =  res;
-                                deferred.resolve(result);
+                                deferred.resolve(res);
                             },
                             function error(msg) {
                                 console.log(msg);
