@@ -52,21 +52,17 @@
 
 
 
-
-
             /**
              * replace function of HomeService.searchAccounts
              */
             this.searchAccounts = function(keyword,isOnline){
                 if(isOnline){
+                    let str_type = 'querySobjectsWithChineseParams';
                     let str_fields = 'id,Name,Customer_Number__c,Address__c,SAP_Number__c,Office_Address__c';
-                    let sql = "select " + str_fields + " " +
-                                " from Account where Name like '%" + keyword +
-                                "%' or Customer_Number__c like '%" + keyword + "%' " +
-                                " or SAP_Number__c like '%" + keyword + "%' limit 50";
-                    let url = service.buildURL('querySobjects',sql);
-                    let requestMethod = 'GET';
-                    return service.sendRest(url,sql,requestMethod,str_fields);
+                    let str_function = 'searchAccounts';
+                    let str_filter = keyword;
+                    let url = service.buildChineseURL(str_type,str_fields,str_function,str_filter);
+                    return service.sendJSONRest(url,'','GET',str_fields);
                 } else {
                     let deferred = $q.defer();
 
@@ -157,12 +153,12 @@
              */
             this.getUsersObjectByName = function(str_name,isOnline) {
                 if(isOnline){
+                    let str_type = 'querySobjectsWithChineseParams';
                     let str_fields = 'id,Name';
-                    let sql = "select " + str_fields +
-                            " from user where Name like '%" + str_name + "%' limit 50";
-                    let url = service.buildURL('querySobjects',sql);
-                    let requestMethod = 'GET';
-                    return service.sendRest(url,sql,requestMethod,str_fields);
+                    let str_function = 'getUsersObjectByName';
+                    let str_filter = str_name;
+                    let url = service.buildChineseURL(str_type,str_fields,str_function,str_filter);
+                    return service.sendJSONRest(url,'','GET',str_fields);
                 } else {
                     let deferred = $q.defer();
 
@@ -792,6 +788,12 @@
             this.buildJSONURL = function (str_type,str_param) {
                 return 'type=' + str_type +'&param='+ str_param;
             };
+
+
+            this.buildChineseURL = function (str_type,str_fields,str_function,str_filter) {
+                return 'type=' + str_type + '&function=' + str_function + '&fields=' + str_fields +'&filter='+ str_filter;
+            };
+
 
             this.sendJSONRest = function (url,param,requestMethod,str_fields) {
                 var deferred = $q.defer();
