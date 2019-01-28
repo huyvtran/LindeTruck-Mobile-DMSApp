@@ -18,7 +18,7 @@
             /*** INTERFACE ***/
             /** ----- part1: 工单 ----- **/
             /** 1.1 工单更新逻辑 **/
-            this.updateWorkOrderUtilInfo = function (isOnline, jsonReqestOnline, objRequestOffline) {
+            this.updateWorkOrderUtilInfo = function (isOnline, reqestBody) {
                 let deferred = $q.defer();
                 
                 if(isOnline){
@@ -30,7 +30,7 @@
                         .apexrest(
                             requestUrl,
                             'POST',
-                            jsonReqestOnline
+                            reqestBody
                             ,null,function success(res) {
                                 console.log(res);
                                 result =  res;
@@ -42,7 +42,7 @@
                             });
                 }else{
                     let res;
-                    res = service.offlineSubmitButtom(objRequestOffline.order, objRequestOffline.assignUsers, objRequestOffline.childOrders);
+                    res = service.offlineSubmitButtom(reqestBody.order, reqestBody.assignUsers, reqestBody.childOrders);
                     deferred.resolve(res);
                 }
             };
