@@ -45,8 +45,9 @@
                     res = service.offlineSubmitButtom(reqestBody.order, reqestBody.assignUsers, reqestBody.childOrders);
                     deferred.resolve(res);
                 }
+                return deferred.promise;
             };
-            
+
             this.offlineSubmitButtom = function (serviceOrderOverviewObj, assignUsers, serviceorderObjs ) {
                 var deferred = $q.defer();
 
@@ -212,8 +213,8 @@
                         if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                             angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                                 angular.forEach(userIds, function (uItem) {
-                                    if(entry.Support_Engineer__c_sid == uItem){
-                                        SupportEngineersListToDelete.push(entry);
+                                    if(entry[0].Support_Engineer__c_sid == uItem){
+                                        SupportEngineersListToDelete.push(entry[0]);
                                     }
                                 });
                             });
@@ -246,7 +247,146 @@
                 }, angular.noop);
                 deferred.resolve('dmlSupportEngineer success!');
                 return deferred.promise;
-            }
+            };
+
+            /** 1.2 工单初始化逻辑 **/
+            this.getWorkOrderUtilInfo = function () {
+
+            };
+
+            this.offlineGetWorkDetailInfo = function () {
+                var deferred = $q.defer();
+            };
+
+            this.getServiceOrderOverviewInfo = function (sooSid) {
+                var deferred = $q.defer();
+                var sooResult = new Object();
+
+                var sql = "Select {Service_Order_Overview__c:_soup} from {Service_Order_Overview__c} where {Service_Order_Overview__c:_soupEntryId} = '" + sooSid + "'";
+
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            sooResult['Mobile_Offline_Name__c'] = entry[0].Mobile_Offline_Name__c;
+                            sooResult['Work_Order_Type__c'] = entry[0].Work_Order_Type__c;
+                            sooResult['Description__c'] = entry[0].Description__c;
+                            sooResult['Service_Suggestion__c'] = entry[0].Service_Suggestion__c;
+
+                            sooResult.Account_Ship_to__c = entry[0].Account_Ship_to__c;
+                            sooResult.Service_Order_Type__c = entry[0].Service_Order_Type__c;
+                            sooResult.Status__c = entry[0].Status__c;
+                            sooResult.Service_Order_Owner__c = entry[0].Service_Order_Owner__c;
+                            sooResult.Plan_Date__c = entry[0].Plan_Date__c;
+                            sooResult.Truck_Serial_Number__c = entry[0].Truck_Serial_Number__c;
+                            sooResult.Subject__c = entry[0].Subject__c;
+                            sooResult._soupEntryId = entry[0]._soupEntryId;
+                        });
+                    }
+                    deferred.resolve(sooResult);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+            this.getServiceOrdersInfo = function(sooSid){
+                let deferred = $q.defer();
+
+                let sql =  "select {Service_Order__c:_soup}\
+                         from {Service_Order__c}\
+                         where {Service_Order__c:Service_Order_Overview__c_sid} ='"+sooSid+"'";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let soResults = [];
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        console.log('searchChildOrderSidsForParent::sql::', cursor.currentPageOrderedEntries);
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            soResults.push(entry[0]);
+                        });
+                    }
+                    deferred.resolve(soResults);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+            this.getWorkItemsForOverview = function (sooSid) {
+                let deferred = $q.defer();
+                let ret;
+                service.searchChildOrderSidsForParent(sooSid).then(function (sosids) {
+                    return service.getWorkItems(sosids);
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
+
+                return deferred.promise;
+            };
+
+            this.getWorkItems = function(sids){
+                let deferred = $q.defer();
+
+                if(sids == null || sids.length < 1){
+                    console.log('getWorkItems::NULL');
+                    deferred.resolve(null);
+                    return deferred.promise;
+                }
+
+                let sqlInString = "'" + sids.join("','") + "'";
+
+                let sql =  "select {Work_Item__c:_soup}\
+                         from {Work_Item__c}\
+                         where {Work_Item__c:Service_Order__c_sid} in (" +sqlInString+ ")";
+
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let results = [];
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            results.push({
+                                Id: entry[0].Id,
+                                Name: entry[0].Name,
+                                Service_Suggestion__c: entry[0].Service_Suggestion__c,
+                                Arrival_Time__c: entry[0].Arrival_Time__c,
+                                Departure_Time__c: entry[0].Departure_Time__c,
+                                Start_Time__c: entry[0].Start_Time__c,
+                                Finish_Time__c: entry[0].Finish_Time__c,
+                                Service_Order__c: entry[0].Service_Order__c,
+                                Service_Order__c_sid: entry[0].Service_Order__c_sid,
+                                Service_Order__c_type: entry[0].Service_Order__c_type,
+                                _soupEntryId: entry[0]._soupEntryId
+                            });
+                        });
+                    }
+                    deferred.resolve(results);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+            this.searchChildOrderSidsForParent = function(sooSid){
+                let deferred = $q.defer();
+
+                let sql =  "select {Service_Order__c:_soup}\
+                         from {Service_Order__c}\
+                         where {Service_Order__c:Service_Order_Overview__c_sid} ='"+sooSid+"'";
+                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    let soIds = [];
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            soIds.push(entry[0]._soupEntryId);
+                        });
+                    }
+                    deferred.resolve(soIds);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
 
             /** ----- part2:客户 ----- **/
             this.queryAccountInfo = function(keyword, limitStr, isOnline){
