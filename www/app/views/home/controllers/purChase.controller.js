@@ -61,25 +61,14 @@
                 $scope.statuses.push({value:"Approved"});
                 $scope.statuses.push({value:"Completed"});
 
-                $scope.Taxes.push({value:"A4 6% Fixed Assets Input Tax,China"});
-                $scope.Taxes.push({value:"A5 11% Fixed Assets Input Tax,China"});
-                $scope.Taxes.push({value:"A6 16% Fixed Assets Input Tax,China"});
-                $scope.Taxes.push({value:"A7 10% Fixed Assets Input Tax,China"});
-                $scope.Taxes.push({value:"J0 0% Input Tax, China"});
-                $scope.Taxes.push({value:"J1 17% Input Tax, China"});
-                $scope.Taxes.push({value:"J2 13% Input Tax, China"});
-                $scope.Taxes.push({value:"J3 3% Input Tax, China"});
-                $scope.Taxes.push({value:"J4 6% Input Tax, China"});
-                $scope.Taxes.push({value:"J5 11% Input Tax, China"});
-                $scope.Taxes.push({value:"J6 16% Input Tax, China"});
-                $scope.Taxes.push({value:"J7 10% Input Tax, China"});
-                $scope.Taxes.push({value:"L1 5% Luxuries Tax, China"});
-                $scope.Taxes.push({value:"X0 0% Input Tax, China"});
-                $scope.Taxes.push({value:"X1 17% Input Tax, China"});
-                $scope.Taxes.push({value:"X2 13% Input Tax, China"});
-                $scope.Taxes.push({value:"X3 3% Input Tax, China"});
-                $scope.Taxes.push({value:"X4 6% Input Tax, China"});
-                $scope.Taxes.push({value:"X6 16% Input Tax, China"});
+                $scope.Taxes.push({value:"J6 16% 进项税, 中国"});
+                $scope.Taxes.push({value:"J0 0% 进项税, 中国"});
+                $scope.Taxes.push({value:"J2 13% 进项税, 中国"});
+                $scope.Taxes.push({value:"J3 3% 进项税, 中国"});
+                $scope.Taxes.push({value:"J4 6% 进项税, 中国"});
+                $scope.Taxes.push({value:"J5 11% 进项税, 中国"});
+                $scope.Taxes.push({value:"J7 10% 进项税, 中国"});
+
             });
             $scope.showMaterialPage = function(){
                 if (document.getElementById("serachMaterialContent").style.display == "none") {
@@ -182,7 +171,7 @@
                     null,
                     function callBack(res) {
                         console.log(res);
-                        if (res.length>0){
+                        if (res!=null && res.length>0){
                             angular.forEach(res,function (item,index,array){
                                 $scope.allWorkOrders.push(item);
                             });
@@ -204,6 +193,7 @@
 
             $scope.chooseCurrentWorkOrder =function(obj){
                 $scope.chooseWorkOrder = obj;
+                
                 $scope.chooseWorkOrderId = obj.Id;
                 document.getElementById("busyAllContent").style.display = "block";
                 document.getElementById("serachWorkOrderContent").style.display= "none";
