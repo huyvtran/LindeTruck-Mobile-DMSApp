@@ -269,16 +269,23 @@
                 var deferred = $q.defer();
                 var initializeResult = new Object();
 
-                //1.service order overview
-                initializeResult['soResult'] = service.getServiceOrderOverviewInfo(soosid);
-                //2.service order
-                initializeResult['childOrders'] = service.getServiceOrdersInfo(soosid);
-                //3.workItems
-                initializeResult['workItems'] = service.getWorkItemsForOverview(soosid);
-                //4.assigned User
-                initializeResult['assignUser'] = service.getAssignedUserInfo(soosid, usersid);
-                //5.saved assigned user
-                initializeResult['savedUser'] = service.getsavedAssginedUser(soosid);
+                service.getServiceOrderOverviewInfo(soosid).then(function (sooResult) {
+                    initializeResult['soResult'] = sooResult;
+                    return service.getServiceOrdersInfo(soosid);
+                }).then(function (soResults) {
+                    initializeResult['childOrders'] = soResults;
+                    return service.getWorkItemsForOverview(soosid);
+                }).then(function (wiResults) {
+                    initializeResult['workItems'] = wiResults;
+                    return service.getAssignedUserInfo(soosid, usersid);
+                }).then(function (assginUserResults) {
+                    initializeResult['assignUser'] = assginUserResults;
+                    return getsavedAssginedUser(soosid);
+                }).then(function (assginSavedUserResults) {
+                    initializeResult['savedUser'] = assginSavedUserResults;
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
 
                 deferred.resolve(initializeResult);
 
@@ -342,53 +349,41 @@
             this.getAssignedUserInfo = function (soosid, usersid) {
                 var deferred = $q.defer();
                 var userWithNameResults = [];
-
-                //1.get rec id
                 var recId;
 
-                recId = service.getRecordTypeId('BTU__c', 'Service_Team');
-
-                if(recId == null){
-                    deferred.reject('record id is null');
-                }
-
-                //2.get btu parent id
-                var parentId;
-
-                var whereStr = "where {BTU__c:Manager__c_sid} = '"+ usersid + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
-                parentId = service.getBTUInfoWithWhereStr(whereStr, 'getParentId');
-
-                if(parentId == null){
-                    deferred.reject('parent id is null');
-                }
-
-                //3.get btu grandfather id
-                var grandfatherId;
-                var whereStr2 = "where {BTU__c:_soupEntryId} = '"+ parentId + "'";
-                grandfatherId = service.getBTUInfoWithWhereStr(whereStr2, 'getParentId');
-
-                if(grandfatherId == null){
-                    deferred.reject('grandfather Id is null');
-                }
-
-                //4.get parent btu
-                var parentBTUIds;
-                var whereStr3 = "where {BTU__c:Parent__c} = '"+ grandfatherId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
-                parentBTUIds = service.getBTUInfoWithWhereStr(whereStr3, 'getBtuId');
-
-                if(parentBTUIds == null || parentBTUIds.length < 1){
-                    deferred.reject('parent btu is null');
-                }
-
-                //5.get manger ids
-                var mangersIds;
-                var sqlInString = "'" + parentBTUIds.join("','") + "'";
-                var whereStr4 = "where {BTU__c:Parent__c} in ("+ grandfatherId + ") and {BTU__c:RecordTypeId} = '"+ recId + "'";
-                mangersIds = service.getBTUInfoWithWhereStr(whereStr4, 'getManagersid');
-
-                //6.get user with name
-                var userWithNameResult;
-                userWithNameResult = service.getUserNameWithsIds(mangersIds);
+                service.getRecordTypeId('BTU__c', 'Service_Team').then(function (recTypeId) {
+                    recId = recTypeId;
+                    if(recId == null){
+                        deferred.reject('record id is null');
+                    }
+                    var whereStr = "where {BTU__c:Manager__c_sid} = '"+ usersid + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
+                    return service.getBTUInfoWithWhereStr(whereStr, 'getParentId');
+                }).then(function (parentId) {
+                    if(parentId == null){
+                        deferred.reject('parent id is null');
+                    }
+                    var whereStr2 = "where {BTU__c:_soupEntryId} = '"+ parentId + "'";
+                    return service.getBTUInfoWithWhereStr(whereStr2, 'getParentId');
+                }).then(function (grandfatherId) {
+                    if(grandfatherId == null){
+                        deferred.reject('grandfather Id is null');
+                    }
+                    var whereStr3 = "where {BTU__c:Parent__c} = '"+ grandfatherId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
+                    return service.getBTUInfoWithWhereStr(whereStr3, 'getBtuId');
+                }).then(function (parentBTUIds) {
+                    if(parentBTUIds == null || parentBTUIds.length < 1){
+                        deferred.reject('parent btu is null');
+                    }
+                    var sqlInString = "'" + parentBTUIds.join("','") + "'";
+                    var whereStr4 = "where {BTU__c:Parent__c} in ("+ grandfatherId + ") and {BTU__c:RecordTypeId} = '"+ recId + "'";
+                    return getBTUInfoWithWhereStr(whereStr4, 'getManagersid');
+                }).then(function (mangersIds) {
+                    return service.getUserNameWithsIds(mangersIds);
+                }).then(function (res) {
+                    userWithNameResults = res;
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
 
                 deferred.resolve(userWithNameResult);
 
@@ -399,13 +394,15 @@
                 var deferred = $q.defer();
                 var getResult;
 
-                var sesids;
-                sesids = service.getSupportEngineerSoids(soosid);
+                service.getSupportEngineerSoids(soosid).then(function (sesids) {
+                    return service.getUserNameWithsIds(sesids);
+                }).then(function (res) {
+                    getResult = res;
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
 
-                var userWithNameResult;
-                userWithNameResult = service.getUserNameWithsIds(sesids);
-
-                deferred.resolve(userWithNameResult);
+                deferred.resolve(getResult);
 
                 return deferred.promise;
             };
@@ -442,7 +439,7 @@
 
             this.getSupportEngineerSoids = function (soosid) {
                 var deferred = $q.defer();
-                var usids;
+                var usids = [];
 
                 var sql =  "select {Support_Engineer__c:_soup}\
                          from {Support_Engineer__c}\
