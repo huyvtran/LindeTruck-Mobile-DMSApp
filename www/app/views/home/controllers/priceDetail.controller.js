@@ -1,5 +1,5 @@
 angular.module('oinio.PriceDetailController', [])
-  .controller('PriceDetailController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,  ForceClientService, AppUtilService, LocalCacheService) {
+  .controller('PriceDetailController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,Service1Service,ForceClientService, AppUtilService, LocalCacheService) {
 
 
     var oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -1749,8 +1749,7 @@ angular.module('oinio.PriceDetailController', [])
     };
 
     $scope.goWorkDetails = function () {
-
-      if (!$scope.basicInfo.Service_Order_Overview__c) {
+        if (!$scope.basicInfo.Service_Order_Overview__c) {
         AppUtilService.showLoading();
         ForceClientService.getForceClient().apexrest(
           $scope.convertQuoteToOrder + $scope.basicInfo.Id,
@@ -1780,17 +1779,49 @@ angular.module('oinio.PriceDetailController', [])
           }
         );
       } else {
-        $state.go('app.workDetails', {
-            SendInfo: $scope.basicInfo.Service_Order_Overview__c,
-            workDescription: null,
-            AccountShipToC: null,
-            workOrderId: $scope.basicInfo.Service_Order_Overview__c,
-            enableArrivalBtn: null,
-            goOffTime: null,
-            isNewWorkList: true,
-            accountId: null,
-            orderBelong: null
+        Service1Service.getOwnerForServiceOrder($scope.basicInfo.Service_Order_Overview__c,true).then(function(res){
+            console.log('getOwnerForServiceOrder::',res);
+            console.log('oCurrentUser::',oCurrentUser);
+            if(res.Service_Order_Owner__c === oCurrentUser.Id){
+                $state.go('app.workDetails', {
+                    SendInfo: $scope.basicInfo.Service_Order_Overview__c,
+                    workDescription: null,
+                    AccountShipToC: null,
+                    workOrderId: $scope.basicInfo.Service_Order_Overview__c,
+                    enableArrivalBtn: null,
+                    goOffTime: null,
+                    isNewWorkList: true,
+                    accountId: null,
+                    orderBelong: true
+                });
+            }else{
+                $state.go('app.workDetails', {
+                    SendInfo: $scope.basicInfo.Service_Order_Overview__c,
+                    workDescription: null,
+                    AccountShipToC: null,
+                    workOrderId: $scope.basicInfo.Service_Order_Overview__c,
+                    enableArrivalBtn: null,
+                    goOffTime: null,
+                    isNewWorkList: true,
+                    accountId: null,
+                    orderBelong: true
+                });
+            }
+        },function (err) {
+            console.log('getOwnerForServiceOrder::',err);
+            $state.go('app.workDetails', {
+                SendInfo: $scope.basicInfo.Service_Order_Overview__c,
+                workDescription: null,
+                AccountShipToC: null,
+                workOrderId: $scope.basicInfo.Service_Order_Overview__c,
+                enableArrivalBtn: null,
+                goOffTime: null,
+                isNewWorkList: true,
+                accountId: null,
+                orderBelong: null
+            });
         });
+
       }
 
     };

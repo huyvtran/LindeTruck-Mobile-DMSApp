@@ -573,9 +573,10 @@
             this.getOrdersWithGroupStep3_1 = function(){
                 let deferred = $q.defer();
 
-                let sql =  "select {Service_Order_Overview__c:_soup}\
-                         from {Service_Order_Overview__c}\
-                         where {Service_Order_Overview__c:Status__c} != '' and {Service_Order_Overview__c:Account_Ship_to__c} != '' and {Service_Order_Overview__c:Account_Ship_to__c_sid} != '' ";
+                let sql =  "select {Service_Order_Overview__c:_soup} " +
+                         " from {Service_Order_Overview__c} " +
+                         " where {Service_Order_Overview__c:Status__c} != '' " +
+                         " and {Service_Order_Overview__c:Account_Ship_to__c} != '' and {Service_Order_Overview__c:Account_Ship_to__c_sid} != '' ";
                 let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                     let result = new Object();
@@ -760,6 +761,41 @@
                     deferred.reject(err);
                 }
                 return deferred.promise;
+            };
+
+
+            /**
+             * getOwnerForServiceOrder
+             */
+            this.getOwnerForServiceOrder = function (str_orderId,isOnline) {
+                if(isOnline){
+                    let str_fields = 'Id,Service_Order_Owner__c';
+                    let sql = "select " +str_fields+ " from Service_Order_Overview__c where id = '" + str_orderId + "' limit 50";
+                    let url = service.buildURL('querySobject',sql);
+                    let requestMethod = 'GET';
+                    return service.sendRest(url,sql,requestMethod,str_fields);
+                } else {
+                    let deferred = $q.defer();
+
+                    let sql =  "select {Service_Order_Overview__c:_soup}\
+                         from {Service_Order_Overview__c}\
+                         where {Service_Order_Overview__c:Id}='"+str_orderId+"'";
+                    let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                    navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                        let user;
+                        if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                            angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                                user = entry[0];
+                            });
+                        }
+                        deferred.resolve(user);
+                    }, function (err) {
+                        console.error(err);
+                        deferred.reject(err);
+                    });
+                    //console.log('getUserObjectById::', deferred.promise);
+                    return deferred.promise;
+                }
             };
 
 
