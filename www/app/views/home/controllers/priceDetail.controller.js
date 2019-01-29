@@ -1761,14 +1761,15 @@ angular.module('oinio.PriceDetailController', [])
             AppUtilService.hideLoading();
             if (res) {
               $state.go('app.workDetails', {
-                SendInfo: res,
-                workDescription: null,
-                AccountShipToC: null,
-                workOrderId: res,
-                enableArrivalBtn: null,
-                goOffTime: null,
-                isNewWorkList: null,
-                accountId: null
+                  SendInfo: res,
+                  workDescription: null,
+                  AccountShipToC: null,
+                  workOrderId: res,
+                  enableArrivalBtn: null,
+                  goOffTime: null,
+                  isNewWorkList: true,
+                  accountId: null,
+                  orderBelong: null
               });
             }
             console.log(res);
@@ -1780,14 +1781,15 @@ angular.module('oinio.PriceDetailController', [])
         );
       } else {
         $state.go('app.workDetails', {
-          SendInfo: $scope.basicInfo.Service_Order_Overview__c,
-          workDescription: null,
-          AccountShipToC: null,
-          workOrderId: $scope.basicInfo.Service_Order_Overview__c,
-          enableArrivalBtn: null,
-          goOffTime: null,
-          isNewWorkList: null,
-          accountId: null
+            SendInfo: $scope.basicInfo.Service_Order_Overview__c,
+            workDescription: null,
+            AccountShipToC: null,
+            workOrderId: $scope.basicInfo.Service_Order_Overview__c,
+            enableArrivalBtn: null,
+            goOffTime: null,
+            isNewWorkList: true,
+            accountId: null,
+            orderBelong: null
         });
       }
 
