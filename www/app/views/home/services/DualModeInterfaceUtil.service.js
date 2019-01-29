@@ -380,24 +380,28 @@
                 }).then(function (mangersIds) {
                     return service.getUserNameWithsIds(mangersIds);
                 }).then(function (res) {
-                    userWithNameResults = res;
+                    if(res != null){
+                        userWithNameResults = res;
+                    }
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
 
-                deferred.resolve(userWithNameResult);
+                deferred.resolve(userWithNameResults);
 
                 return deferred.promise;
             };
 
             this.getsavedAssginedUser = function (soosid) {
                 var deferred = $q.defer();
-                var getResult;
+                var getResult = [];
 
                 service.getSupportEngineerSoids(soosid).then(function (sesids) {
                     return service.getUserNameWithsIds(sesids);
                 }).then(function (res) {
-                    getResult = res;
+                    if(res != null){
+                        getResult = res;
+                    }
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
@@ -489,12 +493,14 @@
 
             this.getWorkItemsForOverview = function (sooSid) {
                 var deferred = $q.defer();
-                var getResult;
+                var getResult = [];
 
                 service.searchChildOrderSidsForParent(sooSid).then(function (sosids) {
                     return service.getWorkItems(sosids);
                 }).then(function (res) {
-                    getResult = res;
+                    if(res != null){
+                        getResult = res;
+                    }
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
