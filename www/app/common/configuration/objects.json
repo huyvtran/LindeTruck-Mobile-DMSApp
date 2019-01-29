@@ -70,8 +70,8 @@
     },
     {
       "Name": "BTU__c",
-      "MobileVizArt__Fields__c": "Id,Name,Team_Leader__c,Manager__c,RecordTypeId",
-      "MobileVizArt__Search_Fields__c": "Name,Manager__c",
+      "MobileVizArt__Fields__c": "Id,Name,Team_Leader__c,Parent__c,Manager__c,RecordTypeId",
+      "MobileVizArt__Search_Fields__c": "Name,Manager__c,Parent__c ",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
@@ -201,6 +201,17 @@
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
       "MobileVizArt__Level__c": 10,
+      "MobileVizArt__Use_Navigation__c": false,
+      "MobileVizArt__Active__c": true
+    },
+    {
+      "Name": "RecordType",
+      "MobileVizArt__Fields__c": "Id, DeveloperName",
+      "MobileVizArt__Search_Fields__c": "SobjectType, DeveloperName",
+      "MobileVizArt__List_Content_Fields__c": null,
+      "MobileVizArt__Filter_Criteria__c": null,
+      "MobileVizArt__Lookup_Mod_Stamp__c": null,
+      "MobileVizArt__Level__c": 11,
       "MobileVizArt__Use_Navigation__c": false,
       "MobileVizArt__Active__c": true
     }

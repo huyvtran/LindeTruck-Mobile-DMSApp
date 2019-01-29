@@ -13,33 +13,28 @@
         .service('dualModeService', function($q, $log, $filter,LocalDataService, SMARTSTORE_COMMON_SETTING,ConnectionMonitor,ForceClientService,
                                             LocalSyncService,IonicLoadingService) {
 
-            let service = this;
+            var service = this;
 
             /*** INTERFACE ***/
             /** ----- part1: 工单 ----- **/
             /** 1.1 工单更新逻辑 **/
+            /**
+             * service order overview update button
+             * @param isOnline
+             * @param reqestBody : online is json body , offline is object{order, assignUsers, childOrders}
+             * @returns {*}
+             */
             this.updateWorkOrderUtilInfo = function (isOnline, reqestBody) {
-                let deferred = $q.defer();
+                var deferred = $q.defer();
                 
                 if(isOnline){
-                    let requestUrl = '/WorkDetailService?action=saveAction';
+                    var requestUrl = '/WorkDetailService?action=saveAction';
 
                     console.log('current url:::', requestUrl);
 
-                    ForceClientService.getForceClient()
-                        .apexrest(
-                            requestUrl,
-                            'POST',
-                            reqestBody
-                            ,null,function success(res) {
-                                deferred.resolve(res);
-                            },
-                            function error(msg) {
-                                console.log(msg);
-                                deferred.reject(msg);
-                            });
+                   deferred.resolve(service.restRequest(requestUrl, 'POST', reqestBody));
                 }else{
-                    let res;
+                    var res;
                     res = service.offlineSubmitButtom(reqestBody.order, reqestBody.assignUsers, reqestBody.childOrders);
                     deferred.resolve(res);
                 }
@@ -96,7 +91,6 @@
                     LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function(result) {
                         if (!result){
                             deferred.reject('Failed to update service order overview!');
-                            return;
                         }
                         deferred.resolve(result);
                     }, function (error) {
@@ -192,7 +186,7 @@
 
                 LocalDataService.createSObject('Support_Engineer__c').then(function(sobject) {
                     var SupportEngineersListToInsert;
-                    var SupportEngineersListToDelete;
+                    var SupportEngineersListToDevare;
 
                     angular.forEach(userIds, function (uId){
                         var newSupportEngineer;
@@ -212,7 +206,7 @@
                             angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                                 angular.forEach(userIds, function (uItem) {
                                     if(entry[0].Support_Engineer__c_sid == uItem){
-                                        SupportEngineersListToDelete.push(entry[0]);
+                                        SupportEngineersListToDevare.push(entry[0]);
                                     }
                                 });
                             });
@@ -221,15 +215,15 @@
                         deferred.reject(err);
                     });
 
-                    if(SupportEngineersListToDelete.length > 0){
-                        LocalDataService.deleteSObjects('Support_Engineer__c', SupportEngineersListToDelete).then(function (result) {
+                    if(SupportEngineersListToDevare.length > 0){
+                        LocalDataService.devareSObjects('Support_Engineer__c', SupportEngineersListToDevare).then(function (result) {
                             if (!result){
                                 //console.error("!result");
-                                deferred.reject('Failed to delete Support Engineer.');
+                                deferred.reject('Failed to devare Support Engineer.');
                                 return;
                             }
                         }, function (error) {
-                            console.log('Support Engineer delete error:::', error);
+                            console.log('Support Engineer devare error:::', error);
                         });
                     }
 
@@ -248,12 +242,47 @@
             };
 
             /** 1.2 工单初始化逻辑 **/
-            this.getWorkOrderUtilInfo = function () {
+            /**
+             * init service order overview
+             * @param isOnline
+             * @param sooId: online is id, offline is soup entry id
+             * @param userId: online is id, offline is soup entry id
+             * @returns {*}
+             */
+            this.getWorkOrderUtilInfo = function (isOnline, sooId, userId) {
+                var deferred = $q.defer();
 
+                if(isOnline){
+                    var requestUrl = "/WorkDetailService/"+ sooId+ "/"+ userId;
+                    console.log('current url:::', requestUrl);
+
+                    deferred.resolve(service.restRequest(requestUrl, 'GET', {}));
+                }else{
+                    var res;
+                    res = service.offlineGetWorkDetailInfo(sooId, userId);
+                    deferred.resolve(res);
+                }
+                return deferred.promise;
             };
 
-            this.offlineGetWorkDetailInfo = function () {
+            this.offlineGetWorkDetailInfo = function (soosid, usersid) {
                 var deferred = $q.defer();
+                var initializeResult = new object();
+
+                //1.service order overview
+                initializeResult['soResult'] = service.getServiceOrderOverviewInfo(soosid);
+                //2.service order
+                initializeResult['childOrders'] = service.getServiceOrdersInfo(soosid);
+                //3.workItems
+                initializeResult['workItems'] = service.getWorkItemsForOverview(soosid);
+                //4.assigned User
+                initializeResult['assignUser'] = service.getAssignedUserInfo(soosid, usersid);
+                //5.saved assigned user
+                initializeResult['savedUser'] = service.getsavedAssginedUser(soosid);
+
+                deferred.resolve(initializeResult);
+
+                return deferred.promise;
             };
 
             this.getServiceOrderOverviewInfo = function (sooSid) {
@@ -289,14 +318,14 @@
             };
 
             this.getServiceOrdersInfo = function(sooSid){
-                let deferred = $q.defer();
+                var deferred = $q.defer();
 
-                let sql =  "select {Service_Order__c:_soup}\
+                var sql =  "select {Service_Order__c:_soup}\
                          from {Service_Order__c}\
                          where {Service_Order__c:Service_Order_Overview__c_sid} ='"+sooSid+"'";
-                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
-                    let soResults = [];
+                    var soResults = [];
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         console.log('searchChildOrderSidsForParent::sql::', cursor.currentPageOrderedEntries);
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
@@ -310,9 +339,156 @@
                 return deferred.promise;
             };
 
+            this.getAssignedUserInfo = function (soosid, usersid) {
+                var deferred = $q.defer();
+                var userWithNameResults = [];
+
+                //1.get rec id
+                var recId;
+
+                recId = service.getRecordTypeId('BTU__c', 'Service_Team');
+
+                if(recId == null){
+                    deferred.reject('record id is null');
+                }
+
+                //2.get btu parent id
+                var parentId;
+
+                var whereStr = "where {BTU__c:Manager__c_sid} = '"+ usersid + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
+                parentId = service.getBTUInfoWithWhereStr(whereStr, 'getParentId');
+
+                if(parentId == null){
+                    deferred.reject('parent id is null');
+                }
+
+                //3.get btu grandfather id
+                var grandfatherId;
+                var whereStr2 = "where {BTU__c:_soupEntryId} = '"+ parentId + "'";
+                grandfatherId = service.getBTUInfoWithWhereStr(whereStr2, 'getParentId');
+
+                //4.get parent btu
+                var parentBTUIds;
+                var whereStr3 = "where {BTU__c:Parent__c} = '"+ grandfatherId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
+                parentBTUIds = service.getBTUInfoWithWhereStr(whereStr3, 'getBtuId');
+
+                if(parentId == null){
+                    deferred.reject('parent btu is null');
+                }
+
+                //5.get manger ids
+                var mangersIds;
+                var sqlInString = "'" + parentBTUIds.join("','") + "'";
+                var whereStr4 = "where {BTU__c:Parent__c} in ("+ grandfatherId + ") and {BTU__c:RecordTypeId} = '"+ recId + "'";
+                mangersIds = service.getBTUInfoWithWhereStr(whereStr4, 'getManagersid');
+
+                //6.get user with name
+                var userWithNameResult;
+                userWithNameResult = service.getUserNameWithsIds(mangersIds);
+
+                deferred.resolve(userWithNameResult);
+
+                return deferred.promise;
+            };
+
+            this.getsavedAssginedUser = function (soosid) {
+                var deferred = $q.defer();
+                var getResult;
+
+                var sesids;
+                sesids = service.getSupportEngineerSoids(soosid);
+
+                var userWithNameResult;
+                userWithNameResult = service.getUserNameWithsIds(sesids);
+
+                deferred.resolve(userWithNameResult);
+
+                return deferred.promise;
+            };
+
+            this.getBTUInfoWithWhereStr = function (whereStr, action) {
+                var deferred = $q.defer();
+                var getResult;
+
+                var sql =  "select {BTU__c:_soup} from {BTU__c} ";
+                if(whereStr != null){
+                    sql += whereStr;
+                }
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            if(action == 'getParentId'){
+                                getResult = entry[0].Parent__c;
+                            }else if (action == 'getManagersid'){
+                                getResult = [];
+                                getResult = entry[0].Manager__c_sid;
+                            }else if (action == 'getBtuId'){
+                                getResult = [];
+                                getResult.push(entry[0].Id);
+                            }
+                        });
+                    }
+                    deferred.resolve(getResult);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+            this.getSupportEngineerSoids = function (soosid) {
+                var deferred = $q.defer();
+                var usids;
+
+                var sql =  "select {Support_Engineer__c:_soup}\
+                         from {Support_Engineer__c}\
+                         where {Support_Engineer__c:Service_Order_Overview__c_sid} = '"+ soosid + "'";
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            usids.push(entry[0].Support_Engineer__c_sid);
+                        });
+                    }
+                    deferred.resolve(usids);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+            this.getUserNameWithsIds = function (usids) {
+                var deferred = $q.defer();
+                var userwithName = [];
+
+                if(usids == null || usids.length < 1){
+                    deferred.reject('user soup entry id is null');
+                }
+
+                var sqlInString = "'" + usids.join("','") + "'";
+
+                var sql =  "select {User:_soup}\
+                         from {User}\
+                         where {User:_soupEntryId} in (" +sqlInString+ ")";
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            userwithName.push(entry[0]._soupEntryId + ',' + entry[0].Name);
+                        });
+                    }
+                    deferred.resolve(userwithName);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+
+
+
             this.getWorkItemsForOverview = function (sooSid) {
-                let deferred = $q.defer();
-                let ret;
+                var deferred = $q.defer();
+                var ret;
                 service.searchChildOrderSidsForParent(sooSid).then(function (sosids) {
                     return service.getWorkItems(sosids);
                 }).catch(function (error) {
@@ -323,7 +499,7 @@
             };
 
             this.getWorkItems = function(sids){
-                let deferred = $q.defer();
+                var deferred = $q.defer();
 
                 if(sids == null || sids.length < 1){
                     console.log('getWorkItems::NULL');
@@ -331,15 +507,15 @@
                     return deferred.promise;
                 }
 
-                let sqlInString = "'" + sids.join("','") + "'";
+                var sqlInString = "'" + sids.join("','") + "'";
 
-                let sql =  "select {Work_Item__c:_soup}\
+                var sql =  "select {Work_Item__c:_soup}\
                          from {Work_Item__c}\
                          where {Work_Item__c:Service_Order__c_sid} in (" +sqlInString+ ")";
 
-                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
-                    let results = [];
+                    var results = [];
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             results.push({
@@ -365,14 +541,14 @@
             };
 
             this.searchChildOrderSidsForParent = function(sooSid){
-                let deferred = $q.defer();
+                var deferred = $q.defer();
 
-                let sql =  "select {Service_Order__c:_soup}\
+                var sql =  "select {Service_Order__c:_soup}\
                          from {Service_Order__c}\
                          where {Service_Order__c:Service_Order_Overview__c_sid} ='"+sooSid+"'";
-                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
-                    let soIds = [];
+                    var soIds = [];
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             soIds.push(entry[0]._soupEntryId);
@@ -388,10 +564,10 @@
 
             /** ----- part2:客户 ----- **/
             this.queryAccountInfo = function(keyword, limitStr, isOnline){
-                let deferred = $q.defer();
-                //let result = new Object();
+                var deferred = $q.defer();
+                //var result = new Object();
                 if(isOnline){
-                    let requestUrl = '/TruckFleetTransferService?action=queryAcct';
+                    var requestUrl = '/TruckFleetTransferService?action=queryAcct';
                     if(keyword != null && keyword != ''){
                         requestUrl += '&keyWord=' + keyword;
                         if(limitStr != null && limitStr != ''){
@@ -401,9 +577,9 @@
                         deferred.reject('keyword lost !');
                     }
 
-                    deferred.resolve(this.restRequest(requestUrl));
+                    deferred.resolve(this.restRequest(requestUrl, 'GET', {}));
                 }else{
-                    let res = this.searchAccounts(keyword);
+                    var res = this.searchAccounts(keyword);
                     deferred.resolve(res);
                 }
                 return deferred.promise;
@@ -414,6 +590,27 @@
 
 
             /*** FUNCTION ***/
+
+            this.getRecordTypeId = function (sobjectType, devName) {
+                var deferred = $q.defer();
+                var recId;
+
+                var sql =  "select {RecordType:_soup}\
+                         from {RecordType}\
+                         where {RecordType:SobjectType} = '"+ sobjectType + "' and {RecordType:DeveloperName} = '" +devName+ "'";
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            recId = entry[0].Id;
+                        });
+                    }
+                    deferred.resolve(recId);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
 
             /**
              * get objects soup entry ids
@@ -435,17 +632,15 @@
                 return deferred.promise;
             }
 
-            this.restRequest = function (requerstUrl) {
-                let deferred = $q.defer();
-                let result = new Object();
+            this.restRequest = function (requerstUrl, method, body) {
+                var deferred = $q.defer();
+                var result = new Object();
 
                 ForceClientService.getForceClient()
                     .apexrest(
                         requerstUrl,
-                        'GET',
-                        {
-
-                        },null,function success(res) {
+                        method,
+                        body,null,function success(res) {
                             console.log(res);
                             result =  res;
                             deferred.resolve(result);
@@ -465,15 +660,15 @@
              */
             this.searchAccounts = function(keyword){
                 console.log('searchAccounts.keyword:%s', keyword);
-                let deferred = $q.defer();
+                var deferred = $q.defer();
 
-                let sql =  "select {Account:_soup}\
+                var sql =  "select {Account:_soup}\
                          from {Account}\
                          where {Account:Name} like '%"+keyword+"%'\
                              or {Account:SAP_Number__c} like '%"+keyword+"%'";
-                let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
-                    let accounts = [];
+                    var accounts = [];
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             accounts.push({
