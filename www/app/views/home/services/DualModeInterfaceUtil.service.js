@@ -267,7 +267,7 @@
 
             this.offlineGetWorkDetailInfo = function (soosid, usersid) {
                 var deferred = $q.defer();
-                var initializeResult = new object();
+                var initializeResult = new Object();
 
                 //1.service order overview
                 initializeResult['soResult'] = service.getServiceOrderOverviewInfo(soosid);
@@ -367,12 +367,16 @@
                 var whereStr2 = "where {BTU__c:_soupEntryId} = '"+ parentId + "'";
                 grandfatherId = service.getBTUInfoWithWhereStr(whereStr2, 'getParentId');
 
+                if(grandfatherId == null){
+                    deferred.reject('grandfather Id is null');
+                }
+
                 //4.get parent btu
                 var parentBTUIds;
                 var whereStr3 = "where {BTU__c:Parent__c} = '"+ grandfatherId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
                 parentBTUIds = service.getBTUInfoWithWhereStr(whereStr3, 'getBtuId');
 
-                if(parentId == null){
+                if(parentBTUIds == null || parentBTUIds.length < 1){
                     deferred.reject('parent btu is null');
                 }
 
@@ -560,6 +564,8 @@
                 });
                 return deferred.promise;
             };
+
+            /** 1.3 工单状态更新逻辑 **/
 
 
             /** ----- part2:客户 ----- **/
