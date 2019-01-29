@@ -283,12 +283,10 @@
                     return service.getsavedAssginedUser(soosid);
                 }).then(function (assginSavedUserResults) {
                     initializeResult['savedUser'] = assginSavedUserResults;
+                    deferred.resolve(initializeResult);
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
-
-                deferred.resolve(initializeResult);
-
                 return deferred.promise;
             };
 
@@ -383,11 +381,10 @@
                     if(res != null){
                         userWithNameResults = res;
                     }
+                    deferred.resolve(userWithNameResults);
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
-
-                deferred.resolve(userWithNameResults);
 
                 return deferred.promise;
             };
@@ -402,11 +399,10 @@
                     if(res != null){
                         getResult = res;
                     }
+                    deferred.resolve(getResult);
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
-
-                deferred.resolve(getResult);
 
                 return deferred.promise;
             };
@@ -501,11 +497,10 @@
                     if(res != null){
                         getResult = res;
                     }
+                    deferred.resolve(getResult);
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
-
-                deferred.resolve(getResult);
 
                 return deferred.promise;
             };
