@@ -280,7 +280,7 @@
                     return service.getAssignedUserInfo(soosid, usersid);
                 }).then(function (assginUserResults) {
                     initializeResult['assignUser'] = assginUserResults;
-                    return getsavedAssginedUser(soosid);
+                    return service.getsavedAssginedUser(soosid);
                 }).then(function (assginSavedUserResults) {
                     initializeResult['savedUser'] = assginSavedUserResults;
                 }).catch(function (error) {
@@ -489,12 +489,17 @@
 
             this.getWorkItemsForOverview = function (sooSid) {
                 var deferred = $q.defer();
-                var ret;
+                var getResult;
+
                 service.searchChildOrderSidsForParent(sooSid).then(function (sosids) {
                     return service.getWorkItems(sosids);
+                }).then(function (res) {
+                    getResult = res;
                 }).catch(function (error) {
                     deferred.reject(error);
                 });
+
+                deferred.resolve(getResult);
 
                 return deferred.promise;
             };
