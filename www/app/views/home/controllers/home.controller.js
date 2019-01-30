@@ -151,15 +151,33 @@ angular.module('oinio.controllers', [])
       var formatDateToFormatString = function (date) {
 
         var year = date.getFullYear(); //year
-        var month = date.getMonth(); //month
+        var month = checkMonth(date.getMonth() + 1); //month
         var day = date.getDate(); //day
         var hours = date.getHours();//hours
-        var minutes = date.getMinutes();//minutes
+        var minutes = checkTime(date.getMinutes());//minutes
         var seconds = date.getSeconds();//Seconds
 
         return year  + "-"+ month + "-" + day +  ' ' +  hours + ':' + minutes + ':' + seconds;
 
       };
+
+      var checkMonth = function (month) {
+        if (month<10)
+        {
+          month="0" + month;
+        }
+        return month;
+      };
+
+      var checkTime = function (i)
+      {
+        if (i<10)
+        {
+          i="0" + i
+        }
+        return i
+      };
+
 
       //commute
       $scope.commute = function () {
@@ -171,7 +189,7 @@ angular.module('oinio.controllers', [])
           'CompanyCode': 'linde',
           'BatchNo': '0123456789',
           'cardDataList':
-            [{'EmployeeID':oCurrentUser.EmployeeNumber, 'TimeCardDate': formatDateToFormatString(new Date()), 'ControllerSN': 'A01'}]
+            [{'EmployeeID':oCurrentUser.EmployeeNumber, 'TimeCardDate': formatDateToFormatString(new Date()), 'ControllerSN': 'PDA'}]
         };
 
         TimeCardService.clickTimeCard(payload).then(function (response) {

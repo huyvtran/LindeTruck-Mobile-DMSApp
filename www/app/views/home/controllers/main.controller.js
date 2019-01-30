@@ -7,7 +7,7 @@
 
 angular.module('oinio.MainController', [])
     .controller('MainController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-                                            LocalCacheService,$ionicTabsDelegate) {
+                                            LocalCacheService,$ionicTabsDelegate,TimeCardService) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -20,7 +20,7 @@ angular.module('oinio.MainController', [])
         cordova.plugins.backgroundMode.setEnabled(true);
         // cordova.plugins.backgroundMode.overrideBackButton();
         var firstIntoApp = true;
-  
+
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -34,6 +34,7 @@ angular.module('oinio.MainController', [])
                 firstIntoApp = false;
             }
             console.log("mainController.$ionicView.beforeEnter");
+            TimeCardService.fetchVersionInfo();
 
         });
 
