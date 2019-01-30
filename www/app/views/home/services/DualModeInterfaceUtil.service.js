@@ -352,25 +352,29 @@
                 service.getRecordTypeId('BTU__c', 'Service_Team').then(function (recTypeId) {
                     recId = recTypeId;
                     if(recId == null){
-                        deferred.reject('record id is null');
+                        deferred.resolve('record id is null');
+                        return deferred.promise;
                     }
                     var whereStr = "where {BTU__c:Manager__c_sid} = '"+ usersid + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
                     return service.getBTUInfoWithWhereStr(whereStr, 'getParentId');
                 }).then(function (parentId) {
                     if(parentId == null){
-                        deferred.reject('parent id is null');
+                        deferred.resolve('parent id is null');
+                        return deferred.promise;
                     }
                     var whereStr2 = "where {BTU__c:_soupEntryId} = '"+ parentId + "'";
                     return service.getBTUInfoWithWhereStr(whereStr2, 'getParentId');
                 }).then(function (grandfatherId) {
                     if(grandfatherId == null){
-                        deferred.reject('grandfather Id is null');
+                        deferred.resolve('grandfather Id is null');
+                        return deferred.promise;
                     }
                     var whereStr3 = "where {BTU__c:Parent__c} = '"+ grandfatherId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
                     return service.getBTUInfoWithWhereStr(whereStr3, 'getBtuId');
                 }).then(function (parentBTUIds) {
                     if(parentBTUIds == null || parentBTUIds.length < 1){
-                        deferred.reject('parent btu is null');
+                        deferred.resolve('parent btu is null');
+                        return deferred.promise;
                     }
                     var sqlInString = "'" + parentBTUIds.join("','") + "'";
                     var whereStr4 = "where {BTU__c:Parent__c} in ("+ grandfatherId + ") and {BTU__c:RecordTypeId} = '"+ recId + "'";
@@ -463,7 +467,9 @@
                 var userwithName = [];
 
                 if(usids == null || usids.length < 1){
-                    deferred.reject('user soup entry id is null');
+                    console.log('user soup entry id is null');
+                    deferred.resolve(userwithName);
+                    return deferred.promise;
                 }
 
                 var sqlInString = "'" + usids.join("','") + "'";
