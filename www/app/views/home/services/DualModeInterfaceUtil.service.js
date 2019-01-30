@@ -351,20 +351,29 @@
 
                 service.getRecordTypeId('BTU__c', 'Service_Team').then(function (recTypeId) {
                     recId = recTypeId;
-                    if(recId == null){
-                        deferred.reject('record type id is null');
+                    if(recTypeId == null){
+                        console.log('record type id is null');
+                        //userWithNameResults.push();
+                        recId = null;
+                        deferred.resolve(null);
                         return deferred.promise;
                     }
                     var whereStr = "where {BTU__c:Manager__c_sid} = '"+ usersid + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
                     return service.getBTUInfoWithWhereStr(whereStr, 'getParentId');
                 }).then(function (parentId) {
                     if(parentId == null){
-                        deferred.reject('parentId Id is null');
+                        console.log('parentId Id is null');
+                        deferred.resolve([]);
                         return deferred.promise;
                     }
                     var whereStr3 = "where {BTU__c:Parent__c} = '"+ parentId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
                     return service.getBTUInfoWithWhereStr(whereStr3, 'getManagersid');
                 }).then(function (mangersIds) {
+                    if(mangersIds == null || mangersIds.length <1){
+                        console.log('mangersIds Id is null');
+                        deferred.resolve([]);
+                        return deferred.promise;
+                    }
                     return service.getUserNameWithsIds(mangersIds);
                 }).then(function (res) {
                     if(res != null){
@@ -453,7 +462,8 @@
 
                 if(usids == null || usids.length < 1){
                     console.log('user soup entry id is null');
-                    deferred.reject('user soup entry id is null');
+                    //deferred.reject('user soup entry id is null');
+                    deferred.resolve(null);
                     return deferred.promise;
                 }
 
@@ -560,6 +570,52 @@
             };
 
             /** 1.3 工单状态更新逻辑 **/
+            /**
+             * update service order overview status value
+             * @param isOnline
+             * @param sooid :  online is id, offline is soupentry id
+             * @param statusVal
+             * @returns {*}
+             */
+            this.updateServiceOrderOverviewStatusUtil = function (isOnline, sooid, statusVal) {
+                var deferred = $q.defer();
+
+                if(isOnline){
+                    var requestUrl = '/WorkDetailService?action=updateStatus&sooId='+ sooid + 'status=' + statusVal;
+
+                    console.log('current url:::', requestUrl);
+
+                    deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
+                }else{
+                    var res;
+                    res = service.offlineUpdateServiceOrderOverviewStatus(sooid, statusVal);
+                    deferred.resolve(res);
+                }
+                return deferred.promise;
+            };
+
+            this.offlineUpdateServiceOrderOverviewStatus = function (soosid, statusStr) {
+                var deferred = $q.defer();
+
+                LocalDataService.getSObject('Service_Order_Overview__c',soosid).then(function(sobject) {
+                    if(sobject['Status__c'] != statusStr){
+                        sobject['Status__c'] = statusStr;
+                    }
+
+                    LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function(result) {
+                        if (!result){
+                            deferred.reject('Failed to update service order overview!');
+                            return;
+                        }
+                        deferred.resolve(result);
+                    }, function (error) {
+                        deferred.reject('Failed to update service order overview!');
+                    });
+                }, angular.noop);
+
+                return deferred.promise;
+            };
+
 
 
             /** ----- part2:客户 ----- **/
