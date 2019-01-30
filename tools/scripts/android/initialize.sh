@@ -103,6 +103,9 @@ cordova plugin add cordova-plugin-document-viewer@0.8.1 --nofetch --nosave >/dev
 echo '\x1B[0;90m✓ Installing barcodescanner Plugin.\x1B[0m'
 cordova plugin add phonegap-plugin-barcodescanner@7.1.0  --nofetch --nosave >/dev/null 2>/dev/null
 
+echo '\x1B[0;90m✓ Installing file opener2.\x1B[0m'
+cordova plugin add https://github.com/pwlin/cordova-plugin-file-opener2 --nofetch --nosave >/dev/null 2>/dev/null
+
 #echo '\x1B[0;90m✓ Installing Privacyscreen Plugin.\x1B[0m'
 #cordova plugin add cordova-plugin-privacyscreen@0.3.1 --nofetch --nosave >/dev/null 2>/dev/null
 
