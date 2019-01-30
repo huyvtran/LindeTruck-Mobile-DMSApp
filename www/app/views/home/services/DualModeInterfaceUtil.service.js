@@ -359,26 +359,11 @@
                     return service.getBTUInfoWithWhereStr(whereStr, 'getParentId');
                 }).then(function (parentId) {
                     if(parentId == null){
-                        deferred.reject('parent id is null');
+                        deferred.reject('parentId Id is null');
                         return deferred.promise;
                     }
-                    var whereStr2 = "where {BTU__c:_soupEntryId} = '"+ parentId + "'";
-                    return service.getBTUInfoWithWhereStr(whereStr2, 'getParentId');
-                }).then(function (grandfatherId) {
-                    if(grandfatherId == null){
-                        deferred.reject('grandfather Id is null');
-                        return deferred.promise;
-                    }
-                    var whereStr3 = "where {BTU__c:Parent__c} = '"+ grandfatherId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
-                    return service.getBTUInfoWithWhereStr(whereStr3, 'getBtuId');
-                }).then(function (parentBTUIds) {
-                    if(parentBTUIds == null || parentBTUIds.length < 1){
-                        deferred.reject('parent btu is null');
-                        return deferred.promise;
-                    }
-                    var sqlInString = "'" + parentBTUIds.join("','") + "'";
-                    var whereStr4 = "where {BTU__c:Parent__c} in ("+ grandfatherId + ") and {BTU__c:RecordTypeId} = '"+ recId + "'";
-                    return getBTUInfoWithWhereStr(whereStr4, 'getManagersid');
+                    var whereStr3 = "where {BTU__c:Parent__c} = '"+ parentId + "' and {BTU__c:RecordTypeId} = '"+ recId + "'";
+                    return service.getBTUInfoWithWhereStr(whereStr3, 'getManagersid');
                 }).then(function (mangersIds) {
                     return service.getUserNameWithsIds(mangersIds);
                 }).then(function (res) {
@@ -387,7 +372,7 @@
                     }
                     deferred.resolve(userWithNameResults);
                 }).catch(function (error) {
-                    deferred.reject(error);
+                    deferred.resolve(error);
                 });
 
                 return deferred.promise;
@@ -468,7 +453,7 @@
 
                 if(usids == null || usids.length < 1){
                     console.log('user soup entry id is null');
-                    deferred.reject(userwithName);
+                    deferred.reject('user soup entry id is null');
                     return deferred.promise;
                 }
 
