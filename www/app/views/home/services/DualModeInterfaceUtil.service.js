@@ -186,7 +186,7 @@
 
                 LocalDataService.createSObject('Support_Engineer__c').then(function(sobject) {
                     var SupportEngineersListToInsert;
-                    var SupportEngineersListToDevare;
+                    var SupportEngineersListToDelete;
 
                     angular.forEach(userIds, function (uId){
                         var newSupportEngineer;
@@ -206,7 +206,7 @@
                             angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                                 angular.forEach(userIds, function (uItem) {
                                     if(entry[0].Support_Engineer__c_sid == uItem){
-                                        SupportEngineersListToDevare.push(entry[0]);
+                                        SupportEngineersListToDelete.push(entry[0]);
                                     }
                                 });
                             });
@@ -215,15 +215,15 @@
                         deferred.reject(err);
                     });
 
-                    if(SupportEngineersListToDevare.length > 0){
-                        LocalDataService.devareSObjects('Support_Engineer__c', SupportEngineersListToDevare).then(function (result) {
+                    if(SupportEngineersListToDelete.length > 0){
+                        LocalDataService.deleteSObjects('Support_Engineer__c', SupportEngineersListToDelete).then(function (result) {
                             if (!result){
                                 //console.error("!result");
-                                deferred.reject('Failed to devare Support Engineer.');
+                                deferred.reject('Failed to delete Support Engineer.');
                                 return;
                             }
                         }, function (error) {
-                            console.log('Support Engineer devare error:::', error);
+                            console.log('Support Engineer delete error:::', error);
                         });
                     }
 
