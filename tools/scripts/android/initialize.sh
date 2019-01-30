@@ -8,7 +8,8 @@ echo '\x1B[0;94m**********************************************************\x1B[0
 echo '\x1B[0;91mx PLEASE SET UP YOUR ANDROID_HOME PATH\x1B[0m'
    # exit
 # after setting up your ANDROID_HOME, please disable until here
-export ANDROID_HOME=/Users/jiawei/Library/Android/sdk >/dev/null 2>/dev/null
+
+export ANDROID_HOME=/Users/gw/Library/Android/sdk >/dev/null 2>/dev/null
 export PATH=${PATH}:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools >/dev/null 2>/dev/null
 
 # ANDROID_HOME
@@ -45,11 +46,11 @@ fi
 echo '\x1B[0;32m✓ Adding shelljs node module to project.\x1B[0m'
 npm install shelljs@0.7.0 >/dev/null 2>/dev/null
 
-echo '\x1B[0;32m✓ unzip print-plugin.zip to plugins floder.\x1B[0m'
-unzip tools/plugin/print-plugin.zip -d tools/plugin/
-
-echo '\x1B[0;32m✓ unzip cordova-plugin-signature-view.zip to plugins floder.\x1B[0m'
-unzip tools/plugin/cordova-plugin-signature-view.zip -d tools/plugin
+#echo '\x1B[0;32m✓ unzip print-plugin.zip to plugins floder.\x1B[0m'
+#unzip tools/plugin/print-plugin.zip -d tools/plugin/
+#
+#echo '\x1B[0;32m✓ unzip cordova-plugin-signature-view.zip to plugins floder.\x1B[0m'
+#unzip tools/plugin/cordova-plugin-signature-view.zip -d tools/plugin
 
 # Node modules
 echo '\x1B[0;32m✓ Installing node modules.\x1B[0m'
@@ -133,6 +134,9 @@ cordova platform add android@7.0.0 --nofetch --nosave
 echo '\x1B[0;32m✓ Adding SalesForce Cordova (6.1.0) Plugin.\x1B[0m'
 cordova plugin add https://github.com/forcedotcom/SalesforceMobileSDK-CordovaPlugin#83649276e2bf2abe53951ee85ea6e8aeb5159479 --nofetch --nosave --force
 
+echo '\x1B[0;32m✓ cordova-plugin-email-composer.\x1B[0m'
+cordova platform add cordova-plugin-email-composer@0.8.15 --nofetch --nosave
+
 echo '\x1B[0;90m✓ cordova-plugin-background-mode.\x1B[0m'
 cordova plugin add cordova-plugin-background-mode
 
@@ -146,11 +150,11 @@ cordova plugin add cordova-plugin-contacts
 echo '\x1B[0;90m✓ cordova-plugin-file-transfer.\x1B[0m'
 cordova plugin add cordova-plugin-file-transfer
 
-echo '\x1B[0;90m✓ print-plugin.\x1B[0m'
-cordova plugin add tools/plugin/print-plugin
-
-echo '\x1B[0;90m✓ cordova-plugin-signature-view.\x1B[0m'
-cordova plugin add tools/plugin/cordova-plugin-signature-view
+#echo '\x1B[0;90m✓ print-plugin.\x1B[0m'
+#cordova plugin add tools/plugin/print-plugin
+#
+#echo '\x1B[0;90m✓ cordova-plugin-signature-view.\x1B[0m'
+#cordova plugin add tools/plugin/cordova-plugin-signature-view
 
 echo '\x1B[0;90m✓ com.lampa.startapp.\x1B[0m'
 cordova plugin add https://github.com/lampaa/com.lampa.startapp.git

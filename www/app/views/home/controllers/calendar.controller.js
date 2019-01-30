@@ -3,7 +3,7 @@
   angular.module('oinio.CalendarController', [])
     .controller('CalendarController',
       function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor, $ionicPopup,
-                LocalCacheService, ForceClientService, AppUtilService ,Service1Service) {
+                LocalCacheService, ForceClientService, AppUtilService , $log, FileService, Service1Service) {
 
         var vm           = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -587,6 +587,7 @@
                 AppUtilService.hideLoading();
               }, 300);
               console.log('res  ', res);
+
               if (!res) {
                 return;
               }
@@ -619,8 +620,11 @@
               console.log('getEachOrder  ', currentOrder);
               setTimeout(setDefaultUser, 500);
             }, function (error) {
+              setTimeout(function () {
+                AppUtilService.hideLoading();
+              }, 300);
               console.log('getEachOrder Error ', error);
-              AppUtilService.hideLoading();
+              $log.error('SaveLogToSF error occurs: ' + error);
 
             });
           };
