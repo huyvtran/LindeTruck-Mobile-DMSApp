@@ -799,6 +799,288 @@
             };
 
 
+            this.newWorkDetailSaveAction = function(order2Save,localTruckIds) {
+                let deferred = $q.defer();
+                let ret;
+                try {
+                    service.prepareAllParamsForServiceOrderSave(order2Save, localTruckIds).then(function (res) {
+                        console.log('prepareAllParamsForServiceOrderSave:', res);
+                        ret = res;
+                        return service.saveServiceOrderOverview(res);
+                    }).then(function (orders) {
+                        ret = orders;
+                        deferred.resolve(ret);
+                    }).catch(function (error) {
+                        deferred.reject(error);
+                    });
+                } catch(err) {
+                    console.log('err:::',err);
+                    deferred.reject(err);
+                }
+                return deferred.promise;
+            };
+
+            
+            this.prepareAllParamsForServiceOrderSave = function (order2Save,localTruckIds) {
+                let deferred = $q.defer();
+                let ret = new Object();
+
+                for (var i=0;i<order2Save.length;i++){
+                    ret.accountId = order2Save[i].Account_Ship_to__c;
+                    ret.userId = order2Save[i].Service_Order_Owner__c;
+                    ret.serviceOrders = order2Save[i];
+                }
+                ret.trucks = localTruckIds;
+
+                deferred.resolve(ret);
+                return deferred.promise;
+            };
+            
+            
+            this.saveServiceOrderOverview = function (res) {
+                let deferred = $q.defer();
+                let ret,recTypeId,account,user,soo,so;
+                service.getRecordTypeIdForSobject('Service_Order_Overview__c','Work_Order').then(function (recId){
+                    console.log('saveServiceOrderOverview111:',recId);
+                    recTypeId = recId;
+                    return service.getAccountObjectById(res.accountId,false);
+                }).then(function (acct) {
+                    console.log('saveServiceOrderOverview222:',acct);
+                    account = acct;
+                    return service.getUserObjectById(res.userId,false);
+                }).then(function (u) {
+                    console.log('saveServiceOrderOverview333:',u);
+                    user = u;
+                    return service.saveActionServiceOrderOverview(res.serviceOrders,recTypeId,account,user);
+                }).then(function (soosobj) {
+                    console.log('saveServiceOrderOverview444:',soosobj);
+                    soo = soosobj;
+                    return service.saveActionServiceOrders(soo._soupEntryId,res.serviceOrders,recTypeId,account,user,res.trucks);
+                }).then(function (serviceOrders) {
+                    console.log('saveServiceOrderOverview555:',serviceOrders);
+                    so = serviceOrders;
+                    return service.updateMainServiceOrderForParent(soo[0]._soupEntryId,so[0]._soupEntryId);
+                }).then(function (serviceOrderOverview) {
+                    console.log('saveServiceOrderOverview666:',serviceOrderOverview);
+                    ret = serviceOrderOverview;
+                    deferred.resolve(ret);
+                }).catch(function (error) {
+                    deferred.reject(error);
+                });
+                return deferred.promise;
+            };
+
+            this.getRecordTypeIdForSobject = function (sobjectAPIName, recordTypeDevName) {
+                var deferred = $q.defer();
+                var str_result = null;
+                var sql =  "select {RecordType:_soup} " +
+                         " from {RecordType} " +
+                         " where {RecordType:SobjectType} = '" + sobjectAPIName + "' "
+                         " and {RecordType:DeveloperName} = '" + recordTypeDevName + "'";
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            str_result = entry[0].Id;
+                        });
+                    }
+                    deferred.resolve(str_result);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            };
+            
+            
+            this.saveActionServiceOrderOverview = function (adrs,recTypeId,account,user) {
+                var deferred = $q.defer();
+                try {
+                console.log('saveActionServiceOrderOverview::');
+                LocalDataService.createSObject('Service_Order_Overview__c','Work_Order').then(function(sobject) {
+                    var newItem, adr;
+                    var adrsToSave = [];
+                    console.log('newItem::sobject:soo:',sobject);
+
+                    for (var i=0;i<adrs.length;i++){
+                        adr = adrs[i];
+                        newItem = service.cloneObj(sobject);
+
+                        newItem['Service_Order_Owner__c'] = user.Id;
+                        newItem['Service_Order_Owner__c_sid'] = user._soupEntryId;
+                        newItem['Service_Order_Owner__c_type'] = 'User';
+
+                        newItem['Account_Ship_to__c'] = account.Id;
+                        newItem['Account_Ship_to__c_sid'] = account._soupEntryId;
+                        newItem['Account_Ship_to__c_type'] = 'Account';
+
+                        newItem['Service_Order_Type__c'] = 'Work_Order';
+
+                        if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){
+                            newItem['Work_Order_Type__c'] = adr.Service_Order_Type__c;
+                        }
+
+                        newItem['Priority__c'] = 'Medium';
+
+                        if(adr.Priority__c != null && adr.Priority__c != ''){
+                            newItem['Priority__c'] = adr.Priority__c;
+                        }
+
+                        newItem['Plan_Date__c'] = adr.Plan_Date__c;
+                        newItem['Description__c'] = adr.Description__c;
+                        newItem['Status__c'] = 'Not Planned';
+
+                        adrsToSave.push(newItem);
+                        console.log('newItem::',newItem);
+                    }
+                    LocalDataService.saveSObjects('Service_Order_Overview__c', adrsToSave).then(function(result) {
+                        console.log('saveActionServiceOrderOverview1:::',result);
+                        if (!result){
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        for (var i=0;i<result.length;i++){
+                            if (result[i].success){
+                                adrs[i]._soupEntryId = result[i]._soupEntryId;
+                            }
+                        }
+                        console.log('saveActionServiceOrderOverview2:::',adrs);
+                        deferred.resolve(adrs);
+                    }, function (error) {
+                        console.log(error);
+                    });
+
+                }, angular.noop);
+            } catch(err) {
+                console.log('err:::',err);
+                deferred.reject(err);
+            }
+                return deferred.promise;
+            }
+
+            this.saveActionServiceOrders = function (sooEntryId,adrs,recTypeId,account,user,trucks) {
+                $log.debug('saveActionServiceOrders:: '+ adrs);
+                var deferred = $q.defer();
+                LocalDataService.createSObject('Service_Order__c','Work_Order').then(function(sobject) {
+                    var newItem;
+                    var adr = adrs[0];
+                    var adrsToSave = [];
+                    console.log('newItem::sobject:so:',sobject);
+
+                    if(trucks == null || trucks.length == 0){
+                        newItem = service.cloneObj(sobject);
+
+                        newItem['Service_Order_Owner__c'] = user.Id;
+                        newItem['Service_Order_Owner__c_sid'] = user._soupEntryId;
+                        newItem['Service_Order_Owner__c_type'] = 'User';
+
+                        newItem['Account_Name_Ship_to__c'] = account.Id;
+                        newItem['Account_Name_Ship_to__c_sid'] = account._soupEntryId;
+                        newItem['Account_Name_Ship_to__c_type'] = 'Account';
+
+                        newItem['Service_Order_Overview__c_sid'] = sooEntryId;
+                        newItem['Service_Order_Overview__c_type'] = 'Service_Order_Overview__c';
+
+                        newItem['Service_Order_Type__c'] = 'Work Order';
+                        if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){
+                            newItem['Work_Order_Type__c'] = adr.Service_Order_Type__c;
+                        }
+
+                        newItem['Priority__c'] = 'Medium';
+                        if(adr.Priority__c != null && adr.Priority__c != ''){newItem['Priority__c'] = adr.Priority__c;}
+
+
+                        newItem['Plan_Date__c'] = adr.Plan_Date__c;
+                        newItem['Description__c'] = adr.Description__c;
+                        newItem['Status__c'] = 'Not Planned';
+
+                        adrsToSave.push(newItem);
+                        console.log('newItem::',newItem);
+                    } else {
+                        for (var i = 0; i < trucks.length; i++) {
+                            newItem = service.cloneObj(sobject);
+
+                            newItem['Service_Order_Owner__c'] = user.Id;
+                            newItem['Service_Order_Owner__c_sid'] = user._soupEntryId;
+                            newItem['Service_Order_Owner__c_type'] = 'User';
+
+                            newItem['Account_Name_Ship_to__c'] = account.Id;
+                            newItem['Account_Name_Ship_to__c_sid'] = account._soupEntryId;
+                            newItem['Account_Name_Ship_to__c_type'] = 'Account';
+
+                            newItem['Service_Order_Overview__c_sid'] = sooEntryId;
+                            newItem['Service_Order_Overview__c_type'] = 'Service_Order_Overview__c';
+
+                            newItem['Service_Order_Type__c'] = 'Work Order';
+                            if (adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != '') {
+                                newItem['Work_Order_Type__c'] = adr.Service_Order_Type__c;
+                            }
+
+                            newItem['Priority__c'] = 'Medium';
+                            if (adr.Priority__c != null && adr.Priority__c != '') {
+                                newItem['Priority__c'] = adr.Priority__c;
+                            }
+
+
+                            newItem['Plan_Date__c'] = adr.Plan_Date__c;
+                            newItem['Description__c'] = adr.Description__c;
+                            newItem['Status__c'] = 'Not Planned';
+
+                            if (trucks[i].Id != null && trucks[i].Id != '') {
+                                newItem['Truck_Serial_Number__c'] = trucks[i].Id;
+                                newItem['Truck_Serial_Number__c_sid'] = trucks[i]._soupEntryId;
+                                newItem['Truck_Serial_Number__c_type'] = 'Truck_Fleet__c';
+                            }
+
+                            adrsToSave.push(newItem);
+                            console.log('newItem::', newItem);
+                        }
+                    }
+
+                    LocalDataService.saveSObjects('Service_Order__c', adrsToSave).then(function(result) {
+                        console.log('saveActionServiceOrders1:::',result);
+                        if (!result){
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        for (var i=0;i<result.length;i++){
+                            if (result[i].success){
+                                adrsToSave[i]._soupEntryId = result[i]._soupEntryId;
+                            }
+
+                        }
+                        console.log('saveActionServiceOrders2:::',adrsToSave);
+                        deferred.resolve(adrsToSave);
+                    }, function (error) {
+                        console.log(error);
+                    });
+
+                }, angular.noop);
+
+                return deferred.promise;
+            };
+
+
+            this.updateMainServiceOrderForParent = function (sooEntryId, soEntryId) {
+                var deferred = $q.defer();
+                LocalDataService.getSObject('Service_Order_Overview__c',sooEntryId).then(function(sobject) {
+                    sobject['Main_Service_Order__c_sid'] = soEntryId;
+                    newItem['Main_Service_Order__c_type'] = 'Service_Order__c';
+
+                    LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function(result) {
+                        if (!result){
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        deferred.resolve(result);
+                    }, function (error) {
+                        console.log(error);
+                        deferred.reject(error);
+                    });
+
+                }, angular.noop);
+                return deferred.promise;
+            };
+
 
 
 
