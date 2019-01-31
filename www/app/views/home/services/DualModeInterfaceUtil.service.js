@@ -581,7 +581,7 @@
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=updateStatus&sooId='+ sooid + 'status=' + statusVal;
+                    var requestUrl = '/WorkDetailService?action=updateStatus&sooId='+ sooid + '&status=' + statusVal;
 
                     console.log('current url:::', requestUrl);
 
