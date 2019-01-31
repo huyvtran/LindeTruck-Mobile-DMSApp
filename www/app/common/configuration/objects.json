@@ -48,7 +48,7 @@
     },
     {
       "Name": "Service_Order_Overview__c",
-      "MobileVizArt__Fields__c": "Id,Name,Priority__c,Account_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId,Service_Order_Sub_Type__c,Main_Service_Order__c",
+      "MobileVizArt__Fields__c": "Id,Name,Priority__c,Account_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,On_Order__c, Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId,Service_Order_Sub_Type__c,Main_Service_Order__c",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Mobile_Offline_Name__c,Account_Ship_to__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
@@ -71,7 +71,7 @@
     {
       "Name": "BTU__c",
       "MobileVizArt__Fields__c": "Id,Name,Team_Leader__c,Parent__c,Manager__c,RecordTypeId",
-      "MobileVizArt__Search_Fields__c": "Name,Manager__c,Parent__c ",
+      "MobileVizArt__Search_Fields__c": "Name,Manager__c,Parent__c,RecordTypeId",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
       "MobileVizArt__Lookup_Mod_Stamp__c": null,
@@ -103,7 +103,7 @@
     },
     {
       "Name": "Work_Item__c",
-      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Arrival_Time__c,Departure_Time__c,Start_Time__c,Finish_Time__c,Service_Advice__c,Service_Order__c,Service_Suggestion__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Arrival_Time__c,Departure_Time__c,Leave_Time__c, Service_Advice__c,Service_Order__c,Service_Suggestion__c,Engineer__c,Is_Processing__c",
       "MobileVizArt__Search_Fields__c": "Service_Order__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
@@ -206,7 +206,7 @@
     },
     {
       "Name": "RecordType",
-      "MobileVizArt__Fields__c": "Id, DeveloperName",
+      "MobileVizArt__Fields__c": "Id, DeveloperName, SobjectType",
       "MobileVizArt__Search_Fields__c": "SobjectType, DeveloperName",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
