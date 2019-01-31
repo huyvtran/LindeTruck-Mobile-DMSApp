@@ -828,7 +828,7 @@
                 for (var i=0;i<order2Save.length;i++){
                     ret.accountId = order2Save[i].Account_Ship_to__c;
                     ret.userId = order2Save[i].Service_Order_Owner__c;
-                    ret.serviceOrders = order2Save[i];
+                    ret.serviceOrders = order2Save;
                 }
                 ret.trucks = localTruckIds;
 
@@ -855,7 +855,7 @@
                 }).then(function (soosobj) {
                     console.log('saveServiceOrderOverview444:',soosobj);
                     soo = soosobj;
-                    return service.saveActionServiceOrders(soo._soupEntryId,res.serviceOrders,recTypeId,account,user,res.trucks);
+                    return service.saveActionServiceOrders(soo[0]._soupEntryId,res.serviceOrders,recTypeId,account,user,res.trucks);
                 }).then(function (serviceOrders) {
                     console.log('saveServiceOrderOverview555:',serviceOrders);
                     so = serviceOrders;
@@ -914,6 +914,8 @@
                         newItem['Account_Ship_to__c_type'] = 'Account';
 
                         newItem['Service_Order_Type__c'] = 'Work_Order';
+
+                        newItem['RecordTypeId'] = recTypeId;
 
                         if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){
                             newItem['Work_Order_Type__c'] = adr.Service_Order_Type__c;
@@ -979,6 +981,8 @@
 
                         newItem['Service_Order_Overview__c_sid'] = sooEntryId;
                         newItem['Service_Order_Overview__c_type'] = 'Service_Order_Overview__c';
+
+                        newItem['RecordTypeId'] = recTypeId;
 
                         newItem['Service_Order_Type__c'] = 'Work Order';
                         if(adr.Service_Order_Type__c != null && adr.Service_Order_Type__c != ''){
@@ -1062,22 +1066,28 @@
 
             this.updateMainServiceOrderForParent = function (sooEntryId, soEntryId) {
                 var deferred = $q.defer();
-                LocalDataService.getSObject('Service_Order_Overview__c',sooEntryId).then(function(sobject) {
-                    sobject['Main_Service_Order__c_sid'] = soEntryId;
-                    newItem['Main_Service_Order__c_type'] = 'Service_Order__c';
+                console.log('updateMainServiceOrderForParent::'+sooEntryId+'::'+soEntryId);
+                try {
+                    LocalDataService.getSObject('Service_Order_Overview__c', sooEntryId).then(function (sobject) {
+                        sobject['Main_Service_Order__c_sid'] = soEntryId;
+                        sobject['Main_Service_Order__c_type'] = 'Service_Order__c';
 
-                    LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function(result) {
-                        if (!result){
-                            deferred.reject('Failed to get result.');
-                            return;
-                        }
-                        deferred.resolve(result);
-                    }, function (error) {
-                        console.log(error);
-                        deferred.reject(error);
-                    });
+                        LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function (result) {
+                            if (!result) {
+                                deferred.reject('Failed to get result.');
+                                return;
+                            }
+                            deferred.resolve(result);
+                        }, function (error) {
+                            console.log(error);
+                            deferred.reject(error);
+                        });
 
-                }, angular.noop);
+                    }, angular.noop);
+                }catch(err) {
+                    console.log('err:::',err);
+                    deferred.reject(err);
+                }
                 return deferred.promise;
             };
 
