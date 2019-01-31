@@ -726,14 +726,14 @@
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&departureTime='+ departureTime + '&userId='+userId;
+                    var requestUrl = '/WorkDetailService?action=arrival&sooId='+ sooid + '&arrivalTime='+ arrivalTime + '&userId='+userId;
 
                     console.log('current url:::', requestUrl);
 
                     deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
                 }else{
                     var res;
-                    res = service.offlineDepartureAction(sooid, departureTime, userId);
+                    res = service.offlineArrivalAction(sooid, arrivalTime, userId);
                     deferred.resolve(res);
                 }
                 return deferred.promise;
@@ -742,6 +742,7 @@
             this.offlineArrivalAction = function (soosid, arrivalTime, userSid) {
                 var deferred = $q.defer();
                 var wiSids = [];
+                var wiToUpdate = [];
 
                 service.getWorkItemsForOverview(soosid).then(function (wiObjs) {
                     if(wiObjs ==null || wiObjs.length < 1){
@@ -763,10 +764,14 @@
                         return deferred.promise;
                     }
 
-                    LocalDataService.getSObjects('Work_Item__c',wiSids).then(function(sobject) {
-                        sobject['Arrival_Time__c'] = arrivalTime;
+                    LocalDataService.getSObjects('Work_Item__c',wiSids).then(function(sobjects) {
+                        angular.forEach(sobjects, function (sobject) {
+                            sobject['Arrival_Time__c'] = arrivalTime;
+                            wiToUpdate.push(sobject);
+                        });
 
-                        LocalDataService.updateSObjects('Work_Item__c', [sobject]).then(function(result) {
+
+                        LocalDataService.updateSObjects('Work_Item__c', wiToUpdate).then(function(result) {
                             if (!result){
                                 deferred.reject(service.generateResult('Fail', 'Failed to update work Item !'));
                                 return deferred.promise;
@@ -777,6 +782,90 @@
                             return deferred.promise;
                         });
                     }, angular.noop);
+                }).catch(function (error) {
+                    deferred.reject(service.generateResult('Fail', error));
+                });
+
+                return deferred.promise;
+            };
+
+            /** 1.6 工单离开逻辑 **/
+            /**
+             * leave action
+             * @param isOnline
+             * @param sooid : online is id , offline is soup entry id
+             * @param userId : online is id , offline is soup entry id
+             * @param arrivalTime
+             * @param leaveTime
+             * @returns {*}
+             */
+            this.leaveActionUtil = function (isOnline, sooid, userId, arrivalTime,leaveTime ) {
+                var deferred = $q.defer();
+
+                if(isOnline){
+                    var requestUrl = '/WorkDetailService?action=leave&sooId='+ sooid + '&arrivalTime='+ arrivalTime + '&leaveTime='+ leaveTime + '&userId='+userId;
+
+                    console.log('current url:::', requestUrl);
+
+                    deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
+                }else{
+                    var res;
+                    res = service.offlineLeaveAction(sooid, arrivalTime, leaveTime, userId);
+                    deferred.resolve(res);
+                }
+                return deferred.promise;
+            };
+
+            this.offlineLeaveAction = function (soosid, arrivalTime, leaveTime, userSid) {
+                var deferred = $q.defer();
+                var wiSids = [];
+                var wiToUpdate = [];
+
+                service.getWorkItemsForOverview(soosid).then(function (wiObjs) {
+                    if(wiObjs ==null || wiObjs.length < 1){
+                        deferred.reject(service.generateResult('Fail', 'can not find work items !'));
+                        return deferred.promise;
+                    }
+
+                    angular.forEach(wiObjs, function (wiItem) {
+                        if(wiItem._soupEntryId != null && wiItem.Is_Processing__c
+                            && wiItem.Engineer__c_sid == userSid && wiItem.Departure_Time__c != null
+                            && wiItem.Leave_Time__c == null){
+                            wiSids.push(wiItem._soupEntryId);
+                        }
+                    });
+
+                    if(wiSids.length < 1){
+                        deferred.reject(service.generateResult('Fail', 'can not find work items !'));
+                        return deferred.promise;
+                    }
+
+                    LocalDataService.getSObjects('Work_Item__c',wiSids).then(function(sobjects) {
+                        angular.forEach(sobjects, function (sobject) {
+                            if(sobject['Arrival_Time__c'] == null){
+                                sobject['Arrival_Time__c'] = arrivalTime;
+                            }
+                            sobject['Start_Time2__c'] = arrivalTime;
+                            sobject['Finish_Time2__c'] = leaveTime;
+                            sobject['Leave_Time__c'] = leaveTime;
+                            sobject['Is_Processing__c'] = false;
+                            wiToUpdate.push(sobject);
+                        });
+
+                        LocalDataService.updateSObjects('Work_Item__c', wiToUpdate).then(function(result) {
+                            if (!result){
+                                deferred.reject(service.generateResult('Fail', 'Failed to update work Item !'));
+                                return deferred.promise;
+                            }
+                            deferred.resolve('Success');
+                        }, function (error) {
+                            deferred.reject(service.generateResult('Fail', error));
+                            return deferred.promise;
+                        });
+                    }, angular.noop);
+                    return service.updateServiceOrderOverviewOnOrder(soosid, false);
+                }).then(function (res) {
+                    deferred.resolve(service.generateResult('Success', 'leave Action Success !'));
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
                 });
