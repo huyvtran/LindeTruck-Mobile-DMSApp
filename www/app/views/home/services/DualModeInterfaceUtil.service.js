@@ -52,9 +52,9 @@
                     return service.updateMainServiceOrder(serviceorderObjs, serviceOrderOverviewObj);
                 }).then(function (result3) {
                     return service.dmlSupportEngineer(assignUsers, serviceOrderOverviewSId);
-                }).then(function (result4) {
+                })/*.then(function (result4) {
                     return service.synchronize();
-                }).then(function () {
+                })*/.then(function (result4) {
                     deferred.resolve(service.generateResult('Success', 'Action Success!'));
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
@@ -681,6 +681,9 @@
                     deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
                 }else{
                     var res;
+                    res = service.offlineUpdateServiceOrderOverviewStatus(sooid, statusVal);
+                    deferred.resolve(res);
+                    /*
                     service.offlineUpdateServiceOrderOverviewStatus(sooid, statusVal).then(function (result) {
                         res = result;
                         return service.synchronize();
@@ -689,6 +692,7 @@
                     }).catch(function (error) {
                         deferred.reject(service.generateResult('Fail', error));
                     });
+                    */
                 }
                 return deferred.promise;
             };
@@ -746,9 +750,9 @@
 
                 service.updateServiceOrderOverviewOnOrder(soosid, true).then(function (mSoSid) {
                     return service.createWorkItem(mSoSid, departureTime, userSid);
-                }).then(function (result) {
+                })/*.then(function (result) {
                     return service.synchronize();
-                }).then(function () {
+                })*/.then(function (result) {
                     deferred.resolve(service.generateResult('Success', 'Departure Action Success !'));
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
@@ -884,11 +888,11 @@
                             return deferred.promise;
                         });
                     }, angular.noop);
-                }).then(function (res) {
+                })/*.then(function (res) {
                     result = res;
                     return service.synchronize();
-                }).then(function () {
-                    deferred.resolve(result);
+                })*/.then(function (res) {
+                    deferred.resolve(res);
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
                 });
@@ -971,9 +975,9 @@
                         });
                     }, angular.noop);
                     return service.updateServiceOrderOverviewOnOrder(soosid, false);
-                }).then(function (res) {
+                })/*.then(function (res) {
                     return service.synchronize();
-                }).then(function () {
+                })*/.then(function (res) {
                     deferred.resolve(service.generateResult('Success', 'leave Action Success !'));
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
