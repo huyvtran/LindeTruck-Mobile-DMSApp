@@ -317,9 +317,11 @@
                             sooResult['Service_Suggestion__c'] = entry[0].Service_Suggestion__c;
 
                             sooResult.Account_Ship_to__c = entry[0].Account_Ship_to__c;
+                            sooResult.Account_Ship_to__c_sid = entry[0].Account_Ship_to__c_sid;
                             sooResult.Service_Order_Type__c = entry[0].Service_Order_Type__c;
                             sooResult.Status__c = entry[0].Status__c;
                             sooResult.Service_Order_Owner__c = entry[0].Service_Order_Owner__c;
+                            sooResult.Service_Order_Owner__c_sid = entry[0].Service_Order_Owner__c_sid;
                             sooResult.Plan_Date__c = entry[0].Plan_Date__c;
                             sooResult.Truck_Serial_Number__c = entry[0].Truck_Serial_Number__c;
                             sooResult.Subject__c = entry[0].Subject__c;
