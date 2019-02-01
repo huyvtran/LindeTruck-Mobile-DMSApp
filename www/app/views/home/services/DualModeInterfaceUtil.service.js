@@ -47,7 +47,7 @@
                 service.updateServiceOrderOverview(serviceOrderOverviewObj, assignUsers).then(function (result1) {
                     var soIds = [];
                     soIds = service.getSoupEntryId(serviceorderObjs);
-                    return service.updateServiceOrders(soIds,serviceorderoverviewObj,serviceorderObjs);
+                    return service.updateServiceOrders(soIds,serviceOrderOverviewObj,serviceorderObjs);
                 }).then(function (result2) {
                     return service.updateMainServiceOrder(serviceorderObjs, serviceOrderOverviewObj);
                 }).then(function (result3) {
@@ -75,12 +75,12 @@
                 var deferred = $q.defer();
 
                 LocalDataService.getSObject('Service_Order_Overview__c',serviceOrderOverviewObj._soupEntryId).then(function(sobject) {
-                    sobject['Mobile_Offline_Name__c'] = order.Mobile_Offline_Name__c;
-                    sobject['Work_Order_Type__c'] = order.Work_Order_Type__c;
-                    sobject['Description__c'] = order.Description__c;
-                    sobject['Service_Suggestion__c'] = order.Service_Suggestion__c;
-                    sobject['Subject__c'] = order.Subject__c;
-                    sobject['Service_Order_Sub_Type__c'] = order.Service_Order_Sub_Type__c;
+                    sobject['Mobile_Offline_Name__c'] = serviceOrderOverviewObj.Mobile_Offline_Name__c;
+                    sobject['Work_Order_Type__c'] = serviceOrderOverviewObj.Work_Order_Type__c;
+                    sobject['Description__c'] = serviceOrderOverviewObj.Description__c;
+                    sobject['Service_Suggestion__c'] = serviceOrderOverviewObj.Service_Suggestion__c;
+                    sobject['Subject__c'] = serviceOrderOverviewObj.Subject__c;
+                    sobject['Service_Order_Sub_Type__c'] = serviceOrderOverviewObj.Service_Order_Sub_Type__c;
 
                     if(assignUsers.length == 1 || (assignUsers.length > 1 && assignUsers.indexOf(sobject['Service_Order_Owner__c_sid']) == -1)){
                         sobject['Service_Order_Owner__c_sid'] = assignUsers[0];
@@ -891,9 +891,9 @@
                 })/*.then(function (res) {
                     result = res;
                     return service.synchronize();
-                })*/.then(function (res) {
+                }).then(function (res) {
                     deferred.resolve(res);
-                }).catch(function (error) {
+                })*/.catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
                 });
 
