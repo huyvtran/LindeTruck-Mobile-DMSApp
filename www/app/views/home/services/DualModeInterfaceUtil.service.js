@@ -56,7 +56,7 @@
                 }).then(function (result2) {
                     return service.updateMainServiceOrder(serviceorderObjs, serviceOrderOverviewObj);
                 }).then(function (result3) {
-                    return service.dmlSupportEngineer(assignUsers, serviceOrderOverviewSId);
+                    return service.dmlSupportEngineer(assignUsers, serviceOrderOverviewObj._soupEntryId);
                 })/*.then(function (result4) {
                     return service.synchronize();
                 })*/.then(function (result4) {
