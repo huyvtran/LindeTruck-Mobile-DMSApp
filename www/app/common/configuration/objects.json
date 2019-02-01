@@ -103,7 +103,7 @@
     },
     {
       "Name": "Work_Item__c",
-      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Arrival_Time__c,Start_Time2__c,Finish_Time2__c,Departure_Time__c,Leave_Time__c, Service_Advice__c,Service_Order__c,Service_Suggestion__c,Engineer__c,Is_Processing__c",
+      "MobileVizArt__Fields__c": "Id,Name,RecordTypeId,Arrival_Time__c,Start_Time2__c,Finish_Time2__c,Departure_Time__c,Leave_Time__c, Service_Advice__c,Service_Order__c,Service_Suggestion__c,Engineer__c,Is_Processing__c,CreatedById",
       "MobileVizArt__Search_Fields__c": "Service_Order__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,

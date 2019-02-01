@@ -287,7 +287,10 @@
                     initializeResult['childOrders'] = soResults;
                     return service.getWorkItemsForOverview(soosid);
                 }).then(function (wiResults) {
-                    initializeResult['workItems'] = wiResults;
+                    //initializeResult['workItems'] = wiResults;
+                    return service.getCreateByInfoForWorkItem(wiResults);
+                }).then(function (wiResultsNew) {
+                    initializeResult['workItems'] = wiResultsNew;
                     return service.getAssignedUserInfo(soosid, usersid);
                 }).then(function (assginUserResults) {
                     initializeResult['assignUser'] = assginUserResults;
@@ -311,6 +314,7 @@
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            sooResult['Name'] = entry[0].Name;
                             sooResult['Mobile_Offline_Name__c'] = entry[0].Mobile_Offline_Name__c;
                             sooResult['Work_Order_Type__c'] = entry[0].Work_Order_Type__c;
                             sooResult['Description__c'] = entry[0].Description__c;
@@ -350,6 +354,39 @@
                     accResult['Address__c'] = sobject.Address__c;
                     accResult['_soupEntryId'] = sobject._soupEntryId;
                     deferred.resolve(accResult);
+                }, angular.noop);
+
+                return deferred.promise;
+            };
+
+            this.getCreateByInfoForWorkItem = function (wiResults) {
+                var deferred = $q.defer();
+                var userResultsMap = new Map();
+
+                var createdUsersid =[];
+                angular.forEach(wiResults, function (wiItem) {
+                    if(wiItem.CreatedById != null){
+                        createdUsersid.push(wiItem.CreatedById_sid);
+                    }
+                });
+
+                if(createdUsersid.length < 1){
+                    deferred.resolve(wiResults);
+                    return deferred.promise;
+                }
+
+                LocalDataService.getSObjects('User',createdUsersid).then(function(sobjects) {
+                    angular.forEach(sobjects, function (sobject) {
+                        var userResult = new Object();
+                        userResult['Id'] = sobject.Id;
+                        userResult['Name'] = sobject.Name;
+                        userResult['_soupEntryId'] = sobject._soupEntryId;
+                        userResultsMap.set(sobject._soupEntryId, userResult);
+                    });
+                    angular.forEach(wiResults, function (wiItem) {
+                        wiItem.CreatedBy = userResultsMap.get(wiItem.CreatedById_sid);
+                    });
+                    deferred.resolve(wiResults);
                 }, angular.noop);
 
                 return deferred.promise;
