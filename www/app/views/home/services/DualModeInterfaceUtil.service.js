@@ -405,7 +405,7 @@
                     userResult['Id'] = sobject.Id;
                     userResult['Name'] = sobject.Name;
                     userResult['_soupEntryId'] = sobject._soupEntryId;
-                    deferred.resolve(accResult);
+                    deferred.resolve(userResult);
                 }, angular.noop);
 
                 return deferred.promise;
@@ -615,14 +615,16 @@
                     var results = [];
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            //results.push(entry[0]);
                             results.push({
                                 Id: entry[0].Id,
                                 Name: entry[0].Name,
                                 Service_Suggestion__c: entry[0].Service_Suggestion__c,
                                 Arrival_Time__c: entry[0].Arrival_Time__c,
                                 Departure_Time__c: entry[0].Departure_Time__c,
-                                Start_Time__c: entry[0].Start_Time__c,
-                                Finish_Time__c: entry[0].Finish_Time__c,
+                                Leave_Time__c: entry[0].Leave_Time__c,
+                                Start_Time2__c: entry[0].Start_Time2__c,
+                                Finish_Time2__c: entry[0].Finish_Time2__c,
                                 Service_Order__c: entry[0].Service_Order__c,
                                 Service_Order__c_sid: entry[0].Service_Order__c_sid,
                                 Service_Order__c_type: entry[0].Service_Order__c_type,
