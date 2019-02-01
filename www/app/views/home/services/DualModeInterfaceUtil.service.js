@@ -134,8 +134,9 @@
                                 }
 
                                 if(isNeedUpdate){
-                                    var nowDate = new Date();
-                                    sobject['Measure_Date__c'] = nowDate.toLocaleDateString();
+                                    //var nowDate = new Date();
+                                    //sobject['Measure_Date__c'] = nowDate.toLocaleDateString();
+                                    sobject['Measure_Date__c'] = service.getCurrentDateString();
                                     sobject['Need_Update_Truck_Hour__c'] = true;
                                 }
                             }
@@ -268,9 +269,19 @@
             this.offlineGetWorkDetailInfo = function (soosid, usersid) {
                 var deferred = $q.defer();
                 var initializeResult = new Object();
+                var sooObj;
 
                 service.getServiceOrderOverviewInfo(soosid).then(function (sooResult) {
-                    initializeResult['soResult'] = sooResult;
+                    //initializeResult['soResult'] = sooResult;
+                    sooObj = sooResult;
+                    return service.getReleatedAccountInfo(sooObj.Account_Ship_to__c_sid);
+                }).then(function (accResult) {
+                    sooObj['Account_Ship_to__r'] = accResult;
+                    //initializeResult['childOrders'] = soResults;
+                    return service.getRelatedUserInfo(sooObj.Service_Order_Owner__c_sid);
+                }).then(function (userResult) {
+                    sooObj['Service_Order_Owner__r'] = userResult;
+                    initializeResult['soResult'] = sooObj;
                     return service.getServiceOrdersInfo(soosid);
                 }).then(function (soResults) {
                     initializeResult['childOrders'] = soResults;
@@ -319,6 +330,45 @@
                 }, function (err) {
                     deferred.reject(err);
                 });
+                return deferred.promise;
+            };
+
+            this.getReleatedAccountInfo = function (acctsid) {
+                var deferred = $q.defer();
+                var accResult = new Object();
+
+                if(acctsid == null || acctsid == ''){
+                    deferred.resolve(accResult);
+                    return deferred.promise;
+                }
+
+                LocalDataService.getSObject('Account',acctsid).then(function(sobject) {
+                    accResult['Id'] = sobject.Id;
+                    accResult['Name'] = sobject.Name;
+                    accResult['Address__c'] = sobject.Address__c;
+                    accResult['_soupEntryId'] = sobject._soupEntryId;
+                    deferred.resolve(accResult);
+                }, angular.noop);
+
+                return deferred.promise;
+            };
+
+            this.getRelatedUserInfo = function (userSid) {
+                var deferred = $q.defer();
+                var userResult = new Object();
+
+                if(userSid == null || userSid == ''){
+                    deferred.resolve(userResult);
+                    return deferred.promise;
+                }
+
+                LocalDataService.getSObject('User',userSid).then(function(sobject) {
+                    userResult['Id'] = sobject.Id;
+                    userResult['Name'] = sobject.Name;
+                    userResult['_soupEntryId'] = sobject._soupEntryId;
+                    deferred.resolve(accResult);
+                }, angular.noop);
+
                 return deferred.promise;
             };
 
@@ -588,8 +638,14 @@
                     deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
                 }else{
                     var res;
-                    res = service.offlineUpdateServiceOrderOverviewStatus(sooid, statusVal);
-                    deferred.resolve(res);
+                    service.offlineUpdateServiceOrderOverviewStatus(sooid, statusVal).then(function (result) {
+                        res = result;
+                        return service.synchronize();
+                    }).then(function () {
+                        deferred.resolve(res);
+                    }).catch(function (error) {
+                        deferred.reject(service.generateResult('Fail', error));
+                    });
                 }
                 return deferred.promise;
             };
@@ -647,7 +703,9 @@
 
                 service.updateServiceOrderOverviewOnOrder(soosid, true).then(function (mSoSid) {
                     return service.createWorkItem(mSoSid, departureTime, userSid);
-                }).then(function (res) {
+                }).then(function (result) {
+                    return service.synchronize();
+                }).then(function () {
                     deferred.resolve(service.generateResult('Success', 'Departure Action Success !'));
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
@@ -667,7 +725,7 @@
                 var mainServiceOrderSid;
 
                 LocalDataService.getSObject('Service_Order_Overview__c',soosid).then(function(sobject) {
-                        sobject['Status__c'] = onorderBoolean;
+                        sobject['On_Order__c'] = onorderBoolean;
                         mainServiceOrderSid = sobject['Main_Service_Order__c_sid'];
 
                     LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function(result) {
@@ -688,16 +746,16 @@
                 var deferred = $q.defer();
 
                 LocalDataService.createSObject('Work_Item__c').then(function(sobject) {
-                    var newSupportEngineer = new Object();
-                    newSupportEngineer['Service_Order__c_sid'] = sosid;
-                    newSupportEngineer['Support_Engineer__c_type'] = 'Service_Order__c';
-                    newSupportEngineer['Departure_Time__c'] = departureTime;
-                    newSupportEngineer['Engineer__c_sid'] = userSid;
-                    newSupportEngineer['Engineer__c_type'] = 'User';
-                    newSupportEngineer['Is_Processing__c'] = true;
+                    var newWorkItem = new Object();
+                    newWorkItem['Service_Order__c_sid'] = sosid;
+                    newWorkItem['Support_Engineer__c_type'] = 'Service_Order__c';
+                    newWorkItem['Departure_Time__c'] = departureTime;
+                    newWorkItem['Engineer__c_sid'] = userSid;
+                    newWorkItem['Engineer__c_type'] = 'User';
+                    newWorkItem['Is_Processing__c'] = true;
 
 
-                    LocalDataService.saveSObjects('Work_Item__c', [newSupportEngineer]).then(function(result) {
+                    LocalDataService.saveSObjects('Work_Item__c', [newWorkItem]).then(function(result) {
                         if (!result){
                             deferred.reject('Failed to insert WorkItem.');
                             return;
@@ -743,6 +801,7 @@
                 var deferred = $q.defer();
                 var wiSids = [];
                 var wiToUpdate = [];
+                var result;
 
                 service.getWorkItemsForOverview(soosid).then(function (wiObjs) {
                     if(wiObjs ==null || wiObjs.length < 1){
@@ -751,7 +810,7 @@
                     }
 
                     angular.forEach(wiObjs, function (wiItem) {
-                        console.log(typeof wiItem.Is_Processing__c );
+                            console.log(typeof wiItem.Is_Processing__c );
                         if(wiItem._soupEntryId != null && wiItem.Is_Processing__c
                             && wiItem.Engineer__c_sid == userSid && wiItem.Departure_Time__c != null
                             && wiItem.Arrival_Time__c == null && wiItem.Leave_Time__c == null){
@@ -782,6 +841,11 @@
                             return deferred.promise;
                         });
                     }, angular.noop);
+                }).then(function (res) {
+                    result = res;
+                    return service.synchronize();
+                }).then(function () {
+                    deferred.resolve(result);
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
                 });
@@ -865,6 +929,8 @@
                     }, angular.noop);
                     return service.updateServiceOrderOverviewOnOrder(soosid, false);
                 }).then(function (res) {
+                    return service.synchronize();
+                }).then(function () {
                     deferred.resolve(service.generateResult('Success', 'leave Action Success !'));
                 }).catch(function (error) {
                     deferred.reject(service.generateResult('Fail', error));
@@ -904,6 +970,20 @@
 
 
             /*** FUNCTION ***/
+            this.getCurrentDateString = function () {
+                var d = new Date().getDate();
+                var m = new Date().getMonth()+1;
+                var y = new Date().getFullYear();
+
+                if(d<10){
+                    d = '0' + d;
+                }
+                if(m<10){
+                    m = '0' + m;
+                }
+                return y+'-'+m+'-'+d;
+            };
+
             this.generateResult = function (status, info) {
                 var deferred = $q.defer();
 
