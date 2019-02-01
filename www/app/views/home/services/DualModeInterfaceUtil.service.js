@@ -45,9 +45,14 @@
                 var deferred = $q.defer();
 
                 service.updateServiceOrderOverview(serviceOrderOverviewObj, assignUsers).then(function (result1) {
-                    var soIds = [];
-                    soIds = service.getSoupEntryId(serviceorderObjs);
-                    return service.updateServiceOrders(soIds,serviceOrderOverviewObj,serviceorderObjs);
+                    //var soIds = [];
+                    //soIds = service.getSoupEntryId(serviceorderObjs);
+                    return service.getSoupEntryId(serviceorderObjs);
+                    //return service.updateServiceOrders(soIds,serviceOrderOverviewObj,serviceorderObjs);
+                }).then(function (soids) {
+                    //var soIds = [];
+                    //soIds = service.getSoupEntryId(serviceorderObjs);
+                    return service.updateServiceOrders(soids,serviceOrderOverviewObj,serviceorderObjs);
                 }).then(function (result2) {
                     return service.updateMainServiceOrder(serviceorderObjs, serviceOrderOverviewObj);
                 }).then(function (result3) {
