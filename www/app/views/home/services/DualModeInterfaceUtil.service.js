@@ -615,7 +615,8 @@
                     var results = [];
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
-                            //results.push(entry[0]);
+                            results.push(entry[0]);
+                            /*
                             results.push({
                                 Id: entry[0].Id,
                                 Name: entry[0].Name,
@@ -630,6 +631,7 @@
                                 Service_Order__c_type: entry[0].Service_Order__c_type,
                                 _soupEntryId: entry[0]._soupEntryId
                             });
+                            */
                         });
                     }
                     deferred.resolve(results);
