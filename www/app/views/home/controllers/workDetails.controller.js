@@ -321,9 +321,7 @@ angular.module('oinio.workDetailsControllers', [])
                  */
                 //HomeService.searchUnplannedOrders2();
                 AppUtilService.showLoading();
-
-
-                dualModeService.getWorkOrderUtilInfo(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, oCurrentUser.Id).then(function callBack(res) {
+                dualModeService.getWorkOrderUtilInfo(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId).then(function callBack(res) {
                     AppUtilService.hideLoading();
                     console.log('getInitDataUri', res);
                     $scope.initSoResult(res.soResult);
@@ -968,15 +966,55 @@ angular.module('oinio.workDetailsControllers', [])
                                         + (leaveTime.getHours() - ah - 1) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/, '-'));
                             }
                             AppUtilService.showLoading();
-                            ForceClientService.getForceClient().apexrest(
-                                $scope.leavePostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                                + '&leaveTime=' + leaveTime.format('yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                'POST',
-                                {},
-                                null,
-                                function callBack(res) {
-                                    console.log(res);
-                                    AppUtilService.hideLoading();
+                            //old code
+                            // ForceClientService.getForceClient().apexrest(
+                            //     $scope.leavePostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
+                            //     + '&leaveTime=' + leaveTime.format('yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
+                            //     'POST',
+                            //     {},
+                            //     null,
+                            //     function callBack(res) {
+                            //         console.log(res);
+                            //         AppUtilService.hideLoading();
+                            //         if (res.status.toLowerCase() == 'success') {
+                            //             if (orderBelong) {
+                            //                 $('#sidProgressBar').css('width', '75%');
+                            //             } else {
+                            //                 $('#sidProgressBar').css('width', '99%');
+                            //             }
+                            //             for (var i = 0; i < 4; i++) {
+                            //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                            //             }
+                            //             $('#arriveBtn').css('pointer-events', 'none');
+                            //             $('#arriveBtn').addClass('textCompleted');
+                            //             $('#leave').css('pointer-events', 'none');
+                            //             $('#leave').addClass('textCompleted');
+                            //             $ionicPopup.alert({
+                            //                 title: '记录到达/离开时间成功'
+                            //             });
+                            //         } else {
+                            //             $ionicPopup.alert({
+                            //                 title: '记录到达/离开时间失败',
+                            //                 template: res.message
+                            //             });
+                            //             return false;
+                            //         }
+                            //
+                            //     }, function error(msg) {
+                            //         AppUtilService.hideLoading();
+                            //         console.log(msg);
+                            //         $ionicPopup.alert({
+                            //             title: '记录到达/离开时间失败',
+                            //             template: msg
+                            //         });
+                            //         return false;
+                            //     }
+                            // );
+                            //new code
+                            dualModeService.leaveActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss'),leaveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                                console.log(res);
+                                AppUtilService.hideLoading();
+                                if (Number(localStorage.onoffline) !== 0){
                                     if (res.status.toLowerCase() == 'success') {
                                         if (orderBelong) {
                                             $('#sidProgressBar').css('width', '75%');
@@ -1000,17 +1038,41 @@ angular.module('oinio.workDetailsControllers', [])
                                         });
                                         return false;
                                     }
-
-                                }, function error(msg) {
-                                    AppUtilService.hideLoading();
-                                    console.log(msg);
-                                    $ionicPopup.alert({
-                                        title: '记录到达/离开时间失败',
-                                        template: msg
-                                    });
-                                    return false;
+                                }else{
+                                    if (res.toLowerCase() == 'success') {
+                                        if (orderBelong) {
+                                            $('#sidProgressBar').css('width', '75%');
+                                        } else {
+                                            $('#sidProgressBar').css('width', '99%');
+                                        }
+                                        for (var i = 0; i < 4; i++) {
+                                            $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                        }
+                                        $('#arriveBtn').css('pointer-events', 'none');
+                                        $('#arriveBtn').addClass('textCompleted');
+                                        $('#leave').css('pointer-events', 'none');
+                                        $('#leave').addClass('textCompleted');
+                                        $ionicPopup.alert({
+                                            title: '记录到达/离开时间成功'
+                                        });
+                                    } else {
+                                        $ionicPopup.alert({
+                                            title: '记录到达/离开时间失败',
+                                            template: res.message
+                                        });
+                                        return false;
+                                    }
                                 }
-                            );
+
+                            },function error(msg) {
+                                AppUtilService.hideLoading();
+                                console.log(msg);
+                                $ionicPopup.alert({
+                                    title: '记录到达/离开时间失败',
+                                    template: msg
+                                });
+                                return false;
+                            });
                         }
                     });
                     mobileSelect3.show();
@@ -1030,15 +1092,54 @@ angular.module('oinio.workDetailsControllers', [])
                             onTap: function () {
                                 leaveTime = new Date();
                                 AppUtilService.showLoading();
-                                ForceClientService.getForceClient().apexrest(
-                                    $scope.leavePostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                                    + '&leaveTime=' + leaveTime.format('yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                    'POST',
-                                    {},
-                                    null,
-                                    function callBack(res) {
-                                        console.log(res);
-                                        AppUtilService.hideLoading();
+                                //old code
+                                // ForceClientService.getForceClient().apexrest(
+                                //     $scope.leavePostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
+                                //     + '&leaveTime=' + leaveTime.format('yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
+                                //     'POST',
+                                //     {},
+                                //     null,
+                                //     function callBack(res) {
+                                //         console.log(res);
+                                //         AppUtilService.hideLoading();
+                                //         if (res.status.toLowerCase() == 'success') {
+                                //             //$event.target.style.backgroundColor = "#00FF7F";
+                                //             $('#leave').addClass('textCompleted');
+                                //             for (var i = 0; i <= 3; i++) {
+                                //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                //             }
+                                //             if (orderBelong) {
+                                //                 $('#sidProgressBar').css('width', '75%');
+                                //             } else {
+                                //                 $('#sidProgressBar').css('width', '99%');
+                                //             }
+                                //             $ionicPopup.alert({
+                                //                 title: '记录到达/离开时间成功'
+                                //             });
+                                //         } else {
+                                //             $ionicPopup.alert({
+                                //                 title: '记录到达/离开时间失败',
+                                //                 template: res.message
+                                //             });
+                                //             return false;
+                                //         }
+                                //
+                                //     }, function error(msg) {
+                                //         AppUtilService.hideLoading();
+                                //         console.log(msg);
+                                //         $ionicPopup.alert({
+                                //             title: '记录到达/离开时间失败',
+                                //             template: msg
+                                //         });
+                                //         return false;
+                                //     }
+                                // );
+
+                                //new code
+                                dualModeService.leaveActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss'),leaveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                                    console.log(res);
+                                    AppUtilService.hideLoading();
+                                    if (Number(localStorage.onoffline) !== 0){
                                         if (res.status.toLowerCase() == 'success') {
                                             //$event.target.style.backgroundColor = "#00FF7F";
                                             $('#leave').addClass('textCompleted');
@@ -1060,17 +1161,39 @@ angular.module('oinio.workDetailsControllers', [])
                                             });
                                             return false;
                                         }
-
-                                    }, function error(msg) {
-                                        AppUtilService.hideLoading();
-                                        console.log(msg);
-                                        $ionicPopup.alert({
-                                            title: '记录到达/离开时间失败',
-                                            template: msg
-                                        });
-                                        return false;
+                                    }else{
+                                        if (res.toLowerCase() == 'success') {
+                                            //$event.target.style.backgroundColor = "#00FF7F";
+                                            $('#leave').addClass('textCompleted');
+                                            for (var i = 0; i <= 3; i++) {
+                                                $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                            }
+                                            if (orderBelong) {
+                                                $('#sidProgressBar').css('width', '75%');
+                                            } else {
+                                                $('#sidProgressBar').css('width', '99%');
+                                            }
+                                            $ionicPopup.alert({
+                                                title: '记录到达/离开时间成功'
+                                            });
+                                        } else {
+                                            $ionicPopup.alert({
+                                                title: '记录到达/离开时间失败',
+                                                template: res.message
+                                            });
+                                            return false;
+                                        }
                                     }
-                                );
+
+                                },function error(msg) {
+                                    AppUtilService.hideLoading();
+                                    console.log(msg);
+                                    $ionicPopup.alert({
+                                        title: '记录到达/离开时间失败',
+                                        template: msg
+                                    });
+                                    return false;
+                                });
                             }
                         }],
                     });
@@ -1223,39 +1346,69 @@ angular.module('oinio.workDetailsControllers', [])
                 //new code
                 dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(function callBack(res) {
                     if (res.status.toLowerCase() == 'success') {
-                        ForceClientService.getForceClient().apexrest(
-                            $scope.departureUrl + orderDetailsId + '&departureTime=' + departureTime.format('yyyy-MM-dd hh:mm:ss')
-                            + '&userId=' + oCurrentUser.Id,
-                            'POST',
-                            {},
-                            null, function callBack(res) {
-                                AppUtilService.hideLoading();
-                                if (res.status.toLowerCase() == 'success') {
-                                    for (var i = 0; i < 2; i++) {
-                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                    }
-                                    $('#departureBtn').css('pointer-events', 'none');
-                                    $('#departureBtn').addClass('textCompleted');
-                                    if (orderBelong) {
-                                        $('#sidProgressBar').css('width', '25%');
-                                    } else {
-                                        $('#sidProgressBar').css('width', '33%');
-                                    }
-                                } else {
-                                    $ionicPopup.alert({
-                                        title: res.message
-                                    });
-                                    return;
+                        //old code
+                        // ForceClientService.getForceClient().apexrest(
+                        //     $scope.departureUrl + orderDetailsId + '&departureTime=' + departureTime.format('yyyy-MM-dd hh:mm:ss')
+                        //     + '&userId=' + oCurrentUser.Id,
+                        //     'POST',
+                        //     {},
+                        //     null, function callBack(res) {
+                        //         AppUtilService.hideLoading();
+                        //         if (res.status.toLowerCase() == 'success') {
+                        //             for (var i = 0; i < 2; i++) {
+                        //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                        //             }
+                        //             $('#departureBtn').css('pointer-events', 'none');
+                        //             $('#departureBtn').addClass('textCompleted');
+                        //             if (orderBelong) {
+                        //                 $('#sidProgressBar').css('width', '25%');
+                        //             } else {
+                        //                 $('#sidProgressBar').css('width', '33%');
+                        //             }
+                        //         } else {
+                        //             $ionicPopup.alert({
+                        //                 title: res.message
+                        //             });
+                        //             return;
+                        //         }
+                        //     }, function error(msg) {
+                        //         AppUtilService.hideLoading();
+                        //         console.log(msg);
+                        //         $ionicPopup.alert({
+                        //             title: msg
+                        //         });
+                        //         return;
+                        //     }
+                        // );
+
+                        //new code
+                        dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,departureTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                            AppUtilService.hideLoading();
+                            if (res.status.toLowerCase() == 'success') {
+                                for (var i = 0; i < 2; i++) {
+                                    $('ol li:eq(' + i + ')').addClass('slds-is-active');
                                 }
-                            }, function error(msg) {
-                                AppUtilService.hideLoading();
-                                console.log(msg);
+                                $('#departureBtn').css('pointer-events', 'none');
+                                $('#departureBtn').addClass('textCompleted');
+                                if (orderBelong) {
+                                    $('#sidProgressBar').css('width', '25%');
+                                } else {
+                                    $('#sidProgressBar').css('width', '33%');
+                                }
+                            } else {
                                 $ionicPopup.alert({
-                                    title: msg
+                                    title: res.message
                                 });
                                 return;
                             }
-                        );
+                        },function error(msg) {
+                            AppUtilService.hideLoading();
+                            console.log(msg);
+                            $ionicPopup.alert({
+                                title: msg
+                            });
+                            return;
+                        });
                     }
                 }, function error(msg) {
                     AppUtilService.hideLoading();
@@ -1275,7 +1428,6 @@ angular.module('oinio.workDetailsControllers', [])
              * @returns {boolean}
              */
             $scope.getArrivalTime = function () {
-
                 if (arriveTime != null) {
                     return false;
                 } else {
@@ -1429,82 +1581,188 @@ angular.module('oinio.workDetailsControllers', [])
                                     dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(function callBack(res) {
                                         console.log(res);
                                         if (res.status.toLowerCase() == 'success') {
-                                            ForceClientService.getForceClient().apexrest(
-                                                $scope.departureUrl + orderDetailsId + '&departureTime=' + goOffTimeFromPrefix.format(
-                                                'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                                'POST',
-                                                {},
-                                                null,
-                                                function callBack(res) {
-                                                    AppUtilService.hideLoading();
-                                                    console.log(res);
-                                                    if (res.status.toLowerCase() == 'success') {
-                                                        for (var i = 0; i < 2; i++) {
-                                                            $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                                        }
-                                                        $('#departureBtn').css('pointer-events', 'none');
-                                                        $('#departureBtn').addClass('textCompleted');
-                                                        if (orderBelong) {
-                                                            $('#sidProgressBar').css('width', '25%');
-                                                        } else {
-                                                            $('#sidProgressBar').css('width', '33%');
-                                                        }
-                                                        ForceClientService.getForceClient().apexrest(
-                                                            $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format(
-                                                            'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                                            'POST',
-                                                            {},
-                                                            null,
-                                                            function callBack(res) {
-                                                                AppUtilService.hideLoading();
-                                                                console.log(res);
-                                                                if (res.status.toLowerCase() == 'success') {
-                                                                    //$event.target.style.backgroundColor = "#00FF7F";
-                                                                    if (orderBelong) {
-                                                                        $('#sidProgressBar').css('width', '50%');
-                                                                    } else {
-                                                                        $('#sidProgressBar').css('width', '66%');
-                                                                    }
-                                                                    for (var i = 0; i < 3; i++) {
-                                                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                                                    }
-                                                                    $('#arriveBtn').css('pointer-events', 'none');
-                                                                    $('#arriveBtn').addClass('textCompleted');
-                                                                } else {
-                                                                    $ionicPopup.alert({
-                                                                        title: '记录到达时间失败',
-                                                                        template: res.message
-                                                                    });
-                                                                    return false;
-                                                                }
-                                                            }, function error(msg) {
-                                                                AppUtilService.hideLoading();
-                                                                console.log(msg);
-                                                                $ionicPopup.alert({
-                                                                    title: '记录到达时间失败',
-                                                                    template: msg
-                                                                });
-                                                                return false;
-                                                            }
-                                                        );
+                                            //old code
+                                            // ForceClientService.getForceClient().apexrest(
+                                            //     $scope.departureUrl + orderDetailsId + '&departureTime=' + goOffTimeFromPrefix.format(
+                                            //     'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
+                                            //     'POST',
+                                            //     {},
+                                            //     null,
+                                            //     function callBack(res) {
+                                            //         AppUtilService.hideLoading();
+                                            //         console.log(res);
+                                            //         if (res.status.toLowerCase() == 'success') {
+                                            //             for (var i = 0; i < 2; i++) {
+                                            //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                            //             }
+                                            //             $('#departureBtn').css('pointer-events', 'none');
+                                            //             $('#departureBtn').addClass('textCompleted');
+                                            //             if (orderBelong) {
+                                            //                 $('#sidProgressBar').css('width', '25%');
+                                            //             } else {
+                                            //                 $('#sidProgressBar').css('width', '33%');
+                                            //             }
+                                            //             ForceClientService.getForceClient().apexrest(
+                                            //                 $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format(
+                                            //                 'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
+                                            //                 'POST',
+                                            //                 {},
+                                            //                 null,
+                                            //                 function callBack(res) {
+                                            //                     AppUtilService.hideLoading();
+                                            //                     console.log(res);
+                                            //                     if (res.status.toLowerCase() == 'success') {
+                                            //                         //$event.target.style.backgroundColor = "#00FF7F";
+                                            //                         if (orderBelong) {
+                                            //                             $('#sidProgressBar').css('width', '50%');
+                                            //                         } else {
+                                            //                             $('#sidProgressBar').css('width', '66%');
+                                            //                         }
+                                            //                         for (var i = 0; i < 3; i++) {
+                                            //                             $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                            //                         }
+                                            //                         $('#arriveBtn').css('pointer-events', 'none');
+                                            //                         $('#arriveBtn').addClass('textCompleted');
+                                            //                     } else {
+                                            //                         $ionicPopup.alert({
+                                            //                             title: '记录到达时间失败',
+                                            //                             template: res.message
+                                            //                         });
+                                            //                         return false;
+                                            //                     }
+                                            //                 }, function error(msg) {
+                                            //                     AppUtilService.hideLoading();
+                                            //                     console.log(msg);
+                                            //                     $ionicPopup.alert({
+                                            //                         title: '记录到达时间失败',
+                                            //                         template: msg
+                                            //                     });
+                                            //                     return false;
+                                            //                 }
+                                            //             );
+                                            //         } else {
+                                            //             $ionicPopup.alert({
+                                            //                 title: '记录出发时间失败',
+                                            //                 template: res.message
+                                            //             });
+                                            //             return false;
+                                            //         }
+                                            //     },
+                                            //     function error(msg) {
+                                            //         AppUtilService.hideLoading();
+                                            //         console.log(msg);
+                                            //         $ionicPopup.alert({
+                                            //             title: '记录出发时间失败',
+                                            //             template: msg
+                                            //         });
+                                            //         return false;
+                                            //     }
+                                            // );
+                                            //new code
+                                            dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id :oCurrentUser._soupEntryId,goOffTimeFromPrefix.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                                                AppUtilService.hideLoading();
+                                                console.log(res);
+                                                if (res.status.toLowerCase() == 'success') {
+                                                    for (var i = 0; i < 2; i++) {
+                                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                                    }
+                                                    $('#departureBtn').css('pointer-events', 'none');
+                                                    $('#departureBtn').addClass('textCompleted');
+                                                    if (orderBelong) {
+                                                        $('#sidProgressBar').css('width', '25%');
                                                     } else {
+                                                        $('#sidProgressBar').css('width', '33%');
+                                                    }
+
+                                                    //old code
+                                                    // ForceClientService.getForceClient().apexrest(
+                                                    //     $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format(
+                                                    //     'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
+                                                    //     'POST',
+                                                    //     {},
+                                                    //     null,
+                                                    //     function callBack(res) {
+                                                    //         AppUtilService.hideLoading();
+                                                    //         console.log(res);
+                                                    //         if (res.status.toLowerCase() == 'success') {
+                                                    //             //$event.target.style.backgroundColor = "#00FF7F";
+                                                    //             if (orderBelong) {
+                                                    //                 $('#sidProgressBar').css('width', '50%');
+                                                    //             } else {
+                                                    //                 $('#sidProgressBar').css('width', '66%');
+                                                    //             }
+                                                    //             for (var i = 0; i < 3; i++) {
+                                                    //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                                    //             }
+                                                    //             $('#arriveBtn').css('pointer-events', 'none');
+                                                    //             $('#arriveBtn').addClass('textCompleted');
+                                                    //         } else {
+                                                    //             $ionicPopup.alert({
+                                                    //                 title: '记录到达时间失败',
+                                                    //                 template: res.message
+                                                    //             });
+                                                    //             return false;
+                                                    //         }
+                                                    //     }, function error(msg) {
+                                                    //         AppUtilService.hideLoading();
+                                                    //         console.log(msg);
+                                                    //         $ionicPopup.alert({
+                                                    //             title: '记录到达时间失败',
+                                                    //             template: msg
+                                                    //         });
+                                                    //         return false;
+                                                    //     }
+                                                    // );
+                                                    //new code
+                                                    dualModeService.arrivalActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                                                        AppUtilService.hideLoading();
+                                                        console.log(res);
+                                                        if (res.status.toLowerCase() == 'success') {
+                                                            //$event.target.style.backgroundColor = "#00FF7F";
+                                                            if (orderBelong) {
+                                                                $('#sidProgressBar').css('width', '50%');
+                                                            } else {
+                                                                $('#sidProgressBar').css('width', '66%');
+                                                            }
+                                                            for (var i = 0; i < 3; i++) {
+                                                                $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                                            }
+                                                            $('#arriveBtn').css('pointer-events', 'none');
+                                                            $('#arriveBtn').addClass('textCompleted');
+                                                        } else {
+                                                            $ionicPopup.alert({
+                                                                title: '记录到达时间失败',
+                                                                template: res.message
+                                                            });
+                                                            return false;
+                                                        }
+                                                    },function error(msg) {
+                                                        AppUtilService.hideLoading();
+                                                        console.log(msg);
                                                         $ionicPopup.alert({
-                                                            title: '记录出发时间失败',
-                                                            template: res.message
+                                                            title: '记录到达时间失败',
+                                                            template: msg
                                                         });
                                                         return false;
-                                                    }
-                                                },
-                                                function error(msg) {
-                                                    AppUtilService.hideLoading();
-                                                    console.log(msg);
+                                                    });
+
+                                                } else {
                                                     $ionicPopup.alert({
                                                         title: '记录出发时间失败',
-                                                        template: msg
+                                                        template: res.message
                                                     });
                                                     return false;
                                                 }
-                                            );
+                                            },function error(msg) {
+                                                AppUtilService.hideLoading();
+                                                console.log(msg);
+                                                $ionicPopup.alert({
+                                                    title: '记录出发时间失败',
+                                                    template: msg
+                                                });
+                                                return false;
+                                            });
+
                                         } else {
                                             AppUtilService.hideLoading();
                                             $ionicPopup.alert({
@@ -1536,49 +1794,87 @@ angular.module('oinio.workDetailsControllers', [])
                         mobileSelect3.show();
                     } else {
                         AppUtilService.showLoading();
-                        ForceClientService.getForceClient().apexrest(
-                            $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                            + '&userId=' + oCurrentUser.Id,
-                            'POST',
-                            {},
-                            null,
-                            function callBack(res) {
-                                console.log(res);
-                                AppUtilService.hideLoading();
-                                if (res.status.toLowerCase() == 'success') {
-                                    //$event.target.style.backgroundColor = "#00FF7F";
-                                    if (orderBelong) {
-                                        $('#sidProgressBar').css('width', '50%');
-                                    } else {
-                                        $('#sidProgressBar').css('width', '66%');
-                                    }
-                                    for (var i = 0; i < 3; i++) {
-                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                    }
-                                    $('#arriveBtn').css('pointer-events', 'none');
-                                    $('#arriveBtn').addClass('textCompleted');
-                                    $ionicPopup.alert({
-                                        title: '记录到达时间成功'
-                                    });
+                        //old code
+                        // ForceClientService.getForceClient().apexrest(
+                        //     $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
+                        //     + '&userId=' + oCurrentUser.Id,
+                        //     'POST',
+                        //     {},
+                        //     null,
+                        //     function callBack(res) {
+                        //         console.log(res);
+                        //         AppUtilService.hideLoading();
+                        //         if (res.status.toLowerCase() == 'success') {
+                        //             //$event.target.style.backgroundColor = "#00FF7F";
+                        //             if (orderBelong) {
+                        //                 $('#sidProgressBar').css('width', '50%');
+                        //             } else {
+                        //                 $('#sidProgressBar').css('width', '66%');
+                        //             }
+                        //             for (var i = 0; i < 3; i++) {
+                        //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                        //             }
+                        //             $('#arriveBtn').css('pointer-events', 'none');
+                        //             $('#arriveBtn').addClass('textCompleted');
+                        //             $ionicPopup.alert({
+                        //                 title: '记录到达时间成功'
+                        //             });
+                        //         } else {
+                        //             $ionicPopup.alert({
+                        //                 title: '记录到达时间失败',
+                        //                 template: res.message
+                        //             });
+                        //             arriveTime = null;
+                        //             return false;
+                        //         }
+                        //     }, function error(msg) {
+                        //         AppUtilService.hideLoading();
+                        //         console.log(msg);
+                        //         $ionicPopup.alert({
+                        //             title: '记录到达时间失败',
+                        //             template: msg
+                        //         });
+                        //         arriveTime = null;
+                        //         return false;
+                        //     }
+                        // );
+                        //new code
+                        dualModeService.arrivalActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                            console.log(res);
+                            AppUtilService.hideLoading();
+                            if (res.status.toLowerCase() == 'success') {
+                                //$event.target.style.backgroundColor = "#00FF7F";
+                                if (orderBelong) {
+                                    $('#sidProgressBar').css('width', '50%');
                                 } else {
-                                    $ionicPopup.alert({
-                                        title: '记录到达时间失败',
-                                        template: res.message
-                                    });
-                                    arriveTime = null;
-                                    return false;
+                                    $('#sidProgressBar').css('width', '66%');
                                 }
-                            }, function error(msg) {
-                                AppUtilService.hideLoading();
-                                console.log(msg);
+                                for (var i = 0; i < 3; i++) {
+                                    $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                }
+                                $('#arriveBtn').css('pointer-events', 'none');
+                                $('#arriveBtn').addClass('textCompleted');
+                                $ionicPopup.alert({
+                                    title: '记录到达时间成功'
+                                });
+                            } else {
                                 $ionicPopup.alert({
                                     title: '记录到达时间失败',
-                                    template: msg
+                                    template: res.message
                                 });
                                 arriveTime = null;
                                 return false;
                             }
-                        );
+                        },function error(msg) {
+                            AppUtilService.hideLoading();
+                            console.log(msg);
+                            $ionicPopup.alert({
+                                title: '记录到达时间失败',
+                                template: msg
+                            });
+                            arriveTime = null;
+                            return false;
+                        });
 
                     }
                 }
@@ -1815,18 +2111,32 @@ angular.module('oinio.workDetailsControllers', [])
                     imageName: '客户签名-' + new Date().format('yyyyMMddhhmmss'),
                     imageBody: $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
                 });
-
-                var orderObj = [{
-                    'Id': Number(localStorage.onoffline) != 0 ? orderDetailsId : userInfoId,
-                    'Mobile_Offline_Name__c': $scope.mobileName,
-                    'Work_Order_Type__c': $('#select_work_type option:selected').val(),
-                    'Description__c': $('#workContentStr').val(),
-                    'Service_Suggestion__c': $('#serviceSuggest').val(),
-                    'Subject__c': $('#call_str').val(),
-                    'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
-                    'Fault_Part_Code__c': ''
-                    //'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
-                }];
+                var orderObj = null;
+                if(Number(localStorage.onoffline) != 0){
+                     orderObj = [{
+                        'Id': orderDetailsId,
+                        'Mobile_Offline_Name__c': $scope.mobileName,
+                        'Work_Order_Type__c': $('#select_work_type option:selected').val(),
+                        'Description__c': $('#workContentStr').val(),
+                        'Service_Suggestion__c': $('#serviceSuggest').val(),
+                        'Subject__c': $('#call_str').val(),
+                        'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
+                        'Fault_Part_Code__c': ''
+                        //'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
+                    }];
+                }else{
+                    orderObj = {
+                        '_soupEntryId': userInfoId,
+                        'Mobile_Offline_Name__c': $scope.mobileName,
+                        'Work_Order_Type__c': $('#select_work_type option:selected').val(),
+                        'Description__c': $('#workContentStr').val(),
+                        'Service_Suggestion__c': $('#serviceSuggest').val(),
+                        'Subject__c': $('#call_str').val(),
+                        'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
+                        'Fault_Part_Code__c': ''
+                        //'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
+                    };
+                }
 
                 var selectUserIds = [];
                 if ($scope.selectWorkersArr != null && $scope.selectWorkersArr.length > 0) {
@@ -1843,28 +2153,45 @@ angular.module('oinio.workDetailsControllers', [])
                 // error(error) { $log.error(error); });
 
                 truckItemsSecond = [];
-                if ($scope.allTruckItems != null && $scope.allTruckItems.length > 0) {
-                    for (var i = 0; i < $scope.allTruckItems.length; i++) {
-                        truckItemsSecond.push({
-                            Truck_Serial_Number__c: $scope.allTruckItems[i].Id,
-                            Operation_Hour__c: Number($scope.allTruckItems[i].Operation_Hour__c),
-                            Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
-                            New_Operation_Hour__c: Number($scope.allTruckItems[i].New_Operation_Hour__c),
-                            Maintenance_Level__c: $('#select_care_type option:selected').val(),
-                            //Measure_Date__c:new Date()
-                        });
-                    }
-                }
                 var newTrucks = [];
-                if (truckIds != null && truckItemsSecond != null && truckIds.length > 0 && truckItemsSecond.length > 0) {
-                    for (var i = 0; i < truckIds.length; i++) {
-                        for (var j = 0; j < truckItemsSecond.length; j++) {
-                            if (truckIds[i] == truckItemsSecond[j].Truck_Serial_Number__c) {
-                                newTrucks.push(truckItemsSecond[j]);
+                if (Number(localStorage.onoffline) != 0){
+                    if ($scope.allTruckItems != null && $scope.allTruckItems.length > 0) {
+                        for (var i = 0; i < $scope.allTruckItems.length; i++) {
+                            truckItemsSecond.push({
+                                Truck_Serial_Number__c: $scope.allTruckItems[i].Id,
+                                Operation_Hour__c: Number($scope.allTruckItems[i].Operation_Hour__c),
+                                Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
+                                New_Operation_Hour__c: Number($scope.allTruckItems[i].New_Operation_Hour__c),
+                                Maintenance_Level__c: $('#select_care_type option:selected').val(),
+                                //Measure_Date__c:new Date()
+                            });
+                        }
+                    }
+                    if (truckIds != null && truckItemsSecond != null && truckIds.length > 0 && truckItemsSecond.length > 0) {
+                        for (var i = 0; i < truckIds.length; i++) {
+                            for (var j = 0; j < truckItemsSecond.length; j++) {
+                                if (truckIds[i] == truckItemsSecond[j].Truck_Serial_Number__c) {
+                                    newTrucks.push(truckItemsSecond[j]);
+                                }
                             }
                         }
                     }
+                }else{
+                    if (initChildOrders!=null&&initChildOrders.length>0){
+                        for (var i =0;i<initChildOrders.length;i++){
+                            truckItemsSecond.push({
+                                _soupEntryId:initChildOrders[i]._soupEntryId,
+                                Truck_Serial_Number__c: initChildOrders[i].Id,
+                                Operation_Hour__c: Number(initChildOrders[i].Operation_Hour__c),
+                                Service_Suggestion__c: initChildOrders[i].Service_Suggestion__c,
+                                New_Operation_Hour__c: Number(initChildOrders[i].New_Operation_Hour__c),
+                                Maintenance_Level__c: initChildOrders[i].Maintenance_Level__c,
+                                //Measure_Date__c:new Date()
+                            });
+                        }
+                    }
                 }
+
 
                 /**
                  * 在线保存工单详情页的数据
@@ -2086,7 +2413,6 @@ angular.module('oinio.workDetailsControllers', [])
 
             };
 
-            //***************************** */初始化配件模块*********************************
             $scope.toDisBothModifyDiv = function () {
                 document.getElementById('btn_modify_Div').style.display = 'none';//隐藏
                 document.getElementById('btn_import_Div').style.display = 'none';//隐藏

@@ -34,7 +34,7 @@ angular.module('oinio.MainController', [])
                 firstIntoApp = false;
             }
             console.log("mainController.$ionicView.beforeEnter");
-            TimeCardService.fetchVersionInfo();
+            //TimeCardService.fetchVersionInfo();
 
         });
 

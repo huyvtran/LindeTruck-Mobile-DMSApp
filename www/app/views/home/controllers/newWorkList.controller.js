@@ -147,13 +147,13 @@ angular.module('oinio.newWorkListControllers', [])
             */
 
             let user = LocalCacheService.get('currentUser');
-            if(user != null && user.Id != null) {
-                Service1Service.getUserObjectById(user.Id,Number(localStorage.onoffline)).then(function callBack(response) {
+            if(user != null) {
+                Service1Service.getUserObjectById(Number(localStorage.onoffline)!==0?user.Id:user._soupEntryId,Number(localStorage.onoffline)).then(function callBack(response) {
                     console.log("getUserObjectById::", response);
                     if (response != null) {
                         $scope.searchResultOwnerName = response.Name;
                         $scope.searchResultOwnerNum = response.Name;
-                        $scope.searchResultOwnerId = user.Id;
+                        $scope.searchResultOwnerId = Number(localStorage.onoffline)!==0?user.Id:user._soupEntryId;
                         $scope.searchResultOwnerSoupId = response._soupEntryId;
                     }
                 },function error(msg) {
@@ -684,50 +684,85 @@ angular.module('oinio.newWorkListControllers', [])
                     if (response != null) {
                         order2Save.Service_Order_Owner__c = userId;
                         //order2Save.Service_Order_Owner__r = response;
-                        ForceClientService.getForceClient().apexrest(
-                            $scope.newDetailPostDataUrl+"adrs="+JSON.stringify([order2Save])+"&trucks="+JSON.stringify(localTruckIds),
-                            "POST",
-                            {},
-                            null,
-                            function callBack(res) {
-                                console.log(res);
-                                AppUtilService.hideLoading();
-                                if (res.status.toLowerCase()=="success"){
-                                    var currentWorkOrderId = res.message.split(":")[1];
-                                    $state.go('app.workDetails',
-                                        {   //SendInfo: addResult[0]._soupEntryId,
-                                            workDescription:$("#textarea_desc").val(),
-                                            AccountShipToC:$scope.searchResultAcctId,
-                                            goOffTime:"",
-                                            isNewWorkList:true,
-                                            enableArrivalBtn:false,
-                                            selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
-                                            workOrderId:currentWorkOrderId,
-                                            accountId:$scope.searchResultAcctId,
-                                            orderBelong:true
-                                        });
-                                    $rootScope.getSomeData();//刷新日历下方工单列表
 
-                                }else{
+                        if (Number(localStorage.onoffline) !== 0) {
+                            ForceClientService.getForceClient().apexrest(
+                                $scope.newDetailPostDataUrl + "adrs=" + JSON.stringify([order2Save]) + "&trucks=" + JSON.stringify(localTruckIds),
+                                "POST",
+                                {},
+                                null,
+                                function callBack(res) {
+                                    console.log(res);
+                                    AppUtilService.hideLoading();
+                                    if (res.status.toLowerCase() == "success") {
+                                        var currentWorkOrderId = res.message.split(":")[1];
+                                        $state.go('app.workDetails',
+                                            {   //SendInfo: addResult[0]._soupEntryId,
+                                                workDescription: $("#textarea_desc").val(),
+                                                AccountShipToC: $scope.searchResultAcctId,
+                                                goOffTime: "",
+                                                isNewWorkList: true,
+                                                enableArrivalBtn: false,
+                                                selectWorkTypeIndex: $('option:selected', '#select_serviceorder_type').index(),
+                                                workOrderId: currentWorkOrderId,
+                                                accountId: $scope.searchResultAcctId,
+                                                orderBelong: true
+                                            });
+                                        $rootScope.getSomeData();//刷新日历下方工单列表
+
+                                    } else {
+                                        $ionicPopup.alert({
+                                            title: "保存失败"
+                                        });
+                                        return false;
+                                    }
+                                },
+                                function error(msg) {
+                                    console.log(msg);
+                                    AppUtilService.hideLoading();
                                     $ionicPopup.alert({
                                         title: "保存失败"
                                     });
                                     return false;
                                 }
-                            },
-                            function error(msg) {
+                            );
+                        }else{
+                            Service1Service.newWorkDetailSaveAction([order2Save],null).then(function callBack(res) {
+                                console.log(res);
+                                AppUtilService.hideLoading();
+                                if (res[0].success) {
+                                    $state.go('app.workDetails',
+                                        {   SendInfo: res[0]._soupEntryId,
+                                            workDescription: $("#textarea_desc").val(),
+                                            AccountShipToC: $scope.searchResultAcctId,
+                                            goOffTime: "",
+                                            isNewWorkList: true,
+                                            enableArrivalBtn: false,
+                                            selectWorkTypeIndex: $('option:selected', '#select_serviceorder_type').index(),
+                                            workOrderId: null,
+                                            accountId: $scope.searchResultAcctId,
+                                            orderBelong: true
+                                        });
+                                    $rootScope.getSomeData();//刷新日历下方工单列表
+
+                                } else {
+                                    $ionicPopup.alert({
+                                        title: "保存失败"
+                                    });
+                                    return false;
+                                }
+                            },function error(msg) {
                                 console.log(msg);
                                 AppUtilService.hideLoading();
                                 $ionicPopup.alert({
                                     title: "保存失败"
                                 });
                                 return false;
-                            }
-                        );
+                            });
+                        }
                     }
                 },function error(msg) {
                     AppUtilService.hideLoading();
-
                     $log.error('Service1Service.getUserObjectById Error ' + error);
                 });
 

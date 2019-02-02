@@ -349,25 +349,40 @@
                     //     workOrderId:item.Id,
                     //     isNewWorkList:true
                     // });
-                    ForceClientService.getForceClient().apexrest(
-                        $scope.departureUrl + item.Id + '&departureTime=' + goTime.format('yyyy-MM-dd hh:mm:ss') + '&userId='
-                        + oCurrentUser.Id,
-                        'POST',
-                        {},
-                        null,
-                        function callBack(res) {
-                            console.log(res);
-                            if (res.status.toLowerCase() == 'success') {
-                                $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
-                            } else {
-                                $scope.updateOrderType(item, 'Not Started');
-                            }
-                        },
-                        function error(msg) {
-                            console.log(msg);
+
+                    //old code
+                    // ForceClientService.getForceClient().apexrest(
+                    //     $scope.departureUrl + item.Id + '&departureTime=' + goTime.format('yyyy-MM-dd hh:mm:ss') + '&userId='
+                    //     + oCurrentUser.Id,
+                    //     'POST',
+                    //     {},
+                    //     null,
+                    //     function callBack(res) {
+                    //         console.log(res);
+                    //         if (res.status.toLowerCase() == 'success') {
+                    //             $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
+                    //         } else {
+                    //             $scope.updateOrderType(item, 'Not Started');
+                    //         }
+                    //     },
+                    //     function error(msg) {
+                    //         console.log(msg);
+                    //         $scope.updateOrderType(item, 'Not Started');
+                    //     }
+                    // );
+
+                    //new code
+                    dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,goTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                        console.log(res);
+                        if (res.status.toLowerCase() == 'success') {
+                            $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
+                        } else {
                             $scope.updateOrderType(item, 'Not Started');
                         }
-                    );
+                    },function error(msg) {
+                        console.log(msg);
+                        $scope.updateOrderType(item, 'Not Started');
+                    });
                 } else {
                     $ionicPopup.alert({
                         title: '更新工单状态失败',
