@@ -585,13 +585,14 @@
                     if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             let accId = entry[0].Account_Ship_to__c;
+                            let str_status = service.setMobileStatusForServiceOrder(entry[0].Status__c,entry[0].Work_Item_Count__c);
                             orders.push({
                                 Id: entry[0].Id,
                                 Name: entry[0].Name,
                                 Account_Ship_to__c: accId,
                                 Service_Order_Type__c: entry[0].Service_Order_Type__c,
                                 Service_Order_Owner__c: entry[0].Service_Order_Owner__c,
-                                Status__c: entry[0].Status__c,
+                                Status__c: str_status,
                                 Plan_Date__c: entry[0].Plan_Date__c,
                                 Truck_Serial_Number__c: entry[0].Truck_Serial_Number__c,
                                 _soupEntryId: entry[0]._soupEntryId
@@ -610,6 +611,27 @@
                 });
                 return deferred.promise;
             };
+
+            this.setMobileStatusForServiceOrder = function (str_status,int_count) {
+                var set_notStarted = new Array('to be assigned', 'Assigned', 'Quoting', 'Applying Debt Release', 'Waiting for Parts');
+                var set_notCompleted = new Array('to be assigned', 'Assigned', 'Quoting', 'Applying Debt Release', 'Waiting for Parts', 'Abnormal feedback');
+
+                if(str_status == 'Not Planned'){
+                    return 'Not Planned';
+                }else if(str_status == 'Not Started'){
+                    return 'Not Started';
+                }else if(str_status == 'Not Completed'){
+                    return 'Not Completed';
+                }else if(str_status == 'Service Completed'){
+                    return 'Service Completed';
+                }else if(set_notStarted.indexOf(str_status) !== -1 && int_count == 0){
+                    return 'Not Started';
+                }else if(set_notCompleted.indexOf(str_status) !== -1 && int_count > 0){
+                    return 'Not Completed';
+                }else{
+                    return str_status;
+                }
+            }
 
 
             this.getOrdersWithGroupStep3_2 = function(Ids) {
@@ -764,7 +786,7 @@
             };
 
 
-            /**
+            /**a
              * getOwnerForServiceOrder
              */
             this.getOwnerForServiceOrder = function (str_orderId,isOnline) {

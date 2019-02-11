@@ -48,7 +48,7 @@
     },
     {
       "Name": "Service_Order_Overview__c",
-      "MobileVizArt__Fields__c": "Id,Name,Priority__c,Account_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,On_Order__c, Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId,Service_Order_Sub_Type__c,Main_Service_Order__c",
+      "MobileVizArt__Fields__c": "Id,Name,Work_Item_Count__c,Priority__c,Account_Ship_to__c,Mobile_Offline_Name__c,Service_Order_Type__c,Status__c,On_Order__c, Service_Order_Owner__c,Plan_Date__c,Truck_Serial_Number__c,Description__c,Work_Order_Type__c,Subject__c,Service_Suggestion__c,RecordTypeId,Service_Order_Sub_Type__c,Main_Service_Order__c",
       "MobileVizArt__Search_Fields__c": "Status__c,Service_Order_Owner__c,Mobile_Offline_Name__c,Account_Ship_to__c,Plan_Date__c",
       "MobileVizArt__List_Content_Fields__c": null,
       "MobileVizArt__Filter_Criteria__c": null,
