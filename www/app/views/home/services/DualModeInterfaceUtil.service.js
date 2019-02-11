@@ -1080,10 +1080,10 @@
                 var soupEntryId = [];
 
                 angular.forEach(obj, function (ObjItem) {
-                    if(obj._soupEntryId == null){
+                    if(ObjItem._soupEntryId == null){
                         deferred.reject('soup entry id can not be null!');
                     }else{
-                        soupEntryId.push(obj._soupEntryId);
+                        soupEntryId.push(ObjItem._soupEntryId);
                     }
                 });
                 deferred.resolve(soupEntryId);
