@@ -48,21 +48,10 @@ angular
           var serverAppVersion = response.SEApp_Current_Version;
           var serverMinVersion = response.SEApp_Min_Version;
           cordova.getAppVersion.getVersionNumber().then(function (version) {
-            //如果本地与服务端的APP版本不符合
-            if (version != serverAppVersion) {
-              if (version != serverMinVersion) {
-                //更新方式
-                forceShowUpdateConfirm(serverAppVersion);
-              } else {
-                //强制更新方式
-                showUpdateConfirm(serverAppVersion);
-              }
 
-            } else {
-              if (version != serverMinVersion) {
-                //强制更新方式
-                forceShowUpdateConfirm(serverAppVersion);
-              }
+            if (version != serverAppVersion) {
+              showUpdateConfirm(serverAppVersion);
+
             }
           });
 
@@ -140,7 +129,7 @@ angular
             var options = {};
             $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
               // 打开下载下来的APP
-              $cordovaFileOpener2.open(targetPath.toURL(), 'application/vnd.android.package-archive').then(function () {
+              $cordovaFileOpener2.open(targetPath, 'application/vnd.android.package-archive').then(function () {
                 // 成功
               }, function (err) {
                 console.log('err',err);

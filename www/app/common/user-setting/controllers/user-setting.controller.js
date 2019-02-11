@@ -209,7 +209,7 @@
                             }
                         });
                     } else {
-                        toastResult('No logfile to send.');
+                        toastResult('没有错误日志.');
                     }
                 }, function (error) {
                     $log.error('SendLog error occurs: ' + JSON.stringify(error));

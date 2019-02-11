@@ -336,10 +336,7 @@
           //new code
             dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),Number(localStorage.onoffline)!==0?item.Id:item._soupEntryId,'Not Completed').then(function callBack(res) {
                 console.log(res);
-                AppUtilService.hideLoading();
                 if (res.status.toLowerCase() == 'success') {
-                    $scope.getHomeService();//刷新日历列表数据 更改出发状态
-
                     var goTime = new Date();
                     // $state.go("app.workDetails",{
                     //     SendInfo: item._soupEntryId,
@@ -374,8 +371,11 @@
                     //new code
                     dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,goTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
                         console.log(res);
-                        if (res.status.toLowerCase() == 'success') {
-                            $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
+                      $scope.getHomeService();//刷新日历列表数据 更改出发状态
+
+                      if (res.status.toLowerCase() == 'success') {
+                        AppUtilService.hideLoading();
+                        $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
                         } else {
                             $scope.updateOrderType(item, 'Not Started');
                         }
@@ -384,7 +384,8 @@
                         $scope.updateOrderType(item, 'Not Started');
                     });
                 } else {
-                    $ionicPopup.alert({
+                  AppUtilService.hideLoading();
+                  $ionicPopup.alert({
                         title: '更新工单状态失败',
                         template: res.message
                     });
@@ -439,7 +440,7 @@
           //new code
             dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? obj.Id : obj._soupEntryId, status).then(function callBack(res) {
                 console.log(res);
-                //AppUtilService.hideLoading();
+                AppUtilService.hideLoading();
                 if (res.status.toLowerCase() == 'success') {
                     $ionicPopup.alert({
                         title: '记录出发时间失败，重置为未开始状态'
@@ -453,7 +454,7 @@
                 }
             }, function error(msg) {
                 console.log(msg);
-                //AppUtilService.hideLoading();
+                AppUtilService.hideLoading();
                 $ionicPopup.alert({
                     title: '更新工单状态失败',
                     template: msg
