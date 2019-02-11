@@ -927,8 +927,10 @@
                             newItem['Priority__c'] = adr.Priority__c;
                         }
 
+                        newItem['Name'] = adr.Name;
                         newItem['Plan_Date__c'] = adr.Plan_Date__c;
                         newItem['Description__c'] = adr.Description__c;
+                        newItem['Subject__c'] = adr.Subject__c;
                         newItem['Status__c'] = 'Not Planned';
 
                         adrsToSave.push(newItem);
@@ -992,9 +994,10 @@
                         newItem['Priority__c'] = 'Medium';
                         if(adr.Priority__c != null && adr.Priority__c != ''){newItem['Priority__c'] = adr.Priority__c;}
 
-
+                        newItem['Name'] = adr.Name;
                         newItem['Plan_Date__c'] = adr.Plan_Date__c;
                         newItem['Description__c'] = adr.Description__c;
+                        newItem['Subject__c'] = adr.Subject__c;
                         newItem['Status__c'] = 'Not Planned';
 
                         adrsToSave.push(newItem);
@@ -1024,9 +1027,10 @@
                                 newItem['Priority__c'] = adr.Priority__c;
                             }
 
-
+                            newItem['Name'] = adr.Name;
                             newItem['Plan_Date__c'] = adr.Plan_Date__c;
                             newItem['Description__c'] = adr.Description__c;
+                            newItem['Subject__c'] = adr.Subject__c;
                             newItem['Status__c'] = 'Not Planned';
 
                             if (trucks[i].Id != null && trucks[i].Id != '') {
@@ -1088,6 +1092,31 @@
                     console.log('err:::',err);
                     deferred.reject(err);
                 }
+                return deferred.promise;
+            };
+
+            this.getNameForNewServiceOrder = function (str_year, str_month, str_day) {
+                var deferred = $q.defer();
+                var str_result = null;
+                var str_date = str_year + '-' + str_month + '-' + str_day;
+                console.log('getNameForNewServiceOrder::Date::',str_date);
+                var sql =  "select {Service_Order_Overview__c:_soup} " +
+                        " from {Service_Order_Overview__c} " +
+                        " where {Service_Order_Overview__c:Plan_Date__c} = '" + str_date + "'";
+                var querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
+                navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
+                    var counter = 0;
+                    if (cursor && cursor.currentPageOrderedEntries && cursor.currentPageOrderedEntries.length) {
+                        angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
+                            counter = Number(counter + 1);
+                        });
+                    }
+                    str_result = Number(9999 - counter);
+                    str_result = str_year.substring(2) + str_month + str_day + str_result;
+                    deferred.resolve(str_result);
+                }, function (err) {
+                    deferred.reject(err);
+                });
                 return deferred.promise;
             };
 
