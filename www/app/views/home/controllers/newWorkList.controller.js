@@ -727,37 +727,59 @@ angular.module('oinio.newWorkListControllers', [])
                                 }
                             );
                         }else{
-                            Service1Service.newWorkDetailSaveAction([order2Save],null).then(function callBack(res) {
-                                console.log(res);
-                                AppUtilService.hideLoading();
-                                if (res[0].success) {
-                                    $state.go('app.workDetails',
-                                        {   SendInfo: res[0]._soupEntryId,
-                                            workDescription: $("#textarea_desc").val(),
-                                            AccountShipToC: $scope.searchResultAcctId,
-                                            goOffTime: "",
-                                            isNewWorkList: true,
-                                            enableArrivalBtn: false,
-                                            selectWorkTypeIndex: $('option:selected', '#select_serviceorder_type').index(),
-                                            workOrderId: null,
-                                            accountId: $scope.searchResultAcctId,
-                                            orderBelong: true
-                                        });
-                                    $rootScope.getSomeData();//刷新日历下方工单列表
+                            var  nowDate = new Date();
+                            var nowMonth = "";
+                            var nowDay = "";
+                            if (nowDate.getMonth().toString().length==1) {
+                               nowMonth = '0'+(nowDate.getMonth()+1);
+                            }else{
+                                nowMonth = (nowDate.getMonth()+1).toString();
+                            }
 
-                                } else {
+                            if (nowDate.getDate().toString().length==1) {
+                                nowDay='0'+nowDate.getDate();
+                            }else{
+                                nowDay=nowDate.getDate().toString();
+                            }
+
+                            Service1Service.getNameForNewServiceOrder(nowDate.getFullYear().toString(),nowMonth,nowDay).then(function callBack(resp) {
+                                console.log(resp);
+                                order2Save.Name=resp;
+                                Service1Service.newWorkDetailSaveAction([order2Save],null).then(function callBack(res) {
+                                    console.log(res);
+                                    AppUtilService.hideLoading();
+                                    if (res[0].success) {
+                                        $state.go('app.workDetails',
+                                            {   SendInfo: res[0]._soupEntryId,
+                                                workDescription: $("#textarea_desc").val(),
+                                                AccountShipToC: $scope.searchResultAcctId,
+                                                goOffTime: "",
+                                                isNewWorkList: true,
+                                                enableArrivalBtn: false,
+                                                selectWorkTypeIndex: $('option:selected', '#select_serviceorder_type').index(),
+                                                workOrderId: null,
+                                                accountId: $scope.searchResultAcctId,
+                                                orderBelong: true
+                                            });
+                                        $rootScope.getSomeData();//刷新日历下方工单列表
+
+                                    } else {
+                                        $ionicPopup.alert({
+                                            title: "保存失败"
+                                        });
+                                        return false;
+                                    }
+                                },function error(msg) {
+                                    console.log(msg);
+                                    AppUtilService.hideLoading();
                                     $ionicPopup.alert({
                                         title: "保存失败"
                                     });
                                     return false;
-                                }
-                            },function error(msg) {
-                                console.log(msg);
-                                AppUtilService.hideLoading();
-                                $ionicPopup.alert({
-                                    title: "保存失败"
                                 });
-                                return false;
+                            },function error(msg) {
+                                AppUtilService.hideLoading();
+                                console.log(msg);
                             });
                         }
                     }

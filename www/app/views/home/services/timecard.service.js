@@ -94,7 +94,8 @@ angular
                 $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
                   // 打开下载下来的APP
                   $ionicLoading.hide();
-                  $cordovaFileOpener2.open(targetPath, 'application/vnd.android.package-archive').then(function () {
+                  $cordovaFileOpener2.open(targetPath, 'application/vnd.android.package-archive').then(function callBack(res) {
+                    console.log(res);
                     // 成功
                   }, function (err) {
                     console.log('err',err);
