@@ -140,6 +140,27 @@
                 },
                 cache:false
             })
+            .state('app.purchaseList',{
+                url:'app/purchaseList',
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/purchaseList.view.html',
+                        controller: 'PurchaseListController as vm'
+                    }
+                },
+                cache:false
+            })
+            .state('app.purchaseDetail',{
+                url:'app/purchaseDetail',
+                params:{overviewId:null},
+                views:{
+                    menuContent: {
+                        templateUrl: 'app/views/home/templates/purchaseDetail.view.html',
+                        controller: 'PurChaseDetailController as vm'
+                    }
+                },
+                cache:false
+            })
 
             .state('app.errorCode',{
                 url:'app/errorCode',

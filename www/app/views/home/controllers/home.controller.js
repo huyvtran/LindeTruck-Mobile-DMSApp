@@ -120,6 +120,9 @@ angular.module('oinio.controllers', [])
       $scope.errorCodeView = function () {
         $state.go('app.errorCode');
       };
+      $scope.purchaseListView = function () {
+        $state.go('app.purchaseList');
+      };
 
       $scope.commonParts = function () {
         $state.go('app.contentTruckPartList');

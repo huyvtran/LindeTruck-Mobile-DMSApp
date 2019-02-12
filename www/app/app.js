@@ -62,6 +62,8 @@
             'oinio.RefundController',
             'oinio.RefundDetailController',
             'oinio.PurChaseController',
+            'oinio.PurchaseListController',
+            'oinio.PurChaseDetailController',
             'oinio.goH5Controller',
             'oinio.TransferRequestController',
             'oinio.TransferRequestListController',
