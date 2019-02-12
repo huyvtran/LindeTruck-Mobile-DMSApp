@@ -1143,6 +1143,35 @@
             };
 
 
+            this.getProcurementInfoList = function () {
+                let str_fields = 'Id,Name,Service_Order_Overview__c,Service_Order_Overview__r.Name,Supplier_Information__c,Supplier_Information__r.Name'+
+                    'Supplier_Name__c,Status__c';
+                let sql = "select " + str_fields +
+                    " from Procurement_Information__c " +
+                    " order by Id desc limit 50";
+                let url = service.buildURL('querySobjects',sql);
+                let requestMethod = 'GET';
+                return service.sendRest(url,sql,requestMethod,str_fields);
+            };
+
+
+
+            this.getProcurementInfoDetail = function (str_userId) {
+                let str_fields = 'Id,Name,Service_Order_Overview__c,Service_Order_Overview__r.Name,Supplier_Information__c,Supplier_Information__r.Name'+
+                    'Supplier_Name__c,Status__c';
+                let sql = "select " + str_fields + " from Procurement_Information__c where id = '" + str_userId + "' limit 50";
+                let url = service.buildURL('querySobject',sql);
+                let requestMethod = 'GET';
+                return service.sendRest(url,sql,requestMethod,str_fields);
+            };
+
+
+
+
+
+
+
+
 
 
             //Util Methods Start.
