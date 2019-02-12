@@ -1145,7 +1145,7 @@
 
             this.getProcurementInfoList = function () {
                 let str_fields = 'Id,Name,Service_Order_Overview__c,Service_Order_Overview__r.Name,Supplier_Information__c,Supplier_Information__r.Name,'+
-                    'Supplier_Name__c,Status__c';
+                    'Supplier_Name__c,Status__c,Delivery_Date__c,Procurement_Description__c,Tax__c,Revenue__c,Price_without_Tax__c,Profit__c,Remarks__c';
                 let sql = "select " + str_fields +
                     " from Procurement_Information__c " +
                     " order by Id desc limit 50";
@@ -1156,16 +1156,43 @@
 
 
 
-            this.getProcurementInfoDetail = function (str_userId) {
+            this.getProcurementInfoMain = function (str_userId) {
                 let str_fields = 'Id,Name,Service_Order_Overview__c,Service_Order_Overview__r.Name,Supplier_Information__c,Supplier_Information__r.Name,'+
-                    'Supplier_Name__c,Status__c';
+                    'Supplier_Name__c,Status__c,Delivery_Date__c,Procurement_Description__c,Tax__c,Revenue__c,Price_without_Tax__c,Profit__c,Remarks__c';
                 let sql = "select " + str_fields + " from Procurement_Information__c where id = '" + str_userId + "' limit 50";
                 let url = service.buildURL('querySobject',sql);
                 let requestMethod = 'GET';
                 return service.sendRest(url,sql,requestMethod,str_fields);
             };
 
+            this.getProcurementInfoItems = function (parentId) {
+                let str_fields = 'Id,Name,Procurement_Information__c,Item_Code__c,Required_Quantity__c,Item_Description__c,Factory__c,'+
+                    'Unite_Price__c';
+                let sql = "select " + str_fields + " from Procurement_Item_Information__c where Procurement_Information__c = '" + parentId + "' limit 150";
+                let url = service.buildURL('querySobjects',sql);
+                let requestMethod = 'GET';
+                return service.sendRest(url,sql,requestMethod,str_fields);
+            };
 
+            this.getProcurementInfoDetail = function(ProcurementInfoId) {
+                let deferred = $q.defer();
+                let ret = new Object();
+                try {
+                    service.getProcurementInfoMain(ProcurementInfoId).then(function (res){
+                        ret = res;
+                        return service.getProcurementInfoItems(ProcurementInfoId);
+                    }).then(function (items) {
+                        ret.newProcurementInfoItem = items;
+                        deferred.resolve(ret);
+                    }).catch(function (error) {
+                        deferred.reject(error);
+                    });
+                } catch(err) {
+                    console.log('err:::',err);
+                    deferred.reject(err);
+                }
+                return deferred.promise;
+            };
 
 
 
