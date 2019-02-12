@@ -466,6 +466,7 @@
                             Name:$('#recordTypeList option:selected').val()
                         },
                         Delivery_Date__c:planDate,
+                        Supplier_Information__c:supplierInfoSoupId,
                         Procurement_Description__c:$("#purchaseDesc").val().trim(),
                         Status__c:$('#statusList option:selected').val(),
                         Tax__c:$('#recordTypeList option:selected').val(),
