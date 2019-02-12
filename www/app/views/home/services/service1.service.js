@@ -1145,7 +1145,8 @@
 
             this.getProcurementInfoList = function () {
                 let str_fields = 'Id,Name,Service_Order_Overview__c,Service_Order_Overview__r.Name,Supplier_Information__c,Supplier_Information__r.Name,'+
-                    'Supplier_Name__c,Status__c,Delivery_Date__c,Procurement_Description__c,Tax__c,Revenue__c,Price_without_Tax__c,Profit__c,Remarks__c';
+                    'Supplier_Name__c,Status__c,Delivery_Date__c,Procurement_Description__c,Tax__c,Revenue__c,Price_without_Tax__c,Profit__c,Remarks__c,'+
+                    'recordTypeId,recordType.Name';
                 let sql = "select " + str_fields +
                     " from Procurement_Information__c " +
                     " order by Id desc limit 50";
@@ -1158,7 +1159,8 @@
 
             this.getProcurementInfoMain = function (str_userId) {
                 let str_fields = 'Id,Name,Service_Order_Overview__c,Service_Order_Overview__r.Name,Supplier_Information__c,Supplier_Information__r.Name,'+
-                    'Supplier_Name__c,Status__c,Delivery_Date__c,Procurement_Description__c,Tax__c,Revenue__c,Price_without_Tax__c,Profit__c,Remarks__c';
+                    'Supplier_Name__c,Status__c,Delivery_Date__c,Procurement_Description__c,Tax__c,Revenue__c,Price_without_Tax__c,Profit__c,Remarks__c,'+
+                    'recordTypeId,recordType.Name';
                 let sql = "select " + str_fields + " from Procurement_Information__c where id = '" + str_userId + "' limit 50";
                 let url = service.buildURL('querySobject',sql);
                 let requestMethod = 'GET';
