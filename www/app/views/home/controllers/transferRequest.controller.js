@@ -53,14 +53,28 @@ angular.module('oinio.TransferRequestController', [])
     });
 
     $scope.openSelectPage = function (type) {
-
-      if ($scope.transfer.Status__c !== 'Submit') {
+      if ($scope.transfer) {
+        if ($scope.transfer.Status__c !== 'Submit') {
+          $state.go('app.searchCustomer', {customerType: type});
+        }
+      } else {
         $state.go('app.searchCustomer', {customerType: type});
       }
+
     };
 
     $scope.openVehicleNumberPage = function () {
-      if ($scope.transfer.Status__c !== 'Submit') {
+      if ($scope.transfer) {
+        if ($scope.transfer.Status__c !== 'Submit') {
+          if ($scope.getCustomerInfo) {
+            $state.go('app.searchVehicle', {acctId: $scope.getCustomerInfo.Id});
+          } else {
+            $ionicPopup.alert({
+              title: '请先选择转出客户'
+            });
+          }
+        }
+      } else {
         if ($scope.getCustomerInfo) {
           $state.go('app.searchVehicle', {acctId: $scope.getCustomerInfo.Id});
         } else {
