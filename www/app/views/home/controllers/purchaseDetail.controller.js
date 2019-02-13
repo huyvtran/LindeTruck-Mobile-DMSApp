@@ -26,8 +26,8 @@
       $scope.revenue=0;
       $scope.priceEach=0;
       vm.isOnline = null;
-      $scope.getSupplierInfoUrl="/ProcurementInformation?type=SupplierInformation&name=";
-      $scope.getServiceMaterialUrl="/ProcurementInformation?type=ServiceMaterial&name=";
+      $scope.selectedRecordType=null;
+      $scope.getPurchase={};
       $scope.getWorkOrdersUrl="/ProcurementInformation?type=WorkOrder&name=";
       $scope.postPurChaseUrl="/ProcurementInformation?newProcurementInfo=";
 
@@ -44,11 +44,29 @@
         //   'trigger': '#planDate',
         //   'type': 'date'
         // });
+        //ng-click="searchForWorkOrder();"
+        // ng-click="searchForBusiness();"
         AppUtilService.showLoading();
 
         Service1Service.getProcurementInfoDetail($stateParams.overviewId).then(function (response) {
           console.log('response',response);
+          $scope.getPurchase = response;
           $scope.chooseMaterials = response.newProcurementInfoItem;
+          $scope.chooseWorkOrder = response.Service_Order_Overview__r;
+          $scope.chooseItem = response.Supplier_Information__r;
+
+          var  recordIndex = _.findIndex($scope.recordTypes, function(recordT) {
+            return recordT.value == response.RecordType.Name;
+          });
+
+          document.getElementById('recordTypeList')[recordIndex].selected = true;
+
+          var  statusIndex = _.findIndex($scope.statuses, function(statuse) {
+            return statuse.value == response.Status__c;
+          });
+
+          document.getElementById('statusList')[statusIndex].selected = true;
+
           AppUtilService.hideLoading();
 
         }, function (error) {
