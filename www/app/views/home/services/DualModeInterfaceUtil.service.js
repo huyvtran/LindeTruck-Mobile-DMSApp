@@ -733,11 +733,11 @@
              * @param departureTime
              * @returns {*}
              */
-            this.departureActionUtil = function (isOnline, sooid, userId, departureTime ) {
+            this.departureActionUtil = function (isOnline, sooid, userId, departureTime,carNo) {
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&departureTime='+ departureTime + '&userId='+userId;
+                    var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&departureTime='+ departureTime + '&userId='+userId+"&carNo="+carNo;
 
                     console.log('current url:::', requestUrl);
 

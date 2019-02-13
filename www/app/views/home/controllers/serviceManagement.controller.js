@@ -1,6 +1,6 @@
 angular.module('oinio.serviceManagementController', [])
     .controller('serviceManagementController', function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
-                                                   LocalCacheService,SCarService,AppUtilService) {
+                                                   LocalCacheService,SCarService,AppUtilService,ForceClientService) {
         var vm = this,
             licensePlateNumber ="",
             refuelingCost=0,
@@ -13,6 +13,8 @@ angular.module('oinio.serviceManagementController', [])
             localImgUris2=[],
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
+        vm.initServiceCars=[];
+        vm.getInitServiceCarUrl="/ServiceCarService?action=init&currentUser=";
         $scope.$on('$ionicView.beforeEnter', function () {
             $scope.imgUris1 = ["././img/images/will_add_Img.png"];
             $scope.imgUris2 = ["././img/images/will_add_Img.png"];
@@ -25,6 +27,33 @@ angular.module('oinio.serviceManagementController', [])
                 vm.username = oCurrentUser.Name;
             }
 
+            //获取服务车体
+            ForceClientService.getForceClient().apexrest(
+                vm.getInitServiceCarUrl+oCurrentUser.Id,
+                'GET',
+                {},
+                null,function callBack(res) {
+                    console.log(res);
+                    vm.initServiceCars=[];
+                    if (res.default!=null&&res.default.length>0){
+                        for (var i=0;i<res.default.length;i++){
+                            vm.initServiceCars.push(res.default[i]);
+                        }
+                    }
+                    if (res.all!=null&&res.all.length>0){
+                        for (var i=0;i<res.all.length;i++){
+                            vm.initServiceCars.push(res.all[i]);
+                        }
+                    }
+                    if (vm.initServiceCars.length==0){
+                        $ionicPopup.alert({
+                            title: "当前用户无服务车"
+                        });
+                        return;
+                    }
+            },function error(msg) {
+                    console.log(msg);
+            });
         });
         $scope.getPhoto1 = function ($event) {
             if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
@@ -304,7 +333,7 @@ angular.module('oinio.serviceManagementController', [])
         };
 
         $scope.serviceManagementSubmit =function () {
-            licensePlateNumber = $("#licensePlateNumber").val().trim();
+            licensePlateNumber = $("#licensePlateNumber").val();
             refuelingCost= $("#refuelingCost").val().trim();
             odometerSelfUse = $("#odometerSelfUse").val().trim();
             odometerOfficialBusiness = $("#odometerOfficialBusiness").val().trim();
@@ -312,11 +341,18 @@ angular.module('oinio.serviceManagementController', [])
             otherExpenses = $("#otherExpenses").val().trim();
             causeRemark = $("#causeRemark").val().trim();
 
-            var express = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
+            //var express = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/;
             var express1 = /^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d+)$/;
-            if (licensePlateNumber.length !=7 || !express.test(licensePlateNumber)){
+            // if (licensePlateNumber.length !=7 || !express.test(licensePlateNumber)){
+            //     $ionicPopup.alert({
+            //         title: "请输入正确的车牌号!"
+            //     });
+            //     return;
+            // }
+
+            if (licensePlateNumber==null){
                 $ionicPopup.alert({
-                    title: "请输入正确的车牌号!"
+                    title: "车牌号为空"
                 });
                 return;
             }

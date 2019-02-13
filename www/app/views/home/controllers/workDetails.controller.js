@@ -1286,10 +1286,54 @@ angular.module('oinio.workDetailsControllers', [])
                 $state.go('app.home');
             };
 
+
+            $scope.serviceCars=[];
+            $scope.beforeDeparture=function(){
+                ForceClientService.getForceClient().apexrest(
+                    '/ServiceCarService?action=init&currentUser='+oCurrentUser.Id,
+                    'GET',
+                    {},
+                    null,
+                    function callBack(res) {
+                        $scope.serviceCarsSecond=[];
+                        console.log(res);
+                        if (res.default!=null&&res.default.length>0){
+                            for (var i=0;i<res.default.length;i++){
+                                $scope.serviceCarsSecond.push(res.default[i]);
+                            }
+                        }
+
+                        if (res.all!=null&&res.all.length>0){
+                            for (var i=0;i<res.all.length;i++){
+                                $scope.serviceCarsSecond.push(res.all[i]);
+                            }
+                        }
+                        setTimeout(function () {
+                                $ionicPopup.show({
+                                    title:"请选择服务车",
+                                    template: "    <select id=\"serviceCarSelectSecond\" class=\"small_Type_Select\" >\n" +
+                                    "                                            <option ng-repeat=\" singleServiceCar  in serviceCarsSecond\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n" +
+                                    "                                        </select>",
+                                    buttons:[{
+                                        text: '<b>OK</b>',
+                                        type: 'button-positive',
+                                        onTap:function () {
+                                         $scope.doDeparture($("#serviceCarSelectSecond").val());
+                                        }
+                                    }]
+                                });
+                        },500);
+
+                    },
+                    function error(msg) {
+                        console.log(msg);
+                    });
+            };
+
             /**
              * 新建工单页面跳转工单详情页  点击出发
              */
-            $scope.doDeparture = function () {
+            $scope.doDeparture = function (carNo) {
                 var departureTime = new Date();
                 goOffTimeFromPrefix = departureTime;
                 AppUtilService.showLoading();
@@ -1382,7 +1426,7 @@ angular.module('oinio.workDetailsControllers', [])
                         // );
 
                         //new code
-                        dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,departureTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                        dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,departureTime.format('yyyy-MM-dd hh:mm:ss'),carNo).then(function callBack(res) {
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
                                 for (var i = 0; i < 2; i++) {
