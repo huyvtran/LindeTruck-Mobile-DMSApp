@@ -2327,10 +2327,6 @@ angular.module('oinio.workDetailsControllers', [])
                 document.removeEventListener('click', newHandle);
             });
 
-            $scope.$on('$ionicView.beforeEnter', function () {
-                console.log('移除点击事件');
-                document.removeEventListener('click', newHandle);
-            });
 
             var newHandle = function (e) {
                 if (event.target.nodeName === 'HTML') {

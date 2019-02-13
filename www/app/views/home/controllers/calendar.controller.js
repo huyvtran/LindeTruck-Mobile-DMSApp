@@ -17,7 +17,7 @@
         var firstRunFun = false;
         $scope.firstRunWorkPlan = false;
         var workPlanEvents = [];
-
+        $scope.changeTabFlag = '1';
         $scope.workPlanTypes = [];
         $scope.workPlanUsers = [];
         $scope.allWorkPlanData = [];
@@ -526,6 +526,9 @@
 
         });
         $rootScope.getSomeData = function () {
+          if ($scope.changeTabFlag == '2'){
+            //预留刷新工作计划逻辑
+          }
           $scope.getHomeService();
           document.getElementById('selectStatusId')[0].selected = true;
         };
@@ -864,6 +867,7 @@
 
           $scope.changeCalendarTab = function (index) {
             //console.log('cssss:::',$('#selectCustomer'));
+            $scope.changeTabFlag = index;
             if (index === '1') {
               $('#homeCalendar_Tab_1').addClass('homeCalendar_Tab_Active');
               $('#homeCalendar_Tab_2').removeClass('homeCalendar_Tab_Active');
