@@ -469,7 +469,7 @@
                         Supplier_Information__c:supplierInfoSoupId,
                         Procurement_Description__c:$("#purchaseDesc").val().trim(),
                         Status__c:$('#statusList option:selected').val(),
-                        Tax__c:$('#recordTypeList option:selected').val(),
+                        Tax__c:$('#taxList option:selected').val(),
                         Revenue__c:$scope.revenue,
                         Price_without_Tax__c:$scope.priceEach,
                         Profit__c:$scope.profitRate,
