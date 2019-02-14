@@ -65,7 +65,7 @@
                 $scope.Taxes.push({label:"J0 0% Input Tax, China",value:"J0 0% 进项税, 中国"});
                 $scope.Taxes.push({label:"J2 13% Input Tax, China",value:"J2 13% 进项税, 中国"});
                 $scope.Taxes.push({label:"J3 3% Input Tax, China",value:"J3 3% 进项税, 中国"});
-                $scope.Taxes.push({label:"J4 6% Input Tax, China",value:"abel:\"J4 6% 进项税, 中国"});
+                $scope.Taxes.push({label:"J4 6% Input Tax, China",value:"J4 6% 进项税, 中国"});
                 $scope.Taxes.push({label:"J5 11% Input Tax, China",value:"J5 11% 进项税, 中国"});
                 $scope.Taxes.push({label:"J7 10% Input Tax, China",value:"J7 10% 进项税, 中国"});
 
@@ -193,7 +193,7 @@
 
             $scope.chooseCurrentWorkOrder =function(obj){
                 $scope.chooseWorkOrder = obj;
-                
+
                 $scope.chooseWorkOrderId = obj.Id;
                 document.getElementById("busyAllContent").style.display = "block";
                 document.getElementById("serachWorkOrderContent").style.display= "none";

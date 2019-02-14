@@ -172,7 +172,7 @@
 						<div class="small_Type_Title"> 税率:</div>
 						<div class="small_Type_Box">
 							<select class="small_Type_Select" id="taxList">
-								<option ng-repeat="taxItem in Taxes" ng-cloak>{{taxItem.value}}</option>
+								<option ng-repeat="taxItem in Taxes" ng-cloak value="{{taxItem.label}}">{{taxItem.value}}</option>
 							</select>
 						</div>
 					</div>
