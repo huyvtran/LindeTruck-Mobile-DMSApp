@@ -408,6 +408,7 @@ img {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: normal;
+    text-align: center;
 }
 .workListDetails_bodyer .quoted_Table th.sv_Td {
     background: #d8d8d8;

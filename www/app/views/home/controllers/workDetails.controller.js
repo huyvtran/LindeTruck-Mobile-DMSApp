@@ -707,11 +707,13 @@ angular.module('oinio.workDetailsControllers', [])
 
                 for (var i = 0; i < workItems.length; i++) {
                     $scope.workTimes.push({
+                        Id:workItems[i].Id != undefined && workItems[i].Id != null ? workItems[i].Id:'',
                         name: workItems[i].CreatedBy != undefined && workItems[i].CreatedBy != null && workItems[i].CreatedBy.Name != undefined ? workItems[i].CreatedBy.Name : '',
                         departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null
                             ? workItems[i].Departure_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
                         leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null
                             ? workItems[i].Leave_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
+                        miles:workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c:0
                     });
                     $scope.localWorkItems.push(
                         {
@@ -720,7 +722,7 @@ angular.module('oinio.workDetailsControllers', [])
                             departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('hh:mm:ss') : '',
                             arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c).format('hh:mm:ss') : '',
                             leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c).format('hh:mm:ss') : '',
-                            workMiles: ''
+                            workMiles: workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c.toString():'0'
                         }
                     );
                 }
@@ -2280,12 +2282,20 @@ angular.module('oinio.workDetailsControllers', [])
                     //       });
                     //       return false;
                     //     });
+                var workItemObj = [];
+                for (var i =0;i<$scope.workTimes.length;i++){
+                    workItemObj.push({
+                        Id:$scope.workTimes[i].Id,
+                        Miles__c:Number($scope.workTimes[i].miles)
+                    });
+                }
 
                 var requestBody = null;
                 if (Number(localStorage.onoffline) != 0) {
                     requestBody = JSON.stringify({
                         'order': orderObj,
                         'childOrders': truckItemsSecond,
+                        'workItems':workItemObj,
                         'images': localUris,
                         'assignUsers': selectUserIds,
                         'str_suggestion': $('#serviceSuggest').val().trim(),

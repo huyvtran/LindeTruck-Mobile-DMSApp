@@ -1070,7 +1070,7 @@
 											<div>{{item.leaveTime}} </div>
 										</td>
 										<td class="sv_Td sv_Td_nopadding">
-											<input>
+											<input ng-cloak ng-model="item.miles" value="{{item.miles}}" onkeyup="value=value.replace(/[^\d]/g,'')"/>
 										</td>
 									</tr>
 								</table>
