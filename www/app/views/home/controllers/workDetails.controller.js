@@ -2361,7 +2361,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.$on('$ionicView.enter', function () {
                 console.log('接受点击事件');
                 document.addEventListener('click', newHandle);//初始化弹框
-
+                $(".popup-container").remove();
             });
             /**
              * 离开页面前
