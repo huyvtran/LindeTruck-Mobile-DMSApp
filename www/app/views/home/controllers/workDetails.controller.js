@@ -63,6 +63,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.getNewWorkDetailService = '/NewWorkDetailService?sooId=';
             $scope.postDataToRemote = '/WorkDetailService?action=saveAction';
             $scope.getInitDataUri = '/WorkDetailService';
+            $scope.convertOrderToQuoteUrl = '/Service1Service?type=convertOrderToQuote&param=';
             $scope.workers = [];//全部派工人员
             $scope.selectWorkersArr = [];//已选派工人员
             $scope.selectWorkersStr = '';//已选派工人员组成字符串
@@ -4043,19 +4044,34 @@ angular.module('oinio.workDetailsControllers', [])
              */
             $scope.goNewOfferFittings = function () {
 
-                var truckItemsPost = [];
-                for (var i = 0; i < $scope.allTruckItems.length; i++) {
-                    $scope.allTruckItems[i].Name = $scope.allTruckItems[i].truckItemNum;
-                    $scope.allTruckItems[i].Truck_Fleet__c = $scope.allTruckItems[i].truckItemNum;
-                    $scope.allTruckItems[i].Work_Time__c = $scope.allTruckItems[i].Operation_Hour__c;
+                // for (var i = 0; i < $scope.allTruckItems.length; i++) {
+                //     $scope.allTruckItems[i].Name = $scope.allTruckItems[i].truckItemNum;
+                //     $scope.allTruckItems[i].Truck_Fleet__c = $scope.allTruckItems[i].truckItemNum;
+                //     $scope.allTruckItems[i].Work_Time__c = $scope.allTruckItems[i].Operation_Hour__c;
+                //
+                // }
+                // $state.go('app.newOfferFittings',
+                //     {
+                //         SendAllUser: $scope.allTruckItems,
+                //         SendSoupEntryId: orderAccountId,
+                //         OrderTruckItem: $scope.selectedTruckFitItems
+                //     });
+              AppUtilService.showLoading();
+              console.log('responseConvertOrderToQuoteUrl:', $scope.convertOrderToQuoteUrl+orderDetailsId);
 
-                }
-                $state.go('app.newOfferFittings',
-                    {
-                        SendAllUser: $scope.allTruckItems,
-                        SendSoupEntryId: orderAccountId,
-                        OrderTruckItem: $scope.selectedTruckFitItems
-                    });
+              ForceClientService.getForceClient().apexrest($scope.convertOrderToQuoteUrl+orderDetailsId, 'PUT', {}, null, function (responseConvertOrderToQuote) {
+                AppUtilService.hideLoading();
+                console.log('responseConvertOrderToQuote:', responseConvertOrderToQuote);
+                $state.go('app.priceDetail',{overviewId:responseConvertOrderToQuote});
+
+              }, function (error) {
+                console.log('responseConvertOrderToQuote_error:', error);
+                AppUtilService.hideLoading();
+                $ionicPopup.alert({
+                  title: '转换失败'
+                });
+                return false;
+              });
             };
 
             <!--导入常用配件-->

@@ -121,7 +121,7 @@ angular.module('oinio.NewOfferController', [])
         Service1Service.getAccountObjectById(acct.Id,true).then(function (response) {
           console.log(' Service1Service.getAccountObjectById', response);
           selectAcctSetId = acct.Id;
-          $scope.searchResultAddress = response.Address__c;
+          $scope.searchResultAddress = response.Office_Address__c;
           $scope.searchResultAcctName = response.Name;
           $scope.getServiceSatus(selectAcctSetId);//审核状态
 
@@ -271,7 +271,7 @@ angular.module('oinio.NewOfferController', [])
         Service1Service.getContactsObjectByAcctId(selectAcctSetId,true).then(function (response) {
           console.log('Service1Service.getContactsObjectByAcctId', response);
           let contactsAll = [];
-          if (response.length > 0) {
+          if (response !=null) {
             for (let index = 0; index < response.length; index++) {
               contactsAll.push(response[index]);
             }

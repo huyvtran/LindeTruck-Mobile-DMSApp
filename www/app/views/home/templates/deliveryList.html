@@ -62,7 +62,7 @@
                                 <input type="checkbox" class="draftList_Checkbox" ng-click="isRefundSelected(item)">
                             </td>
                             <td class="draftList_Td width_2 "> {{item.SAP_Delivery_Order__c}}</td>
-                            <td class="draftList_Td width_3 "> {{item.Service_Order_Overview__c}}</td>
+                            <td class="draftList_Td width_3 "> {{item.Service_Order_Overview__r.Name}}</td>
                         </tr>
                     </table>
                 </ion-item>
@@ -97,7 +97,7 @@
                         <tr>
                             <td class="deliveryList_Td width_1 textDecoration" ng-click="goRefundDetailView(item)">  {{item.SAP_Delivery_Order__c}}</td>
 
-                            <td class="deliveryList_Td width_2"  ng-click="goWorkItemView(item.Service_Order_Overview__c)"> {{item.Service_Order_Overview__c}}</td>
+                            <td class="deliveryList_Td width_2"  ng-click="goWorkItemView(item.Service_Order_Overview__c)"> {{item.Service_Order_Overview__r.Name}}</td>
                             <td class="deliveryList_Td width_4 deliveryList_Td_Right stateColor">
                                 <div class="cus_display">{{item.D_Status__c}}</div>
                                 <div class="cus_display" style="position: relative;">
