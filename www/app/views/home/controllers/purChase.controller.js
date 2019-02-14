@@ -61,13 +61,13 @@
                 $scope.statuses.push({value:"Approved"});
                 $scope.statuses.push({value:"Completed"});
 
-                $scope.Taxes.push({value:"J6 16% 进项税, 中国"});
-                $scope.Taxes.push({value:"J0 0% 进项税, 中国"});
-                $scope.Taxes.push({value:"J2 13% 进项税, 中国"});
-                $scope.Taxes.push({value:"J3 3% 进项税, 中国"});
-                $scope.Taxes.push({value:"J4 6% 进项税, 中国"});
-                $scope.Taxes.push({value:"J5 11% 进项税, 中国"});
-                $scope.Taxes.push({value:"J7 10% 进项税, 中国"});
+                $scope.Taxes.push({label:"J6 16% Input Tax, China",value:"J6 16% 进项税, 中国"});
+                $scope.Taxes.push({label:"J0 0% Input Tax, China",value:"J0 0% 进项税, 中国"});
+                $scope.Taxes.push({label:"J2 13% Input Tax, China",value:"J2 13% 进项税, 中国"});
+                $scope.Taxes.push({label:"J3 3% Input Tax, China",value:"J3 3% 进项税, 中国"});
+                $scope.Taxes.push({label:"J4 6% Input Tax, China",value:"abel:\"J4 6% 进项税, 中国"});
+                $scope.Taxes.push({label:"J5 11% Input Tax, China",value:"J5 11% 进项税, 中国"});
+                $scope.Taxes.push({label:"J7 10% Input Tax, China",value:"J7 10% 进项税, 中国"});
 
             });
             $scope.showMaterialPage = function(){
@@ -491,7 +491,7 @@
                 // });
 
                 ForceClientService.getForceClient().apexrest(
-                     $scope.postPurChaseUrl+JSON.stringify(procurementInfo)+'&recordType='+$('#recordTypeList option:selected').val()+"&newProcurementInfoItem="+JSON.stringify($scope.chooseMaterials),
+                    encodeURI($scope.postPurChaseUrl+JSON.stringify(procurementInfo)+"&newProcurementInfoItem="+JSON.stringify($scope.chooseMaterials)),
                     'POST',
                     {},
                     null,
