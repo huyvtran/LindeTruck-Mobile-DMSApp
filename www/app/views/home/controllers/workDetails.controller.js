@@ -717,7 +717,7 @@ angular.module('oinio.workDetailsControllers', [])
                     });
                     $scope.localWorkItems.push(
                         {
-                            ownerName: ownerName.substring(0, 4),
+                            ownerName:workItems[i].Engineer__r != undefined && workItems[i].Engineer__r!=null && workItems[i].Engineer__r.Name!= undefined && workItems[i].Engineer__r.Name != null ?workItems[i].Engineer__r.Name:'',
                             dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('yyyy/MM/dd') : '',
                             departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('hh:mm:ss') : '',
                             arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c).format('hh:mm:ss') : '',
