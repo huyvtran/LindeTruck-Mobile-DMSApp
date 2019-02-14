@@ -229,7 +229,7 @@
             })
             .state('app.priceDetail',{
                 url:'app/priceDetail',
-                params:{overviewId:null},
+                params:{overviewId:null,orderPageJump:null},
                 views:{
                     menuContent: {
                         templateUrl: 'app/views/home/templates/priceDetail.view.html',

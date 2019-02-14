@@ -1,5 +1,5 @@
 angular.module('oinio.PriceDetailController', [])
-  .controller('PriceDetailController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,Service1Service,ForceClientService, AppUtilService, LocalCacheService) {
+  .controller('PriceDetailController', function ($scope, $rootScope, $ionicPopup, $ionicHistory, $filter, $log, $state, $stateParams,Service1Service,ForceClientService, AppUtilService, LocalCacheService) {
 
 
     var oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -302,7 +302,13 @@ angular.module('oinio.PriceDetailController', [])
 
     };
     $scope.goBack = function () {
-      window.history.back();
+
+      if ($stateParams.orderPageJump){
+        $ionicHistory.goBack();
+      } else {
+        window.history.back();
+      }
+
     };
 
     $scope.openSelectPage = function (ele) {
@@ -1139,7 +1145,7 @@ angular.module('oinio.PriceDetailController', [])
           title: '保存成功'
         });
         ionPop.then(function (res) {
-          window.history.back();
+          $scope.goBack();
         });
       }, function (error) {
         console.log('POST_error:', error);
@@ -1169,7 +1175,7 @@ angular.module('oinio.PriceDetailController', [])
           title: '提交成功'
         });
         ionPop.then(function (res) {
-          window.history.back(-1);
+          $scope.goBack();
         });
       }, function (error) {
         console.log('toSubmitCheckFunction_error:', error);
@@ -1742,12 +1748,6 @@ angular.module('oinio.PriceDetailController', [])
         document.getElementById("describInfDiv").style.display = "none";//隐藏
       }
     };
-
-
-    $scope.goBack =function () {
-      window.history.back();
-    };
-
     $scope.goWorkDetails = function () {
         if (!$scope.basicInfo.Service_Order_Overview__c) {
         AppUtilService.showLoading();

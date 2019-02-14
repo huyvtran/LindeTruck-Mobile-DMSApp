@@ -4072,7 +4072,7 @@ angular.module('oinio.workDetailsControllers', [])
               ForceClientService.getForceClient().apexrest($scope.convertOrderToQuoteUrl+orderDetailsId, 'PUT', {}, null, function (responseConvertOrderToQuote) {
                 AppUtilService.hideLoading();
                 console.log('responseConvertOrderToQuote:', responseConvertOrderToQuote);
-                $state.go('app.priceDetail',{overviewId:responseConvertOrderToQuote});
+                $state.go('app.priceDetail',{overviewId:responseConvertOrderToQuote,orderPageJump:true});
 
               }, function (error) {
                 console.log('responseConvertOrderToQuote_error:', error);

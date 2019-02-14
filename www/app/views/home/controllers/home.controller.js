@@ -108,6 +108,9 @@ angular.module('oinio.controllers', [])
       $scope.ARListView = function () {
         $state.go('app.goH5',{SendURL:"http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM/UserPage/ARDeliverLogin.aspx?curuser="+oCurrentUser.Id});
       };
+      $scope.carProblems = function () {
+        $state.go('app.goH5',{SendURL:"http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM/UserPage/ForkliftQualityCollectList.aspx?curuser="+oCurrentUser.Id});
+      };
       $scope.doPurChase = function () {
         $state.go('app.purchase');
       };
