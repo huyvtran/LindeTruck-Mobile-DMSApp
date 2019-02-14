@@ -466,7 +466,7 @@ angular.module('oinio.workDetailsControllers', [])
                         //客户名称：
                         customerNameValue = soResult.Account_Ship_to__r.Name != undefined && soResult.Account_Ship_to__r.Name != null ? soResult.Account_Ship_to__r.Name : '';
                         //客户号：
-                        customerAccountValue = soResult.Account_Ship_to__r.Id != undefined && soResult.Account_Ship_to__r.Id != null ? soResult.Account_Ship_to__r.Id : '';
+                        customerAccountValue = soResult.Account_Ship_to__r.Customer_Number__c != undefined && soResult.Account_Ship_to__r.Customer_Number__c != null ? soResult.Account_Ship_to__r.Customer_Number__c : '';
                         //客户地址：
                         customerAddressValue =
                             soResult.Account_Ship_to__r.Address__c != undefined && soResult.Account_Ship_to__r.Address__c != null ? soResult.Account_Ship_to__r.Address__c : '';
@@ -718,10 +718,10 @@ angular.module('oinio.workDetailsControllers', [])
                     $scope.localWorkItems.push(
                         {
                             ownerName:workItems[i].Engineer__r != undefined && workItems[i].Engineer__r!=null && workItems[i].Engineer__r.Name!= undefined && workItems[i].Engineer__r.Name != null ?workItems[i].Engineer__r.Name:'',
-                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('yyyy/MM/dd') : '',
-                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('hh:mm:ss') : '',
-                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c).format('hh:mm:ss') : '',
-                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c).format('hh:mm:ss') : '',
+                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('yy/MM/dd') : '',
+                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('hh:mm') : '',
+                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c).format('hh:mm') : '',
+                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c).format('hh:mm') : '',
                             workMiles: workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c.toString():'0'
                         }
                     );
