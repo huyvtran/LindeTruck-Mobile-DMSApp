@@ -78,17 +78,19 @@ angular.module('oinio.PriceListController', [])
 
 
     $scope.goToWorkDetails  = function (priceItem) {
-      $state.go('app.workDetails', {
-        SendInfo: priceItem.Service_Order_Overview__r.Name,
-        workDescription: null,
-        AccountShipToC: null,
-        workOrderId: priceItem.Service_Order_Overview__r.Name,
-        enableArrivalBtn: null,
-        goOffTime: null,
-        isNewWorkList: true,
-        accountId: null,
-        orderBelong: null
-      });
+      if (priceItem.Service_Order_Overview__r) {
+        $state.go('app.workDetails', {
+          SendInfo: priceItem.Service_Order_Overview__r.Id,
+          workDescription: null,
+          AccountShipToC: null,
+          workOrderId: priceItem.Service_Order_Overview__r.Id,
+          enableArrivalBtn: null,
+          goOffTime: null,
+          isNewWorkList: true,
+          accountId: null,
+          orderBelong: null
+        });
+      }
     };
 
     $scope.goToPriceListDetails = function (priceItem) {
