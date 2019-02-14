@@ -402,6 +402,13 @@ img {
     overflow: hidden;
     white-space: normal;
 }
+.workListDetails_bodyer .quoted_Table .sv_Td input {
+    width: 100%;
+    height:100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: normal;
+}
 .workListDetails_bodyer .quoted_Table th.sv_Td {
     background: #d8d8d8;
     height: 40px;
@@ -417,10 +424,11 @@ img {
     vertical-align: middle;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_Long {
-    width: 40%;
+    width: 30%;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_nopadding {
     padding: 0;
+    width: 20%;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td .sv_checkbox {
     height: 25px;
