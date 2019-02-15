@@ -61,20 +61,23 @@
           var  recordIndex = _.findIndex($scope.recordTypes, function(recordT) {
             return recordT.value == response.RecordType.Name;
           });
-
-          document.getElementById('recordTypeList')[recordIndex].selected = true;
+          if (recordIndex >= 0) {
+            document.getElementById('recordTypeList')[recordIndex].selected = true;
+          }
 
           var  statusIndex = _.findIndex($scope.statuses, function(statuse) {
             return statuse.value == response.Status__c;
           });
-
-          document.getElementById('statusList')[statusIndex].selected = true;
+          if (statusIndex >= 0) {
+            document.getElementById('statusList')[statusIndex].selected = true;
+          }
 
           var  taxeIndex = _.findIndex($scope.Taxes, function(taxe) {
             return taxe.label == response.Tax__c;
           });
-
-          document.getElementById('taxList')[taxeIndex].selected = true;
+          if (taxeIndex >= 0) {
+            document.getElementById('taxList')[taxeIndex].selected = true;
+          }
 
           $scope.countProfitRates();
 
