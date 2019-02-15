@@ -1716,7 +1716,7 @@ angular.module('oinio.PriceDetailController', [])
       };
 
       function isSuccess(strValue)  {
-        var  objRegExp = /[a-zA-Z0-9]{18}|[a-zA-Z0-9]{15}/;
+        var objRegExp =  /^[a-zA-Z0-9]{18}$/;
         return  objRegExp.test(strValue);
       }
 
@@ -1813,6 +1813,9 @@ angular.module('oinio.PriceDetailController', [])
           }, function error(msg) {
             AppUtilService.hideLoading();
             console.log(msg);
+            $ionicPopup.alert({
+              title:msg.toString();
+            });
           }
         );
 
