@@ -357,6 +357,7 @@
                     accResult['Id'] = sobject.Id;
                     accResult['Name'] = sobject.Name;
                     accResult['Address__c'] = sobject.Address__c;
+                    accResult['Customer_Number__c'] = sobject.Customer_Number__c;
                     accResult['_soupEntryId'] = sobject._soupEntryId;
                     deferred.resolve(accResult);
                 }, angular.noop);
