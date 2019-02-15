@@ -4050,7 +4050,12 @@ angular.module('oinio.workDetailsControllers', [])
                 return window.btoa(binary);
             };
 
-            /**
+
+          $scope.isSuccess = function (strValue)  {
+            let objRegExp =  /^[a-zA-Z0-9]{18}$/;
+            return  objRegExp.test(strValue);
+          }
+          /**
              * 工单转报价
              */
             $scope.goNewOfferFittings = function () {
@@ -4070,10 +4075,18 @@ angular.module('oinio.workDetailsControllers', [])
               AppUtilService.showLoading();
               console.log('responseConvertOrderToQuoteUrl:', $scope.convertOrderToQuoteUrl+orderDetailsId);
 
+
               ForceClientService.getForceClient().apexrest($scope.convertOrderToQuoteUrl+orderDetailsId, 'PUT', {}, null, function (responseConvertOrderToQuote) {
                 AppUtilService.hideLoading();
                 console.log('responseConvertOrderToQuote:', responseConvertOrderToQuote);
-                $state.go('app.priceDetail',{overviewId:responseConvertOrderToQuote,orderPageJump:true});
+                if($scope.isSuccess(responseConvertOrderToQuote)){
+                  $state.go('app.priceDetail',{overviewId:responseConvertOrderToQuote,orderPageJump:true});
+
+                }else {
+                  $ionicPopup.alert({
+                    title: responseConvertOrderToQuote
+                  });
+                }
 
               }, function (error) {
                 console.log('responseConvertOrderToQuote_error:', error);
