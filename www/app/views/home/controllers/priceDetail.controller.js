@@ -1814,7 +1814,7 @@ angular.module('oinio.PriceDetailController', [])
             AppUtilService.hideLoading();
             console.log(msg);
             $ionicPopup.alert({
-              title:msg.toString();
+              title:msg.toString()
             });
           }
         );
