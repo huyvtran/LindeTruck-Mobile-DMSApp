@@ -1317,6 +1317,7 @@ angular.module('oinio.workDetailsControllers', [])
                                     template: "    <select id=\"serviceCarSelectSecond\" class=\"small_Type_Select\" >\n" +
                                     "                                            <option ng-repeat=\" singleServiceCar  in serviceCarsSecond\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n" +
                                     "                                        </select>",
+                                    scope: $scope,
                                     buttons:[{
                                         text: '<b>OK</b>',
                                         type: 'button-positive',
