@@ -71,7 +71,7 @@
 							<div class="small_Type_Title"> 采购类型:</div>
 							<div class="small_Type_Box">
 								<select id="recordTypeList">
-									<option ng-repeat="recordTypeItem in recordTypes" value="{{recordTypeItem.value}}">{{recordTypeItem.value}}</option>
+									<option ng-repeat="recordTypeItem in recordTypes" value="{{recordTypeItem.value}}">{{recordTypeItem.label}}</option>
 								</select>
 							</div>
 						</div>
@@ -160,7 +160,7 @@
 							<div class="small_Type_Title"> 状态:</div>
 							<div class="small_Type_Box">
 								<select class="small_Type_Select_Status" id="statusList">
-									<option ng-repeat="statusItem in statuses" ng-cloak>{{statusItem.value}}</option>
+									<option ng-repeat="statusItem in statuses" ng-cloak value="{{statusItem.value}}">{{statusItem.label}}</option>
 								</select>
 							</div>
 						</div>

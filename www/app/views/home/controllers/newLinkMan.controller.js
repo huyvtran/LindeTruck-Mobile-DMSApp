@@ -19,22 +19,22 @@ angular.module('oinio.NewLinkManController', [])
         LocalCacheService.set('previousStateForSCReady', $state.current.name);
         LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
 
-        vm.allStatus.push({label: 'On-The-Job', value: '10'});
-        vm.allStatus.push({label: 'Retired', value: '20'});
-        vm.allStatus.push({label: 'Eliminated', value: '30'});
-        vm.allStatus.push({label: 'Dimission', value: '40'});
-        vm.allStatus.push({label: 'Job-Transfer', value: '50'});
+        vm.allStatus.push({label:'在岗',value:'10'});
+        vm.allStatus.push({label:'退休',value:'20'});
+        vm.allStatus.push({label:'清除',value:'30'});
+        vm.allStatus.push({label:'离职',value:'40'});
+        vm.allStatus.push({label:'转岗',value:'50'});
 
-        vm.postionTypes.push({label: 'GM For Decision-Making', value: 'A'});
-        vm.postionTypes.push({label: 'Vice GM For Decision-Making', value: 'B'});
-        vm.postionTypes.push({label: 'Purchasing Supervisor', value: 'C'});
-        vm.postionTypes.push({label: 'Purchasing Clerk', value: 'D'});
-        vm.postionTypes.push({label: 'Technology Supervisor', value: 'E'});
-        vm.postionTypes.push({label: 'Technology Clerk', value: 'F'});
-        vm.postionTypes.push({label: 'Supervisor of Truck Using Department', value: 'G'});
-        vm.postionTypes.push({label: 'Maintainer of Truck Using Department', value: 'H'});
-        vm.postionTypes.push({label: 'Driver of Truck Using Department', value: 'I'});
-        vm.postionTypes.push({label: 'Clerk of Truck Using', value: 'J'});
+        vm.postionTypes.push({label:'决策层总经理',value:'A'});
+        vm.postionTypes.push({label:'决策层副总经理',value:'B'});
+        vm.postionTypes.push({label:'采购部门主管',value:'C'});
+        vm.postionTypes.push({label:'采购部门科员',value:'D'});
+        vm.postionTypes.push({label:'技术部门主管',value:'E'});
+        vm.postionTypes.push({label:'技术部门科员',value:'F'});
+        vm.postionTypes.push({label:'使用部门主管',value:'G'});
+        vm.postionTypes.push({label:'使用部门维修',value:'H'});
+        vm.postionTypes.push({label:'使用部门司机',value:'I'});
+        vm.postionTypes.push({label:'使用部门科员',value:'J'});
 
       });
 

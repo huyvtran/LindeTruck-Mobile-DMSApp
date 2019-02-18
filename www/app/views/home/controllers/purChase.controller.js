@@ -52,14 +52,14 @@
                     vm.username = oCurrentUser.Name;
                 }
 
-                $scope.recordTypes.push({value:"Service Parts Procurement"});
-                $scope.recordTypes.push({value:"Service Support Procurement"});
+                $scope.recordTypes.push({label:"Z605 售后备件采购订单",value:"Z605 Service Parts Procurement"});
+                $scope.recordTypes.push({label:"Z609 备件服务外采订单",value:"Z609 Service Support Procurement"});
+                $scope.recordTypes.push({label:"Z610 大区自主采购订单(电池/属具)",value:"Z610 Regional Procurement(Battery/Attachment)"});
 
-
-                $scope.statuses.push({value:"Draft"});
-                $scope.statuses.push({value:"Approving"});
-                $scope.statuses.push({value:"Approved"});
-                $scope.statuses.push({value:"Completed"});
+                $scope.statuses.push({label:"草稿",value:"Draft"});
+                // $scope.statuses.push({value:"Approving"});
+                // $scope.statuses.push({value:"Approved"});
+                // $scope.statuses.push({value:"Completed"});
 
                 $scope.Taxes.push({label:"J6 16% Input Tax, China",value:"J6 16% 进项税, 中国"});
                 $scope.Taxes.push({label:"J0 0% Input Tax, China",value:"J0 0% 进项税, 中国"});

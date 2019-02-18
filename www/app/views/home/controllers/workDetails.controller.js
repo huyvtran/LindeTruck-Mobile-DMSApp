@@ -196,43 +196,35 @@ angular.module('oinio.workDetailsControllers', [])
                 /**
                  * 本地初始化作业类型数据
                  */
-                $scope.workTypes.push({label: 'ZS01_Z10', value: 'Z10 Ad-hoc chargeable service'});
-                $scope.workTypes.push({label: 'ZS01_Z11', value: 'Z11 Bill to customer for other Reg'});
-                $scope.workTypes.push({label: 'ZS02_Z20', value: 'Z20 Service contract job\t'});
-                $scope.workTypes.push({label: 'ZS02_Z21', value: 'Z21 LTR service with Contract'});
-                $scope.workTypes.push({label: 'ZS02_Z22', value: 'Z22 LTR service with contract(RE)'});
-                $scope.workTypes.push({label: 'ZS03_Z30', value: 'Z30 Asset (STR) service'});
-                $scope.workTypes.push({label: 'ZS03_Z31', value: 'Z31 In-Stock Truck(cost only)'});
-                $scope.workTypes.push({label: 'ZS03_Z33', value: 'Z33 Support job for Service'});
-                $scope.workTypes.push({label: 'ZS03_Z35', value: 'Z35 Service Engineer Training'});
-                $scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 Service Marketing Campaign\t'});
-                $scope.workTypes.push({
-                    label: 'ZS03_Z37',
-                    value: 'Z37 Internal maintenance for in-Stock Truck(value change)'
-                });
-                $scope.workTypes.push({label: 'ZS03_Z38', value: 'Z38 Internal Cross-region billing'});
-                $scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 Asset (STR) service(RE)'});
-                $scope.workTypes.push({label: 'ZS03_Z3A', value: 'Z3A FOC Service from Truck Sales'});
-                $scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 HQ Truck maintenance'});
-                $scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 Testing truck event'});
-                $scope.workTypes.push({label: 'ZS03_ZH3', value: 'ZH3 QM analyses'});
-                $scope.workTypes.push({label: 'ZS03_ZH4', value: 'ZH4 anti-explosion truck reproduct'});
-                $scope.workTypes.push({label: 'ZS03_ZOC', value: 'ZOC aftersales order changed\t'});
-                $scope.workTypes.push({
-                    label: 'ZS03_ZR1',
-                    value: 'ZR1 Internal maintenance for rental truck refurbishment'
-                });
-                $scope.workTypes.push({label: 'ZS03_ZR2', value: 'ZR2 LRental truck refurbishment'});
-                $scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 SRental truck refurbishment\t'});
-                $scope.workTypes.push({label: 'ZS03_ZSS', value: 'ZSS sales support service'});
-                $scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD shipping damage'});
-                $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service\t'});
-                $scope.workTypes.push({label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)'});
-                $scope.workTypes.push({label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment'});
-                $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 Warranty'});
-                $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 Warranty job1'});
-                $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 Warranty job2'});
-                $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 Warranty job3'});
+                $scope.workTypes.push({label: 'ZS01_Z10', value: 'Z10 按次收费服务'});
+                $scope.workTypes.push({label: 'ZS01_Z11', value: 'Z11 代开票按次收费服务'});
+                $scope.workTypes.push({label: 'ZS02_Z20', value: 'Z20 服务合同要求的服务'});
+                $scope.workTypes.push({label: 'ZS02_Z21', value: 'Z21 合同期间长租车的服务（跨区域资产）'});
+                $scope.workTypes.push({label: 'ZS02_Z22', value: 'Z22 合同期间长租车的服务（非跨区域资产-仅RE使用）'});
+                $scope.workTypes.push({label: 'ZS03_Z30', value: 'Z30 资产（短租）车的服务'});
+                $scope.workTypes.push({label: 'ZS03_Z31', value: 'Z31 库存（二手/新车）车的非销售要求的服务'});
+                $scope.workTypes.push({label: 'ZS03_Z33', value: 'Z33 服务支持要求的服务'});
+                $scope.workTypes.push({label: 'ZS03_Z35', value: 'Z35 工程师培训'});
+                $scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 服务市场活动要求支持的服务'});
+                $scope.workTypes.push({label: 'ZS03_Z38', value: 'Z38 跨区域要求的服务'});
+                $scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 资产（短租）车的服务(上海)'});
+                $scope.workTypes.push({label: 'ZS03_Z3A', value: 'Z3A 销售合同赠送的服务'});
+                $scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 RC为HQ自用叉车提供维保'});
+                $scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 测试车事务'});
+                $scope.workTypes.push({label: 'ZS03_ZH3', value: 'ZH3 质量部质量分析'});
+                $scope.workTypes.push({label: 'ZS03_ZH4', value: 'ZH4 防爆车交车前改装事务'});
+                $scope.workTypes.push({label: 'ZS03_ZOC', value: 'ZOC 发车后订单修改'});
+                $scope.workTypes.push({label: 'ZS03_ZR2', value: 'ZR2 长租资产化后加装、改装服务'});
+                $scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 短租资产化后加装、改装服务'});
+                $scope.workTypes.push({label: 'ZS03_ZSS', value: 'ZSS 一般销售支持'});
+                $scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD 运输损坏'});
+                // $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service'});
+                // $scope.workTypes.push({label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)'});
+                // $scope.workTypes.push({label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment'});
+                // $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 Warranty'});
+                // $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 Warranty job1'});
+                // $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 Warranty job2'});
+                // $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 Warranty job3'});
 
                 //before
                 $scope.bfObjs.push(
@@ -3737,7 +3729,7 @@ angular.module('oinio.workDetailsControllers', [])
                                     }
                                 });
                             });
-                            
+
                         }, 300);
 
                         console.log('getTrucks', trucks);
