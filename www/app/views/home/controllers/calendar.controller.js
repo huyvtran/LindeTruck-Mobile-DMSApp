@@ -233,7 +233,7 @@
           } else if (item.Status__c == 'Service Completed'||item.Status__c == 'Field Work Done') {  //Service Completed  已完成  只能查详情
             setButtons = [
               {
-                text: '<b>详情</b>',
+                text: '<b>打印</b>',
                 type: 'button-assertive',
                 onTap: function (e) {
                   // $state.go('app.workDetails', {
