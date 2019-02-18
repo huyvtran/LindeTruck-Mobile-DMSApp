@@ -137,7 +137,7 @@
                   //     workOrderId:item.Id,
                   //     isNewWorkList:false
                   // });
-                  $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser);
+                  $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser,false);
                 }
               },
               {
@@ -187,7 +187,7 @@
                       //     workOrderId:item.Id,
                       //     isNewWorkList:false
                       // });
-                      $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser);
+                      $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser,false);
                   }
               },
               {
@@ -212,7 +212,7 @@
                 text: '<b>编辑</b>',
                 type: 'button-positive',
                 onTap: function (e) {
-                  $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser);
+                  $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser,false);
                 }
               },
               {
@@ -230,7 +230,7 @@
                   }
               }
             ];
-          } else if (item.Status__c == 'Service Completed') {  //Service Completed  已完成  只能查详情
+          } else if (item.Status__c == 'Service Completed'||item.Status__c == 'Field Work Done') {  //Service Completed  已完成  只能查详情
             setButtons = [
               {
                 text: '<b>详情</b>',
@@ -243,7 +243,7 @@
                   //     workOrderId:item.Id,
                   //     isNewWorkList:false
                   // });
-                  $scope.goPageWorkDetails(item, false, null,false);
+                  $scope.goPageWorkDetails(item, false, null,false,true);
                 }
               }
             ];
@@ -404,7 +404,7 @@
 
                                             if (res.status.toLowerCase() == 'success') {
                                                 AppUtilService.hideLoading();
-                                                $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
+                                                $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser,false);
                                             } else {
                                                 $scope.updateOrderType(item, 'Not Started');
                                             }
@@ -527,17 +527,18 @@
           return format;
         };
 
-        $scope.goPageWorkDetails = function (obj, isNewWork, goTime,belong) {
+        $scope.goPageWorkDetails = function (obj, isNewWork, goTime,belong,openPrint) {
           $state.go('app.workDetails', {
-            SendInfo: obj._soupEntryId,
-            workDescription: null,
-            AccountShipToC: obj.Account_Ship_to__c,
-            workOrderId: obj.Id,
-            enableArrivalBtn: true,
-            goOffTime: goTime,
-            isNewWorkList: isNewWork,
-            accountId: obj.Account_Ship_to__r.Id,
-            orderBelong:belong
+                SendInfo: obj._soupEntryId,
+                workDescription: null,
+                AccountShipToC: obj.Account_Ship_to__c,
+                workOrderId: obj.Id,
+                enableArrivalBtn: true,
+                goOffTime: goTime,
+                isNewWorkList: isNewWork,
+                accountId: obj.Account_Ship_to__r.Id,
+                orderBelong:belong,
+                openPrintPage:openPrint
           });
         };
 

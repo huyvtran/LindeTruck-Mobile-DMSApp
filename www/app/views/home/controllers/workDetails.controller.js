@@ -75,6 +75,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.workTypes = [];
             $scope.carServices = [];
             $scope.showFooter = true;
+            $scope.openPrint=false;
             $scope.bfObjs = [];
             $scope.afObjs = [];
             $scope.mainTanceChioces = [];
@@ -153,6 +154,7 @@ angular.module('oinio.workDetailsControllers', [])
                 console.log('$stateParams.enableArrivalBtn', $stateParams.enableArrivalBtn);
                 console.log('$stateParams.accountId', $stateParams.accountId);
                 console.log('$stateParams.orderBelong', $stateParams.orderBelong);
+                console.log('$stateParams.openPrintPage',$stateParams.openPrintPage);
 
                 userInfoId = $stateParams.SendInfo;//原先工单数据的本地Id 现改为在线Id
                 Account_Ship_to__c = $stateParams.AccountShipToC; //原工单
@@ -165,6 +167,7 @@ angular.module('oinio.workDetailsControllers', [])
                 orderAccountId = $stateParams.accountId;
                 orderBelong = $stateParams.orderBelong;
                 $scope.showOrderBelong = orderBelong;
+                $scope.openPrint = $stateParams.openPrintPage;
                 //获取作业类型选择索引
                 if ($stateParams.selectWorkTypeIndex != null) {
                     selectTypeIndex = $stateParams.selectWorkTypeIndex;
@@ -348,6 +351,10 @@ angular.module('oinio.workDetailsControllers', [])
                         //*********读取配件*************** */
                         $scope.getPartListForRead();
                     }
+                    if($scope.openPrint){
+                        $scope.doPrint();
+                    }
+
                 }, function error(msg) {
                     AppUtilService.hideLoading();
                     console.log(msg);
@@ -3881,12 +3888,16 @@ angular.module('oinio.workDetailsControllers', [])
             };
 
             $scope.hideWorkPrintPage = function () {
-                document.getElementById('workDetailTotal').style.display = 'block';
-                document.getElementById('truckConfigPage').style.display = 'none';
-                document.getElementById('workDetailPart').style.display = 'none';
-                document.getElementById('selectTruckAddPage').style.display = 'none';
-                document.getElementById('selectWorkersPage').style.display = 'none';
-                document.getElementById('workPrintPage').style.display = 'none';
+                if ($scope.openPrint){
+                    window.history.back();
+                }else{
+                    document.getElementById('workDetailTotal').style.display = 'block';
+                    document.getElementById('truckConfigPage').style.display = 'none';
+                    document.getElementById('workDetailPart').style.display = 'none';
+                    document.getElementById('selectTruckAddPage').style.display = 'none';
+                    document.getElementById('selectWorkersPage').style.display = 'none';
+                    document.getElementById('workPrintPage').style.display = 'none';
+                }
             };
 
 

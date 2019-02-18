@@ -1460,8 +1460,8 @@
 		</div>
 		<div class="workListPrint_footer">
 			<div class="footer_Btn" ng-click="hideWorkPrintPage();">取消</div>
-			<div class="footer_Btn save_Btn" ng-click="goSave();">保存</div>
-			<div class="footer_Btn" ng-click="signBill();">保存并签单</div>
+			<div class="footer_Btn save_Btn" ng-click="goSave();" ng-show="!openPrint">保存</div>
+			<div class="footer_Btn" ng-click="signBill();" ng-show="!openPrint">保存并签单</div>
 			<div class="footer_Btn save_Btn" ng-click="printWorkList();">打印</div>
 		</div>
 
