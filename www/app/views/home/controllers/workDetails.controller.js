@@ -111,8 +111,8 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.departureUrl = '/WorkDetailService?action=departure&sooId=';
             $scope.searchAddTruckText = '';
 
-            $scope.engineerImgStr = '';
-            $scope.busyImgStr = '';
+            $scope.engineerImgStr = '././img/images/will_add_Img.png';
+            $scope.busyImgStr = '././img/images/will_add_Img.png';
 
             $scope.getOrderTypeUri = '/NewWorkDetailService?serviceOrderViewId=';
             $scope.getPersonalPartListService = '/PersonalPartListService?action=getParts&userId=';
@@ -652,8 +652,20 @@ angular.module('oinio.workDetailsControllers', [])
             };
 
             $scope.initSignature = function (uri1, uri2) {
-                $scope.engineerImgStr = 'data:image/jpeg;base64,' + uri1;
-                $scope.busyImgStr = 'data:image/jpeg;base64,' + uri2;
+                if (uri1!=""){
+                    $scope.engineerImgStr = 'data:image/jpeg;base64,' + uri1;
+                }
+                else{
+                    $scope.engineerImgStr ='././img/images/will_add_Img.png';
+                }
+
+                if (uri2!=""){
+                    $scope.busyImgStr = 'data:image/jpeg;base64,' + uri2;
+                }
+                else{
+                    $scope.busyImgStr = '././img/images/will_add_Img.png';
+                }
+
             };
 
             $scope.initWorkItems = function (workItems, onOrder) {
@@ -2151,13 +2163,13 @@ angular.module('oinio.workDetailsControllers', [])
                 localUris.push({
                     imageId: '',
                     imageName: '工程师签名-' + new Date().format('yyyyMMddhhmmss'),
-                    imageBody: $scope.engineerImgStr != 'data:image/jpeg;base64,undefined' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
+                    imageBody: $scope.engineerImgStr != '././img/images/will_add_Img.png' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
                 });
 
                 localUris.push({
                     imageId: '',
                     imageName: '客户签名-' + new Date().format('yyyyMMddhhmmss'),
-                    imageBody: $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
+                    imageBody: $scope.busyImgStr != '././img/images/will_add_Img.png' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
                 });
                 var orderObj = null;
                 if(Number(localStorage.onoffline) != 0){
@@ -3928,8 +3940,8 @@ angular.module('oinio.workDetailsControllers', [])
                                                 responsibleEngineer: ownerName,//responsibleEngineer  责任人
                                                 printPart2Check: $("#printPart2").prop("checked"),
                                                 printPart3Check: $("#printPart3").prop("checked"),
-                                                engineerImg: $scope.engineerImgStr != 'data:image/jpeg;base64,undefined' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : null,
-                                                busyImg: $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, null) : ''
+                                                engineerImg: $scope.engineerImgStr != '././img/images/will_add_Img.png' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : null,
+                                                busyImg: $scope.busyImgStr != '././img/images/will_add_Img.png' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, null) : ''
                                             }
                                             , function (response) {
                                                 console.log(response);
