@@ -39,7 +39,7 @@ angular.module('oinio.settings', [])
         'LOG_FILE_WRITING_BATCH_SIZE': 10, // kB, default is 10kB
         'LOG_FILE_WRITING_INTERVAL_TIME': 1000, // ms(recommend: [500~5000]), if log level is more lower, the interval time should be more smaller, for keeping the RAM lower
         'LOG_FILE_EXPIRED_TIME': 36,      // hour, default is 36h(from last modified time to now)
-        'SEND_LOG_FILE_EMAIL_TO': '147321000@qq.com', // Array(['demo1@gmail.com', 'demo2@gmail.com']) or string(single email such as 'demo@gmail.com')
+        'SEND_LOG_FILE_EMAIL_TO': '@163.com', // Array(['demo1@gmail.com', 'demo2@gmail.com']) or string(single email such as 'demo@gmail.com')
         'SEND_LOG_FILE_EMAIL_SUBJECT': 'AVANTO logfiles', // email subject, such as 'Logfiles for <the app name>'
         'SEND_LOG_FILE_EMAIL_BODY': '',
         'DEFAULT_LOG_FOLDER': 'AVANTO logfiles', // please use the chatter group name, such as 'All oinioone playground'
