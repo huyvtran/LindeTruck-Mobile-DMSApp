@@ -3571,6 +3571,15 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectTruckAddPage').style.display = 'block';
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
+
+                angular.forEach($scope.allTruckItems,function (singleTruckItem) {
+                    $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                        if ($(element).attr('data-recordid') == singleTruckItem.Id) {
+                            $(this).prop('checked', true);
+                        }
+                    });
+                });
+
             };
 
             /**
@@ -3583,6 +3592,7 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectTruckAddPage').style.display = 'none';
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
+                truckItems=[];
                 $scope.allTruckItems = [];
                 $scope.initTrucks(initTrucks);
                 truckIds = [];
@@ -3719,6 +3729,15 @@ angular.module('oinio.workDetailsControllers', [])
                                     }
                                 });
                             }
+
+                            angular.forEach($scope.allTruckItems,function (singleTruckItem) {
+                                $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                                    if ($(element).attr('data-recordid') == singleTruckItem.Id) {
+                                        $(this).prop('checked', true);
+                                    }
+                                });
+                            });
+                            
                         }, 300);
 
                         console.log('getTrucks', trucks);
