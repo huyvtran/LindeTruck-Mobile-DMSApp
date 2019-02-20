@@ -140,6 +140,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.serviceLevels = [];
             $scope.serviceNames = [];
             $scope.showOrderBelong = true;
+            $scope.localAccId ='';
             /**
              * @func    $scope.$on('$ionicView.beforeEnter')
              * @desc
@@ -469,6 +470,10 @@ angular.module('oinio.workDetailsControllers', [])
                         //客户地址：
                         customerAddressValue =
                             soResult.Account_Ship_to__r.Address__c != undefined && soResult.Account_Ship_to__r.Address__c != null ? soResult.Account_Ship_to__r.Address__c : '';
+                        if(soResult.Account_Ship_to__r.Id!=null){
+                            $scope.localAccId = soResult.Account_Ship_to__r.Id;
+                            $scope.getTrucksMore('');
+                        }
                     }
                     if (soResult.Service_Order_Owner__r != null && soResult.Service_Order_Owner__r != undefined) {
                         //责任人：
@@ -3696,7 +3701,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.getTrucksMore = function (keyWord) {
                 $scope.contentTruckItemsMore = [];
                 //AppUtilService.showLoading();
-                HomeService.searchTruckFleets(keyWord, '', '20', doOnline).then(function success(response) {
+                HomeService.searchTruckFleets(keyWord,$scope.localAccId, '20', doOnline).then(function success(response) {
                     //AppUtilService.hideLoading();
                     console.log(response);
                     let trucks = [];
