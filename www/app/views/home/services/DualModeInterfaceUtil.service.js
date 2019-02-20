@@ -1018,6 +1018,90 @@
                 return deferred.promise;
             }
 
+            /** ----- part3:联系人 ----- **/
+            this.updateContactsUtil = function (requestBody, isOnline) {
+                var deferred = $q.defer();
+                //var result = new Object();
+                if(isOnline){
+                    var param = JSON.stringify(requestBody);
+                    var requestUrl = '/Service1Service?type=updateSobject';
+                    if(param != null && param != ''){
+                        requestUrl += '&param=' + param;
+                    }else{
+                        deferred.reject('param lost !');
+                    }
+
+                    deferred.resolve(this.restRequest(requestUrl, 'PUT', {}));
+                }else{
+                    var res = this.OfflineupdateContacts(requestBody);
+                    deferred.resolve(res);
+                }
+                return deferred.promise;
+            }
+
+            this.OfflineupdateContacts = function (adrs) {
+                console.log('update contacts:: ',adrs);
+                var deferred = $q.defer();
+                var adrIds = [];
+                var newCon = [];
+                var newItem;
+
+                angular.forEach(adrs, function (entry) {
+                    adrIds.push(entry._soupEntryId);
+                });
+
+                LocalDataService.getSObjects('Contact',adrIds).then(function(sobjects) {
+
+                    console.log('sobject record:::', sobjects);
+                    angular.forEach(sobjects, function (sobject) {
+                        angular.forEach(adrs, function (adrItem){
+                            console.log('sobjects id:::',sobject._soupEntryId);
+                            console.log('adrItem id:::',adrItem._soupEntryId);
+                            if(sobject._soupEntryId == adrItem._soupEntryId){
+                                // newItem = service.cloneObj(sobject);
+                                newItem = angular.copy(sobject);
+                                newItem['LastName'] = adrItem.Name;
+                                newItem['AccountId'] = adrItem.Account.Id;
+                                newItem['AccountId_sid'] = adrItem.Account._soupEntryId;
+                                newItem['AccountId_type'] = 'Account';
+                                newItem['Phone'] = adrItem.Phone;
+                                newItem['MobilePhone'] = adrItem.MobilePhone;
+                                newItem['Email'] = adrItem.Email;
+                                newItem['Contact_State__c'] = adrItem.Contact_State__c;
+                                newItem['Position_Type__c'] = adrItem.Position_Type__c;
+                                console.log('new item val:::', newItem);
+                                newCon.push(newItem);
+                            }
+                        });
+
+                    });
+
+                    console.log('before update obj:::',newCon);
+
+                    LocalDataService.updateSObjects('Contact', newCon).then(function(result) {
+                        console.log('localSave:::',result);
+                        if (!result){
+                            //console.error("!result");
+                            deferred.reject('Failed to get result.');
+                            return;
+                        }
+                        //deferred.resolve(result);
+                        service.synchronize().then(function () {
+                            //deferred.resolve('done');
+                            deferred.resolve(result);
+                        });
+                    }, function (error) {
+                        // log error
+                        console.log(error);
+                    });
+
+                },  function (error) {
+                    // log error
+                    console.log(error);
+                });
+
+                return deferred.promise;
+            };
 
 
 
