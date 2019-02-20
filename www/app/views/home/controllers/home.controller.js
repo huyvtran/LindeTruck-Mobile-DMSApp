@@ -10,6 +10,9 @@ angular.module('oinio.controllers', [])
        * @func    $scope.$on('$ionicView.beforeEnter')
        * @desc
        */
+      $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM"; //测试环境
+      // $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
+
       $scope.$on('$ionicView.beforeEnter', function () {
 
         LocalCacheService.set('previousStateForSCReady', $state.current.name);
@@ -103,13 +106,19 @@ angular.module('oinio.controllers', [])
         $state.go('app.serviceManagement');
       };
       $scope.webManager = function () {
-        $state.go('app.goH5',{SendURL:"http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM/UserPage/WH_MyOutInStorageRecord.aspx?curuser="+oCurrentUser.Id});
+        var urlUserPage = $scope.devLindeCRMURL+"/UserPage/WH_MyOutInStorageRecord.aspx?curuser="+oCurrentUser.Id;
+        console.log('urlUserPage', urlUserPage);
+        $state.go('app.goH5',{SendURL:urlUserPage});
       };
       $scope.ARListView = function () {
-        $state.go('app.goH5',{SendURL:"http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM/UserPage/ARDeliverLogin.aspx?curuser="+oCurrentUser.Id});
+        var urlUserPage = $scope.devLindeCRMURL+"/UserPage/ARDeliverLogin.aspx?curuser="+oCurrentUser.Id;
+        console.log('urlUserPage', urlUserPage);
+        $state.go('app.goH5',{SendURL:urlUserPage});
       };
       $scope.carProblems = function () {
-        $state.go('app.goH5',{SendURL:"http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM/UserPage/ForkliftQualityCollectList.aspx?curuser="+oCurrentUser.Id});
+        var urlUserPage = $scope.devLindeCRMURL+"/UserPage/ForkliftQualityCollectList.aspx?curuser="+oCurrentUser.Id;
+        console.log('urlUserPage', urlUserPage);
+        $state.go('app.goH5',{SendURL:urlUserPage});
       };
       $scope.doPurChase = function () {
         $state.go('app.purchase');

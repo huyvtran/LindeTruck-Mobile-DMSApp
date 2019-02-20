@@ -74,12 +74,14 @@
 							<input id="currentDate" type="text" readonly="" name="input_date" placeholder="日期选择" data-lcalendar="2011-01-1,2030-12-31" />
 			  			</div>
 			  		</div>
-			  		<div class="line_two">
-		  				<div class="small_Type_Title"> 整单交货日期: </div>
+					<div class="line_two">
+						<div class="small_Type_Title"> 物流方式: </div>
 						<div class="small_Type_Box">
-							<input id="currentDate1" type="text" readonly="" name="input_date" placeholder="日期选择" data-lcalendar="2011-01-1,2030-12-31" />
-			  			</div>
-			  		</div>
+							<select class="small_Type_Select" id="delivery_type">
+								<option ng-repeat="deliveryType in deliveryTypes" value="{{deliveryType.label}}">{{deliveryType.value}}</option>
+							</select>
+						</div>
+					</div>
 			  	</div>
 			  	<div class="small_Type_Group">
 		  			<div class="small_Type_Title"> 是否整单交货: </div>

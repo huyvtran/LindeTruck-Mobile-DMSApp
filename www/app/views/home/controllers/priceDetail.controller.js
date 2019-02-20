@@ -384,20 +384,20 @@ angular.module('oinio.PriceDetailController', [])
       $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
         $scope.closeSelectPage();
         $scope.getTrucksWithSubstitution();
-        if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null && $scope.searchTruckText != '') {
-          var onePartOriginals = {};
-          var priceCondition = {};
-          onePartOriginals['quantity'] = '';//数量
-          onePartOriginals['priceCondition'] = priceCondition['price'];//公布价
-          onePartOriginals['Reserved__c'] = '';//预留
-          onePartOriginals['parts_number__c'] = $scope.searchTruckText;//物料信息
-          onePartOriginals['Name'] = $scope.searchTruckText;//Name
-          onePartOriginals['materialId'] = $scope.searchTruckText;//物料号
-          onePartOriginals['saveId'] = '';//物料号
-          onePartOriginals['type'] = '';//配件类型
-          $scope.selectedTruckFitItems.push(onePartOriginals);
-          $scope.searchTruckText = '';
-        }
+        // if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null && $scope.searchTruckText != '') {
+        //   var onePartOriginals = {};
+        //   var priceCondition = {};
+        //   onePartOriginals['quantity'] = '';//数量
+        //   onePartOriginals['priceCondition'] = priceCondition['price'];//公布价
+        //   onePartOriginals['Reserved__c'] = '';//预留
+        //   onePartOriginals['parts_number__c'] = $scope.searchTruckText;//物料信息
+        //   onePartOriginals['Name'] = $scope.searchTruckText;//Name
+        //   onePartOriginals['materialId'] = $scope.searchTruckText;//物料号
+        //   onePartOriginals['saveId'] = '';//物料号
+        //   onePartOriginals['type'] = '';//配件类型
+        //   $scope.selectedTruckFitItems.push(onePartOriginals);
+        //   $scope.searchTruckText = '';
+        // }
       };
       //搜索配件
       $scope.getTrucks = function (keyWord) {
