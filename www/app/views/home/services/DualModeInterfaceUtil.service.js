@@ -87,11 +87,12 @@
                     sobject['Subject__c'] = serviceOrderOverviewObj.Subject__c;
                     sobject['Service_Order_Sub_Type__c'] = serviceOrderOverviewObj.Service_Order_Sub_Type__c;
 
+                    /*
                     if(assignUsers.length == 1 || (assignUsers.length > 1 && assignUsers.indexOf(sobject['Service_Order_Owner__c_sid']) == -1)){
                         sobject['Service_Order_Owner__c_sid'] = assignUsers[0];
                         sobject['Service_Order_Owner__c_type'] = 'User';
                     }
-
+                    */
 
                     LocalDataService.updateSObjects('Service_Order_Overview__c', [sobject]).then(function(result) {
                         if (!result){
@@ -196,8 +197,8 @@
 
                     angular.forEach(userIds, function (uId){
                         var newSupportEngineer;
-                        newSupportEngineer['Name'] = uId;
-                        newSupportEngineer['Support_Engineer__c_sid'] = uId;
+                        newSupportEngineer['Name'] = uId.split(',')[1];
+                        newSupportEngineer['Support_Engineer__c_sid'] = uId.split(',')[0];
                         newSupportEngineer['Support_Engineer__c_type'] = 'User';
                         newSupportEngineer['Service_Order_Overview__c_sid'] = serviceOrderOverviewSId;
                         newSupportEngineer['Service_Order_Overview__c_type'] = 'Service_Order_Overview__c';
