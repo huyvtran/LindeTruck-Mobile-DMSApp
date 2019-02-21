@@ -586,6 +586,7 @@
                         angular.forEach(cursor.currentPageOrderedEntries, function (entry) {
                             let accId = entry[0].Account_Ship_to__c;
                             let str_status = service.setMobileStatusForServiceOrder(entry[0].Status__c,entry[0].Work_Item_Count__c);
+                            let createdDate = entry[0].createdDate == null ? entry[0].Plan_Date__c : entry[0].createdDate;
                             orders.push({
                                 Id: entry[0].Id,
                                 Name: entry[0].Name,
@@ -595,6 +596,8 @@
                                 Status__c: str_status,
                                 Plan_Date__c: entry[0].Plan_Date__c,
                                 Truck_Serial_Number__c: entry[0].Truck_Serial_Number__c,
+                                createdDate: createdDate,
+                                Subject__c: entry[0].Subject__c,
                                 _soupEntryId: entry[0]._soupEntryId
                             });
                             if (accIds.indexOf(accId) == -1) {
