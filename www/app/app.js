@@ -179,7 +179,7 @@
                         console.log(msg);
                     });
 
-                    NativeStorage.setItem("CurrentUserPhoneNum",user.MobilePhone,function success(res) {
+                    NativeStorage.setItem("CurrentUserPhoneNum",user.Phone,function success(res) {
                         console.log(res);
                     },function error(msg) {
                         console.log(msg);

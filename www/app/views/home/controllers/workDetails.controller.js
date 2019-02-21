@@ -2205,7 +2205,7 @@ angular.module('oinio.workDetailsControllers', [])
                 var selectUserIds = [];
                 if ($scope.selectWorkersArr != null && $scope.selectWorkersArr.length > 0) {
                     for (var i = 0; i < $scope.selectWorkersArr.length; i++) {
-                        selectUserIds.push($scope.selectWorkersArr[i].label);
+                        selectUserIds.push($scope.selectWorkersArr[i].label+','+$scope.selectWorkersArr[i].value);
                     }
                 }
                 /**
