@@ -165,7 +165,15 @@
 
                     var user = LocalCacheService.get('currentUser');
 
-                    NativeStorage.setItem("CurrentUserId",user.Id,function success(res) {
+                    var employeeNum = Number(user.EmployeeNumber);
+                    if (user.EmployeeNumber!=null&&user.EmployeeNumber.length<8){
+                             for (var i =0;i<8-user.EmployeeNumber.length;i++){
+                                 employeeNum='0'+employeeNum;
+                             }
+                    }
+
+
+                    NativeStorage.setItem("CurrentUserId",employeeNum,function success(res) {
                         console.log(res);
                     },function error(msg) {
                         console.log(msg);
