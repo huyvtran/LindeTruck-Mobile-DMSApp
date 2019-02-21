@@ -733,11 +733,11 @@ angular.module('oinio.workDetailsControllers', [])
                     });
                     $scope.localWorkItems.push(
                         {
-                            ownerName:workItems[i].Engineer__r != undefined && workItems[i].Engineer__r!=null && workItems[i].Engineer__r.Name!= undefined && workItems[i].Engineer__r.Name != null ?workItems[i].Engineer__r.Name:'',
-                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('yy/MM/dd') : '',
-                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('hh:mm') : '',
-                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c).format('hh:mm') : '',
-                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c).format('hh:mm') : '',
+                            ownerName:workItems[i].Engineer__r != undefined && workItems[i].Engineer__r!=null && workItems[i].Engineer__r.Name!= undefined && workItems[i].Engineer__r.Name != null ?workItems[i].Engineer__r.Name:'  ',
+                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('yy/MM/dd') : '  ',
+                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('hh:mm') : '  ',
+                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c).format('hh:mm') : '  ',
+                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c).format('hh:mm') : '  ',
                             workMiles: workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c.toString():'0'
                         }
                     );
@@ -3934,7 +3934,7 @@ angular.module('oinio.workDetailsControllers', [])
                                 return false;
                             } else {
                                 var arr = result[0].split('-');
-                                PrintPlugin.connectBlueToothDevice(arr[1], function (res) {
+                                PrintPlugin.connectBlueToothDevice(arr[1], function callBack(res) {
                                     console.log(res);
                                     $log.info(res);
                                     if (res.status == 0) {
@@ -3970,7 +3970,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 engineerImg: $scope.engineerImgStr != '././img/images/will_add_Img.png' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : null,
                                                 busyImg: $scope.busyImgStr != '././img/images/will_add_Img.png' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, null) : ''
                                             }
-                                            , function (response) {
+                                            , function callBack(response) {
                                                 console.log(response);
                                                 $log.info(response);
                                                 AppUtilService.hideLoading();
@@ -3983,26 +3983,26 @@ angular.module('oinio.workDetailsControllers', [])
                                                 // $('ol li:eq(3)').addClass('slds-is-active');
                                                 // $('#sidProgressBar').css('width', '75%');
                                                 //$event.target.style.backgroundColor = "#00FF7F";
-                                            }, function (error) {
+                                            }, function error(msg) {
                                                 console.log(error);
                                                 $log.error(error);
                                                 AppUtilService.hideLoading();
                                                 $ionicPopup.alert({
-                                                    title: '连接蓝牙设备失败'
+                                                    title: msg
                                                 });
                                                 return false;
                                             });
-                                    } else {
+                                    }else {
                                         AppUtilService.hideLoading();
                                         $ionicPopup.alert({
                                             title: '连接蓝牙设备失败'
                                         });
                                         return false;
                                     }
-                                }, function (error) {
+                                }, function error(msg) {
                                     AppUtilService.hideLoading();
                                     $ionicPopup.alert({
-                                        title: '连接蓝牙设备失败'
+                                        title: msg
                                     });
                                     return false;
                                 });
