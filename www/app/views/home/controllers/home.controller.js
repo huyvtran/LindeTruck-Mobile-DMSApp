@@ -10,8 +10,8 @@ angular.module('oinio.controllers', [])
        * @func    $scope.$on('$ionicView.beforeEnter')
        * @desc
        */
-      $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM"; //测试环境
-      // $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
+      //$scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM"; //测试环境
+       $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
 
       $scope.$on('$ionicView.beforeEnter', function () {
 

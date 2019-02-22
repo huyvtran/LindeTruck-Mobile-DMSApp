@@ -463,8 +463,8 @@ angular.module('oinio.serviceManagementController', [])
             AppUtilService.showLoading();
             $.ajax({
                 type:'POST',
-                url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM/ForCRMWS.asmx',
-                //url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM4Proc/ForCRMWS.asmx',
+                //url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM/ForCRMWS.asmx',
+                url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM4Proc/ForCRMWS.asmx',
                 data:soapData,
                 beforeSend:function (request) {
                     request.setRequestHeader("Content-Type","text/xml; charset=utf-8");
