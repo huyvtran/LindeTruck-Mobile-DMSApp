@@ -2,6 +2,7 @@
  * general app settings
  */
 angular.module('oinio.settings', [])
+
     .constant('APP_SETTINGS', {
         'VERSION': '1.0.0',
         'DEBUG_ROUTING': true,
@@ -34,7 +35,7 @@ angular.module('oinio.settings', [])
     })
     .constant('LOG_SETTING', {
         'LOGGING': true,      // whether enable logging, default is false
-        'LOG_LEVEL': 'error',     // log level, one of debug(0), info(1), warn(2), error(3) and log(4)
+        'LOG_LEVEL': 'log',     // log level, one of debug(0), info(1), warn(2), error(3) and log(4)
         'LOG_FILE_SIZE': 512,      // kB, default is (5*1024)kB
         'LOG_FILE_WRITING_BATCH_SIZE': 10, // kB, default is 10kB
         'LOG_FILE_WRITING_INTERVAL_TIME': 1000, // ms(recommend: [500~5000]), if log level is more lower, the interval time should be more smaller, for keeping the RAM lower
@@ -43,5 +44,5 @@ angular.module('oinio.settings', [])
         'SEND_LOG_FILE_EMAIL_SUBJECT': 'AVANTO logfiles', // email subject, such as 'Logfiles for <the app name>'
         'SEND_LOG_FILE_EMAIL_BODY': '',
         'DEFAULT_LOG_FOLDER': 'AVANTO logfiles', // please use the chatter group name, such as 'All oinioone playground'
-        'LOG_FILE_UPLOAD_ROUTING': true // use routing function to manage the share of log files, if this is true, sharing to chatter group 'DEFAULT_LOG_FOLDER' won't work.
+        'LOG_FILE_UPLOAD_ROUTING': false // use routing function to manage the share of log files, if this is true, sharing to chatter group 'DEFAULT_LOG_FOLDER' won't work.
     });

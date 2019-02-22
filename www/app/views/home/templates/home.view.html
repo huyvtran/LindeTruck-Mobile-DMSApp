@@ -131,6 +131,7 @@
                         <div class="add_Icon_White" id="add_bgbox1_Btn"></div>
                         <div class="add_Arrow " id="add_contactsImg1" style="display: none;"></div>
                     </div>
+
                     <div class="add_Group " id="add_bgbox1" style="display: none;">
                         <div class="add_Box" ng-click="addCustomer();"> 添加客户</div>
                         <div class="add_Box" ng-click="addNewLinkMan();"> 添加联系人</div>
@@ -243,6 +244,7 @@
                         <div class="add_Box" ng-click="addNewWork()"> 添加工单</div>
                         <div class="add_Box" ng-click="addNewOffer()"> 添加报价</div>
                     </div>
+                    <div class="version">{{vmVersion}} </div>
                 </div>
                 <div class="calendar_mainSelect" style="">
                     <div id="loadingPage_bodyer" class="loadingPage_bodyer">
@@ -313,13 +315,21 @@
                                             <tr>
                                                 <td class="table_Left"> 客户名称：</td>
                                                 <td class="table_Center"> {{item.Account_Ship_to__r.Name}}</td>
-                                                <td ng-class="isOlder_Table(item.Status__c)" rowspan="2">
+                                                <td ng-class="isOlder_Table(item.Status__c)" rowspan="4">
                                                     <div class="table_Img"></div>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td class="table_Left"> 工单号：</td>
                                                 <td class="table_Center state_Color"> {{item.Name}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="table_Left"> 来电事由：</td>
+                                                <td class="table_Center state_Color"> {{item.Subject__c}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="table_Left"> 创建时间：</td>
+                                                <td class="table_Center state_Color"> {{item.CreatedDate}}</td>
                                             </tr>
                                         </table>
                                     </ion-item>

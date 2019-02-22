@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController',
-        function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
+        function ($scope, $rootScope, $filter, $state, $log, $cordovaFile, $ionicPopup, $stateParams, ConnectionMonitor,
                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService, SQuoteService, dualModeService) {
 
             var vm = this,
@@ -3128,6 +3128,8 @@ angular.module('oinio.workDetailsControllers', [])
                 ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl1, 'PUT', {}, null,
                     function (responseGetParts) {
                         console.log('$scope.getServiceOrderMaterialSums:responseGetParts', responseGetParts);
+                      $log.log('>>>> URL：',$scope.getPartsForReadUrl1);
+                      $log.log('>>>> Response：',responseGetParts);
 
                         AppUtilService.hideLoading();
                         for (let i = 0; i < responseGetParts.length; i++) {

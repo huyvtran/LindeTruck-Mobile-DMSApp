@@ -3,7 +3,7 @@
   angular.module('oinio.CalendarController', [])
     .controller('CalendarController',
       function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor, $ionicPopup,
-                LocalCacheService, ForceClientService, AppUtilService , $log, FileService, Service1Service,dualModeService) {
+                LocalCacheService, ForceClientService, AppUtilService , $log, FileService, $cordovaAppVersion, Service1Service,dualModeService) {
 
         var vm           = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -24,7 +24,7 @@
         $scope.currentWorkPlan = [];
         $scope.workPlanCalendar = null;
         $scope.getWorkPlanCount = null;
-
+        $scope.vmVersion = "";
         vm.isOnline = null;
         $scope.updateDataStatusUrl = '/WorkDetailService?action=updateStatus';
         $scope.departureUrl = '/WorkDetailService?action=departure&sooId=';
@@ -54,6 +54,11 @@
           $rootScope.hideTabs = true;
           $('div.calendar_header').hide();
 
+          if ($cordovaAppVersion) {
+            $cordovaAppVersion.getVersionNumber().then(function (version) {
+              $scope.vmVersion = version;
+            });
+          }
         });
 
         $scope.hideLoadingPage = function () {
@@ -734,6 +739,7 @@
               allOrdersForAddArmy['manageUserIds'] = [];
               _.each(res,function (userItems) {
                 _.each(userItems.orders,function (userItem) {
+                  userItem.CreatedDate = new Date(userItem.CreatedDate).format('yyyy-MM-dd hh:mm:ss');
                   allOrdersForAddArmy.orders.push(userItem);
                 });
               });
@@ -747,19 +753,19 @@
                 currentOrder = getOrderById(oCurrentUser.Id).orders;
               }
 
-
               //日历下方列表
               allOrders = currentOrder;
               $scope.currentOrder = getServiceOrderType(allOrders);
               calendarAll.fullCalendar('addEventSource', getCount(currentOrder));
               console.log('getEachOrder  ', currentOrder);
+
               setTimeout(setDefaultUser, 500);
             }, function (error) {
               setTimeout(function () {
                 AppUtilService.hideLoading();
               }, 300);
               console.log('getEachOrder Error ', error);
-              $log.error('SaveLogToSF error occurs: ' + error);
+              $log.error('SaveLogToSF error occurs1: ' + error);
 
             });
           };

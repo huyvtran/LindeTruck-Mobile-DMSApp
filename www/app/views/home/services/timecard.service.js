@@ -165,10 +165,10 @@ angular
             contentType: 'application/json',
             url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
           }).then(function successCallback(response) {
-            console.log('response',response);
+            // console.log('response',response);
             accesstoken = response.data.data.accessToken;
           }, function errorCallback(response) {
-            console.log('response',response);
+            // console.log('response',response);
           });
         },174000);
 

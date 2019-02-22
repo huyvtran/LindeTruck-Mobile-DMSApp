@@ -37,6 +37,14 @@ img {
     line-height: 64px;
     display: flex;
 }
+.calendar_header .version {
+    position: absolute;
+    line-height: 0.6rem;
+    top: 5px;
+    right: 5px;
+    font-size: 0.6rem;
+    color: #ffffff;
+}
 .calendar_header .left_Box {
     display: inline-flex;
     width: 10%;
@@ -205,7 +213,7 @@ img {
 }
 .calendar_bodyer .table_Right {
     width: 40px;
-    height: 40px;
+    height: 100%;
     background-color: #535353;
     vertical-align: middle;
 }
