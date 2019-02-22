@@ -1,6 +1,6 @@
 angular.module('oinio.workDetailsControllers', [])
     .controller('workDetailsController',
-        function ($scope, $rootScope, $filter, $state, $log, $cordovaFile, $ionicPopup, $stateParams, ConnectionMonitor,
+        function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
                   LocalCacheService, HomeService, AppUtilService, SOrderService, ForceClientService, SQuoteService, dualModeService) {
 
             var vm = this,
@@ -3128,8 +3128,8 @@ angular.module('oinio.workDetailsControllers', [])
                 ForceClientService.getForceClient().apexrest($scope.getPartsForReadUrl1, 'PUT', {}, null,
                     function (responseGetParts) {
                         console.log('$scope.getServiceOrderMaterialSums:responseGetParts', responseGetParts);
-                      $log.log('>>>> URL：',$scope.getPartsForReadUrl1);
-                      $log.log('>>>> Response：',responseGetParts);
+                      // $log.log('>>>> URL：'+$scope.getPartsForReadUrl1);
+                      // $log.log('>>>> Response：'+responseGetParts);
 
                         AppUtilService.hideLoading();
                         for (let i = 0; i < responseGetParts.length; i++) {
@@ -3693,7 +3693,7 @@ angular.module('oinio.workDetailsControllers', [])
                     //     }
                     // }
                 }, function (error) {
-                    $log.error('HomeService.searchTrucks Error ' + error);
+
                 }).finally(function () {
                     //AppUtilService.hideLoading();
                 });
@@ -3926,7 +3926,6 @@ angular.module('oinio.workDetailsControllers', [])
                 AppUtilService.showLoading();
                 PrintPlugin.checkBlueTooth(null, function (result) {
                     console.log(result);
-                    $log.info(result);
                     if (result.status == 0) {
                         PrintPlugin.getBlueToothDevices(null, function (result) {
                             console.log(result);
@@ -3940,7 +3939,6 @@ angular.module('oinio.workDetailsControllers', [])
                                 var arr = result[0].split('-');
                                 PrintPlugin.connectBlueToothDevice(arr[1], function callBack(res) {
                                     console.log(res);
-                                    $log.info(res);
                                     if (res.status == 0) {
                                         var workItemsTotal = [];
                                         for (var i = 0; i < $scope.localWorkItems.length; i++) {
@@ -3976,7 +3974,6 @@ angular.module('oinio.workDetailsControllers', [])
                                             }
                                             , function callBack(response) {
                                                 console.log(response);
-                                                $log.info(response);
                                                 AppUtilService.hideLoading();
                                                 $scope.hideWorkPrintPage();
                                                 $ionicPopup.alert({
@@ -3989,7 +3986,6 @@ angular.module('oinio.workDetailsControllers', [])
                                                 //$event.target.style.backgroundColor = "#00FF7F";
                                             }, function error(msg) {
                                                 console.log(error);
-                                                $log.error(error);
                                                 AppUtilService.hideLoading();
                                                 $ionicPopup.alert({
                                                     title: msg

@@ -1,6 +1,6 @@
 angular.module('oinio.controllers', [])
     .controller('HomeController', function ($scope,$http, $rootScope, $ionicPopup, $filter, $state, $stateParams, ConnectionMonitor,$ionicTabsDelegate,
-                                            LocalCacheService, HomeService, TimeCardService, AppUtilService) {
+                                            LocalCacheService, HomeService, $log, TimeCardService, AppUtilService) {
 
       var vm           = this,
           oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -116,9 +116,10 @@ angular.module('oinio.controllers', [])
         $state.go('app.goH5',{SendURL:urlUserPage});
       };
       $scope.carProblems = function () {
-        $scope.devLindeCRMURL1();
         var urlUserPage = $scope.devLindeCRMURL+"/UserPage/ForkliftQualityCollectList.aspx?curuser="+oCurrentUser.Id;
         console.log('urlUserPage', urlUserPage);
+        $log.log('>>>> carProblemsURL：'+urlUserPage);
+
         $state.go('app.goH5',{SendURL:urlUserPage});
       };
       $scope.doPurChase = function () {

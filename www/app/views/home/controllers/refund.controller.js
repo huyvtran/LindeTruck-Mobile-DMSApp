@@ -3,6 +3,7 @@ angular.module('oinio.RefundController', [])
         LocalCacheService) {
 
         $scope.selectRefundInfo = [];
+        $scope.serviceEnd = "false";
         $scope.paramSaveDeliveryOrdersUrl = "/UpdateDeliveryOrders/";
         $scope.paramUpdateSubmitDeliverOrders = "/UpdateSubmitDeliverOrders?recordId=";
         $scope.paramSaveAndSubminDeliveryOrdersUrl = "/submitDeliverOrders/";
@@ -33,6 +34,9 @@ angular.module('oinio.RefundController', [])
             _.each($stateParams.refundInfo, function (refundItem) {
               if (!$stateParams.refundInfo[0].Delivery_Line_Item__r[0]){
                 return;
+              }
+              if (refundItem.D_Status__c =="Service Completed" ||refundItem.D_Status__c =="End") {
+                $scope.serviceEnd = "true";
               }
               refundItem.Temp_Return_Reason__c = $stateParams.refundInfo[0].Delivery_Line_Item__r[0].Return_Reason__c;
               _.each($scope.diffReasonSites, function (diffItem) {

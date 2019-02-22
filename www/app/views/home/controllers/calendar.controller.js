@@ -765,7 +765,7 @@
                 AppUtilService.hideLoading();
               }, 300);
               console.log('getEachOrder Error ', error);
-              $log.error('SaveLogToSF error occurs1: ' + error);
+              $log.error('getEachOrder Error: ' + error);
 
             });
           };

@@ -134,8 +134,8 @@
 </div>
 <div class="footer">
     <div class="footer_Btn" ng-click="goBackgw();">取消</div>
-    <div class="footer_Btn Save_Btn_Act" ng-click="goToSave();">保存</div>
-    <div class="footer_Btn Submit_Btn_Act" ng-click="goToSaveAndSubmit();">保存并提交</div>
+    <div class="footer_Btn Save_Btn_Act" ng-show="serviceEnd == 'false'" ng-click="goToSave();">保存</div>
+    <div class="footer_Btn Submit_Btn_Act" ng-show="serviceEnd == 'false'" ng-click="goToSaveAndSubmit();">保存并提交</div>
 </div>
 </body>
 
