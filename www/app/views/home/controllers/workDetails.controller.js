@@ -490,8 +490,10 @@ angular.module('oinio.workDetailsControllers', [])
                         try {
                             $('#select_service_type').find('option[value = ' + soResult.Service_Order_Sub_Type__c + ']').attr(
                                 'selected', true);
+                            $scope.singleCarService=soResult.Service_Order_Sub_Type__c;
                         } catch (e) {
                             $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
+                            $scope.singleCarService='Maintenance';
                         }
                     }
                 }
