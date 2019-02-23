@@ -43,6 +43,11 @@ angular.module('oinio.newWorkListControllers', [])
             vm.adrs.push({label: 'ZS03_ZR3', value: 'ZR3 短租资产化后加装、改装服务'});
             vm.adrs.push({label: 'ZS03_ZSS', value: 'ZSS 一般销售支持'});
             vm.adrs.push({label: 'ZS03_ZTD', value: 'ZTD 运输损坏'});
+            vm.adrs.push({label: 'ZS04_Z40', value: 'Z40 纯配件销售'});
+            vm.adrs.push({label: 'ZS08_Z80', value: 'Z80 保修服务'});
+            vm.adrs.push({label: 'ZS08_Z81', value: 'Z81 保修服务1'});
+            vm.adrs.push({label: 'ZS08_Z82', value: 'Z82 保修服务2'});
+            vm.adrs.push({label: 'ZS08_Z83', value: 'Z83 保修服务3'});
 
 
             vm.priorities.push({label:'紧急',value:'Urgent'});

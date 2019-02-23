@@ -505,18 +505,18 @@ angular.module('oinio.workDetailsControllers', [])
                                 'selected', true);
                             $scope.singleCarService=soResult.Service_Order_Sub_Type__c;
                             if (soResult.Service_Order_Sub_Type__c=='Maintenance'){
-                                $scope.showModal();
+                                // $scope.showModal();
                             }else{
                                 $scope.dismissServiceModal();
                             }
                         } catch (e) {
                             $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
                             $scope.singleCarService='Maintenance';
-                            $scope.showModal();
+                            // $scope.showModal();
                         }
                     }else{
                         $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
-                        $scope.showModal();
+                        // $scope.showModal();
                     }
                 }
             };
@@ -539,34 +539,34 @@ angular.module('oinio.workDetailsControllers', [])
                 if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
                     var serviceLevel = childOrders[0].Maintenance_Level__c;
                     $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
-                    ForceClientService.getForceClient().apexrest(
-                        $scope.getMaintanceChoiceUrl +  truckObj.Model__c + '&level=' + childOrders[0].Maintenance_Level__c,
-                        'GET',
-                        null,
-                        {},
-                        function callBack(res) {
-                            console.log(res);
-                            if (res[0].status != undefined && res[0].status.toLowerCase() == "fail") {
-                                $ionicPopup.alert({
-                                    title: res[0].message
-                                });
-                                return;
-                            } else {
-                                for (var i = 0; i < res.length; i++) {
-                                    $scope.mainTanceChioces.push({
-                                        Id:res[i].Id,
-                                        Name:res[i].CH
-                                    });
-                                }
-                            }
-                        }, function error(msg) {
-                            console.log(msg);
-                            $ionicPopup.alert({
-                                title: msg
-                            });
-                            return;
-                        }
-                    );
+                    // ForceClientService.getForceClient().apexrest(
+                    //     $scope.getMaintanceChoiceUrl +  truckObj.Model__c + '&level=' + childOrders[0].Maintenance_Level__c,
+                    //     'GET',
+                    //     null,
+                    //     {},
+                    //     function callBack(res) {
+                    //         console.log(res);
+                    //         if (res[0].status != undefined && res[0].status.toLowerCase() == "fail") {
+                    //             $ionicPopup.alert({
+                    //                 title: res[0].message
+                    //             });
+                    //             return;
+                    //         } else {
+                    //             for (var i = 0; i < res.length; i++) {
+                    //                 $scope.mainTanceChioces.push({
+                    //                     Id:res[i].Id,
+                    //                     Name:res[i].CH
+                    //                 });
+                    //             }
+                    //         }
+                    //     }, function error(msg) {
+                    //         console.log(msg);
+                    //         $ionicPopup.alert({
+                    //             title: msg
+                    //         });
+                    //         return;
+                    //     }
+                    // );
 
                 }
             };
@@ -3734,9 +3734,11 @@ angular.module('oinio.workDetailsControllers', [])
                     if (response.levels.length > 0) {
                         $scope.serviceLevels = response.levels;
                     }
-                    if ($scope.serviceLevels.length > 0) {
-                        $scope.initChidOrderInfo(obj,childOrders);
-                    }
+                    setTimeout(function () {
+                        if ($scope.serviceLevels.length > 0) {
+                            $scope.initChidOrderInfo(obj,childOrders);
+                        }
+                    },1000);
                 }, function (error) {
 
                 }).finally(function () {
