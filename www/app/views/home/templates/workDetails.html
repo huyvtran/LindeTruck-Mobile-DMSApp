@@ -646,7 +646,7 @@
                                 <div class="small_Type_Title">作业类型:</div>
                                 <div class="small_Type_Box">
                                     <!--<select class="small_Type_Select" id="select_work_type" ng-model="wrkt" ng-change="changeWorkType(wrkt);">-->
-										<select class="small_Type_Select" id="select_work_type">
+										<select class="small_Type_Select" id="select_work_type"  ng-model="wrkt">
                                         <option ng-repeat="itemWorkType in workTypes" value="{{itemWorkType.label}}">{{itemWorkType.value}}</option>
                                     </select>
                                 </div>
@@ -655,7 +655,7 @@
                                 <div class="small_Type_Title">服务类型:</div>
                                 <div class="small_Type_Box">
                                     <!--<select class="small_Type_Select" ng-model="singleCarService" id="select_service_type" ng-change="changeServiceType();">-->
-										<select class="small_Type_Select" id="select_service_type" ng-model="singleCarService">
+										<select class="small_Type_Select" id="select_service_type" ng-model="singleCarService" ng-change="changeServiceType(singleCarService);">
                                         <option ng-repeat="carService in carServices" value="{{carService.label}}">{{carService.value}}</option>
                                     </select>
                                 </div>
@@ -664,19 +664,19 @@
 						<div class="small_Type_Group" ng-show="singleCarService=='Maintenance'">
 							<div class="small_Type_Title">保养级别:</div>
 							<div class="small_Type_Box">
-								<select class="small_Type_Select" id="select_care_type">
+								<select class="small_Type_Select" id="select_care_type" ng-model="careType" ng-change="changeCareType(careType);">
 								<!--<select class="small_Type_Select" id="select_care_type" ng-model="careType" ng-change="changeCareType(careType);">-->
 									<option ng-repeat="singleService in serviceLevels" value="{{singleService}}">{{singleService}}</option>
 								</select>
 							</div>
 						</div>
-						<div class="small_Type_Group" id="mainTainCheck" style="display: none">
+						<div class="small_Type_Group" id="mainTainCheck" ng-show="singleCarService=='Repair'">
 							保修:
 							<div class="small_Type_Box">
-								<input type="checkbox" id="mcbCheckBox" ng-model="mcb"/>
+								<input type="checkbox" id="mcbCheckBox" ng-model="mcb" ng-checked="wrkt.indexOf('Z80') > -1 || wrkt.indexOf('Z81') > -1 || wrkt.indexOf('Z82') > -1 || wrkt.indexOf('Z83') > -1"/>
 							</div>
 						</div>
-						<div class="small_Type_Group" ng-show="mcb" id="causeReson">
+						<div class="small_Type_Group" ng-show="mcb || wrkt.indexOf('Z80') > -1 || wrkt.indexOf('Z81') > -1 || wrkt.indexOf('Z82') > -1 || wrkt.indexOf('Z83') > -1" id="causeReson">
 							<div class="small_Type_Title">引起故障零件:</div>
 							<div class="small_Type_Box">
 								<select class="small_Type_Select" id="select_error_faults">
@@ -1535,8 +1535,8 @@
 	<div class="maintain_header"> 保养选择 </div>
 	<div class="maintain_bodyer">
 		<div class="maintain_detail" ng-repeat="mainTanceChioce in mainTanceChioces">
-			<input type="checkbox" class="maintain_checkbox"/>
-			<span class="maintain_text" > {{mainTanceChioce}} </span>
+			<input type="checkbox" id="{{mainTanceChioce.Id}}" class="maintain_checkbox"/>
+			<span class="maintain_text" > {{mainTanceChioce.Name}} </span>
 		</div>
 	</div>
 	<div class="maintain_footer">

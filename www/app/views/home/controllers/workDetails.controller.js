@@ -78,6 +78,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.openPrint=false;
             $scope.bfObjs = [];
             $scope.afObjs = [];
+            var initmjiInfos=[];
             $scope.mainTanceChioces = [];
             $scope.imgUris = [
                 {
@@ -219,13 +220,11 @@ angular.module('oinio.workDetailsControllers', [])
                 $scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 短租资产化后加装、改装服务'});
                 $scope.workTypes.push({label: 'ZS03_ZSS', value: 'ZSS 一般销售支持'});
                 $scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD 运输损坏'});
-                // $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 Spare Parts Only Service'});
-                // $scope.workTypes.push({label: 'ZS05_Z37', value: 'Z37 In-Stock Truck(value change)'});
-                // $scope.workTypes.push({label: 'ZS06_ZR1', value: 'ZR1 Rental truck refurbishment'});
-                // $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 Warranty'});
-                // $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 Warranty job1'});
-                // $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 Warranty job2'});
-                // $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 Warranty job3'});
+                $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 纯配件销售'});
+                $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 保修服务'});
+                $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 保修服务1'});
+                $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 保修服务2'});
+                $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 保修服务3'});
 
                 //before
                 $scope.bfObjs.push(
@@ -323,11 +322,12 @@ angular.module('oinio.workDetailsControllers', [])
                     console.log('getInitDataUri', res);
                     $scope.initSoResult(res.soResult);
                     $scope.initWorkItems(res.workItems, res.soResult.On_Order__c);
-                    //$scope.initPartNumers(res.partNumers);
+                    $scope.initPartNumers(res.partNumers);
+
                     $scope.initAssignUserData(res.assignUser);
                     $scope.initSavedUserData(res.savedUser, res.assignUser);
                     initChildOrders = res.childOrders;
-
+                    initmjiInfos = res.mjiInfos;
                     if (Number(localStorage.onoffline) != 0) {
                         $scope.initPhotoData(res.images);
                         $scope.initSignature(res.sigEngineerImage, res.sigAcctImage);
@@ -336,6 +336,17 @@ angular.module('oinio.workDetailsControllers', [])
                         initTrucks = res.truckModels;
                         if (initTrucks != null && initTrucks.length > 0) {
                             $scope.getMainLevelsAndDesc(initTrucks[0], initChildOrders);
+                            setTimeout(function () {
+                                if(res.mjiInfos!=null&&res.mjiInfos.length>0){
+                                    angular.forEach(res.mjiInfos,function (mjiInfo) {
+                                        $('.maintain_checkbox').each(function (index,element) {
+                                            if ($(element).attr("id")==mjiInfo.Id){
+                                                $(element).prop("checked",true);
+                                            }
+                                        });
+                                    });
+                                }
+                            },2000);
                         }
                         $scope.allTruckItems = truckItems;
 
@@ -485,16 +496,27 @@ angular.module('oinio.workDetailsControllers', [])
                     $scope.callPhoneContent = soResult.Subject__c != undefined && soResult.Subject__c != null ? soResult.Subject__c : '';
                     if (soResult.Work_Order_Type__c != undefined && soResult.Work_Order_Type__c != null) {
                         $('#select_work_type').find('option[value = ' + soResult.Work_Order_Type__c + ']').attr('selected', true);
+                    }else{
+                        $('#select_work_type').find('option[value = \'ZS01_Z10\']').attr('selected', true);
                     }
                     if (soResult.Service_Order_Sub_Type__c != undefined && soResult.Service_Order_Sub_Type__c != null) {
                         try {
                             $('#select_service_type').find('option[value = ' + soResult.Service_Order_Sub_Type__c + ']').attr(
                                 'selected', true);
                             $scope.singleCarService=soResult.Service_Order_Sub_Type__c;
+                            if (soResult.Service_Order_Sub_Type__c=='Maintenance'){
+                                $scope.showModal();
+                            }else{
+                                $scope.dismissServiceModal();
+                            }
                         } catch (e) {
                             $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
                             $scope.singleCarService='Maintenance';
+                            $scope.showModal();
                         }
+                    }else{
+                        $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
+                        $scope.showModal();
                     }
                 }
             };
@@ -506,16 +528,46 @@ angular.module('oinio.workDetailsControllers', [])
                     for (var i = 0; i < partNumers.length; i++) {
                         $scope.errorFaults.push(partNumers[i]);
                     }
+
                 }
             };
 
             /**
              *  初始化保养级别
              */
-            $scope.initChidOrderInfo = function (childOrders) {
+            $scope.initChidOrderInfo = function (truckObj,childOrders) {
                 if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
                     var serviceLevel = childOrders[0].Maintenance_Level__c;
                     $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
+                    ForceClientService.getForceClient().apexrest(
+                        $scope.getMaintanceChoiceUrl +  truckObj.Model__c + '&level=' + childOrders[0].Maintenance_Level__c,
+                        'GET',
+                        null,
+                        {},
+                        function callBack(res) {
+                            console.log(res);
+                            if (res[0].status != undefined && res[0].status.toLowerCase() == "fail") {
+                                $ionicPopup.alert({
+                                    title: res[0].message
+                                });
+                                return;
+                            } else {
+                                for (var i = 0; i < res.length; i++) {
+                                    $scope.mainTanceChioces.push({
+                                        Id:res[i].Id,
+                                        Name:res[i].CH
+                                    });
+                                }
+                            }
+                        }, function error(msg) {
+                            console.log(msg);
+                            $ionicPopup.alert({
+                                title: msg
+                            });
+                            return;
+                        }
+                    );
+
                 }
             };
 
@@ -641,6 +693,7 @@ angular.module('oinio.workDetailsControllers', [])
                                 Operation_Hour__c: 0,
                                 Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
                                 Service_Suggestion__c: '',
+                                Model__c:trucks[i].Model__c!=undefined ? trucks[i].Model__c:null,
                                 chooseCheckBox: false,
                                 New_Operation_Hour__c: 0,
                                 isShow: false
@@ -2187,8 +2240,7 @@ angular.module('oinio.workDetailsControllers', [])
                         'Service_Suggestion__c': $('#serviceSuggest').val(),
                         'Subject__c': $('#call_str').val(),
                         'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
-                        'Fault_Part_Code__c': ''
-                        //'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
+                         'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
                     }];
                 }else{
                     orderObj = {
@@ -2199,8 +2251,7 @@ angular.module('oinio.workDetailsControllers', [])
                         'Service_Suggestion__c': $('#serviceSuggest').val(),
                         'Subject__c': $('#call_str').val(),
                         'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
-                        'Fault_Part_Code__c': ''
-                        //'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
+                        'Fault_Part_Code__c':$('#select_error_faults option:selected').val()
                     };
                 }
 
@@ -2318,7 +2369,8 @@ angular.module('oinio.workDetailsControllers', [])
                         'images': localUris,
                         'assignUsers': selectUserIds,
                         'str_suggestion': $('#serviceSuggest').val().trim(),
-                        'truckOrders': newTrucks
+                        'truckOrders': newTrucks,
+                        'MJobItemIds':localMJobItemIds
                     });
                 } else {
                     requestBody = {
@@ -3624,7 +3676,7 @@ angular.module('oinio.workDetailsControllers', [])
 
                 $scope.SelectedTruckNum = $scope.allTruckItems.length;
                 if ($scope.allTruckItems.length > 0) {
-                    $scope.getMainLevelsAndDesc($scope.allTruckItems[0], initChildOrders);
+                    $scope.getMainLevelsAndDesc($scope.allTruckItems[0], initChildOrders,null);
                 }
 
                 // var beforeAddMoreTrucks = truckItems;
@@ -3682,16 +3734,9 @@ angular.module('oinio.workDetailsControllers', [])
                     if (response.levels.length > 0) {
                         $scope.serviceLevels = response.levels;
                     }
-                    setTimeout(function () {
-                        if ($scope.serviceLevels.length > 0) {
-                            $scope.initChidOrderInfo(childOrders);
-                        }
-                    }, 200);
-                    // if (response.levels.length > 0 && response.names!=null){
-                    //     for (var i =0;i<$scope.serviceLevels.length ;i++ ){
-                    //         $scope.serviceNames.push(response.names[$scope.serviceLevels[i]]);
-                    //     }
-                    // }
+                    if ($scope.serviceLevels.length > 0) {
+                        $scope.initChidOrderInfo(obj,childOrders);
+                    }
                 }, function (error) {
 
                 }).finally(function () {
@@ -3710,10 +3755,10 @@ angular.module('oinio.workDetailsControllers', [])
                     console.log(response);
                     let trucks = [];
                     if (typeof (response) == 'string') {
-                        $ionicPopup.alert({
-                            title: '结果',
-                            template: '没有数据'
-                        });
+                        // $ionicPopup.alert({
+                        //     title: '结果',
+                        //     template: '没有数据'
+                        // });
                         return false;
                     }
                     if (response != null && response.length > 0) {
@@ -3743,18 +3788,18 @@ angular.module('oinio.workDetailsControllers', [])
 
                         console.log('getTrucks', trucks);
                     } else {
-                        $ionicPopup.alert({
-                            title: '结果',
-                            template: '没有数据'
-                        });
+                        // $ionicPopup.alert({
+                        //     title: '结果',
+                        //     template: '没有数据'
+                        // });
                         return false;
                     }
                 }, function error(msg) {
                     //AppUtilService.hideLoading();
-                    $ionicPopup.alert({
-                        title: '结果',
-                        template: '没有数据'
-                    });
+                    // $ionicPopup.alert({
+                    //     title: '结果',
+                    //     template: '没有数据'
+                    // });
                     console.log(msg);
                     return false;
                 });
@@ -3926,6 +3971,7 @@ angular.module('oinio.workDetailsControllers', [])
                 AppUtilService.showLoading();
                 PrintPlugin.checkBlueTooth(null, function (result) {
                     console.log(result);
+                    $log.info(result);
                     if (result.status == 0) {
                         PrintPlugin.getBlueToothDevices(null, function (result) {
                             console.log(result);
@@ -3939,6 +3985,7 @@ angular.module('oinio.workDetailsControllers', [])
                                 var arr = result[0].split('-');
                                 PrintPlugin.connectBlueToothDevice(arr[1], function callBack(res) {
                                     console.log(res);
+                                    $log.info(res);
                                     if (res.status == 0) {
                                         var workItemsTotal = [];
                                         for (var i = 0; i < $scope.localWorkItems.length; i++) {
@@ -3974,6 +4021,7 @@ angular.module('oinio.workDetailsControllers', [])
                                             }
                                             , function callBack(response) {
                                                 console.log(response);
+                                                $log.info(response);
                                                 AppUtilService.hideLoading();
                                                 $scope.hideWorkPrintPage();
                                                 $ionicPopup.alert({
@@ -3984,11 +4032,12 @@ angular.module('oinio.workDetailsControllers', [])
                                                 // $('ol li:eq(3)').addClass('slds-is-active');
                                                 // $('#sidProgressBar').css('width', '75%');
                                                 //$event.target.style.backgroundColor = "#00FF7F";
-                                            }, function error(msg) {
-                                                console.log(error);
+                                            }, function error(obj) {
+                                                console.log(obj.message);
+                                                $log.error(obj.message);
                                                 AppUtilService.hideLoading();
                                                 $ionicPopup.alert({
-                                                    title: msg
+                                                    title: obj.message
                                                 });
                                                 return false;
                                             });
@@ -3999,15 +4048,15 @@ angular.module('oinio.workDetailsControllers', [])
                                         });
                                         return false;
                                     }
-                                }, function error(msg) {
+                                }, function error(obj) {
                                     AppUtilService.hideLoading();
                                     $ionicPopup.alert({
-                                        title: msg
+                                        title: obj.message
                                     });
                                     return false;
                                 });
                             }
-                        }, function (error) {
+                        }, function error() {
                             AppUtilService.hideLoading();
                             $ionicPopup.alert({
                                 title: '请先在设置中连接蓝牙设备'
@@ -4015,7 +4064,7 @@ angular.module('oinio.workDetailsControllers', [])
                             return false;
                         });
                     }
-                }, function (error) {
+                }, function error() {
                     AppUtilService.hideLoading();
                     $ionicPopup.alert({
                         title: '请确保设置中开启蓝牙功能'
@@ -4419,23 +4468,29 @@ angular.module('oinio.workDetailsControllers', [])
              * choose cancel dismiss modal
              */
             $scope.dismissServiceModal = function () {
-                $scope.dismissModal();
+                $('.mask_div').css('display', 'none');
+                $('.maintain_popup').css('display', 'none');
+                $('.maintain_checkbox').each(function (index, element) {
+                    if ($(element).prop('checked')){
+                        $(element).prop('checked',false);
+                    }
+                });
             };
 
             /**
              * choose save dismiss modal
              */
+            var localMJobItemIds=[];
             $scope.confirmServiceModal = function () {
-                $scope.dismissModal();
-            };
-
-            /**
-             * hide modal
-             */
-            $scope.dismissModal = function () {
                 $('.mask_div').css('display', 'none');
                 $('.maintain_popup').css('display', 'none');
+                $('.maintain_checkbox').each(function (index, element) {
+                    if ($(element).prop('checked')){
+                        localMJobItemIds.push($(element).attr("id"));
+                    }
+                });
             };
+
             $scope.showModal = function () {
                 $('.mask_div').css('display', 'block');
                 $('.maintain_popup').css('display', 'block');
@@ -4481,72 +4536,14 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('workPrintPage').style.display = 'none';
             };
 
-            $scope.changeServiceType = function () {
-                var index = $('option:selected', '#select_service_type').index();
-                switch (index) {
-                    case 0:
-                        $('.mask_div').css('display', 'block');
-                        $('.maintain_popup').css('display', 'block');
-                        $('#mainTainCheck').css('display', 'none');
-                        $('#causeReson').css('display', 'none');
-                        break;
-                    case 1:
-                        $('.mask_div').css('display', 'none');
-                        $('.maintain_popup').css('display', 'none');
-                        $('#mainTainCheck').css('display', 'block');
-                        break;
-                    case 2:
-                        $('.mask_div').css('display', 'none');
-                        $('.maintain_popup').css('display', 'none');
-                        $('#mainTainCheck').css('display', 'none');
-                        $('#causeReson').css('display', 'none');
-                        break;
-                }
-            };
-
-            $scope.changeWorkType = function (itemWorkType) {
-                $scope.mainTanceChioces = [];
-                if (itemWorkType.indexOf('Z80') > -1 || itemWorkType.indexOf('Z81') > -1 || itemWorkType.indexOf('Z82') > -1 || itemWorkType.indexOf('Z83') > -1) {
-                    $('#mainTainCheck').prop("checked", true);
-                    $('#causeReson').css('display', 'block');
-                }
-                var careType = $('#select_care_type option:selected').val();
-                AppUtilService.showLoading();
-                ForceClientService.getForceClient().apexrest(
-                    $scope.getMaintanceChoiceUrl + 'E16C' + '&level=' + careType,
-                    'GET',
-                    null,
-                    {},
-                    function callBack(res) {
-                        console.log(res);
-                        AppUtilService.hideLoading();
-                        if (res[0].status != undefined && res[0].status.toLowerCase() == "fail") {
-                            $ionicPopup.alert({
-                                title: res[0].message
-                            });
-                            return;
-                        } else {
-                            for (var i = 0; i < res.length; i++) {
-                                $scope.mainTanceChioces.push(res[i].CH);
-                            }
-                        }
-                    }, function error(msg) {
-                        console.log(msg);
-                        AppUtilService.hideLoading();
-                        $ionicPopup.alert({
-                            title: msg
-                        });
-                        return;
-                    }
-                );
-
-            };
-
             $scope.changeCareType = function (careType) {
-                var workType = $('#select_work_type option:selected').val();
+                $scope.mainTanceChioces=[];
+                if (careType==null){
+                    return;
+                }
                 AppUtilService.showLoading();
                 ForceClientService.getForceClient().apexrest(
-                    $scope.getMaintanceChoiceUrl + workType + '&level=' + careType,
+                    $scope.getMaintanceChoiceUrl + $scope.allTruckItems[0].Model__c + '&level=' + careType,
                     'GET',
                     null,
                     {},
@@ -4560,8 +4557,23 @@ angular.module('oinio.workDetailsControllers', [])
                             return;
                         } else {
                             for (var i = 0; i < res.length; i++) {
-                                $scope.mainTanceChioces.push(res[i].CH);
+                                $scope.mainTanceChioces.push({
+                                    Id:res[i].Id,
+                                    Name:res[i].CH
+                                });
                             }
+                            setTimeout(function () {
+                                if(initmjiInfos!=null&&initmjiInfos.length>0){
+                                    angular.forEach(initmjiInfos,function (mjiInfo) {
+                                        $('.maintain_checkbox').each(function (index,element) {
+                                            if ($(element).attr("id")==mjiInfo.Id){
+                                                $(element).prop("checked",true);
+                                            }
+                                        });
+                                    });
+                                }
+                            },2000);
+                            $scope.showModal();
                         }
                     }, function error(msg) {
                         console.log(msg);
