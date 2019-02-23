@@ -322,7 +322,7 @@ angular.module('oinio.workDetailsControllers', [])
                     console.log('getInitDataUri', res);
                     $scope.initSoResult(res.soResult);
                     $scope.initWorkItems(res.workItems, res.soResult.On_Order__c);
-                    $scope.initPartNumers(res.partNumers);
+                    $scope.initPartNumers(res.partNumers,res.soResult);
 
                     $scope.initAssignUserData(res.assignUser);
                     $scope.initSavedUserData(res.savedUser, res.assignUser);
@@ -496,6 +496,9 @@ angular.module('oinio.workDetailsControllers', [])
                     $scope.callPhoneContent = soResult.Subject__c != undefined && soResult.Subject__c != null ? soResult.Subject__c : '';
                     if (soResult.Work_Order_Type__c != undefined && soResult.Work_Order_Type__c != null) {
                         $('#select_work_type').find('option[value = ' + soResult.Work_Order_Type__c + ']').attr('selected', true);
+                        if ( soResult.Work_Order_Type__c.indexOf('Z80') > -1 || soResult.Work_Order_Type__c.indexOf('Z81') > -1 || soResult.Work_Order_Type__c.indexOf('Z82') > -1 || soResult.Work_Order_Type__c.indexOf('Z83') > -1){
+                            $scope.mcb=true;
+                        }
                     }else{
                         $('#select_work_type').find('option[value = \'ZS01_Z10\']').attr('selected', true);
                     }
@@ -504,31 +507,29 @@ angular.module('oinio.workDetailsControllers', [])
                             $('#select_service_type').find('option[value = ' + soResult.Service_Order_Sub_Type__c + ']').attr(
                                 'selected', true);
                             $scope.singleCarService=soResult.Service_Order_Sub_Type__c;
-                            if (soResult.Service_Order_Sub_Type__c=='Maintenance'){
-                                // $scope.showModal();
-                            }else{
-                                $scope.dismissServiceModal();
-                            }
                         } catch (e) {
                             $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
                             $scope.singleCarService='Maintenance';
-                            // $scope.showModal();
                         }
                     }else{
                         $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
-                        // $scope.showModal();
                     }
                 }
             };
 
             $scope.errorFaults = [];
-            $scope.initPartNumers = function (partNumers) {
+            $scope.initPartNumers = function (partNumers,result) {
                 $scope.errorFaults = [];
                 if (partNumers != undefined && partNumers != null && partNumers.length > 0) {
                     for (var i = 0; i < partNumers.length; i++) {
                         $scope.errorFaults.push(partNumers[i]);
                     }
-
+                }
+                if(result!=undefined&&result!=null){
+                    if (result.Fault_Part_Code__c!=undefined&&result.Fault_Part_Code__c!=null){
+                        $('#select_error_faults').find('option[value = ' + result.Fault_Part_Code__c + ']').attr(
+                            'selected', true);
+                    }
                 }
             };
 
@@ -3732,12 +3733,12 @@ angular.module('oinio.workDetailsControllers', [])
                         return;
                     }
                     if (response.levels.length > 0) {
-                        $scope.serviceLevels = response.levels;
+                       for(let i=0;i<response.levels.length;i++){
+                           $scope.serviceLevels.push(response.levels[i]);
+                       }
                     }
                     setTimeout(function () {
-                        if ($scope.serviceLevels.length > 0) {
-                            $scope.initChidOrderInfo(obj,childOrders);
-                        }
+                        $scope.initChidOrderInfo(obj,childOrders);
                     },1000);
                 }, function (error) {
 
@@ -4552,12 +4553,7 @@ angular.module('oinio.workDetailsControllers', [])
                     function callBack(res) {
                         console.log(res);
                         AppUtilService.hideLoading();
-                        if (res[0].status != undefined && res[0].status.toLowerCase() == "fail") {
-                            $ionicPopup.alert({
-                                title: res[0].message
-                            });
-                            return;
-                        } else {
+                        if (res!=null && res.length>0){
                             for (var i = 0; i < res.length; i++) {
                                 $scope.mainTanceChioces.push({
                                     Id:res[i].Id,
@@ -4575,8 +4571,8 @@ angular.module('oinio.workDetailsControllers', [])
                                     });
                                 }
                             },2000);
-                            $scope.showModal();
                         }
+                        $scope.showModal();
                     }, function error(msg) {
                         console.log(msg);
                         AppUtilService.hideLoading();
