@@ -1,6 +1,5 @@
 angular.module('oinio.RefundController', [])
-    .controller('RefundController', function ($scope, $rootScope, $filter, $state, $ionicPopup, $ionicHistory, $stateParams, AppUtilService, ForceClientService, ConnectionMonitor,
-        LocalCacheService) {
+    .controller('RefundController', function ($scope, $state, $ionicPopup, $ionicHistory, $stateParams, AppUtilService, ForceClientService) {
 
         $scope.selectRefundInfo = [];
         $scope.serviceEnd = "false";

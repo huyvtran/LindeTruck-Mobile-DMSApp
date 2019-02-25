@@ -35,7 +35,7 @@ angular.module('oinio.settings', [])
     })
     .constant('LOG_SETTING', {
         'LOGGING': true,      // whether enable logging, default is false
-        'LOG_LEVEL': 'log',     // log level, one of debug(0), info(1), warn(2), error(3) and log(4)
+        'LOG_LEVEL': 'error',     // log level, one of debug(0), info(1), warn(2), error(3) and log(4)
         'LOG_FILE_SIZE': 512,      // kB, default is (5*1024)kB
         'LOG_FILE_WRITING_BATCH_SIZE': 10, // kB, default is 10kB
         'LOG_FILE_WRITING_INTERVAL_TIME': 1000, // ms(recommend: [500~5000]), if log level is more lower, the interval time should be more smaller, for keeping the RAM lower
