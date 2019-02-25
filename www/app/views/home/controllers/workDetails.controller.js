@@ -138,7 +138,7 @@ angular.module('oinio.workDetailsControllers', [])
 
             $scope.maintainType = false;
             $scope.mcb = false;
-            $scope.serviceLevels = [];
+            $scope.serviceLevels = [''];
             $scope.serviceNames = [];
             $scope.showOrderBelong = true;
             $scope.localAccId ='';
@@ -408,6 +408,7 @@ angular.module('oinio.workDetailsControllers', [])
                         }
                     }else{
                         $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
+                        $scope.singleCarService='Maintenance';
                     }
                 }
             };
@@ -3842,7 +3843,8 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('workPrintPage').style.display = 'none';
             };
 
-            $scope.changeCareType = function (careType) {
+            $scope.changeCareType = function () {
+                var careType = $("#select_care_type").val();
                 $scope.mainTanceChioces=[];
                 if (careType==null){
                     return;
