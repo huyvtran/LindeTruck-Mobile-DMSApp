@@ -1449,7 +1449,12 @@ angular.module('oinio.workDetailsControllers', [])
                 $scope.customerAddressValueShow = customerAddressValue;
                 $scope.ownerNameShow = ownerName;
                 $scope.truckTypesValueShow = truckNumber;//叉车型号
-                $scope.workHourShow = '';//工作小时
+
+                var minTotal=0;
+                for (var i =0;i<$scope.localWorkItems.length;i++){
+                    minTotal+=$scope.calculateWorkHour($scope.localWorkItems[i].arriveTime,$scope.localWorkItems[i].leaveTime);
+                }
+                $scope.workHourShow = minTotal/60+'小时';//工作小时
                 $scope.callStrShow = $('#call_str').val().trim();//报修需求
                 $scope.workContentShow = $('#workContentStr').val();//工作信息
                 $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
@@ -1467,6 +1472,15 @@ angular.module('oinio.workDetailsControllers', [])
                         });
                     }
                 }
+            };
+
+            $scope.calculateWorkHour=function(at,lt){
+                var h1 =0,m1=0;
+                if (lt!=undefined && at!=undefined && lt!=null && at!=null){
+                    h1=lt.split(":")[0]-at.split(":")[0];
+                    m1=lt.split(":")[1]-at.split(":")[1];
+                }
+                return h1*60+m1;
             };
             /**
              * 签单
@@ -3303,7 +3317,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 customerAddress: customerAddressValue,//customerAddress  客户地址
                                                 workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
                                                 TruckModel: truckNumber,//TruckModel //叉车型号
-                                                workHour: '  ' + h + '小时' + m + '分钟',//workHour //工作时长
+                                                workHour: $scope.workHourShow,//workHour //工作时长
                                                 workTimeTotal: workItemsTotal,
                                                 goodsTotal: $scope.goodsList,
                                                 listContent: '',//listContent  配件费参见发货清单
