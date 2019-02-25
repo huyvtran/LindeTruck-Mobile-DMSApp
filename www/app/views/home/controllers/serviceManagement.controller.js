@@ -14,10 +14,24 @@ angular.module('oinio.serviceManagementController', [])
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
         vm.initServiceCars=[];
+        $scope.forceClientProd = false;
         vm.getInitServiceCarUrl="/ServiceCarService?action=init&currentUser=";
         $scope.$on('$ionicView.beforeEnter', function () {
             $scope.imgUris1 = ["././img/images/will_add_Img.png"];
             $scope.imgUris2 = ["././img/images/will_add_Img.png"];
+
+            var forceClient = ForceClientService.getForceClient().instanceUrl;
+            if (forceClient.charAt(16)=='.') {
+                $scope.forceClientProd = true;
+            }else {
+                $scope.forceClientProd = false;
+            }
+
+            if ($scope.forceClientProd){
+                $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
+            } else {
+                $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM"; //测试环境
+            }
         });
 
 
@@ -459,6 +473,7 @@ angular.module('oinio.serviceManagementController', [])
               listServiceCarAttach:picList
             };
 
+
       var soapData= '<?xml version="1.0" encoding="utf-8"?>';
             soapData+='<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
             soapData+='<soap:Body>';
@@ -471,8 +486,7 @@ angular.module('oinio.serviceManagementController', [])
             AppUtilService.showLoading();
             $.ajax({
                 type:'POST',
-                //url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM/ForCRMWS.asmx',
-                url:'http://webapps.linde-xiamen.com.cn/CCMidWareForCRM4Proc/ForCRMWS.asmx',
+                url:$scope.devLindeCRMURL,
                 data:soapData,
                 beforeSend:function (request) {
                     request.setRequestHeader("Content-Type","text/xml; charset=utf-8");

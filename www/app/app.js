@@ -82,7 +82,7 @@
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,
                               LoginService, LocalCacheService, SmartStoreService, MetaService, TouchIdService, TimeCardService,
                               LocalDataService, $translate, LocalSyncService, LocalesService, ConnectionMonitor, FileService,
-                              $ionicPopup, Logger, $injector, UserAssignmentService,$ionicHistory) {
+                              $ionicPopup, Logger, $injector, UserAssignmentService,$ionicHistory,ForceClientService) {
 
         console.log('>>>> App is starting');
 
@@ -179,7 +179,21 @@
                         console.log(msg);
                     });
 
-                    NativeStorage.setItem("CurrentUserPhoneNum",user.Phone,function success(res) {
+                    NativeStorage.setItem("CurrentUserPhoneNum",user.MobilePhone,function success(res) {
+                        console.log(res);
+                    },function error(msg) {
+                        console.log(msg);
+                    });
+
+                    var forceClientProd = "0";
+                    var forceClient = ForceClientService.getForceClient().instanceUrl;
+                    if (forceClient.charAt(16)=='.') {
+                        forceClientProd = "1";
+                    }else {
+                        forceClientProd = "0";
+                    }
+
+                    NativeStorage.setItem("CurrentUserPostEnvironment",forceClientProd,function success(res) {
                         console.log(res);
                     },function error(msg) {
                         console.log(msg);
