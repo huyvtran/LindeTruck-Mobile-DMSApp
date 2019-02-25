@@ -363,111 +363,6 @@ angular.module('oinio.workDetailsControllers', [])
                     AppUtilService.hideLoading();
                     console.log(msg);
                 });
-
-
-                // ForceClientService.getForceClient()
-                //   .apexrest(
-                //     $scope.getInitDataUri + '/' + orderDetailsId + '/' + oCurrentUser.Id,
-                //     'GET',
-                //     {}, null, function success(res) {
-                //       console.log('getInitDataUri', res);
-                //       $scope.initSoResult(res.soResult);
-                //       //$scope.initPartNumers(res.partNumers);
-                //       $scope.initPhotoData(res.images);
-                //       $scope.initAssignUserData(res.assignUser);
-                //       $scope.initSavedUserData(res.savedUser, res.assignUser);
-                //       $scope.SelectedTruckNum = res.truckModels.length;
-                //       $scope.initTrucks(res.truckModels);
-                //       initTrucks = res.truckModels;
-                //       initChildOrders = res.childOrders;
-                //       if (initTrucks.length > 0) {
-                //         $scope.getMainLevelsAndDesc(initTrucks[0], initChildOrders);
-                //       }
-                //       $scope.allTruckItems = truckItems;
-                //       $scope.initWorkItems(res.workItems, res.soResult.On_Order__c);
-                //       $scope.initSignature(res.sigEngineerImage, res.sigAcctImage);
-                //       //交货列表
-                //       $scope.getRefundList();
-                //       //*********读取配件*************** */
-                //       $scope.getPartListForRead();
-                //     },
-                //     function error(msg) {
-                //       AppUtilService.hideLoading();
-                //       console.log(msg);
-                //     }).then(function () {
-                //   // if (allowEdit){
-                //   //     $scope.showModal();
-                //   // }else{
-                //   //     $scope.dismissModal();
-                //   // }
-                // });
-
-                // SOrderService.getPrintDetails(userInfoId).then(function success(result) {
-                //     $log.info(result);
-                //     console.log("orderDetailsId:",result.Id);
-                //     orderDetailsId = result.Id;
-                //     customerNameValue = result.Account_Ship_to__r.Name != null ? result.Account_Ship_to__r.Name : "";
-                //     customerAccountValue = result.Account_Ship_to__r._soupEntryId != null ?
-                // result.Account_Ship_to__r._soupEntryId : ""; customerAddressValue = result.Account_Ship_to__r.Address__c !=
-                // null ? result.Account_Ship_to__r.Address__c : ""; if (result.truckModels != null &&
-                // result.truckModels.length > 0) { for (var i = 0; i < result.truckModels.length; i++) { truckNumber +=
-                // result.truckModels[i] + ";"; } } ownerName = result.Service_Order_Owner__r.Name != null ?
-                // result.Service_Order_Owner__r.Name : ""; //获取图片 ForceClientService.getForceClient() .apexrest(
-                // $scope.getInitPicUri + orderDetailsId +'/' +oCurrentUser.Id, 'GET', {  },null,function success(res) {
-                // console.log(res); //初始化 已上传图片 var photoes=res.Photo; if (photoes!=undefined||photoes!=null){ if
-                // (photoes.length>0){ //删除默认的图片  第一张 $scope.imgUris.splice(0, 1); for (var i=0;i<photoes.length;i++){
-                // $scope.imgUris.push("data:image/jpeg;base64,"+photoes[i]); } //添加默认图片
-                // $scope.imgUris.push("././img/images/will_add_Img.png"); }  } //初始化所有派工人员 var workersStrArr = res.assignUser; if(workersStrArr!=undefined || workersStrArr!=null){ for (var i=0;i<workersStrArr.length;i++){ var singleArr  = workersStrArr[i].split(','); $scope.workers.push({label:singleArr[0],value:singleArr[1]}); } localWorkers = $scope.workers; } //初始化已选派工人员 var savedUsers =res.savedUser; if(savedUsers!=undefined || savedUsers != null){ if (savedUsers.length>0){ for (var i=0;i<savedUsers.length;i++){ for(var j=0;j<workersStrArr.length;j++){ if (savedUsers[i]==workersStrArr[j].label){ $scope.workers.push(workersStrArr[j]); }else{ $scope.workers.push({label:savedUsers[i],value:""}); } } } } }  }, function error(msg) { console.log(msg); });  //*********读取配件*************** */ $scope.getPartListForRead(); return SOrderService.getOrdersSelectedTruck(userInfoId); }).then(function success(result) { $scope.SelectedTruckNum = 0; if (result.length > 0) { for (var i = 0; i < result.length; i++) { if (result[i].Truck_Serial_Number__r != undefined) { $scope.SelectedTruckNum = Number($scope.SelectedTruckNum) + 1; truckItems.push( { Id: result[i].Truck_Serial_Number__r.Id, truckItemNum: result[i].Truck_Serial_Number__r.Name, Operation_Hour__c: 0, Service_Suggestion__c: "", isShow: false } ); truckItemsSecond.push( { Id: result[i].Truck_Serial_Number__r.Id, Operation_Hour__c: 0, Service_Suggestion__c: "", } ); } } $scope.allTruckItems = truckItems; } console.log(result); $log.info(result); }).catch(function error(msg) { $log.error(msg); console.log(msg); });
-
-                /**
-                 * 初始化
-                 */
-                // SOrderService.getDetails(userInfoId).then(function success(result) {
-                //     if (result != null) {
-                //         console.log("getDetails:",result);
-                //         localSoupEntryId = result._soupEntryId;
-                //         if (result.Mobile_Offline_Name__c == null) {
-                //             SOrderService.getOfflineName(userInfoId).then(function success(response) {
-                //                 $scope.mobileName = response;
-                //             }, function error(error) {
-                //                 $scope.mobileName = "";
-                //                 $log.error(error);
-                //             });
-                //         } else {
-                //             $scope.mobileName = result.Mobile_Offline_Name__c;
-                //         }
-                //         var workType = result.Work_Order_Type__c;
-                //         if (workType != null||workType!=undefined) {
-                //             $("#select_work_type").find("option[value = workType]").attr("selected", true);
-                //         }
-                //         $scope.workContent = result.Description__c != null ? result.Description__c : "";
-                //         if (workDescription != null) {
-                //             $scope.callPhoneContent = workDescription;
-                //         } else {
-                //             $scope.callPhoneContent = result.Subject__c != null ? result.Subject__c : "";
-                //         }
-                //         $scope.suggestStr = result.Service_Suggestion__c != null ? result.Service_Suggestion__c : "";
-                //     }
-                //
-                // }, function error(error) {
-                //     $log.error(error);
-                // })
-                // .then(function () {
-                //     return SOrderService.getWorkItemsForOverview(userInfoId).then(function (result) {
-                //         console.log(result);
-                //     }, function (error) {
-                //         console.log(error);
-                //         $log.error(error);
-                //     })
-                // })
-                // .then(function () {
-                //     HomeService.getTrucksForParentOrderSid(userInfoId).then(function (res) {
-                //         $scope.HasTruckNum = res != null ? res.length : 0;
-                //     }, function (error) {
-                //         $log.error('Error ' + error);
-                //     })
-                // });
-
             });
 
             $scope.initSoResult = function (soResult) {
@@ -540,35 +435,6 @@ angular.module('oinio.workDetailsControllers', [])
                 if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
                     var serviceLevel = childOrders[0].Maintenance_Level__c;
                     $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
-                    // ForceClientService.getForceClient().apexrest(
-                    //     $scope.getMaintanceChoiceUrl +  truckObj.Model__c + '&level=' + childOrders[0].Maintenance_Level__c,
-                    //     'GET',
-                    //     null,
-                    //     {},
-                    //     function callBack(res) {
-                    //         console.log(res);
-                    //         if (res[0].status != undefined && res[0].status.toLowerCase() == "fail") {
-                    //             $ionicPopup.alert({
-                    //                 title: res[0].message
-                    //             });
-                    //             return;
-                    //         } else {
-                    //             for (var i = 0; i < res.length; i++) {
-                    //                 $scope.mainTanceChioces.push({
-                    //                     Id:res[i].Id,
-                    //                     Name:res[i].CH
-                    //                 });
-                    //             }
-                    //         }
-                    //     }, function error(msg) {
-                    //         console.log(msg);
-                    //         $ionicPopup.alert({
-                    //             title: msg
-                    //         });
-                    //         return;
-                    //     }
-                    // );
-
                 }
             };
 
@@ -700,13 +566,6 @@ angular.module('oinio.workDetailsControllers', [])
                                 isShow: false
                             }
                         );
-                        // truckItemsSecond.push(
-                        //     {
-                        //         Id:  trucks[i].Id,
-                        //         Operation_Hour__c: 0,
-                        //         Service_Suggestion__c: "",
-                        //     }
-                        // );
                     }
                 }
             };
@@ -790,10 +649,10 @@ angular.module('oinio.workDetailsControllers', [])
                     $scope.localWorkItems.push(
                         {
                             ownerName:workItems[i].Engineer__r != undefined && workItems[i].Engineer__r!=null && workItems[i].Engineer__r.Name!= undefined && workItems[i].Engineer__r.Name != null ?workItems[i].Engineer__r.Name:'  ',
-                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('yy/MM/dd') : '  ',
-                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c).format('hh:mm') : '  ',
-                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c).format('hh:mm') : '  ',
-                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c).format('hh:mm') : '  ',
+                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('yy/MM/dd') : '  ',
+                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
+                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
+                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
                             workMiles: workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c.toString():'0'
                         }
                     );
@@ -1041,51 +900,6 @@ angular.module('oinio.workDetailsControllers', [])
                                         + (leaveTime.getHours() - ah - 1) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/, '-'));
                             }
                             AppUtilService.showLoading();
-                            //old code
-                            // ForceClientService.getForceClient().apexrest(
-                            //     $scope.leavePostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                            //     + '&leaveTime=' + leaveTime.format('yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                            //     'POST',
-                            //     {},
-                            //     null,
-                            //     function callBack(res) {
-                            //         console.log(res);
-                            //         AppUtilService.hideLoading();
-                            //         if (res.status.toLowerCase() == 'success') {
-                            //             if (orderBelong) {
-                            //                 $('#sidProgressBar').css('width', '75%');
-                            //             } else {
-                            //                 $('#sidProgressBar').css('width', '99%');
-                            //             }
-                            //             for (var i = 0; i < 4; i++) {
-                            //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                            //             }
-                            //             $('#arriveBtn').css('pointer-events', 'none');
-                            //             $('#arriveBtn').addClass('textCompleted');
-                            //             $('#leave').css('pointer-events', 'none');
-                            //             $('#leave').addClass('textCompleted');
-                            //             $ionicPopup.alert({
-                            //                 title: '记录到达/离开时间成功'
-                            //             });
-                            //         } else {
-                            //             $ionicPopup.alert({
-                            //                 title: '记录到达/离开时间失败',
-                            //                 template: res.message
-                            //             });
-                            //             return false;
-                            //         }
-                            //
-                            //     }, function error(msg) {
-                            //         AppUtilService.hideLoading();
-                            //         console.log(msg);
-                            //         $ionicPopup.alert({
-                            //             title: '记录到达/离开时间失败',
-                            //             template: msg
-                            //         });
-                            //         return false;
-                            //     }
-                            // );
-                            //new code
                             dualModeService.leaveActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss'),leaveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
                                 console.log(res);
                                 AppUtilService.hideLoading();
@@ -1167,50 +981,6 @@ angular.module('oinio.workDetailsControllers', [])
                             onTap: function () {
                                 leaveTime = new Date();
                                 AppUtilService.showLoading();
-                                //old code
-                                // ForceClientService.getForceClient().apexrest(
-                                //     $scope.leavePostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                                //     + '&leaveTime=' + leaveTime.format('yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                //     'POST',
-                                //     {},
-                                //     null,
-                                //     function callBack(res) {
-                                //         console.log(res);
-                                //         AppUtilService.hideLoading();
-                                //         if (res.status.toLowerCase() == 'success') {
-                                //             //$event.target.style.backgroundColor = "#00FF7F";
-                                //             $('#leave').addClass('textCompleted');
-                                //             for (var i = 0; i <= 3; i++) {
-                                //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                //             }
-                                //             if (orderBelong) {
-                                //                 $('#sidProgressBar').css('width', '75%');
-                                //             } else {
-                                //                 $('#sidProgressBar').css('width', '99%');
-                                //             }
-                                //             $ionicPopup.alert({
-                                //                 title: '记录到达/离开时间成功'
-                                //             });
-                                //         } else {
-                                //             $ionicPopup.alert({
-                                //                 title: '记录到达/离开时间失败',
-                                //                 template: res.message
-                                //             });
-                                //             return false;
-                                //         }
-                                //
-                                //     }, function error(msg) {
-                                //         AppUtilService.hideLoading();
-                                //         console.log(msg);
-                                //         $ionicPopup.alert({
-                                //             title: '记录到达/离开时间失败',
-                                //             template: msg
-                                //         });
-                                //         return false;
-                                //     }
-                                // );
-
-                                //new code
                                 dualModeService.leaveActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss'),leaveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
                                     console.log(res);
                                     AppUtilService.hideLoading();
@@ -1413,95 +1183,8 @@ angular.module('oinio.workDetailsControllers', [])
                 var departureTime = new Date();
                 goOffTimeFromPrefix = departureTime;
                 AppUtilService.showLoading();
-                //old code
-                // ForceClientService.getForceClient().apexrest(
-                //   $scope.updateDataStatusUrl + '&sooId=' + orderDetailsId + '&status=Not Completed',
-                //   'POST',
-                //   {},
-                //   null, function callBack(res) {
-                //     if (res.status.toLowerCase() == 'success') {
-                //       ForceClientService.getForceClient().apexrest(
-                //         $scope.departureUrl + orderDetailsId + '&departureTime=' + departureTime.format('yyyy-MM-dd hh:mm:ss')
-                //         + '&userId=' + oCurrentUser.Id,
-                //         'POST',
-                //         {},
-                //         null, function callBack(res) {
-                //           AppUtilService.hideLoading();
-                //           if (res.status.toLowerCase() == 'success') {
-                //             for (var i = 0; i < 2; i++) {
-                //               $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                //             }
-                //             $('#departureBtn').css('pointer-events', 'none');
-                //             $('#departureBtn').addClass('textCompleted');
-                //             if (orderBelong){
-                //                 $('#sidProgressBar').css('width', '25%');
-                //             }else{
-                //                 $('#sidProgressBar').css('width', '33%');
-                //             }
-                //           } else {
-                //             $ionicPopup.alert({
-                //               title: res.message
-                //             });
-                //             return;
-                //           }
-                //         }, function error(msg) {
-                //           AppUtilService.hideLoading();
-                //           console.log(msg);
-                //           $ionicPopup.alert({
-                //             title: msg
-                //           });
-                //           return;
-                //         }
-                //       );
-                //     }
-                //   }, function error(msg) {
-                //     AppUtilService.hideLoading();
-                //     console.log(msg);
-                //     $ionicPopup.alert({
-                //       title: msg
-                //     });
-                //     return;
-                //   });
-
-                //new code
                 dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(function callBack(res) {
                     if (res.status.toLowerCase() == 'success') {
-                        //old code
-                        // ForceClientService.getForceClient().apexrest(
-                        //     $scope.departureUrl + orderDetailsId + '&departureTime=' + departureTime.format('yyyy-MM-dd hh:mm:ss')
-                        //     + '&userId=' + oCurrentUser.Id,
-                        //     'POST',
-                        //     {},
-                        //     null, function callBack(res) {
-                        //         AppUtilService.hideLoading();
-                        //         if (res.status.toLowerCase() == 'success') {
-                        //             for (var i = 0; i < 2; i++) {
-                        //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                        //             }
-                        //             $('#departureBtn').css('pointer-events', 'none');
-                        //             $('#departureBtn').addClass('textCompleted');
-                        //             if (orderBelong) {
-                        //                 $('#sidProgressBar').css('width', '25%');
-                        //             } else {
-                        //                 $('#sidProgressBar').css('width', '33%');
-                        //             }
-                        //         } else {
-                        //             $ionicPopup.alert({
-                        //                 title: res.message
-                        //             });
-                        //             return;
-                        //         }
-                        //     }, function error(msg) {
-                        //         AppUtilService.hideLoading();
-                        //         console.log(msg);
-                        //         $ionicPopup.alert({
-                        //             title: msg
-                        //         });
-                        //         return;
-                        //     }
-                        // );
-
-                        //new code
                         dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,departureTime.format('yyyy-MM-dd hh:mm:ss'),carNo).then(function callBack(res) {
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
@@ -1594,191 +1277,9 @@ angular.module('oinio.workDetailsControllers', [])
                                     localLatitude = position.coords.latitude;
                                     localLongitude = position.coords.longitude;
                                     AppUtilService.showLoading();
-                                    //old Code
-                                    // ForceClientService.getForceClient().apexrest(
-                                    //   $scope.updateDataStatusUrl + '&sooId=' + orderDetailsId + '&status=Not Completed',
-                                    //   'POST',
-                                    //   {},
-                                    //   null, function callBack(res) {
-                                    //     console.log(res);
-                                    //     if (res.status.toLowerCase() == 'success') {
-                                    //       ForceClientService.getForceClient().apexrest(
-                                    //         $scope.departureUrl + orderDetailsId + '&departureTime=' + goOffTimeFromPrefix.format(
-                                    //         'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                    //         'POST',
-                                    //         {},
-                                    //         null,
-                                    //         function callBack(res) {
-                                    //           AppUtilService.hideLoading();
-                                    //           console.log(res);
-                                    //           if (res.status.toLowerCase() == 'success') {
-                                    //             for (var i = 0; i < 2; i++) {
-                                    //               $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                    //             }
-                                    //             $('#departureBtn').css('pointer-events', 'none');
-                                    //             $('#departureBtn').addClass('textCompleted');
-                                    //             if (orderBelong){
-                                    //                 $('#sidProgressBar').css('width', '25%');
-                                    //             }else{
-                                    //                 $('#sidProgressBar').css('width', '33%');
-                                    //             }
-                                    //             ForceClientService.getForceClient().apexrest(
-                                    //               $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format(
-                                    //               'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                    //               'POST',
-                                    //               {},
-                                    //               null,
-                                    //               function callBack(res) {
-                                    //                 AppUtilService.hideLoading();
-                                    //                 console.log(res);
-                                    //                 if (res.status.toLowerCase() == 'success') {
-                                    //                   //$event.target.style.backgroundColor = "#00FF7F";
-                                    //                   if (orderBelong){
-                                    //                       $('#sidProgressBar').css('width', '50%');
-                                    //                   }else{
-                                    //                       $('#sidProgressBar').css('width', '66%');
-                                    //                   }
-                                    //                   for (var i = 0; i < 3; i++) {
-                                    //                     $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                    //                   }
-                                    //                   $('#arriveBtn').css('pointer-events', 'none');
-                                    //                   $('#arriveBtn').addClass('textCompleted');
-                                    //                 } else {
-                                    //                   $ionicPopup.alert({
-                                    //                     title: '记录到达时间失败',
-                                    //                     template: res.message
-                                    //                   });
-                                    //                   return false;
-                                    //                 }
-                                    //               }, function error(msg) {
-                                    //                 AppUtilService.hideLoading();
-                                    //                 console.log(msg);
-                                    //                 $ionicPopup.alert({
-                                    //                   title: '记录到达时间失败',
-                                    //                   template: msg
-                                    //                 });
-                                    //                 return false;
-                                    //               }
-                                    //             );
-                                    //           } else {
-                                    //             $ionicPopup.alert({
-                                    //               title: '记录出发时间失败',
-                                    //               template: res.message
-                                    //             });
-                                    //             return false;
-                                    //           }
-                                    //         },
-                                    //         function error(msg) {
-                                    //           AppUtilService.hideLoading();
-                                    //           console.log(msg);
-                                    //           $ionicPopup.alert({
-                                    //             title: '记录出发时间失败',
-                                    //             template: msg
-                                    //           });
-                                    //           return false;
-                                    //         }
-                                    //       );
-                                    //     } else {
-                                    //       AppUtilService.hideLoading();
-                                    //       $ionicPopup.alert({
-                                    //         title: '更新工单状态失败',
-                                    //         template: res.message
-                                    //       });
-                                    //       return false;
-                                    //     }
-                                    //   }, function error(msg) {
-                                    //     AppUtilService.hideLoading();
-                                    //     console.log(msg);
-                                    //     $ionicPopup.alert({
-                                    //       title: '更新工单状态失败',
-                                    //       template: msg
-                                    //     });
-                                    //     return false;
-                                    //   }
-                                    // );
-
-                                    //new code
                                     dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(function callBack(res) {
                                         console.log(res);
                                         if (res.status.toLowerCase() == 'success') {
-                                            //old code
-                                            // ForceClientService.getForceClient().apexrest(
-                                            //     $scope.departureUrl + orderDetailsId + '&departureTime=' + goOffTimeFromPrefix.format(
-                                            //     'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                            //     'POST',
-                                            //     {},
-                                            //     null,
-                                            //     function callBack(res) {
-                                            //         AppUtilService.hideLoading();
-                                            //         console.log(res);
-                                            //         if (res.status.toLowerCase() == 'success') {
-                                            //             for (var i = 0; i < 2; i++) {
-                                            //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                            //             }
-                                            //             $('#departureBtn').css('pointer-events', 'none');
-                                            //             $('#departureBtn').addClass('textCompleted');
-                                            //             if (orderBelong) {
-                                            //                 $('#sidProgressBar').css('width', '25%');
-                                            //             } else {
-                                            //                 $('#sidProgressBar').css('width', '33%');
-                                            //             }
-                                            //             ForceClientService.getForceClient().apexrest(
-                                            //                 $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format(
-                                            //                 'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                            //                 'POST',
-                                            //                 {},
-                                            //                 null,
-                                            //                 function callBack(res) {
-                                            //                     AppUtilService.hideLoading();
-                                            //                     console.log(res);
-                                            //                     if (res.status.toLowerCase() == 'success') {
-                                            //                         //$event.target.style.backgroundColor = "#00FF7F";
-                                            //                         if (orderBelong) {
-                                            //                             $('#sidProgressBar').css('width', '50%');
-                                            //                         } else {
-                                            //                             $('#sidProgressBar').css('width', '66%');
-                                            //                         }
-                                            //                         for (var i = 0; i < 3; i++) {
-                                            //                             $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                            //                         }
-                                            //                         $('#arriveBtn').css('pointer-events', 'none');
-                                            //                         $('#arriveBtn').addClass('textCompleted');
-                                            //                     } else {
-                                            //                         $ionicPopup.alert({
-                                            //                             title: '记录到达时间失败',
-                                            //                             template: res.message
-                                            //                         });
-                                            //                         return false;
-                                            //                     }
-                                            //                 }, function error(msg) {
-                                            //                     AppUtilService.hideLoading();
-                                            //                     console.log(msg);
-                                            //                     $ionicPopup.alert({
-                                            //                         title: '记录到达时间失败',
-                                            //                         template: msg
-                                            //                     });
-                                            //                     return false;
-                                            //                 }
-                                            //             );
-                                            //         } else {
-                                            //             $ionicPopup.alert({
-                                            //                 title: '记录出发时间失败',
-                                            //                 template: res.message
-                                            //             });
-                                            //             return false;
-                                            //         }
-                                            //     },
-                                            //     function error(msg) {
-                                            //         AppUtilService.hideLoading();
-                                            //         console.log(msg);
-                                            //         $ionicPopup.alert({
-                                            //             title: '记录出发时间失败',
-                                            //             template: msg
-                                            //         });
-                                            //         return false;
-                                            //     }
-                                            // );
-                                            //new code
                                             dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id :oCurrentUser._soupEntryId,goOffTimeFromPrefix.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
                                                 AppUtilService.hideLoading();
                                                 console.log(res);
@@ -1794,46 +1295,6 @@ angular.module('oinio.workDetailsControllers', [])
                                                         $('#sidProgressBar').css('width', '33%');
                                                     }
 
-                                                    //old code
-                                                    // ForceClientService.getForceClient().apexrest(
-                                                    //     $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format(
-                                                    //     'yyyy-MM-dd hh:mm:ss') + '&userId=' + oCurrentUser.Id,
-                                                    //     'POST',
-                                                    //     {},
-                                                    //     null,
-                                                    //     function callBack(res) {
-                                                    //         AppUtilService.hideLoading();
-                                                    //         console.log(res);
-                                                    //         if (res.status.toLowerCase() == 'success') {
-                                                    //             //$event.target.style.backgroundColor = "#00FF7F";
-                                                    //             if (orderBelong) {
-                                                    //                 $('#sidProgressBar').css('width', '50%');
-                                                    //             } else {
-                                                    //                 $('#sidProgressBar').css('width', '66%');
-                                                    //             }
-                                                    //             for (var i = 0; i < 3; i++) {
-                                                    //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                                    //             }
-                                                    //             $('#arriveBtn').css('pointer-events', 'none');
-                                                    //             $('#arriveBtn').addClass('textCompleted');
-                                                    //         } else {
-                                                    //             $ionicPopup.alert({
-                                                    //                 title: '记录到达时间失败',
-                                                    //                 template: res.message
-                                                    //             });
-                                                    //             return false;
-                                                    //         }
-                                                    //     }, function error(msg) {
-                                                    //         AppUtilService.hideLoading();
-                                                    //         console.log(msg);
-                                                    //         $ionicPopup.alert({
-                                                    //             title: '记录到达时间失败',
-                                                    //             template: msg
-                                                    //         });
-                                                    //         return false;
-                                                    //     }
-                                                    // );
-                                                    //new code
                                                     dualModeService.arrivalActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
                                                         AppUtilService.hideLoading();
                                                         console.log(res);
@@ -1914,51 +1375,6 @@ angular.module('oinio.workDetailsControllers', [])
                         mobileSelect3.show();
                     } else {
                         AppUtilService.showLoading();
-                        //old code
-                        // ForceClientService.getForceClient().apexrest(
-                        //     $scope.arrivalPostUrl + orderDetailsId + '&arrivalTime=' + arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                        //     + '&userId=' + oCurrentUser.Id,
-                        //     'POST',
-                        //     {},
-                        //     null,
-                        //     function callBack(res) {
-                        //         console.log(res);
-                        //         AppUtilService.hideLoading();
-                        //         if (res.status.toLowerCase() == 'success') {
-                        //             //$event.target.style.backgroundColor = "#00FF7F";
-                        //             if (orderBelong) {
-                        //                 $('#sidProgressBar').css('width', '50%');
-                        //             } else {
-                        //                 $('#sidProgressBar').css('width', '66%');
-                        //             }
-                        //             for (var i = 0; i < 3; i++) {
-                        //                 $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                        //             }
-                        //             $('#arriveBtn').css('pointer-events', 'none');
-                        //             $('#arriveBtn').addClass('textCompleted');
-                        //             $ionicPopup.alert({
-                        //                 title: '记录到达时间成功'
-                        //             });
-                        //         } else {
-                        //             $ionicPopup.alert({
-                        //                 title: '记录到达时间失败',
-                        //                 template: res.message
-                        //             });
-                        //             arriveTime = null;
-                        //             return false;
-                        //         }
-                        //     }, function error(msg) {
-                        //         AppUtilService.hideLoading();
-                        //         console.log(msg);
-                        //         $ionicPopup.alert({
-                        //             title: '记录到达时间失败',
-                        //             template: msg
-                        //         });
-                        //         arriveTime = null;
-                        //         return false;
-                        //     }
-                        // );
-                        //new code
                         dualModeService.arrivalActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
                             console.log(res);
                             AppUtilService.hideLoading();
@@ -1998,27 +1414,6 @@ angular.module('oinio.workDetailsControllers', [])
 
                     }
                 }
-
-                // $ionicPopup.show({
-                //     title: '是否确定到达？',
-                //     buttons: [{
-                //         text: '取消',
-                //         onTap: function () {
-                //
-                //         }
-                //     }, {
-                //         text: '确定',
-                //         onTap: function () {
-                //             navigator.geolocation.getCurrentPosition(function success(position) {
-                //                 localLatitude=position.coords.latitude;
-                //                 localLongitude=position.coords.longitude;
-                //                 ForceClientService.getForceClient().apexrest(
-                //                     $scope.arrivalPostUrl+orderDetailsId+"&arrivalTime="+arriveTime.format("yyyy-MM-dd
-                // hh:mm:ss"), 'POST', {}, null, function callBack(res) { console.log(res); if
-                // (res.status.toLowerCase()=="success"){ $event.target.style.backgroundColor = "#00FF7F"; }else{
-                // $ionicPopup.alert({ title:"记录到达时间失败" }); return false; } },function error(msg) { console.log(msg);
-                // $ionicPopup.alert({ title:"记录到达时间失败" }); return false; } ); },function error(msg) { console.log(msg);
-                // $ionicPopup.alert({ title:"获取定位失败" }); return false; }); } }], });
             };
 
             $scope.goodsList = [];
@@ -2083,40 +1478,6 @@ angular.module('oinio.workDetailsControllers', [])
                                         text: '确定',
                                         onTap: function () {
                                             AppUtilService.showLoading();
-                                            //old code
-                                            // ForceClientService.getForceClient().apexrest(
-                                            //   $scope.updateDataStatusUrl + '&sooId=' + orderDetailsId + '&status=Field Work Done',
-                                            //   'POST',
-                                            //   {},
-                                            //   null, function callBack(res) {
-                                            //     console.log(res);
-                                            //     AppUtilService.hideLoading();
-                                            //     if (res.status.toLowerCase() == 'success') {
-                                            //       AppUtilService.hideLoading();
-                                            //       //$event.target.style.backgroundColor = "#00FF7F";
-                                            //       $('#signBillBtn').css('pointer-events', 'none');
-                                            //       $('#signBillBtn').addClass('textCompleted');
-                                            //       $('ol li:eq(5)').addClass('slds-is-active');
-                                            //       $('#sidProgressBar').css('width', '100%');
-                                            //       $scope.goSave();
-                                            //     } else {
-                                            //       $ionicPopup.alert({
-                                            //         title: '更新工单状态失败',
-                                            //         template: res.message
-                                            //       });
-                                            //       return false;
-                                            //     }
-                                            //   }, function error(msg) {
-                                            //     console.log(msg);
-                                            //     AppUtilService.hideLoading();
-                                            //     $ionicPopup.alert({
-                                            //       title: '更新工单状态失败',
-                                            //       template: msg
-                                            //     });
-                                            //     return false;
-                                            //   }
-                                            // );
-                                            //new code
                                             dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Field Work Done').then(function callBack(res) {
                                                 console.log(res);
                                                 AppUtilService.hideLoading();
@@ -2265,10 +1626,6 @@ angular.module('oinio.workDetailsControllers', [])
                 /**
                  * 修改离线为在线提交
                  */
-                // SOrderService.workDetailSaveButton(order, $scope.allTruckItems, $('#workContentStr').val(), localUris,
-                // arriveTime, leaveTime, startTime, finishTime).then(function success(result) { console.log(result);
-                // //*********保存配件************* */ $scope.regroupPartListForSave(); //********************** */  }, function
-                // error(error) { $log.error(error); });
 
                 truckItemsSecond = [];
                 var newTrucks = [];
@@ -2311,48 +1668,6 @@ angular.module('oinio.workDetailsControllers', [])
                 }
 
 
-                /**
-                 * 在线保存工单详情页的数据
-                 */
-                    // ForceClientService.getForceClient()
-                    //   .apexrest(
-                    //     $scope.postDataToRemote,
-                    //     'POST',
-                    //     JSON.stringify({
-                    //       'order': orderObj,
-                    //       'childOrders': truckItemsSecond,
-                    //       'images': localUris,
-                    //       'assignUsers': selectUserIds,
-                    //       'str_suggestion': $('#serviceSuggest').val().trim(),
-                    //       'truckOrders': newTrucks
-                    //       // 'sigAcctImages': $scope.busyImgStr != 'data:image/jpeg;base64,undefined' ? $scope.busyImgStr.replace(
-                    //       //       /data:image\/jpeg;base64,/, '') : '',
-                    //       // 'sigEngineerImages': $scope.engineerImgStr != 'data:image/jpeg;base64,undefined'
-                    //       //   ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : ''
-                    //     }), null, function success(res) {
-                    //       AppUtilService.hideLoading();
-                    //       console.log(res);
-                    //       if (res.status.toLowerCase() != 'fail') {
-                    //         //*********保存配件************* */
-                    //         $scope.regroupPartListForSave();
-                    //       } else {
-                    //         $ionicPopup.alert({
-                    //           title: '保存数据失败',
-                    //           template: res.message
-                    //         });
-                    //         return false;
-                    //       }
-                    //
-                    //     },
-                    //     function error(msg) {
-                    //       console.log(msg);
-                    //       AppUtilService.hideLoading();
-                    //       $ionicPopup.alert({
-                    //         title: '保存数据失败',
-                    //         template: msg
-                    //       });
-                    //       return false;
-                    //     });
                 var workItemObj = [];
                 for (var i =0;i<$scope.workTimes.length;i++){
                     workItemObj.push({
@@ -3680,44 +2995,6 @@ angular.module('oinio.workDetailsControllers', [])
                     $scope.getMainLevelsAndDesc($scope.allTruckItems[0], initChildOrders,null);
                 }
 
-                // var beforeAddMoreTrucks = truckItems;
-                // $scope.allTruckItems=[];
-                // var beforeAddMoreTrucksSecond = truckItemsSecond;
-                // truckItemsSecond=[];
-                // truckItems=[];
-                // setTimeout(function () {
-                //     for (var i = 0;i<$scope.selectedTruckItemsMore.length;i++){
-                //         truckItems.push(
-                //             {
-                //                 Id: $scope.selectedTruckItemsMore[i].Id,
-                //                 truckItemNum: $scope.selectedTruckItemsMore[i].Name,
-                //                 Operation_Hour__c: 0,
-                //                 Service_Suggestion__c: "",
-                //                 isShow: false
-                //             }
-                //         );
-                //         truckItemsSecond.push(
-                //             {
-                //                 Id:  $scope.selectedTruckItemsMore[i].Id,
-                //                 Operation_Hour__c: 0,
-                //                 Service_Suggestion__c: "",
-                //             }
-                //         );
-                //     }
-                // },500);
-                //
-                // $scope.allTruckItems = truckItems;
-                // for (var i =0;i<truckItems.length;i++){
-                //     truckIds.push(truckItems[i].Id);
-                // }
-                // for(var i=0;i<beforeAddMoreTrucks.length;i++){
-                // $scope.allTruckItems.push(beforeAddMoreTrucks[i]);
-                // }
-                // for (var i=0;i<beforeAddMoreTrucksSecond.length;i++){
-                //     truckItemsSecond.push(beforeAddMoreTrucksSecond[i]);
-                // }
-                // $scope.SelectedTruckNum=$scope.allTruckItems.length;
-
             };
 
             //保养级别
@@ -4030,11 +3307,6 @@ angular.module('oinio.workDetailsControllers', [])
                                                 $ionicPopup.alert({
                                                     title: '出票成功'
                                                 });
-                                                // $('#printBtn').css('pointer-events', 'none');
-                                                // $('#printBtn').addClass('textCompleted');
-                                                // $('ol li:eq(3)').addClass('slds-is-active');
-                                                // $('#sidProgressBar').css('width', '75%');
-                                                //$event.target.style.backgroundColor = "#00FF7F";
                                             }, function error(obj) {
                                                 console.log(obj.message);
                                                 $log.error(obj.message);
