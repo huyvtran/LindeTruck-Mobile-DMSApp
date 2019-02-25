@@ -176,7 +176,7 @@ angular.module('oinio.CalendarArrangeController', [])
                 if (item.userName == "全部") {
                     setTimeout(function () {
                         // $scope.allUser.remove(item);
-                      _.pullAt($scope.allUser, item);
+                      _.pull($scope.allUser, item);
                     }, 50);
                 }
             });

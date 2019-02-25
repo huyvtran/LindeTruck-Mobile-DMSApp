@@ -451,7 +451,7 @@ angular.module('oinio.PriceDetailController', [])
           if (element.type == 'economical') {
             setTimeout(function () {
               // $scope.selectedTruckFitItems.remove(element);
-              _.pullAt($scope.selectedTruckFitItems, element);
+              _.pull($scope.selectedTruckFitItems, element);
             }, 50);
           }
         }
@@ -468,7 +468,7 @@ angular.module('oinio.PriceDetailController', [])
           if (element.type == 'common' || element.type == 'substitution') {
             setTimeout(function () {
               // $scope.selectedTruckFitItems.remove(element);
-              _.pullAt($scope.selectedTruckFitItems, element);
+              _.pull($scope.selectedTruckFitItems, element);
             }, 50);
           }
         }

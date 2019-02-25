@@ -81,7 +81,7 @@ angular.module('oinio.RefundController', [])
 
         $scope.toDelOneRefundView = function (obj) {
             // $scope.selectRefundInfo.remove(obj);
-          _.pullAt($scope.selectRefundInfo, obj);
+          _.pull($scope.selectRefundInfo, obj);
 
         };
         $scope.toDelTwoRefundView = function (bigObj, obj) {
@@ -89,7 +89,7 @@ angular.module('oinio.RefundController', [])
             console.log("obj:",obj);
             $scope.deleteIds.push(obj.Id);
             // bigObj.remove(obj);
-          _.pullAt(bigObj, obj);
+          _.pull(bigObj, obj);
 
         };
         $scope.goToSave = function () {
