@@ -313,20 +313,20 @@ angular.module('oinio.NewOfferFittingsController', [])
       /**
        *删除数组指定下标或指定对象
        */
-      Array.prototype.remove = function (obj) {
-        for (var i = 0; i < this.length; i++) {
-          var temp = this[i];
-          if (!isNaN(obj)) {
-            temp = i;
-          }
-          if (temp == obj) {
-            for (var j = i; j < this.length; j++) {
-              this[j] = this[j + 1];
-            }
-            this.length = this.length - 1;
-          }
-        }
-      };
+      // Array.prototype.remove = function (obj) {
+      //   for (var i = 0; i < this.length; i++) {
+      //     var temp = this[i];
+      //     if (!isNaN(obj)) {
+      //       temp = i;
+      //     }
+      //     if (temp == obj) {
+      //       for (var j = i; j < this.length; j++) {
+      //         this[j] = this[j + 1];
+      //       }
+      //       this.length = this.length - 1;
+      //     }
+      //   }
+      // };
       $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
         $scope.closeSelectPage();
         $scope.getTrucksWithSubstitution();
@@ -396,7 +396,8 @@ angular.module('oinio.NewOfferFittingsController', [])
           let element = $scope.selectedTruckFitItems[index];
           if (element.type == 'economical') {
             setTimeout(function () {
-              $scope.selectedTruckFitItems.remove(element);
+              // $scope.selectedTruckFitItems.remove(element);
+              _.pullAt($scope.selectedTruckFitItems, element);
             }, 50);
           }
         }
@@ -412,7 +413,8 @@ angular.module('oinio.NewOfferFittingsController', [])
           let element = $scope.selectedTruckFitItems[index];
           if (element.type == 'common' || element.type == 'substitution') {
             setTimeout(function () {
-              $scope.selectedTruckFitItems.remove(element);
+              // $scope.selectedTruckFitItems.remove(element);
+              _.pullAt($scope.selectedTruckFitItems, element);
             }, 50);
           }
         }

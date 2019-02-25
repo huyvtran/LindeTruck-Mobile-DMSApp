@@ -16,6 +16,7 @@ angular.module('oinio.ErrorCodeController', [])
      */
     $scope.$on('$ionicView.beforeEnter', function () {
 
+      $log.log('>>>> URL：',$scope.getPartsForReadUrl1);
 
 
       AppUtilService.showLoading();

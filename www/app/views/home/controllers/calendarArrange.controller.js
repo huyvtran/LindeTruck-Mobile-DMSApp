@@ -8,20 +8,20 @@ angular.module('oinio.CalendarArrangeController', [])
         /**
          *删除数组指定下标或指定对象
          */
-        Array.prototype.remove = function (obj) {
-            for (var i = 0; i < this.length; i++) {
-                var temp = this[i];
-                if (!isNaN(obj)) {
-                    temp = i;
-                }
-                if (temp == obj) {
-                    for (var j = i; j < this.length; j++) {
-                        this[j] = this[j + 1];
-                    }
-                    this.length = this.length - 1;
-                }
-            }
-        };
+        // Array.prototype.remove = function (obj) {
+        //     for (var i = 0; i < this.length; i++) {
+        //         var temp = this[i];
+        //         if (!isNaN(obj)) {
+        //             temp = i;
+        //         }
+        //         if (temp == obj) {
+        //             for (var j = i; j < this.length; j++) {
+        //                 this[j] = this[j + 1];
+        //             }
+        //             this.length = this.length - 1;
+        //         }
+        //     }
+        // };
         $scope.updateDataStatusUrl = "/WorkDetailService?action=updateStatus";
         $scope.savePlanDateUrl = "/services/apexrest/HomeService?orderId=";
         $scope.submitOrder = function () {
@@ -175,7 +175,8 @@ angular.module('oinio.CalendarArrangeController', [])
             _.each($scope.allUser, function (item) {
                 if (item.userName == "全部") {
                     setTimeout(function () {
-                        $scope.allUser.remove(item);
+                        // $scope.allUser.remove(item);
+                      _.pullAt($scope.allUser, item);
                     }, 50);
                 }
             });
