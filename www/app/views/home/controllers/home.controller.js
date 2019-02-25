@@ -10,8 +10,6 @@ angular.module('oinio.controllers', [])
        * @func    $scope.$on('$ionicView.beforeEnter')
        * @desc
        */
-      //$scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM"; //测试环境
-       $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
 
       $scope.$on('$ionicView.beforeEnter', function () {
 
@@ -26,7 +24,6 @@ angular.module('oinio.controllers', [])
           vm.username = oCurrentUser.Name;
         }
 
-        console.log('homeController$ionicView.enter');
       });
 
       $scope.$on('$ionicView.beforeLeave', function () {
@@ -106,17 +103,17 @@ angular.module('oinio.controllers', [])
         $state.go('app.serviceManagement');
       };
       $scope.webManager = function () {
-        var urlUserPage = $scope.devLindeCRMURL+"/UserPage/WH_MyOutInStorageRecord.aspx?curuser="+oCurrentUser.Id;
+        var urlUserPage = $rootScope.devLindeCRMURL+"/UserPage/WH_MyOutInStorageRecord.aspx?curuser="+oCurrentUser.Id;
         console.log('urlUserPage', urlUserPage);
         $state.go('app.goH5',{SendURL:urlUserPage});
       };
       $scope.ARListView = function () {
-        var urlUserPage = $scope.devLindeCRMURL+"/UserPage/ARDeliverLogin.aspx?curuser="+oCurrentUser.Id;
+        var urlUserPage = $rootScope.devLindeCRMURL+"/UserPage/ARDeliverLogin.aspx?curuser="+oCurrentUser.Id;
         console.log('urlUserPage', urlUserPage);
         $state.go('app.goH5',{SendURL:urlUserPage});
       };
       $scope.carProblems = function () {
-        var urlUserPage = $scope.devLindeCRMURL+"/UserPage/ForkliftQualityCollectList.aspx?curuser="+oCurrentUser.Id;
+        var urlUserPage = $rootScope.devLindeCRMURL+"/UserPage/ForkliftQualityCollectList.aspx?curuser="+oCurrentUser.Id;
         console.log('urlUserPage', urlUserPage);
         $log.log('>>>> carProblemsURL：'+urlUserPage);
 

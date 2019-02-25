@@ -7,10 +7,11 @@
 
 angular.module('oinio.MainController', [])
     .controller('MainController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-                                            LocalCacheService,$ionicTabsDelegate,TimeCardService) {
+                                            LocalCacheService,$ionicTabsDelegate,TimeCardService,ForceClientService) {
 
         var vm = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
+      $rootScope.forceClientProd = false;
 
         vm.isOnline = null;
         cordova.plugins.backgroundMode.on('activate', function () {
@@ -35,7 +36,18 @@ angular.module('oinio.MainController', [])
             }
             console.log("mainController.$ionicView.beforeEnter");
             TimeCardService.fetchVersionInfo();
+          var forceClient = ForceClientService.getForceClient().instanceUrl;
+          if (forceClient.charAt(16)=='.') {
+            $rootScope.forceClientProd = true;
+          }else {
+            $rootScope.forceClientProd = false;
+          }
 
+          if ($rootScope.forceClientProd){
+            $rootScope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
+          } else {
+            $rootScope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM"; //测试环境
+          }
         });
 
         $scope.addNewLinkMan = function () {
