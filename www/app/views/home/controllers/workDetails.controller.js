@@ -1455,7 +1455,7 @@ angular.module('oinio.workDetailsControllers', [])
                 for (var i =0;i<$scope.localWorkItems.length;i++){
                     minTotal+=$scope.calculateWorkHour($scope.localWorkItems[i].arriveTime,$scope.localWorkItems[i].leaveTime);
                 }
-                $scope.workHourShow = minTotal/60+'小时';//工作小时
+                $scope.workHourShow = (minTotal/60).toFixed(2)+'小时';//工作小时
                 $scope.callStrShow = $('#call_str').val().trim();//报修需求
                 $scope.workContentShow = $('#workContentStr').val();//工作信息
                 $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
