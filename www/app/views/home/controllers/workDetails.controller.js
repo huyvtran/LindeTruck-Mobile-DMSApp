@@ -332,7 +332,7 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.initPhotoData(res.images);
                         $scope.initSignature(res.sigEngineerImage, res.sigAcctImage);
                         $scope.SelectedTruckNum = res.truckModels.length;
-                        $scope.initTrucks(res.truckModels);
+                        $scope.initTrucks(res.truckModels,res.childOrders);
                         initTrucks = res.truckModels;
                         if (initTrucks != null && initTrucks.length > 0) {
                             $scope.getMainLevelsAndDesc(initTrucks[0], initChildOrders);
@@ -547,25 +547,40 @@ angular.module('oinio.workDetailsControllers', [])
                 }
             };
 
-            $scope.initTrucks = function (trucks) {
-                if (trucks != null && trucks != undefined && trucks.length > 0) {
+            $scope.initTrucks = function (trucks,childOrders) {
+                if (trucks != null && trucks != undefined && childOrders!=null && childOrders!=undefined && trucks.length > 0 && childOrders.length>0) {
                     truckItems = [];
-                    //truckItemsSecond=[];
                     for (var i = 0; i < trucks.length; i++) {
                         truckNumber += trucks[i].Name + ';';
-                        truckItems.push(
-                            {
-                                Id: trucks[i].Id,
-                                truckItemNum: trucks[i].Name,
-                                Operation_Hour__c: 0,
-                                Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
-                                Service_Suggestion__c: '',
-                                Model__c:trucks[i].Model__c!=undefined ? trucks[i].Model__c:null,
-                                chooseCheckBox: false,
-                                New_Operation_Hour__c: 0,
-                                isShow: false
+                        for (var j =0;j<childOrders.length;j++){
+                            if (trucks[i].Id==childOrders[j].Truck_Serial_Number__c){
+                                var optHour=0;
+                                if (childOrders[j].Operation_Hour__c!=undefined&&childOrders[j].Operation_Hour__c!=null){
+                                    optHour=childOrders[j].Operation_Hour__c;
+                                }else{
+                                    if (childOrders[j].Truck_Serial_Number__r!=undefined&&childOrders[j].Truck_Serial_Number__r!=null){
+                                        if (childOrders[j].Truck_Serial_Number__r.Operation_Hour__c!=undefined&&childOrders[j].Truck_Serial_Number__r.Operation_Hour__c!=null){
+                                            optHour=childOrders[j].Truck_Serial_Number__r.Operation_Hour__c;
+                                        }else{
+                                            optHour=0;
+                                        }
+                                    }
+                                }
+                                truckItems.push(
+                                    {
+                                        Id: trucks[i].Id,
+                                        truckItemNum: trucks[i].Name,
+                                        Operation_Hour__c: optHour,
+                                        Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
+                                        Service_Suggestion__c: '',
+                                        Model__c:trucks[i].Model__c!=undefined ? trucks[i].Model__c:null,
+                                        chooseCheckBox: false,
+                                        New_Operation_Hour__c: childOrders[j].New_Operation_Hour__c!=undefined&&childOrders[j].New_Operation_Hour__c!=null ? childOrders[j].New_Operation_Hour__c :0,
+                                        isShow: false
+                                    }
+                                );
                             }
-                        );
+                        }
                     }
                 }
             };
