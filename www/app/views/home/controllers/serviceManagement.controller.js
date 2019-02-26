@@ -424,6 +424,13 @@ angular.module('oinio.serviceManagementController', [])
 
             var picList=[];
 
+            var employeeNum = Number(oCurrentUser.EmployeeNumber);
+            if (oCurrentUser.EmployeeNumber!=null&&oCurrentUser.EmployeeNumber.length<8){
+                for (var i =0;i<8-oCurrentUser.EmployeeNumber.length;i++){
+                    employeeNum='0'+employeeNum;
+                }
+            }
+
             for (var i = 0; i < $scope.imgUris1.length; i++) {
                 if ($scope.imgUris1[i] != '././img/images/will_add_Img.png') {
                     localImgUris1.push(($scope.imgUris1[i]).slice(23));
@@ -432,7 +439,7 @@ angular.module('oinio.serviceManagementController', [])
                         AttachName:new Date().getTime()+"",
                         AttachContent:$scope.imgUris1[i].slice(23),
                         CreateTime:new Date(),
-                        CreateBy:oCurrentUser.Id
+                        CreateBy:employeeNum
                     });
                 }
             }
@@ -445,17 +452,12 @@ angular.module('oinio.serviceManagementController', [])
                         AttachName:new Date().getTime()+"",
                         AttachContent:$scope.imgUris2[i].slice(23),
                         CreateTime:new Date(),
-                        CreateBy:oCurrentUser.Id
+                        CreateBy:employeeNum
                     });
                 }
             }
 
-            var employeeNum = Number(oCurrentUser.EmployeeNumber);
-            if (oCurrentUser.EmployeeNumber!=null&&oCurrentUser.EmployeeNumber.length<8){
-                for (var i =0;i<8-oCurrentUser.EmployeeNumber.length;i++){
-                    employeeNum='0'+employeeNum;
-                }
-            }
+
 
             var baseInfo={
                 CarNo:licensePlateNumber,
