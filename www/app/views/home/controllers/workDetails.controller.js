@@ -3322,7 +3322,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 workTimeTotal: workItemsTotal,
                                                 goodsTotal: $scope.goodsList,
                                                 listContent: '',//listContent  配件费参见发货清单
-                                                demandForRequire: '   ' + callStr,//demandForRequire  报修需求
+                                                demandForRequire: callStr,//demandForRequire  报修需求
                                                 workContent: $('#workContentStr').val(),//workContent  工作信息
                                                 resultAndSuggestions: $('#serviceSuggest').val(),//resultAndSuggestions  结果及建议
                                                 responsibleEngineer: ownerName,//responsibleEngineer  责任人

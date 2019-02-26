@@ -1382,17 +1382,17 @@
 								<tr>
 									<td class="statistic_Title"> 工程师 </td>
 									<td class="statistic_Title statistic_center"> 日期 </td>
-									<td class="statistic_Title statistic_right"> 出发 </td>
-									<td class="statistic_Title statistic_right"> 到达 </td>
-									<td class="statistic_Title statistic_right"> 离开 </td>
+									<td class="statistic_Title statistic_center"> 出发 </td>
+									<td class="statistic_Title statistic_center"> 到达 </td>
+									<td class="statistic_Title statistic_center"> 离开 </td>
 									<td class="statistic_Title statistic_right"> 公里数 </td>
 								</tr>
 								<tr ng-repeat="localWorkItem in localWorkItems">
 									<td class="statistic_Text"> {{localWorkItem.ownerName}} </td>
-									<td class="statistic_Text statistic_right"> {{localWorkItem.dame}} </td>
-									<td class="statistic_Text statistic_right"> {{localWorkItem.departureTime}} </td>
-									<td class="statistic_Text statistic_right"> {{localWorkItem.arriveTime}} </td>
-									<td class="statistic_Text statistic_right"> {{localWorkItem.leaveTime}} </td>
+									<td class="statistic_Text statistic_center"> {{localWorkItem.dame}} </td>
+									<td class="statistic_Text statistic_center"> {{localWorkItem.departureTime}} </td>
+									<td class="statistic_Text statistic_center"> {{localWorkItem.arriveTime}} </td>
+									<td class="statistic_Text statistic_center"> {{localWorkItem.leaveTime}} </td>
 									<td class="statistic_Text statistic_right"> {{localWorkItem.workMiles}} </td>
 								</tr>
 							</table>
@@ -1408,16 +1408,16 @@
 						<div class="inf_Box">
 							<table class="statistic_table">
 								<tr>
-									<td class="statistic_Title"> 行项 </td>
-									<td class="statistic_Title statistic_right"> 物料号/物料名称 </td>
-									<td class="statistic_Title statistic_right"> 到货数 </td>
-									<td class="statistic_Title statistic_right"> 实用量 </td>
+									<td class="statistic_Title statistic_center"> 行项 </td>
+									<td class="statistic_Title statistic_center"> 物料号/物料名称 </td>
+									<td class="statistic_Title statistic_center"> 到货数 </td>
+									<td class="statistic_Title statistic_center"> 实用量 </td>
 								</tr>
 								<tr ng-repeat="goodsItem in goodsList">
-									<td class="statistic_Text"> {{goodsItem.SAP_Delivery_Order_Line_Item__c}} </td>
-									<td class="statistic_Text statistic_right"> {{goodsItem.Service_Material__rparts_number__c}}/{{goodsItem.Service_Material__rName}} </td>
-									<td class="statistic_Text statistic_right"> {{goodsItem.Quantity__c}} </td>
-									<td class="statistic_Text statistic_right"> {{goodsItem.Used_Quantity__c}} </td>
+									<td class="statistic_Text statistic_center"> {{goodsItem.SAP_Delivery_Order_Line_Item__c}} </td>
+									<td class="statistic_Text statistic_center"> {{goodsItem.Service_Material__rparts_number__c}}/{{goodsItem.Service_Material__rName}} </td>
+									<td class="statistic_Text statistic_center"> {{goodsItem.Quantity__c}} </td>
+									<td class="statistic_Text statistic_center"> {{goodsItem.Used_Quantity__c}} </td>
 								</tr>
 							</table>
 						</div>
