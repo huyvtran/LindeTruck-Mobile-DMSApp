@@ -7,10 +7,10 @@
 angular
   .module('oinio.services')
   .service('TimeCardService',
-    function ($q, $http, $interval, $timeout, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFileOpener2, LocalSyncService, ForceClientService) {
+    function ($q, $http, $interval, $rootScope, $timeout, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFileOpener2, LocalSyncService, ForceClientService) {
 
       var service = this;
-      var lindechinaoa = 'https://lindechinaoatest.gaiaworkforce.com/api/';
+      var lindechinaoa = $rootScope.timeCardLindeCRMURL;
       var accesstoken = '';
 
       /**
@@ -74,7 +74,7 @@ angular
                 $ionicLoading.show({
                   template: '已经下载：0%'
                 });
-                var url = 'http://139.219.108.57:98/SEApp.apk'; //可以从服务端获取更新APP的路径
+                var url = $rootScope.apkDownloadURL; //可以从服务端获取更新APP的路径
                 var filename = url.split('/').pop();
                 var targetPath = cordova.file.externalRootDirectory + filename;//APP下载存放的路径，可以使用cordova file插件进行相关配置
                 //var targetPath = cordova.file.externalDataDirectory + filename;
