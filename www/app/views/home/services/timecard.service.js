@@ -24,7 +24,7 @@ angular
         $http({
           method: 'GET',
           contentType: 'application/json',
-            url: $rootScope.timeCardLindeCRMURL
+            url: encodeURI($rootScope.timeCardLindeCRMURL)
           // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
         }).then(function successCallback(response) {
           console.log('response',response);
@@ -168,7 +168,7 @@ angular
           $http({
             method: 'GET',
             contentType: 'application/json',
-              url: $rootScope.timeCardLindeCRMURL
+              url: encodeURI($rootScope.timeCardLindeCRMURL)
             // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
           }).then(function successCallback(response) {
             // console.log('response',response);
