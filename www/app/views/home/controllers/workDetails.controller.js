@@ -567,21 +567,22 @@ angular.module('oinio.workDetailsControllers', [])
                                         }
                                     }
                                 }
-                                truckItems.push(
-                                    {
-                                        Id: trucks[i].Id,
-                                        truckItemNum: trucks[i].Name,
-                                        Operation_Hour__c: optHour,
-                                        Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
-                                        Service_Suggestion__c: '',
-                                        Model__c:trucks[i].Model__c!=undefined ? trucks[i].Model__c:null,
-                                        chooseCheckBox: false,
-                                        New_Operation_Hour__c: childOrders[j].New_Operation_Hour__c!=undefined&&childOrders[j].New_Operation_Hour__c!=null ? childOrders[j].New_Operation_Hour__c :0,
-                                        isShow: false
-                                    }
-                                );
+
                             }
                         }
+                        truckItems.push(
+                            {
+                                Id: trucks[i].Id,
+                                truckItemNum: trucks[i].Name,
+                                Operation_Hour__c: optHour,
+                                Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
+                                Service_Suggestion__c: '',
+                                Model__c:trucks[i].Model__c!=undefined ? trucks[i].Model__c:null,
+                                chooseCheckBox: false,
+                                New_Operation_Hour__c:0,
+                                isShow: false
+                            }
+                        );
                     }
                 }
             };
