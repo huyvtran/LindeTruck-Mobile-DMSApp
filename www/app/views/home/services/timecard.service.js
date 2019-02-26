@@ -7,7 +7,7 @@
 angular
   .module('oinio.services')
   .service('TimeCardService',
-    function ($q, $http, $interval, $rootScope, $timeout, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFileOpener2, LocalSyncService, ForceClientService) {
+    function ($q, $http, $interval, $rootScope, $timeout, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFileOpener2, LocalSyncService, SmartStoreService, ForceClientService) {
 
       var service = this;
       var lindechinaoa = $rootScope.timeCardLindeCRMURL;
@@ -129,6 +129,9 @@ angular
             var options = {};
             $cordovaFileTransfer.download(url, targetPath, options, trustHosts).then(function (result) {
               // 打开下载下来的APP
+              SmartStoreService.dropSoupByConfig(false, false, true).then(function () {
+
+              });
               $cordovaFileOpener2.open(targetPath, 'application/vnd.android.package-archive').then(function () {
                 // 成功
               }, function (err) {
