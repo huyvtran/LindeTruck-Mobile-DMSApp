@@ -11,6 +11,7 @@ angular
 
       var service = this;
       var lindechinaoa = $rootScope.timeCardLindeCRMURL;
+      var lindeMainDataUrl= $rootScope.mainDataURL;
       var accesstoken = '';
 
       /**
@@ -23,7 +24,8 @@ angular
         $http({
           method: 'GET',
           contentType: 'application/json',
-          url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
+            url: $rootScope.timeCardLindeCRMURL
+          // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
         }).then(function successCallback(response) {
           console.log('response',response);
           accesstoken = response.data.data.accessToken;
@@ -166,7 +168,8 @@ angular
           $http({
             method: 'GET',
             contentType: 'application/json',
-            url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
+              url: $rootScope.timeCardLindeCRMURL
+            // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
           }).then(function successCallback(response) {
             // console.log('response',response);
             accesstoken = response.data.data.accessToken;
@@ -199,7 +202,8 @@ angular
           method: 'POST',
           contentType: 'application/json',
           headers: getRequestHeaders(),
-          url: lindechinaoa + 'linde/mainData',
+            url:$rootScope.mainDataURL,
+          // url: lindechinaoa + 'linde/mainData',
           data:payload
         }).then(function successCallback(response) {
           console.log('response',response);

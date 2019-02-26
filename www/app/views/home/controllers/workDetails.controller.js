@@ -2973,15 +2973,14 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectTruckAddPage').style.display = 'block';
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
-
                 angular.forEach($scope.allTruckItems,function (singleTruckItem) {
                     $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
                         if ($(element).attr('data-recordid') == singleTruckItem.Id) {
                             $(this).prop('checked', true);
                         }
                     });
-                });
 
+                });
             };
 
             /**
@@ -2995,11 +2994,11 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
                 truckItems=[];
-                $scope.allTruckItems = [];
+                // $scope.allTruckItems = [];
                 $scope.initTrucks(initTrucks);
                 truckIds = [];
                 for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
-                    truckItems.push(
+                    $scope.allTruckItems.push(
                         {
                             Id: $scope.selectedTruckItemsMore[i].Id,
                             truckItemNum: $scope.selectedTruckItemsMore[i].Name,
@@ -3011,17 +3010,12 @@ angular.module('oinio.workDetailsControllers', [])
                             isShow: false
                         }
                     );
-                    // truckItemsSecond.push(
-                    //     {
-                    //         Id:  $scope.selectedTruckItemsMore[i].Id,
-                    //         Operation_Hour__c: 0,
-                    //         Service_Suggestion__c: "",
-                    //     }
-                    // );
                     truckIds.push($scope.selectedTruckItemsMore[i].Id);
                 }
 
-                $scope.allTruckItems = truckItems;
+
+
+                // $scope.allTruckItems = truckItems;
 
                 $scope.SelectedTruckNum = $scope.allTruckItems.length;
                 if ($scope.allTruckItems.length > 0) {
