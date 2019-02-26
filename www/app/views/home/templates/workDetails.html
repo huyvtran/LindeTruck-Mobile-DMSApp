@@ -677,7 +677,7 @@
 							<div class="small_Type_Title">引起故障零件:</div>
 							<div class="small_Type_Box">
 								<select class="small_Type_Select" id="select_error_faults">
-									<option ng-repeat="errorFault in errorFaults" value="{{errorFault}}">{{errorFault}}</option>
+									<option ng-repeat="errorFault in errorFaults track by $index" value="{{errorFault}}">{{errorFault}}</option>
 								</select>
 							</div>
 						</div>
