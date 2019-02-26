@@ -28,9 +28,9 @@ angular.module('oinio.serviceManagementController', [])
             }
 
             if ($scope.forceClientProd){
-                $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
+                $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCMidWareForCRM4Proc/ForCRMWS.asmx"; //生产环境
             } else {
-                $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM"; //测试环境
+                $scope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCMidWareForCRM/ForCRMWS.asmx"; //测试环境
             }
         });
 
