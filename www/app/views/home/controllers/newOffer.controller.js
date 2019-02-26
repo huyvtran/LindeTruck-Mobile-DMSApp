@@ -90,7 +90,7 @@ angular.module('oinio.NewOfferController', [])
           AppUtilService.hideLoading();
           let accountsName = [];
           let accountsId = [];
-          if (response.length > 0) {
+          if (response!=null && response.length > 0) {
             for (let index = 0; index < response.length; index++) {
               accountsName.push(response[index]);
               accountsId.push(response[index].Id);
