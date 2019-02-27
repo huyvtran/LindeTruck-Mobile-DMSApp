@@ -29,7 +29,7 @@ angular
         }).then(function successCallback(response) {
           console.log('response',response);
           $log.log('>>>> URL：'+ timeCardUrl);
-          $log.log('>>>> Response：'+response.data);
+          $log.log('>>>> Response：'+JSON.stringify(response.data));
           accesstoken = response.data.data.accessToken;
           console.log('accesstokenResponse',accesstoken);
 
@@ -40,7 +40,7 @@ angular
           console.log('accesstokenError',response);
 
           $log.log('>>>> URL：'+ timeCardUrl);
-          $log.log('>>>> Error：'+response);
+          $log.log('>>>> Error：'+JSON.stringify(response));
           deferred.reject(response);
         });
 
@@ -183,12 +183,12 @@ angular
           }).then(function successCallback(response) {
             // console.log('response',response);
             $log.log('>>>> URL：'+ timeCardUrl);
-            $log.log('>>>> Response：'+response.data);
+            $log.log('>>>> Response：'+JSON.stringify(response.data));
             accesstoken = response.data.data.accessToken;
           }, function errorCallback(response) {
             // console.log('response',response);
             $log.log('>>>> URL：'+ timeCardUrl);
-            $log.log('>>>> Error：'+response);
+            $log.log('>>>> Error：'+JSON.stringify(response));
           });
         },174000);
 
@@ -222,12 +222,12 @@ angular
         }).then(function successCallback(response) {
           console.log('response',response);
           $log.log('>>>> URL：'+ $rootScope.timeCardLindeCRMURL + 'linde/mainData');
-          $log.log('>>>> Response：'+response);
+          $log.log('>>>> Response：'+JSON.stringify(response));
           deferred.resolve(response);
         }, function errorCallback(response) {
           console.log('response',response);
           $log.log('>>>> URL：'+ $rootScope.timeCardLindeCRMURL + 'linde/mainData');
-          $log.log('>>>> Error：'+response);
+          $log.log('>>>> Error：'+JSON.stringify(response));
           deferred.reject(response);
         });
 
