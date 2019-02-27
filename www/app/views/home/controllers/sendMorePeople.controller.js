@@ -1,6 +1,6 @@
 angular.module('oinio.SendMorePeopleController', [])
     .controller('SendMorePeopleController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,
-                                                      ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService) {
+                                                      ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService,dualModeService) {
 
         var vm = this,
             localWorkers=[],
@@ -22,30 +22,39 @@ angular.module('oinio.SendMorePeopleController', [])
             currentOrderId = $stateParams.workOrderId;
             $scope.workers=[];
             $scope.selectWorkersArr=[];
-
             AppUtilService.showLoading();
-            ForceClientService.getForceClient().apexrest(
-                $scope.getInitDataUri+'/'+currentOrderId+'/'+oCurrentUser.Id,
-                "GET",
-                {},
-                null,
-                function callBack(res) {
-                    AppUtilService.hideLoading();
-                    if (res.assignUser[0]!=="查找不到Sales Office!"){
-                        $scope.initAssignUserData(res.assignUser);
-                        $scope.initSavedUserData(res.savedUser,res.assignUser);
-                    }
+
+            // ForceClientService.getForceClient().apexrest(
+            //     $scope.getInitDataUri+'/'+currentOrderId+'/'+oCurrentUser.Id,
+            //     "GET",
+            //     {},
+            //     null,
+            //     function callBack(res) {
+            //         AppUtilService.hideLoading();
+            //         if (res.assignUser[0]!=="查找不到Sales Office!"){
+            //             $scope.initAssignUserData(res.assignUser);
+            //             $scope.initSavedUserData(res.savedUser,res.assignUser);
+            //         }
+            //     },function error(msg) {
+            //         AppUtilService.hideLoading();
+            //         console.log(msg);
+            //         $ionicPopup.alert({
+            //             title:"初始化小组内成员数据失败",
+            //             template:msg
+            //         });
+            //         return false;
+            //     }
+            // );
+
+            dualModeService.getWorkOrderUtilInfo(Number(localStorage.onoffline),currentOrderId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId).then(function callBack(res) {
+                AppUtilService.hideLoading();
+                $scope.initAssignUserData(res.assignUser);
+                $scope.initSavedUserData(res.savedUser, res.assignUser);
                 },function error(msg) {
                     AppUtilService.hideLoading();
                     console.log(msg);
-                    $ionicPopup.alert({
-                        title:"初始化小组内成员数据失败",
-                        template:msg
-                    });
-                    return false;
                 }
             );
-
         });
         $scope.initAssignUserData=function(workersStrArr){
             if(workersStrArr!=undefined && workersStrArr!=null){

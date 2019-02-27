@@ -25,7 +25,7 @@ angular.module('oinio.TransferController', [])
             $scope.allWorkers=[];
             dualModeService.getWorkOrderUtilInfo(Number(localStorage.onoffline),currentOrderId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId).then(function callBack(res) {
                 AppUtilService.hideLoading();
-                if (res.assignUser!=null&&res.assignUser.length>0){
+                if (res.assignUser!=undefined && res.assignUser!=null && res.assignUser.length>0){
                     for (var i =0;i<res.assignUser.length;i++){
                         var singleUser = res.assignUser[i].split(',');
                         $scope.allWorkers.push({
