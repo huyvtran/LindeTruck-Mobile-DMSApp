@@ -252,8 +252,11 @@
 
           });
         };
+        var canDeparture =true;
+        var departTurePop =null;
         //出发逻辑判断
         $scope.goNotStartedWorkDetails = function (item) {
+            AppUtilService.showLoading();
           for (let index = 0; index < $scope.currentOrder.length; index++) {
             const element = $scope.currentOrder[index].On_Order__c;
             if (element) {
@@ -263,6 +266,7 @@
                   scope: $scope,
                   buttons: null
                 });
+                  AppUtilService.hideLoading();
               }, 100);
               return;
             }
@@ -273,6 +277,7 @@
             {},
             null,
             function callBack(res) {
+                AppUtilService.hideLoading();
                 console.log(res);
                 $scope.serviceCars = [];
                 if (res.default!=null&&res.default.length>0){
@@ -287,7 +292,7 @@
                     }
                 }
                 setTimeout(function () {
-                    $ionicPopup.show({
+                    departTurePop = $ionicPopup.show({
                         title:"请选择服务车",
                         template: "    <select id=\"serviceCarSelect\" class=\"small_Type_Select\" >\n" +
                         "                                            <option ng-repeat=\" singleServiceCar  in serviceCars\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n" +
@@ -297,115 +302,36 @@
                             text: '<b>OK</b>',
                             type: 'button-positive',
                             onTap: function () {
+                                if (!canDeparture) {
+                                    departTurePop.close();
+                                    return;
+                                }
+                                canDeparture=false;
                                 AppUtilService.showLoading();
-                                //old code
-                                // ForceClientService.getForceClient().apexrest(
-                                //   $scope.updateDataStatusUrl + '&sooId=' + item.Id + '&status=Not Completed',
-                                //   'POST',
-                                //   {},
-                                //   null, function callBack(res) {
-                                //     console.log(res);
-                                //     AppUtilService.hideLoading();
-                                //     if (res.status.toLowerCase() == 'success') {
-                                //       $scope.getHomeService();//刷新日历列表数据 更改出发状态
-                                //
-                                //       var goTime = new Date();
-                                //       // $state.go("app.workDetails",{
-                                //       //     SendInfo: item._soupEntryId,
-                                //       //     workDescription: null,
-                                //       //     AccountShipToC: item.Account_Ship_to__c,
-                                //       //     goOffTime:goTime,
-                                //       //     workOrderId:item.Id,
-                                //       //     isNewWorkList:true
-                                //       // });
-                                //       ForceClientService.getForceClient().apexrest(
-                                //         $scope.departureUrl + item.Id + '&departureTime=' + goTime.format('yyyy-MM-dd hh:mm:ss') + '&userId='
-                                //         + oCurrentUser.Id,
-                                //         'POST',
-                                //         {},
-                                //         null,
-                                //         function callBack(res) {
-                                //           console.log(res);
-                                //           if (res.status.toLowerCase() == 'success') {
-                                //             $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
-                                //           } else {
-                                //             $scope.updateOrderType(item, 'Not Started');
-                                //           }
-                                //         },
-                                //         function error(msg) {
-                                //           console.log(msg);
-                                //           $scope.updateOrderType(item, 'Not Started');
-                                //         }
-                                //       );
-                                //     } else {
-                                //       $ionicPopup.alert({
-                                //         title: '更新工单状态失败',
-                                //         template: res.message
-                                //       });
-                                //       return false;
-                                //     }
-                                //   }, function error(msg) {
-                                //     console.log(msg);
-                                //     AppUtilService.hideLoading();
-                                //     $ionicPopup.alert({
-                                //       title: '更新工单状态失败',
-                                //       template: msg
-                                //     });
-                                //     return false;
-                                //   }
-                                // );
-                                //new code
                                 dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),Number(localStorage.onoffline)!==0?item.Id:item._soupEntryId,'Not Completed').then(function callBack(res) {
                                     console.log(res);
                                     if (res.status.toLowerCase() == 'success') {
                                         var goTime = new Date();
-                                        // $state.go("app.workDetails",{
-                                        //     SendInfo: item._soupEntryId,
-                                        //     workDescription: null,
-                                        //     AccountShipToC: item.Account_Ship_to__c,
-                                        //     goOffTime:goTime,
-                                        //     workOrderId:item.Id,
-                                        //     isNewWorkList:true
-                                        // });
-
-                                        //old code
-                                        // ForceClientService.getForceClient().apexrest(
-                                        //     $scope.departureUrl + item.Id + '&departureTime=' + goTime.format('yyyy-MM-dd hh:mm:ss') + '&userId='
-                                        //     + oCurrentUser.Id,
-                                        //     'POST',
-                                        //     {},
-                                        //     null,
-                                        //     function callBack(res) {
-                                        //         console.log(res);
-                                        //         if (res.status.toLowerCase() == 'success') {
-                                        //             $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser);
-                                        //         } else {
-                                        //             $scope.updateOrderType(item, 'Not Started');
-                                        //         }
-                                        //     },
-                                        //     function error(msg) {
-                                        //         console.log(msg);
-                                        //         $scope.updateOrderType(item, 'Not Started');
-                                        //     }
-                                        // );
-
-                                        //new code
                                         dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,goTime.format('yyyy-MM-dd hh:mm:ss'),$("#serviceCarSelect").val()).then(function callBack(res) {
                                             console.log(res);
-                                            $scope.getHomeService();//刷新日历列表数据 更改出发状态
+                                            //$scope.getHomeService();//刷新日历列表数据 更改出发状态
 
                                             if (res.status.toLowerCase() == 'success') {
                                                 AppUtilService.hideLoading();
+                                                canDeparture=true;
                                                 $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser,false);
                                             } else {
+                                                canDeparture=true;
                                                 $scope.updateOrderType(item, 'Not Started');
                                             }
                                         },function error(msg) {
+                                            canDeparture=true;
                                             console.log(msg);
                                             $scope.updateOrderType(item, 'Not Started');
                                         });
                                     } else {
                                         AppUtilService.hideLoading();
+                                        canDeparture=true;
                                         $ionicPopup.alert({
                                             title: '更新工单状态失败',
                                             template: res.message
@@ -415,6 +341,7 @@
                                 },function error(msg) {
                                     console.log(msg);
                                     AppUtilService.hideLoading();
+                                    canDeparture=true;
                                     $ionicPopup.alert({
                                         title: '更新工单状态失败',
                                         template: msg
@@ -428,6 +355,7 @@
                     });
                 },500);
             },function error(msg) {
+                AppUtilService.hideLoading();
                 console.log(msg);
             });
         };
@@ -437,36 +365,6 @@
          * @param status
          */
         $scope.updateOrderType = function (obj, status) {
-          //old code
-          // ForceClientService.getForceClient().apexrest(
-          //   $scope.updateDataStatusUrl + '&sooId=' + obj.Id + '&status=' + status,
-          //   'POST',
-          //   {},
-          //   null, function callBack(res) {
-          //     console.log(res);
-          //     //AppUtilService.hideLoading();
-          //     if (res.status.toLowerCase() == 'success') {
-          //       $ionicPopup.alert({
-          //         title: '记录出发时间失败，重置为未开始状态'
-          //       });
-          //     } else {
-          //       $ionicPopup.alert({
-          //         title: '更新工单状态失败',
-          //         template: res.message
-          //       });
-          //       return false;
-          //     }
-          //   }, function error(msg) {
-          //     console.log(msg);
-          //     //AppUtilService.hideLoading();
-          //     $ionicPopup.alert({
-          //       title: '更新工单状态失败',
-          //       template: msg
-          //     });
-          //     return false;
-          //   }
-          // );
-          //new code
             dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? obj.Id : obj._soupEntryId, status).then(function callBack(res) {
                 console.log(res);
                 AppUtilService.hideLoading();

@@ -1147,16 +1147,18 @@ angular.module('oinio.workDetailsControllers', [])
                 // window.history.back();
                 $state.go('app.home');
             };
-
-
+            var canDeparture=true;
+            var departTurePop=null;
             $scope.serviceCars=[];
             $scope.beforeDeparture=function(){
+                AppUtilService.showLoading();
                 ForceClientService.getForceClient().apexrest(
                     '/ServiceCarService?action=init&currentUser='+oCurrentUser.Id,
                     'GET',
                     {},
                     null,
                     function callBack(res) {
+                        AppUtilService.hideLoading();
                         $scope.serviceCarsSecond=[];
                         console.log(res);
                         if (res.default!=null&&res.default.length>0){
@@ -1171,7 +1173,7 @@ angular.module('oinio.workDetailsControllers', [])
                             }
                         }
                         setTimeout(function () {
-                                $ionicPopup.show({
+                                 departTurePop = $ionicPopup.show({
                                     title:"请选择服务车",
                                     template: "    <select id=\"serviceCarSelectSecond\" class=\"small_Type_Select\" >\n" +
                                     "                                            <option ng-repeat=\" singleServiceCar  in serviceCarsSecond\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n" +
@@ -1181,6 +1183,11 @@ angular.module('oinio.workDetailsControllers', [])
                                         text: '<b>OK</b>',
                                         type: 'button-positive',
                                         onTap:function () {
+                                         if(!canDeparture) {
+                                             departTurePop.close();
+                                             return;
+                                         }
+                                          canDeparture=false;
                                          $scope.doDeparture($("#serviceCarSelectSecond").val());
                                         }
                                     }]
@@ -1189,6 +1196,7 @@ angular.module('oinio.workDetailsControllers', [])
 
                     },
                     function error(msg) {
+                        AppUtilService.hideLoading();
                         console.log(msg);
                     });
             };
@@ -1205,6 +1213,7 @@ angular.module('oinio.workDetailsControllers', [])
                         dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,departureTime.format('yyyy-MM-dd hh:mm:ss'),carNo).then(function callBack(res) {
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
+                                $rootScope.getSomeData();
                                 for (var i = 0; i < 2; i++) {
                                     $('ol li:eq(' + i + ')').addClass('slds-is-active');
                                 }
@@ -1215,13 +1224,16 @@ angular.module('oinio.workDetailsControllers', [])
                                 } else {
                                     $('#sidProgressBar').css('width', '33%');
                                 }
+                                canDeparture=true;
                             } else {
+                                canDeparture=true;
                                 $ionicPopup.alert({
                                     title: res.message
                                 });
                                 return;
                             }
                         },function error(msg) {
+                            canDeparture=true;
                             AppUtilService.hideLoading();
                             console.log(msg);
                             $ionicPopup.alert({
@@ -1229,10 +1241,13 @@ angular.module('oinio.workDetailsControllers', [])
                             });
                             return;
                         });
+                    }else{
+                        canDeparture=true;
                     }
                 }, function error(msg) {
                     AppUtilService.hideLoading();
                     console.log(msg);
+                    canDeparture=true;
                     $ionicPopup.alert({
                         title: msg
                     });
@@ -1242,12 +1257,10 @@ angular.module('oinio.workDetailsControllers', [])
 
             };
 
-            /**
-             * 点击到达获取到达时间
-             * @param $event
-             * @returns {boolean}
-             */
+            var canArrive=true;
             $scope.getArrivalTime = function () {
+                if(!canArrive)return;
+                canArrive=false;
                 if (arriveTime != null) {
                     return false;
                 } else {
@@ -1301,6 +1314,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 AppUtilService.hideLoading();
                                                 console.log(res);
                                                 if (res.status.toLowerCase() == 'success') {
+                                                    $rootScope.getSomeData();
                                                     for (var i = 0; i < 2; i++) {
                                                         $('ol li:eq(' + i + ')').addClass('slds-is-active');
                                                     }
@@ -1316,6 +1330,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                         AppUtilService.hideLoading();
                                                         console.log(res);
                                                         if (res.status.toLowerCase() == 'success') {
+                                                            $rootScope.getSomeData();
                                                             //$event.target.style.backgroundColor = "#00FF7F";
                                                             if (orderBelong) {
                                                                 $('#sidProgressBar').css('width', '50%');
@@ -1396,6 +1411,7 @@ angular.module('oinio.workDetailsControllers', [])
                             console.log(res);
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
+                                $rootScope.getSomeData();
                                 //$event.target.style.backgroundColor = "#00FF7F";
                                 if (orderBelong) {
                                     $('#sidProgressBar').css('width', '50%');

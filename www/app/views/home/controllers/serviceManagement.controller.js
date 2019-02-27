@@ -11,6 +11,7 @@ angular.module('oinio.serviceManagementController', [])
             causeRemark="",
             localImgUris1=[],
             localImgUris2=[],
+            canClick=true,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
         vm.initServiceCars=[];
@@ -347,6 +348,8 @@ angular.module('oinio.serviceManagementController', [])
         };
 
         $scope.serviceManagementSubmit =function () {
+            if (!canClick) return;
+            canClick=false;
             licensePlateNumber = $("#licensePlateNumber").val();
             refuelingCost= $("#refuelingCost").val().trim();
             odometerSelfUse = $("#odometerSelfUse").val().trim();
@@ -486,6 +489,7 @@ angular.module('oinio.serviceManagementController', [])
             soapData+='</soap:Body>';
             soapData+='</soap:Envelope>';
             AppUtilService.showLoading();
+
             $.ajax({
                 type:'POST',
                 url:$scope.devLindeCRMURL,
@@ -499,11 +503,13 @@ angular.module('oinio.serviceManagementController', [])
                         AppUtilService.hideLoading();
                         console.log(result);
                         $state.go("app.home");
+                        canClick=true;
                     },3000);
                 },
                 error:function (msg) {
                     setTimeout(function () {
                         AppUtilService.hideLoading();
+                        canClick=true;
                     },3000);
                     console.log(msg);
                 }
