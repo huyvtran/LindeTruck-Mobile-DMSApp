@@ -194,6 +194,8 @@
                 type: 'button-assertive',
                 onTap: function (e) {
                   //出发判断逻辑
+                  if(!canDeparture)return;
+                  canDeparture=false;
                   $scope.goNotStartedWorkDetails(item);
                 }
               },
@@ -256,7 +258,7 @@
         var departTurePop =null;
         //出发逻辑判断
         $scope.goNotStartedWorkDetails = function (item) {
-            AppUtilService.showLoading();
+          AppUtilService.showLoading();
           for (let index = 0; index < $scope.currentOrder.length; index++) {
             const element = $scope.currentOrder[index].On_Order__c;
             if (element) {
@@ -271,12 +273,13 @@
               return;
             }
           }
-        ForceClientService.getForceClient().apexrest(
+          ForceClientService.getForceClient().apexrest(
             '/ServiceCarService?action=init&currentUser='+oCurrentUser.Id,
             'GET',
             {},
             null,
             function callBack(res) {
+                canDeparture=true;
                 AppUtilService.hideLoading();
                 console.log(res);
                 $scope.serviceCars = [];
@@ -314,7 +317,7 @@
                                         var goTime = new Date();
                                         dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,goTime.format('yyyy-MM-dd hh:mm:ss'),$("#serviceCarSelect").val()).then(function callBack(res) {
                                             console.log(res);
-                                            //$scope.getHomeService();//刷新日历列表数据 更改出发状态
+                                            $scope.getHomeService();//刷新日历列表数据 更改出发状态
 
                                             if (res.status.toLowerCase() == 'success') {
                                                 AppUtilService.hideLoading();
@@ -355,6 +358,7 @@
                     });
                 },500);
             },function error(msg) {
+                canDeparture=true;
                 AppUtilService.hideLoading();
                 console.log(msg);
             });
