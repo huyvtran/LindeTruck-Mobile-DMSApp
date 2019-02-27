@@ -33,7 +33,15 @@ angular.module('oinio.TransferController', [])
                             userName:singleUser[1]
                         });
                     }
+                    setTimeout(function () {
+                        if (res.soResult!=undefined&&res.soResult!=null){
+                            if (res.soResult.Service_Order_Owner__c!=undefined&&res.soResult.Service_Order_Owner__c!=null){
+                                $('#selectUserGroup').find('option[value =' +res.soResult.Service_Order_Owner__c+']').attr('selected', true);
+                            }
+                        }
+                    },200);
                 }
+
             },function error(msg) {
             AppUtilService.hideLoading();
             console.log(msg);
