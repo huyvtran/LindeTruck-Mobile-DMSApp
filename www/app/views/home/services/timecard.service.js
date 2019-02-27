@@ -32,6 +32,7 @@ angular
           $log.log('>>>> Response：'+response.data);
           accesstoken = response.data.data.accessToken;
           console.log('accesstokenResponse',accesstoken);
+
           // setAccesstoken(response.data.data.accessToken);
           setLoopFetchAccesstoken();
           deferred.resolve(response);
@@ -178,6 +179,7 @@ angular
             contentType: 'application/json',
               // url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
               url: timeCardUrl
+
           }).then(function successCallback(response) {
             // console.log('response',response);
             $log.log('>>>> URL：'+ timeCardUrl);
@@ -215,6 +217,7 @@ angular
           contentType: 'application/json',
           headers: getRequestHeaders(),
           url: $rootScope.timeCardLindeCRMURL + 'linde/mainData',
+
           data:payload
         }).then(function successCallback(response) {
           console.log('response',response);

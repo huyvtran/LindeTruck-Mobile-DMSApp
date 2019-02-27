@@ -11,6 +11,7 @@
         var myPopup;
         var allUser = [];
         var allOrders = [];
+        var selectStatusIndex = 0;
         $rootScope.allUser = [];
           let events = [];
         var currentOrder = [];
@@ -580,24 +581,6 @@
           $state.go('app.search_1');
 
         };
-        $scope.toDisplayOrderListByData = function (currentClickDate) {
-          var selectDateOrders = [];
-          for (let index = 0; index < currentOrder.length; index++) {//显示点击日期的工单
-
-            var indexDate = currentOrder[index].Plan_Date__c;
-            console.log('currentClickDate：', currentClickDate + '  indexDate:' + indexDate);
-
-            if (currentClickDate == indexDate) {
-              selectDateOrders.push(currentOrder[index]);
-            }
-          }
-          console.log('selectDateOrders.count', selectDateOrders.length + '   selectDateOrders:' + selectDateOrders);
-
-          if (selectDateOrders.length > 0) {
-            $scope.currentOrder = getServiceOrderType(selectDateOrders);
-          }
-
-        };
 
         $scope.changeBackgroundColor = function (currentClickDate) {
           let currEle = $('#homeCalendar_1 td.fc-day[data-date="' + currentClickDate + '"]');
@@ -630,24 +613,31 @@
         };
         var getOrderByStates = function (status) {
           var forNowlist = [];
-          for (let index = 0; index < currentOrder.length; index++) {
-            var userStatus = currentOrder[index].Status__c;
+          for (let index = 0; index < $scope.currentOrder.length; index++) {
+            var userStatus = $scope.currentOrder[index].Status__c;
 
             if (userStatus == status) {
-              forNowlist.push(currentOrder[index]);
+              forNowlist.push($scope.currentOrder[index]);
             }
 
-            if (status =="Not Completed"){  //进行中
-              if(userStatus !="Not Completed"&&userStatus !="Not Planned"&&userStatus !="Not Started"&&userStatus !="Service Completed"&&userStatus !="to be assigned"){
-                forNowlist.push(currentOrder[index]);
-              }
-            }
-            if (status =="Not Planned" &&userStatus =="to be assigned"){  //未安排
-                forNowlist.push(currentOrder[index]);
-            }
           }
           return forNowlist;
         };
+
+
+        var getOrderByStatesForDayClick = function (status) {
+          var forNowlist = [];
+          for (let index = 0; index < $scope.currentOrder.length; index++) {
+            var userStatus = $scope.currentOrder[index].Status__c;
+
+            if (userStatus == status) {
+              forNowlist.push($scope.currentOrder[index]);
+            }
+
+          }
+          return forNowlist;
+        };
+
         var getServiceOrderType = function (array) {
           for (let index = 0; index < array.length; index++) {
             const element = array[index].Service_Order_Type__c;
@@ -798,7 +788,6 @@
               // $("tr:even").css("background-color", "#000");
               var currentClickDate = date.format('YYYY-MM-DD');
               $scope.toDisplayOrderListByData(currentClickDate);
-              $scope.changeBackgroundColor(currentClickDate);
             },
             events: function (start, end, timezone, callback) {
 
@@ -817,7 +806,6 @@
               // $(this).css('background-color', 'rgb(' + red + ',' + green + ',' + blue + ')');
               var currentClickDate = event.start._i;
               $scope.toDisplayOrderListByData(currentClickDate);
-              $scope.changeBackgroundColor(currentClickDate);
 
             }
 
@@ -885,7 +873,7 @@
           };
 
           var selectStatusUserIndex = function (index) {
-
+            selectStatusIndex = index;
             var selectStatusUser = [];
             switch (index) {
               case 0://全部
@@ -908,6 +896,53 @@
             }
             $scope.currentOrder = getServiceOrderType(selectStatusUser);
             calendarAll.fullCalendar('addEventSource', getCount(selectStatusUser));
+          };
+
+          var selectStatusUserIndexForDayClick = function (index) {
+            selectStatusIndex = index;
+            var selectStatusUser = [];
+            switch (index) {
+              case 0://全部
+                selectStatusUser = $scope.currentOrder;
+                break;
+              case 1://未安排 Not Planned
+                selectStatusUser = getOrderByStatesForDayClick('Not Planned');
+                break;
+              case 2://未开始 "Not Started"
+                selectStatusUser = getOrderByStatesForDayClick('Not Started');
+                break;
+              case 3://进行中 "Not Completed"
+                selectStatusUser = getOrderByStatesForDayClick('Not Completed');
+                break;
+              case 4://已完成 "Service Completed"
+                selectStatusUser = getOrderByStatesForDayClick('Service Completed');
+                break;
+              default:
+                break;
+            }
+            $scope.currentOrder = getServiceOrderType(selectStatusUser);
+          };
+
+          $scope.toDisplayOrderListByData = function (currentClickDate) {
+            var selectDateOrders = [];
+            for (let index = 0; index < currentOrder.length; index++) {//显示点击日期的工单
+
+              var indexDate = currentOrder[index].Plan_Date__c;
+              console.log('currentClickDate：', currentClickDate + '  indexDate:' + indexDate);
+
+              if (currentClickDate == indexDate) {
+                selectDateOrders.push(currentOrder[index]);
+              }
+            }
+            console.log('selectDateOrders.count', selectDateOrders.length + '   selectDateOrders:' + selectDateOrders);
+
+            if (selectDateOrders.length > 0) {
+              $scope.currentOrder = getServiceOrderType(selectDateOrders);
+
+              selectStatusUserIndexForDayClick(selectStatusIndex);
+            }
+            $scope.changeBackgroundColor(currentClickDate);
+
           };
 
           $scope.changeCalendarTab = function (index) {
