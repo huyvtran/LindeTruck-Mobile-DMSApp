@@ -169,14 +169,14 @@
                 onTap: function (e) {
                   $state.go(
                     'app.sendMorePeople',
-                    {workOrderId: item.Id});
+                    {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
                 }
               },
               {
                 text: '<b>转派</b>',
                 type: 'button-balanced',
                 onTap: function (e) {
-                  $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
+                  $state.go('app.transfer', {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
                 }
               }
             ];
@@ -186,13 +186,6 @@
                   text: '<b>编辑</b>',
                   type: 'button-positive',
                   onTap: function (e) {
-                      // $state.go('app.workDetails', {
-                      //     SendInfo: item._soupEntryId,
-                      //     workDescription: null,
-                      //     AccountShipToC: item.Account_Ship_to__c,
-                      //     workOrderId:item.Id,
-                      //     isNewWorkList:false
-                      // });
                       $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser,false);
                   }
               },
@@ -242,13 +235,6 @@
                 text: '<b>打印</b>',
                 type: 'button-assertive',
                 onTap: function (e) {
-                  // $state.go('app.workDetails', {
-                  //     SendInfo: item._soupEntryId,
-                  //     workDescription: null,
-                  //     AccountShipToC: item.Account_Ship_to__c,
-                  //     workOrderId:item.Id,
-                  //     isNewWorkList:false
-                  // });
                   $scope.goPageWorkDetails(item, false, null,false,true);
                 }
               }

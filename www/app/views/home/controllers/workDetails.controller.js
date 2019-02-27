@@ -158,8 +158,8 @@ angular.module('oinio.workDetailsControllers', [])
                 console.log('$stateParams.orderBelong', $stateParams.orderBelong);
                 console.log('$stateParams.openPrintPage',$stateParams.openPrintPage);
 
-                userInfoId = $stateParams.SendInfo;//原先工单数据的本地Id 现改为在线Id
-                Account_Ship_to__c = $stateParams.AccountShipToC; //原工单
+                userInfoId = $stateParams.SendInfo;
+                Account_Ship_to__c = $stateParams.AccountShipToC;
                 workDescription = $stateParams.workDescription;
                 goOffTimeFromPrefix = $stateParams.goOffTime;
                 allowEdit = $stateParams.isNewWorkList;
@@ -3276,103 +3276,105 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.printWorkList = function () {
                 var callStr = $('#call_str').val().trim();
                 AppUtilService.showLoading();
-                PrintPlugin.checkBlueTooth(null, function (result) {
-                    console.log(result);
-                    $log.info(result);
-                    if (result.status == 0) {
-                        PrintPlugin.getBlueToothDevices(null, function (result) {
-                            console.log(result);
-                            if (result.length < 1) {
-                                AppUtilService.hideLoading();
-                                $ionicPopup.alert({
-                                    title: '请先在蓝牙中配对好设备'
-                                });
-                                return false;
-                            } else {
-                                var arr = result[0].split('-');
-                                PrintPlugin.connectBlueToothDevice(arr[1], function callBack(res) {
-                                    console.log(res);
-                                    $log.info(res);
-                                    if (res.status == 0) {
-                                        var workItemsTotal = [];
-                                        for (var i = 0; i < $scope.localWorkItems.length; i++) {
-                                            workItemsTotal.push({
-                                                ownerName: $scope.localWorkItems[i].ownerName,
-                                                dame: $scope.localWorkItems[i].dame,
-                                                departureTime: $scope.localWorkItems[i].departureTime,
-                                                arriveTime: $scope.localWorkItems[i].arriveTime,
-                                                leaveTime: $scope.localWorkItems[i].leaveTime,
-                                                miles: $scope.localWorkItems[i].workMiles
-                                            });
-                                        }
-
-                                        PrintPlugin.printTicket(
-                                            {
-                                                customerName: customerNameValue,//customerName  客户民称
-                                                customerAccount: customerAccountValue,//customerAccount 客户号
-                                                customerAddress: customerAddressValue,//customerAddress  客户地址
-                                                workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
-                                                TruckModel: truckNumber,//TruckModel //叉车型号
-                                                workHour: $scope.workHourShow,//workHour //工作时长
-                                                workTimeTotal: workItemsTotal,
-                                                goodsTotal: $scope.goodsList,
-                                                listContent: '',//listContent  配件费参见发货清单
-                                                demandForRequire: callStr,//demandForRequire  报修需求
-                                                workContent: $('#workContentStr').val(),//workContent  工作信息
-                                                resultAndSuggestions: $('#serviceSuggest').val(),//resultAndSuggestions  结果及建议
-                                                responsibleEngineer: ownerName,//responsibleEngineer  责任人
-                                                printPart2Check: $("#printPart2").prop("checked"),
-                                                printPart3Check: $("#printPart3").prop("checked"),
-                                                engineerImg: $scope.engineerImgStr != '././img/images/will_add_Img.png' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : null,
-                                                busyImg: $scope.busyImgStr != '././img/images/will_add_Img.png' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, null) : ''
-                                            }
-                                            , function callBack(response) {
-                                                console.log(response);
-                                                $log.info(response);
-                                                AppUtilService.hideLoading();
-                                                $scope.hideWorkPrintPage();
-                                                $ionicPopup.alert({
-                                                    title: '出票成功'
-                                                });
-                                            }, function error(obj) {
-                                                console.log(obj.message);
-                                                $log.error(obj.message);
-                                                AppUtilService.hideLoading();
-                                                $ionicPopup.alert({
-                                                    title: obj.message
-                                                });
-                                                return false;
-                                            });
-                                    }else {
-                                        AppUtilService.hideLoading();
-                                        $ionicPopup.alert({
-                                            title: '连接蓝牙设备失败'
-                                        });
-                                        return false;
-                                    }
-                                }, function error(obj) {
+                setTimeout(function () {
+                    PrintPlugin.checkBlueTooth(null, function (result) {
+                        console.log(result);
+                        $log.info(result);
+                        if (result.status == 0) {
+                            PrintPlugin.getBlueToothDevices(null, function (result) {
+                                console.log(result);
+                                if (result.length < 1) {
                                     AppUtilService.hideLoading();
                                     $ionicPopup.alert({
-                                        title: obj.message
+                                        title: '请先在蓝牙中配对好设备'
                                     });
                                     return false;
+                                } else {
+                                    var arr = result[0].split('-');
+                                    PrintPlugin.connectBlueToothDevice(arr[1], function callBack(res) {
+                                        console.log(res);
+                                        $log.info(res);
+                                        if (res.status == 0) {
+                                            var workItemsTotal = [];
+                                            for (var i = 0; i < $scope.localWorkItems.length; i++) {
+                                                workItemsTotal.push({
+                                                    ownerName: $scope.localWorkItems[i].ownerName,
+                                                    dame: $scope.localWorkItems[i].dame,
+                                                    departureTime: $scope.localWorkItems[i].departureTime,
+                                                    arriveTime: $scope.localWorkItems[i].arriveTime,
+                                                    leaveTime: $scope.localWorkItems[i].leaveTime,
+                                                    miles: $scope.localWorkItems[i].workMiles
+                                                });
+                                            }
+
+                                            PrintPlugin.printTicket(
+                                                {
+                                                    customerName: customerNameValue,//customerName  客户民称
+                                                    customerAccount: customerAccountValue,//customerAccount 客户号
+                                                    customerAddress: customerAddressValue,//customerAddress  客户地址
+                                                    workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
+                                                    TruckModel: truckNumber,//TruckModel //叉车型号
+                                                    workHour: $scope.workHourShow,//workHour //工作时长
+                                                    workTimeTotal: workItemsTotal,
+                                                    goodsTotal: $scope.goodsList,
+                                                    listContent: '',//listContent  配件费参见发货清单
+                                                    demandForRequire: callStr,//demandForRequire  报修需求
+                                                    workContent: $('#workContentStr').val(),//workContent  工作信息
+                                                    resultAndSuggestions: $('#serviceSuggest').val(),//resultAndSuggestions  结果及建议
+                                                    responsibleEngineer: ownerName,//responsibleEngineer  责任人
+                                                    printPart2Check: $("#printPart2").prop("checked"),
+                                                    printPart3Check: $("#printPart3").prop("checked"),
+                                                    engineerImg: $scope.engineerImgStr != '././img/images/will_add_Img.png' ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : null,
+                                                    busyImg: $scope.busyImgStr != '././img/images/will_add_Img.png' ? $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, null) : ''
+                                                }
+                                                , function callBack(response) {
+                                                    console.log(response);
+                                                    $log.info(response);
+                                                    AppUtilService.hideLoading();
+                                                    $scope.hideWorkPrintPage();
+                                                    $ionicPopup.alert({
+                                                        title: '出票成功'
+                                                    });
+                                                }, function error(obj) {
+                                                    console.log(obj.message);
+                                                    $log.error(obj.message);
+                                                    AppUtilService.hideLoading();
+                                                    $ionicPopup.alert({
+                                                        title: obj.message
+                                                    });
+                                                    return false;
+                                                });
+                                        }else {
+                                            AppUtilService.hideLoading();
+                                            $ionicPopup.alert({
+                                                title: '连接蓝牙设备失败'
+                                            });
+                                            return false;
+                                        }
+                                    }, function error(obj) {
+                                        AppUtilService.hideLoading();
+                                        $ionicPopup.alert({
+                                            title: obj.message
+                                        });
+                                        return false;
+                                    });
+                                }
+                            }, function error() {
+                                AppUtilService.hideLoading();
+                                $ionicPopup.alert({
+                                    title: '请先在设置中连接蓝牙设备'
                                 });
-                            }
-                        }, function error() {
-                            AppUtilService.hideLoading();
-                            $ionicPopup.alert({
-                                title: '请先在设置中连接蓝牙设备'
+                                return false;
                             });
-                            return false;
+                        }
+                    }, function error() {
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title: '请确保设置中开启蓝牙功能'
                         });
-                    }
-                }, function error() {
-                    AppUtilService.hideLoading();
-                    $ionicPopup.alert({
-                        title: '请确保设置中开启蓝牙功能'
+                        return false;
                     });
-                    return false;
-                });
+                },2000);
             };
 
             /**

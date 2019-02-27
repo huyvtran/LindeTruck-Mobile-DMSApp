@@ -1,9 +1,8 @@
 angular.module('oinio.TransferController', [])
     .controller('TransferController', function ($scope, $rootScope, $ionicPopup, $filter, $log, $state, $stateParams,
-                                                ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService,HomeService,Service1Service) {
+                                                ConnectionMonitor, LocalCacheService,ForceClientService,AppUtilService,dualModeService) {
         var vm = this,
             currentOrderId=null,
-            currentOrderUserId="",
             oCurrentUser = LocalCacheService.get('currentUser') || {};
         $scope.allWorkers=[];
         $scope.getInitDataUri="/WorkDetailService";
@@ -17,8 +16,6 @@ angular.module('oinio.TransferController', [])
         $scope.$on('$ionicView.enter', function () {
 
             console.log("$stateParams.workOrderId",$stateParams.workOrderId);
-            console.log("$stateParams.userId",$stateParams.userId);
-            currentOrderUserId = $stateParams.userId;
             currentOrderId= $stateParams.workOrderId;
             $scope.initPageAllWokers();
         });
@@ -26,51 +23,23 @@ angular.module('oinio.TransferController', [])
         $scope.initPageAllWokers=function(){
             AppUtilService.showLoading();
             $scope.allWorkers=[];
-
-            Service1Service.getOrdersWithGroup(Number(localStorage.onoffline)).then(function callBack(res) {
-                console.log(res);
+            dualModeService.getWorkOrderUtilInfo(Number(localStorage.onoffline),currentOrderId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId).then(function callBack(res) {
                 AppUtilService.hideLoading();
-                if (res.length>0){
-                    for (var i =0;i<res.length;i++){
+                if (res.assignUser!=null&&res.assignUser.length>0){
+                    for (var i =0;i<res.assignUser.length;i++){
+                        var singleUser = res.assignUser[i].split(',');
                         $scope.allWorkers.push({
-                            userId:res[i].userId,
-                            userName:res[i].userName
+                            userId:singleUser[0],
+                            userName:singleUser[1]
                         });
                     }
-                    setTimeout(function () {
-                        $('#selectUserGroup').find('option[value = ' + currentOrderUserId+ ']').attr('selected', true);
-                    },500);
                 }
             },function error(msg) {
-                AppUtilService.hideLoading();
-                console.log(msg);
-                $ionicPopup.alert({
-                    title:"初始化小组内成员数据失败"
-                });
-                return false;
-            });
-            // HomeService.getEachOrder().then(function callBack(res) {
-            //     console.log(res);
-            //     AppUtilService.hideLoading();
-            //     if (res.length>0){
-            //         for (var i =0;i<res.length;i++){
-            //             $scope.allWorkers.push({
-            //                 userId:res[i].userId,
-            //                 userName:res[i].userName
-            //             });
-            //         }
-            //        setTimeout(function () {
-            //            $('#selectUserGroup').find('option[value = ' + currentOrderUserId+ ']').attr('selected', true);
-            //        },500);
-            //     }
-            // },function error(msg) {
-            //     AppUtilService.hideLoading();
-            //     console.log(msg);
-            //     $ionicPopup.alert({
-            //         title:"初始化小组内成员数据失败"
-            //     });
-            //     return false;
-            // });
+            AppUtilService.hideLoading();
+            console.log(msg);
+            }
+        );
+
         };
 
         $scope.goBack=function () {

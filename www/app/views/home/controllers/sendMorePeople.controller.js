@@ -20,6 +20,9 @@ angular.module('oinio.SendMorePeopleController', [])
         $scope.$on('$ionicView.enter', function () {
             console.log("$stateParams.workOrderId",$stateParams.workOrderId);
             currentOrderId = $stateParams.workOrderId;
+            $scope.workers=[];
+            $scope.selectWorkersArr=[];
+
             AppUtilService.showLoading();
             ForceClientService.getForceClient().apexrest(
                 $scope.getInitDataUri+'/'+currentOrderId+'/'+oCurrentUser.Id,

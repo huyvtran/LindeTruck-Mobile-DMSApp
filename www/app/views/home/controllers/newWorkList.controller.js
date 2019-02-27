@@ -682,6 +682,7 @@ angular.module('oinio.newWorkListControllers', [])
                                     console.log(res);
                                     AppUtilService.hideLoading();
                                     if (res.status.toLowerCase() == "success") {
+
                                         var currentWorkOrderId = res.message.split(":")[1];
                                         $state.go('app.workDetails',
                                             {   //SendInfo: addResult[0]._soupEntryId,

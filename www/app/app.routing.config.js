@@ -174,7 +174,7 @@
             })
             .state('app.transfer',{
                 url:'app/transfer',
-                params:{workOrderId:null,userId:null},
+                params:{workOrderId:null},
                 views:{
                     menuContent: {
                         templateUrl: 'app/views/home/templates/transfer.html',

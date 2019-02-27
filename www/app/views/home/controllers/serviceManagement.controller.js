@@ -495,12 +495,16 @@ angular.module('oinio.serviceManagementController', [])
                     request.setRequestHeader("SOAPAction","http://tempuri.org/SendServiceCar");
                 },
                 success:function (result) {
-                    AppUtilService.hideLoading();
-                    console.log(result);
-                    $state.go("app.home");
+                    setTimeout(function () {
+                        AppUtilService.hideLoading();
+                        console.log(result);
+                        $state.go("app.home");
+                    },3000);
                 },
                 error:function (msg) {
-                    AppUtilService.hideLoading();
+                    setTimeout(function () {
+                        AppUtilService.hideLoading();
+                    },3000);
                     console.log(msg);
                 }
             });
