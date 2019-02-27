@@ -20,20 +20,20 @@ angular
       service.fetchAccesstoken = function () {
 
         var deferred = $q.defer();
-
         $http({
           method: 'GET',
           contentType: 'application/json',
-            url: encodeURI($rootScope.timeCardLindeCRMURL)
+            url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
           // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
         }).then(function successCallback(response) {
           console.log('response',response);
           accesstoken = response.data.data.accessToken;
+          console.log('accesstokenResponse',accesstoken);
           // setAccesstoken(response.data.data.accessToken);
           setLoopFetchAccesstoken();
           deferred.resolve(response);
         }, function errorCallback(response) {
-          console.log('response',response);
+          console.log('accesstokenError',response);
           deferred.reject(response);
         });
 
@@ -168,7 +168,7 @@ angular
           $http({
             method: 'GET',
             contentType: 'application/json',
-              url: encodeURI($rootScope.timeCardLindeCRMURL)
+              url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
             // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
           }).then(function successCallback(response) {
             // console.log('response',response);

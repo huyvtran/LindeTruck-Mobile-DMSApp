@@ -45,7 +45,7 @@ angular.module('oinio.MainController', [])
 
           if ($rootScope.forceClientProd){
             $rootScope.devLindeCRMURL = "http://webapps.linde-xiamen.com.cn/CCWeb4PDAForCRM4Proc"; //生产环境
-            $rootScope.timeCardLindeCRMURL = "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&amp;secret=363a0910db1dcc47806b63f700ab4b94&amp;companyCode=linde"; //打卡生产环境
+            $rootScope.timeCardLindeCRMURL = "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"; //打卡生产环境
               $rootScope.mainDataURL="http://106.14.144.146:660/api/linde/mainData";
             $rootScope.apkDownloadURL = "http://cnxmnazure-vm11.chinacloudapp.cn:98/Prod_seapp.apk"; //生产环境APK下载地址
           } else {
