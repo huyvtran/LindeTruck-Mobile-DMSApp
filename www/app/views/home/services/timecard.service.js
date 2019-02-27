@@ -7,11 +7,9 @@
 angular
   .module('oinio.services')
   .service('TimeCardService',
-    function ($q, $http, $interval, $rootScope, $timeout, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFileOpener2, LocalSyncService, SmartStoreService, ForceClientService) {
+    function ($q, $log, $http, $interval, $rootScope, $timeout, $ionicPopup, $ionicLoading, $cordovaFileTransfer, $cordovaFileOpener2, LocalSyncService, SmartStoreService, ForceClientService) {
 
       var service = this;
-      var lindechinaoa = $rootScope.timeCardLindeCRMURL;
-      var lindeMainDataUrl= $rootScope.mainDataURL;
       var accesstoken = '';
 
       /**
@@ -20,13 +18,18 @@ angular
       service.fetchAccesstoken = function () {
 
         var deferred = $q.defer();
+
+        var timeCardUrl = $rootScope.timeCardLindeCRMURL + `common/accesstoken?appId=${$rootScope.lindeAppId}&secret=${$rootScope.lindeSecret}&companyCode=${$rootScope.lindeCompanyCode}`;
+
         $http({
           method: 'GET',
           contentType: 'application/json',
-            url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
-          // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
+            // url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
+          url: timeCardUrl
         }).then(function successCallback(response) {
           console.log('response',response);
+          $log.log('>>>> URL：'+ timeCardUrl);
+          $log.log('>>>> Response：'+response.data);
           accesstoken = response.data.data.accessToken;
           console.log('accesstokenResponse',accesstoken);
           // setAccesstoken(response.data.data.accessToken);
@@ -34,6 +37,9 @@ angular
           deferred.resolve(response);
         }, function errorCallback(response) {
           console.log('accesstokenError',response);
+
+          $log.log('>>>> URL：'+ timeCardUrl);
+          $log.log('>>>> Error：'+response);
           deferred.reject(response);
         });
 
@@ -165,16 +171,22 @@ angular
 
         var stopEvent = $interval(function(){
           //每分钟执行一次定时任务
+          var timeCardUrl = $rootScope.timeCardLindeCRMURL + `common/accesstoken?appId=${$rootScope.lindeAppId}&secret=${$rootScope.lindeSecret}&companyCode=${$rootScope.lindeCompanyCode}`;
+
           $http({
             method: 'GET',
             contentType: 'application/json',
-              url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
-            // url: lindechinaoa + 'common/accesstoken?appId=linde&secret=linde2018&companyCode=lindechinatest'
+              // url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
+              url: timeCardUrl
           }).then(function successCallback(response) {
             // console.log('response',response);
+            $log.log('>>>> URL：'+ timeCardUrl);
+            $log.log('>>>> Response：'+response.data);
             accesstoken = response.data.data.accessToken;
           }, function errorCallback(response) {
             // console.log('response',response);
+            $log.log('>>>> URL：'+ timeCardUrl);
+            $log.log('>>>> Error：'+response);
           });
         },174000);
 
@@ -202,14 +214,17 @@ angular
           method: 'POST',
           contentType: 'application/json',
           headers: getRequestHeaders(),
-            url:$rootScope.mainDataURL,
-          // url: lindechinaoa + 'linde/mainData',
+          url: $rootScope.timeCardLindeCRMURL + 'linde/mainData',
           data:payload
         }).then(function successCallback(response) {
           console.log('response',response);
+          $log.log('>>>> URL：'+ $rootScope.timeCardLindeCRMURL + 'linde/mainData');
+          $log.log('>>>> Response：'+response);
           deferred.resolve(response);
         }, function errorCallback(response) {
           console.log('response',response);
+          $log.log('>>>> URL：'+ $rootScope.timeCardLindeCRMURL + 'linde/mainData');
+          $log.log('>>>> Error：'+response);
           deferred.reject(response);
         });
 

@@ -209,11 +209,15 @@ angular.module('oinio.controllers', [])
         TimeCardService.clickTimeCard(payload).then(function (response) {
           console.log('response',response);
           AppUtilService.hideLoading();
-
-          $ionicPopup.alert({
-            title:"打卡成功"
-          });
-
+          if (response.data.result) {
+            $ionicPopup.alert({
+              title:"打卡成功"
+            });
+          } else {
+            $ionicPopup.alert({
+              title:"打卡失败请重新打卡"
+            });
+          }
         }, function (error) {
           AppUtilService.hideLoading();
 
