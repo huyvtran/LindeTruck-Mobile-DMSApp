@@ -37,6 +37,10 @@ angular.module('oinio.TransferController', [])
                         if (res.soResult!=undefined&&res.soResult!=null){
                             if (res.soResult.Service_Order_Owner__c!=undefined&&res.soResult.Service_Order_Owner__c!=null){
                                 $('#selectUserGroup').find('option[value =' +res.soResult.Service_Order_Owner__c+']').attr('selected', true);
+                            }else{
+                                if (res.soResult.Service_Order_Owner__r!=undefined&&res.soResult.Service_Order_Owner__r!=null&&res.soResult.Service_Order_Owner__r.Id!=undefined&&res.soResult.Service_Order_Owner__r.Id!=null){
+                                    $('#selectUserGroup').find('option[value =' +res.soResult.Service_Order_Owner__r.Id+']').attr('selected', true);
+                                }
                             }
                         }
                     },200);
