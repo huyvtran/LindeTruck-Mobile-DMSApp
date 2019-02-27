@@ -613,11 +613,11 @@
         };
         var getOrderByStates = function (status) {
           var forNowlist = [];
-          for (let index = 0; index < $scope.currentOrder.length; index++) {
-            var userStatus = $scope.currentOrder[index].Status__c;
+          for (let index = 0; index < currentOrder.length; index++) {
+            var userStatus = currentOrder[index].Status__c;
 
             if (userStatus == status) {
-              forNowlist.push($scope.currentOrder[index]);
+              forNowlist.push(currentOrder[index]);
             }
 
           }
@@ -837,6 +837,7 @@
           //////选择组员
           var province = document.getElementById('selectUserId');
           let setDefaultUser = function () {
+
             try {
 
               console.log('匹配当前用户:ing');
@@ -857,7 +858,9 @@
           };
           setDefaultUser();
           province.onchange = function () {
-            console.log('onchange::');
+            console.log('onchange::组员选择');
+            $scope.resetAllDateBackground();
+            selectStatusIndex = 0;
             var index = province.options.selectedIndex;
             currentOrder = allUser[index].orders;//当前选择组员的订单
             document.getElementById('selectStatusId')[0].selected = true;
@@ -873,6 +876,7 @@
           };
 
           var selectStatusUserIndex = function (index) {
+            $scope.resetAllDateBackground();
             selectStatusIndex = index;
             var selectStatusUser = [];
             switch (index) {
@@ -1202,6 +1206,7 @@
         };
 
         $scope.setDefaultUserForWorkplan = function () {
+
           try {
             console.log('匹配当前用户workplan:ing');
             var matchResult = false;
