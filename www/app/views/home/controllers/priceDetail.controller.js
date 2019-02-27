@@ -996,7 +996,7 @@ angular.module('oinio.PriceDetailController', [])
         });
 
         for (let index = 0; index < $scope.labourQuoteList.length; index++) {
-          var oneLabourOriginals3 = $scope.labourQuoteList[index];
+          var oneLabourOriginals3 = angular.copy($scope.labourQuoteList[index]);
           console.log('$scope.labourQuoteList', $scope.labourQuoteList[index]);
           oneLabourOriginals3['Gross_Price__c'] = sv_Input_PriceList[index];
           oneLabourOriginals3['Gross_Amount__c'] =
