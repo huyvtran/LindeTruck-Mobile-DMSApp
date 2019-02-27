@@ -168,8 +168,8 @@ angular.module('oinio.newWorkListControllers', [])
             document.querySelector("#newwork_historyWork").style.height = $scope.defaultHistoryWorkHeight;
 
 
-            //let currentDate = $scope.getCurrentDateString();
-            //$('#input_plandate').val(currentDate);
+            let currentDate = $scope.getCurrentDateString();
+            $('#input_plandate').val(currentDate);
             let initDatePickerParamm = new Object();
             //initDatePickerParamm['startDate'] = currentDate;
             initDatePickerParamm['data-date-format'] = 'yyyy-mm-dd';
