@@ -354,7 +354,9 @@ angular.module('oinio.workDetailsControllers', [])
                         $scope.getPartListForRead();
                     }
                     if($scope.openPrint){
-                        $scope.doPrint();
+                        setTimeout(function () {
+                            $scope.doPrint();
+                        },200);
                     }
 
                 }, function error(msg) {
