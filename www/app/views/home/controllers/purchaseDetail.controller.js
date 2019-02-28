@@ -73,7 +73,11 @@
           }
 
           var  taxeIndex = _.findIndex($scope.Taxes, function(taxe) {
-            return taxe.label == response.Tax__c;
+            if (response.Tax__c.length > 8) {
+              return taxe.label == response.Tax__c;
+            } else {
+              return taxe.apiName == response.Tax__c;
+            }
           });
           if (taxeIndex >= 0) {
             document.getElementById('taxList')[taxeIndex].selected = true;
@@ -112,13 +116,14 @@
         $scope.statuses.push({value:"完成",label:"Completed"});
 
 
-        $scope.Taxes.push({label:"J6 16% Input Tax, China",value:"J6 16% 进项税, 中国"});
-        $scope.Taxes.push({label:"J0 0% Input Tax, China",value:"J0 0% 进项税, 中国"});
-        $scope.Taxes.push({label:"J2 13% Input Tax, China",value:"J2 13% 进项税, 中国"});
-        $scope.Taxes.push({label:"J3 3% Input Tax, China",value:"J3 3% 进项税, 中国"});
-        $scope.Taxes.push({label:"J4 6% Input Tax, China",value:"J4 6% 进项税, 中国"});
-        $scope.Taxes.push({label:"J5 11% Input Tax, China",value:"J5 11% 进项税, 中国"});
-        $scope.Taxes.push({label:"J7 10% Input Tax, China",value:"J7 10% 进项税, 中国"});
+        $scope.Taxes.push({label:"J6 16% Input Tax, China",value:"J6 16% 进项税, 中国", apiName:"J6_0.16"});
+        $scope.Taxes.push({label:"J0 0% Input Tax, China",value:"J0 0% 进项税, 中国", apiName:"J0_0"});
+        $scope.Taxes.push({label:"J2 13% Input Tax, China",value:"J2 13% 进项税, 中国",apiName:"J2_0.13"});
+        $scope.Taxes.push({label:"J3 3% Input Tax, China",value:"J3 3% 进项税, 中国",apiName:"J3_0.03"});
+        $scope.Taxes.push({label:"J4 6% Input Tax, China",value:"J4 6% 进项税, 中国",apiName:"J4_0.06"});
+        $scope.Taxes.push({label:"J5 11% Input Tax, China",value:"J5 11% 进项税, 中国",apiName:"J5_0.11"});
+        $scope.Taxes.push({label:"J7 10% Input Tax, China",value:"J7 10% 进项税, 中国",apiName:"J7_0.1"});
+        $scope.Taxes.push({label:"J1 17% Input Tax, China",value:"J1 17% 进项税, 中国",apiName:"J1_0.17"});
 
       });
       $scope.showMaterialPage = function(){

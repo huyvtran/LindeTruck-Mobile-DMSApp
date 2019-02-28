@@ -61,13 +61,14 @@
                 // $scope.statuses.push({value:"Approved"});
                 // $scope.statuses.push({value:"Completed"});
 
-                $scope.Taxes.push({label:"J6 16% Input Tax, China",value:"J6 16% 进项税, 中国"});
-                $scope.Taxes.push({label:"J0 0% Input Tax, China",value:"J0 0% 进项税, 中国"});
-                $scope.Taxes.push({label:"J2 13% Input Tax, China",value:"J2 13% 进项税, 中国"});
-                $scope.Taxes.push({label:"J3 3% Input Tax, China",value:"J3 3% 进项税, 中国"});
-                $scope.Taxes.push({label:"J4 6% Input Tax, China",value:"J4 6% 进项税, 中国"});
-                $scope.Taxes.push({label:"J5 11% Input Tax, China",value:"J5 11% 进项税, 中国"});
-                $scope.Taxes.push({label:"J7 10% Input Tax, China",value:"J7 10% 进项税, 中国"});
+                $scope.Taxes.push({label:"J6 16% Input Tax, China",value:"J6 16% 进项税, 中国", apiName:"J6_0.16"});
+                $scope.Taxes.push({label:"J0 0% Input Tax, China",value:"J0 0% 进项税, 中国", apiName:"J0_0"});
+                $scope.Taxes.push({label:"J2 13% Input Tax, China",value:"J2 13% 进项税, 中国",apiName:"J2_0.13"});
+                $scope.Taxes.push({label:"J3 3% Input Tax, China",value:"J3 3% 进项税, 中国",apiName:"J3_0.03"});
+                $scope.Taxes.push({label:"J4 6% Input Tax, China",value:"J4 6% 进项税, 中国",apiName:"J4_0.06"});
+                $scope.Taxes.push({label:"J5 11% Input Tax, China",value:"J5 11% 进项税, 中国",apiName:"J5_0.11"});
+                $scope.Taxes.push({label:"J7 10% Input Tax, China",value:"J7 10% 进项税, 中国",apiName:"J7_0.1"});
+                $scope.Taxes.push({label:"J1 17% Input Tax, China",value:"J1 17% 进项税, 中国",apiName:"J1_0.17"});
 
             });
             $scope.showMaterialPage = function(){
@@ -477,6 +478,25 @@
                         Service_Order_Overview__c:$scope.chooseWorkOrderId,
                     }];
                 AppUtilService.showLoading();
+
+              var  taxeIndex = _.findIndex($scope.Taxes, function(taxe) {
+                return taxe.label == procurementInfo.Tax__c;
+              });
+
+
+                var selectMaterials = [];
+                for (var i = 0; i < $scope.chooseMaterials.length; i++) {
+                  var material =  {};
+                  material.Name = $scope.chooseMaterials[i].Name;
+                  material.Item_Code__c = $scope.chooseMaterials[i].Item_Code__c;
+                  material.Required_Quantity__c = $scope.chooseMaterials[i].Required_Quantity__c;
+                  material.Item_Description__c = $scope.chooseMaterials[i].Item_Description__c;
+                  material.Factory__c = $scope.chooseMaterials[i].Factory__c;
+                  material.Unite_Price__c = $scope.chooseMaterials[i].Unite_Price__c;
+                  if (taxeIndex >= 0) {
+                    material.Tax__c = $scope.Taxes[taxeIndex].apiName;
+                  }
+                }
 
                 //离线转在线
                 // ProcurementInfoService.ProcurementInfoSaveButton(procurementInfo,supplierInfoSoupId, $scope.chooseMaterials).then(function success(res) {

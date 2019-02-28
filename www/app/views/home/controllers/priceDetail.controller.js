@@ -123,6 +123,7 @@ angular.module('oinio.PriceDetailController', [])
                   var responsePartsRelatedsList = responsePartsRelateds[i];
                   var truckFitItem = responsePartsRelatedsList[0];
 
+                  partsItem.Id = truckFitItem.Id;
                   partsItem.Name = truckFitItem.Name;
                   partsItem.parts_number__c = truckFitItem.parts_number__c;
                   if (truckFitItem.priceCondition) {
@@ -175,6 +176,7 @@ angular.module('oinio.PriceDetailController', [])
               var responsePartsRelatedsList = responsePartsRelateds[i];
               var truckFitItem = responsePartsRelatedsList[0];
 
+              partsItem.Id = truckFitItem.Id;
               partsItem.Name = truckFitItem.Name;
               partsItem.parts_number__c = truckFitItem.parts_number__c;
               if (truckFitItem.priceCondition) {
@@ -819,6 +821,7 @@ angular.module('oinio.PriceDetailController', [])
             }
             if (!existFlag) {
 
+              partsItem.Id = ele.Id;
               partsItem.Name = ele.Name;
               partsItem.parts_number__c = ele.parts_number__c;
               if (ele.priceCondition) {
@@ -1575,6 +1578,7 @@ angular.module('oinio.PriceDetailController', [])
               var responsePartsRelatedsList = responsePartsRelateds[i];
               var truckFitItem = responsePartsRelatedsList[0];
 
+              partsItem.Id = truckFitItem.Id;
               partsItem.Name = truckFitItem.Name;
               partsItem.parts_number__c = truckFitItem.parts_number__c;
               if (truckFitItem.priceCondition) {
