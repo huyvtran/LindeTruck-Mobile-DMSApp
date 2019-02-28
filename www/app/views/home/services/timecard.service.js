@@ -58,7 +58,8 @@ angular
           var serverMinVersion = response.SEApp_Min_Version;
           cordova.getAppVersion.getVersionNumber().then(function (version) {
 
-            if (version != serverAppVersion) {
+            if (compareVersion(version,serverAppVersion) == -1) {
+
               showUpdateConfirm(serverAppVersion);
 
             }
@@ -248,6 +249,45 @@ angular
       service.getAccesstoken = function () {
         return accesstoken;
       }
+
+
+      /**
+       * 版本号比较
+       *0代表相等，1代表version1大于version2，-1代表version1小于version2
+       * @param version1
+       * @param version2
+       * @return
+       */
+      var compareVersion = function(version1, version2) {
+        if (version1 == version2) {
+          return 0;
+        }
+        var version1Array = version1.split(".");
+        var version2Array = version2.split(".");
+        let index = 0;
+        var diff = 0;
+        let minLen = Math.min(version1Array.length, version2Array.length);
+        while (index < minLen && (diff = parseInt(version1Array[index]) - parseInt(version2Array[index])) == 0) {
+          index++;
+        }
+        if (diff == 0) {
+          for (let i = index; i < version1Array.length; i++) {
+            if (parseInt(version1Array[i]) > 0) {
+              return 1;
+            }
+          }
+
+          for (let i = index; i < version2Array.length; i++) {
+            if (parseInt(version2Array[i]) > 0) {
+              return -1;
+            }
+          }
+          return 0;
+        } else {
+          return diff > 0 ? 1 : -1;
+        }
+      }
+
 
 
 
