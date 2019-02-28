@@ -146,19 +146,6 @@ angular.module('oinio.newWorkListControllers', [])
                 },function error(msg) {
                     $log.error('Service1Service.getUserObjectById Error ' + error);
                 });
-
-                // HomeService.getUserObjectById(user.Id).then(function (response) {
-                //     console.log("getUserObjectById::", response);
-                //     if (response != null) {
-                //         $scope.searchResultOwnerName = response.Name;
-                //         $scope.searchResultOwnerNum = response.Name;
-                //         $scope.searchResultOwnerId = user.Id;
-                //         $scope.searchResultOwnerSoupId = response._soupEntryId;
-                //     }
-                // }, function (error) {
-                //     $log.error('HomeService.getUserObjectById Error ' + error);
-                // });
-
             }
 
             console.log('Begin::init animate node::');
@@ -285,39 +272,6 @@ angular.module('oinio.newWorkListControllers', [])
             }).finally(function () {
                 AppUtilService.hideLoading();
             });
-
-            //old
-            //调用接口获取结果
-            // HomeService.searchAccounts(keyWord).then(function (response) {
-            //     console.log("AccountServicegw",keyWord);
-            //     AppUtilService.hideLoading();
-            //     let accountsName = [];
-            //     let accountsId = [];
-            //     if (response.length > 0) {
-            //         for (let index = 0; index < response.length; index++) {
-            //             accountsName.push(response[index]);
-            //             accountsId.push(response[index].Id);
-            //         }
-            //         $scope.contentItems = accountsName;
-            //         $scope.getIds = accountsId;
-            //         console.log("AccountServicegw11",accountsName);
-            //     }
-            //     else {
-            //         var ionPop = $ionicPopup.alert({
-            //             title: "结果",
-            //             template: "没有客户数据"
-            //         });
-            //         ionPop.then(function () {
-            //             //$ionicHistory.goBack();
-            //             //$state.go("app.home");
-            //         });
-            //     }
-            // }, function (error) {
-            //     AppUtilService.hideLoading();
-            //     $log.error('AccountService.searchAccounts Error ' + error);
-            // }).finally(function () {
-            //     AppUtilService.hideLoading();
-            // });
         };
 
         $scope.selectAccount = function (acct) {
@@ -386,50 +340,6 @@ angular.module('oinio.newWorkListControllers', [])
                 //AppUtilService.hideLoading();
                 $scope.closeSelectPage();
             });
-
-            // HomeService.init20AcctTrucks(keyWord).then(function (response) {
-            //     console.log("init20Trucks2::",keyWord);
-            //     let trucks = [];
-            //     if (response.length > 0) {
-            //         for (let index = 0; index < response.length; index++) {
-            //             trucks.push(response[index]);
-            //         }
-            //         $scope.contentTruckItems = trucks;
-            //         console.log("init20Trucks",trucks);
-            //     }
-            //     return HomeService.getLatest3ServiceOrders($scope.searchResultAcctSoupId);
-            // }, function (error) {
-            //     $log.error('HomeService.init20Trucks Error ' + error);
-            // }).then(function (response) {
-            //     console.log("getLatest3ServiceOrders",response);
-            //
-            //     if (response.length > 0) {
-            //         for (let index = 0; index < response.length; index++) {
-            //             if(response[index].Status__c == 'Not Started'){
-            //                 response[index].Status__c = '未开始';
-            //             }
-            //             if(response[index].Status__c == 'Not Completed'){
-            //                 response[index].Status__c = '未完成';
-            //             }
-            //             if(response[index].Status__c == 'Service Completed'){
-            //                 response[index].Status__c = '已完成';
-            //             }
-            //             if(response[index].Status__c == 'End'){
-            //                 response[index].Status__c = '已结束';
-            //             }
-            //             if(response[index].Status__c == 'Not Planned'){
-            //                 response[index].Status__c = '未安排';
-            //             }
-            //         }
-            //         $scope.initLatest3Orders = response;
-            //         //console.log("getLatest3ServiceOrders",accountsName);
-            //     }
-            // }, function (error) {
-            //     $log.error('HomeService.getLatest3ServiceOrders Error ' + error);
-            // }).finally(function () {
-            //     //AppUtilService.hideLoading();
-            //     $scope.closeSelectPage();
-            // });
         };
 
 
@@ -460,34 +370,6 @@ angular.module('oinio.newWorkListControllers', [])
             }).finally(function () {
 
             });
-
-            //offline
-            //调用接口获取结果
-            // HomeService.getUsersObjectByName(keyWord).then(function (response) {
-            //     console.log("getUsersObjectByName",keyWord);
-            //     let users = [];
-            //     if (response!=null&&response.length > 0) {
-            //         for (let index = 0; index < response.length; index++) {
-            //             users.push(response[index]);
-            //         }
-            //         $scope.contentOwnerItems = users;
-            //         console.log("getUsersObjectByName22::",users);
-            //     }
-            //     else {
-            //         var ionPop = $ionicPopup.alert({
-            //             title: "结果",
-            //             template: "没有用户数据"
-            //         });
-            //         ionPop.then(function () {
-            //             //$ionicHistory.goBack();
-            //             //$state.go("app.home");
-            //         });
-            //     }
-            // }, function (error) {
-            //     $log.error('HomeService.getUsersObjectByName Error ' + error);
-            // }).finally(function () {
-            //     //AppUtilService.hideLoading();
-            // });
         };
 
         $scope.selectUser = function (user) {
@@ -581,45 +463,6 @@ angular.module('oinio.newWorkListControllers', [])
             );
 
           };
-
-
-            // HomeService.searchTrucks(keyWord,$scope.searchResultAcctId).then(function (response) {
-            //     console.log("getTrucks::",keyWord);
-            //     let trucks = [];
-            //     if (response.length > 0) {
-            //         for (let index = 0; index < response.length; index++) {
-            //             trucks.push(response[index]);
-            //         }
-            //         $scope.contentTruckItems = trucks;
-            //
-            //         setTimeout(function () {
-            //             for (var i=0;i<$scope.selectedTruckItems.length;i++){
-            //                 $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-            //                     if($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
-            //                         $(this).prop("checked", true);
-            //                     }
-            //                 });
-            //             }
-            //         },300);
-            //
-            //         console.log("getTrucks",trucks);
-            //     }
-            //     else {
-            //         var ionPop = $ionicPopup.alert({
-            //             title: "结果",
-            //             template: "没有数据"
-            //         });
-            //         ionPop.then(function () {
-            //             //$ionicHistory.goBack();
-            //             //$state.go("app.home");
-            //         });
-            //     }
-            // }, function (error) {
-            //     $log.error('HomeService.searchTrucks Error ' + error);
-            // }).finally(function () {
-            //     //AppUtilService.hideLoading();
-            // });
-
         };
 
 
@@ -643,14 +486,6 @@ angular.module('oinio.newWorkListControllers', [])
             let userId = $scope.searchResultOwnerId;
 
             order2Save.Account_Ship_to__c = $scope.searchResultAcctId;
-            //order2Save.Account_Ship_to__r = new Object();
-            //order2Save.Account_Ship_to__r._soupEntryId = $scope.searchResultAcctSoupId;
-
-            // order2Save.Truck_Serial_Number__c = $scope.searchResultTruckId;
-            // order2Save.Truck_Serial_Number__r = new Object();
-            // order2Save.Truck_Serial_Number__r._soupEntryId = $scope.searchResultTruckSoupId;
-
-            //order2Save.Description__c = $("#textarea_desc").val();
             order2Save.Subject__c = $("#textarea_desc").val();
             let orderType = $("#select_serviceorder_type").val();
             if(orderType != null && orderType != ''){order2Save.Service_Order_Type__c = orderType;}
@@ -682,8 +517,12 @@ angular.module('oinio.newWorkListControllers', [])
                                     console.log(res);
                                     AppUtilService.hideLoading();
                                     if (res.status.toLowerCase() == "success") {
-
                                         var currentWorkOrderId = res.message.split(":")[1];
+                                        if ($('#input_plandate').val()!=""){
+                                            $scope.updateWorkOrderStatus(currentWorkOrderId,'Not Completed');
+                                        }else{
+                                            $scope.updateWorkOrderStatus(currentWorkOrderId,'Not Planned');
+                                        }
                                         $state.go('app.workDetails',
                                             {   //SendInfo: addResult[0]._soupEntryId,
                                                 workDescription: $("#textarea_desc").val(),
@@ -737,6 +576,11 @@ angular.module('oinio.newWorkListControllers', [])
                                     console.log(res);
                                     AppUtilService.hideLoading();
                                     if (res[0].success) {
+                                        if ($('#input_plandate').val()!=""){
+                                            $scope.updateWorkOrderStatus(res[0]._soupEntryId,'Not Completed');
+                                        }else{
+                                            $scope.updateWorkOrderStatus(res[0]._soupEntryId,'Not Planned');
+                                        }
                                         $state.go('app.workDetails',
                                             {   SendInfo: res[0]._soupEntryId,
                                                 workDescription: $("#textarea_desc").val(),
@@ -775,125 +619,7 @@ angular.module('oinio.newWorkListControllers', [])
                     AppUtilService.hideLoading();
                     $log.error('Service1Service.getUserObjectById Error ' + error);
                 });
-
-
-                //offline
-                // HomeService.getUserObjectById(userId).then(function (response) {
-                //     console.log("getUserObjectById::", response);
-                //     if (response != null) {
-                //         order2Save.Service_Order_Owner__c = userId;
-                //         //order2Save.Service_Order_Owner__r = response;
-                //         ForceClientService.getForceClient().apexrest(
-                //             $scope.newDetailPostDataUrl+"adrs="+JSON.stringify([order2Save])+"&trucks="+JSON.stringify(localTruckIds),
-                //             "POST",
-                //             {},
-                //             null,
-                //             function callBack(res) {
-                //                 console.log(res);
-                //                 AppUtilService.hideLoading();
-                //                 if (res.status.toLowerCase()=="success"){
-                //                     var currentWorkOrderId = res.message.split(":")[1];
-                //                     $state.go('app.workDetails',
-                //                         {   //SendInfo: addResult[0]._soupEntryId,
-                //                             workDescription:$("#textarea_desc").val(),
-                //                             AccountShipToC:$scope.searchResultAcctId,
-                //                             goOffTime:"",
-                //                             isNewWorkList:true,
-                //                             enableArrivalBtn:false,
-                //                             selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index(),
-                //                             workOrderId:currentWorkOrderId,
-                //                             accountId:$scope.searchResultAcctId,
-                //                             orderBelong:true
-                //                         });
-                //                     $rootScope.getSomeData();//刷新日历下方工单列表
-                //
-                //                 }else{
-                //                     $ionicPopup.alert({
-                //                         title: "保存失败"
-                //                     });
-                //                     return false;
-                //                 }
-                //             },
-                //             function error(msg) {
-                //                 console.log(msg);
-                //                 AppUtilService.hideLoading();
-                //                 $ionicPopup.alert({
-                //                     title: "保存失败"
-                //                 });
-                //                 return false;
-                //             }
-                //         );
-                //         // HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
-                //         //     AppUtilService.hideLoading();
-                //         //
-                //         //     console.log('HAHAHAHA!!!',addResult);
-                //         //     if(addResult != null && addResult.length != 0) {
-                //         //         $state.go('app.workDetails',
-                //         //             {   SendInfo: addResult[0]._soupEntryId,
-                //         //                 workDescription:$("#textarea_desc").val(),
-                //         //                 AccountShipToC:"",
-                //         //                 goOffTime:"",
-                //         //                 isNewWorkList:true,
-                //         //                 selectWorkTypeIndex:$('option:selected', '#select_serviceorder_type').index()
-                //         //             });
-                //         //     }
-                //         // }, function (error) {
-                //         //     AppUtilService.hideLoading();
-                //         //
-                //         //     $log.error('HomeService.addServiceOrders Error ' + error);
-                //         // });
-                //     }
-                // }, function (error) {
-                //     AppUtilService.hideLoading();
-                //
-                //     $log.error('HomeService.getUserObjectById Error ' + error);
-                // });
             }
-            // else{
-            //
-            //     ForceClientService.getForceClient().apexrest(
-            //         $scope.newDetailPostDataUrl+"adrs="+JSON.stringify([order2Save])+"&trucks="+JSON.stringify(localTruckIds),
-            //         "POST",
-            //         {},
-            //         null,
-            //         function callBack(res) {
-            //             console.log(res);
-            //             AppUtilService.hideLoading();
-            //             $state.go('app.workDetails', {
-            //                 SendInfo: addResult[0]._soupEntryId,
-            //                 workDescription:"",
-            //                 AccountShipToC:"",
-            //                 goOffTime:"",
-            //                 isNewWorkList:true
-            //             });
-            //         },
-            //         function error(msg) {
-            //             console.log(msg);
-            //             AppUtilService.hideLoading();
-            //         }
-            //     );
-            //
-            //     // HomeService.addWorkOrder([order2Save],$scope.selectedTruckItems).then(function (addResult) {
-            //     //     console.log('HAHAHAHA!222!!',addResult);
-            //     //     AppUtilService.hideLoading();
-            //     //
-            //     //     if(addResult != null && addResult.length != 0) {
-            //     //
-            //     //         $state.go('app.workDetails', {
-            //     //                                         SendInfo: addResult[0]._soupEntryId,
-            //     //                                         workDescription:"",
-            //     //                                         AccountShipToC:"",
-            //     //                                         goOffTime:"",
-            //     //                                         isNewWorkList:true
-            //     //                                     });
-            //     //     }
-            //     // }, function (error) {
-            //     //     AppUtilService.hideLoading();
-            //     //
-            //     //     $log.error('HomeService.addServiceOrders Error ' + error);
-            //     // });
-            // }
-
         };
 
         $scope.changeTruckTab = function (index) {
@@ -1113,6 +839,14 @@ angular.module('oinio.newWorkListControllers', [])
             }
         }
 
+        $scope.updateWorkOrderStatus=function (currentOrderId,orderStatus) {
+            dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),currentOrderId, orderStatus).then(function callBack(res) {
+                console.log(res);
+            },function error(msg) {
+                console.log(msg);
+            });
+        };
+
 }).directive('repeatFinish',function(){
     return {
         controller: function ($scope, $element, $attrs) {
@@ -1120,10 +854,6 @@ angular.module('oinio.newWorkListControllers', [])
         },
         link: function(scope,element,attr,controller){
             console.log('scope::',scope);
-            //console.log('element::',element);
-            //console.log('attr::',attr);
-            //console.log('controller::',controller);
-
             if(scope.$last == true){
                 console.log('ng-repeat element render finished.');
                 scope.$parent.defaultHistoryWorkHeight = document.querySelector("#newwork_historyWork").scrollHeight + 'px';
