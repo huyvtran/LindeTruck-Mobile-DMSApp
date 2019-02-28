@@ -119,9 +119,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.getOrderTypeUri = '/NewWorkDetailService?serviceOrderViewId=';
             $scope.getPersonalPartListService = '/PersonalPartListService?action=getParts&userId=';
             $scope.getPartsWithKeyWord = '/PersonalPartListService?action=getPartsWithKeyWord&userId=';
-            /**
-             * 打印预览页面显示
-             */
+            $scope.reloadWorkitemsUrl='/NewWorkDetailService?action=getWorkItems&wiParent=';
 
             $scope.customerNameValueShow = '';   //客户名称
             $scope.customerAccountValueShow = '';//客户号
@@ -653,27 +651,7 @@ angular.module('oinio.workDetailsControllers', [])
                     }
                 }
 
-                for (var i = 0; i < workItems.length; i++) {
-                    $scope.workTimes.push({
-                        Id:workItems[i].Id != undefined && workItems[i].Id != null ? workItems[i].Id:'',
-                        name: workItems[i].CreatedBy != undefined && workItems[i].CreatedBy != null && workItems[i].CreatedBy.Name != undefined ? workItems[i].CreatedBy.Name : '',
-                        departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null
-                            ? workItems[i].Departure_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
-                        leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null
-                            ? workItems[i].Leave_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
-                        miles:workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c:0
-                    });
-                    $scope.localWorkItems.push(
-                        {
-                            ownerName:workItems[i].Engineer__r != undefined && workItems[i].Engineer__r!=null && workItems[i].Engineer__r.Name!= undefined && workItems[i].Engineer__r.Name != null ?workItems[i].Engineer__r.Name:'  ',
-                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('yy/MM/dd') : '  ',
-                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
-                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
-                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
-                            workMiles: workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c.toString():'0'
-                        }
-                    );
-                }
+                $scope.loadOrRefersh(workItems);
 
                 if (orderBelong) {
                     $('.workListDetails_bodyer').css('height', 'calc(100vh - 120px)');
@@ -695,11 +673,32 @@ angular.module('oinio.workDetailsControllers', [])
 
             };
 
-            /**
-             * 获取图片
-             * 1.拍照
-             * 2.从相册取
-             */
+            $scope.loadOrRefersh=function(workItems){
+                $scope.workTimes=[];
+                $scope.localWorkItems=[];
+                for (var i = 0; i < workItems.length; i++) {
+                    $scope.workTimes.push({
+                        Id:workItems[i].Id != undefined && workItems[i].Id != null ? workItems[i].Id:'',
+                        name: workItems[i].CreatedBy != undefined && workItems[i].CreatedBy != null && workItems[i].CreatedBy.Name != undefined ? workItems[i].CreatedBy.Name : '',
+                        departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null
+                            ? workItems[i].Departure_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
+                        leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null
+                            ? workItems[i].Leave_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
+                        miles:workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c:0
+                    });
+                    $scope.localWorkItems.push(
+                        {
+                            ownerName:workItems[i].Engineer__r != undefined && workItems[i].Engineer__r!=null && workItems[i].Engineer__r.Name!= undefined && workItems[i].Engineer__r.Name != null ?workItems[i].Engineer__r.Name:'  ',
+                            dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('yy/MM/dd') : '  ',
+                            departureTime: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
+                            arriveTime: workItems[i].Arrival_Time__c != undefined && workItems[i].Arrival_Time__c != null ? new Date(workItems[i].Arrival_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
+                            leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null ? new Date(workItems[i].Leave_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800').format('hh:mm') : '  ',
+                            workMiles: workItems[i].Miles__c!= undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c.toString():'0'
+                        }
+                    );
+                }
+            };
+
             $scope.getPhoto = function ($event, imgs, prefix) {
                 if ($event.target.getAttribute('id') != '././img/images/will_add_Img.png') {
                     return false;
@@ -922,6 +921,8 @@ angular.module('oinio.workDetailsControllers', [])
                                 AppUtilService.hideLoading();
                                 if (Number(localStorage.onoffline) !== 0){
                                     if (res.status.toLowerCase() == 'success') {
+                                        $scope.reloadWorkItems();
+                                        $rootScope.getSomeData();
                                         if (orderBelong) {
                                             $('#sidProgressBar').css('width', '75%');
                                         } else {
@@ -1003,6 +1004,8 @@ angular.module('oinio.workDetailsControllers', [])
                                     AppUtilService.hideLoading();
                                     if (Number(localStorage.onoffline) !== 0){
                                         if (res.status.toLowerCase() == 'success') {
+                                            $scope.reloadWorkItems();
+                                            $rootScope.getSomeData();
                                             //$event.target.style.backgroundColor = "#00FF7F";
                                             $('#leave').addClass('textCompleted');
                                             for (var i = 0; i <= 3; i++) {
@@ -1201,9 +1204,22 @@ angular.module('oinio.workDetailsControllers', [])
                     });
             };
 
-            /**
-             * 新建工单页面跳转工单详情页  点击出发
-             */
+            $scope.reloadWorkItems=function () {
+                ForceClientService.getForceClient().apexrest(
+                    $scope.reloadWorkitemsUrl+orderDetailsId,
+                    'GET',
+                    {},
+                    null,
+                    function callBack(res) {
+                        console.log(res);
+                        if (res!=undefined&&res!=null){
+                            $scope.loadOrRefersh(res);
+                        }
+                    },function error(msg) {
+                        console.log(msg);
+                    });
+            };
+
             $scope.doDeparture = function (carNo) {
                 var departureTime = new Date();
                 goOffTimeFromPrefix = departureTime;
@@ -1213,6 +1229,7 @@ angular.module('oinio.workDetailsControllers', [])
                         dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,departureTime.format('yyyy-MM-dd hh:mm:ss'),carNo).then(function callBack(res) {
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
+                                $scope.reloadWorkItems();
                                 $rootScope.getSomeData();
                                 for (var i = 0; i < 2; i++) {
                                     $('ol li:eq(' + i + ')').addClass('slds-is-active');
@@ -1314,6 +1331,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 AppUtilService.hideLoading();
                                                 console.log(res);
                                                 if (res.status.toLowerCase() == 'success') {
+                                                    $scope.reloadWorkItems();
                                                     $rootScope.getSomeData();
                                                     for (var i = 0; i < 2; i++) {
                                                         $('ol li:eq(' + i + ')').addClass('slds-is-active');
@@ -1330,6 +1348,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                         AppUtilService.hideLoading();
                                                         console.log(res);
                                                         if (res.status.toLowerCase() == 'success') {
+                                                            $scope.reloadWorkItems();
                                                             $rootScope.getSomeData();
                                                             //$event.target.style.backgroundColor = "#00FF7F";
                                                             if (orderBelong) {
@@ -1411,6 +1430,7 @@ angular.module('oinio.workDetailsControllers', [])
                             console.log(res);
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
+                                $scope.reloadWorkItems();
                                 $rootScope.getSomeData();
                                 //$event.target.style.backgroundColor = "#00FF7F";
                                 if (orderBelong) {
