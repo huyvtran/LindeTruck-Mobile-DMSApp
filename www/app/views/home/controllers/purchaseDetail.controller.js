@@ -59,14 +59,14 @@
           $scope.priceEach = response.Price_without_Tax__c;
 
           var  recordIndex = _.findIndex($scope.recordTypes, function(recordT) {
-            return recordT.value == response.RecordType.Name;
+            return recordT.label == response.RecordType.Name;
           });
           if (recordIndex >= 0) {
             document.getElementById('recordTypeList')[recordIndex].selected = true;
           }
 
           var  statusIndex = _.findIndex($scope.statuses, function(statuse) {
-            return statuse.value == response.Status__c;
+            return statuse.label == response.Status__c;
           });
           if (statusIndex >= 0) {
             document.getElementById('statusList')[statusIndex].selected = true;
@@ -98,14 +98,18 @@
           vm.username = oCurrentUser.Name;
         }
 
-        $scope.recordTypes.push({value:"Service Parts Procurement"});
-        $scope.recordTypes.push({value:"Service Support Procurement"});
+        // $scope.recordTypes.push({value:"Service Parts Procurement"});
+        // $scope.recordTypes.push({value:"Service Support Procurement"});
+        $scope.recordTypes.push({value:"Z605 售后备件采购订单",label:"Service Parts Procurement"});
+        $scope.recordTypes.push({value:"Z609 备件服务外采订单",label:"Service Support Procurement"});
+        $scope.recordTypes.push({value:"Z610 大区自主采购订单(电池/属具)",label:"Regional Procurement(Battery/Attachment)"});
 
 
-        $scope.statuses.push({value:"Draft"});
-        $scope.statuses.push({value:"Approving"});
-        $scope.statuses.push({value:"Approved"});
-        $scope.statuses.push({value:"Completed"});
+
+        $scope.statuses.push({value:"草稿",label:"Draft"});
+        $scope.statuses.push({value:"审核中",label:"Approving"});
+        $scope.statuses.push({value:"审核通过",label:"Approved"});
+        $scope.statuses.push({value:"完成",label:"Completed"});
 
 
         $scope.Taxes.push({label:"J6 16% Input Tax, China",value:"J6 16% 进项税, 中国"});

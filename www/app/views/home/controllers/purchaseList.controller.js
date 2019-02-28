@@ -68,6 +68,23 @@ angular.module('oinio.PurchaseListController', [])
       $state.go('app.purchaseDetail',{overviewId:priceItem.Id});
     };
 
+    $scope.goToWorkDetails  = function (priceItem) {
+      if (priceItem.Service_Order_Overview__r) {
+        $state.go('app.workDetails', {
+          SendInfo: priceItem.Service_Order_Overview__r.Id,
+          workDescription: null,
+          AccountShipToC: null,
+          workOrderId: priceItem.Service_Order_Overview__r.Id,
+          enableArrivalBtn: null,
+          goOffTime: null,
+          isNewWorkList: true,
+          accountId: null,
+          orderBelong: null
+        });
+      }
+    };
+
+
     $scope.goBack =function () {
       window.history.back();
     };
