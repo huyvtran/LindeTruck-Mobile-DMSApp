@@ -1174,7 +1174,7 @@
 
             this.getProcurementInfoItems = function (parentId) {
                 let str_fields = 'Id,Name,Procurement_Information__c,Item_Code__c,Required_Quantity__c,Item_Description__c,Factory__c,'+
-                    'Unite_Price__c';
+                    'Unite_Price__c,Tax__c';
                 let sql = "select " + str_fields + " from Procurement_Item_Information__c where Procurement_Information__c = '" + parentId + "' limit 150";
                 let url = service.buildURL('querySobjects',sql);
                 let requestMethod = 'GET';
@@ -1190,6 +1190,9 @@
                         return service.getProcurementInfoItems(ProcurementInfoId);
                     }).then(function (items) {
                         ret.newProcurementInfoItem = items;
+                        if(items){
+                            ret.Tax__c = ret.Tax__c != null ? ret.Tax__c : items[0].Tax__c;
+                        }
                         console.log('newProcurementInfoItem:::',items);
                         deferred.resolve(ret);
                     }).catch(function (error) {
