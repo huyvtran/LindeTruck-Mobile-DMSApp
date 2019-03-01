@@ -860,7 +860,7 @@ angular.module('oinio.PriceDetailController', [])
         let new_temp = [];
 
         for (var i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-          if (ele.Id != $scope.selectedTruckFitItems[i].Id) {
+          if (ele != $scope.selectedTruckFitItems[i]) {
             new_temp.push($scope.selectedTruckFitItems[i]);
           }
         }
