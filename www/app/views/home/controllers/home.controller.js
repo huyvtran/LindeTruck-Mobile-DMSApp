@@ -166,10 +166,10 @@ angular.module('oinio.controllers', [])
 
         var year = date.getFullYear(); //year
         var month = checkMonth(date.getMonth() + 1); //month
-        var day = date.getDate(); //day
-        var hours = date.getHours();//hours
+        var day = checkTime(date.getDate()); //day
+        var hours = checkTime(date.getHours());//hours
         var minutes = checkTime(date.getMinutes());//minutes
-        var seconds = date.getSeconds();//Seconds
+        var seconds = checkTime(date.getSeconds());//Seconds
 
         return year  + "-"+ month + "-" + day +  ' ' +  hours + ':' + minutes + ':' + seconds;
 
