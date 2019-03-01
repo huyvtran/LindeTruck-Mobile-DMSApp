@@ -32,6 +32,7 @@ angular.module('oinio.workDetailsControllers', [])
                 m = 0,
                 localLatitude = null,
                 localLongitude = null,
+                localAccountShipToc=null,
                 goTime = null,
                 truckIds = [],
                 initChildOrders = [],
@@ -381,6 +382,7 @@ angular.module('oinio.workDetailsControllers', [])
                             $scope.getTrucksMore('');
                         }
                     }
+                    localAccountShipToc = soResult.Account_Ship_to__c!=undefined && soResult.Account_Ship_to__c!= null ?soResult.Account_Ship_to__c:'';
                     if (soResult.Service_Order_Owner__r != null && soResult.Service_Order_Owner__r != undefined) {
                         //责任人：
                         ownerName = soResult.Service_Order_Owner__r.Name != undefined && soResult.Service_Order_Owner__r.Name != null ? soResult.Service_Order_Owner__r.Name : '';
@@ -1283,7 +1285,6 @@ angular.module('oinio.workDetailsControllers', [])
                 if (arriveTime != null) {
                     return false;
                 } else {
-                    arriveTime = new Date();
                     if (goOffTimeFromPrefix == null) {
                         var numArr1 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
                         var numArr2 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
@@ -1307,6 +1308,7 @@ angular.module('oinio.workDetailsControllers', [])
                             ],
                             position: [0, 0, 0],
                             callback: function (indexArr, data) {
+                                arriveTime = new Date();
                                 $('#arriveBtn').text('到达');
                                 h = parseInt(data[0].substring(6, 8));
                                 m = parseInt(data[2].substring(6, 8));
@@ -1427,6 +1429,7 @@ angular.module('oinio.workDetailsControllers', [])
                         });
                         mobileSelect3.show();
                     } else {
+                        arriveTime = new Date();
                         AppUtilService.showLoading();
                         dualModeService.arrivalActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,arriveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
                             console.log(res);
@@ -2541,7 +2544,22 @@ angular.module('oinio.workDetailsControllers', [])
 
                     //添加点击保存更改工单状态
                     if (responseSaveParts.ServiceOrderMaterialSums) { //舒哥接口特例，只要有ServiceOrderMaterialSums就是成功
-                        $state.go('app.home');
+                        if (enableArrival){
+                            $state.go('app.home');
+                        }else{
+                            $state.go('app.workDetails', {
+                                //SendInfo: obj._soupEntryId,
+                                workDescription: null,
+                                AccountShipToC: localAccountShipToc,
+                                workOrderId: orderDetailsId,
+                                enableArrivalBtn: true,
+                                goOffTime: null,
+                                isNewWorkList: true,
+                                accountId: $scope.localAccId,
+                                orderBelong:true,
+                                openPrintPage:false
+                            });
+                        }
                         $rootScope.getSomeData();
                     } else {
                         $ionicPopup.alert({
@@ -3043,6 +3061,7 @@ angular.module('oinio.workDetailsControllers', [])
                             Operation_Hour__c: 0,
                             Maintenance_Key__c: $scope.selectedTruckItemsMore[i].Maintenance_Key__c,
                             chooseCheckBox: false,
+                            Model__c:$scope.selectedTruckItemsMore[i].Model__c,
                             New_Operation_Hour__c: 0,
                             Service_Suggestion__c: '',
                             isShow: false
@@ -3884,44 +3903,46 @@ angular.module('oinio.workDetailsControllers', [])
                 if (careType==null){
                     return;
                 }
-                AppUtilService.showLoading();
-                ForceClientService.getForceClient().apexrest(
-                    $scope.getMaintanceChoiceUrl + $scope.allTruckItems[0].Model__c + '&level=' + careType,
-                    'GET',
-                    null,
-                    {},
-                    function callBack(res) {
-                        console.log(res);
-                        AppUtilService.hideLoading();
-                        if (res!=null && res.length>0){
-                            for (var i = 0; i < res.length; i++) {
-                                $scope.mainTanceChioces.push({
-                                    Id:res[i].Id,
-                                    Name:res[i].CH
-                                });
-                            }
-                            setTimeout(function () {
-                                if(initmjiInfos!=null&&initmjiInfos.length>0){
-                                    angular.forEach(initmjiInfos,function (mjiInfo) {
-                                        $('.maintain_checkbox').each(function (index,element) {
-                                            if ($(element).attr("id")==mjiInfo.Id){
-                                                $(element).prop("checked",true);
-                                            }
-                                        });
+                if ($scope.allTruckItems!=null&& $scope.allTruckItems.length>0){
+                    AppUtilService.showLoading();
+                    ForceClientService.getForceClient().apexrest(
+                        $scope.getMaintanceChoiceUrl + $scope.allTruckItems[0].Model__c + '&level=' + careType,
+                        'GET',
+                        null,
+                        {},
+                        function callBack(res) {
+                            console.log(res);
+                            AppUtilService.hideLoading();
+                            if (res!=null && res.length>0){
+                                for (var i = 0; i < res.length; i++) {
+                                    $scope.mainTanceChioces.push({
+                                        Id:res[i].Id,
+                                        Name:res[i].CH
                                     });
                                 }
-                            },2000);
+                                setTimeout(function () {
+                                    if(initmjiInfos!=null&&initmjiInfos.length>0){
+                                        angular.forEach(initmjiInfos,function (mjiInfo) {
+                                            $('.maintain_checkbox').each(function (index,element) {
+                                                if ($(element).attr("id")==mjiInfo.Id){
+                                                    $(element).prop("checked",true);
+                                                }
+                                            });
+                                        });
+                                    }
+                                },2000);
+                            }
+                            $scope.showModal();
+                        }, function error(msg) {
+                            console.log(msg);
+                            AppUtilService.hideLoading();
+                            $ionicPopup.alert({
+                                title: msg
+                            });
+                            return;
                         }
-                        $scope.showModal();
-                    }, function error(msg) {
-                        console.log(msg);
-                        AppUtilService.hideLoading();
-                        $ionicPopup.alert({
-                            title: msg
-                        });
-                        return;
-                    }
-                );
+                    );
+                }
             };
         });
 
