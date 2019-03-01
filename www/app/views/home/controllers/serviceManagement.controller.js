@@ -502,7 +502,16 @@ angular.module('oinio.serviceManagementController', [])
                     setTimeout(function () {
                         AppUtilService.hideLoading();
                         console.log(result);
-                        $state.go("app.home");
+                        if (result.documentElement.getElementsByTagName('SendServiceCarResult')!=null&&result.documentElement.getElementsByTagName('SendServiceCarResult').length>0&&result.documentElement.getElementsByTagName('SendServiceCarResult')[0].innerHTML.toLowerCase()=="success"){
+                            $ionicPopup.alert({
+                                title: '保存成功!'
+                            });
+                            $state.go("app.home");
+                        }else{
+                            $ionicPopup.alert({
+                                title: '保存失败,请检查是否外网连接!'
+                            });
+                        }
                         canClick=true;
                     },3000);
                 },
