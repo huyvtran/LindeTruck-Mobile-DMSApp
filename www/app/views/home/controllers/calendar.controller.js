@@ -828,11 +828,10 @@
             }
             console.log('selectDateOrders.count', selectDateOrders.length + '   selectDateOrders:' + selectDateOrders);
 
-            if (selectDateOrders.length > 0) {
+            // if (selectDateOrders.length > 0) {//点击空白处的屏蔽处理
               $scope.currentOrder = getServiceOrderType(selectDateOrders);
-
               selectStatusUserIndexForDayClick(selectStatusIndex);
-            }
+            // }
             $scope.changeBackgroundColor(currentClickDate);
 
           };

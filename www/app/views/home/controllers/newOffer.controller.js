@@ -124,7 +124,7 @@ angular.module('oinio.NewOfferController', [])
           $scope.searchResultAddress = response.Office_Address__c;
           $scope.searchResultAcctName = response.Name;
           $scope.getServiceSatus(selectAcctSetId);//审核状态
-
+          $scope.selectedTruckItems = [];
         }, function (error) {
           $log.error('getAccount Error ' + error);
         }).finally(function () {
@@ -172,7 +172,7 @@ angular.module('oinio.NewOfferController', [])
         $scope.contentTruckItems = [];
         console.log('searchTruckFleets::', acctId);
         //搜索车体 在线/离线
-        HomeService.searchTruckFleets('', acctId, '20', true).then(function (response) {
+        HomeService.searchTruckFleets('', acctId, '150', true).then(function (response) {
           console.log('searchTruckFleets', response);
           AppUtilService.hideLoading();
           let trucks = [];
@@ -218,7 +218,7 @@ angular.module('oinio.NewOfferController', [])
         }
         $scope.contentTruckItems = [];
 
-        HomeService.searchTruckFleets(keyWord, selectAcctSetId, '20', true).then(function (response) {
+        HomeService.searchTruckFleets(keyWord, selectAcctSetId, '150', true).then(function (response) {
           console.log('getTrucks::', keyWord);
           if (typeof (response) == 'string') {
             $ionicPopup.alert({

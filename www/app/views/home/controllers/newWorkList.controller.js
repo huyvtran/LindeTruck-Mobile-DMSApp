@@ -294,7 +294,7 @@ angular.module('oinio.newWorkListControllers', [])
         $scope.init20Trucks = function (keyWord) {
             $scope.contentTruckItems = [];
             console.log("init20Trucks1::",keyWord);
-            HomeService.searchTruckFleets("",keyWord,"20",doOnline).then(function success(response) {
+            HomeService.searchTruckFleets("",keyWord,"150",doOnline).then(function success(response) {
                 console.log(response);
                 let trucks = [];
                 if (response!=null && response.length > 0) {
@@ -387,7 +387,7 @@ angular.module('oinio.newWorkListControllers', [])
         $scope.getTrucks = function (keyWord) {
             $scope.contentTruckItems = [];
             //AppUtilService.showLoading();
-            HomeService.searchTruckFleets(keyWord,$scope.searchResultAcctId,"20",doOnline).then(function success(response) {
+            HomeService.searchTruckFleets(keyWord,$scope.searchResultAcctId,"150",doOnline).then(function success(response) {
                 //AppUtilService.hideLoading();
                 console.log(response);
                 let trucks = [];

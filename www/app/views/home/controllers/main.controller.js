@@ -14,10 +14,10 @@ angular.module('oinio.MainController', [])
       $rootScope.forceClientProd = false;
 
         vm.isOnline = null;
-        cordova.plugins.backgroundMode.on('activate', function () {
-            cordova.plugins.backgroundMode.disableWebViewOptimizations();
+      cordova.plugins.backgroundMode.on('activate', function() {
+        cordova.plugins.backgroundMode.disableWebViewOptimizations();
+      });
 
-        });
         cordova.plugins.backgroundMode.setEnabled(true);
         // cordova.plugins.backgroundMode.overrideBackButton();
         var firstIntoApp = true;

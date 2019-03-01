@@ -3095,7 +3095,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.getTrucksMore = function (keyWord) {
                 $scope.contentTruckItemsMore = [];
                 //AppUtilService.showLoading();
-                HomeService.searchTruckFleets(keyWord,$scope.localAccId, '20', doOnline).then(function success(response) {
+                HomeService.searchTruckFleets(keyWord,$scope.localAccId, '150', doOnline).then(function success(response) {
                     //AppUtilService.hideLoading();
                     console.log(response);
                     let trucks = [];
