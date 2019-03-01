@@ -480,7 +480,7 @@
                 AppUtilService.showLoading();
 
               var  taxeIndex = _.findIndex($scope.Taxes, function(taxe) {
-                return taxe.label == procurementInfo.Tax__c;
+                return taxe.label == procurementInfo[0].Tax__c;
               });
 
 
@@ -496,6 +496,7 @@
                   if (taxeIndex >= 0) {
                     material.Tax__c = $scope.Taxes[taxeIndex].apiName;
                   }
+                  selectMaterials.push(material);
                 }
 
                 //离线转在线
@@ -511,7 +512,7 @@
                 // });
 
                 ForceClientService.getForceClient().apexrest(
-                    encodeURI($scope.postPurChaseUrl+JSON.stringify(procurementInfo)+"&newProcurementInfoItem="+JSON.stringify($scope.chooseMaterials)),
+                    encodeURI($scope.postPurChaseUrl+JSON.stringify(procurementInfo)+"&newProcurementInfoItem="+JSON.stringify(selectMaterials)),
                     'POST',
                     {},
                     null,
