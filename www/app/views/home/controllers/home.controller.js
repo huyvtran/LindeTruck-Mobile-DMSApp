@@ -215,7 +215,7 @@ angular.module('oinio.controllers', [])
             });
           } else {
             $ionicPopup.alert({
-              title:"打卡失败请重新打卡"
+              title:"打卡失败请外网链接并重新打卡"
             });
           }
         }, function (error) {
@@ -223,7 +223,7 @@ angular.module('oinio.controllers', [])
 
           console.log('error',error);
           $ionicPopup.alert({
-            title:"打卡失败请重新打卡"
+            title:"打卡失败请请外网链接并重新打卡"
           });
         });
       };
