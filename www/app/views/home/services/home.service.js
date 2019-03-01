@@ -1045,6 +1045,7 @@ angular.module('oinio.services', [])
             if(acctId != null && acctId != ''){
                 sql = sql + " and {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"'";
             }
+            sql = sql + " order by {Truck_Fleet__c:Name} asc ";
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
             navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
                 let trucks = [];
@@ -1144,7 +1145,7 @@ angular.module('oinio.services', [])
 
             let sql =  "select {Truck_Fleet__c:_soup}\
                          from {Truck_Fleet__c}\
-                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' limit 20";
+                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' order by {Truck_Fleet__c:Name} asc limit 20";
 
 
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
