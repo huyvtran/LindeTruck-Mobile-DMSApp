@@ -40,8 +40,6 @@ angular
           $rootScope.lindeCompanyCode = "lindechinatest"; //生产环境CompanyCode
         }
 
-        TimeCardService.fetchAccesstoken();
-
       };
 
 

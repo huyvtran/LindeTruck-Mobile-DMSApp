@@ -15,7 +15,7 @@ angular
       /**
        * fetch accesstoken
        * */
-      service.fetchAccesstoken = function () {
+      service.clickTimeCard = function (payload) {
 
         var deferred = $q.defer();
 
@@ -33,8 +33,9 @@ angular
           accesstoken = response.data.data.accessToken;
           console.log('accesstokenResponse',accesstoken);
 
+          requestClickTimeCard(payload);
+
           // setAccesstoken(response.data.data.accessToken);
-          setLoopFetchAccesstoken();
           deferred.resolve(response);
         }, function errorCallback(response) {
           console.log('accesstokenError',response);
@@ -169,34 +170,6 @@ angular
       }
 
 
-      var setLoopFetchAccesstoken = function () {
-
-        var stopEvent = $interval(function(){
-          //每分钟执行一次定时任务
-          var timeCardUrl = $rootScope.timeCardLindeCRMURL + `common/accesstoken?appId=${$rootScope.lindeAppId}&secret=${$rootScope.lindeSecret}&companyCode=${$rootScope.lindeCompanyCode}`;
-
-          $http({
-            method: 'GET',
-            contentType: 'application/json',
-              // url: "http://106.14.144.146:660/api/common/accesstoken?appId=linde20180702&secret=363a0910db1dcc47806b63f700ab4b94&companyCode=linde"
-              url: timeCardUrl
-
-          }).then(function successCallback(response) {
-            // console.log('response',response);
-            $log.log('>>>> URL：'+ timeCardUrl);
-            $log.log('>>>> Response：'+JSON.stringify(response.data));
-            accesstoken = response.data.data.accessToken;
-          }, function errorCallback(response) {
-            // console.log('response',response);
-            $log.log('>>>> URL：'+ timeCardUrl);
-            $log.log('>>>> Error：'+JSON.stringify(response));
-          });
-        },174000);
-
-      };
-
-
-
 
       var getRequestHeaders = function() {
         var headers = {};
@@ -209,7 +182,7 @@ angular
 
       //Time Card
       // payload
-      service.clickTimeCard = function(payload) {
+      var requestClickTimeCard = function(payload) {
 
         var deferred = $q.defer();
 
