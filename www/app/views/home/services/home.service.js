@@ -369,10 +369,10 @@ angular.module('oinio.services', [])
          * @func  save new service order overview
          * @desc  save Service_Order_Overview__c with recordType Work_Order to Salesforce
          * @param {Service_Order_Overview__c[]} adrs - the data which should be create and save objects for,
-         *      the data should contain 
+         *      the data should contain
          *  Service_Order_Overview__c.Service_Order_Owner__c,
          *  Service_Order_Overview__c.Service_Order_Owner__r._soupEntryId  // wai
-         * 
+         *
          *  Service_Order_Overview__c.Plan_Date__c,
          *
          *  Service_Order_Overview__c.Description__c,
@@ -387,7 +387,7 @@ angular.module('oinio.services', [])
          *
          *  Service_Order__c.Truck_Serial_Number__c,
          *  Service_Order__c.Truck_Serial_Number__r._soupEntryId,    //truck
-         * 
+         *
          * @returns {Promise} an array of Service_Order__c objects containing like
          *   "_soupId": 1234567890,
          */
@@ -1145,7 +1145,8 @@ angular.module('oinio.services', [])
 
             let sql =  "select {Truck_Fleet__c:_soup}\
                          from {Truck_Fleet__c}\
-                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' order by {Truck_Fleet__c:Name} asc limit 20";
+                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' order by {Truck_Fleet__c:Name} asc limit 150";
+
 
 
             let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);

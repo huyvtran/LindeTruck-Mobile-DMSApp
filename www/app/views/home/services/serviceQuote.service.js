@@ -146,7 +146,7 @@
 
                 let sql =  "select {Truck_Fleet__c:_soup}\
                          from {Truck_Fleet__c}\
-                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' limit 20";
+                         where {Truck_Fleet__c:Ship_To_CS__c} ='"+ acctId +"' limit 150";
 
                 let querySpec = navigator.smartstore.buildSmartQuerySpec(sql, SMARTSTORE_COMMON_SETTING.PAGE_SIZE_FOR_ALL);
                 navigator.smartstore.runSmartQuery(querySpec, function (cursor) {
