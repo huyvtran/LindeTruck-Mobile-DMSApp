@@ -3029,10 +3029,16 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectTruckAddPage').style.display = 'block';
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
+                $scope.selectedTruckItemsMore=[];
                 angular.forEach($scope.allTruckItems,function (singleTruckItem) {
                     $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
                         if ($(element).attr('data-recordid') == singleTruckItem.Id) {
                             $(this).prop('checked', true);
+                            for(var i = 0;i<$scope.contentTruckItemsMore.length;i++){
+                                if (singleTruckItem.Id==$scope.contentTruckItemsMore[i].Id) {
+                                    $scope.selectedTruckItemsMore.push($scope.contentTruckItemsMore[i]);
+                                }
+                            }
                         }
                     });
 
@@ -3050,7 +3056,7 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
                 truckItems=[];
-                // $scope.allTruckItems = [];
+                $scope.allTruckItems = [];
                 $scope.initTrucks(initTrucks);
                 truckIds = [];
                 for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
