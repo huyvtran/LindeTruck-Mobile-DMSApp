@@ -1153,6 +1153,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.goBack = function () {
                 // window.history.back();
                 $state.go('app.home');
+                $scope.getSomeData();
             };
             var canDeparture=true;
             var departTurePop=null;
@@ -1530,6 +1531,18 @@ angular.module('oinio.workDetailsControllers', [])
              * @param $event
              */
             $scope.signBill = function () {
+                if ($scope.engineerImgStr=="././img/images/will_add_Img.png"){
+                    $ionicPopup.alert({
+                            title:"请工程师签名!"
+                    });
+                    return;
+                }
+                if ($scope.busyImgStr=="././img/images/will_add_Img.png"){
+                    $ionicPopup.alert({
+                             title:"请客户签名!"
+                    });
+                    return;
+                }
                 ForceClientService.getForceClient().apexrest(
                     $scope.getOrderTypeUri + orderDetailsId,
                     'GET',
@@ -1713,6 +1726,18 @@ angular.module('oinio.workDetailsControllers', [])
                                 //Measure_Date__c:new Date()
                             });
                         }
+                        if (!addMore&&$scope.contentTruckItemsMore.length>0){
+                            angular.forEach($scope.allTruckItems,function (item) {
+                                for(var j=0;j<$scope.contentTruckItemsMore.length;j++){
+                                    if (item.Id==$scope.contentTruckItemsMore[j].Id){
+                                        $scope.selectedTruckItemsMore.push($scope.contentTruckItemsMore[j]);
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    for(var i =0;i<$scope.selectedTruckItemsMore.length;i++){
+                        truckIds.push($scope.selectedTruckItemsMore[i].Id);
                     }
                     if (truckIds != null && truckItemsSecond != null && truckIds.length > 0 && truckItemsSecond.length > 0) {
                         for (var i = 0; i < truckIds.length; i++) {
@@ -2546,6 +2571,7 @@ angular.module('oinio.workDetailsControllers', [])
                     if (responseSaveParts.ServiceOrderMaterialSums) { //舒哥接口特例，只要有ServiceOrderMaterialSums就是成功
                         if (enableArrival){
                             $state.go('app.home');
+                            //$rootScope.getSomeData();
                         }else{
                             $state.go('app.workDetails', {
                                 //SendInfo: obj._soupEntryId,
@@ -2559,8 +2585,9 @@ angular.module('oinio.workDetailsControllers', [])
                                 orderBelong:true,
                                 openPrintPage:false
                             });
+                            $rootScope.getSomeData();
                         }
-                        $rootScope.getSomeData();
+
                     } else {
                         $ionicPopup.alert({
                             title: '保存失败'
@@ -3021,8 +3048,9 @@ angular.module('oinio.workDetailsControllers', [])
                 }
                 $scope.selectWorkersStr = new_temp;
             };
-
+            var addMore=false;
             $scope.addMoreTruck = function () {
+                addMore=true;
                 document.getElementById('workDetailTotal').style.display = 'none';
                 document.getElementById('truckConfigPage').style.display = 'none';
                 document.getElementById('workDetailPart').style.display = 'none';
@@ -3073,7 +3101,7 @@ angular.module('oinio.workDetailsControllers', [])
                             isShow: false
                         }
                     );
-                    truckIds.push($scope.selectedTruckItemsMore[i].Id);
+
                 }
 
 
@@ -3194,40 +3222,35 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.checkAllAddSearchResults = function () {
                 let ele = $('#ckbox_truck_add_searchresult_all');
                 if (ele.prop('checked')) {
-                    $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
-                        $(this).prop('checked', true);
-                    });
-
-                    angular.forEach($scope.contentTruckItemsMore, function (searchResult) {
-                        let existFlag = false;
-                        angular.forEach($scope.selectedTruckItemsMore, function (selected) {
-                            if (searchResult.Id == selected.Id) {
-                                existFlag = true;
-                            }
-                        });
-                        if (!existFlag) {
-                            $scope.selectedTruckItemsMore.push(searchResult);
-                        }
-                    });
+                    $scope.selectedTruckItemsMore=[];
                     let mk = '';
-                    if ($scope.selectedTruckItemsMore.length > 0) {
-                        mk = $scope.selectedTruckItemsMore[0].Maintenance_Key__c;
-                        for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
-                            if (mk != $scope.selectedTruckItemsMore[i].Maintenance_Key__c) {
-                                $scope.selectedTruckItemsMore.splice(i, 1);
+                    let infoIds=[];
+                    if ($scope.contentTruckItemsMore.length > 0) {
+                        mk = $scope.contentTruckItemsMore[0].Maintenance_Key__c;
+                        for (var i = 0; i < $scope.contentTruckItemsMore.length; i++) {
+                            if (mk == $scope.contentTruckItemsMore[i].Maintenance_Key__c) {
+                                $scope.selectedTruckItemsMore.push($scope.contentTruckItemsMore[i]);
+                                infoIds.push(i);
                             }
-                            ele.prop('checked', false);
+                        }
+
+                        $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                            $(this).prop('checked', false);
+                        });
+
+                        angular.forEach(infoIds,function (infoId) {
                             $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
-                                if (i == index) {
-                                    $(this).prop('checked', false);
+                                if (!element.checked&&infoId == index) {
+                                    $(this).prop('checked', true);
                                 }
                             });
+                        });
+                        if($scope.contentTruckItemsMore.length>0&&$scope.selectedTruckItemsMore.length<$scope.contentTruckItemsMore.length){
                             $ionicPopup.alert({
                                 title: '保养只能选择同保养策略的车'
                             });
                             return;
                         }
-                    } else {
 
                     }
                 } else {

@@ -463,7 +463,10 @@
             //预留刷新工作计划逻辑
           }
           $scope.getHomeService();
-          document.getElementById('selectStatusId')[0].selected = true;
+          setTimeout(function () {
+              $scope.hideLoadingPage();
+              document.getElementById('selectStatusId')[0].selected = true;
+          },200);
         };
         $scope.toRepair1 = function () {
           $state.go('app.search_1');
@@ -743,6 +746,7 @@
             } catch (e) {
               console.log('匹配当前用户:出错啦::', e);
             }
+
           };
           setDefaultUser();
           province.onchange = function () {
