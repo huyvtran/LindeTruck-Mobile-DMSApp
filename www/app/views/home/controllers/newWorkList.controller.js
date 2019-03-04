@@ -518,11 +518,11 @@ angular.module('oinio.newWorkListControllers', [])
                                     AppUtilService.hideLoading();
                                     if (res.status.toLowerCase() == "success") {
                                         var currentWorkOrderId = res.message.split(":")[1];
-                                        if ($('#input_plandate').val()!=""){
-                                            $scope.updateWorkOrderStatus(currentWorkOrderId,'Not Completed');
-                                        }else{
-                                            $scope.updateWorkOrderStatus(currentWorkOrderId,'Not Planned');
-                                        }
+                                        // if ($('#input_plandate').val()!=""){
+                                        //     $scope.updateWorkOrderStatus(currentWorkOrderId,'Not Completed');
+                                        // }else{
+                                        //     $scope.updateWorkOrderStatus(currentWorkOrderId,'Not Planned');
+                                        // }
                                         $state.go('app.workDetails',
                                             {   //SendInfo: addResult[0]._soupEntryId,
                                                 workDescription: $("#textarea_desc").val(),

@@ -926,7 +926,7 @@ angular.module('oinio.workDetailsControllers', [])
                                 if (Number(localStorage.onoffline) !== 0){
                                     if (res.status.toLowerCase() == 'success') {
                                         $scope.reloadWorkItems();
-                                        $rootScope.getSomeData();
+                                        //$rootScope.getSomeData();
                                         if (orderBelong) {
                                             $('#sidProgressBar').css('width', '75%');
                                         } else {
@@ -1009,7 +1009,7 @@ angular.module('oinio.workDetailsControllers', [])
                                     if (Number(localStorage.onoffline) !== 0){
                                         if (res.status.toLowerCase() == 'success') {
                                             $scope.reloadWorkItems();
-                                            $rootScope.getSomeData();
+                                            //$rootScope.getSomeData();
                                             //$event.target.style.backgroundColor = "#00FF7F";
                                             $('#leave').addClass('textCompleted');
                                             for (var i = 0; i <= 3; i++) {
@@ -1153,7 +1153,7 @@ angular.module('oinio.workDetailsControllers', [])
             $scope.goBack = function () {
                 // window.history.back();
                 $state.go('app.home');
-                $scope.getSomeData();
+                $rootScope.getSomeData();
             };
             var canDeparture=true;
             var departTurePop=null;
@@ -1235,7 +1235,7 @@ angular.module('oinio.workDetailsControllers', [])
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
                                 $scope.reloadWorkItems();
-                                $rootScope.getSomeData();
+                                //$rootScope.getSomeData();
                                 for (var i = 0; i < 2; i++) {
                                     $('ol li:eq(' + i + ')').addClass('slds-is-active');
                                 }
@@ -1337,7 +1337,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                 console.log(res);
                                                 if (res.status.toLowerCase() == 'success') {
                                                     $scope.reloadWorkItems();
-                                                    $rootScope.getSomeData();
+                                                    //$rootScope.getSomeData();
                                                     for (var i = 0; i < 2; i++) {
                                                         $('ol li:eq(' + i + ')').addClass('slds-is-active');
                                                     }
@@ -1354,7 +1354,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                         console.log(res);
                                                         if (res.status.toLowerCase() == 'success') {
                                                             $scope.reloadWorkItems();
-                                                            $rootScope.getSomeData();
+                                                            //$rootScope.getSomeData();
                                                             //$event.target.style.backgroundColor = "#00FF7F";
                                                             if (orderBelong) {
                                                                 $('#sidProgressBar').css('width', '50%');
@@ -1437,7 +1437,7 @@ angular.module('oinio.workDetailsControllers', [])
                             AppUtilService.hideLoading();
                             if (res.status.toLowerCase() == 'success') {
                                 $scope.reloadWorkItems();
-                                $rootScope.getSomeData();
+                                //$rootScope.getSomeData();
                                 //$event.target.style.backgroundColor = "#00FF7F";
                                 if (orderBelong) {
                                     $('#sidProgressBar').css('width', '50%');
@@ -2569,24 +2569,27 @@ angular.module('oinio.workDetailsControllers', [])
 
                     //添加点击保存更改工单状态
                     if (responseSaveParts.ServiceOrderMaterialSums) { //舒哥接口特例，只要有ServiceOrderMaterialSums就是成功
-                        if (enableArrival){
                             $state.go('app.home');
-                            //$rootScope.getSomeData();
-                        }else{
-                            $state.go('app.workDetails', {
-                                //SendInfo: obj._soupEntryId,
-                                workDescription: null,
-                                AccountShipToC: localAccountShipToc,
-                                workOrderId: orderDetailsId,
-                                enableArrivalBtn: true,
-                                goOffTime: null,
-                                isNewWorkList: true,
-                                accountId: $scope.localAccId,
-                                orderBelong:true,
-                                openPrintPage:false
-                            });
                             $rootScope.getSomeData();
-                        }
+
+                        // if (enableArrival){
+                        //     $state.go('app.home');
+                        //     $rootScope.getSomeData();
+                        // }else{
+                        //     $state.go('app.workDetails', {
+                        //         //SendInfo: obj._soupEntryId,
+                        //         workDescription: null,
+                        //         AccountShipToC: localAccountShipToc,
+                        //         workOrderId: orderDetailsId,
+                        //         enableArrivalBtn: true,
+                        //         goOffTime: null,
+                        //         isNewWorkList: true,
+                        //         accountId: $scope.localAccId,
+                        //         orderBelong:true,
+                        //         openPrintPage:false
+                        //     });
+                        //     $rootScope.getSomeData();
+                        // }
 
                     } else {
                         $ionicPopup.alert({

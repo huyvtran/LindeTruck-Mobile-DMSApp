@@ -464,7 +464,7 @@
           }
           $scope.getHomeService();
           setTimeout(function () {
-              $scope.hideLoadingPage();
+              //$scope.hideLoadingPage();
               document.getElementById('selectStatusId')[0].selected = true;
           },200);
         };
