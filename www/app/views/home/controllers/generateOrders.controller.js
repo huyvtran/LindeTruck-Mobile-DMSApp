@@ -24,6 +24,7 @@ angular.module('oinio.generateOrdersController', [])
       $scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 服务市场活动要求支持的服务'});
       $scope.workTypes.push({label: 'ZS03_Z38', value: 'Z38 跨区域要求的服务'});
       $scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 资产（短租）车的服务(上海)'});
+      $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 纯配件销售'});
       $scope.workTypes.push({label: 'ZS03_Z3A', value: 'Z3A 销售合同赠送的服务'});
       $scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 RC为HQ自用叉车提供维保'});
       $scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 测试车事务'});

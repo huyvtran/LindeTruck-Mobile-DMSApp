@@ -3390,7 +3390,8 @@ angular.module('oinio.workDetailsControllers', [])
 
             $scope.hideWorkPrintPage = function () {
                 if ($scope.openPrint){
-                    window.history.back();
+                    // window.history.back();
+                    $state.go("app.home");
                 }else{
                     document.getElementById('workDetailTotal').style.display = 'block';
                     document.getElementById('truckConfigPage').style.display = 'none';
@@ -3464,6 +3465,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                     $ionicPopup.alert({
                                                         title: '出票成功'
                                                     });
+                                                    return false;
                                                 }, function error(obj) {
                                                     console.log(obj.message);
                                                     $log.error(obj.message);
