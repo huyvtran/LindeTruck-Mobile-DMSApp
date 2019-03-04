@@ -551,7 +551,7 @@ angular.module('oinio.workDetailsControllers', [])
             };
 
             $scope.initTrucks = function (trucks,childOrders) {
-                if (trucks != null && trucks != undefined && childOrders!=null && childOrders!=undefined && trucks.length > 0 && childOrders.length>0) {
+                if (trucks != undefined && trucks != null  && childOrders!=undefined && childOrders!=null  && trucks.length > 0 && childOrders.length>0) {
                     truckItems = [];
                     for (var i = 0; i < trucks.length; i++) {
                         truckNumber += trucks[i].Name + ';';
@@ -586,6 +586,7 @@ angular.module('oinio.workDetailsControllers', [])
                             }
                         );
                     }
+
                 }
             };
 
@@ -1498,7 +1499,7 @@ angular.module('oinio.workDetailsControllers', [])
                 for (var i =0;i<$scope.localWorkItems.length;i++){
                     minTotal+=$scope.calculateWorkHour($scope.localWorkItems[i].arriveTime,$scope.localWorkItems[i].leaveTime);
                 }
-                $scope.workHourShow = (minTotal/60).toFixed(2)+'小时';//工作小时
+                $scope.workHourShow = minTotal!=NaN ? (minTotal/60).toFixed(2)+'小时':"0小时";//工作小时
                 $scope.callStrShow = $('#call_str').val().trim();//报修需求
                 $scope.workContentShow = $('#workContentStr').val();//工作信息
                 $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
@@ -3075,7 +3076,8 @@ angular.module('oinio.workDetailsControllers', [])
 
                 });
             };
-
+            var lsTrucks=[];
+            var lsTrucks2=[];
             /**
              * hide truck page
              */
@@ -3086,26 +3088,64 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectTruckAddPage').style.display = 'none';
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
-                truckItems=[];
+                // truckItems=[];
+                lsTrucks=[];
+                lsTrucks2=[];
                 $scope.allTruckItems = [];
-                $scope.initTrucks(initTrucks);
-                truckIds = [];
                 for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
-                    $scope.allTruckItems.push(
-                        {
-                            Id: $scope.selectedTruckItemsMore[i].Id,
-                            truckItemNum: $scope.selectedTruckItemsMore[i].Name,
-                            Operation_Hour__c: 0,
-                            Maintenance_Key__c: $scope.selectedTruckItemsMore[i].Maintenance_Key__c,
-                            chooseCheckBox: false,
-                            Model__c:$scope.selectedTruckItemsMore[i].Model__c,
-                            New_Operation_Hour__c: 0,
-                            Service_Suggestion__c: '',
-                            isShow: false
+                    for (var j =0;j<initTrucks.length;j++){
+                        if ($scope.selectedTruckItemsMore[i].Id==initTrucks[j].Id){
+                            lsTrucks.push(initTrucks[j]);
                         }
-                    );
+                    }
 
                 }
+                angular.forEach($scope.selectedTruckItemsMore,function (currentItem) {
+                    lsTrucks2.push(currentItem);
+                });
+                for (var a = 0;a<lsTrucks2.length;a++){
+                    for (var b = 0;b<lsTrucks.length;b++){
+                        if (lsTrucks2[a].Id==lsTrucks[b].Id){
+                            lsTrucks2.splice(a,1);
+                        }
+                    }
+                }
+                $scope.initTrucks(lsTrucks,initChildOrders);
+                for (var i = 0; i < lsTrucks2.length; i++) {
+                        truckItems.push(
+                            {
+                                Id: lsTrucks2[i].Id,
+                                truckItemNum: lsTrucks2[i].Name,
+                                Operation_Hour__c: 0,
+                                Maintenance_Key__c: lsTrucks2[i].Maintenance_Key__c,
+                                chooseCheckBox: false,
+                                Model__c: lsTrucks2.Model__c,
+                                New_Operation_Hour__c: 0,
+                                Service_Suggestion__c: '',
+                                isShow: false
+                            }
+                        );
+                }
+
+
+                $scope.allTruckItems =truckItems;
+                // truckIds = [];
+                // for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
+                //     $scope.allTruckItems.push(
+                //         {
+                //             Id: $scope.selectedTruckItemsMore[i].Id,
+                //             truckItemNum: $scope.selectedTruckItemsMore[i].Name,
+                //             Operation_Hour__c: 0,
+                //             Maintenance_Key__c: $scope.selectedTruckItemsMore[i].Maintenance_Key__c,
+                //             chooseCheckBox: false,
+                //             Model__c:$scope.selectedTruckItemsMore[i].Model__c,
+                //             New_Operation_Hour__c: 0,
+                //             Service_Suggestion__c: '',
+                //             isShow: false
+                //         }
+                //     );
+                //
+                // }
 
 
 
