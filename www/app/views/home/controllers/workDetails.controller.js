@@ -554,7 +554,6 @@ angular.module('oinio.workDetailsControllers', [])
                 if (trucks != undefined && trucks != null  && childOrders!=undefined && childOrders!=null  && trucks.length > 0 && childOrders.length>0) {
                     truckItems = [];
                     for (var i = 0; i < trucks.length; i++) {
-                        truckNumber += trucks[i].Name + ';';
                         for (var j =0;j<childOrders.length;j++){
                             if (trucks[i].Id==childOrders[j].Truck_Serial_Number__c){
                                 var optHour=0;
@@ -572,6 +571,7 @@ angular.module('oinio.workDetailsControllers', [])
 
                             }
                         }
+                        truckNumber += trucks[i].Name +"("+optHour+")"+ ';';
                         truckItems.push(
                             {
                                 Id: trucks[i].Id,
