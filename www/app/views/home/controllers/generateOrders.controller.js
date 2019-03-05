@@ -74,7 +74,7 @@ angular.module('oinio.generateOrdersController', [])
           return;
         }
         AppUtilService.showLoading();
-        var payload1 = $scope.upsertSapOrder + $stateParams.workOrderId;
+        var payload1 = $scope.upsertSapOrder + $stateParams.workOrderId+"&isSavePartOrder="+true;
         console.log('payload1', payload1);
         var servicePartOrder = {};
         servicePartOrder['Consignee__c'] = oCurrentUser.Id;//收货联系人: Consignee__c (User Id)
@@ -89,7 +89,7 @@ angular.module('oinio.generateOrdersController', [])
         servicePartOrder['Delivery_Date__c'] = getDelivery_Date__c;// 订单日期
         servicePartOrder['Entire__c'] = document.getElementById('Entire__c').checked;// 是否整单交货
         var payload2 = $scope.saveServicePartOrder + $stateParams.workOrderId + '&servicePartOrder=' + JSON.stringify(
-          servicePartOrder);
+          servicePartOrder)+"&isSavePartOrder="+true;
         console.log('payload2', payload2);
 
         ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response1) { //生成备件接口一
