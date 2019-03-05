@@ -3467,6 +3467,7 @@ angular.module('oinio.workDetailsControllers', [])
                                                     $ionicPopup.alert({
                                                         title: '出票成功'
                                                     });
+                                                    return;
                                                 }, function error(obj) {
                                                     console.log(obj.message);
                                                     $log.error(obj.message);

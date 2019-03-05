@@ -33,6 +33,7 @@ angular.module('oinio.newWorkListControllers', [])
             vm.adrs.push({label: 'ZS03_Z36', value: 'Z36 服务市场活动要求支持的服务'});
             vm.adrs.push({label: 'ZS03_Z38', value: 'Z38 跨区域要求的服务'});
             vm.adrs.push({label: 'ZS03_Z39', value: 'Z39 资产（短租）车的服务(上海)'});
+            vm.adrs.push({label: 'ZS04_Z40', value: 'Z40 纯配件销售'});
             vm.adrs.push({label: 'ZS03_Z3A', value: 'Z3A 销售合同赠送的服务'});
             vm.adrs.push({label: 'ZS03_ZH1', value: 'ZH1 RC为HQ自用叉车提供维保'});
             vm.adrs.push({label: 'ZS03_ZH2', value: 'ZH2 测试车事务'});
@@ -43,7 +44,6 @@ angular.module('oinio.newWorkListControllers', [])
             vm.adrs.push({label: 'ZS03_ZR3', value: 'ZR3 短租资产化后加装、改装服务'});
             vm.adrs.push({label: 'ZS03_ZSS', value: 'ZSS 一般销售支持'});
             vm.adrs.push({label: 'ZS03_ZTD', value: 'ZTD 运输损坏'});
-            vm.adrs.push({label: 'ZS04_Z40', value: 'Z40 纯配件销售'});
             vm.adrs.push({label: 'ZS08_Z80', value: 'Z80 保修服务'});
             vm.adrs.push({label: 'ZS08_Z81', value: 'Z81 保修服务1'});
             vm.adrs.push({label: 'ZS08_Z82', value: 'Z82 保修服务2'});
