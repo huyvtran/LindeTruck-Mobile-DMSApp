@@ -3090,7 +3090,7 @@ angular.module('oinio.workDetailsControllers', [])
                 document.getElementById('selectTruckAddPage').style.display = 'none';
                 document.getElementById('selectWorkersPage').style.display = 'none';
                 document.getElementById('workPrintPage').style.display = 'none';
-                // truckItems=[];
+                truckItems=[];
                 lsTrucks=[];
                 lsTrucks2=[];
                 $scope.allTruckItems = [];
