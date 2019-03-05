@@ -1,6 +1,6 @@
 angular.module('oinio.controllers', [])
     .controller('HomeController', function ($scope,$http, $rootScope, $ionicPopup, $filter, $state, $stateParams, ConnectionMonitor,$ionicTabsDelegate,
-                                            LocalCacheService, HomeService, $log, TimeCardService, AppUtilService) {
+                                            LocalCacheService, HomeService, $log, TimeCardService, AppUtilService,RestService) {
 
       var vm           = this,
           oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -197,6 +197,20 @@ angular.module('oinio.controllers', [])
       $scope.commute = function () {
 
         AppUtilService.showLoading();
+
+        RestService.getServerTimestamp().then(function (serverTimestamp) { //获取oinioone服务器时间
+            if (serverTimestamp) {
+              var serverTimestampTran = new Date(serverTimestamp).format('yyyy-MM-dd hh:mm:ss');
+
+              console.log('serverTimestampTran:', serverTimestampTran);
+
+            }
+
+          }, function (err) {
+            console.log('serverTimestampTran:err', err);
+          }
+
+        );
 
         var payload = {
           'DataType': 'AttData',

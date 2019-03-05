@@ -1,0 +1,2 @@
+angular.module('oinio.services', []);
+

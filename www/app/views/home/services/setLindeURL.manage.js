@@ -7,7 +7,7 @@
 angular
   .module('oinio.services')
   .service('LindeUrlManage',
-    function ($q, $http, $interval, $rootScope, $filter, $state, $stateParams, LocalDataService, ForceClientService, TimeCardService) {
+    function ($q, $http, $interval, $rootScope, $filter, $state, $stateParams, LocalDataService, ForceClientService) {
 
       var service = this;
 
@@ -41,6 +41,5 @@ angular
         }
 
       };
-
 
     });
