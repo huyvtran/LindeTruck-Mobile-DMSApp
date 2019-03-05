@@ -1497,9 +1497,11 @@ angular.module('oinio.workDetailsControllers', [])
 
                 var minTotal=0;
                 for (var i =0;i<$scope.localWorkItems.length;i++){
-                    minTotal+=$scope.calculateWorkHour($scope.localWorkItems[i].arriveTime,$scope.localWorkItems[i].leaveTime);
+                    if ($scope.localWorkItems[i].leaveTime!="  "){
+                        minTotal+=$scope.calculateWorkHour($scope.localWorkItems[i].arriveTime,$scope.localWorkItems[i].leaveTime);
+                    }
                 }
-                $scope.workHourShow = minTotal!=NaN ? (minTotal/60).toFixed(2)+'小时':"0小时";//工作小时
+                $scope.workHourShow = !isNaN(minTotal) ? (minTotal/60).toFixed(2)+'小时':"0小时";//工作小时
                 $scope.callStrShow = $('#call_str').val().trim();//报修需求
                 $scope.workContentShow = $('#workContentStr').val();//工作信息
                 $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
@@ -3390,8 +3392,8 @@ angular.module('oinio.workDetailsControllers', [])
 
             $scope.hideWorkPrintPage = function () {
                 if ($scope.openPrint){
-                    // window.history.back();
-                    $state.go("app.home");
+                    window.history.back();
+                    // $state.go("app.home");
                 }else{
                     document.getElementById('workDetailTotal').style.display = 'block';
                     document.getElementById('truckConfigPage').style.display = 'none';
@@ -3465,7 +3467,6 @@ angular.module('oinio.workDetailsControllers', [])
                                                     $ionicPopup.alert({
                                                         title: '出票成功'
                                                     });
-                                                    return false;
                                                 }, function error(obj) {
                                                     console.log(obj.message);
                                                     $log.error(obj.message);
