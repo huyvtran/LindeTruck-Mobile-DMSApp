@@ -628,8 +628,8 @@ angular.module('oinio.workDetailsControllers', [])
                                 } else {
                                     $('#sidProgressBar').css('width', '66%');
                                 }
-                                arriveTime = new Date(workItems[i].Arrival_Time__c);
-                                goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                                arriveTime = new Date(workItems[i].Arrival_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800');
+                                goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800');
                                 break;
                             }
                         } else if (workItems[i].Departure_Time__c != undefined && onOrder) {
@@ -644,10 +644,10 @@ angular.module('oinio.workDetailsControllers', [])
                                 $('#sidProgressBar').css('width', '33%');
                             }
 
-                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800');
                             break;
                         } else if (workItems[i].Leave_Time__c != undefined && onOrder) {
-                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c.replace(/T/g,' ').replace(/-/g,'/')+'+0800');
                             break;
                         } else {
                             goOffTimeFromPrefix = null;
