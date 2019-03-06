@@ -1,4 +1,7 @@
-angular.module('oinio.PriceDetailController', [])
+(function () {
+
+  'use strict';
+angular.module('oinio.controllers')
   .controller('PriceDetailController',
     function ($scope, $rootScope, $ionicPopup, $ionicHistory, $filter, $log, $state, $stateParams, Service1Service,
               ForceClientService, AppUtilService, LocalCacheService) {
@@ -1828,4 +1831,5 @@ angular.module('oinio.PriceDetailController', [])
       };
 
     });
+})();
 
