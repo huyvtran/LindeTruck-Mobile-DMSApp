@@ -1,31 +1,34 @@
-/**
- * @ngdoc service
- * @name oinio.services:TransferRequestService
- *
- * @description
- */
-angular
-  .module('oinio.services')
-  .service('TransferRequestService',
-    function ($q, $http, APP_SETTINGS, $log, $filter) {
+(function() {
 
-      var service = this;
+  'use strict';
+  /**
+   * @ngdoc service
+   * @name oinio.services:TransferRequestService
+   *
+   * @description
+   */
+  angular
+    .module('oinio.services')
+    .service('TransferRequestService',
+      function ($q, $http, APP_SETTINGS, $log, $filter) {
 
-      /**
-       * 转出客户接口
-       * */
-      service.truckFleetTransferService = function (codeFiles) {
+        var service = this;
 
-        var deferred = $q.defer();
+        /**
+         * 转出客户接口
+         * */
+        service.truckFleetTransferService = function (codeFiles) {
 
-        const seriesIds = screenAllTruckSeries(codeFiles);
-        console.log('seriesIds', seriesIds);
+          var deferred = $q.defer();
 
-        deferred.resolve(seriesIds);
+          const seriesIds = screenAllTruckSeries(codeFiles);
+          console.log('seriesIds', seriesIds);
 
-        return deferred.promise;
-      };
+          deferred.resolve(seriesIds);
 
+          return deferred.promise;
+        };
 
-    });
+      });
 
+})();

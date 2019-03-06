@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('oinio.Search_1controllers', [])
+    angular.module('oinio.controllers')
         .controller('Search_1Controller', function ($scope, $rootScope, $log,$filter, $state, $stateParams, ConnectionMonitor,
             LocalCacheService,$ionicHistory,AppUtilService,AccountService,$ionicPopup,dualModeService) {
             var vm = this;
@@ -147,6 +147,6 @@
 
 
         });
-       
+
 })();
 

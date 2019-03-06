@@ -1,4 +1,7 @@
- /**
+(function() {
+
+  'use strict';
+  /**
    * @ngdoc service
    * @name oinio.services:ErrorCodeServices
    *
@@ -27,7 +30,6 @@
           return deferred.promise;
         };
 
-
         /**
          * 获取全部Truck Series 的 CarType
          * */
@@ -43,7 +45,6 @@
           return deferred.promise;
 
         };
-
 
         /**
          * 根据 series   carType  code 得到错误信息
@@ -61,7 +62,6 @@
           return deferred.promise;
 
         };
-
 
         /**
          * 获取所有error Code
@@ -85,15 +85,15 @@
 
                 deferred.resolve(errorCode);
 
-              },function (error) {
+              }, function (error) {
                 deferred.reject(error);
               });
 
-            },function (error) {
+            }, function (error) {
               deferred.reject(error);
             });
 
-          },function (error) {
+          }, function (error) {
             deferred.reject(error);
 
           });
@@ -113,7 +113,6 @@
               const codeResult = base64.decode(result);
 
               deferred.resolve(codeResult);
-
 
             }, function (error) {
               deferred.reject(error);
@@ -139,7 +138,7 @@
           });
         };
 
-        function readFile (fileEntry) {
+        function readFile(fileEntry) {
           return new Promise((resolve, reject) => {
             fileEntry.file(file => {
               const reader = new FileReader();
@@ -154,12 +153,11 @@
           });
         };
 
-
         function screenAllTruckSeries(codeFiles) {
 
           var truckSeries = [];
           angular.forEach(codeFiles, function (codeFile) {
-           const series =  _.pick(codeFile, 'Series');
+            const series = _.pick(codeFile, 'Series');
 
             truckSeries.push(series.Series);
           });
@@ -169,20 +167,18 @@
           return trucks;
         }
 
-
         function screenAllTruckCarType(codeFiles, series) {
-
 
           const carTypes = _.where(codeFiles, {'Series': series});
 
-          console.log('carTypes',carTypes);
+          console.log('carTypes', carTypes);
 
           var truckCarTypes = [];
           angular.forEach(carTypes, function (carType) {
 
-            const newCarType =  _.pick(carType, 'CarType');
+            const newCarType = _.pick(carType, 'CarType');
 
-            console.log('carType',newCarType);
+            console.log('carType', newCarType);
 
             truckCarTypes.push(newCarType.CarType);
           });
@@ -192,3 +188,4 @@
         }
 
       });
+})();

@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  angular.module('oinio.CalendarController', [])
+  angular.module('oinio.controllers')
     .controller('CalendarController',
       function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor, $ionicPopup,
                 LocalCacheService, ForceClientService, AppUtilService , $log, FileService, $cordovaAppVersion, Service1Service,dualModeService) {
