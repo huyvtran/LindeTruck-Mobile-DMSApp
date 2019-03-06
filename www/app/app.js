@@ -42,41 +42,8 @@
             'oinio.core.components',
             'oinio.services',
 
-            'oinio.controllers',//add your custom module from here
-            'oinio.MainController',
-            'oinio.CalendarController',
-            'oinio.GroupController',
-            'oinio.PersonalController',
-            'oinio.ContentTruckPartListController',
-            'oinio.NewContentTruckPartController',
-            'oinio.Search_1controllers',
-            'oinio.CustomDetailController',
-            'oinio.CalendarArrangeController',
-            'oinio.newWorkListControllers',
-            'oinio.workDetailsControllers',
-            'oinio.NewOfferController',
-            'oinio.NewOfferFittingsController',
-            'oinio.NewLinkManController',
-            'oinio.ChangeLinkManController',
-            'oinio.serviceManagementController',
-            'oinio.RefundController',
-            'oinio.RefundDetailController',
-            'oinio.PurChaseController',
-            'oinio.PurchaseListController',
-            'oinio.PurChaseDetailController',
-            'oinio.goH5Controller',
-            'oinio.TransferRequestController',
-            'oinio.TransferRequestListController',
-            'oinio.generateOrdersController',
-            'oinio.ErrorCodeController',
-            'oinio.SearchCustomerController',
-            'oinio.SearchVehicleController',
-            'oinio.TransferController',
-            'oinio.SendMorePeopleController',
-            'oinio.TruckFleetConfigController',
-            'oinio.PriceListController',
-            'oinio.deliveryListController',
-            'oinio.PriceDetailController'
+            'oinio.controllers'
+
         ]);
 
     oinio.run(function runApp($rootScope, $state, $log, $ionicNavBarDelegate, $ionicPlatform, $filter, APP_SETTINGS, IonicLoadingService, SalesforceLoginService,

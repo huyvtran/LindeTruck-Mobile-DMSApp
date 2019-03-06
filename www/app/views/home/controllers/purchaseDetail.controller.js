@@ -2,7 +2,7 @@
   'use strict';
 
 
-  angular.module('oinio.PurChaseDetailController', [])
+  angular.module('oinio.controllers')
     .controller('PurChaseDetailController', function ($scope, $rootScope, $filter, $state,$log,$ionicPopup,$stateParams, ConnectionMonitor,
                                                 LocalCacheService,ProcurementInfoService,AppUtilService,Service1Service,ForceClientService) {
 

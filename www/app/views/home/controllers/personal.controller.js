@@ -1,28 +1,31 @@
-angular.module('oinio.PersonalController', [])
+(function () {
+
+  'use strict';
+  angular.module('oinio.controllers')
     .controller('PersonalController', function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor,
-                                            LocalCacheService) {
+                                                LocalCacheService) {
 
-        var vm = this,
-            oCurrentUser = LocalCacheService.get('currentUser') || {};
+      var vm           = this,
+          oCurrentUser = LocalCacheService.get('currentUser') || {};
 
-        vm.isOnline = null;
+      vm.isOnline = null;
 
-        /**
-         * @func    $scope.$on('$ionicView.beforeEnter')
-         * @desc
-         */
-        $scope.$on('$ionicView.beforeEnter', function () {
+      /**
+       * @func    $scope.$on('$ionicView.beforeEnter')
+       * @desc
+       */
+      $scope.$on('$ionicView.beforeEnter', function () {
 
-            LocalCacheService.set('previousStateForSCReady', $state.current.name);
-            LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
+        LocalCacheService.set('previousStateForSCReady', $state.current.name);
+        LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
 
-        });
-        $scope.$on('$ionicView.enter', function () {
-            // check if device is online/offline
-            vm.isOnline = ConnectionMonitor.isOnline();
-            if (oCurrentUser) {
-                vm.username = oCurrentUser.Name;
-            }
-        });
+      });
+      $scope.$on('$ionicView.enter', function () {
+        // check if device is online/offline
+        vm.isOnline = ConnectionMonitor.isOnline();
+        if (oCurrentUser) {
+          vm.username = oCurrentUser.Name;
+        }
+      });
     });
-
+})();

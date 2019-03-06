@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    angular.module('oinio.CustomDetailController', [])
+    angular.module('oinio.controllers')
         .controller('CustomDetailController', function ($scope, $http,$ionicPopup, $filter, $rootScope, $log, $state, $stateParams, $ionicHistory, $cordovaFile, AccountService,
                                                         AppUtilService,Service1Service) {
             var myfileEntity;
