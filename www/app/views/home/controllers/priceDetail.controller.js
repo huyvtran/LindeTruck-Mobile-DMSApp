@@ -1085,14 +1085,14 @@ angular.module('oinio.PriceDetailController', [])
 
           oneLabourOriginals4['Line_Item__c'] = index + 100;
           oneLabourOriginals4['Material_Number__c'] = selectedTruckFitItemsIndex.parts_number__c;
-          oneLabourOriginals4['Gross_Price__c'] = selectedTruckFitItemsIndex.Gross_Price__c;
+          oneLabourOriginals4['Gross_Price__c'] = Math.floor(selectedTruckFitItemsIndex.Gross_Price__c * 100) / 100;
           oneLabourOriginals4['Gross_Amount__c'] =
-            selectedTruckFitItemsIndex.Gross_Price__c * selectedTruckFitItemsIndex.Quantity__c;
+            Math.floor(selectedTruckFitItemsIndex.Gross_Price__c * selectedTruckFitItemsIndex.Quantity__c * 100) / 100;
           oneLabourOriginals4['Quantity__c'] = selectedTruckFitItemsIndex.Quantity__c;
           oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
           oneLabourOriginals4['Discount__c'] = (Number(part_InputForListDiscount[index]) * 100) - 100;
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
-          oneLabourOriginals4['Net_Amount__c'] = part_InputForListSpecialList[index];//优惠总价
+          oneLabourOriginals4['Net_Amount__c'] = Math.floor(selectedTruckFitItemsIndex.Net_Amount__c * 100) / 100;//优惠总价
           oneLabourOriginals4['Material_Type__c'] = 'Part';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
         }
@@ -1112,30 +1112,30 @@ angular.module('oinio.PriceDetailController', [])
           return part.Material_Type__c == 'Labour';
         });
 
-        serviceQuoteOverview['Total_Gross__c'] = _.sum(_.map($scope.quoteLabourOriginalsList, function (item) {
+        serviceQuoteOverview['Total_Gross__c'] = Math.floor(_.sum(_.map($scope.quoteLabourOriginalsList, function (item) {
           return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
-        }));
+        })) * 100) / 100;
         serviceQuoteOverview['Total_Net__c'] = _.sum(_.map($scope.quoteLabourOriginalsList, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
         }));
-        serviceQuoteOverview['Part_Sub_Total_Gross__c'] = _.sum(_.map(truckFitItems, function (item) {
+        serviceQuoteOverview['Part_Sub_Total_Gross__c'] = Math.floor(_.sum(_.map(truckFitItems, function (item) {
           return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
-        }));
+        })) * 100) / 100;
         serviceQuoteOverview['Part_Discount__c'] = _.sum(_.map(truckFitItems, function (item) {
           return _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
         })) / truckFitItems.length;
         serviceQuoteOverview['Part_Sub_Total_Net__c'] = _.sum(_.map(truckFitItems, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
         }));
-        serviceQuoteOverview['Labour_Sub_Total_Gross__c'] = _.sum(_.map(labourItems, function (item) {
+        serviceQuoteOverview['Labour_Sub_Total_Gross__c'] = Math.floor(_.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
-        }));
+        })) * 100) / 100;
         serviceQuoteOverview['Labour_Discount__c'] = _.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Discount__c) ? 0 : Number(item.Discount__c);
         })) / labourItems.length;
-        serviceQuoteOverview['Labour_Sub_Total_Net__c'] = _.sum(_.map(labourItems, function (item) {
+        serviceQuoteOverview['Labour_Sub_Total_Net__c'] =  Math.floor(_.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
-        }));
+        })) * 100) / 100;
 
         var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                       + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes) + '&quoteLabourOriginals='
