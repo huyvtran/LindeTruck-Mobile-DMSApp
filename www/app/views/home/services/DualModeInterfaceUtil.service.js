@@ -1018,7 +1018,7 @@
                     deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
                 }else{
                     var res;
-                    res = service.offlineLeaveAction(sooid, arrivalTime, leaveTime, userId);
+                    res = service.offlineLeaveAction(sooid, travelMinutes, userId);
                     deferred.resolve(res);
                 }
                 return deferred.promise;
