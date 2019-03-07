@@ -121,7 +121,7 @@
             }
             truckItem.levelNames = "";//清空levelNames字段防止接口报错
           });
-          if (maintenanceLevelList.length == 0) {
+          if (maintenanceLevelList.length == 0 ||$stateParams.SendAllUser[0].Service_Type__c !="Maintenance") {
             return;
           }
           var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url + JSON.stringify(nameList)
