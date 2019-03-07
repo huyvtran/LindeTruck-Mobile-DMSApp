@@ -328,16 +328,17 @@
         }
 
         .distory_Table td.distory_Td_Left {
-            width: 20%;
+            width: 30%;
             padding-right: 2%;
         }
 
         .distory_Table td.distory_Td_Center {
-            width: 65%;
+            width: 40%;
+            text-align: center;
         }
 
         .distory_Table td.distory_Td_Right {
-            width: 15%;
+            width: 30%;
             text-align: right;
             padding-left: 2%;
         }
@@ -735,8 +736,8 @@
                                 <td class="distory_Td_Right"> 状态 </td>
                             </tr>
                             <tr ng-repeat="oitem in initLatest3Orders" repeat-finish>
-                                <td class="distory_Td_Left"> {{oitem._soupEntryId}} </td>
-                                <td class="distory_Td_Center"> {{oitem.Description__c}} </td>
+                                <td class="distory_Td_Left"> {{oitem.Name}} </td>
+                                <td class="distory_Td_Center"> {{oitem.Subject__c}} </td>
                                 <td class="distory_Td_Right"> {{oitem.Status__c}} </td>
                             </tr>
                         </table>

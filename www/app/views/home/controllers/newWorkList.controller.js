@@ -313,16 +313,16 @@
                             if (response[index].Status__c == 'Not Started') {
                                 response[index].Status__c = '未开始';
                             }
-                            if (response[index].Status__c == 'Not Completed') {
+                            if (response[index].Status__c == 'Not Completed'||response[index].Status__c == 'Waiting for Parts'||response[index].Status__c == 'Assigned'||response[index].Status__c == 'Abnormal feedback'||response[index].Status__c == 'Quoting'||response[index].Status__c == 'Applying Debt Release') {
                                 response[index].Status__c = '未完成';
                             }
-                            if (response[index].Status__c == 'Service Completed') {
+                            if (response[index].Status__c == 'Service Completed'|| response[index].Status__c == 'Field Work Done') {
                                 response[index].Status__c = '已完成';
                             }
                             if (response[index].Status__c == 'End') {
                                 response[index].Status__c = '已结束';
                             }
-                            if (response[index].Status__c == 'Not Planned') {
+                            if (response[index].Status__c == 'Not Planned'||response[index].Status__c == 'to be assigned') {
                                 response[index].Status__c = '未安排';
                             }
                         }

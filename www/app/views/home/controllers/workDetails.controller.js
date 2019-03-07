@@ -1562,7 +1562,7 @@
                 $scope.calculateWorkHour($scope.localWorkItems[i].arriveTime, $scope.localWorkItems[i].leaveTime);
             }
           }
-          $scope.workHourShow = !isNaN(minTotal) ? (minTotal / 60).toFixed(2) + '小时' : "0小时";//工作小时
+          //$scope.workHourShow = !isNaN(minTotal) ? (minTotal / 60).toFixed(2) + '小时' : "0小时";//工作小时
           $scope.callStrShow = $('#call_str').val().trim();//报修需求
           $scope.workContentShow = $('#workContentStr').val();//工作信息
           $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
@@ -1595,18 +1595,18 @@
          * @param $event
          */
         $scope.signBill = function () {
-          if ($scope.engineerImgStr == "././img/images/will_add_Img.png") {
-            $ionicPopup.alert({
-              title: "请工程师签名!"
-            });
-            return;
-          }
-          if ($scope.busyImgStr == "././img/images/will_add_Img.png") {
-            $ionicPopup.alert({
-              title: "请客户签名!"
-            });
-            return;
-          }
+          // if ($scope.engineerImgStr == "././img/images/will_add_Img.png") {
+          //   $ionicPopup.alert({
+          //     title: "请工程师签名!"
+          //   });
+          //   return;
+          // }
+          // if ($scope.busyImgStr == "././img/images/will_add_Img.png") {
+          //   $ionicPopup.alert({
+          //     title: "请客户签名!"
+          //   });
+          //   return;
+          // }
           ForceClientService.getForceClient().apexrest(
             $scope.getOrderTypeUri + orderDetailsId,
             'GET',
@@ -3507,7 +3507,7 @@
                             customerAddress: customerAddressValue,//customerAddress  客户地址
                             workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
                             TruckModel: truckNumber,//TruckModel //叉车型号
-                            workHour: $scope.workHourShow,//workHour //工作时长
+                            //workHour: $scope.workHourShow,//workHour //工作时长
                             workTimeTotal: workItemsTotal,
                             goodsTotal: $scope.goodsList,
                             listContent: '',//listContent  配件费参见发货清单
