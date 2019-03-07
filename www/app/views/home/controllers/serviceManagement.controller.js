@@ -371,6 +371,7 @@
                     $ionicPopup.alert({
                         title: "车牌号为空"
                     });
+                    canClick = true;
                     return;
                 }
 
@@ -409,6 +410,7 @@
                     $ionicPopup.alert({
                         title: "里程表 - 加油 / 里程表 - 公务 未填写!"
                     });
+                    canClick = true;
                     return;
                 }
 
