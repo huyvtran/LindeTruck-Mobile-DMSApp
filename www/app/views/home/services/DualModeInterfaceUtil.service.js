@@ -357,7 +357,7 @@
                 LocalDataService.getSObject('Account',acctsid).then(function(sobject) {
                     accResult['Id'] = sobject.Id;
                     accResult['Name'] = sobject.Name;
-                    accResult['Address__c'] = sobject.Address__c;
+                    accResult['Office_Address__c'] = sobject.Office_Address__c;
                     accResult['Customer_Number__c'] = sobject.Customer_Number__c;
                     accResult['_soupEntryId'] = sobject._soupEntryId;
                     deferred.resolve(accResult);
@@ -735,28 +735,29 @@
              * @param departureTime
              * @returns {*}
              */
-            this.departureActionUtil = function (isOnline, sooid, userId, departureTime,carNo) {
+            this.departureActionUtil = function (isOnline, sooid, userId, carNo) {
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&departureTime='+ departureTime + '&userId='+userId+"&carNo="+carNo;
+                    //var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&departureTime='+ departureTime + '&userId='+userId+"&carNo="+carNo;
+                    var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&userId='+userId+"&carNo="+carNo;
 
                     console.log('current url:::', requestUrl);
 
                     deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
                 }else{
                     var res;
-                    res = service.offlineDepartureAction(sooid, departureTime, userId);
+                    res = service.offlineDepartureAction(sooid, userId, carNo);
                     deferred.resolve(res);
                 }
                 return deferred.promise;
             };
 
-            this.offlineDepartureAction = function (soosid, departureTime, userSid) {
+            this.offlineDepartureAction = function (soosid, userSid, serviceVan) {
                 var deferred = $q.defer();
 
                 service.updateServiceOrderOverviewOnOrder(soosid, true).then(function (mSoSid) {
-                    return service.createWorkItem(mSoSid, departureTime, userSid);
+                    return service.createWorkItem(mSoSid, userSid, serviceVan);
                 })/*.then(function (result) {
                     return service.synchronize();
                 })*/.then(function (result) {
@@ -796,16 +797,17 @@
                 return deferred.promise;
             };
 
-            this.createWorkItem = function (sosid, departureTime, userSid) {
+            this.createWorkItem = function (sosid, userSid, serviceVan) {
                 var deferred = $q.defer();
 
                 LocalDataService.createSObject('Work_Item__c').then(function(sobject) {
                     var newWorkItem = new Object();
                     newWorkItem['Service_Order__c_sid'] = sosid;
-                    newWorkItem['Support_Engineer__c_type'] = 'Service_Order__c';
-                    newWorkItem['Departure_Time__c'] = departureTime;
+                    newWorkItem['Service_Order__c_type'] = 'Service_Order__c';
+                    newWorkItem['Departure_Time__c'] = service.getCurrentFormatDate();
                     newWorkItem['Engineer__c_sid'] = userSid;
                     newWorkItem['Engineer__c_type'] = 'User';
+                    newWorkItem['Service_Van__c'] = serviceVan;
                     newWorkItem['Is_Processing__c'] = true;
 
 
@@ -824,6 +826,60 @@
                 return deferred.promise;
             };
 
+            this.getCurrentFormatDate = function () {
+                var returnDate;
+                var curDate = new Date();
+                returnDate = curDate.format('yyyy-MM-dd hh:mm:ss');
+                return returnDate;
+            };
+
+            this.addMinutes = function (datetime, minutes) {
+                //var curDate = new Date();
+                var preDate = new Date(datetime.getTime() + minutes*60*1000);
+
+                return preDate;
+            };
+
+            this.isSecondDay  = function(startDate, endDate){
+                var isSecondDay = false;
+                var startMonth, endMonth, startDay, endDay;
+
+                startMonth = parseInt(startDate.substring(5, 7));
+                endMonth = parseInt(endDate.substring(5, 7));
+                startDay = parseInt(startDate.substring(8, 10));
+                endDay = parseInt(endDate.substring(8, 10));
+
+
+                if( (endMonth - startMonth) != 0 ){
+                    isSecondDay = true;
+                }else{
+                    if( (endDay - startDay) == 1 ) {
+                        isSecondDay = true;
+                    }
+                }
+
+                return isSecondDay;
+            };
+
+            this.returnBeginDayTime = function () {
+                var start = new Date(new Date(new Date().toLocaleDateString()).getTime());
+                return start;
+            };
+
+            this.returnEndDayTime = function (startDate) {
+                var start = new Date(new Date(convertDateFromString(startDate).toLocaleDateString()).getTime()+24*60*60*1000-1);
+                console.log(start);
+            };
+
+            this.convertDateFromString = function (dateStr) {
+                //var dateStr = '2019-02-28 14:47:23';
+                var arr1 = dateStr.split(" ");
+                var sdate = arr1[0].split('-');
+                var date = new Date(sdate[0], sdate[1]-1, sdate[2]);
+                return date;
+            };
+
+
 
             /** 1.5 工单到达逻辑 **/
             /**
@@ -831,31 +887,37 @@
              * @param isOnline
              * @param sooid : online is id , offline is soup entry id
              * @param userId : online is id , offline is soup entry id
-             * @param arrivalTime
+             * @param travelMinutes: 单位,min (string)
              * @returns {*}
              */
-            this.arrivalActionUtil = function (isOnline, sooid, userId, arrivalTime ) {
+            this.arrivalActionUtil = function (isOnline, sooid, userId, travelMinutes ) {
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=arrival&sooId='+ sooid + '&arrivalTime='+ arrivalTime + '&userId='+userId;
+                    //var requestUrl = '/WorkDetailService?action=arrival&sooId='+ sooid + '&arrivalTime='+ arrivalTime + '&userId='+userId;
+                    var requestUrl = '/WorkDetailService?action=arrival&sooId='+ sooid + '&travelMinutes='+ travelMinutes + '&userId='+userId;
 
                     console.log('current url:::', requestUrl);
 
                     deferred.resolve(service.restRequest(requestUrl, 'POST', {}));
                 }else{
                     var res;
-                    res = service.offlineArrivalAction(sooid, arrivalTime, userId);
+                    res = service.offlineArrivalAction(sooid, travelMinutes, userId);
                     deferred.resolve(res);
                 }
                 return deferred.promise;
             };
 
-            this.offlineArrivalAction = function (soosid, arrivalTime, userSid) {
+            this.offlineArrivalAction = function (soosid, travelMinutes, userSid) {
                 var deferred = $q.defer();
                 var wiSids = [];
                 var wiToUpdate = [];
+                var wiToInsert = [];
                 var result;
+                var addMinutes = 0;
+                if(travelMinutes != null & travelMinutes != ''){
+                    addMinutes = parseInt(travelMinutes);
+                }
 
                 service.getWorkItemsForOverview(soosid).then(function (wiObjs) {
                     if(wiObjs ==null || wiObjs.length < 1){
@@ -879,10 +941,39 @@
 
                     LocalDataService.getSObjects('Work_Item__c',wiSids).then(function(sobjects) {
                         angular.forEach(sobjects, function (sobject) {
-                            sobject['Arrival_Time__c'] = arrivalTime;
+                            if(addMinutes > 0){
+                                sobject['Departure_Time__c'] = service.addMinutes(new Date(), -addMinutes);
+                            }
+                            sobject['Arrival_Time__c'] = service.getCurrentFormatDate();
+
+                            if(service.isSecondDay(sobject['Departure_Time__c'], sobject['Arrival_Time__c'])){
+                                sobject['Arrival_Time__c'] = service.returnEndDayTime(sobject['Departure_Time__c']);
+                                sobject['Is_Processing__c'] = false;
+
+                                var newWorkItem = new Object();
+                                newWorkItem['Service_Order__c_sid'] = sobject['Service_Order__c_sid'];
+                                newWorkItem['Service_Order__c_type'] = 'Service_Order__c';
+                                newWorkItem['Departure_Time__c'] = service.returnBeginDayTime();
+                                newWorkItem['Arrival_Time__c'] = service.getCurrentFormatDate();
+                                newWorkItem['Service_Van__c'] = sobject['Service_Van__c'];
+                                newWorkItem['Engineer__c_sid'] = sobject['Engineer__c_sid'];
+                                newWorkItem['Engineer__c_type'] = 'User';
+                                newWorkItem['Is_Processing__c'] = true;
+
+                                wiToInsert.push(newWorkItem);
+                            }
                             wiToUpdate.push(sobject);
                         });
 
+                        LocalDataService.saveSObjects('Work_Item__c', wiToInsert).then(function(result) {
+                            if (!result){
+                                deferred.reject('Failed to insert WorkItem.');
+                                return;
+                            }
+                            deferred.resolve(service.generateResult('Success', 'WorkItem Insert success!'));
+                        }, function (error) {
+                            console.log('WorkItem insert error:::', error);
+                        });
 
                         LocalDataService.updateSObjects('Work_Item__c', wiToUpdate).then(function(result) {
                             if (!result){
@@ -913,15 +1004,14 @@
              * @param isOnline
              * @param sooid : online is id , offline is soup entry id
              * @param userId : online is id , offline is soup entry id
-             * @param arrivalTime
-             * @param leaveTime
+             * @param travelMinutes
              * @returns {*}
              */
-            this.leaveActionUtil = function (isOnline, sooid, userId, arrivalTime,leaveTime ) {
+            this.leaveActionUtil = function (isOnline, sooid, userId, travelMinutes ) {
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=leave&sooId='+ sooid + '&arrivalTime='+ arrivalTime + '&leaveTime='+ leaveTime + '&userId='+userId;
+                    var requestUrl = '/WorkDetailService?action=leave&sooId='+ sooid + '&travelMinutes='+ arrivalTime + '&userId='+userId;
 
                     console.log('current url:::', requestUrl);
 
@@ -934,10 +1024,15 @@
                 return deferred.promise;
             };
 
-            this.offlineLeaveAction = function (soosid, arrivalTime, leaveTime, userSid) {
+            this.offlineLeaveAction = function (soosid, travelMinutes, userSid) {
                 var deferred = $q.defer();
                 var wiSids = [];
                 var wiToUpdate = [];
+                var wiToInsert = [];
+                var addMinutes = 0;
+                if(travelMinutes != null & travelMinutes != ''){
+                    addMinutes = parseInt(travelMinutes);
+                }
 
                 service.getWorkItemsForOverview(soosid).then(function (wiObjs) {
                     if(wiObjs ==null || wiObjs.length < 1){
@@ -960,14 +1055,44 @@
 
                     LocalDataService.getSObjects('Work_Item__c',wiSids).then(function(sobjects) {
                         angular.forEach(sobjects, function (sobject) {
-                            if(sobject['Arrival_Time__c'] == null){
-                                sobject['Arrival_Time__c'] = arrivalTime;
+                            if(addMinutes > 0){
+                                sobject['Arrival_Time__c'] = service.addMinutes(new Date(), -addMinutes);
                             }
-                            sobject['Start_Time2__c'] = arrivalTime;
-                            sobject['Finish_Time2__c'] = leaveTime;
-                            sobject['Leave_Time__c'] = leaveTime;
+                            sobject['Leave_Time__c'] = service.getCurrentFormatDate();
+
                             sobject['Is_Processing__c'] = false;
+
+                            if(service.isSecondDay(sobject['Arrival_Time__c'], sobject['Leave_Time__c'])){
+                                sobject['Leave_Time__c'] = service.returnEndDayTime(sobject['Arrival_Time__c']);
+                                sobject['Start_Time2__c'] = sobject['Arrival_Time__c'];
+                                sobject['Finish_Time2__c'] = sobject['Leave_Time__c'];
+
+                                var newWorkItem = new Object();
+                                newWorkItem['Service_Order__c_sid'] = sobject['Service_Order__c_sid'];
+                                newWorkItem['Service_Order__c_type'] = 'Service_Order__c';
+                                newWorkItem['Departure_Time__c'] = service.returnBeginDayTime();
+                                newWorkItem['Arrival_Time__c'] = service.returnBeginDayTime();
+                                newWorkItem['Leave_Time__c'] = service.getCurrentFormatDate();
+                                newWorkItem['Service_Van_   _c'] = sobject['Service_Van__c'];
+                                newWorkItem['Engineer__c_sid'] = sobject['Engineer__c_sid'];
+                                newWorkItem['Engineer__c_type'] = 'User';
+                                newWorkItem['Start_Time2__c'] = sobject['Arrival_Time__c'];
+                                newWorkItem['Finish_Time2__c'] = sobject['Leave_Time__c'];
+                                newWorkItem['Is_Processing__c'] = false;
+
+                                wiToInsert.push(newWorkItem);
+                            }
                             wiToUpdate.push(sobject);
+                        });
+
+                        LocalDataService.saveSObjects('Work_Item__c', wiToInsert).then(function(result) {
+                            if (!result){
+                                deferred.reject('Failed to insert WorkItem.');
+                                return;
+                            }
+                            deferred.resolve(service.generateResult('Success', 'WorkItem Insert success!'));
+                        }, function (error) {
+                            console.log('WorkItem insert error:::', error);
                         });
 
                         LocalDataService.updateSObjects('Work_Item__c', wiToUpdate).then(function(result) {
@@ -1233,6 +1358,32 @@
                 console.log('searchAccounts::', deferred.promise);
                 return deferred.promise;
             };
+
+            /*
+            Date format
+             */
+            Date.prototype.format = function (format) {
+                var date = {
+                    'M+': this.getMonth() + 1,
+                    'd+': this.getDate(),
+                    'h+': this.getHours(),
+                    'm+': this.getMinutes(),
+                    's+': this.getSeconds(),
+                    'q+': Math.floor((this.getMonth() + 3) / 3),
+                    'S+': this.getMilliseconds()
+                };
+                if (/(y+)/i.test(format)) {
+                    format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+                }
+                for (var k in date) {
+                    if (new RegExp('(' + k + ')').test(format)) {
+                        format = format.replace(RegExp.$1,
+                            RegExp.$1.length == 1 ? date[k] : ('00' + date[k]).substr(('' + date[k]).length));
+                    }
+                }
+                return format;
+            };
+
 
             /**
              * synchronize to salesforce if device is online
