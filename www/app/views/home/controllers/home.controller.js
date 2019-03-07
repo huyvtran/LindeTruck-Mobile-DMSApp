@@ -206,45 +206,53 @@
 
                 console.log('serverTimestampTran:', serverTimestampTran);
 
+                var payload = {
+                  'DataType': 'AttData',
+                  'CompanyCode': 'linde',
+                  'BatchNo': '0123456789',
+                  'cardDataList':
+                    [{
+                      'EmployeeID': oCurrentUser.EmployeeNumber,
+                      'TimeCardDate': serverTimestampTran,
+                      'ControllerSN': 'PDA'
+                    }]
+                };
+
+                TimeCardService.clickTimeCard(payload).then(function (response) {
+                  console.log('response', response);
+                  AppUtilService.hideLoading();
+                  if (response.data.result) {
+                    $ionicPopup.alert({
+                      title: "打卡成功"
+                    });
+                  } else {
+                    $ionicPopup.alert({
+                      title: "打卡失败请外网链接并重新打卡"
+                    });
+                  }
+                }, function (error) {
+                  AppUtilService.hideLoading();
+
+                  console.log('error', error);
+                  $ionicPopup.alert({
+                    title: "打卡失败请请外网链接并重新打卡"
+                  });
+                });
+
+              } else {
+                AppUtilService.hideLoading();
+                $ionicPopup.alert({
+                  title: "打卡失败请请外网链接并重新打卡"
+                });
+
               }
 
             }, function (err) {
-              console.log('serverTimestampTran:err', err);
+            AppUtilService.hideLoading();
+
+            console.log('serverTimestampTran:err', err);
             }
           );
-
-          var payload = {
-            'DataType': 'AttData',
-            'CompanyCode': 'linde',
-            'BatchNo': '0123456789',
-            'cardDataList':
-              [{
-                'EmployeeID': oCurrentUser.EmployeeNumber,
-                'TimeCardDate': formatDateToFormatString(new Date()),
-                'ControllerSN': 'PDA'
-              }]
-          };
-
-          TimeCardService.clickTimeCard(payload).then(function (response) {
-            console.log('response', response);
-            AppUtilService.hideLoading();
-            if (response.data.result) {
-              $ionicPopup.alert({
-                title: "打卡成功"
-              });
-            } else {
-              $ionicPopup.alert({
-                title: "打卡失败请外网链接并重新打卡"
-              });
-            }
-          }, function (error) {
-            AppUtilService.hideLoading();
-
-            console.log('error', error);
-            $ionicPopup.alert({
-              title: "打卡失败请请外网链接并重新打卡"
-            });
-          });
         };
 
         var getOrderByStates = function (status) {
