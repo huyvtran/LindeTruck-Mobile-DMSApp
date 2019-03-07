@@ -103,7 +103,7 @@
             this.getLatest3ServiceOrders = function(acctId,isOnline){
                 if(isOnline){
                     let str_fields = 'Id,Name,Account_Ship_to__c,Service_Order_Type__c,Service_Order_Owner__c,Status__c,'+
-                                    'Plan_Date__c,Truck_Serial_Number__c,Description__c';
+                                    'Plan_Date__c,Truck_Serial_Number__c,Description__c,Subject__c';
                     let sql = "select " + str_fields +
                             " from Service_Order_Overview__c " +
                             " where Account_Ship_to__c ='" + acctId + "' order by Id desc limit 3";
@@ -133,6 +133,7 @@
                                     Plan_Date__c: entry[0].Plan_Date__c,
                                     Truck_Serial_Number__c: entry[0].Truck_Serial_Number__c,
                                     Description__c: entry[0].Description__c,
+                                    Subject__c: entry[0].Subject__c,
                                     _soupEntryId: entry[0]._soupEntryId
                                 });
                             });
