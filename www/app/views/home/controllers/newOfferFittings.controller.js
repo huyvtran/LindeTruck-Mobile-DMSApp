@@ -990,7 +990,7 @@
             console.log('toSubmitCheckFunction_error:', error);
             AppUtilService.hideLoading();
             var ionPop = $ionicPopup.alert({
-              title: '提交失败'
+              title: error.responseJSON[0].message
             });
           }, 'POST', JSON.stringify(requests), null);
           console.log('toSubmitCheckFunction_payload', requests);
