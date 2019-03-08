@@ -903,6 +903,8 @@
           }
         };
 
+        var canLeave=true;
+
         /**
          * 点击离开按钮
          * @param $event
@@ -956,76 +958,80 @@
                      + (leaveTime.getHours() - ah - 1) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/,
                       '-'));
                 }
-                AppUtilService.showLoading();
-                //arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                //leaveTime.format('yyyy-MM-dd hh:mm:ss')
-                dualModeService.leaveActionUtil(Number(localStorage.onoffline),
-                  Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,ah*60+am).then(
-                  function callBack(res) {
-                    console.log(res);
-                    AppUtilService.hideLoading();
-                    if (Number(localStorage.onoffline) !== 0) {
-                      if (res.status.toLowerCase() == 'success') {
-                        $scope.reloadWorkItems();
-                        //$rootScope.getSomeData();
-                        if (orderBelong) {
-                          $('#sidProgressBar').css('width', '75%');
-                        } else {
-                          $('#sidProgressBar').css('width', '99%');
-                        }
-                        for (var i = 0; i < 4; i++) {
-                          $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                        }
-                        $('#arriveBtn').css('pointer-events', 'none');
-                        $('#arriveBtn').addClass('textCompleted');
-                        $('#leave').css('pointer-events', 'none');
-                        $('#leave').addClass('textCompleted');
-                        $ionicPopup.alert({
-                          title: '记录到达/离开时间成功'
+                if (canLeave){
+                    canLeave=false;
+                    AppUtilService.showLoading();
+                    //arriveTime.format('yyyy-MM-dd hh:mm:ss')
+                    //leaveTime.format('yyyy-MM-dd hh:mm:ss')
+                    dualModeService.leaveActionUtil(Number(localStorage.onoffline),
+                        Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
+                        Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,ah*60+am).then(
+                        function callBack(res) {
+                            console.log(res);
+                            AppUtilService.hideLoading();
+                            if (Number(localStorage.onoffline) !== 0) {
+                                if (res.status.toLowerCase() == 'success') {
+                                    $scope.reloadWorkItems();
+                                    //$rootScope.getSomeData();
+                                    if (orderBelong) {
+                                        $('#sidProgressBar').css('width', '75%');
+                                    } else {
+                                        $('#sidProgressBar').css('width', '99%');
+                                    }
+                                    for (var i = 0; i < 4; i++) {
+                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                    }
+                                    $('#arriveBtn').css('pointer-events', 'none');
+                                    $('#arriveBtn').addClass('textCompleted');
+                                    $('#leave').css('pointer-events', 'none');
+                                    $('#leave').addClass('textCompleted');
+                                    $ionicPopup.alert({
+                                        title: '记录到达/离开时间成功'
+                                    });
+                                } else {
+                                    $ionicPopup.alert({
+                                        title: '记录到达/离开时间失败',
+                                        template: res.message
+                                    });
+                                    return false;
+                                }
+                            } else {
+                                if (res.toLowerCase() == 'success') {
+                                    if (orderBelong) {
+                                        $('#sidProgressBar').css('width', '75%');
+                                    } else {
+                                        $('#sidProgressBar').css('width', '99%');
+                                    }
+                                    for (var i = 0; i < 4; i++) {
+                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                    }
+                                    $('#arriveBtn').css('pointer-events', 'none');
+                                    $('#arriveBtn').addClass('textCompleted');
+                                    $('#leave').css('pointer-events', 'none');
+                                    $('#leave').addClass('textCompleted');
+                                    $ionicPopup.alert({
+                                        title: '记录到达/离开时间成功'
+                                    });
+                                } else {
+                                    $ionicPopup.alert({
+                                        title: '记录到达/离开时间失败',
+                                        template: res.message
+                                    });
+                                    return false;
+                                }
+                            }
+                            canLeave=true;
+                        }, function error(msg) {
+                            AppUtilService.hideLoading();
+                            console.log(msg);
+                            canLeave=true;
+                            $ionicPopup.alert({
+                                title: '记录到达/离开时间失败',
+                                template: msg
+                            });
+                            return false;
                         });
-                      } else {
-                        $ionicPopup.alert({
-                          title: '记录到达/离开时间失败',
-                          template: res.message
-                        });
-                        return false;
-                      }
-                    } else {
-                      if (res.toLowerCase() == 'success') {
-                        if (orderBelong) {
-                          $('#sidProgressBar').css('width', '75%');
-                        } else {
-                          $('#sidProgressBar').css('width', '99%');
-                        }
-                        for (var i = 0; i < 4; i++) {
-                          $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                        }
-                        $('#arriveBtn').css('pointer-events', 'none');
-                        $('#arriveBtn').addClass('textCompleted');
-                        $('#leave').css('pointer-events', 'none');
-                        $('#leave').addClass('textCompleted');
-                        $ionicPopup.alert({
-                          title: '记录到达/离开时间成功'
-                        });
-                      } else {
-                        $ionicPopup.alert({
-                          title: '记录到达/离开时间失败',
-                          template: res.message
-                        });
-                        return false;
-                      }
-                    }
-
-                  }, function error(msg) {
-                    AppUtilService.hideLoading();
-                    console.log(msg);
-                    $ionicPopup.alert({
-                      title: '记录到达/离开时间失败',
-                      template: msg
-                    });
-                    return false;
-                  });
+                }
               }
             });
             mobileSelect3.show();
@@ -1046,70 +1052,75 @@
                   leaveTime = new Date();
                   //arriveTime.format('yyyy-MM-dd hh:mm:ss')
                   //leaveTime.format('yyyy-MM-dd hh:mm:ss')
-                  AppUtilService.showLoading();
-                  dualModeService.leaveActionUtil(Number(localStorage.onoffline),
-                    Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                    Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,0).then(
-                    function callBack(res) {
-                      console.log(res);
-                      AppUtilService.hideLoading();
-                      if (Number(localStorage.onoffline) !== 0) {
-                        if (res.status.toLowerCase() == 'success') {
-                          $scope.reloadWorkItems();
-                          //$rootScope.getSomeData();
-                          //$event.target.style.backgroundColor = "#00FF7F";
-                          $('#leave').addClass('textCompleted');
-                          for (var i = 0; i <= 3; i++) {
-                            $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                          }
-                          if (orderBelong) {
-                            $('#sidProgressBar').css('width', '75%');
-                          } else {
-                            $('#sidProgressBar').css('width', '99%');
-                          }
-                          $ionicPopup.alert({
-                            title: '记录到达/离开时间成功'
-                          });
-                        } else {
-                          $ionicPopup.alert({
-                            title: '记录到达/离开时间失败',
-                            template: res.message
-                          });
-                          return false;
-                        }
-                      } else {
-                        if (res.toLowerCase() == 'success') {
-                          //$event.target.style.backgroundColor = "#00FF7F";
-                          $('#leave').addClass('textCompleted');
-                          for (var i = 0; i <= 3; i++) {
-                            $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                          }
-                          if (orderBelong) {
-                            $('#sidProgressBar').css('width', '75%');
-                          } else {
-                            $('#sidProgressBar').css('width', '99%');
-                          }
-                          $ionicPopup.alert({
-                            title: '记录到达/离开时间成功'
-                          });
-                        } else {
-                          $ionicPopup.alert({
-                            title: '记录到达/离开时间失败',
-                            template: res.message
-                          });
-                          return false;
-                        }
-                      }
+                  if (canLeave){
+                      canLeave=false;
+                      AppUtilService.showLoading();
+                      dualModeService.leaveActionUtil(Number(localStorage.onoffline),
+                          Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
+                          Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,0).then(
+                          function callBack(res) {
+                              console.log(res);
+                              AppUtilService.hideLoading();
+                              if (Number(localStorage.onoffline) !== 0) {
+                                  if (res.status.toLowerCase() == 'success') {
+                                      $scope.reloadWorkItems();
+                                      //$rootScope.getSomeData();
+                                      //$event.target.style.backgroundColor = "#00FF7F";
+                                      $('#leave').addClass('textCompleted');
+                                      for (var i = 0; i <= 3; i++) {
+                                          $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                      }
+                                      if (orderBelong) {
+                                          $('#sidProgressBar').css('width', '75%');
+                                      } else {
+                                          $('#sidProgressBar').css('width', '99%');
+                                      }
+                                      $ionicPopup.alert({
+                                          title: '记录到达/离开时间成功'
+                                      });
+                                  } else {
+                                      $ionicPopup.alert({
+                                          title: '记录到达/离开时间失败',
+                                          template: res.message
+                                      });
+                                      return false;
+                                  }
+                              } else {
+                                  if (res.toLowerCase() == 'success') {
+                                      //$event.target.style.backgroundColor = "#00FF7F";
+                                      $('#leave').addClass('textCompleted');
+                                      for (var i = 0; i <= 3; i++) {
+                                          $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                      }
+                                      if (orderBelong) {
+                                          $('#sidProgressBar').css('width', '75%');
+                                      } else {
+                                          $('#sidProgressBar').css('width', '99%');
+                                      }
+                                      $ionicPopup.alert({
+                                          title: '记录到达/离开时间成功'
+                                      });
+                                  } else {
+                                      $ionicPopup.alert({
+                                          title: '记录到达/离开时间失败',
+                                          template: res.message
+                                      });
 
-                    }, function error(msg) {
-                      AppUtilService.hideLoading();
-                      console.log(msg);
-                      $ionicPopup.alert({
-                        title: '记录到达/离开时间失败',
-                        template: msg
-                      });
-                      return false;
-                    });
+                                      return false;
+                                  }
+                              }
+                              canLeave=true;
+                          }, function error(msg) {
+                              AppUtilService.hideLoading();
+                              console.log(msg);
+                              canLeave=true;
+                              $ionicPopup.alert({
+                                  title: '记录到达/离开时间失败',
+                                  template: msg
+                              });
+                              return false;
+                          });
+                  }
                 }
               }],
             });
@@ -1206,21 +1217,30 @@
         var departTurePop = null;
         $scope.serviceCars = [];
 
+        var checkDeParture=true;
         $scope.dePartureOrder = function () {
-            var deferred = $q.defer();
-            var result = null;
-            try {
-                $scope.beforeDeparture().then(function () {
-                    return $scope.showServiceCarPop();
-                }).then(function () {
-                    result = $("#serviceCarSelectSecond").val();
-                    return $scope.doDeparture(result);
-                });
-            } catch (ex){
-                console.log('ex::',ex);
-                deferred.reject(ex);
+            if (checkDeParture){
+                checkDeParture=false;
+                var deferred = $q.defer();
+                var result = null;
+                try {
+                    $scope.beforeDeparture().then(function () {
+                        return $scope.showServiceCarPop();
+                    }).then(function () {
+                        result = $("#serviceCarSelectSecond").val();
+                        return $scope.doDeparture(result);
+                    }).then(function () {
+                        checkDeParture=true;
+                    });
+                } catch (ex){
+                    console.log('ex::',ex);
+                    checkDeParture=true;
+                    deferred.reject(ex);
+                }
+                return deferred.promise;
+            }else{
+                return;
             }
-            return deferred.promise;
         };
 
 
@@ -1381,8 +1401,6 @@
 
         var canArrive = true;
         $scope.getArrivalTime = function () {
-          if (!canArrive) return;
-          canArrive = false;
           if (arriveTime != null) {
             return false;
           } else {
@@ -1424,128 +1442,101 @@
                        + (arriveTime.getHours() - h - 1) + ':' + min.mm + ':' + arriveTime.getSeconds()).replace(/-/,
                         '-'));
                   }
+                  if (canArrive){
+                        canArrive=false;
+                      navigator.geolocation.getCurrentPosition(function success(position) {
+                          localLatitude = position.coords.latitude;
+                          localLongitude = position.coords.longitude;
+                          AppUtilService.showLoading();
+                          dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),
+                              Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(
+                              function callBack(res) {
+                                  console.log(res);
+                                  if (res.status.toLowerCase() == 'success') {
+                                      $scope.arriveOrder(h*60+m);
+                                  } else {
+                                      AppUtilService.hideLoading();
+                                      $ionicPopup.alert({
+                                          title: '更新工单状态失败',
+                                          template: res.message
+                                      });
+                                      return false;
+                                  }
+                                  canArrive=true;
+                              }, function error(msg) {
+                                  AppUtilService.hideLoading();
+                                  console.log(msg);
+                                  canArrive=true;
+                                  $ionicPopup.alert({
+                                      title: '更新工单状态失败',
+                                      template: msg
+                                  });
+                                  return false;
+                              });
 
-                  navigator.geolocation.getCurrentPosition(function success(position) {
-                    localLatitude = position.coords.latitude;
-                    localLongitude = position.coords.longitude;
-                    AppUtilService.showLoading();
-                    dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),
-                      Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(
-                      function callBack(res) {
-                        console.log(res);
-                        if (res.status.toLowerCase() == 'success') {
-
-                  // dualModeService.departureActionUtil(Number(localStorage.onoffline),
-                  //   Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                  //   Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                  //   goOffTimeFromPrefix.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
-                  //   AppUtilService.hideLoading();
-                  //   console.log(res);
-                  //   if (res.status.toLowerCase() == 'success') {
-                  //     $scope.reloadWorkItems();
-                  //     //$rootScope.getSomeData();
-                  //     for (var i = 0; i < 2; i++) {
-                  //       $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                  //     }
-                  //     $('#departureBtn').css('pointer-events', 'none');
-                  //     $('#departureBtn').addClass('textCompleted');
-                  //     if (orderBelong) {
-                  //       $('#sidProgressBar').css('width', '25%');
-                  //     } else {
-                  //       $('#sidProgressBar').css('width', '33%');
-                  //     }
-                  $scope.arriveOrder(h*60+m);
-                  //   } else {
-                  //     $ionicPopup.alert({
-                  //       title: '记录出发时间失败',
-                  //       template: res.message
-                  //     });
-                  //     return false;
-                  //   }
-                  // }, function error(msg) {
-                  //   AppUtilService.hideLoading();
-                  //   console.log(msg);
-                  //   $ionicPopup.alert({
-                  //     title: '记录出发时间失败',
-                  //     template: msg
-                  //   });
-                  //   return false;
-                  // });
-                        } else {
-                          AppUtilService.hideLoading();
+                      }, function error(msg) {
+                          console.log(msg);
+                          canArrive=true;
                           $ionicPopup.alert({
-                            title: '更新工单状态失败',
-                            template: res.message
+                              title: '获取定位失败',
+                              template: msg
                           });
                           return false;
-                        }
-                      }, function error(msg) {
-                        AppUtilService.hideLoading();
-                        console.log(msg);
-                        $ionicPopup.alert({
-                          title: '更新工单状态失败',
-                          template: msg
-                        });
-                        return false;
                       });
-
-                  }, function error(msg) {
-                    console.log(msg);
-                    $ionicPopup.alert({
-                      title: '获取定位失败',
-                      template: msg
-                    });
-                    return false;
-                  });
+                  }
                 }
               });
               mobileSelect3.show();
             } else {
               arriveTime = new Date();
               //arriveTime.format('yyyy-MM-dd hh:mm:ss')
-              AppUtilService.showLoading();
-              dualModeService.arrivalActionUtil(Number(localStorage.onoffline),
-                Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                0).then(function callBack(res) {
-                console.log(res);
-                AppUtilService.hideLoading();
-                if (res.status.toLowerCase() == 'success') {
-                  $scope.reloadWorkItems();
-                  //$rootScope.getSomeData();
-                  //$event.target.style.backgroundColor = "#00FF7F";
-                  if (orderBelong) {
-                    $('#sidProgressBar').css('width', '50%');
-                  } else {
-                    $('#sidProgressBar').css('width', '66%');
-                  }
-                  for (var i = 0; i < 3; i++) {
-                    $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                  }
-                  $('#arriveBtn').css('pointer-events', 'none');
-                  $('#arriveBtn').addClass('textCompleted');
-                  $ionicPopup.alert({
-                    title: '记录到达时间成功'
+              if (canArrive){
+                  canArrive=false;
+                  AppUtilService.showLoading();
+                  dualModeService.arrivalActionUtil(Number(localStorage.onoffline),
+                      Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
+                      Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
+                      0).then(function callBack(res) {
+                      console.log(res);
+                      AppUtilService.hideLoading();
+                      if (res.status.toLowerCase() == 'success') {
+                          $scope.reloadWorkItems();
+                          //$rootScope.getSomeData();
+                          //$event.target.style.backgroundColor = "#00FF7F";
+                          if (orderBelong) {
+                              $('#sidProgressBar').css('width', '50%');
+                          } else {
+                              $('#sidProgressBar').css('width', '66%');
+                          }
+                          for (var i = 0; i < 3; i++) {
+                              $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                          }
+                          $('#arriveBtn').css('pointer-events', 'none');
+                          $('#arriveBtn').addClass('textCompleted');
+                          $ionicPopup.alert({
+                              title: '记录到达时间成功'
+                          });
+                      } else {
+                          $ionicPopup.alert({
+                              title: '记录到达时间失败',
+                              template: res.message
+                          });
+                          arriveTime = null;
+                          return false;
+                      }
+                      canArrive=true;
+                  }, function error(msg) {
+                      AppUtilService.hideLoading();
+                      console.log(msg);
+                      canArrive=true;
+                      $ionicPopup.alert({
+                          title: '记录到达时间失败',
+                          template: msg
+                      });
+                      arriveTime = null;
+                      return false;
                   });
-                } else {
-                  $ionicPopup.alert({
-                    title: '记录到达时间失败',
-                    template: res.message
-                  });
-                  arriveTime = null;
-                  return false;
-                }
-              }, function error(msg) {
-                AppUtilService.hideLoading();
-                console.log(msg);
-                $ionicPopup.alert({
-                  title: '记录到达时间失败',
-                  template: msg
-                });
-                arriveTime = null;
-                return false;
-              });
-
+              }
             }
           }
         };
@@ -1727,7 +1718,7 @@
               console.log(msg);
             });
         };
-
+        var canSave=true;
         $scope.goSave = function () {
           AppUtilService.showLoading();
           localUris = [];
@@ -1915,35 +1906,38 @@
               'assignUsers': selectUserIds
             };
           }
-
-          dualModeService.updateWorkOrderUtilInfo(Number(localStorage.onoffline), requestBody).then(
-            function callBack(res) {
-              AppUtilService.hideLoading();
-              console.log(res);
-              if (res.status.toLowerCase() != 'fail') {
-                if (Number(localStorage.onoffline) != 0) {
-                  $scope.regroupPartListForSave();
-                } else {
-                  $state.go('app.home');
-                  $rootScope.getSomeData();
-                }
-              } else {
-                $ionicPopup.alert({
-                  title: '保存数据失败',
-                  template: res.message
-                });
-                return false;
-              }
-            }, function error(msg) {
-              console.log(msg);
-              AppUtilService.hideLoading();
-              $ionicPopup.alert({
-                title: '保存数据失败',
-                template: msg
-              });
-              return false;
-            });
-
+          if (canSave){
+              canSave=false;
+              dualModeService.updateWorkOrderUtilInfo(Number(localStorage.onoffline), requestBody).then(
+                  function callBack(res) {
+                      AppUtilService.hideLoading();
+                      console.log(res);
+                      if (res.status.toLowerCase() != 'fail') {
+                          if (Number(localStorage.onoffline) != 0) {
+                              $scope.regroupPartListForSave();
+                          } else {
+                              $state.go('app.home');
+                              $rootScope.getSomeData();
+                          }
+                      } else {
+                          $ionicPopup.alert({
+                              title: '保存数据失败',
+                              template: res.message
+                          });
+                          return false;
+                      }
+                      canSave=true;
+                  }, function error(msg) {
+                      console.log(msg);
+                      AppUtilService.hideLoading();
+                      $ionicPopup.alert({
+                          title: '保存数据失败',
+                          template: msg
+                      });
+                      canSave=true;
+                      return false;
+                  });
+          }
         };
 
         /**

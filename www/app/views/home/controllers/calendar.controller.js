@@ -2,7 +2,7 @@
   'use strict';
   angular.module('oinio.controllers')
     .controller('CalendarController',
-      function ($scope, $rootScope, $filter, $state, $stateParams, ConnectionMonitor, $ionicPopup,
+      function ($scope, $rootScope,$q, $filter, $state, $stateParams, ConnectionMonitor, $ionicPopup,
                 LocalCacheService, ForceClientService, AppUtilService , $log, FileService, $cordovaAppVersion, Service1Service,dualModeService) {
 
         var vm           = this,
@@ -194,9 +194,19 @@
                 type: 'button-assertive',
                 onTap: function (e) {
                   //出发判断逻辑
-                  if(!canDeparture)return;
-                  canDeparture=false;
-                  $scope.goNotStartedWorkDetails(item);
+                  if(canDeparture){
+                      canDeparture=false;
+                      try{
+                          $scope.goNotStartedWorkDetails(item).then(function () {
+                              return $scope.doDepartureOrder();
+                          }).then(function () {
+                              return $scope.updateDepartureOrderStatus(item);
+                          });
+                      }catch (ex) {
+                          console.log('ex::',ex);
+                          deferred.reject(ex);
+                      }
+                  }
                 }
               },
               {
@@ -258,6 +268,7 @@
         var departTurePop =null;
         //出发逻辑判断
         $scope.goNotStartedWorkDetails = function (item) {
+            let deferred = $q.defer();
           AppUtilService.showLoading();
           for (let index = 0; index < $scope.currentOrder.length; index++) {
             const element = $scope.currentOrder[index].On_Order__c;
@@ -294,76 +305,91 @@
                         $scope.serviceCars.push(res.all[i]);
                     }
                 }
-                setTimeout(function () {
-                    departTurePop = $ionicPopup.show({
-                        title:"请选择服务车",
-                        template: "    <select id=\"serviceCarSelect\" class=\"small_Type_Select\" >\n" +
-                        "                                            <option ng-repeat=\" singleServiceCar  in serviceCars\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n" +
-                        "                                        </select>",
-                        scope: $scope,
-                        buttons:[{
-                            text: '<b>OK</b>',
-                            type: 'button-positive',
-                            onTap: function () {
-                                if (!canDeparture) {
-                                    departTurePop.close();
-                                    return;
-                                }
-                                canDeparture=false;
-                                AppUtilService.showLoading();
-                                dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),Number(localStorage.onoffline)!==0?item.Id:item._soupEntryId,'Not Completed').then(function callBack(res) {
-                                    console.log(res);
-                                    if (res.status.toLowerCase() == 'success') {
-                                        var goTime = new Date();
-                                        //goTime.format('yyyy-MM-dd hh:mm:ss')
-                                        dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,$("#serviceCarSelect").val()).then(function callBack(res) {
-                                            console.log(res);
-                                            $scope.getHomeService();//刷新日历列表数据 更改出发状态
-
-                                            if (res.status.toLowerCase() == 'success') {
-                                                AppUtilService.hideLoading();
-                                                canDeparture=true;
-                                                $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser,false);
-                                            } else {
-                                                canDeparture=true;
-                                                $scope.updateOrderType(item, 'Not Started');
-                                            }
-                                        },function error(msg) {
-                                            canDeparture=true;
-                                            console.log(msg);
-                                            $scope.updateOrderType(item, 'Not Started');
-                                        });
-                                    } else {
-                                        AppUtilService.hideLoading();
-                                        canDeparture=true;
-                                        $ionicPopup.alert({
-                                            title: '更新工单状态失败',
-                                            template: res.message
-                                        });
-                                        return false;
-                                    }
-                                },function error(msg) {
-                                    console.log(msg);
-                                    AppUtilService.hideLoading();
-                                    canDeparture=true;
-                                    $ionicPopup.alert({
-                                        title: '更新工单状态失败',
-                                        template: msg
-                                    });
-                                    return false;
-                                });
-
-                            }
-                        }]
-
-                    });
-                },500);
+                deferred.resolve('');
             },function error(msg) {
                 canDeparture=true;
+                deferred.reject(msg);
                 AppUtilService.hideLoading();
                 console.log(msg);
             });
+            return deferred.promise;
         };
+
+
+        $scope.doDepartureOrder=function(){
+            let deferred = $q.defer();
+            departTurePop = $ionicPopup.show({
+                title:"请选择服务车",
+                template: "    <select id=\"serviceCarSelect\" class=\"small_Type_Select\" >\n" +
+                "                                            <option ng-repeat=\" singleServiceCar  in serviceCars\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n" +
+                "                                        </select>",
+                scope: $scope,
+                buttons:[{
+                    text: '<b>OK</b>',
+                    type: 'button-positive',
+                    onTap: function () {
+                        if (!canDeparture) {
+                            departTurePop.close();
+                            return;
+                        }
+                        canDeparture=false;
+                        deferred.resolve('');
+                    }
+                }]
+
+            });
+            return deferred.promise;
+        };
+
+        $scope.updateDepartureOrderStatus=function(item){
+            let deferred = $q.defer();
+            AppUtilService.showLoading();
+            dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),Number(localStorage.onoffline)!==0?item.Id:item._soupEntryId,'Not Completed').then(function callBack(res) {
+                console.log(res);
+                if (res.status.toLowerCase() == 'success') {
+                    var goTime = new Date();
+                    //goTime.format('yyyy-MM-dd hh:mm:ss')
+                    dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,$("#serviceCarSelect").val()).then(function callBack(res) {
+                        console.log(res);
+                        $scope.getHomeService();//刷新日历列表数据 更改出发状态
+
+                        if (res.status.toLowerCase() == 'success') {
+                            AppUtilService.hideLoading();
+                            canDeparture=true;
+                            $scope.goPageWorkDetails(item, true, goTime,isBelongCurrentUser,false);
+                            deferred.resolve('');
+                        } else {
+                            canDeparture=true;
+                            $scope.updateOrderType(item, 'Not Started');
+                        }
+                    },function error(msg) {
+                        canDeparture=true;
+                        console.log(msg);
+                        $scope.updateOrderType(item, 'Not Started');
+                    });
+                } else {
+                    AppUtilService.hideLoading();
+                    canDeparture=true;
+                    $ionicPopup.alert({
+                        title: '更新工单状态失败',
+                        template: res.message
+                    });
+                    return false;
+                }
+            },function error(msg) {
+                console.log(msg);
+                AppUtilService.hideLoading();
+                canDeparture=true;
+                deferred.reject(msg);
+                $ionicPopup.alert({
+                    title: '更新工单状态失败',
+                    template: msg
+                });
+                return false;
+            });
+            return deferred.promise;
+        };
+
         /**
          * 上传出发时间失败重新更改状态为未开始
          * @param obj

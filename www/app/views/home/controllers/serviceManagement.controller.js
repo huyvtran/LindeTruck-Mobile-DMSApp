@@ -348,8 +348,7 @@
             };
 
             $scope.serviceManagementSubmit = function () {
-                if (!canClick) return;
-                canClick = false;
+
                 licensePlateNumber = $("#licensePlateNumber").val();
                 refuelingCost = $("#refuelingCost").val().trim();
                 odometerSelfUse = $("#odometerSelfUse").val().trim();
@@ -371,7 +370,6 @@
                     $ionicPopup.alert({
                         title: "车牌号为空"
                     });
-                    canClick = true;
                     return;
                 }
 
@@ -406,11 +404,10 @@
                 //     return;
                 // }
 
-                if (odometerOfficialBusiness == "" && odometerComeOn == "") {
+                if (odometerOfficialBusiness == "" || odometerComeOn == "") {
                     $ionicPopup.alert({
                         title: "里程表 - 加油 / 里程表 - 公务 未填写!"
                     });
-                    canClick = true;
                     return;
                 }
 
@@ -487,53 +484,45 @@
                 soapData += '</soap:Envelope>';
                 AppUtilService.showLoading();
 
-                $.ajax({
-                    type: 'POST',
-                    url: $scope.devLindeCRMURL,
-                    data: soapData,
-                    beforeSend: function (request) {
-                        request.setRequestHeader("Content-Type", "text/xml; charset=utf-8");
-                        request.setRequestHeader("SOAPAction", "http://tempuri.org/SendServiceCar");
-                    },
-                    success: function (result) {
-                        setTimeout(function () {
-                            AppUtilService.hideLoading();
-                            console.log(result);
-                            if (result.documentElement.getElementsByTagName('SendServiceCarResult') != null
-                                && result.documentElement.getElementsByTagName('SendServiceCarResult').length > 0
-                                && result.documentElement.getElementsByTagName(
-                                'SendServiceCarResult')[0].innerHTML.toLowerCase() == "success") {
-                                $ionicPopup.alert({
-                                    title: '保存成功!'
-                                });
-                                $state.go("app.home");
-                            } else {
-                                $ionicPopup.alert({
-                                    title: '保存失败,请检查是否外网连接!'
-                                });
-                            }
-                            canClick = true;
-                        }, 3000);
-                    },
-                    error: function (msg) {
-                        setTimeout(function () {
-                            AppUtilService.hideLoading();
-                            canClick = true;
-                        }, 3000);
-                        console.log(msg);
-                    }
-                });
-
-                //commit data to remote
-                // SCarService.serviceCarSaveButton(obj,localImgUris1,localImgUris2).then(function success(result) {
-                //     console.log(result);
-                //     $log.info(result);
-                //     $state.go("app.home");
-                // },function error(msg) {
-                //     console.log(msg);
-                //     $log.error(msg);
-                // });
-
+                if (canClick){
+                    canClick=false;
+                    $.ajax({
+                        type: 'POST',
+                        url: $scope.devLindeCRMURL,
+                        data: soapData,
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Content-Type", "text/xml; charset=utf-8");
+                            request.setRequestHeader("SOAPAction", "http://tempuri.org/SendServiceCar");
+                        },
+                        success: function (result) {
+                            setTimeout(function () {
+                                AppUtilService.hideLoading();
+                                console.log(result);
+                                if (result.documentElement.getElementsByTagName('SendServiceCarResult') != null
+                                    && result.documentElement.getElementsByTagName('SendServiceCarResult').length > 0
+                                    && result.documentElement.getElementsByTagName(
+                                        'SendServiceCarResult')[0].innerHTML.toLowerCase() == "success") {
+                                    $ionicPopup.alert({
+                                        title: '保存成功!'
+                                    });
+                                    $state.go("app.home");
+                                } else {
+                                    $ionicPopup.alert({
+                                        title: '保存失败,请检查是否外网连接!'
+                                    });
+                                }
+                                canClick = true;
+                            }, 3000);
+                        },
+                        error: function (msg) {
+                            setTimeout(function () {
+                                AppUtilService.hideLoading();
+                                canClick = true;
+                            }, 3000);
+                            console.log(msg);
+                        }
+                    });
+                }
             };
         });
 })();
