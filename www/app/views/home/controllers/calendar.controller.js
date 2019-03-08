@@ -328,11 +328,14 @@
                     text: '<b>OK</b>',
                     type: 'button-positive',
                     onTap: function () {
-                        if (!canDeparture) {
-                            departTurePop.close();
-                            return;
+                        // if (!canDeparture) {
+                        //     departTurePop.close();
+                        //     return;
+                        // }
+                        // canDeparture=false;
+                        if (canDeparture){
+                            canDeparture=false;
                         }
-                        canDeparture=false;
                         deferred.resolve('');
                     }
                 }]

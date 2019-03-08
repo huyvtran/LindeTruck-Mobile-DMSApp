@@ -1330,7 +1330,7 @@
 			<div id="addTruck_checked" class="big_Box_Group" style="display: none;">
 				<div class="small_Box_Title"> <img ng-click="delAllAddSelectedItem();" src="././img/images/del_red_icon.png"/> 全选删除 </div>
 				<ion-list can-swipe="true">
-					<ion-item id="items3" ng-repeat="ckitem in selectedTruckItemsMore"  ng-cloak  class="small_Box_Text">
+					<ion-item id="items3" ng-repeat="ckitem in selectedTruckItemsMore track by $index"  ng-cloak  class="small_Box_Text">
 						<span ng-click="delSelectedAddItem(ckitem);"><img src="././img/images/del_red_icon.png"/></span> {{ckitem.Name}}
 					</ion-item>
 				</ion-list>

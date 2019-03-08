@@ -1276,11 +1276,14 @@
                     text: '<b>OK</b>',
                     type: 'button-positive',
                     onTap: function () {
-                        if (!canDeparture) {
-                            departTurePop.close();
-                            return;
+                        // if (!canDeparture) {
+                        //     departTurePop.close();
+                        //     return;
+                        // }
+                        // canDeparture = false;
+                        if(canDeparture){
+                            canDeparture=false;
                         }
-                        canDeparture = false;
                         deferred.resolve('');
                         //$scope.doDeparture($("#serviceCarSelectSecond").val());
                     }
@@ -1920,13 +1923,13 @@
                               $rootScope.getSomeData();
                           }
                       } else {
+                          canSave=true;
                           $ionicPopup.alert({
                               title: '保存数据失败',
                               template: res.message
                           });
                           return false;
                       }
-                      canSave=true;
                   }, function error(msg) {
                       console.log(msg);
                       AppUtilService.hideLoading();
@@ -2710,6 +2713,7 @@
               // }
 
             } else {
+              canSave=true;
               $ionicPopup.alert({
                 title: '保存失败'
               });
@@ -2718,6 +2722,7 @@
           }, function (error) {
             console.log('responseSaveParts_error:', error);
             AppUtilService.hideLoading();
+            canSave=true;
             $ionicPopup.alert({
               title: '保存失败'
             });
