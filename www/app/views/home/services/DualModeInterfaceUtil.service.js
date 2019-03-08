@@ -1011,7 +1011,7 @@
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=leave&sooId='+ sooid + '&travelMinutes='+ arrivalTime + '&userId='+userId;
+                    var requestUrl = '/WorkDetailService?action=leave&sooId='+ sooid + '&travelMinutes='+ travelMinutes + '&userId='+userId;
 
                     console.log('current url:::', requestUrl);
 

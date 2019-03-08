@@ -315,7 +315,8 @@
                                     console.log(res);
                                     if (res.status.toLowerCase() == 'success') {
                                         var goTime = new Date();
-                                        dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,goTime.format('yyyy-MM-dd hh:mm:ss'),$("#serviceCarSelect").val()).then(function callBack(res) {
+                                        //goTime.format('yyyy-MM-dd hh:mm:ss')
+                                        dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,$("#serviceCarSelect").val()).then(function callBack(res) {
                                             console.log(res);
                                             $scope.getHomeService();//刷新日历列表数据 更改出发状态
 

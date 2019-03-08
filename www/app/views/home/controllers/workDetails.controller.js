@@ -3,7 +3,7 @@
   'use strict';
   angular.module('oinio.controllers')
     .controller('workDetailsController',
-      function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
+      function ($scope, $rootScope, $q,$filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
                 LocalCacheService, HomeService, AppUtilService, ForceClientService, SQuoteService,
                 dualModeService) {
 
@@ -387,8 +387,8 @@
                 ? soResult.Account_Ship_to__r.Customer_Number__c : '';
               //客户地址：
               customerAddressValue =
-                soResult.Account_Ship_to__r.Address__c != undefined && soResult.Account_Ship_to__r.Address__c != null
-                  ? soResult.Account_Ship_to__r.Address__c : '';
+                soResult.Account_Ship_to__r.Office_Address__c != undefined && soResult.Account_Ship_to__r.Office_Address__c != null
+                  ? soResult.Account_Ship_to__r.Office_Address__c : '';
               if (soResult.Account_Ship_to__r.Id != null) {
                 $scope.localAccId = soResult.Account_Ship_to__r.Id;
                 $scope.getTrucksMore('');
@@ -957,10 +957,11 @@
                       '-'));
                 }
                 AppUtilService.showLoading();
+                //arriveTime.format('yyyy-MM-dd hh:mm:ss')
+                //leaveTime.format('yyyy-MM-dd hh:mm:ss')
                 dualModeService.leaveActionUtil(Number(localStorage.onoffline),
                   Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                  arriveTime.format('yyyy-MM-dd hh:mm:ss'), leaveTime.format('yyyy-MM-dd hh:mm:ss')).then(
+                  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,ah*60+am).then(
                   function callBack(res) {
                     console.log(res);
                     AppUtilService.hideLoading();
@@ -1043,11 +1044,12 @@
                 text: '确定',
                 onTap: function () {
                   leaveTime = new Date();
+                  //arriveTime.format('yyyy-MM-dd hh:mm:ss')
+                  //leaveTime.format('yyyy-MM-dd hh:mm:ss')
                   AppUtilService.showLoading();
                   dualModeService.leaveActionUtil(Number(localStorage.onoffline),
                     Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                    Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                    arriveTime.format('yyyy-MM-dd hh:mm:ss'), leaveTime.format('yyyy-MM-dd hh:mm:ss')).then(
+                    Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,0).then(
                     function callBack(res) {
                       console.log(res);
                       AppUtilService.hideLoading();
@@ -1203,7 +1205,72 @@
         var canDeparture = true;
         var departTurePop = null;
         $scope.serviceCars = [];
+
+        $scope.dePartureOrder = function () {
+            var deferred = $q.defer();
+            var result = null;
+            try {
+                $scope.beforeDeparture().then(function () {
+                    return $scope.showServiceCarPop();
+                }).then(function () {
+                    result = $("#serviceCarSelectSecond").val();
+                    return $scope.doDeparture(result);
+                });
+            } catch (ex){
+                console.log('ex::',ex);
+                deferred.reject(ex);
+            }
+            return deferred.promise;
+        };
+
+
+        $scope.arriveOrder=function(timeMin){
+            var deferred = $q.defer();
+            var result = null;
+            try {
+                $scope.beforeDeparture().then(function () {
+                    return $scope.showServiceCarPop();
+                }).then(function () {
+                    result = $("#serviceCarSelectSecond").val();
+                    return $scope.doDeparture(result);
+                }).then(function () {
+                    return $scope.departureArrive(timeMin);
+                });
+            } catch (ex){
+                console.log('ex::',ex);
+                deferred.reject(ex);
+            }
+            return deferred.promise;
+        };
+
+        $scope.showServiceCarPop=function(){
+            let deferred = $q.defer();
+            departTurePop = $ionicPopup.show({
+                title: "请选择服务车",
+                template: "    <select id=\"serviceCarSelectSecond\" class=\"small_Type_Select\" >\n" +
+                "                                            <option ng-repeat=\" singleServiceCar  in serviceCarsSecond\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n"
+                +
+                "                                        </select>",
+                scope: $scope,
+                buttons: [{
+                    text: '<b>OK</b>',
+                    type: 'button-positive',
+                    onTap: function () {
+                        if (!canDeparture) {
+                            departTurePop.close();
+                            return;
+                        }
+                        canDeparture = false;
+                        deferred.resolve('');
+                        //$scope.doDeparture($("#serviceCarSelectSecond").val());
+                    }
+                }]
+            });
+            return deferred.promise;
+        };
+
         $scope.beforeDeparture = function () {
+         let deferred = $q.defer();
           AppUtilService.showLoading();
           ForceClientService.getForceClient().apexrest(
             '/ServiceCarService?action=init&currentUser=' + oCurrentUser.Id,
@@ -1225,34 +1292,14 @@
                   $scope.serviceCarsSecond.push(res.all[i]);
                 }
               }
-              setTimeout(function () {
-                departTurePop = $ionicPopup.show({
-                  title: "请选择服务车",
-                  template: "    <select id=\"serviceCarSelectSecond\" class=\"small_Type_Select\" >\n" +
-                            "                                            <option ng-repeat=\" singleServiceCar  in serviceCarsSecond\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n"
-                            +
-                            "                                        </select>",
-                  scope: $scope,
-                  buttons: [{
-                    text: '<b>OK</b>',
-                    type: 'button-positive',
-                    onTap: function () {
-                      if (!canDeparture) {
-                        departTurePop.close();
-                        return;
-                      }
-                      canDeparture = false;
-                      $scope.doDeparture($("#serviceCarSelectSecond").val());
-                    }
-                  }]
-                });
-              }, 500);
-
+            deferred.resolve('');
             },
             function error(msg) {
               AppUtilService.hideLoading();
+              deferred.reject(msg);
               console.log(msg);
             });
+          return deferred.promise;
         };
 
         $scope.reloadWorkItems = function () {
@@ -1272,6 +1319,7 @@
         };
 
         $scope.doDeparture = function (carNo) {
+          let deferred =$q.defer();
           var departureTime = new Date();
           goOffTimeFromPrefix = departureTime;
           AppUtilService.showLoading();
@@ -1279,10 +1327,10 @@
             Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(
             function callBack(res) {
               if (res.status.toLowerCase() == 'success') {
+                  //departureTime.format('yyyy-MM-dd hh:mm:ss')
                 dualModeService.departureActionUtil(Number(localStorage.onoffline),
                   Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                  departureTime.format('yyyy-MM-dd hh:mm:ss'), carNo).then(function callBack(res) {
+                  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,carNo).then(function callBack(res) {
                   AppUtilService.hideLoading();
                   if (res.status.toLowerCase() == 'success') {
                     $scope.reloadWorkItems();
@@ -1298,6 +1346,7 @@
                       $('#sidProgressBar').css('width', '33%');
                     }
                     canDeparture = true;
+                  deferred.resolve('');
                   } else {
                     canDeparture = true;
                     $ionicPopup.alert({
@@ -1321,12 +1370,13 @@
               AppUtilService.hideLoading();
               console.log(msg);
               canDeparture = true;
+              deferred.reject(msg);
               $ionicPopup.alert({
                 title: msg
               });
               return;
             });
-
+            return deferred.promise;
         };
 
         var canArrive = true;
@@ -1384,80 +1434,43 @@
                       function callBack(res) {
                         console.log(res);
                         if (res.status.toLowerCase() == 'success') {
-                          dualModeService.departureActionUtil(Number(localStorage.onoffline),
-                            Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                            Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                            goOffTimeFromPrefix.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
-                            AppUtilService.hideLoading();
-                            console.log(res);
-                            if (res.status.toLowerCase() == 'success') {
-                              $scope.reloadWorkItems();
-                              //$rootScope.getSomeData();
-                              for (var i = 0; i < 2; i++) {
-                                $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                              }
-                              $('#departureBtn').css('pointer-events', 'none');
-                              $('#departureBtn').addClass('textCompleted');
-                              if (orderBelong) {
-                                $('#sidProgressBar').css('width', '25%');
-                              } else {
-                                $('#sidProgressBar').css('width', '33%');
-                              }
 
-                              dualModeService.arrivalActionUtil(Number(localStorage.onoffline),
-                                Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                                Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                                arriveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
-                                AppUtilService.hideLoading();
-                                console.log(res);
-                                if (res.status.toLowerCase() == 'success') {
-                                  $scope.reloadWorkItems();
-                                  //$rootScope.getSomeData();
-                                  //$event.target.style.backgroundColor = "#00FF7F";
-                                  if (orderBelong) {
-                                    $('#sidProgressBar').css('width', '50%');
-                                  } else {
-                                    $('#sidProgressBar').css('width', '66%');
-                                  }
-                                  for (var i = 0; i < 3; i++) {
-                                    $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                  }
-                                  $('#arriveBtn').css('pointer-events', 'none');
-                                  $('#arriveBtn').addClass('textCompleted');
-                                } else {
-                                  $ionicPopup.alert({
-                                    title: '记录到达时间失败',
-                                    template: res.message
-                                  });
-                                  return false;
-                                }
-                              }, function error(msg) {
-                                AppUtilService.hideLoading();
-                                console.log(msg);
-                                $ionicPopup.alert({
-                                  title: '记录到达时间失败',
-                                  template: msg
-                                });
-                                return false;
-                              });
-
-                            } else {
-                              $ionicPopup.alert({
-                                title: '记录出发时间失败',
-                                template: res.message
-                              });
-                              return false;
-                            }
-                          }, function error(msg) {
-                            AppUtilService.hideLoading();
-                            console.log(msg);
-                            $ionicPopup.alert({
-                              title: '记录出发时间失败',
-                              template: msg
-                            });
-                            return false;
-                          });
-
+                  // dualModeService.departureActionUtil(Number(localStorage.onoffline),
+                  //   Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
+                  //   Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
+                  //   goOffTimeFromPrefix.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                  //   AppUtilService.hideLoading();
+                  //   console.log(res);
+                  //   if (res.status.toLowerCase() == 'success') {
+                  //     $scope.reloadWorkItems();
+                  //     //$rootScope.getSomeData();
+                  //     for (var i = 0; i < 2; i++) {
+                  //       $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                  //     }
+                  //     $('#departureBtn').css('pointer-events', 'none');
+                  //     $('#departureBtn').addClass('textCompleted');
+                  //     if (orderBelong) {
+                  //       $('#sidProgressBar').css('width', '25%');
+                  //     } else {
+                  //       $('#sidProgressBar').css('width', '33%');
+                  //     }
+                  $scope.arriveOrder(h*60+m);
+                  //   } else {
+                  //     $ionicPopup.alert({
+                  //       title: '记录出发时间失败',
+                  //       template: res.message
+                  //     });
+                  //     return false;
+                  //   }
+                  // }, function error(msg) {
+                  //   AppUtilService.hideLoading();
+                  //   console.log(msg);
+                  //   $ionicPopup.alert({
+                  //     title: '记录出发时间失败',
+                  //     template: msg
+                  //   });
+                  //   return false;
+                  // });
                         } else {
                           AppUtilService.hideLoading();
                           $ionicPopup.alert({
@@ -1489,11 +1502,12 @@
               mobileSelect3.show();
             } else {
               arriveTime = new Date();
+              //arriveTime.format('yyyy-MM-dd hh:mm:ss')
               AppUtilService.showLoading();
               dualModeService.arrivalActionUtil(Number(localStorage.onoffline),
                 Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
                 Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                arriveTime.format('yyyy-MM-dd hh:mm:ss')).then(function callBack(res) {
+                0).then(function callBack(res) {
                 console.log(res);
                 AppUtilService.hideLoading();
                 if (res.status.toLowerCase() == 'success') {
@@ -1534,6 +1548,49 @@
 
             }
           }
+        };
+
+
+        $scope.departureArrive=function(timeMin){
+            let deferred =$q.defer();
+            dualModeService.arrivalActionUtil(Number(localStorage.onoffline),
+                Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
+                Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
+                timeMin).then(function callBack(res) {
+                AppUtilService.hideLoading();
+                console.log(res);
+                if (res.status.toLowerCase() == 'success') {
+                    $scope.reloadWorkItems();
+                    //$rootScope.getSomeData();
+                    //$event.target.style.backgroundColor = "#00FF7F";
+                    if (orderBelong) {
+                        $('#sidProgressBar').css('width', '50%');
+                    } else {
+                        $('#sidProgressBar').css('width', '66%');
+                    }
+                    for (var i = 0; i < 3; i++) {
+                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                    }
+                    $('#arriveBtn').css('pointer-events', 'none');
+                    $('#arriveBtn').addClass('textCompleted');
+                    deferred.resolve('');
+                } else {
+                    $ionicPopup.alert({
+                        title: '记录到达时间失败',
+                        template: res.message
+                    });
+                    return false;
+                }
+            }, function error(msg) {
+                AppUtilService.hideLoading();
+                console.log(msg);
+                $ionicPopup.alert({
+                    title: '记录到达时间失败',
+                    template: msg
+                });
+                return false;
+            });
+            return deferred.promise;
         };
 
         $scope.goodsList = [];
