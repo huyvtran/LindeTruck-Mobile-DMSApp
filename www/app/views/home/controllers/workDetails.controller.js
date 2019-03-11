@@ -594,7 +594,7 @@
 
                 }
               }
-              truckNumber += trucks[i].Name + "(" + optHour + ")" + ';';
+              truckNumber += trucks[i].Name + "(" + optHour + "H)" + ';';
               truckItems.push(
                 {
                   Id: trucks[i].Id,
@@ -3582,7 +3582,7 @@
                             console.log(response);
                             $log.info(response);
                             AppUtilService.hideLoading();
-                            $scope.hideWorkPrintPage();
+                            //$scope.hideWorkPrintPage();
                             $ionicPopup.alert({
                               title: '出票成功'
                             });
