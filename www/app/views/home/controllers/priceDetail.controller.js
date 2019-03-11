@@ -1083,9 +1083,11 @@ angular.module('oinio.controllers')
           var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
           oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
           if (selectedTruckFitItemsIndex.Id) {
-            oneLabourOriginals4['Id'] = selectedTruckFitItemsIndex.Id;
+            oneLabourOriginals4['Service_Material__c'] = selectedTruckFitItemsIndex.Id;
           }
-
+          if (selectedTruckFitItemsIndex.Service_Material__c) {
+            oneLabourOriginals4['Service_Material__c'] = selectedTruckFitItemsIndex.Service_Material__c;
+          }
           oneLabourOriginals4['Line_Item__c'] = index + 100;
           oneLabourOriginals4['Material_Number__c'] = selectedTruckFitItemsIndex.parts_number__c;
           oneLabourOriginals4['Gross_Price__c'] = Math.floor(selectedTruckFitItemsIndex.Gross_Price__c * 100) / 100;

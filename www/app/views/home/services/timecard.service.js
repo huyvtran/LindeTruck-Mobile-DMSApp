@@ -64,11 +64,15 @@
             var serverMinVersion = response.SEApp_Min_Version;
             cordova.getAppVersion.getVersionNumber().then(function (version) {
 
-              if (compareVersion(version, serverAppVersion) == -1) {
-
-                showUpdateConfirm(serverAppVersion);
-
+              if (compareVersion(version, serverMinVersion) == -1){
+                forceShowUpdateConfirm(serverMinVersion);
+              } else {
+                if (compareVersion(version, serverAppVersion) == -1) {
+                  showUpdateConfirm(serverAppVersion);
+                }
               }
+
+
             });
 
           }, function (error) {

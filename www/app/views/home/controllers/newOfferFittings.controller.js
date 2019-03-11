@@ -889,6 +889,7 @@
               oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.GrossAmountC; //总价
               oneLabourOriginals4['Net_Price__c'] = selectedTruckFitItemsIndex.priceCondition.favourablePrice;//优惠单价
             }
+            oneLabourOriginals4['Service_Material__c'] = selectedTruckFitItemsIndex.Id;
             oneLabourOriginals4['Quantity__c'] = part_InputForListNo[index];
             oneLabourOriginals4['Discount__c'] = (Number(part_InputForListDiscount[index]) * 100) - 100;
             oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
