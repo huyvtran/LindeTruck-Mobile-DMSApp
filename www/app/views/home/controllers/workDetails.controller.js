@@ -1195,15 +1195,23 @@
 
         //已选车辆
         $scope.toDescribInfDiv = function () {
-          if (document.getElementById('describInfDiv').style.display == 'none') {
-            document.getElementById('describInfDiv').style.display = '';//显示
-          } else {
-            document.getElementById('describInfDiv').style.display = 'none';//隐藏
-          }
+          setTimeout(function () {
+            if (document.getElementById('describInfDiv').style.display == 'none') {
+              document.getElementById('describInfDiv').style.display = '';//显示
+            } else {
+              document.getElementById('describInfDiv').style.display = 'none';//隐藏
+            }
+            if (document.getElementById('whiteBgForBlock').style.display == 'none') {
+              document.getElementById('whiteBgForBlock').style.display = '';//显示
+            } else {
+              document.getElementById('whiteBgForBlock').style.display = 'none';//隐藏
+            }
 
-          if (!allowEdit) {
-            $('input.workDetailCustomeHourclas').prop('disabled', 'disabled');
-          }
+            if (!allowEdit) {
+              $('input.workDetailCustomeHourclas').prop('disabled', 'disabled');
+            }
+          }, 100);
+
         };
         /**
          * 取消按钮
