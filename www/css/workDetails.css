@@ -427,6 +427,12 @@ img {
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_Long {
     width: 30%;
 }
+
+.workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_Small{
+    width: 30%;
+    font-size: 0.7rem;
+}
+
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_nopadding {
     padding: 0;
     width: 20%;

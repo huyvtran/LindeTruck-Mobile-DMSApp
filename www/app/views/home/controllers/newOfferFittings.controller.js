@@ -627,13 +627,13 @@
         //经济件 替代件 常规件
         $scope.isquoted_Table = function (type) {
           //   console.log("type:", type);
-          var returnType = 'sv_Td';
+          var returnType = 'sv_Td small_type';
           if (type === 'economical') {
             returnType = 'sv_Td green_type';
           } else if (type === 'substitution') {
             returnType = 'sv_Td blue_type';
           } else if (type === 'common') {
-            returnType = 'sv_Td';
+            returnType = 'sv_Td small_type';
           }
           return returnType;
         };

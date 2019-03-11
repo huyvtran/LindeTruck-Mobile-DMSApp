@@ -249,14 +249,20 @@ img {
     text-align: center;
     vertical-align: middle;
 }
-
+.sv_Td.small_type {
+    font-size: 0.7rem;
+}
 .sv_Td.blue_type {
     background: #008caa;
     color: #ffffff;
+    font-size: 0.7rem;
+
 }
 .sv_Td.green_type {
     background: #00aa6d;
     color: #ffffff;
+    font-size: 0.7rem;
+
 }
 .sv_Td.blue_type div p, .sv_Td.green_type div p {
     color: #ffffff;
