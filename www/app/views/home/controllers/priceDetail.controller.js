@@ -1783,11 +1783,12 @@ angular.module('oinio.controllers')
                       workDescription: null,
                       AccountShipToC: null,
                       workOrderId: workOrderId,
-                      enableArrivalBtn: null,
+                      enableArrivalBtn: true,
                       goOffTime: null,
                       isNewWorkList: true,
                       accountId: null,
-                      orderBelong: true
+                      orderBelong: true,
+                        openPrintPage:false
                     });
                   } else {
                     $state.go('app.workDetails', {
@@ -1795,11 +1796,12 @@ angular.module('oinio.controllers')
                       workDescription: null,
                       AccountShipToC: null,
                       workOrderId: workOrderId,
-                      enableArrivalBtn: null,
+                      enableArrivalBtn: true,
                       goOffTime: null,
                       isNewWorkList: true,
                       accountId: null,
-                      orderBelong: true
+                      orderBelong: false,
+                        openPrintPage:false
                     });
                   }
                 }, function (err) {
