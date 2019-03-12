@@ -329,7 +329,7 @@
 
                 if (data === 0) {
                     if (ConnectionMonitor.isOnline()) {
-                        showMessageToSync();
+                        // showMessageToSync(); //推迟
                     } else {
                         // start time interval for mobile data synchronisation
                         $scope.startTimer();
