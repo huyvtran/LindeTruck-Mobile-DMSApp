@@ -3531,7 +3531,7 @@
         };
 
         $scope.printWorkList = function () {
-          AppUtilService.showLoading();
+              AppUtilService.showLoading();
               $scope.checkBleStatus().then(function () {
                   return $scope.getBlueToothDevices();
               }).then(function (result) {
@@ -3608,7 +3608,6 @@
         };
 
         $scope.printTicket=function(){
-            let deferred =$q.defer();
             var workItemsTotal = [];
             for (var i = 0; i < $scope.localWorkItems.length; i++) {
                 workItemsTotal.push({
@@ -3644,21 +3643,18 @@
                         /data:image\/jpeg;base64,/, null) : ''
                 }
                 , function callBack(response) {
+                    console.log(response);
                     AppUtilService.hideLoading();
                     $ionicPopup.alert({
                         title: '出票成功'
                     });
-                    deferred.resolve('');
-                    return;
                 }, function error(obj) {
+                    console.log(obj);
                     AppUtilService.hideLoading();
                     $ionicPopup.alert({
                         title: obj.message
                     });
-                    deferred.reject(obj.message);
-                    return;
                 });
-            return deferred.promise;
         };
 
 
