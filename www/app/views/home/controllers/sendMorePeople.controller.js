@@ -14,7 +14,7 @@
             $scope.workers = [];
             $scope.selectWorkersArr = [];
             $scope.getInitDataUri = "/WorkDetailService";
-            $scope.postUri = "/services/apexrest/HomeService?action=saveSE&SupportEngineerMap=";
+            $scope.postUri = "/services/apexrest/HomeService?action=saveSE2&SupportEngineerMap=";
             $scope.$on('$ionicView.beforeEnter', function () {
                 LocalCacheService.set('previousStateForSCReady', $state.current.name);
                 LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
@@ -252,7 +252,7 @@
                 }
                 AppUtilService.showLoading();
                 ForceClientService.getForceClient().apexrest(
-                  $scope.postUri + JSON.stringify(postData),
+                  $scope.postUri + JSON.stringify(postData)+'&serviceOrderOverviewId='+currentOrderId,
                   "POST",
                   {},
                   null, function callBack(res) {
