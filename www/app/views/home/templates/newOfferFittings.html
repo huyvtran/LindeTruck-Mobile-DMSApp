@@ -707,6 +707,9 @@
 									<div> 折扣 </div>
 								</th>
 								<th class="sv_Td">
+									<div> 优惠单价</div>
+								</th>
+								<th class="sv_Td">
 									<div> 优惠总价 </div>
 								</th>
 							</tr>
@@ -728,6 +731,9 @@
 									<input id="discountId1" ng-model="discountPrice1" class="sv_Input" />
 								</td>
 								<td class="sv_Td">
+									<input class="sv_Input" value="{{discountPrice1*manMadePrice1}}" />
+								</td>
+								<td class="sv_Td">
 									<input class="sv_Input" value="{{manMadePrice1*manMadeNo1-discountPrice1*manMadePrice1*manMadeNo1}}" />
 								</td>
 							</tr>
@@ -746,6 +752,9 @@
 								</td>
 								<td class="sv_Td">
 									<input id="discountId2" ng-model="discountPrice2" class="sv_Input" />
+								</td>
+								<td class="sv_Td">
+									<input class="sv_Input" value="{{discountPrice2*manMadePrice2}}" />
 								</td>
 								<td class="sv_Td">
 									<input class="sv_Input" value="{{manMadePrice2*manMadeNo2-discountPrice2*manMadePrice2*manMadeNo2}}" />
@@ -774,6 +783,9 @@
 										</td>
 										<td class="sv_Td">
 											<input ng-model="discountPrice3" class="sv_InputForListDiscount" />
+										</td>
+										<td class="sv_Td">
+											<input class="sv_Input" value="{{discountPrice3*manMadePrice3}}" />
 										</td>
 										<td class="sv_Td">
 											<input class="sv_InputForListSpecial" value="{{manMadePrice3*manMadeNo3-discountPrice3*manMadePrice3*manMadeNo3}}" />

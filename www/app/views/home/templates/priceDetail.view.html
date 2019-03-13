@@ -606,6 +606,9 @@
                                     <div> 折扣</div>
                                 </th>
                                 <th class="sv_Td">
+                                    <div> 优惠单价</div>
+                                </th>
+                                <th class="sv_Td">
                                     <div> 优惠总价</div>
                                 </th>
                             </tr>
@@ -624,6 +627,11 @@
                                 </td>
                                 <td class="sv_Td">
                                     <input id="discountId" ng-model="labour.Discount__c"  class="sv_Input_Discount"/>
+                                </td>
+                                <td class="sv_Td">
+                                    <!--<input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>-->
+                                    <input class="sv_Input part_InputForListPrice"
+                                           value="{{labour.Gross_Price__c*labour.Discount__c}}" />
                                 </td>
                                 <td class="sv_Td">
                                     <input class="sv_Input_Net_Amount"
@@ -676,6 +684,11 @@
                                         </td>
                                         <td class="sv_Td">
                                             <input ng-model="discountPrice3" placeholder="0" class="sv_InputForListDiscount" ng-keyup="sum(this);"/>
+                                        </td>
+                                        <td class="sv_Td">
+                                            <!--<input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>-->
+                                            <input class="sv_Input part_InputForListPrice"
+                                                   value="{{manMadePrice3*discountPrice3}}" />
                                         </td>
                                         <td class="sv_Td">
                                             <input class="sv_InputForListSpecial" placeholder="0"
