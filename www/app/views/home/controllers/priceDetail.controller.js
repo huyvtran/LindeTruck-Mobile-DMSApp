@@ -38,58 +38,6 @@ angular.module('oinio.controllers')
       $scope.queryDetail = '/ServiceQuoteOverview/';
       $scope.convertQuoteToOrder = '/ServiceQuoteOverviewService?type=convertQuoteToOrder&serviceQuoteOverviewId=';
 
-      $scope.get = function () {
-        AppUtilService.showLoading();
-        //人工
-        ForceClientService.getForceClient().apexrest($scope.paramUrl1, 'GET', {}, null, function (response) {
-          console.log('success:', response);
-          let responseItem = response.priceCondition;
-          $scope.manMadePrice1 = responseItem.price;
-          $scope.discountPrice1 = responseItem.discount;
-          manMadeNo1Id = response.Id;
-          manMadeNo1Name = response.parts_description__c;
-
-        }, function (error) {
-          console.log('error:', error);
-        });
-
-        //交通
-        ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
-          console.log('success:', response);
-          AppUtilService.hideLoading();
-          let responseItem = response.priceCondition;
-          $scope.manMadePrice2 = responseItem.price;
-          $scope.discountPrice2 = responseItem.discount;
-          manMadeNo2Id = response.Id;
-          manMadeNo2Name = response.parts_description__c;
-        }, function (error) {
-          console.log('error:', error);
-          AppUtilService.hideLoading();
-        });
-
-        //获得车辆保养级别对应的配件
-        if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
-          var serviceQuotesNull = {};
-          serviceQuotesNull['Truck_Fleet__c'] = null;
-          $stateParams.SendAllUser.push(serviceQuotesNull);
-        } else {
-          $scope.getByPart();
-        }
-
-        //获得工单转报价对应的配件
-        if ($stateParams.OrderTruckItem) {
-          if ($stateParams.OrderTruckItem.length == 0) { //如果没有选择车辆的处理
-            var serviceQuotesNull = {};
-            serviceQuotesNull['Truck_Fleet__c'] = null;
-            $stateParams.SendAllUser.push(serviceQuotesNull);
-          } else {
-            $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
-            $scope.getTrucksWithSubstitution();
-          }
-        }
-
-      };
-
       $scope.getByPart = function () {
         //保养级别带出的配件信息
         var nameList = [];
@@ -273,7 +221,6 @@ angular.module('oinio.controllers')
       $scope.$on('$ionicView.enter', function () {
         console.log('接受点击事件');
         document.addEventListener('click', newHandle);//初始化弹框
-        // $scope.get();
 
       });
 

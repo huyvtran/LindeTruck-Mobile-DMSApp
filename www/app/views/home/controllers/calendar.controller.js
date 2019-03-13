@@ -63,9 +63,12 @@
         });
 
         $scope.hideLoadingPage = function () {
-          $rootScope.hideTabs = false;
-          $('div.loadingPage_bodyer').hide();
-          $('div.calendar_header').show();
+          setTimeout(function () {
+            $rootScope.hideTabs = false;
+            $('div.loadingPage_bodyer').hide();
+            $('div.calendar_header').show();
+          }, 100);
+
         };
 
         $scope.$on('$ionicView.beforeLeave', function () {
