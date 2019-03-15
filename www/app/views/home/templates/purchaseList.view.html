@@ -35,7 +35,7 @@
 		  	<div>
 	  			<div class="">
 	  				<select class="small_Type_Select"  ng-model = "status" ng-change="selectStatusChange(status)">
-						<option value='' disabled selected style='display:none;'>报价单状态选择</option>
+						<option value='' disabled selected style='display:none;'>采购状态选择</option>
 						<option ng-repeat="status in statusTypes">{{status}}</option>
 					</select>
 	  			</div>
@@ -47,7 +47,7 @@
 		  				<td class="priceList_Td width_4 priceList_Td_Right"> 状态 </td>
 		  			</tr>
 		  			<tr ng-repeat="priceItem in purchaseListStatusItems">
-		  				<td class="priceList_Td width_1 textDecoration" ng-click="goToPriceListDetails(priceItem)"> {{priceItem.Id}} </td>
+		  				<td class="priceList_Td width_1ForPurchase textDecoration" ng-click="goToPriceListDetails(priceItem)"> {{priceItem.Name}} </td>
 		  				<td class="priceList_Td width_2 textDecoration" ng-click="goToWorkDetails(priceItem)"> {{priceItem.Service_Order_Overview__r && priceItem.Service_Order_Overview__r.Name}} </td>
 		  				<td class="priceList_Td width_3"> {{priceItem.Supplier_Name__c}} </td>
 		  				<td class="priceList_Td width_4 priceList_Td_Right stateColor"> {{getStatusType(priceItem.Status__c)}}</td>

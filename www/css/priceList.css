@@ -145,6 +145,9 @@ img {
 .priceList_Table td.width_1 {
     width: 25%;
 }
+.priceList_Table td.width_1ForPurchase {
+    width: 30%;
+}
 .priceList_Table td.width_2 {
     width: 20%;
 }
