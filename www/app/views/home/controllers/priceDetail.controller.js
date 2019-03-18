@@ -661,7 +661,9 @@ angular.module('oinio.controllers')
       $scope.calculationPartDiscount = function (partItem){
         if (partItem.Discount__c) {
           if (partItem.Net_Price__c){
-            partItem.Discount__c = Number(partItem.Net_Price__c / partItem.Gross_Price__c).toFixed(2);
+            if (partItem.Gross_Price__c){
+              partItem.Discount__c = Number(partItem.Net_Price__c / partItem.Gross_Price__c).toFixed(2);
+            }
           }
         }
       };
