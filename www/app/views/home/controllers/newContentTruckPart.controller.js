@@ -34,7 +34,7 @@
           console.log('getTrucks::', keyWord);
           let parts_number__cList = [];
           let partsQuantitys = [];
-          var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord;
+          var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord+"&accId="+$stateParams.SendSoupEntryId;
           ForceClientService.getForceClient().apexrest(getPartsRelatedsKeyWordUrl, 'GET', {}, null,
             function (response) {
               console.log('searchPartssUrl:', response);

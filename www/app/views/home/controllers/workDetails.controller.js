@@ -2193,7 +2193,7 @@
           console.log('getTrucks::', keyWord);
           let parts_number__cList = [];
           let partsQuantitys = [];
-          var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord;
+          var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord+"&accId="+Account_Ship_to__c;
           ForceClientService.getForceClient().apexrest(getPartsRelatedsKeyWordUrl, 'GET', {}, null,
             function (response) {
               console.log('searchPartssUrl:', response);
@@ -3581,7 +3581,7 @@
             });
             return deferred.promise;
         };
-        
+
         $scope.connectBlueToothDevice=function(result){
             let deferred =$q.defer();
             var arr = result[0].split('-');

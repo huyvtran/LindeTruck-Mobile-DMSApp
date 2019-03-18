@@ -92,7 +92,7 @@
           servicePartOrder['Account__c'] = $stateParams.accountId;// 客户ID
           servicePartOrder['Service_Order_Overview__c'] = $stateParams.workOrderId;//工单ID
           servicePartOrder['Priority__c'] = document.getElementById('Priority__c').value;//订单等级
-          servicePartOrder['Work_Order_Type__c'] = $('#select_work_type option:selected').val();//作业类型
+          servicePartOrder['Last_Work_Order_Type_Code__c'] = $('#select_work_type option:selected').val();//作业类型
           servicePartOrder['Delivery_Method__c'] = $('#delivery_type option:selected').val();//物流方式
           servicePartOrder['Delivery_Date__c'] = getDelivery_Date__c;// 订单日期
           servicePartOrder['Entire__c'] = document.getElementById('Entire__c').checked;// 是否整单交货

@@ -358,7 +358,7 @@ angular.module('oinio.controllers')
         console.log('getTrucks::', keyWord);
         let parts_number__cList = [];
         let partsQuantitys = [];
-        var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord;
+        var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord+"&accId="+$scope.basicInfo.Ship_To__c;
         ForceClientService.getForceClient().apexrest(getPartsRelatedsKeyWordUrl, 'GET', {}, null, function (response) {
           console.log('searchPartssUrl:', response);
           for (let index = 0; index < response.results.length; index++) {
