@@ -20,6 +20,9 @@
         $scope.manMadeNo1 = 0;
         $scope.manMadeNo2 = 0;
         $scope.manMadeNo3 = 0;
+        $scope.unitPrice1 = 0;
+        $scope.unitPrice2 = 0;
+        $scope.unitPrice3 = 0;
         $scope.manMadePrice3 = 0;
         $scope.discountPrice3 = 0;
         $scope.priceConditionPriceAll = 0;
@@ -50,6 +53,7 @@
             if (responseItem) {
               $scope.manMadePrice1 = responseItem.price;
               $scope.discountPrice1 = (responseItem.discount + 100) / 100;
+              $scope.unitPrice1 = $scope.manMadePrice1 * $scope.discountPrice1;
             }
             manMadeNo1Id = response.Id;
             manMadeNo1Name = response.Name;
@@ -66,6 +70,7 @@
             if (responseItem) {
               $scope.manMadePrice2 = responseItem.price;
               $scope.discountPrice2 = (responseItem.discount + 100) / 100;
+              $scope.unitPrice2 = $scope.manMadePrice2 * $scope.discountPrice2;
             }
             manMadeNo2Id = response.Id;
             manMadeNo2Name = response.Name;
@@ -558,6 +563,25 @@
             });
 
         };
+
+        $scope.calculationPartDiscount = function (partItem){
+          if (partItem.priceCondition.price) {
+            partItem.priceCondition.discount = Number(partItem.priceCondition.favourablePrice / partItem.priceCondition.price).toFixed(2);
+          }
+        };
+
+        $scope.calculationLabourDiscount1 = function (labourDiscount, labourPrice, labourUnitPrice){
+          $scope.discountPrice1 = labourUnitPrice / labourPrice;
+        };
+
+        $scope.calculationLabourDiscount2 = function (labourDiscount, labourPrice, labourUnitPrice){
+          $scope.discountPrice2 = labourUnitPrice / labourPrice;
+        };
+
+        $scope.calculationLabourDiscount3 = function (labourDiscount, labourPrice, labourUnitPrice){
+          $scope.discountPrice3 = labourUnitPrice / labourPrice;
+        };
+
         $scope.calculatePriceConditionPriceAll = function () {
           //计算合计
           $scope.priceConditionPriceAll = 0;

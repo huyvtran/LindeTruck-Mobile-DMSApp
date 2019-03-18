@@ -656,6 +656,22 @@ angular.module('oinio.controllers')
           });
 
       };
+
+
+      $scope.calculationPartDiscount = function (partItem){
+        if (partItem.Discount__c) {
+          if (partItem.Net_Price__c){
+            partItem.Discount__c = Number(partItem.Net_Price__c / partItem.Gross_Price__c).toFixed(2);
+          }
+        }
+      };
+
+      $scope.calculationLabourDiscount1 = function (labourItem) {
+        labourItem.Discount__c = Number(labourItem.Net_Price__c / labourItem.Gross_Price__c).toFixed(2);
+        $scope.sum(this);
+      };
+
+
       $scope.calculatePriceConditionPriceAll = function () {
         //计算合计
         $scope.priceConditionPriceAll = 0;

@@ -639,7 +639,7 @@
 											</div>
 										</td>
 										<td class="sv_Td">
-											<div> {{item.priceCondition.price}} </div>
+											<div> {{item.priceCondition.price = item.priceCondition.price ? item.priceCondition.price : 0 }} </div>
 										</td>
 										<td class="sv_Td">
 											<div> {{item.GrossAmountC = item.priceCondition.price*item.quantity}} </div>
@@ -648,10 +648,12 @@
 											<input ng-model="item.quantity" class="sv_Input part_InputForListNo" ng-keyup="calculatePriceConditionPriceAll();"/>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input part_InputForListDiscount" ng-model="item.priceCondition.discount"/>
+											<input class="sv_Input part_InputForListDiscount"  ng-init="item.priceCondition.discount = item.priceCondition.discount ? item.priceCondition.discount : 1"
+												   ng-model="item.priceCondition.discount"/>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input part_InputForListPrice" value="{{item.priceCondition.favourablePrice=item.priceCondition.discount*item.priceCondition.price}}" ng-model="item.priceCondition.favourablePrice" />
+											<input class="sv_Input part_InputForListPrice" ng-init="item.priceCondition.favourablePrice = item.priceCondition.discount*item.priceCondition.price"
+												   ng-model="item.priceCondition.favourablePrice" ng-keyup="calculationPartDiscount(item);"/>
 										</td>
 										<td class="sv_Td" >
 											<div class="part_InputForListSpecial">
@@ -731,7 +733,7 @@
 									<input id="discountId1" ng-model="discountPrice1" class="sv_Input" />
 								</td>
 								<td class="sv_Td">
-									<input class="sv_Input" value="{{discountPrice1*manMadePrice1}}" />
+									<input class="sv_Input" ng-init="unitPrice1 = discountPrice1*manMadePrice1"  ng-model="unitPrice1" ng-keyup="calculationLabourDiscount1(discountPrice1, manMadePrice1, unitPrice1);"/>
 								</td>
 								<td class="sv_Td">
 									<input class="sv_Input" value="{{discountPrice1*manMadePrice1*manMadeNo1}}" />
@@ -754,7 +756,7 @@
 									<input id="discountId2" ng-model="discountPrice2" class="sv_Input" />
 								</td>
 								<td class="sv_Td">
-									<input class="sv_Input" value="{{discountPrice2*manMadePrice2}}" />
+									<input class="sv_Input" ng-init="unitPrice2 = discountPrice2*manMadePrice2"  ng-model="unitPrice2" ng-keyup="calculationLabourDiscount2(discountPrice2, manMadePrice2, unitPrice2);" />
 								</td>
 								<td class="sv_Td">
 									<input class="sv_Input" value="{{discountPrice2*manMadePrice2*manMadeNo2}}" />
@@ -785,10 +787,10 @@
 											<input ng-model="discountPrice3" class="sv_InputForListDiscount" />
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input" value="{{discountPrice3*manMadePrice3}}" />
+											<input class="sv_Input" ng-init="unitPrice3 = discountPrice3*manMadePrice3" ng-model="unitPrice3" ng-keyup="calculationLabourDiscount3(discountPrice3, manMadePrice3, unitPrice3);"/>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_InputForListSpecial" value="{{manMadePrice3*manMadeNo3-discountPrice3*manMadePrice3*manMadeNo3}}" />
+											<input class="sv_InputForListSpecial" value="{{discountPrice3*manMadePrice3*manMadeNo3}}" />
 										</td>
 									</tr>
 								</table>

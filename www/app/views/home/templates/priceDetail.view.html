@@ -547,7 +547,8 @@
                                         </td>
                                         <td class="sv_Td">
                                             <!--<input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>-->
-                                            <input class="sv_Input part_InputForListPrice" value="{{item.Net_Price__c=item.Discount__c*item.Gross_Price__c}}" ng-model="item.Net_Price__c" />
+                                            <input class="sv_Input part_InputForListPrice" ng-init="item.Net_Price__c=item.Discount__c*item.Gross_Price__c"
+                                                   ng-model="item.Net_Price__c" ng-keyup="calculationPartDiscount(item);"/>
                                         </td>
                                         <td class="sv_Td">
                                             <div class="part_InputForListSpecial">
@@ -630,8 +631,8 @@
                                 </td>
                                 <td class="sv_Td">
                                     <!--<input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>-->
-                                    <input class="sv_Input part_InputForListPrice"
-                                           value="{{labour.Gross_Price__c*labour.Discount__c}}" />
+                                    <input class="sv_Input part_InputForListPrice" ng-init="labour.Net_Price__c = labour.Gross_Price__c*labour.Discount__c"
+                                           ng-model="labour.Net_Price__c"  ng-keyup="calculationLabourDiscount1(labour);"/>
                                 </td>
                                 <td class="sv_Td">
                                     <input class="sv_Input_Net_Amount"
