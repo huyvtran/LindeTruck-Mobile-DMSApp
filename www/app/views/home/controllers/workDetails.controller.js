@@ -600,6 +600,7 @@
                   Id: trucks[i].Id,
                   truckItemNum: trucks[i].Name,
                   Operation_Hour__c: optHour,
+                  Equipement__c:trucks[i].Equipement__c != undefined && trucks[i].Equipement__c != null ? trucks[i].Equipement__c : "",
                   Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
                   Service_Suggestion__c: '',
                   Model__c: trucks[i].Model__c != undefined ? trucks[i].Model__c : null,
@@ -2791,10 +2792,70 @@
           document.getElementById('workDetailTotal').style.display = 'block';//隐藏
           document.getElementById('workDetailPart').style.display = 'none';//隐藏
         };
-
+        var updateTrucks=[];
         $scope.hidePartPagewithSave = function () {
-          document.getElementById('workDetailTotal').style.display = 'block';//隐藏
-          document.getElementById('workDetailPart').style.display = 'none';//隐藏
+          if (oCurrentUser.EmployeeNumber==undefined||oCurrentUser.EmployeeNumber==null||oCurrentUser.EmployeeNumber==""){
+              return;
+          }
+          AppUtilService.showLoading();
+          updateTrucks=[];
+          angular.forEach($scope.allTruckItems,function (singleTruckItem) {
+             if(singleTruckItem.isShow){
+                 updateTrucks.push({
+                     truckId:singleTruckItem.Id,
+                     truckName:singleTruckItem.truckItemNum,
+                     equipment:singleTruckItem.Equipement__c,
+                     opHour:singleTruckItem.Operation_Hour__c,
+                     newOpHour:singleTruckItem.New_Operation_Hour__c,
+                     ownerNumber:oCurrentUser.EmployeeNumber
+                 });
+             }
+          });
+          var errorTruckMsg="";
+          ForceClientService.getForceClient().apexrest(
+              '/TruckFleetService?action=updateTruckHour&trukHourRequest='+JSON.stringify(updateTrucks),
+              'POST',
+              {},
+              null,
+              function callBack(res) {
+                AppUtilService.hideLoading();
+                console.log(res);
+                if (res.operationHourError!=undefined&&res.operationHourError!=null&&res.operationHourError.length>0){
+                    angular.forEach(res.operationHourError,function (singleErrorObj) {
+                        errorTruckMsg+=singleErrorObj+";"
+                    });
+                    $ionicPopup.alert({
+                        title:errorTruckMsg
+                    });
+                    return;
+                }
+                var canUpdateData=true;
+                if(res.OriginData!=null&&res.OriginData.length>0){
+                    angular.forEach(res.OriginData,function (singleRes) {
+                        if (singleRes.updateStatus=="fail"){
+                            canUpdateData=false;
+                        }else if(singleRes.updateStatus==null){
+                            canUpdateData=false;
+                        }
+                    });
+                    if (!canUpdateData){
+                        $ionicPopup.alert({
+                            title:'更新车体数据失败'
+                        });
+                        return ;
+                    }else{
+                        document.getElementById('workDetailTotal').style.display = 'block';//隐藏
+                        document.getElementById('workDetailPart').style.display = 'none';//隐藏
+                    }
+                }
+              },function error(msg) {
+                AppUtilService.hideLoading();
+                console.log(msg);
+                $ionicPopup.alert({
+                    title:msg
+                });
+                return;
+              });
         };
         /**
          *删除数组指定下标或指定对象
@@ -3246,6 +3307,7 @@
                 Id: lsTrucks2[i].Id,
                 truckItemNum: lsTrucks2[i].Name,
                 Operation_Hour__c: 0,
+                Equipement__c:lsTrucks2[i].Equipement__c,
                 Maintenance_Key__c: lsTrucks2[i].Maintenance_Key__c,
                 chooseCheckBox: false,
                 Model__c: lsTrucks2.Model__c,
