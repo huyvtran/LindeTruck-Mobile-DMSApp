@@ -3635,6 +3635,7 @@
                     });
                     return false;
                 } else {
+                    printDevices=[];
                     angular.forEach(result,function (singleRes) {
                         if (singleRes.toLowerCase().indexOf("ult113b")>-1){
                             printDevices.push(singleRes);
