@@ -645,10 +645,12 @@
 											<div> {{item.GrossAmountC = item.priceCondition.price*item.quantity}} </div>
 										</td>
 										<td class="sv_Td">
-											<input ng-model="item.quantity" class="sv_Input part_InputForListNo" ng-keyup="calculatePriceConditionPriceAll();"/>
+											<input ng-model="item.quantity" class="sv_Input part_InputForListNo" ng-keyup="calculatePriceConditionPriceAll(item);"/>
 										</td>
 										<td class="sv_Td">
-											<input class="sv_Input part_InputForListDiscount"  ng-init="item.priceCondition.discount = item.priceCondition.discount ? item.priceCondition.discount : 1"
+											<input class="sv_Input part_InputForListDiscount"
+												   ng-init="item.priceCondition.discount = item.priceCondition.discount ? item.priceCondition.discount : 1"
+												   ng-keyup="calculatePriceConditionPriceAll(item);"
 												   ng-model="item.priceCondition.discount"/>
 										</td>
 										<td class="sv_Td">

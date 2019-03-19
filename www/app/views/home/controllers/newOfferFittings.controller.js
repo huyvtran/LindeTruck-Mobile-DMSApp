@@ -568,6 +568,7 @@
           if (partItem.priceCondition.price) {
             partItem.priceCondition.discount = Number(partItem.priceCondition.favourablePrice / partItem.priceCondition.price).toFixed(2);
           }
+          $scope.calculatePriceConditionPriceAll()
         };
 
         $scope.calculationLabourDiscount1 = function (labourDiscount, labourPrice, labourUnitPrice){
@@ -582,7 +583,11 @@
           $scope.discountPrice3 = labourUnitPrice / labourPrice;
         };
 
-        $scope.calculatePriceConditionPriceAll = function () {
+        $scope.calculatePriceConditionPriceAll = function (partItem) {
+
+          if (partItem) {
+            partItem.priceCondition.favourablePrice = Number(partItem.priceCondition.discount*partItem.priceCondition.price).toFixed(2);
+          }
           //计算合计
           $scope.priceConditionPriceAll = 0;
           // for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
@@ -599,6 +604,7 @@
                      * (_.isNaN(item.quantity) ? 0 : Number(item.quantity));
             }
           }));
+
 
           console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
 
