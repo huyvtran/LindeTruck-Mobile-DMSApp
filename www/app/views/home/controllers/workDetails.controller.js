@@ -1790,20 +1790,23 @@
             }
             console.log(localUris);
           }
+          if ($scope.engineerImgStr != '././img/images/will_add_Img.png'){
+              localUris.push({
+                  imageId: '',
+                  imageName: '工程师签名-' + new Date().format('yyyyMMddhhmmss'),
+                  imageBody: $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '')
+              });
+          }
 
-          localUris.push({
-            imageId: '',
-            imageName: '工程师签名-' + new Date().format('yyyyMMddhhmmss'),
-            imageBody: $scope.engineerImgStr != '././img/images/will_add_Img.png' ? $scope.engineerImgStr.replace(
-              /data:image\/jpeg;base64,/, '') : ''
-          });
+          if ($scope.busyImgStr != '././img/images/will_add_Img.png'){
+              localUris.push({
+                  imageId: '',
+                  imageName: '客户签名-' + new Date().format('yyyyMMddhhmmss'),
+                  imageBody:  $scope.busyImgStr.replace(/data:image\/jpeg;base64,/, '')
+              });
+          }
 
-          localUris.push({
-            imageId: '',
-            imageName: '客户签名-' + new Date().format('yyyyMMddhhmmss'),
-            imageBody: $scope.busyImgStr != '././img/images/will_add_Img.png' ? $scope.busyImgStr.replace(
-              /data:image\/jpeg;base64,/, '') : ''
-          });
+
           var orderObj = null;
           if (Number(localStorage.onoffline) != 0) {
             orderObj = [{
@@ -3620,7 +3623,7 @@
             });
             return deferred.promise;
         };
-
+        var printDevices=[];
         $scope.getBlueToothDevices=function(){
             let deferred =$q.defer();
             PrintPlugin.getBlueToothDevices(null, function (result) {
@@ -3632,7 +3635,12 @@
                     });
                     return false;
                 } else {
-                    deferred.resolve(result);
+                    angular.forEach(result,function (singleRes) {
+                        if (singleRes.toLowerCase().indexOf("ult113b")>-1){
+                            printDevices.push(singleRes);
+                        }
+                    });
+                    deferred.resolve(printDevices);
                 }
             }, function error() {
                 AppUtilService.hideLoading();
@@ -3646,26 +3654,32 @@
 
         $scope.connectBlueToothDevice=function(result){
             let deferred =$q.defer();
-            var arr = result[0].split('-');
-            PrintPlugin.connectBlueToothDevice(arr[1], function callBack(res) {
-                console.log(res);
-                $log.info(res);
-                if (res.status == 0) {
-                    deferred.resolve('');
-                } else {
+            if(result.length>0){
+                var arr = result[0].split('-');
+                PrintPlugin.connectBlueToothDevice(arr[1], function callBack(res) {
+                    console.log(res);
+                    $log.info(res);
+                    if (res.status == 0) {
+                        deferred.resolve('');
+                    } else {
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title: '连接蓝牙设备失败'
+                        });
+                        return false;
+                    }
+                }, function error(obj) {
                     AppUtilService.hideLoading();
                     $ionicPopup.alert({
-                        title: '连接蓝牙设备失败'
+                        title: obj.message
                     });
                     return false;
-                }
-            }, function error(obj) {
-                AppUtilService.hideLoading();
-                $ionicPopup.alert({
-                    title: obj.message
                 });
-                return false;
-            });
+            }else{
+                $ionicPopup.alert({
+                    title: ''
+                });
+            }
             return deferred.promise;
         };
 
