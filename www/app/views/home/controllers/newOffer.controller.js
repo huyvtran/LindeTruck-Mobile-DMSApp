@@ -267,6 +267,7 @@
 
         $scope.selectContacts = function (item) {
           $scope.selectContactsName = item.Name;
+          $scope.selectContactsId = item.Id;
           $scope.closeSelectPage();
         };
         //联系人
@@ -536,7 +537,7 @@
           console.log('selectStatuClass:ALL::', selectedTruckItemsCopy);
 
           $state.go('app.newOfferFittings',
-            {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: selectAcctSetId, SubjectC: $scope.SubjectC});
+            {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: selectAcctSetId, SubjectC: $scope.SubjectC, Contact__c:$scope.selectContactsId});
 
           // $state.go('app.newOfferFittings');
 

@@ -937,6 +937,7 @@
 
           serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
           serviceQuoteOverview['Subject__c'] = $stateParams.SubjectC;
+          serviceQuoteOverview['Contact__c'] = $stateParams.Contact__c;
           serviceQuoteOverview['Service_Type__c'] = $stateParams.SendAllUser[0].Service_Type__c;
           serviceQuoteOverview['Total_Gross__c'] = _.sum(_.map($scope.quoteLabourOriginalsList, function (item) {
             return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
@@ -1034,6 +1035,7 @@
 
           serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
           serviceQuoteOverview['Subject__c'] = $stateParams.SubjectC;
+          serviceQuoteOverview['Contact__c'] = $stateParams.Contact__c;
           serviceQuoteOverview['Service_Type__c'] = $stateParams.SendAllUser[0].Service_Type__c;
           serviceQuoteOverview['Total_Gross__c'] = _.sum(_.map($scope.quoteLabourOriginalsList, function (item) {
             return _.isNaN(item.Gross_Amount__c) ? 0 : Number(item.Gross_Amount__c);
@@ -1086,6 +1088,7 @@
           var serviceQuoteOverview = {};
           serviceQuoteOverview['Ship_to__c'] = $stateParams.SendSoupEntryId;
           serviceQuoteOverview['Subject__c'] = $stateParams.SubjectC;
+          serviceQuoteOverview['Contact__c'] = $stateParams.Contact__c;
           serviceQuoteOverview['Service_Type__c'] = $stateParams.SendAllUser[0].Service_Type__c;
 
           var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
