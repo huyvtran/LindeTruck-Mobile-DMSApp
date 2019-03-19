@@ -482,14 +482,23 @@
                                 AppUtilService.hideLoading();
                                 console.log(result);
                                 if (result.documentElement.getElementsByTagName('SendServiceCarResult') != null
-                                    && result.documentElement.getElementsByTagName('SendServiceCarResult').length > 0
-                                    && result.documentElement.getElementsByTagName(
-                                        'SendServiceCarResult')[0].innerHTML.toLowerCase() == "success") {
-                                    $ionicPopup.alert({
-                                        title: '保存成功!'
-                                    });
-                                    $state.go("app.home");
-                                } else {
+                                    && result.documentElement.getElementsByTagName('SendServiceCarResult').length > 0){
+                                    if (result.documentElement.getElementsByTagName(
+                                        'SendServiceCarResult')[0].innerHTML.toLowerCase() == "success"){
+                                        $ionicPopup.alert({
+                                            title: '保存成功!'
+                                        });
+                                        $state.go("app.home");
+                                    }else{
+                                        var errArr = result.documentElement.getElementsByTagName(
+                                            'SendServiceCarResult')[0].innerHTML.split("|");
+                                        if (errArr!=null&&errArr.length>0){
+                                            $ionicPopup.alert({
+                                                title: errArr[1]
+                                            });
+                                        }
+                                    }
+                                }else {
                                     $ionicPopup.alert({
                                         title: '保存失败,请检查是否外网连接!'
                                     });
@@ -502,6 +511,9 @@
                                 AppUtilService.hideLoading();
                                 canClick = true;
                             }, 3000);
+                            $ionicPopup.alert({
+                                title: msg
+                            });
                             console.log(msg);
                         }
                     });

@@ -209,7 +209,7 @@ angular.module('oinio.controllers')
 
             AppUtilService.hideLoading();
 
-            $scope.sum();
+            $scope.sumLabour();
 
             $scope.calculatePriceConditionPriceAll();
           }, function (error) {
@@ -656,13 +656,35 @@ angular.module('oinio.controllers')
           });
 
       };
-      $scope.calculatePriceConditionPriceAll = function () {
+
+
+      $scope.calculationPartDiscount = function (partItem){
+        if (partItem.Discount__c) {
+          if (partItem.Net_Price__c){
+            if (partItem.Gross_Price__c){
+              partItem.Discount__c = Number(partItem.Net_Price__c / partItem.Gross_Price__c).toFixed(2);
+            }
+          }
+        }
+        $scope.calculatePriceConditionPriceAll();
+      };
+
+      $scope.calculationLabourDiscount1 = function (labourItem) {
+        labourItem.Discount__c = Number(labourItem.Net_Price__c / labourItem.Gross_Price__c).toFixed(2);
+        $scope.sumLabour();
+      };
+
+
+      $scope.calculatePriceConditionPriceAll = function (partItem) {
         //计算合计
         $scope.priceConditionPriceAll = 0;
         for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           $scope.priceConditionPriceAll =
-            Number($scope.selectedTruckFitItems[i].Discount__c) * Number($scope.selectedTruckFitItems[i].Gross_Price__c)
-            * Number($scope.selectedTruckFitItems[i].Quantity__c) + $scope.priceConditionPriceAll;
+            Number($scope.selectedTruckFitItems[i].Discount__c).toFixed(2) * Number($scope.selectedTruckFitItems[i].Gross_Price__c).toFixed(2)
+            * Number($scope.selectedTruckFitItems[i].Quantity__c).toFixed(2) + $scope.priceConditionPriceAll;
+        }
+        if (partItem) {
+          partItem.Net_Price__c = Number(partItem.Discount__c*partItem.Gross_Price__c).toFixed(2);
         }
         console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
       };
@@ -872,11 +894,16 @@ angular.module('oinio.controllers')
           }
         });
 
-        $scope.sum();
+        $scope.sumLabour();
 
       };
 
-      $scope.sum = function (obj) {
+      $scope.sumLabour = function (obj) {
+
+        if (obj) {
+          obj.Net_Price__c = Number(obj.Gross_Price__c*obj.Discount__c).toFixed(2);
+        }
+
         $scope.serviceFeeListP3 = 0;
         // $('input.sv_Input_Net_Amount').each(function (index, element) {
         //   $scope.serviceFeeListP3 = Number(element.value) +Number($scope.serviceFeeListP3);
@@ -890,6 +917,8 @@ angular.module('oinio.controllers')
         _.forEach($scope.labourQuoteList, function (item) {
           $scope.serviceFeeListP4 = Number(item.Quantity__c) * Number(item.Net_Price__c) + $scope.serviceFeeListP4;
         });
+
+
 
       };
 
