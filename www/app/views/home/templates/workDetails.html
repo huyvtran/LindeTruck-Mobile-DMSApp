@@ -719,8 +719,8 @@
                     <div class="small_Type_Group" ng-show="singleCarService=='Maintenance'">
                         <div class="small_Type_Title">保养级别:</div>
                         <div class="small_Type_Box">
-                            <select class="small_Type_Select" id="select_care_type" ng-click="changeCareType();">
-                                <option ng-repeat="singleService in serviceLevels" value="{{singleService}}">
+                            <select class="small_Type_Select" id="select_care_type" ng-model="careType" ng-change="changeCareType(careType);">
+                                <option ng-repeat="singleService in serviceLevels track by $index" value="{{singleService}}">
                                     {{singleService}}
                                 </option>
                             </select>
@@ -1666,7 +1666,7 @@
 <div class="maintain_popup" style="display: none;">
     <div class="maintain_header"> 保养选择</div>
     <div class="maintain_bodyer">
-        <div class="maintain_detail" ng-repeat="mainTanceChioce in mainTanceChioces">
+        <div class="maintain_detail" ng-repeat="mainTanceChioce in mainTanceChioces  track by $index">
             <input type="checkbox" id="{{mainTanceChioce.Id}}" class="maintain_checkbox"/>
             <span class="maintain_text"> {{mainTanceChioce.Name}} </span>
         </div>

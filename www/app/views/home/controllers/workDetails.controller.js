@@ -4183,8 +4183,8 @@
           document.getElementById('workPrintPage').style.display = 'none';
         };
 
-        $scope.changeCareType = function () {
-          var careType = $("#select_care_type").val();
+        $scope.changeCareType = function (careType) {
+          //var careType = $("#select_care_type").val();
           $scope.mainTanceChioces = [];
           if (careType == null) {
             return;
@@ -4199,6 +4199,12 @@
               function callBack(res) {
                 console.log(res);
                 AppUtilService.hideLoading();
+                if (res[0].status!=undefined&&res[0].status!=null&&res[0].status.toLowerCase()=="fail"){
+                    $ionicPopup.alert({
+                        title:res[0].message
+                    });
+                    return;
+                }
                 if (res != null && res.length > 0) {
                   for (var i = 0; i < res.length; i++) {
                     $scope.mainTanceChioces.push({
@@ -4216,9 +4222,13 @@
                         });
                       });
                     }
+                   $scope.showModal();
                   }, 2000);
+                }else{
+                    $ionicPopup.alert({
+                        title:"没有数据"
+                    });
                 }
-                $scope.showModal();
               }, function error(msg) {
                 console.log(msg);
                 AppUtilService.hideLoading();
