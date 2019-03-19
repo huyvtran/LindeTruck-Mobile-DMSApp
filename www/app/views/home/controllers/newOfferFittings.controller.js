@@ -45,6 +45,9 @@
         $scope.getPartsWithKeyWord = '/PersonalPartListService?action=getPartsWithKeyWord&userId=';
 
         $scope.get = function () {
+
+
+
           AppUtilService.showLoading();
           //人工
           ForceClientService.getForceClient().apexrest($scope.paramUrl1, 'GET', {}, null, function (response) {
@@ -74,48 +77,53 @@
             }
             manMadeNo2Id = response.Id;
             manMadeNo2Name = response.Name;
+
+            //获得车辆保养级别对应的配件
+            if ($stateParams.SendAllUser) {
+              if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
+                var serviceQuotesNull = {};
+                serviceQuotesNull['Truck_Fleet__c'] = null;
+                $stateParams.SendAllUser.push(serviceQuotesNull);
+              } else {
+                $scope.getByPart();
+              }
+            }
+
           }, function (error) {
             console.log('error:', error);
             AppUtilService.hideLoading();
           });
 
-          //获得车辆保养级别对应的配件
-          if ($stateParams.SendAllUser) {
-            if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
-              var serviceQuotesNull = {};
-              serviceQuotesNull['Truck_Fleet__c'] = null;
-              $stateParams.SendAllUser.push(serviceQuotesNull);
-            } else {
-              $scope.getByPart();
-            }
-          }
+
 
           //获得工单转报价对应的配件
-          if ($stateParams.OrderTruckItem) {
-            if ($stateParams.OrderTruckItem.length == 0) { //如果没有选择车辆的处理
-              var serviceQuotesNull = {};
-              serviceQuotesNull['Truck_Fleet__c'] = null;
-              $stateParams.SendAllUser.push(serviceQuotesNull);
-            } else {
-              _.each($stateParams.OrderTruckItem, function (item) {
-                if (item.Quantity__c) {
-                  item.quantity = item.Quantity__c;
-                  if (item.priceCondition) {
-                    item.priceCondition.discount = (item.priceCondition.discount + 100) / 100;
-                  }
-                }
-                // item.parts_number__c=item.parts_number__c;
-              });
-              console.log('$stateParams.OrderTruckItem:', $stateParams.OrderTruckItem);
-
-              $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
-              $scope.getTrucksWithSubstitution();
-            }
-          }
+          // if ($stateParams.OrderTruckItem) {
+          //   if ($stateParams.OrderTruckItem.length == 0) { //如果没有选择车辆的处理
+          //     var serviceQuotesNull = {};
+          //     serviceQuotesNull['Truck_Fleet__c'] = null;
+          //     $stateParams.SendAllUser.push(serviceQuotesNull);
+          //   } else {
+          //     _.each($stateParams.OrderTruckItem, function (item) {
+          //       if (item.Quantity__c) {
+          //         item.quantity = item.Quantity__c;
+          //         if (item.priceCondition) {
+          //           item.priceCondition.discount = (item.priceCondition.discount + 100) / 100;
+          //         }
+          //       }
+          //       // item.parts_number__c=item.parts_number__c;
+          //     });
+          //     console.log('$stateParams.OrderTruckItem:', $stateParams.OrderTruckItem);
+          //
+          //     $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
+          //     $scope.getTrucksWithSubstitution();
+          //   }
+          // }
         };
 
         $scope.getByPart = function () {
           //保养级别带出的配件信息
+          AppUtilService.showLoading();
+
           var nameList = [];
           var maintenanceLevelList = [];
 
@@ -321,7 +329,7 @@
           $('#selectLSG').css('display', 'none');
           $('#selectTruckFit').css('display', 'none');
         };
-    
+
         $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
           $scope.closeSelectPage();
           $scope.getTrucksWithSubstitution();
