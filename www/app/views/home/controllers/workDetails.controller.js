@@ -1707,7 +1707,7 @@
                               });
                               return false;
                             }
-                          }, function error(msgs) {
+                          }, function error(msg) {
                             console.log(msg);
                             AppUtilService.hideLoading();
                             $ionicPopup.alert({
@@ -2736,7 +2736,8 @@
             AppUtilService.hideLoading();
             canSave=true;
             $ionicPopup.alert({
-              title: '保存失败'
+              title: '保存失败',
+              template:error.responseText
             });
             return false;
           });
@@ -2805,6 +2806,7 @@
           angular.forEach($scope.allTruckItems,function (singleTruckItem) {
              if(singleTruckItem.isShow){
                  updateTrucks.push({
+                     orderId:orderDetailsId,
                      truckId:singleTruckItem.Id,
                      truckName:singleTruckItem.truckItemNum,
                      equipment:singleTruckItem.Equipement__c,
@@ -2827,6 +2829,7 @@
                     angular.forEach(res.operationHourError,function (singleErrorObj) {
                         errorTruckMsg+=singleErrorObj+";"
                     });
+                    errorTruckMsg+="新工作时间不能小于原工作时间!"
                     $ionicPopup.alert({
                         title:errorTruckMsg
                     });
@@ -2922,7 +2925,8 @@
             console.log('responseSaveParts_error:', error);
             AppUtilService.hideLoading();
             $ionicPopup.alert({
-              title: '保存失败'
+              title: '保存失败',
+              template:error
             });
             return false;
           });
