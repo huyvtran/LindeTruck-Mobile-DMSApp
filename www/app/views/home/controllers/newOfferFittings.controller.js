@@ -46,12 +46,11 @@
 
         $scope.get = function () {
 
-
-
           AppUtilService.showLoading();
           //人工
           ForceClientService.getForceClient().apexrest($scope.paramUrl1, 'GET', {}, null, function (response) {
             console.log('success:', response);
+
             let responseItem = response.priceCondition;
             if (responseItem) {
               $scope.manMadePrice1 = responseItem.price;
@@ -61,40 +60,40 @@
             manMadeNo1Id = response.Id;
             manMadeNo1Name = response.Name;
 
-          }, function (error) {
-            console.log('error:', error);
-          });
-
-          //交通
-          ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
-            console.log('success:', response);
-            AppUtilService.hideLoading();
-            let responseItem = response.priceCondition;
-            if (responseItem) {
-              $scope.manMadePrice2 = responseItem.price;
-              $scope.discountPrice2 = (responseItem.discount + 100) / 100;
-              $scope.unitPrice2 = $scope.manMadePrice2 * $scope.discountPrice2;
-            }
-            manMadeNo2Id = response.Id;
-            manMadeNo2Name = response.Name;
-
-            //获得车辆保养级别对应的配件
-            if ($stateParams.SendAllUser) {
-              if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
-                var serviceQuotesNull = {};
-                serviceQuotesNull['Truck_Fleet__c'] = null;
-                $stateParams.SendAllUser.push(serviceQuotesNull);
-              } else {
-                $scope.getByPart();
+            //交通
+            ForceClientService.getForceClient().apexrest($scope.paramUrl2, 'GET', {}, null, function (response) {
+              console.log('success:', response);
+              AppUtilService.hideLoading();
+              let responseItem = response.priceCondition;
+              if (responseItem) {
+                $scope.manMadePrice2 = responseItem.price;
+                $scope.discountPrice2 = (responseItem.discount + 100) / 100;
+                $scope.unitPrice2 = $scope.manMadePrice2 * $scope.discountPrice2;
               }
-            }
+              manMadeNo2Id = response.Id;
+              manMadeNo2Name = response.Name;
+
+              //获得车辆保养级别对应的配件
+              if ($stateParams.SendAllUser) {
+                if ($stateParams.SendAllUser.length == 0) { //如果没有选择车辆的处理
+                  var serviceQuotesNull = {};
+                  serviceQuotesNull['Truck_Fleet__c'] = null;
+                  $stateParams.SendAllUser.push(serviceQuotesNull);
+                } else {
+                  $scope.getByPart();
+                }
+              }
+
+            }, function (error) {
+              console.log('error:', error);
+              AppUtilService.hideLoading();
+            });
 
           }, function (error) {
             console.log('error:', error);
             AppUtilService.hideLoading();
+
           });
-
-
 
           //获得工单转报价对应的配件
           // if ($stateParams.OrderTruckItem) {
@@ -132,9 +131,10 @@
               nameList.push(truckItem.levelNames[truckItem.Maintenance_Level__c]);
               maintenanceLevelList.push(truckItem.Maintenance_Level__c);
             }
-            truckItem.levelNames = "";//清空levelNames字段防止接口报错
+            truckItem.levelNames = '';//清空levelNames字段防止接口报错
           });
-          if (maintenanceLevelList.length == 0 ||$stateParams.SendAllUser[0].Service_Type__c !="Maintenance") {
+          if (maintenanceLevelList.length == 0 || $stateParams.SendAllUser[0].Service_Type__c != 'Maintenance') {
+            AppUtilService.hideLoading();
             return;
           }
           var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url + JSON.stringify(nameList)
@@ -333,20 +333,13 @@
         $scope.addDelePartConfirmBtn = function () {//配件添加删除搜索页面 确定按钮
           $scope.closeSelectPage();
           $scope.getTrucksWithSubstitution();
-          // if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null && $scope.searchTruckText != "") {
-          //   var onePartOriginals = {};
-          //   var priceCondition = {};
-          //   onePartOriginals['quantity'] = '';//数量
-          //   onePartOriginals['priceCondition'] = priceCondition['price'];//公布价
-          //   onePartOriginals['Reserved__c'] = '';//预留
-          //   onePartOriginals['parts_number__c'] = $scope.searchTruckText;//物料信息
-          //   onePartOriginals['Name'] = $scope.searchTruckText;//Name
-          //   onePartOriginals['materialId'] = $scope.searchTruckText;//物料号
-          //   onePartOriginals['saveId'] = '';//物料号
-          //   onePartOriginals['type'] = '';//配件类型
-          //   $scope.selectedTruckFitItems.push(onePartOriginals);
-          //   $scope.searchTruckText = '';
-          // }
+          // if ($scope.contentTruckFitItems.length == 0 && $scope.searchTruckText != null && $scope.searchTruckText !=
+          // "") { var onePartOriginals = {}; var priceCondition = {}; onePartOriginals['quantity'] = '';//数量
+          // onePartOriginals['priceCondition'] = priceCondition['price'];//公布价 onePartOriginals['Reserved__c'] =
+          // '';//预留 onePartOriginals['parts_number__c'] = $scope.searchTruckText;//物料信息 onePartOriginals['Name'] =
+          // $scope.searchTruckText;//Name onePartOriginals['materialId'] = $scope.searchTruckText;//物料号
+          // onePartOriginals['saveId'] = '';//物料号 onePartOriginals['type'] = '';//配件类型
+          // $scope.selectedTruckFitItems.push(onePartOriginals); $scope.searchTruckText = ''; }
         };
         //搜索配件
         $scope.getTrucks = function (keyWord) {
@@ -355,7 +348,7 @@
           console.log('getTrucks::', keyWord);
           let parts_number__cList = [];
           let partsQuantitys = [];
-          var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord +"&accId="+$stateParams.SendSoupEntryId;
+          var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord + '&accId=' + $stateParams.SendSoupEntryId;
           ForceClientService.getForceClient().apexrest(getPartsRelatedsKeyWordUrl, 'GET', {}, null,
             function (response) {
               console.log('searchPartssUrl:', response);
@@ -456,7 +449,7 @@
               for (let i = 0; i < responsePartsRelateds.length; i++) {
                 var responsePartsRelatedsList = responsePartsRelateds[i];
                 for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                  responsePartsRelatedsList[j]["edit"] = true;
+                  responsePartsRelatedsList[j]['edit'] = true;
                   if (responsePartsRelatedsList[j].type == 'common') {
                     if (responsePartsRelatedsList[j].priceCondition) {
                       responsePartsRelatedsList[j].priceCondition.discount =
@@ -529,7 +522,7 @@
               for (let i = 0; i < responsePartsRelateds.length; i++) {
                 var responsePartsRelatedsList = responsePartsRelateds[i];
                 for (let j = 0; j < responsePartsRelatedsList.length; j++) {
-                  responsePartsRelatedsList[j]["edit"] = true;
+                  responsePartsRelatedsList[j]['edit'] = true;
                   if (responsePartsRelatedsList[j].type == 'common') {
                     if (responsePartsRelatedsList[j].priceCondition) {
                       responsePartsRelatedsList[j].priceCondition.discount =
@@ -556,38 +549,39 @@
 
         };
 
-        $scope.calculationPartDiscount = function (partItem){
+        $scope.calculationPartDiscount = function (partItem) {
           if (partItem.priceCondition.price) {
-            partItem.priceCondition.discount = Number(partItem.priceCondition.favourablePrice / partItem.priceCondition.price).toFixed(2);
+            partItem.priceCondition.discount =
+              Number(partItem.priceCondition.favourablePrice / partItem.priceCondition.price).toFixed(2);
           }
-          $scope.calculatePriceConditionPriceAll()
+          $scope.calculatePriceConditionPriceAll();
         };
 
-        $scope.calculationLabourDiscount1 = function (labourDiscount, labourPrice, labourUnitPrice){
+        $scope.calculationLabourDiscount1 = function (labourDiscount, labourPrice, labourUnitPrice) {
           $scope.discountPrice1 = labourUnitPrice / labourPrice;
         };
 
-        $scope.calculationLabourDiscount2 = function (labourDiscount, labourPrice, labourUnitPrice){
+        $scope.calculationLabourDiscount2 = function (labourDiscount, labourPrice, labourUnitPrice) {
           $scope.discountPrice2 = labourUnitPrice / labourPrice;
         };
 
-        $scope.calculationLabourDiscount3 = function (labourDiscount, labourPrice, labourUnitPrice){
+        $scope.calculationLabourDiscount3 = function (labourDiscount, labourPrice, labourUnitPrice) {
           $scope.discountPrice3 = labourUnitPrice / labourPrice;
         };
 
         $scope.calculatePriceConditionPriceAll = function (partItem) {
 
           if (partItem) {
-            partItem.priceCondition.favourablePrice = Number(partItem.priceCondition.discount*partItem.priceCondition.price).toFixed(2);
+            partItem.priceCondition.favourablePrice =
+              Number(partItem.priceCondition.discount * partItem.priceCondition.price).toFixed(2);
           }
           //计算合计
           $scope.priceConditionPriceAll = 0;
           // for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           //   if ($scope.selectedTruckFitItems[i].priceCondition) {
           //     $scope.priceConditionPriceAll =
-          //       Number($scope.selectedTruckFitItems[i].priceCondition.favourablePrice) * Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll;
-          //   }
-          // }
+          //       Number($scope.selectedTruckFitItems[i].priceCondition.favourablePrice) *
+          // Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll; } }
 
           $scope.priceConditionPriceAll = _.sum(_.map($scope.selectedTruckFitItems, function (item) {
             if (item.priceCondition) {
@@ -596,7 +590,6 @@
                      * (_.isNaN(item.quantity) ? 0 : Number(item.quantity));
             }
           }));
-
 
           console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
 
@@ -812,7 +805,7 @@
           oneLabourOriginals1['Discount__c'] = (Number($scope.discountPrice1) * 100) - 100;
           oneLabourOriginals1['Net_Amount__c'] =
             Number($scope.discountPrice1) * Number($scope.manMadePrice1) * Number($scope.manMadeNo1);//优惠总价
-          oneLabourOriginals1["Net_Price__c"] = Number($scope.discountPrice1) * Number($scope.manMadePrice1);
+          oneLabourOriginals1['Net_Price__c'] = Number($scope.discountPrice1) * Number($scope.manMadePrice1);
           oneLabourOriginals1['Line_Item__c'] = 1;
           oneLabourOriginals1['Material_Type__c'] = 'Labour';
           oneLabourOriginals1['Material_Number__c'] = '7990110000';
@@ -827,7 +820,7 @@
           oneLabourOriginals2['Discount__c'] = (Number($scope.discountPrice2) * 100) - 100;
           oneLabourOriginals2['Net_Amount__c'] =
             Number($scope.discountPrice2) * Number($scope.manMadePrice2) * Number($scope.manMadeNo2);//优惠总价
-          oneLabourOriginals2["Net_Price__c"] = Number($scope.discountPrice2) * Number($scope.manMadePrice2);
+          oneLabourOriginals2['Net_Price__c'] = Number($scope.discountPrice2) * Number($scope.manMadePrice2);
           oneLabourOriginals2['Line_Item__c'] = 2;
           oneLabourOriginals2['Material_Type__c'] = 'Labour';
           oneLabourOriginals2['Material_Number__c'] = '7990110003';
