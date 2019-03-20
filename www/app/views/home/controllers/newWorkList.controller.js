@@ -530,7 +530,8 @@
 
                                         } else {
                                             $ionicPopup.alert({
-                                                title: "保存失败"
+                                                title: "保存失败",
+                                                template:res.message
                                             });
                                             return false;
                                         }
@@ -539,7 +540,8 @@
                                         console.log(msg);
                                         AppUtilService.hideLoading();
                                         $ionicPopup.alert({
-                                            title: "保存失败"
+                                            title: "保存失败",
+                                            template:msg
                                         });
                                         return false;
                                     }
@@ -600,19 +602,29 @@
                                             console.log(msg);
                                             AppUtilService.hideLoading();
                                             $ionicPopup.alert({
-                                                title: "保存失败"
+                                                title: "保存失败",
+                                                template:msg
                                             });
                                             return false;
                                         });
                                   }, function error(msg) {
-                                      AppUtilService.hideLoading();
                                       console.log(msg);
+                                      AppUtilService.hideLoading();
+                                      $ionicPopup.alert({
+                                          title: msg
+                                      });
+                                      return false;
                                   });
                               }
                           }
                       }, function error(msg) {
+                          console.log(msg);
                           AppUtilService.hideLoading();
                           $log.error('Service1Service.getUserObjectById Error ' + error);
+                            $ionicPopup.alert({
+                                title: msg
+                            });
+                            return false;
                       });
                 }
             };
