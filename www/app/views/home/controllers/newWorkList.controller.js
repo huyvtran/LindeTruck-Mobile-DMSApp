@@ -395,8 +395,7 @@
                         let trucks = [];
                         if (typeof (response) == "string") {
                             $ionicPopup.alert({
-                                title: "结果",
-                                template: "没有数据"
+                                title: response
                             });
                             return false;
                         }

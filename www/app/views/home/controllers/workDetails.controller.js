@@ -1939,8 +1939,7 @@
                       } else {
                           canSave=true;
                           $ionicPopup.alert({
-                              title: '保存数据失败',
-                              template: res.message
+                              title: res.message
                           });
                           return false;
                       }
@@ -1948,8 +1947,7 @@
                       console.log(msg);
                       AppUtilService.hideLoading();
                       $ionicPopup.alert({
-                          title: '保存数据失败',
-                          template: msg
+                          title: msg
                       });
                       canSave=true;
                       return false;
@@ -2738,8 +2736,7 @@
             AppUtilService.hideLoading();
             canSave=true;
             $ionicPopup.alert({
-              title: '保存失败',
-              template:msg.responseText
+              title: msg.responseText
             });
             return false;
           });
@@ -2919,8 +2916,7 @@
             console.log('responseSaveParts_error:', msg);
             AppUtilService.hideLoading();
             $ionicPopup.alert({
-              title: '保存失败',
-              template:msg
+              title: msg
             });
             return false;
           });
@@ -3355,7 +3351,7 @@
             return;
           }
           SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,
-            Number(localStorage.onoffline)).then(function (response) {
+            Number(localStorage.onoffline)).then(function callBack(response) {
             console.log('getMainLevelsAndDesc', response);
             if (!response.levels) {
               return;
@@ -3368,10 +3364,11 @@
             setTimeout(function () {
               $scope.initChidOrderInfo(obj, childOrders);
             }, 1000);
-          }, function (error) {
-
-          }).finally(function () {
-            //AppUtilService.hideLoading();
+          }, function error(msg) {
+              $ionicPopup.alert({
+                  title: msg
+              });
+              return false;
           });
         };
 
