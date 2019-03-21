@@ -457,7 +457,9 @@
         $scope.initChidOrderInfo = function (truckObj, childOrders) {
           if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
             var serviceLevel = childOrders[0].Maintenance_Level__c;
-            $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
+            if (serviceLevel!="? undefined:undefined ?"){
+                $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
+            }
           }
         };
 
@@ -578,9 +580,9 @@
               for (var j = 0; j < childOrders.length; j++) {
                 if (trucks[i].Id == childOrders[j].Truck_Serial_Number__c) {
                   var optHour = 0;
-                  if (childOrders[j].Operation_Hour__c != undefined && childOrders[j].Operation_Hour__c != null) {
-                    optHour = childOrders[j].Operation_Hour__c;
-                  } else {
+                  // if (childOrders[j].Operation_Hour__c != undefined && childOrders[j].Operation_Hour__c != null) {
+                  //   optHour = childOrders[j].Operation_Hour__c;
+                  // } else {
                     if (childOrders[j].Truck_Serial_Number__r != undefined && childOrders[j].Truck_Serial_Number__r
                         != null) {
                       if (childOrders[j].Truck_Serial_Number__r.Operation_Hour__c != undefined
@@ -590,7 +592,7 @@
                         optHour = 0;
                       }
                     }
-                  }
+                  // }
 
                 }
               }
@@ -3303,13 +3305,13 @@
           for (var i = 0; i < lsTrucks2.length; i++) {
             truckItems.push(
               {
-                Id: lsTrucks2[i].Id,
-                truckItemNum: lsTrucks2[i].Name,
-                Operation_Hour__c: 0,
-                Equipement__c:lsTrucks2[i].Equipement__c,
-                Maintenance_Key__c: lsTrucks2[i].Maintenance_Key__c,
+                Id: lsTrucks2[i].Id!=undefined && lsTrucks2[i].Id!=null ? lsTrucks2[i].Id : null,
+                truckItemNum: lsTrucks2[i].Name!=undefined && lsTrucks2[i].Name!=null ?lsTrucks2[i].Name:null,
+                Operation_Hour__c: lsTrucks2[i].Operation_Hour__c!=undefined && lsTrucks2[i].Operation_Hour__c!=null ? lsTrucks2[i].Operation_Hour__c: 0,
+                Equipement__c:lsTrucks2[i].Equipement__c!=undefined && lsTrucks2[i].Equipement__c!=null ? lsTrucks2[i].Equipement__c:null,
+                Maintenance_Key__c: lsTrucks2[i].Maintenance_Key__c!=undefined && lsTrucks2[i].Maintenance_Key__c!=null ? lsTrucks2[i].Maintenance_Key__c:null,
                 chooseCheckBox: false,
-                Model__c: lsTrucks2.Model__c,
+                Model__c: lsTrucks2[i].Model__c!=undefined && lsTrucks2[i].Model__c!=null ? lsTrucks2[i].Model__c:null,
                 New_Operation_Hour__c: 0,
                 Service_Suggestion__c: '',
                 isShow: false
