@@ -159,6 +159,7 @@ img {
 }
 .refundDetail_bodyer .refund_Table .sv_Td.sv_Td_200 {
     width: 20%;
+    font-size: 0.55rem;
 }
 .refundDetail_bodyer .refund_Table .sv_Td .sv_checkbox {
     height: 25px;

@@ -193,7 +193,7 @@ img {
     height: 30px;
 }
 .workListDetails_bodyer .des_Inf_Center div {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 .workListDetails_bodyer .des_Inf_Right {
     width: 39%;
@@ -203,10 +203,10 @@ img {
     height: 30px;
 }
 .workListDetails_bodyer .des_Inf_Right div {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 .workListDetails_bodyer .des_Inf_Right input {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     width: 50%;
     text-align: right;
     padding: 0 5%;
@@ -221,7 +221,7 @@ img {
 .workListDetails_bodyer .des_Left_Btn {
     padding-top: 2%;
     padding-bottom: 2%;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #ffffff;
     background: #aa0020;
     display: inline-flex;
@@ -231,7 +231,7 @@ img {
 .workListDetails_bodyer .des_Right_Btn {
     padding-top: 2%;
     padding-bottom: 2%;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #ffffff;
     background: #000000;
     display: inline-flex;
@@ -246,7 +246,7 @@ img {
     height: 12px;
 }
 .workListDetails_bodyer .displayQuantity_text {
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin: 0 2%;
 }
 .workListDetails_bodyer .small_Type_Title_Group {
@@ -270,6 +270,12 @@ img {
     display: flex;
     width: calc(100% - 128px);
 }
+.workListDetails_bodyer .small_Type_Title_G_3 {
+    color: #ffffff;
+    padding: 0 5%;
+    display: flex;
+    width: calc(100% - 83px);
+}
 .workListDetails_bodyer .OpenClose_Btn {
     background-repeat: no-repeat;
     background-size: cover;
@@ -283,7 +289,7 @@ img {
 }
 .workListDetails_bodyer .small_Type_Title {
     color: #535353;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin-bottom: 2%;
 }
 .workListDetails_bodyer .small_Type_Box {
@@ -374,7 +380,7 @@ img {
 }
 .workListDetails_bodyer .legend_Group div {
     display: inline-flex;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin: 1% 2%;
 }
 .workListDetails_bodyer .blue_legend {
@@ -401,6 +407,7 @@ img {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: normal;
+    font-size: 0.7rem;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td input {
     width: 100%;
@@ -409,6 +416,8 @@ img {
     overflow: hidden;
     white-space: normal;
     text-align: center;
+    font-size: 0.7rem;
+    padding: 0 0.25rem;
 }
 .workListDetails_bodyer .quoted_Table th.sv_Td {
     background: #d8d8d8;
@@ -419,23 +428,33 @@ img {
     border: 1px solid #979797;
     background: #eee9e9;
     padding: 0 1%;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     height: 60px;
     text-align: center;
     vertical-align: middle;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_Long {
+    width: 45%;
+}
+.workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_Long_GOrderContent {
     width: 30%;
 }
 
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_Small{
-    width: 30%;
+    width: 45%;
     font-size: 0.7rem;
 }
 
 .workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_nopadding {
     padding: 0;
+    width: 10%;
+}
+.workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_nopadding_GOrderContent {
+    padding: 0;
     width: 20%;
+}
+.workListDetails_bodyer .quoted_Table .sv_Td.sv_Td_30 {
+    width: 30%;
 }
 .workListDetails_bodyer .quoted_Table .sv_Td .sv_checkbox {
     height: 25px;
@@ -570,7 +589,7 @@ img {
     resize: none;
     width: 100%;
     border: 1px solid #535353;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     padding:2%;
 }
 .workListDetails_bodyer .img_Group {
@@ -701,7 +720,7 @@ img {
     width: 25%;
     display: inline-flex;
     justify-content: center;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     color: #dddbda;
 }
 .textBtn.textCompleted {
@@ -781,9 +800,17 @@ img {
     border: 1px solid #979797;
     background: #eee9e9;
     padding: 0 1%;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     height: 60px;
     text-align: center;
+    vertical-align: middle;
+}
+.workListDetails_bodyer .refund_Table .sv_Td.sv_Th_240 {
+    width: 25%;
+}
+.workListDetails_bodyer .refund_Table .sv_Td.sv_Th_240 div {
+    display: inline-block;
+    width: 80px;
     vertical-align: middle;
 }
 .workListDetails_bodyer .refund_Table .sv_Td.sv_Td_240 {
@@ -794,6 +821,7 @@ img {
     overflow: hidden;
     display: inline-block;
     width: 80px;
+    vertical-align: middle;
 }
 .workListDetails_bodyer .refund_Table .sv_Td .sv_checkbox {
     height: 25px;
@@ -844,13 +872,14 @@ img {
 }
 .workListDetails_bodyer .refund_first .box_num {
     display: inline-flex;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
 }
 .workListDetails_bodyer .refund_first .explain_Icon {
     background-repeat: no-repeat;
     background-size: cover;
     width: 15px;
     height: 15px;
+    margin: 0 0.5rem;
 }
 .workListDetails_bodyer .refund_first .explain_Text {
     position: absolute;
@@ -876,7 +905,7 @@ img {
 .workListDetails_bodyer .refund_first .explain_Text .dis_flex span {
     display: inline-flex;
     width: 50%;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin: 0 2px;
 }
 .search_Photo_Icon {

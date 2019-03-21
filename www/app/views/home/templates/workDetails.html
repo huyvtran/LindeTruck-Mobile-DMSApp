@@ -980,7 +980,7 @@
                             <th class="sv_Td">
                                 <div> 数量</div>
                             </th>
-                            <th class="sv_Td">
+                            <th class="sv_Td sv_Td_30">
                                 <div> 备件订单号</div>
                             </th>
 
@@ -999,7 +999,7 @@
                                     <td class="sv_Td">
                                         <div>{{item.quantity}}</div>
                                     </td>
-                                    <td class="sv_Td">
+                                    <td class="sv_Td sv_Td_30">
                                         <div> {{item.SAP_Part_Order_Number__c}}</div>
                                     </td>
 
@@ -1012,7 +1012,7 @@
             </div>
             <div>
                 <div class="small_Type_Title_Group">
-                    <div class="small_Type_Title_G_2"> 交货列表</div>
+                    <div class="small_Type_Title_G_3"> 交货列表</div>
                     <div class="btn_M" ng-show="showFooter">
                         <div id="btn_refund_Btn" class="btn_modify_Group"></div>
                     </div>
@@ -1032,7 +1032,7 @@
                             <th class="sv_Td">
                                 <div> 行项</div>
                             </th>
-                            <th class="sv_Td sv_Td_240">
+                            <th class="sv_Td sv_Th_240">
                                 <div> 物料号</div>
                             </th>
                             <th class="sv_Td">
@@ -1122,16 +1122,16 @@
                 <div id="generateOrderContent">
                     <table cellpadding="0" cellspacing="0" border="0" class="quoted_Table">
                         <tr>
-                            <th class="sv_Td sv_Td_nopadding">
+                            <th class="sv_Td sv_Td_nopadding_GOrderContent">
                                 <div> 姓名</div>
                             </th>
-                            <th class="sv_Td sv_Td_Long">
+                            <th class="sv_Td sv_Td_Long_GOrderContent">
                                 <div> 出发时间</div>
                             </th>
-                            <th class="sv_Td sv_Td_Long">
+                            <th class="sv_Td sv_Td_Long_GOrderContent">
                                 <div> 离开时间</div>
                             </th>
-                            <th class="sv_Td sv_Td_nopadding">
+                            <th class="sv_Td sv_Td_nopadding_GOrderContent">
                                 <div> 里程数</div>
                             </th>
                         </tr>
@@ -1140,16 +1140,16 @@
                         <ion-item ng-repeat="item in workTimes track by $index" ng-cloak>
                             <table cellpadding="0" cellspacing="0" border="0" ng-class="isquoted_Table(item.type)">
                                 <tr>
-                                    <td class="sv_Td sv_Td_nopadding">
+                                    <td class="sv_Td sv_Td_nopadding_GOrderContent">
                                         <div> {{item.name}}</div>
                                     </td>
-                                    <td class="sv_Td sv_Td_Long">
+                                    <td class="sv_Td sv_Td_Long_GOrderContent">
                                         <div>{{item.departureTime}}</div>
                                     </td>
-                                    <td class="sv_Td sv_Td_Long">
+                                    <td class="sv_Td sv_Td_Long_GOrderContent">
                                         <div>{{item.leaveTime}}</div>
                                     </td>
-                                    <td class="sv_Td sv_Td_nopadding">
+                                    <td class="sv_Td sv_Td_nopadding_GOrderContent">
                                         <input ng-cloak ng-model="item.miles" value="{{item.miles}}"
                                                onkeyup="value=value.replace(/[^\d]/g,'')"/>
                                     </td>
