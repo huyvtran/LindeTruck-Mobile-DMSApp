@@ -3,7 +3,7 @@
     'use strict';
     angular.module('oinio.controllers')
       .controller('newWorkListController',
-        function ($scope, $rootScope, $filter, $state, $log, $stateParams, AppUtilService, ConnectionMonitor,
+        function ($scope, $rootScope, $q,$filter, $state, $log, $stateParams, AppUtilService, ConnectionMonitor,
                   LocalCacheService, HomeService, $ionicPopup, ForceClientService, dualModeService, Service1Service) {
 
             var vm            = this,
@@ -378,56 +378,65 @@
             };
 
             $scope.getTrucks = function (keyWord) {
+                AppUtilService.showLoading();
+                $scope.getTrucksStep1(keyWord).then(function () {
+                    AppUtilService.hideLoading();
+                    return $scope.getTrucksStep2();
+                });
+            };
+
+            $scope.getTrucksStep1=function(keyWord){
+                let deferred =$q.defer();
                 $scope.contentTruckItems = [];
-                //AppUtilService.showLoading();
                 HomeService.searchTruckFleets(keyWord, $scope.searchResultAcctId, "150", doOnline).then(
-                  function success(response) {
-                      //AppUtilService.hideLoading();
-                      console.log(response);
-                      let trucks = [];
-                      if (typeof (response) == "string") {
-                          $ionicPopup.alert({
-                              title: "结果",
-                              template: "没有数据"
-                          });
-                          return false;
-                      }
-                      if (response != null && response.length > 0) {
-                          for (let index = 0; index < response.length; index++) {
-                              trucks.push(response[index]);
-                          }
-                          $scope.contentTruckItems = trucks;
+                    function success(response) {
+                        AppUtilService.hideLoading();
+                        console.log(response);
+                        let trucks = [];
+                        if (typeof (response) == "string") {
+                            $ionicPopup.alert({
+                                title: "结果",
+                                template: "没有数据"
+                            });
+                            return false;
+                        }
+                        if (response != null && response.length > 0) {
+                            for (let index = 0; index < response.length; index++) {
+                                trucks.push(response[index]);
+                            }
+                            $scope.contentTruckItems = trucks;
+                            deferred.resolve('');
+                            console.log("getTrucks", trucks);
+                        } else {
+                            $ionicPopup.alert({
+                                title: "结果",
+                                template: "没有数据"
+                            });
+                            return false;
+                        }
+                    }, function error(msg) {
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title: msg
+                        });
+                        console.log(msg);
+                        return false;
+                    });
+                return deferred.promise;
+            };
 
-                          setTimeout(function () {
-                              for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
-                                  $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                                      if ($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
-                                          $(this).prop("checked", true);
-                                      }
-                                  });
-                              }
-                          }, 300);
+            $scope.getTrucksStep2=function(){
+                for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
+                    $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                        if ($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+                            $(this).prop("checked", true);
+                        }
+                    });
+                }
+            };
 
-                          console.log("getTrucks", trucks);
-                      } else {
-                          $ionicPopup.alert({
-                              title: "结果",
-                              template: "没有数据"
-                          });
-                          return false;
-                      }
-                  }, function error(msg) {
-                      //AppUtilService.hideLoading();
-                      $ionicPopup.alert({
-                          title: "结果",
-                          template: "没有数据"
-                      });
-                      console.log(msg);
-                      return false;
-                  });
 
-                $scope.scanCode = function () {
-
+            $scope.scanCode = function () {
                     cordova.plugins.barcodeScanner.scan(
                       function (result) {
                           //扫码成功后执行的回调函数
@@ -455,7 +464,7 @@
                     );
 
                 };
-            };
+
 
             $scope.searchChange = function () {
 

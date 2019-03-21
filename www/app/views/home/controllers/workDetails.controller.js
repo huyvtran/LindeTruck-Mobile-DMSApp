@@ -3381,6 +3381,7 @@
         $scope.getTrucksMore = function (keyWord) {
           AppUtilService.showLoading();
           $scope.getTrucksMoreStep1(keyWord).then(function () {
+              AppUtilService.hideLoading();
               return $scope.getTrucksMoreStep2();
           });
         };
@@ -3391,9 +3392,9 @@
             $scope.contentTruckItemsMore = [];
             HomeService.searchTruckFleets(keyWord, $scope.localAccId, '150', doOnline).then(function success(response) {
                 console.log(response);
+                AppUtilService.hideLoading();
                 let trucks = [];
                 if (typeof (response) == 'string') {
-                    AppUtilService.hideLoading();
                     $ionicPopup.alert({
                         title: response
                     });
@@ -3406,7 +3407,6 @@
                     $scope.contentTruckItemsMore = trucks;
                     deferred.resolve('');
                 } else {
-                    AppUtilService.hideLoading();
                     $ionicPopup.alert({
                         title: '结果',
                         template: '没有数据'
@@ -3425,8 +3425,6 @@
         };
 
         $scope.getTrucksMoreStep2=function(){
-            AppUtilService.hideLoading();
-            let deferred =$q.defer();
             for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
                 $('input.ckbox_truck_searchresult_item').each(function (index, element) {
                     if ($(element).attr('data-recordid') == $scope.selectedTruckItemsMore[i].Id) {
@@ -3442,7 +3440,6 @@
                     }
                 });
             });
-            return deferred.promise;
         };
 
         $scope.changeAddTruckTab = function (index) {
