@@ -660,9 +660,8 @@
                             <div class="des_Inf_Center" ng-click="goTruckConfig(truckItem.Id);">
                                 <div ng-cloak>{{truckItem.truckItemNum}}</div>
                             </div>
-                            <div class="des_Inf_Right"><input class="workDetailCustomeHourclas" type="text" ng-cloak
-                                                              value="{{truckItem.Operation_Hour__c}}"
-                                                              ng-model="truckItem.Operation_Hour__c" readonly/>
+                            <div class="des_Inf_Right">
+                                <div ng-cloak>{{truckItem.Operation_Hour__c}}</div>
                             </div>
                         </div>
                     </div>
@@ -1480,7 +1479,7 @@
                         <div class="inf_Right_Text"> {{mobileName}}</div>
                     </div>
                     <div class="inf_Box">
-                        <div class="inf_Left_Text"> 叉车型号：</div>
+                        <div class="inf_Left_Text"> 车体号：</div>
                         <div class="inf_Right_Text"> {{truckTypesValueShow}}</div>
                     </div>
                     <div class="inf_Box">

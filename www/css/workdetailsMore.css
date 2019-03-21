@@ -36,7 +36,6 @@ img {
     align-items: center;
 }
 .more_header .center_Box {
-    display: inline-flex;
     width: 80%;
     position: relative;
     align-items: center;

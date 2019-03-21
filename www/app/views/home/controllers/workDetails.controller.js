@@ -2696,7 +2696,7 @@
             regroupPartList);
           console.log('savePartsUrl:', savePartsUrlVar);
 
-          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function (responseSaveParts) {
+          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
             AppUtilService.hideLoading();
             console.log('responseSaveParts:', responseSaveParts);
 
@@ -2731,13 +2731,13 @@
               });
               return false;
             }
-          }, function (error) {
-            console.log('responseSaveParts_error:', error);
+          }, function error(msg) {
+            console.log('responseSaveParts_error:', msg);
             AppUtilService.hideLoading();
             canSave=true;
             $ionicPopup.alert({
               title: '保存失败',
-              template:error.responseText
+              template:msg.responseText
             });
             return false;
           });
@@ -2816,37 +2816,29 @@
                  });
              }
           });
-          var errorTruckMsg="";
+
           ForceClientService.getForceClient().apexrest(
-              '/TruckFleetService?action=updateTruckHour&trukHourRequest='+JSON.stringify(updateTrucks),
+              '/TruckFleetOpHourService?action=updateTruckHour&trukHourRequest='+JSON.stringify(updateTrucks),
               'POST',
               {},
               null,
               function callBack(res) {
                 AppUtilService.hideLoading();
                 console.log(res);
-                if (res.operationHourError!=undefined&&res.operationHourError!=null&&res.operationHourError.length>0){
-                    angular.forEach(res.operationHourError,function (singleErrorObj) {
-                        errorTruckMsg+=singleErrorObj+";"
-                    });
-                    errorTruckMsg+="新工作时间不能小于原工作时间!"
-                    $ionicPopup.alert({
-                        title:errorTruckMsg
-                    });
-                    return;
-                }
                 var canUpdateData=true;
                 if(res.OriginData!=null&&res.OriginData.length>0){
-                    angular.forEach(res.OriginData,function (singleRes) {
-                        if (singleRes.updateStatus=="fail"){
-                            canUpdateData=false;
-                        }else if(singleRes.updateStatus==null){
+                    for(var i =0;i<res.OriginData.length;i++){
+                        if (res.OriginData[i].updateStatus=="fail"){
                             canUpdateData=false;
                         }
-                    });
+                    }
+                    var errorTruckMsg="";
                     if (!canUpdateData){
+                        res.OriginData.map(function (singleData) {
+                             errorTruckMsg+="<p>"+singleData.truckName+":"+singleData.messageText+"</p>\n";
+                        });
                         $ionicPopup.alert({
-                            title:'更新车体数据失败'
+                            title:errorTruckMsg
                         });
                         return ;
                     }else{
@@ -2916,17 +2908,17 @@
             regroupPartList);
           console.log('savePartsUrl:', savePartsUrlVar);
 
-          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function (responseSaveParts) {
+          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
             AppUtilService.hideLoading();
             console.log('responseSaveParts:', responseSaveParts);
             $state.go('app.generateOrders', {workOrderId: orderDetailsId, accountId: $stateParams.accountId});//跳转备件页面
 
-          }, function (error) {
-            console.log('responseSaveParts_error:', error);
+          }, function error(msg) {
+            console.log('responseSaveParts_error:', msg);
             AppUtilService.hideLoading();
             $ionicPopup.alert({
               title: '保存失败',
-              template:error
+              template:msg
             });
             return false;
           });
