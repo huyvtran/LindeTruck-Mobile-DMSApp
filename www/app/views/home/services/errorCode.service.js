@@ -52,7 +52,7 @@
         service.queryTruckErrorInfo = function (codeFiles, series, carType, code) {
 
           var deferred = $q.defer();
-          const errorInfo = _.where((codeFiles), {'Series': series, 'CarType': carType, 'Code': code});
+          const errorInfo = _.where((codeFiles), {'Series': series, 'CarType': carType, 'PartCode': code});
           if (errorInfo.length != 0) {
             deferred.resolve(errorInfo);
           } else {
