@@ -718,7 +718,7 @@
                     <div class="small_Type_Group" ng-show="singleCarService=='Maintenance'">
                         <div class="small_Type_Title">保养级别:</div>
                         <div class="small_Type_Box">
-                            <select class="small_Type_Select" id="select_care_type" ng-model="careType" ng-change="changeCareType(careType);">
+                            <select class="small_Type_Select" id="select_care_type" onchange="angular.element(this).scope().changeCareType();">
                                 <option ng-repeat="singleService in serviceLevels track by $index" value="{{singleService}}">
                                     {{singleService}}
                                 </option>

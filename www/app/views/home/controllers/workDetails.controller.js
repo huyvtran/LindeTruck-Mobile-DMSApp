@@ -4233,8 +4233,12 @@
           document.getElementById('workPrintPage').style.display = 'none';
         };
 
-        $scope.changeCareType = function (careType) {
+        $scope.changeCareType = function () {
+          var careType="";
           //var careType = $("#select_care_type").val();
+            $('select #select_care_type').each(function (index, element) {
+                careType  = element.value;
+            });
           $scope.mainTanceChioces = [];
           if (careType == null) {
             return;
