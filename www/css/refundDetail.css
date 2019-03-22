@@ -152,10 +152,13 @@ img {
     border: 1px solid #979797;
     background: #eee9e9;
     padding: 0 1%;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     height: 60px;
     text-align: center;
     vertical-align: middle;
+}
+.refundDetail_bodyer .refund_Table .sv_Td.sv_Th_200 {
+    width: 20%;
 }
 .refundDetail_bodyer .refund_Table .sv_Td.sv_Td_200 {
     width: 20%;
@@ -222,7 +225,7 @@ img {
 }
 .refundDetail_bodyer .refund_first .box_num {
     display: inline-flex;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     width: calc(100% - 90px);
     color: #ffffff;
 }
@@ -256,7 +259,7 @@ img {
 .refundDetail_bodyer .refund_first .explain_Text .dis_flex span {
     display: inline-flex;
     width: 50%;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin: 0 2px;
 }
 .refundDetail_bodyer .small_Type_Group {
@@ -264,7 +267,7 @@ img {
 }
 .refundDetail_bodyer .small_Type_Title {
     color: #535353;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     margin-bottom: 2%;
 }
 .refundDetail_bodyer .small_Type_Select {
