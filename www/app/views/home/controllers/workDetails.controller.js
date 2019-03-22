@@ -357,15 +357,15 @@
                 $scope.allTruckItems = truckItems;
 
                 //交货列表
-                $scope.getRefundList();
+                $scope.getRefundList().then(function () {
+                    if ($scope.openPrint) {
+                        $scope.doPrint();
+                    }
+                });
                 //*********读取配件*************** */
                 $scope.getPartListForRead();
               }
-              if ($scope.openPrint) {
-                setTimeout(function () {
-                  $scope.doPrint();
-                }, 200);
-              }
+
 
             }, function error(msg) {
               AppUtilService.hideLoading();
@@ -457,7 +457,7 @@
         $scope.initChidOrderInfo = function (truckObj, childOrders) {
           if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
             var serviceLevel = childOrders[0].Maintenance_Level__c;
-            if (serviceLevel!="? undefined:undefined ?"){
+            if (serviceLevel!="? undefined:undefined ?"||serviceLevel!=""){
                 $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
             }
           }
@@ -603,9 +603,9 @@
                   truckItemNum: trucks[i].Name,
                   Operation_Hour__c: optHour,
                   Equipement__c:trucks[i].Equipement__c != undefined && trucks[i].Equipement__c != null ? trucks[i].Equipement__c : "",
-                  Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : null,
+                  Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : "",
                   Service_Suggestion__c: '',
-                  Model__c: trucks[i].Model__c != undefined ? trucks[i].Model__c : null,
+                  Model__c: trucks[i].Model__c != undefined ? trucks[i].Model__c : "",
                   chooseCheckBox: false,
                   New_Operation_Hour__c: 0,
                   isShow: false
@@ -920,9 +920,10 @@
             return;
           }
 
-          if (arriveTime == null) {
+          if (arriveTime === null) {
+            console.log("111::");
             var numArr1 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-            var numArr2 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
+            var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
                            '15',
                            '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
                            '31',
@@ -961,6 +962,20 @@
                      + (leaveTime.getHours() - ah - 1) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/,
                       '-'));
                 }
+              }
+            });
+
+            mobileSelect3.ensureBtn.addEventListener('click',function () {
+                // if ((arriveTime.getTime()-goOffTimeFromPrefix.getTime())<0){
+                //     ah=0;
+                //     am=0;
+                //     arriveTime=null;
+                //     $ionicPopup.alert({
+                //         title:"到达时间早于出发时间"
+                //     });
+                //     return;
+                // }
+
                 if (canLeave){
                     canLeave=false;
                     AppUtilService.showLoading();
@@ -1026,16 +1041,16 @@
                             canLeave=true;
                         }, function error(msg) {
                             AppUtilService.hideLoading();
+                            arriveTime=null;
                             console.log(msg);
                             canLeave=true;
                             $ionicPopup.alert({
                                 title: '记录到达/离开时间失败',
-                                template: msg
+                                template: msg.responseText
                             });
                             return false;
                         });
                 }
-              }
             });
             mobileSelect3.show();
           } else {
@@ -1238,7 +1253,7 @@
                     $scope.beforeDeparture().then(function () {
                         return $scope.showServiceCarPop();
                     }).then(function () {
-                        result = $("#serviceCarSelectSecond").val();
+                        result =$("#serviceCarSelectSecond").val()!=undefined&&$("#serviceCarSelectSecond").val()!=null? $("#serviceCarSelectSecond").val():"";
                         return $scope.doDeparture(result);
                     }).then(function () {
                         checkDeParture=true;
@@ -1262,7 +1277,7 @@
                 $scope.beforeDeparture().then(function () {
                     return $scope.showServiceCarPop();
                 }).then(function () {
-                    result = $("#serviceCarSelectSecond").val();
+                    result = $("#serviceCarSelectSecond").val()!=undefined&&$("#serviceCarSelectSecond").val()!=null? $("#serviceCarSelectSecond").val():"";
                     return $scope.doDeparture(result);
                 }).then(function () {
                     return $scope.departureArrive(timeMin);
@@ -1418,9 +1433,9 @@
           if (arriveTime != null) {
             return false;
           } else {
-            if (goOffTimeFromPrefix == null) {
+            if (goOffTimeFromPrefix === null) {
               var numArr1 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
-              var numArr2 = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
+              var numArr2 = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14',
                              '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29',
                              '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44',
                              '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59',
@@ -1854,7 +1869,7 @@
                   Operation_Hour__c: Number($scope.allTruckItems[i].Operation_Hour__c),
                   Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
                   New_Operation_Hour__c: Number($scope.allTruckItems[i].New_Operation_Hour__c),
-                  Maintenance_Level__c: $('#select_care_type option:selected').val(),
+                  Maintenance_Level__c: $('#select_care_type option:selected').val()!="? undefined:undefined ?"?$('#select_care_type option:selected').val():"",
                   //Measure_Date__c:new Date()
                 });
               }
@@ -2981,8 +2996,8 @@
         };
         //退件接口
         $scope.getRefundList = function () {
+          let deferred = $q.defer();
           console.log('$scope.getDeliveryOrder + orderDetailsId:', $scope.getDeliveryOrder + orderDetailsId);
-
           ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + orderDetailsId, 'GET', {}, null,
             function (responseGetDelivery) {
               // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {},
@@ -2999,11 +3014,13 @@
 
                 }
               }
+                deferred.resolve('');
               console.log('responseGetDeliveryafter:', $scope.rejectedItems);
             }, function (error) {
               console.log('responseGetDelivery_error:', error);
               AppUtilService.hideLoading();
             });
+          return deferred.promise;
         };
         //备件接口
         $scope.getNewWorkDetailServiceList = function () {
@@ -4148,7 +4165,7 @@
           $('.mask_div').css('display', 'none');
           $('.maintain_popup').css('display', 'none');
           $('.maintain_checkbox').each(function (index, element) {
-            if ($(element).prop('checked')) {
+            if ($(element).prop('checked') && $(element).attr("id")!="") {
               localMJobItemIds.push($(element).attr("id"));
             }
           });

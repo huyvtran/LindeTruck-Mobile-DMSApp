@@ -203,7 +203,8 @@
                           $scope.goNotStartedWorkDetails(item).then(function () {
                               return $scope.doDepartureOrder();
                           }).then(function () {
-                              return $scope.updateDepartureOrderStatus(item);
+                              var resp=$("#serviceCarSelectFirst").val()!=undefined&&$("#serviceCarSelectFirst").val()!=null?$("#serviceCarSelectFirst").val():"";
+                              return $scope.updateDepartureOrderStatus(item,resp);
                           });
                       }catch (ex) {
                           console.log('ex::',ex);
@@ -323,7 +324,7 @@
             let deferred = $q.defer();
             departTurePop = $ionicPopup.show({
                 title:"请选择服务车",
-                template: "    <select id=\"serviceCarSelect\" class=\"small_Type_Select\" >\n" +
+                template: "    <select id=\"serviceCarSelectFirst\" class=\"small_Type_Select\" >\n" +
                 "                                            <option ng-repeat=\" singleServiceCar  in serviceCars\" value=\"{{singleServiceCar.CarNo__c}}\">{{singleServiceCar.CarNo__c}}</option>\n" +
                 "                                        </select>",
                 scope: $scope,
@@ -347,7 +348,7 @@
             return deferred.promise;
         };
 
-        $scope.updateDepartureOrderStatus=function(item){
+        $scope.updateDepartureOrderStatus=function(item,carNo){
             let deferred = $q.defer();
             AppUtilService.showLoading();
             dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),Number(localStorage.onoffline)!==0?item.Id:item._soupEntryId,'Not Completed').then(function callBack(res) {
@@ -355,7 +356,7 @@
                 if (res.status.toLowerCase() == 'success') {
                     var goTime = new Date();
                     //goTime.format('yyyy-MM-dd hh:mm:ss')
-                    dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,$("#serviceCarSelect").val()).then(function callBack(res) {
+                    dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,carNo).then(function callBack(res) {
                         console.log(res);
                         $scope.getHomeService();//刷新日历列表数据 更改出发状态
 
