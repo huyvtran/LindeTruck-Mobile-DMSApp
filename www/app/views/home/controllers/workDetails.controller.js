@@ -912,7 +912,9 @@
          * 点击离开按钮
          * @param $event
          */
+        var mobileSelect2=null;
         $scope.doLeave = function () {
+          $(".mobileSelect").remove();
           if (goOffTimeFromPrefix == null) {
             $ionicPopup.alert({
               title: '请先选择到达'
@@ -930,7 +932,7 @@
                            '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46',
                            '47',
                            '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60'];
-            var mobileSelect3 = new MobileSelect({
+              mobileSelect2= new MobileSelect({
               trigger: '#leave',
               title: '选择工作时长',
               wheels: [
@@ -945,114 +947,123 @@
                 }
               ],
               position: [0, 0, 0],
+              triggerDisplayData:false,
+              cancel:function(indexArr, data){
+                console.log("22::");
+              },
               callback: function (indexArr, data) {
-                $('#leave').text('离开');
+                // $('#leave').text('离开');
                 ah = parseInt(data[0].substring(6, 8));
                 am = parseInt(data[2].substring(6, 8));
                 //checkHours();
                 leaveTime = new Date();
-                var min = checkMinutes(leaveTime, am);
-                if (min.index == 1) {
-                  arriveTime = new Date(
-                    (leaveTime.getFullYear() + '-' + (leaveTime.getMonth() + 1) + '-' + leaveTime.getDate() + ' '
-                     + (leaveTime.getHours() - ah) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/, '-'));
-                } else {
-                  arriveTime = new Date(
-                    (leaveTime.getFullYear() + '-' + (leaveTime.getMonth() + 1) + '-' + leaveTime.getDate() + ' '
-                     + (leaveTime.getHours() - ah - 1) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/,
-                      '-'));
+                // var min = checkMinutes(leaveTime, am);
+                // if (min.index == 1) {
+                //   arriveTime = new Date(
+                //     (leaveTime.getFullYear() + '-' + (leaveTime.getMonth() + 1) + '-' + leaveTime.getDate() + ' '
+                //      + (leaveTime.getHours() - ah) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/, '-'));
+                // } else {
+                //   arriveTime = new Date(
+                //     (leaveTime.getFullYear() + '-' + (leaveTime.getMonth() + 1) + '-' + leaveTime.getDate() + ' '
+                //      + (leaveTime.getHours() - ah - 1) + ':' + min.mm + ':' + leaveTime.getSeconds()).replace(/-/,
+                //       '-'));
+                // }
+                var timeLong = null;
+                var timeLongMin=leaveTime.getMinutes()-goOffTimeFromPrefix.getMinutes();
+                var timeLongHour= leaveTime.getHours()-goOffTimeFromPrefix.getHours();
+                if (timeLongMin>=0){
+                     timeLong = 60*(timeLongHour)+timeLongMin;
+                }else{
+                     timeLong= 60*(timeLong-1)+timeLongMin;
                 }
+
+              if (timeLong-(ah*60+am)<0){
+                  ah=0;
+                  am=1;
+                  arriveTime=null;
+                  $ionicPopup.alert({
+                      title:"到达时间早于出发时间"
+                  });
+                  return;
+              }
+              if (canLeave){
+                  canLeave=false;
+                  AppUtilService.showLoading();
+                  //arriveTime.format('yyyy-MM-dd hh:mm:ss')
+                  //leaveTime.format('yyyy-MM-dd hh:mm:ss')
+                  dualModeService.leaveActionUtil(Number(localStorage.onoffline),
+                      Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
+                      Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,ah*60+am).then(
+                      function callBack(res) {
+                          console.log(res);
+                          AppUtilService.hideLoading();
+                          if (Number(localStorage.onoffline) !== 0) {
+                              if (res.status.toLowerCase() == 'success') {
+                                  $scope.reloadWorkItems();
+                                  //$rootScope.getSomeData();
+                                  if (orderBelong) {
+                                      $('#sidProgressBar').css('width', '75%');
+                                  } else {
+                                      $('#sidProgressBar').css('width', '99%');
+                                  }
+                                  for (var i = 0; i < 4; i++) {
+                                      $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                  }
+                                  $('#arriveBtn').css('pointer-events', 'none');
+                                  $('#arriveBtn').addClass('textCompleted');
+                                  $('#leave').css('pointer-events', 'none');
+                                  $('#leave').addClass('textCompleted');
+                                  $ionicPopup.alert({
+                                      title: '记录到达/离开时间成功'
+                                  });
+                              } else {
+                                  $ionicPopup.alert({
+                                      title: '记录到达/离开时间失败',
+                                      template: res.message
+                                  });
+                                  return false;
+                              }
+                          } else {
+                              if (res.toLowerCase() == 'success') {
+                                  if (orderBelong) {
+                                      $('#sidProgressBar').css('width', '75%');
+                                  } else {
+                                      $('#sidProgressBar').css('width', '99%');
+                                  }
+                                  for (var i = 0; i < 4; i++) {
+                                      $('ol li:eq(' + i + ')').addClass('slds-is-active');
+                                  }
+                                  $('#arriveBtn').css('pointer-events', 'none');
+                                  $('#arriveBtn').addClass('textCompleted');
+                                  $('#leave').css('pointer-events', 'none');
+                                  $('#leave').addClass('textCompleted');
+                                  $ionicPopup.alert({
+                                      title: '记录到达/离开时间成功'
+                                  });
+                              } else {
+                                  $ionicPopup.alert({
+                                      title: '记录到达/离开时间失败',
+                                      template: res.message
+                                  });
+                                  return false;
+                              }
+                          }
+                          canLeave=true;
+                      }, function error(msg) {
+                          AppUtilService.hideLoading();
+                          arriveTime=null;
+                          console.log(msg);
+                          canLeave=true;
+                          $ionicPopup.alert({
+                              title: '记录到达/离开时间失败',
+                              template: msg.responseText
+                          });
+                          return false;
+                      });
+              }
               }
             });
-
-            mobileSelect3.ensureBtn.addEventListener('click',function () {
-                // if ((arriveTime.getTime()-goOffTimeFromPrefix.getTime())<0){
-                //     ah=0;
-                //     am=0;
-                //     arriveTime=null;
-                //     $ionicPopup.alert({
-                //         title:"到达时间早于出发时间"
-                //     });
-                //     return;
-                // }
-
-                if (canLeave){
-                    canLeave=false;
-                    AppUtilService.showLoading();
-                    //arriveTime.format('yyyy-MM-dd hh:mm:ss')
-                    //leaveTime.format('yyyy-MM-dd hh:mm:ss')
-                    dualModeService.leaveActionUtil(Number(localStorage.onoffline),
-                        Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                        Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,ah*60+am).then(
-                        function callBack(res) {
-                            console.log(res);
-                            AppUtilService.hideLoading();
-                            if (Number(localStorage.onoffline) !== 0) {
-                                if (res.status.toLowerCase() == 'success') {
-                                    $scope.reloadWorkItems();
-                                    //$rootScope.getSomeData();
-                                    if (orderBelong) {
-                                        $('#sidProgressBar').css('width', '75%');
-                                    } else {
-                                        $('#sidProgressBar').css('width', '99%');
-                                    }
-                                    for (var i = 0; i < 4; i++) {
-                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                    }
-                                    $('#arriveBtn').css('pointer-events', 'none');
-                                    $('#arriveBtn').addClass('textCompleted');
-                                    $('#leave').css('pointer-events', 'none');
-                                    $('#leave').addClass('textCompleted');
-                                    $ionicPopup.alert({
-                                        title: '记录到达/离开时间成功'
-                                    });
-                                } else {
-                                    $ionicPopup.alert({
-                                        title: '记录到达/离开时间失败',
-                                        template: res.message
-                                    });
-                                    return false;
-                                }
-                            } else {
-                                if (res.toLowerCase() == 'success') {
-                                    if (orderBelong) {
-                                        $('#sidProgressBar').css('width', '75%');
-                                    } else {
-                                        $('#sidProgressBar').css('width', '99%');
-                                    }
-                                    for (var i = 0; i < 4; i++) {
-                                        $('ol li:eq(' + i + ')').addClass('slds-is-active');
-                                    }
-                                    $('#arriveBtn').css('pointer-events', 'none');
-                                    $('#arriveBtn').addClass('textCompleted');
-                                    $('#leave').css('pointer-events', 'none');
-                                    $('#leave').addClass('textCompleted');
-                                    $ionicPopup.alert({
-                                        title: '记录到达/离开时间成功'
-                                    });
-                                } else {
-                                    $ionicPopup.alert({
-                                        title: '记录到达/离开时间失败',
-                                        template: res.message
-                                    });
-                                    return false;
-                                }
-                            }
-                            canLeave=true;
-                        }, function error(msg) {
-                            AppUtilService.hideLoading();
-                            arriveTime=null;
-                            console.log(msg);
-                            canLeave=true;
-                            $ionicPopup.alert({
-                                title: '记录到达/离开时间失败',
-                                template: msg.responseText
-                            });
-                            return false;
-                        });
-                }
-            });
-            mobileSelect3.show();
+            mobileSelect2.show();
           } else {
             if (leaveTime != null) {
               return false;
@@ -1429,7 +1440,9 @@
         };
 
         var canArrive = true;
+          var mobileSelect1=null;
         $scope.getArrivalTime = function () {
+          $(".mobileSelect").remove();
           if (arriveTime != null) {
             return false;
           } else {
@@ -1440,7 +1453,7 @@
                              '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44',
                              '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59',
                              '60'];
-              var mobileSelect3 = new MobileSelect({
+                mobileSelect1 = new MobileSelect({
                 trigger: '#arriveBtn',
                 title: '选择旅途时长',
                 wheels: [
@@ -1455,9 +1468,13 @@
                   }
                 ],
                 position: [0, 0, 0],
+                triggerDisplayData:false,
+                cancel:function(indexArr, data){
+                    console.log("11::");
+                },
                 callback: function (indexArr, data) {
                   arriveTime = new Date();
-                  $('#arriveBtn').text('到达');
+                  // $('#arriveBtn').text('到达');
                   h = parseInt(data[0].substring(6, 8));
                   m = parseInt(data[2].substring(6, 8));
                   var min = checkMinutes(arriveTime, m);
@@ -1515,7 +1532,7 @@
                   }
                 }
               });
-              mobileSelect3.show();
+              mobileSelect1.show();
             } else {
               arriveTime = new Date();
               //arriveTime.format('yyyy-MM-dd hh:mm:ss')
@@ -1560,7 +1577,7 @@
                       canArrive=true;
                       $ionicPopup.alert({
                           title: '记录到达时间失败',
-                          template: msg
+                          template: msg.responseText
                       });
                       arriveTime = null;
                       return false;
@@ -1606,7 +1623,7 @@
                 console.log(msg);
                 $ionicPopup.alert({
                     title: '记录到达时间失败',
-                    template: msg
+                    template: msg.responseText
                 });
                 return false;
             });
@@ -1729,7 +1746,7 @@
                             AppUtilService.hideLoading();
                             $ionicPopup.alert({
                               title: '更新工单状态失败',
-                              template: msg
+                              template: msg.responseText
                             });
                             return false;
                           });
@@ -1962,7 +1979,7 @@
                       console.log(msg);
                       AppUtilService.hideLoading();
                       $ionicPopup.alert({
-                          title: msg
+                          title: msg.responseText
                       });
                       canSave=true;
                       return false;
@@ -2864,7 +2881,7 @@
                 AppUtilService.hideLoading();
                 console.log(msg);
                 $ionicPopup.alert({
-                    title:msg
+                    title:msg.responseText
                 });
                 return;
               });
@@ -2931,7 +2948,7 @@
             console.log('responseSaveParts_error:', msg);
             AppUtilService.hideLoading();
             $ionicPopup.alert({
-              title: msg
+              title: msg.responseText
             });
             return false;
           });
@@ -3383,7 +3400,7 @@
             }, 1000);
           }, function error(msg) {
               $ionicPopup.alert({
-                  title: msg
+                  title: msg.responseText
               });
               return false;
           });
@@ -3431,7 +3448,7 @@
                 console.log(msg);
                 AppUtilService.hideLoading();
                 $ionicPopup.alert({
-                    title: msg
+                    title: msg.responseText
                 });
                 return false;
             });
