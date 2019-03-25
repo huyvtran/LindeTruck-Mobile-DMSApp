@@ -409,7 +409,7 @@
               ? soResult.Service_Suggestion__c : '';
             $scope.callPhoneContent =
               soResult.Subject__c != undefined && soResult.Subject__c != null ? soResult.Subject__c : '';
-            if (soResult.Work_Order_Type__c != undefined && soResult.Work_Order_Type__c != null) {
+            if (soResult.Work_Order_Type__c != undefined && soResult.Work_Order_Type__c != null&& soResult.Work_Order_Type__c != "") {
               $('#select_work_type').find('option[value = ' + soResult.Work_Order_Type__c + ']').attr('selected', true);
               if (soResult.Work_Order_Type__c.indexOf('Z80') > -1 || soResult.Work_Order_Type__c.indexOf('Z81') > -1
                   || soResult.Work_Order_Type__c.indexOf('Z82') > -1 || soResult.Work_Order_Type__c.indexOf('Z83')
@@ -419,7 +419,7 @@
             } else {
               $('#select_work_type').find('option[value = \'ZS01_Z10\']').attr('selected', true);
             }
-            if (soResult.Service_Order_Sub_Type__c != undefined && soResult.Service_Order_Sub_Type__c != null) {
+            if (soResult.Service_Order_Sub_Type__c != undefined && soResult.Service_Order_Sub_Type__c != null&& soResult.Service_Order_Sub_Type__c != "") {
               try {
                 $('#select_service_type').find('option[value = ' + soResult.Service_Order_Sub_Type__c + ']').attr(
                   'selected', true);
@@ -444,7 +444,7 @@
             }
           }
           if (result != undefined && result != null) {
-            if (result.Fault_Part_Code__c != undefined && result.Fault_Part_Code__c != null) {
+            if (result.Fault_Part_Code__c != undefined && result.Fault_Part_Code__c != null && result.Fault_Part_Code__c != "") {
               $('#select_error_faults').find('option[value = ' + result.Fault_Part_Code__c + ']').attr(
                 'selected', true);
             }
@@ -457,7 +457,7 @@
         $scope.initChidOrderInfo = function (truckObj, childOrders) {
           if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
             var serviceLevel = childOrders[0].Maintenance_Level__c;
-            if (serviceLevel!="? undefined:undefined ?"||serviceLevel!=""){
+            if (serviceLevel!="? undefined:undefined ?" && serviceLevel!=undefined && serviceLevel!=""){
                 $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
             }
           }
@@ -1862,7 +1862,7 @@
               'Service_Suggestion__c': $('#serviceSuggest').val(),
               'Subject__c': $('#call_str').val(),
               'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val()!=undefined&&$('#select_service_type option:selected').val()!=null?$('#select_service_type option:selected').val():"",
-              'Fault_Part_Code__c': $('#select_error_faults option:selected').val()!=undefined&&$('#select_service_type option:selected').val()!=null?$('#select_service_type option:selected').val():"";
+              'Fault_Part_Code__c': $('#select_error_faults option:selected').val()!=undefined&&$('#select_service_type option:selected').val()!=null?$('#select_service_type option:selected').val():""
             };
           }
 
@@ -1886,7 +1886,7 @@
                   Operation_Hour__c: Number($scope.allTruckItems[i].Operation_Hour__c),
                   Service_Suggestion__c: $scope.allTruckItems[i].Service_Suggestion__c,
                   New_Operation_Hour__c: Number($scope.allTruckItems[i].New_Operation_Hour__c),
-                  Maintenance_Level__c: $('#select_care_type option:selected').val()!="? undefined:undefined ?"?$('#select_care_type option:selected').val():"",
+                  Maintenance_Level__c: $('#select_care_type option:selected').val()!="? undefined:undefined ?"&&$('#select_care_type option:selected').val()!=undefined?$('#select_care_type option:selected').val():"",
                   //Measure_Date__c:new Date()
                 });
               }
