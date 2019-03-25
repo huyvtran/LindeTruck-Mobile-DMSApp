@@ -593,7 +593,10 @@
                       }
                     }
                   // }
-
+                  var suggestStr="";
+                  if (childOrders[j].Service_Suggestion__c!=undefined&&childOrders[j].Service_Suggestion__c!=null){
+                      suggestStr=childOrders[j].Service_Suggestion__c;
+                  }
                 }
               }
               truckNumber += trucks[i].Name + "(" + optHour + "H)" + ';';
@@ -603,9 +606,9 @@
                   truckItemNum: trucks[i].Name,
                   Operation_Hour__c: optHour,
                   Equipement__c:trucks[i].Equipement__c != undefined && trucks[i].Equipement__c != null ? trucks[i].Equipement__c : "",
-                  Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined ? trucks[i].Maintenance_Key__c : "",
-                  Service_Suggestion__c: '',
-                  Model__c: trucks[i].Model__c != undefined ? trucks[i].Model__c : "",
+                  Maintenance_Key__c: trucks[i].Maintenance_Key__c != undefined&&trucks[i].Maintenance_Key__c != null ? trucks[i].Maintenance_Key__c : "",
+                  Service_Suggestion__c: suggestStr,
+                  Model__c: trucks[i].Model__c != undefined &&trucks[i].Model__c != null ? trucks[i].Model__c : "",
                   chooseCheckBox: false,
                   New_Operation_Hour__c: 0,
                   isShow: false
@@ -2843,7 +2846,8 @@
                      equipment:singleTruckItem.Equipement__c,
                      opHour:singleTruckItem.Operation_Hour__c,
                      newOpHour:singleTruckItem.New_Operation_Hour__c,
-                     ownerNumber:oCurrentUser.EmployeeNumber
+                     ownerNumber:oCurrentUser.EmployeeNumber,
+                     serviceSuggestion:encodeURIComponent(singleTruckItem.Service_Suggestion__c)
                  });
              }
           });

@@ -482,7 +482,7 @@
                 let userId = $scope.searchResultOwnerId;
 
                 order2Save.Account_Ship_to__c = $scope.searchResultAcctId;
-                order2Save.Subject__c = $("#textarea_desc").val();
+                order2Save.Subject__c =  encodeURIComponent($("#textarea_desc").val());
                 let orderType = $("#select_serviceorder_type").val();
                 if (orderType != null && orderType != '') {order2Save.Service_Order_Type__c = orderType;}
 
