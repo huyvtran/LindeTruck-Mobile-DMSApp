@@ -263,7 +263,7 @@
                       }
                   }, function error(msg) {
                       AppUtilService.hideLoading();
-                      $log.error('Service1Service.searchAccounts Error ' + msg);
+                      $log.error('Service1Service.searchAccounts Error ' + msg.msg.responseText);
                   }).finally(function () {
                     AppUtilService.hideLoading();
                 });
@@ -304,7 +304,7 @@
                     return Service1Service.getLatest3ServiceOrders($scope.searchResultAcctId,
                       Number(localStorage.onoffline));
                 }, function error(msg) {
-                    console.log(msg);
+                    console.log(msg.responseText);
                 }).then(function (response) {
                     console.log("getLatest3ServiceOrders", response);
 
@@ -416,9 +416,9 @@
                     }, function error(msg) {
                         AppUtilService.hideLoading();
                         $ionicPopup.alert({
-                            title: msg
+                            title: msg.responseText
                         });
-                        console.log(msg);
+                        console.log(msg.responseText);
                         return false;
                     });
                 return deferred.promise;
@@ -549,7 +549,7 @@
                                         AppUtilService.hideLoading();
                                         $ionicPopup.alert({
                                             title: "保存失败",
-                                            template:msg
+                                            template:msg.responseText
                                         });
                                         return false;
                                     }
@@ -607,30 +607,30 @@
                                                 return false;
                                             }
                                         }, function error(msg) {
-                                            console.log(msg);
+                                            console.log(msg.responseText);
                                             AppUtilService.hideLoading();
                                             $ionicPopup.alert({
                                                 title: "保存失败",
-                                                template:msg
+                                                template:msg.responseText
                                             });
                                             return false;
                                         });
                                   }, function error(msg) {
-                                      console.log(msg);
+                                      console.log(msg.responseText);
                                       AppUtilService.hideLoading();
                                       $ionicPopup.alert({
-                                          title: msg
+                                          title: msg.responseText
                                       });
                                       return false;
                                   });
                               }
                           }
                       }, function error(msg) {
-                          console.log(msg);
+                          console.log(msg.responseText);
                           AppUtilService.hideLoading();
                           $log.error('Service1Service.getUserObjectById Error ' + error);
                             $ionicPopup.alert({
-                                title: msg
+                                title: msg.responseText
                             });
                             return false;
                       });
@@ -855,7 +855,7 @@
                   orderStatus).then(function callBack(res) {
                     console.log(res);
                 }, function error(msg) {
-                    console.log(msg);
+                    console.log(msg.responseText);
                 });
             };
 

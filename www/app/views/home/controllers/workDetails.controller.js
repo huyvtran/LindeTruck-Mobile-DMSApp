@@ -369,7 +369,7 @@
 
             }, function error(msg) {
               AppUtilService.hideLoading();
-              console.log(msg);
+              console.log(msg.responseText);
             });
         });
 
@@ -1145,7 +1145,7 @@
                               canLeave=true;
                               $ionicPopup.alert({
                                   title: '记录到达/离开时间失败',
-                                  template: msg
+                                  template: msg.responseText
                               });
                               return false;
                           });
@@ -1357,7 +1357,7 @@
             function error(msg) {
               AppUtilService.hideLoading();
               deferred.reject(msg);
-              console.log(msg);
+              console.log(msg.responseText);
             });
           return deferred.promise;
         };
@@ -1374,7 +1374,7 @@
                 $scope.loadOrRefersh(res);
               }
             }, function error(msg) {
-              console.log(msg);
+              console.log(msg.responseText);
             });
         };
 
@@ -1419,7 +1419,7 @@
                   AppUtilService.hideLoading();
                   console.log(msg);
                   $ionicPopup.alert({
-                    title: msg
+                    title: msg.responseText
                   });
                   return;
                 });
@@ -1432,7 +1432,7 @@
               canDeparture = true;
               deferred.reject(msg);
               $ionicPopup.alert({
-                title: msg
+                title: msg.responseText
               });
               return;
             });
@@ -1515,7 +1515,7 @@
                                   canArrive=true;
                                   $ionicPopup.alert({
                                       title: '更新工单状态失败',
-                                      template: msg
+                                      template: msg.responseText
                                   });
                                   return false;
                               });
@@ -1525,7 +1525,7 @@
                           canArrive=true;
                           $ionicPopup.alert({
                               title: '获取定位失败',
-                              template: msg
+                              template: msg.responseText
                           });
                           return false;
                       });
@@ -1761,7 +1761,7 @@
                 return false;
               }
             }, function error(msg) {
-              console.log(msg);
+              console.log(msg.responseText);
             });
         };
         var canSave=true;
@@ -1846,23 +1846,23 @@
             orderObj = [{
               'Id': orderDetailsId,
               'Mobile_Offline_Name__c': $scope.mobileName,
-              'Work_Order_Type__c': $('#select_work_type option:selected').val(),
+              'Work_Order_Type__c': $('#select_work_type option:selected').val()!=undefined&&$('#select_work_type option:selected').val()!=null?$('#select_work_type option:selected').val():"",
               'Description__c': $('#workContentStr').val(),
               'Service_Suggestion__c': $('#serviceSuggest').val(),
               'Subject__c': $('#call_str').val(),
-              'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
-              'Fault_Part_Code__c': $('#select_error_faults option:selected').val()
+              'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val()!=undefined&&$('#select_service_type option:selected').val()!=null?$('#select_service_type option:selected').val():"",
+              'Fault_Part_Code__c': $('#select_error_faults option:selected').val()!=undefined&&$('#select_error_faults option:selected').val()!=null?$('#select_error_faults option:selected').val():""
             }];
           } else {
             orderObj = {
               '_soupEntryId': userInfoId,
               'Mobile_Offline_Name__c': $scope.mobileName,
-              'Work_Order_Type__c': $('#select_work_type option:selected').val(),
+              'Work_Order_Type__c': $('#select_work_type option:selected').val()!=undefined&&$('#select_work_type option:selected').val()!=null?$('#select_work_type option:selected').val():"",
               'Description__c': $('#workContentStr').val(),
               'Service_Suggestion__c': $('#serviceSuggest').val(),
               'Subject__c': $('#call_str').val(),
-              'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val(),
-              'Fault_Part_Code__c': $('#select_error_faults option:selected').val()
+              'Service_Order_Sub_Type__c': $('#select_service_type option:selected').val()!=undefined&&$('#select_service_type option:selected').val()!=null?$('#select_service_type option:selected').val():"",
+              'Fault_Part_Code__c': $('#select_error_faults option:selected').val()!=undefined&&$('#select_service_type option:selected').val()!=null?$('#select_service_type option:selected').val():"";
             };
           }
 
@@ -3437,13 +3437,14 @@
                     }
                     $scope.contentTruckItemsMore = trucks;
                     deferred.resolve('');
-                } else {
-                    $ionicPopup.alert({
-                        title: '结果',
-                        template: '没有数据'
-                    });
-                    return false;
                 }
+                // else {
+                //     $ionicPopup.alert({
+                //         title: '结果',
+                //         template: '没有数据'
+                //     });
+                //     return false;
+                // }
             }, function error(msg) {
                 console.log(msg);
                 AppUtilService.hideLoading();
@@ -3905,7 +3906,7 @@
             },
             function error(msg) {
               AppUtilService.hideLoading();
-              console.log(msg);
+              console.log(msg.responseText);
             }
           );
         };
@@ -4063,7 +4064,7 @@
             },
             function error(msg) {
               AppUtilService.hideLoading();
-              console.log(msg);
+              console.log(msg.responseText);
             }
           );
 
@@ -4220,7 +4221,7 @@
               }
             }, function error(msg) {
               AppUtilService.hideLoading();
-              console.log(msg);
+              console.log(msg.responseText);
             });
         };
 
@@ -4287,7 +4288,7 @@
                 console.log(msg);
                 AppUtilService.hideLoading();
                 $ionicPopup.alert({
-                  title: msg
+                  title: msg.responseText
                 });
                 return;
               }

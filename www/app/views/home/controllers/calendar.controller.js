@@ -314,7 +314,7 @@
                 canDeparture=true;
                 deferred.reject(msg);
                 AppUtilService.hideLoading();
-                console.log(msg);
+                console.log(msg.responseText);
             });
             return deferred.promise;
         };
@@ -371,7 +371,7 @@
                         }
                     },function error(msg) {
                         canDeparture=true;
-                        console.log(msg);
+                        console.log(msg.responseText);
                         $scope.updateOrderType(item, 'Not Started');
                     });
                 } else {
@@ -390,7 +390,7 @@
                 deferred.reject(msg);
                 $ionicPopup.alert({
                     title: '更新工单状态失败',
-                    template: msg
+                    template: msg.responseText
                 });
                 return false;
             });
@@ -422,7 +422,7 @@
                 AppUtilService.hideLoading();
                 $ionicPopup.alert({
                     title: '更新工单状态失败',
-                    template: msg
+                    template: msg.responseText
                 });
                 return false;
             });
@@ -920,7 +920,7 @@
 
                 }
               }, function error(msg) {
-                console.log('loadWorkPlanData::ERROR:::', msg);
+                console.log('loadWorkPlanData::ERROR:::', msg.responseText);
 
                 return false;
               }

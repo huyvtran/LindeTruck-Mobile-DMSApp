@@ -148,9 +148,10 @@
                           }, function error(msg) {
                               AppUtilService.hideLoading();
                               $ionicPopup.alert({
-                                  title: "工单安排时间保存失败"
+                                  title: "工单安排时间保存失败",
+                                  template:msg.responseText
                               });
-                              console.log(msg);
+                              console.log(msg.responseText);
                               return false;
                           }
                         );
@@ -162,10 +163,11 @@
                         return false;
                     }
                 }, function error(msg) {
-                    console.log(msg);
+                    console.log(msg.responseText);
                     AppUtilService.hideLoading();
                     $ionicPopup.alert({
-                        title: "更新工单状态失败"
+                        title: "更新工单状态失败",
+                        template:msg.responseText
                     });
                     return false;
                 });

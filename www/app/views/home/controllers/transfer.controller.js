@@ -58,7 +58,7 @@
 
           }, function error(msg) {
             AppUtilService.hideLoading();
-            console.log(msg);
+            console.log(msg.responseText);
           }
         );
 
@@ -95,7 +95,7 @@
             console.log(msg);
             $ionicPopup.alert({
               title: "提交失败",
-              template: msg
+              template: msg.responseText
             });
             return false;
           }

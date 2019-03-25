@@ -186,7 +186,7 @@
                         }
                     },function error(msg) {
                         $log.error(msg);
-                        console.log(msg);
+                        console.log(msg.responseText);
                         $scope.hideLoading();
                     }
                 );
@@ -259,8 +259,8 @@
                             $scope.hideLoading();
                         }
                     },function error(msg) {
-                        $log.error(msg);
-                        console.log(msg);
+                        $log.error(msg.responseText);
+                        console.log(msg.responseText);
                         $scope.hideLoading();
                     }
                 );
@@ -342,8 +342,8 @@
                             $scope.hideLoading();
                         }
                     },function error(msg) {
-                        $log.error(msg);
-                        console.log(msg);
+                        $log.error(msg.responseText);
+                        console.log(msg.responseText);
                         $scope.hideLoading();
                     }
                 );
@@ -529,7 +529,8 @@
                     },function error(msg) {
                         AppUtilService.hideLoading();
                         $ionicPopup.alert({
-                            title:"保存数据失败"
+                            title:"保存数据失败",
+                            template:msg.responseText
                         });
                         return false;
                     }
