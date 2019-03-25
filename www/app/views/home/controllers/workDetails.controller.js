@@ -2863,7 +2863,7 @@
                 var canUpdateData=true;
                 if(res.OriginData!=null&&res.OriginData.length>0){
                     for(var i =0;i<res.OriginData.length;i++){
-                        if (res.OriginData[i].updateStatus=="fail"){
+                        if (res.OriginData[i].updateStatus=="fail"||res.OriginData[i].updateStatus==null){
                             canUpdateData=false;
                         }
                     }
@@ -2879,6 +2879,10 @@
                     }else{
                         document.getElementById('workDetailTotal').style.display = 'block';//隐藏
                         document.getElementById('workDetailPart').style.display = 'none';//隐藏
+                        truckNumber="";
+                        angular.forEach($scope.allTruckItems,function (singleCar) {
+                            truckNumber += singleCar.truckItemNum + "(" + singleCar.Operation_Hour__c + "H)" + ';';
+                        });
                     }
                 }
               },function error(msg) {
