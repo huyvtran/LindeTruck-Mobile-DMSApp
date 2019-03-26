@@ -287,7 +287,6 @@
               imageName: 'af_' + new Date().format('yyyyMMddhhmmss/') + '*服务车外观及后备箱'
             });
         });
-
         $scope.$on('$ionicView.enter', function () {
           LocalCacheService.set('previousStateForSCReady', $state.current.name);
           LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
@@ -371,6 +370,24 @@
               console.log(msg.responseText);
             });
         });
+
+        $scope.reloadTruckData = function(){
+            AppUtilService.showLoading();
+            dualModeService.getWorkOrderUtilInfo(Number(localStorage.onoffline),
+                Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
+                Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId).then(
+                function callBack(res) {
+                    AppUtilService.hideLoading();
+                    if (Number(localStorage.onoffline) != 0) {
+                        $scope.initTrucks(res.truckModels, res.childOrders);
+                        $scope.allTruckItems = truckItems;
+                    }
+                }, function error(msg) {
+                    AppUtilService.hideLoading();
+                    console.log(msg.responseText);
+                });
+        };
+
 
         $scope.initSoResult = function (soResult) {
           if (soResult != undefined && soResult != null) {
@@ -2835,6 +2852,7 @@
         };
 
         $scope.hidePartPage = function () {
+          $scope.reloadTruckData();
           document.getElementById('workDetailTotal').style.display = 'block';//隐藏
           document.getElementById('workDetailPart').style.display = 'none';//隐藏
         };
