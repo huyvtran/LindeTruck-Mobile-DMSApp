@@ -343,18 +343,15 @@
                 $scope.initTrucks(res.truckModels, res.childOrders);
                 initTrucks = res.truckModels;
                 if (initTrucks != null && initTrucks.length > 0) {
-                  $scope.getMainLevelsAndDesc(initTrucks[0], initChildOrders);
-                  setTimeout(function () {
-                    if (res.mjiInfos != null && res.mjiInfos.length > 0) {
-                      angular.forEach(res.mjiInfos, function (mjiInfo) {
-                        $('.maintain_checkbox').each(function (index, element) {
-                          if ($(element).attr("id") == mjiInfo.Id) {
-                            $(element).prop("checked", true);
-                          }
-                        });
-                      });
-                    }
-                  }, 2000);
+                  $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
+                      return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
+                  }).then(function (res) {
+                      return $scope.changeCareTypeStep1();
+                  }).then(function (res) {
+                      return  $scope.changeCareTypeStep2();
+                  }).then(function (res) {
+                      return $scope.showModal();
+                  });
                 }
                 $scope.allTruckItems = truckItems;
 
@@ -453,10 +450,8 @@
         $scope.initPartNumersStep2=function(result){
             if (result != undefined && result != null) {
                 if (result.Fault_Part_Code__c != undefined && result.Fault_Part_Code__c != null && result.Fault_Part_Code__c != "") {
-                    // setTimeout(function () {
                         $('#select_error_faults').find('option[value = ' + result.Fault_Part_Code__c + ']').attr(
                             'selected', true);
-                    // },2000);
                 }
             }
         };
@@ -465,12 +460,15 @@
          *  初始化保养级别
          */
         $scope.initChidOrderInfo = function (truckObj, childOrders) {
+          let deferred = $q.defer();
           if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
             var serviceLevel = childOrders[0].Maintenance_Level__c;
             if (serviceLevel!="? undefined:undefined ?" && serviceLevel!=undefined && serviceLevel!=""){
                 $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
+                deferred.resolve("");
             }
           }
+          return deferred.promise;
         };
 
         /**
@@ -3390,13 +3388,16 @@
 
           $scope.SelectedTruckNum = $scope.allTruckItems.length;
           if ($scope.allTruckItems.length > 0) {
-            $scope.getMainLevelsAndDesc($scope.allTruckItems[0], initChildOrders, null);
+            $scope.getMainLevelsAndDesc($scope.allTruckItems[0]).then(function (res) {
+                return  $scope.initChidOrderInfo($scope.allTruckItems[0], initChildOrders);
+            });
           }
 
         };
 
         //保养级别
-        $scope.getMainLevelsAndDesc = function (obj, childOrders) {
+        $scope.getMainLevelsAndDesc = function (obj) {
+          let deferred = $q.defer();
           $scope.serviceLevels = [];
           $scope.serviceNames = [];
           if (!obj.Maintenance_Key__c) {
@@ -3412,16 +3413,16 @@
               for (let i = 0; i < response.levels.length; i++) {
                 $scope.serviceLevels.push(response.levels[i]);
               }
+              deferred.resolve("");
             }
-            setTimeout(function () {
-              $scope.initChidOrderInfo(obj, childOrders);
-            }, 1000);
+
           }, function error(msg) {
               $ionicPopup.alert({
                   title: msg.responseText
               });
               return false;
           });
+          return deferred.promise;
         };
 
         /**
@@ -4208,8 +4209,13 @@
         };
 
         $scope.showModal = function () {
-          $('.mask_div').css('display', 'block');
-          $('.maintain_popup').css('display', 'block');
+          let derferred = $q.defer();
+          if ($scope.mainTanceChioces!=null && $scope.mainTanceChioces.length>0){
+              $('.mask_div').css('display', 'block');
+              $('.maintain_popup').css('display', 'block');
+              derferred.resolve("");
+          }
+          return derferred.promise;
         };
 
         $scope.singleTruckFleetConfig = null;
@@ -4256,7 +4262,7 @@
             $scope.changeCareTypeStep1().then(function (res) {
                return  $scope.changeCareTypeStep2();
             }).then(function (res) {
-                $scope.showModal();
+                return $scope.showModal();
             });
         };
         $scope.changeCareTypeStep1=function () {
@@ -4290,11 +4296,12 @@
                                 });
                             }
                             deferred.resolve("");
-                        }else{
-                            $ionicPopup.alert({
-                                title:"没有数据"
-                            });
                         }
+                        // else{
+                        //     $ionicPopup.alert({
+                        //         title:"没有数据"
+                        //     });
+                        // }
                     }, function error(msg) {
                         console.log(msg);
                         AppUtilService.hideLoading();
@@ -4309,7 +4316,6 @@
         };
         $scope.changeCareTypeStep2=function () {
             let deferred = $q.defer();
-            // setTimeout(function () {
                 if (initmjiInfos != null && initmjiInfos.length > 0) {
                     angular.forEach(initmjiInfos, function (mjiInfo) {
                         $('.maintain_checkbox').each(function (index, element) {
@@ -4319,10 +4325,8 @@
                         });
                     });
                 }
-            // }, 2000);
             deferred.resolve("");
             return deferred.promise;
         };
-
       });
 })();
