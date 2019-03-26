@@ -3418,28 +3418,25 @@
           let deferred = $q.defer();
           $scope.serviceLevels = [];
           $scope.serviceNames = [];
-          if (!obj.Maintenance_Key__c) {
-            return;
-          }
-          SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,
-            Number(localStorage.onoffline)).then(function callBack(response) {
-            console.log('getMainLevelsAndDesc', response);
-            if (!response.levels) {
-              return;
-            }
-            if (response.levels.length > 0) {
-              for (let i = 0; i < response.levels.length; i++) {
-                $scope.serviceLevels.push(response.levels[i]);
-              }
-              deferred.resolve("");
-            }
+          if (obj.Maintenance_Key__c!=undefined&&obj.Maintenance_Key__c!=null) {
+              SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,
+                  Number(localStorage.onoffline)).then(function callBack(response) {
+                  console.log('getMainLevelsAndDesc', response);
 
-          }, function error(msg) {
-              $ionicPopup.alert({
-                  title: msg.responseText
+                  if (response.levels!=undefined&& response.levels!=null && response.levels.length > 0) {
+                      for (let i = 0; i < response.levels.length; i++) {
+                          $scope.serviceLevels.push(response.levels[i]);
+                      }
+                      deferred.resolve("");
+                  }
+
+              }, function error(msg) {
+                  $ionicPopup.alert({
+                      title: msg.responseText
+                  });
+                  return false;
               });
-              return false;
-          });
+          }
           return deferred.promise;
         };
 
