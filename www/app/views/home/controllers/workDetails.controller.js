@@ -328,7 +328,9 @@
               console.log('getInitDataUri', res);
               $scope.initSoResult(res.soResult);
               $scope.initWorkItems(res.workItems, res.soResult.On_Order__c);
-              $scope.initPartNumers(res.partNumers, res.soResult);
+              $scope.initPartNumers(res.partNumers).then(function (res) {
+                  return $scope.initPartNumersStep2(res.soResult);
+              });
 
               $scope.initAssignUserData(res.assignUser);
               $scope.initSavedUserData(res.savedUser, res.assignUser);
@@ -436,19 +438,27 @@
         };
 
         $scope.errorFaults = [];
-        $scope.initPartNumers = function (partNumers, result) {
+        $scope.initPartNumers = function (partNumers) {
+          let deferred = $q.defer();
           $scope.errorFaults = [];
           if (partNumers != undefined && partNumers != null && partNumers.length > 0) {
             for (var i = 0; i < partNumers.length; i++) {
               $scope.errorFaults.push(partNumers[i]);
             }
           }
-          if (result != undefined && result != null) {
-            if (result.Fault_Part_Code__c != undefined && result.Fault_Part_Code__c != null && result.Fault_Part_Code__c != "") {
-              $('#select_error_faults').find('option[value = ' + result.Fault_Part_Code__c + ']').attr(
-                'selected', true);
+          deferred.resolve("");
+          return deferred.promise;
+        };
+
+        $scope.initPartNumersStep2=function(result){
+            if (result != undefined && result != null) {
+                if (result.Fault_Part_Code__c != undefined && result.Fault_Part_Code__c != null && result.Fault_Part_Code__c != "") {
+                    // setTimeout(function () {
+                        $('#select_error_faults').find('option[value = ' + result.Fault_Part_Code__c + ']').attr(
+                            'selected', true);
+                    // },2000);
+                }
             }
-          }
         };
 
         /**
