@@ -4253,65 +4253,76 @@
         };
 
         $scope.changeCareType = function () {
-          var careType="";
-          //var careType = $("#select_care_type").val();
-            $('select #select_care_type').each(function (index, element) {
-                careType  = element.value;
+            $scope.changeCareTypeStep1().then(function (res) {
+               return  $scope.changeCareTypeStep2();
+            }).then(function (res) {
+                $scope.showModal();
             });
-          $scope.mainTanceChioces = [];
-          if (careType == null) {
-            return;
-          }
-          if ($scope.allTruckItems != null && $scope.allTruckItems.length > 0) {
-            AppUtilService.showLoading();
-            ForceClientService.getForceClient().apexrest(
-              $scope.getMaintanceChoiceUrl + $scope.allTruckItems[0].Model__c + '&level=' + careType,
-              'GET',
-              null,
-              {},
-              function callBack(res) {
-                console.log(res);
-                AppUtilService.hideLoading();
-                if (res[0].status!=undefined&&res[0].status!=null&&res[0].status.toLowerCase()=="fail"){
-                    $ionicPopup.alert({
-                        title:res[0].message
-                    });
-                    return;
-                }
-                if (res != null && res.length > 0) {
-                  for (var i = 0; i < res.length; i++) {
-                    $scope.mainTanceChioces.push({
-                      Id: res[i].Id,
-                      Name: res[i].CH
-                    });
-                  }
-                  setTimeout(function () {
-                    if (initmjiInfos != null && initmjiInfos.length > 0) {
-                      angular.forEach(initmjiInfos, function (mjiInfo) {
-                        $('.maintain_checkbox').each(function (index, element) {
-                          if ($(element).attr("id") == mjiInfo.Id) {
-                            $(element).prop("checked", true);
-                          }
-                        });
-                      });
-                    }
-                   $scope.showModal();
-                  }, 2000);
-                }else{
-                    $ionicPopup.alert({
-                        title:"没有数据"
-                    });
-                }
-              }, function error(msg) {
-                console.log(msg);
-                AppUtilService.hideLoading();
-                $ionicPopup.alert({
-                  title: msg.responseText
-                });
-                return;
-              }
-            );
-          }
         };
+        $scope.changeCareTypeStep1=function () {
+            let deferred =$q.defer();
+            var careType=$('#select_care_type option:selected').val();
+            $scope.mainTanceChioces = [];
+            if (careType == null) {
+                return;
+            }
+            if ($scope.allTruckItems != null && $scope.allTruckItems.length > 0) {
+                AppUtilService.showLoading();
+                ForceClientService.getForceClient().apexrest(
+                    $scope.getMaintanceChoiceUrl + $scope.allTruckItems[0].Model__c + '&level=' + careType,
+                    'GET',
+                    null,
+                    {},
+                    function callBack(res) {
+                        console.log(res);
+                        AppUtilService.hideLoading();
+                        if (res != null && res.length > 0) {
+                            if (res[0].status!=undefined&&res[0].status!=null&&res[0].status.toLowerCase()=="fail"){
+                                $ionicPopup.alert({
+                                    title:res[0].message
+                                });
+                                return;
+                            }
+                            for (var i = 0; i < res.length; i++) {
+                                $scope.mainTanceChioces.push({
+                                    Id: res[i].Id,
+                                    Name: res[i].CH
+                                });
+                            }
+                            deferred.resolve("");
+                        }else{
+                            $ionicPopup.alert({
+                                title:"没有数据"
+                            });
+                        }
+                    }, function error(msg) {
+                        console.log(msg);
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
+                            title: msg.responseText
+                        });
+                        return;
+                    }
+                );
+            }
+            return deferred.promise;
+        };
+        $scope.changeCareTypeStep2=function () {
+            let deferred = $q.defer();
+            // setTimeout(function () {
+                if (initmjiInfos != null && initmjiInfos.length > 0) {
+                    angular.forEach(initmjiInfos, function (mjiInfo) {
+                        $('.maintain_checkbox').each(function (index, element) {
+                            if ($(element).attr("id") == mjiInfo.Id) {
+                                $(element).prop("checked", true);
+                            }
+                        });
+                    });
+                }
+            // }, 2000);
+            deferred.resolve("");
+            return deferred.promise;
+        };
+
       });
 })();
