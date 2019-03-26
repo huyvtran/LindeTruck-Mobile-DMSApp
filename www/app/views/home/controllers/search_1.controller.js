@@ -142,7 +142,8 @@
             var loadingData = function () {
                 //AppUtilService.hideLoading();
                 console.log("get type data");
-                return ["查询订单", "查询车档", "查询客户"];
+                // return ["查询订单", "查询车档", "查询客户"];
+                return ["查询客户"];
             };
 
 

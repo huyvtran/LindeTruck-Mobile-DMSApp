@@ -72,7 +72,7 @@ img {
     background-repeat: no-repeat;
     background-size: cover;
     width: 20px;
-    height: 20px;    
+    height: 20px;
     margin-left: auto;
 }
 /*.main_header .add_Arrow {
@@ -182,9 +182,10 @@ img {
 .tabs-striped.tabs-assertive.ion_change_style .tab-item {
     color: #535353;
     border-top: 1px solid #535353;
+    max-width: initial;
 }
-.tabs-striped.tabs-assertive.ion_change_style .tab-item.activated, 
-.tabs-striped.tabs-assertive.ion_change_style .tab-item.active, 
+.tabs-striped.tabs-assertive.ion_change_style .tab-item.activated,
+.tabs-striped.tabs-assertive.ion_change_style .tab-item.active,
 .tabs-striped.tabs-assertive.ion_change_style .tab-item.tab-item-active {
     color: #ffffff;
     background: #aa0020;
