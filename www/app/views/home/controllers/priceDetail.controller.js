@@ -687,6 +687,7 @@ angular.module('oinio.controllers')
           partItem.Net_Price__c = Number(partItem.Discount__c*partItem.Gross_Price__c).toFixed(2);
         }
         console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
+        $scope.priceConditionPriceAll = $scope.priceConditionPriceAll.toFixed(2);
       };
       $scope.checkAllSearchResults = function () {
         let ele = $('#ckbox_truckFit_searchresult_all');
