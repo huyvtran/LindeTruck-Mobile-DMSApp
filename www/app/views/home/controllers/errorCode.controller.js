@@ -25,9 +25,9 @@
           AppUtilService.showLoading();
           ErrorCodeServices.getErrorCodeAllData().then(function (codeFiles) {
 
-            $scope.codeFiles = JSON.parse(codeFiles);
+            $scope.codeFiles = codeFiles;
 
-            ErrorCodeServices.getAllTruckSeries(JSON.parse(codeFiles)).then(function (seriesIds) {
+            ErrorCodeServices.getAllTruckSeries(codeFiles).then(function (seriesIds) {
 
               AppUtilService.hideLoading();
               $scope.seriesIds = seriesIds;
@@ -90,9 +90,11 @@
           ErrorCodeServices.queryTruckErrorInfo($scope.codeFiles, series, carType, errorCode).then(
             function (errorInfo) {
 
-              $scope.codeDescription = _.first(errorInfo).CodeDescription;
-              $scope.condition = _.first(errorInfo).Condition;
-              $scope.possibleReasion = _.first(errorInfo).PossibleReasion;
+              var errorMsg = _.first(errorInfo);
+
+              $scope.codeDescription = errorMsg.CodeDescription__c;
+              $scope.condition = errorMsg.Condition__c;
+              $scope.possibleReasion = errorMsg.PossibleReasion__c;
 
               AppUtilService.hideLoading();
             }, function (error) {
