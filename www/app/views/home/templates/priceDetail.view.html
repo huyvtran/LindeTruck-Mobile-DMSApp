@@ -618,7 +618,7 @@
                                     <div> {{labour.Name}}</div>
                                 </td>
                                 <td class="sv_Td">
-                                    <input id="priceId" ng-model="labour.Gross_Price__c" class="sv_Input_Price" ng-keyup="sumLabour(labour);"/>
+                                    <input id="priceId" ng-model="labour.Gross_Price__c" class="sv_Input_Price" ng-keyup="sumLabour(labour);" readOnly="true" />
                                 </td>
                                 <td class="sv_Td" >
                                     <input placeholder="0" ng-model="labour.Quantity__c" class="sv_Input_Number" ng-keyup="sumLabour(labour);"/>
