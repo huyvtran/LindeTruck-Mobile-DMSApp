@@ -86,7 +86,7 @@ angular.module('oinio.controllers')
                   }
                   partsItem.type = truckFitItem.type;
                   partsItem.Quantity__c = '';
-                  partsItem.Net_Price__c = '';
+                  partsItem.Net_Price__c = truckFitItem.Net_Price__c;
                   partsItem.Net_Amount__c = '';
                   partsItem.SPN_Price__c = '';
 
@@ -1573,7 +1573,7 @@ angular.module('oinio.controllers')
               partsItem.type = truckFitItem.type;
               partsItem.Gross_Amount__c = '';
               partsItem.Quantity__c = '';
-              partsItem.Net_Price__c = '';
+              partsItem.Net_Price__c = truckFitItem.Net_Price__c;
               partsItem.Net_Amount__c = '';
               partsItem.SPN_Price__c = '';
 
