@@ -32,8 +32,8 @@
         var manMadeNo1Name;
         var manMadeNo2Name;
         $scope.contentLSGs = [];//LSG
-        $scope.paramUrl1 = '/Parts/7990110000/' + $stateParams.SendSoupEntryId;
-        $scope.paramUrl2 = '/Parts/7990110003/' + $stateParams.SendSoupEntryId;
+        $scope.paramUrl1 = '/Parts?materialNumber=7990110000&accountId=' + $stateParams.SendSoupEntryId;
+        $scope.paramUrl2 = '/Parts?materialNumber=7990110003&accountId=' + $stateParams.SendSoupEntryId;
         $scope.getMaintenanceKeyLevelPartssBy2Url = '/MaintenanceKeyLevelParts?names=';
         $scope.paramSaveUrl = '/ServiceQuoteOverview?';
         $scope.paramApprovalsUrl = '/v38.0/process/approvals';

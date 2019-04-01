@@ -1993,33 +1993,141 @@
           }
           if (canSave){
               canSave=false;
-              dualModeService.updateWorkOrderUtilInfo(Number(localStorage.onoffline), requestBody).then(
-                  function callBack(res) {
-                      AppUtilService.hideLoading();
-                      console.log(res);
-                      if (res.status.toLowerCase() != 'fail') {
-                          if (Number(localStorage.onoffline) != 0) {
-                              $scope.regroupPartListForSave();
-                          } else {
-                              $state.go('app.home');
-                              $rootScope.getSomeData();
-                          }
-                      } else {
+              // dualModeService.updateWorkOrderUtilInfo(Number(localStorage.onoffline), requestBody).then(
+              //     function callBack(res) {
+              //         AppUtilService.hideLoading();
+              //         console.log(res);
+              //         if (res.status.toLowerCase() != 'fail') {
+              //             if (Number(localStorage.onoffline) != 0) {
+              //                 $scope.regroupPartListForSave();
+              //             } else {
+              //                 $state.go('app.home');
+              //                 $rootScope.getSomeData();
+              //             }
+              //         } else {
+              //             canSave=true;
+              //             $ionicPopup.alert({
+              //                 title: res.message
+              //             });
+              //             return false;
+              //         }
+              //     }, function error(msg) {
+              //         console.log(msg);
+              //         AppUtilService.hideLoading();
+              //         $ionicPopup.alert({
+              //             title: msg.responseText
+              //         });
+              //         canSave=true;
+              //         return false;
+              //     });
+
+
+            AppUtilService.showLoading();
+
+            //异步合并保存工单与配件
+            async.parallel([
+                function(callback) {
+                  setTimeout(function() {
+                    dualModeService.updateWorkOrderUtilInfo(Number(localStorage.onoffline), requestBody).then(
+                      function callBack(res) {
+                        console.log(res);
+                        if (res.status.toLowerCase() != 'fail') {
+                          callback(null, 'one');
+
+                        } else {
+                          AppUtilService.hideLoading();
                           canSave=true;
                           $ionicPopup.alert({
-                              title: res.message
+                            title: res.message
                           });
                           return false;
-                      }
-                  }, function error(msg) {
-                      console.log(msg);
-                      AppUtilService.hideLoading();
-                      $ionicPopup.alert({
+                        }
+                      }, function error(msg) {
+                        console.log(msg);
+                        AppUtilService.hideLoading();
+                        $ionicPopup.alert({
                           title: msg.responseText
+                        });
+                        canSave=true;
+                        return false;
                       });
+                  }, 200);
+                },
+                function(callback) {
+                  setTimeout(function() {
+                    regroupPartList = [];
+                    var part_InputForListChecked = [];//预留状态
+                    $('input.partCheckbox').each(function (index, element) {
+                      part_InputForListChecked.push(element.checked);
+                    });
+                    for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
+                      const element = $scope.selectedTruckFitItems[i];
+                      var onePartOriginals = {};
+                      onePartOriginals['Line_Item__c'] = i;//行项
+                      onePartOriginals['Name'] = element.Name;//name
+                      onePartOriginals['Quantity__c'] = element.quantity;//数量
+                      if (element.priceCondition != null) {
+                        onePartOriginals['Gross_Price__c'] = element.priceCondition.price;//公布价
+                      }
+                      // onePartOriginals['View_Integrity__c'] = element.View_Integrity__c;//预留
+                      onePartOriginals['Service_Material__c'] = element.Id;//Service_Material__c
+                      onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
+                      onePartOriginals['Parts_Type__c'] = element.type;//配件类型
+                      onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
+                      onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
+                      if (element.Procurement_Information__c != null) {
+                        onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
+                      } else {
+                        regroupPartList.push(onePartOriginals);
+                      }
+                    }
+
+                    console.log('regroupPartList:', regroupPartList);
+                    var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId + '&materialSumJSON=' + JSON.stringify(
+                      regroupPartList);
+                    console.log('savePartsUrl:', savePartsUrlVar);
+
+                    ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
+                      console.log('responseSaveParts:', responseSaveParts);
+
+                      //添加点击保存更改工单状态
+                      if (responseSaveParts.ServiceOrderMaterialSums) { //舒哥接口特例，只要有ServiceOrderMaterialSums就是成功
+
+                        callback(null, 'two');
+
+
+                      } else {
+                        AppUtilService.hideLoading();
+
+                        canSave=true;
+                        $ionicPopup.alert({
+                          title: '保存失败'
+                        });
+                        return false;
+                      }
+                    }, function error(msg) {
+                      console.log('responseSaveParts_error:', msg);
+                      AppUtilService.hideLoading();
                       canSave=true;
+                      $ionicPopup.alert({
+                        title: msg.responseText
+                      });
                       return false;
-                  });
+                    });
+
+                  }, 100);
+                }
+              ],
+              function(err, results) {
+                // the results array will equal ['one','two'] even though
+                // the second function had a shorter timeout.
+                console.log("async.parallel:",results);
+                AppUtilService.hideLoading();
+                $state.go('app.home');
+                $rootScope.getSomeData();
+              });
+
+
           }
         };
 
@@ -2731,83 +2839,83 @@
         //   part_InputForListChecked.push(element.checked);
         // });
         $scope.regroupPartListForSave = function () {
-          AppUtilService.showLoading();
-          regroupPartList = [];
-          var part_InputForListChecked = [];//预留状态
-          $('input.partCheckbox').each(function (index, element) {
-            part_InputForListChecked.push(element.checked);
-          });
-          for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-            const element = $scope.selectedTruckFitItems[i];
-            var onePartOriginals = {};
-            onePartOriginals['Line_Item__c'] = i;//行项
-            onePartOriginals['Name'] = element.Name;//name
-            onePartOriginals['Quantity__c'] = element.quantity;//数量
-            if (element.priceCondition != null) {
-              onePartOriginals['Gross_Price__c'] = element.priceCondition.price;//公布价
-            }
-            // onePartOriginals['View_Integrity__c'] = element.View_Integrity__c;//预留
-            onePartOriginals['Service_Material__c'] = element.Id;//Service_Material__c
-            onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
-            onePartOriginals['Parts_Type__c'] = element.type;//配件类型
-            onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
-            onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
-            if (element.Procurement_Information__c != null) {
-              onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
-            } else {
-              regroupPartList.push(onePartOriginals);
-            }
-          }
-
-          console.log('regroupPartList:', regroupPartList);
-          var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId + '&materialSumJSON=' + JSON.stringify(
-            regroupPartList);
-          console.log('savePartsUrl:', savePartsUrlVar);
-
-          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
-            AppUtilService.hideLoading();
-            console.log('responseSaveParts:', responseSaveParts);
-
-            //添加点击保存更改工单状态
-            if (responseSaveParts.ServiceOrderMaterialSums) { //舒哥接口特例，只要有ServiceOrderMaterialSums就是成功
-              $state.go('app.home');
-              $rootScope.getSomeData();
-
-              // if (enableArrival){
-              //     $state.go('app.home');
-              //     $rootScope.getSomeData();
-              // }else{
-              //     $state.go('app.workDetails', {
-              //         //SendInfo: obj._soupEntryId,
-              //         workDescription: null,
-              //         AccountShipToC: localAccountShipToc,
-              //         workOrderId: orderDetailsId,
-              //         enableArrivalBtn: true,
-              //         goOffTime: null,
-              //         isNewWorkList: true,
-              //         accountId: $scope.localAccId,
-              //         orderBelong:true,
-              //         openPrintPage:false
-              //     });
-              //     $rootScope.getSomeData();
-              // }
-
-            } else {
-              canSave=true;
-              $ionicPopup.alert({
-                title: '保存失败'
-              });
-              return false;
-            }
-          }, function error(msg) {
-            console.log('responseSaveParts_error:', msg);
-            AppUtilService.hideLoading();
-            canSave=true;
-            $ionicPopup.alert({
-              title: msg.responseText
-            });
-            return false;
-          });
+          // AppUtilService.showLoading();
+          // regroupPartList = [];
+          // var part_InputForListChecked = [];//预留状态
+          // $('input.partCheckbox').each(function (index, element) {
+          //   part_InputForListChecked.push(element.checked);
+          // });
+          // for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
+          //   const element = $scope.selectedTruckFitItems[i];
+          //   var onePartOriginals = {};
+          //   onePartOriginals['Line_Item__c'] = i;//行项
+          //   onePartOriginals['Name'] = element.Name;//name
+          //   onePartOriginals['Quantity__c'] = element.quantity;//数量
+          //   if (element.priceCondition != null) {
+          //     onePartOriginals['Gross_Price__c'] = element.priceCondition.price;//公布价
+          //   }
+          //   // onePartOriginals['View_Integrity__c'] = element.View_Integrity__c;//预留
+          //   onePartOriginals['Service_Material__c'] = element.Id;//Service_Material__c
+          //   onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
+          //   onePartOriginals['Parts_Type__c'] = element.type;//配件类型
+          //   onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
+          //   onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
+          //   if (element.Procurement_Information__c != null) {
+          //     onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
+          //   } else {
+          //     regroupPartList.push(onePartOriginals);
+          //   }
+          // }
+          //
+          // console.log('regroupPartList:', regroupPartList);
+          // var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId + '&materialSumJSON=' + JSON.stringify(
+          //   regroupPartList);
+          // console.log('savePartsUrl:', savePartsUrlVar);
+          //
+          // ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
+          //   AppUtilService.hideLoading();
+          //   console.log('responseSaveParts:', responseSaveParts);
+          //
+          //   //添加点击保存更改工单状态
+          //   if (responseSaveParts.ServiceOrderMaterialSums) { //舒哥接口特例，只要有ServiceOrderMaterialSums就是成功
+          //     // $state.go('app.home');
+          //     // $rootScope.getSomeData();
+          //
+          //     // if (enableArrival){
+          //     //     $state.go('app.home');
+          //     //     $rootScope.getSomeData();
+          //     // }else{
+          //     //     $state.go('app.workDetails', {
+          //     //         //SendInfo: obj._soupEntryId,
+          //     //         workDescription: null,
+          //     //         AccountShipToC: localAccountShipToc,
+          //     //         workOrderId: orderDetailsId,
+          //     //         enableArrivalBtn: true,
+          //     //         goOffTime: null,
+          //     //         isNewWorkList: true,
+          //     //         accountId: $scope.localAccId,
+          //     //         orderBelong:true,
+          //     //         openPrintPage:false
+          //     //     });
+          //     //     $rootScope.getSomeData();
+          //     // }
+          //
+          //   } else {
+          //     canSave=true;
+          //     $ionicPopup.alert({
+          //       title: '保存失败'
+          //     });
+          //     return false;
+          //   }
+          // }, function error(msg) {
+          //   console.log('responseSaveParts_error:', msg);
+          //   AppUtilService.hideLoading();
+          //   canSave=true;
+          //   $ionicPopup.alert({
+          //     title: msg.responseText
+          //   });
+          //   return false;
+          // });
 
         };
 
