@@ -806,7 +806,9 @@
                         saveToPhotoAlbum: false,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         mediaType: Camera.MediaType.PICTURE,
-                        encodingType: Camera.EncodingType.JPEG
+                        encodingType: Camera.EncodingType.JPEG,
+                            targetWidth: 300,
+                            targetHeight: 300
                       }
                     );
                   } catch (e) {
@@ -848,7 +850,9 @@
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
                         mediaType: Camera.MediaType.PICTURE,
-                        encodingType: Camera.EncodingType.JPEG
+                        encodingType: Camera.EncodingType.JPEG,
+                          targetWidth: 300,
+                          targetHeight: 300
                       });
                   } catch (e) {
                     return;
@@ -883,7 +887,9 @@
                         saveToPhotoAlbum: false,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         mediaType: Camera.MediaType.PICTURE,
-                        encodingType: Camera.EncodingType.JPEG
+                        encodingType: Camera.EncodingType.JPEG,
+                            targetWidth: 300,
+                            targetHeight: 300
                       }
                     );
                   } catch (e) {
@@ -907,7 +913,9 @@
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
                         mediaType: Camera.MediaType.PICTURE,
-                        encodingType: Camera.EncodingType.JPEG
+                        encodingType: Camera.EncodingType.JPEG,
+                          targetWidth: 300,
+                          targetHeight: 300
                       });
                   } catch (e) {
                     return;
