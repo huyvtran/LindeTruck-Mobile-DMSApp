@@ -70,7 +70,7 @@
                           return;
                       }
                   }, function error(msg) {
-                      console.log(msg.responseText);
+                      console.log(JSON.stringify(msg));
                   });
             });
             $scope.getPhoto1 = function ($event) {
@@ -512,9 +512,8 @@
                                 canClick = true;
                             }, 3000);
                             $ionicPopup.alert({
-                                title:msg.responseText
+                                title:JSON.stringify(msg)
                             });
-                            console.log(msg.responseText);
                         }
                     });
                 }
