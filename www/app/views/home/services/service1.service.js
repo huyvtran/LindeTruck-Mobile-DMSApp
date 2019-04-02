@@ -106,7 +106,7 @@
                                     'Plan_Date__c,Truck_Serial_Number__c,Description__c,Subject__c';
                     let sql = "select " + str_fields +
                             " from Service_Order_Overview__c " +
-                            " where Account_Ship_to__c ='" + acctId + "' order by Id desc limit 3";
+                            " where Account_Ship_to__c ='" + acctId + "' order by CreatedDate desc limit 3";
                     let url = service.buildURL('querySobjects',sql);
                     let requestMethod = 'GET';
                     return service.sendRest(url,sql,requestMethod,str_fields);
