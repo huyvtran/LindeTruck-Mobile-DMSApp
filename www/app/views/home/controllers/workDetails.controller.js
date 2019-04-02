@@ -330,7 +330,6 @@
               $scope.initPartNumers(res.partNumers).then(function (res) {
                   return $scope.initPartNumersStep2(res.soResult);
               });
-
               $scope.initAssignUserData(res.assignUser);
               $scope.initSavedUserData(res.savedUser, res.assignUser);
               initChildOrders = res.childOrders;
@@ -391,6 +390,9 @@
 
         $scope.initSoResult = function (soResult) {
           if (soResult != undefined && soResult != null) {
+            $scope.Pricing_Date__c = soResult.Pricing_Date__c;//建单日
+            $scope.Rate__c = soResult.Rate__c;//优惠价的税率
+
             $scope.mobileName = soResult.Name != undefined && soResult.Name != null ? soResult.Name : '';
             if (soResult.Account_Ship_to__r != null && soResult.Account_Ship_to__r != undefined) {
               //客户名称：
@@ -2101,7 +2103,7 @@
 
                         canSave=true;
                         $ionicPopup.alert({
-                          title: '保存失败'
+                          title: responseSaveParts.message
                         });
                         return false;
                       }
@@ -2384,7 +2386,7 @@
               }
               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList)
                                         + '&partsQuantitys='
-                                        + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c;
+                                        + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
               console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
               ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -2457,7 +2459,7 @@
             }
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
           $scope.selectedTruckFitItems = [];// 清空列表
 
@@ -2523,7 +2525,7 @@
             $scope.selectedTruckFitItems.push(item);
           });
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -2789,7 +2791,7 @@
             partsQuantitys.push(1);//默认库存
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {
@@ -4154,7 +4156,7 @@
           });
 
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {
