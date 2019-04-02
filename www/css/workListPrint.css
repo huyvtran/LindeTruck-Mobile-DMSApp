@@ -127,9 +127,15 @@ img {
 .workListPrint_bodyer .readonly_Inf_1 .statistic_center {
     text-align: center;
 }
-.workListPrint_bodyer .readonly_Inf_2 .statistic_center {
+.workListPrint_bodyer .readonly_Inf_2 .statistic_left {
+    text-align: left;
     color: #979797;
 }
+.workListPrint_bodyer .readonly_Inf_2 .statistic_center {
+    text-align: center;
+    color: #979797;
+}
+
 .workListPrint_bodyer .readonly_Inf_2 {
     margin: 2% 5%;
     background: #ffffff;

@@ -1703,15 +1703,26 @@
           for (var i = 0; i < $scope.rejectedItems.length; i++) {
             var items = $scope.rejectedItems[i].Delivery_Line_Item__r;
             for (var j = 0; j < items.length; j++) {
-              $scope.goodsList.push({
-                SAP_Delivery_Order_Line_Item__c: items[j].SAP_Delivery_Order_Line_Item__c,
-                Service_Material__rparts_number__c: items[j].Service_Material__rparts_number__c,
-                Service_Material__rName: items[j].Service_Material__rName.substring(0, 4),
-                Quantity__c: items[j].Quantity__c,
-                Used_Quantity__c: items[j].Used_Quantity__c
-              });
+              if (items[j]!=null){
+                  $scope.goodsList.push({
+                      SAP_Delivery_Order_Line_Item__c: items[j].SAP_Delivery_Order_Line_Item__c!=undefined&&items[j].SAP_Delivery_Order_Line_Item__c!=null?items[j].SAP_Delivery_Order_Line_Item__c:"      ",
+                      Service_Material__rparts_number__c: items[j].Service_Material__rparts_number__c!=undefined&&items[j].Service_Material__rparts_number__c!=null?$scope.polishText(items[j].Service_Material__rparts_number__c,10):"          ",
+                      Service_Material__rName:items[j].Service_Material__rName!=undefined&&items[j].Service_Material__rName!=null?$scope.polishText(items[j].Service_Material__rName.replace(/\s+/g,"").substring(0, 4),4):"    ",
+                      Quantity__c: items[j].Quantity__c!=undefined&&items[j].Quantity__c!=null?items[j].Quantity__c:0,
+                      Used_Quantity__c: items[j].Used_Quantity__c!=undefined&&items[j].Used_Quantity__c!=null?items[j].Used_Quantity__c:0
+                  });
+              }
             }
           }
+        };
+
+        $scope.polishText=function(str,len){
+            if (str.length<len){
+                for (var k =0;k<len-str.length;k++){
+                    str+=" ";
+                }
+            }
+            return str;
         };
 
         $scope.calculateWorkHour = function (at, lt) {
@@ -3025,7 +3036,7 @@
                         document.getElementById('workDetailPart').style.display = 'none';//隐藏
                         truckNumber="";
                         angular.forEach($scope.allTruckItems,function (singleCar) {
-                            truckNumber += singleCar.truckItemNum + "(" + singleCar.Operation_Hour__c + "H)" + ';';
+                            truckNumber += singleCar.truckItemNum + "(" + singleCar.Operation_Hour__c + "H)" + '; ';
                         });
                     }
                 }

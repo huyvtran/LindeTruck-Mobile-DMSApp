@@ -1519,16 +1519,16 @@
                     <div class="inf_Box">
                         <table class="statistic_table">
                             <tr>
-                                <td class="statistic_Title statistic_center"> 行项</td>
-                                <td class="statistic_Title statistic_center"> 物料号/物料名称</td>
+                                <td class="statistic_Title statistic_left"> 行项</td>
+                                <td class="statistic_Title statistic_left"> 物料号/物料名称</td>
                                 <td class="statistic_Title statistic_center"> 到货数</td>
                                 <td class="statistic_Title statistic_center"> 实用量</td>
                             </tr>
                             <tr ng-repeat="goodsItem in goodsList">
-                                <td class="statistic_Text statistic_center">
+                                <td class="statistic_Text statistic_left">
                                     {{goodsItem.SAP_Delivery_Order_Line_Item__c}}
                                 </td>
-                                <td class="statistic_Text statistic_center">
+                                <td class="statistic_Text statistic_left">
                                     {{goodsItem.Service_Material__rparts_number__c}}/{{goodsItem.Service_Material__rName}}
                                 </td>
                                 <td class="statistic_Text statistic_center"> {{goodsItem.Quantity__c}}</td>
