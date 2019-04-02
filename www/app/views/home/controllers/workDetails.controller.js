@@ -3094,7 +3094,7 @@
           ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
             AppUtilService.hideLoading();
             console.log('responseSaveParts:', responseSaveParts);
-            $state.go('app.generateOrders', {workOrderId: orderDetailsId, accountId: $stateParams.accountId});//跳转备件页面
+            $state.go('app.generateOrders', {workOrderId: orderDetailsId, accountId: $stateParams.accountId, WorkOrderType: $('#select_work_type option:selected').val()!=undefined&&$('#select_work_type option:selected').val()!=null?$('#select_work_type option:selected').val():""});//跳转备件页面
 
           }, function error(msg) {
             console.log('responseSaveParts_error:', msg);
