@@ -2046,6 +2046,7 @@
                         console.log(res);
                         if (res.status.toLowerCase() != 'fail') {
                           callback(null, 'one');
+                          console.log("one");
 
                         } else {
                           AppUtilService.hideLoading();
@@ -2088,6 +2089,12 @@
                       onePartOriginals['Parts_Type__c'] = element.type;//配件类型
                       onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
                       onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
+                      onePartOriginals['Material_Type__c'] = 'Part';
+                      if (element.inventory != null) {
+                        onePartOriginals['Delivery_Message__c'] = element.inventory.inventoryInfo;//可发货数量以及交货期
+                        onePartOriginals['Delivery_Date__c'] = element.inventory.estimatedDeliveryDate;//可发货数量以及交货期
+                      }
+
                       if (element.Procurement_Information__c != null) {
                         onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
                       } else {
@@ -2107,6 +2114,7 @@
                       if (responseSaveParts.ServiceOrderMaterialSums) { //舒哥接口特例，只要有ServiceOrderMaterialSums就是成功
 
                         callback(null, 'two');
+                        console.log("two");
 
 
                       } else {
@@ -3090,6 +3098,11 @@
             onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
             onePartOriginals['Parts_Type__c'] = element.type;//配件类型
             onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
+            onePartOriginals['Material_Type__c'] = 'Part';
+            if (element.inventory != null) {
+              onePartOriginals['Delivery_Message__c'] = element.inventory.inventoryInfo;//可发货数量以及交货期
+              onePartOriginals['Delivery_Date__c'] = element.inventory.estimatedDeliveryDate;//可发货数量以及交货期
+            }
             if (element.Procurement_Information__c != null) {
               onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
             } else {
