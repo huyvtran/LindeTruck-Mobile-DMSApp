@@ -226,7 +226,10 @@
 									<div> 描述/ 工厂</div>
 								</th>
 								<th class="sv_Td">
-									<div> 净价</div>
+									<div> 价格</div>
+								</th>
+								<th class="sv_Td">
+									<div> 售价</div>
 								</th>
 							</tr>
 							<tr ng-repeat="chooseMaterial in chooseMaterials" ng-cloak>
@@ -234,7 +237,7 @@
 									<input type="checkbox" class="sv_checkboxItem"/>
 								</td>
 								<td class="sv_Td">
-									<input class="sv_Input" ng-model="chooseMaterial.Item_Code__c"  ng-cloak value="{{chooseMaterial.Item_Code__c}}"/>
+									<input class="sv_Input" ng-model="chooseMaterial.parts_number__c"  ng-cloak value="{{chooseMaterial.parts_number__c}}"/>
 								</td>
 								<td class="sv_Td">
 									<input class="sv_Input_Quantity" ng-model="chooseMaterial.Required_Quantity__c" ng-cloak value="{{chooseMaterial.Required_Quantity__c}}"/>
@@ -245,6 +248,9 @@
 								</td>
 								<td class="sv_Td">
 									<input class="sv_Input" ng-model="chooseMaterial.Unite_Price__c" ng-cloak value="{{chooseMaterial.Unite_Price__c}}"/>
+								</td>
+								<td class="sv_Td">
+									<input class="sv_Input" ng-model="chooseMaterial.Selling_Price__c" ng-cloak value="{{chooseMaterial.Selling_Price__c}}"/>
 								</td>
 							</tr>
 						</table>

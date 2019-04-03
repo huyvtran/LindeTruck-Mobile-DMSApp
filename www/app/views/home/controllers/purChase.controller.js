@@ -52,9 +52,9 @@
                     vm.username = oCurrentUser.Name;
                 }
 
-                $scope.recordTypes.push({label:"Z605 售后备件采购订单",value:"Z605 Service Parts Procurement"});
-                $scope.recordTypes.push({label:"Z609 备件服务外采订单",value:"Z609 Service Support Procurement"});
-                $scope.recordTypes.push({label:"Z610 大区自主采购订单(电池/属具)",value:"Z610 Regional Procurement(Battery/Attachment)"});
+                $scope.recordTypes.push({label:"Z605 售后备件采购订单",value:"Z605"});
+                $scope.recordTypes.push({label:"Z609 备件服务外采订单",value:"Z609"});
+                $scope.recordTypes.push({label:"Z610 大区自主采购订单(电池/属具)",value:"Z610"});
 
                 $scope.statuses.push({label:"草稿",value:"Draft"});
                 // $scope.statuses.push({value:"Approving"});
@@ -375,12 +375,12 @@
             $scope.chooseCurrentMaterial = function(obj){
 
                 var objOther = {};
-                objOther.Item_Code__c =obj.Name!=null?obj.Name:"";
+                objOther.parts_number__c =obj.parts_number__c!=undefined&&obj.parts_number__c!=null?obj.parts_number__c:"";
                 objOther.Required_Quantity__c =1;
-                objOther.Item_Description__c =obj.parts_description__c!=null?obj.parts_description__c:"";
-                objOther.Factory__c =obj.Factory__c!=null?obj.Factory__c:"";
-                objOther.Unite_Price__c =obj.Cost_Price__c!=null?Number(obj.Cost_Price__c):0;
-
+                objOther.Item_Description__c =obj.parts_description__c!=undefined&&obj.parts_description__c!=null?obj.parts_description__c:"";
+                objOther.Factory__c =obj.Factory__c!=undefined&&obj.Factory__c!=null?obj.Factory__c:"";
+                objOther.Unite_Price__c =obj.Cost_Price__c!=undefined&&obj.Cost_Price__c!=null?Number(obj.Cost_Price__c):0;
+                objOther.Id=obj.Id!=undefined&&obj.Id!=null?obj.Id:"";
                 if (localMaterials.length>0){
                     for(var i =0;i<localMaterials.length;i++){
                         if (localMaterials[i].Item_Code__c!=obj.Name){
@@ -466,6 +466,7 @@
                         recordType:{
                             Name:$('#recordTypeList option:selected').val()
                         },
+                        Procurement_Type__c:$('#recordTypeList option:selected').val(),
                         Delivery_Date__c:planDate,
                         Supplier_Information__c:supplierInfoSoupId,
                         Procurement_Description__c:$("#purchaseDesc").val().trim(),
@@ -487,8 +488,9 @@
                 var selectMaterials = [];
                 for (var i = 0; i < $scope.chooseMaterials.length; i++) {
                   var material =  {};
+                  material.Service_Material__c=$scope.chooseMaterials[i].Id;
                   material.Name = $scope.chooseMaterials[i].Name;
-                  material.Item_Code__c = $scope.chooseMaterials[i].Item_Code__c;
+                  material.Item_Code__c = $scope.chooseMaterials[i].parts_number__c;
                   material.Required_Quantity__c = $scope.chooseMaterials[i].Required_Quantity__c;
                   material.Item_Description__c = $scope.chooseMaterials[i].Item_Description__c;
                   material.Factory__c = $scope.chooseMaterials[i].Factory__c;
