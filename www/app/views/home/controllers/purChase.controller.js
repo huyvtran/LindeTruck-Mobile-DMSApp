@@ -308,7 +308,7 @@
             };
 
 
-
+            var searchMaterialByNameUrl="";
             $scope.searchMaterilaByName =function(){
                 $scope.showLoading();
                 var searchName = $("#searchBig2").val();
@@ -322,8 +322,13 @@
                 }
                 $scope.allMaterial=[];
                 //AppUtilService.showLoading();
+                if ($('#recordTypeList option:selected').val()=="Z609"){
+                    searchMaterialByNameUrl="/ProcurementInformation?type=Z609ServiceMaterial&name="+searchName;
+                }else{
+                    searchMaterialByNameUrl=$scope.getServiceMaterialUrl+searchName;
+                }
                 ForceClientService.getForceClient().apexrest(
-                    $scope.getServiceMaterialUrl+searchName,
+                    searchMaterialByNameUrl,
                     'GET',
                     {},
                     null,
@@ -381,6 +386,8 @@
                 objOther.Factory__c =obj.Factory__c!=undefined&&obj.Factory__c!=null?obj.Factory__c:"";
                 objOther.Unite_Price__c =obj.Cost_Price__c!=undefined&&obj.Cost_Price__c!=null?Number(obj.Cost_Price__c):0;
                 objOther.Id=obj.Id!=undefined&&obj.Id!=null?obj.Id:"";
+                objOther.Name=obj.Name!=undefined&&obj.Name!=null?obj.Name:"";
+                objOther.Selling_Price__c=0;
                 if (localMaterials.length>0){
                     for(var i =0;i<localMaterials.length;i++){
                         if (localMaterials[i].Item_Code__c!=obj.Name){
@@ -457,6 +464,13 @@
                     return;
                 }
 
+                if ($scope.chooseWorkOrderId==null || $scope.chooseWorkOrderId==""){
+                    $ionicPopup.alert({
+                        title: "请选择服务单"
+                    });
+                    return;
+                }
+
                 $("input.sv_Input_Quantity").each(function (index, element) {
                     localQuantities.push(Number($(this).val()));
                 });
@@ -491,10 +505,11 @@
                   material.Service_Material__c=$scope.chooseMaterials[i].Id;
                   material.Name = $scope.chooseMaterials[i].Name;
                   material.Item_Code__c = $scope.chooseMaterials[i].parts_number__c;
-                  material.Required_Quantity__c = $scope.chooseMaterials[i].Required_Quantity__c;
+                  material.Required_Quantity__c = Number($scope.chooseMaterials[i].Required_Quantity__c);
                   material.Item_Description__c = $scope.chooseMaterials[i].Item_Description__c;
                   material.Factory__c = $scope.chooseMaterials[i].Factory__c;
-                  material.Unite_Price__c = $scope.chooseMaterials[i].Unite_Price__c;
+                  material.Unite_Price__c = Number($scope.chooseMaterials[i].Unite_Price__c);
+                  material.Selling_Price__c = Number($scope.chooseMaterials[i].Selling_Price__c);
                   if (taxeIndex >= 0) {
                     material.Tax__c = $scope.Taxes[taxeIndex].apiName;
                   }
