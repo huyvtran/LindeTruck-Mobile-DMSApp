@@ -382,12 +382,11 @@
                 var objOther = {};
                 objOther.parts_number__c =obj.parts_number__c!=undefined&&obj.parts_number__c!=null?obj.parts_number__c:"";
                 objOther.Required_Quantity__c =1;
-                objOther.Item_Description__c =obj.parts_description__c!=undefined&&obj.parts_description__c!=null?obj.parts_description__c:"";
+                objOther.Item_Description__c =obj.Name!=undefined&&obj.Name!=null?obj.Name:"";
                 objOther.Factory__c =obj.Factory__c!=undefined&&obj.Factory__c!=null?obj.Factory__c:"";
-                objOther.Unite_Price__c =obj.Cost_Price__c!=undefined&&obj.Cost_Price__c!=null?Number(obj.Cost_Price__c):0;
+                objOther.Unite_Price__c =obj.Cost_Price__c!=undefined&&obj.Cost_Price__c!=null&& Number(obj.Cost_Price__c)>0?Number(obj.Cost_Price__c):1;
                 objOther.Id=obj.Id!=undefined&&obj.Id!=null?obj.Id:"";
-                objOther.Name=obj.Name!=undefined&&obj.Name!=null?obj.Name:"";
-                objOther.Selling_Price__c=0;
+                objOther.Selling_Price__c=1;
                 if (localMaterials.length>0){
                     for(var i =0;i<localMaterials.length;i++){
                         if (localMaterials[i].Item_Code__c!=obj.Name){
@@ -483,13 +482,13 @@
                         Procurement_Type__c:$('#recordTypeList option:selected').val(),
                         Delivery_Date__c:planDate,
                         Supplier_Information__c:supplierInfoSoupId,
-                        Procurement_Description__c:$("#purchaseDesc").val().trim(),
+                        Procurement_Description__c:$("#purchaseDesc").val(),
                         Status__c:$('#statusList option:selected').val(),
                         Tax__c:$('#taxList option:selected').val(),
                         Revenue__c:$scope.revenue,
                         Price_without_Tax__c:$scope.priceEach,
                         Profit__c:$scope.profitRate,
-                        Remarks__c:$("#purchaseMore").val().trim(),
+                        Remarks__c:$("#purchaseMore").val(),
                         Service_Order_Overview__c:$scope.chooseWorkOrderId,
                     }];
                 AppUtilService.showLoading();
@@ -503,13 +502,12 @@
                 for (var i = 0; i < $scope.chooseMaterials.length; i++) {
                   var material =  {};
                   material.Service_Material__c=$scope.chooseMaterials[i].Id;
-                  material.Name = $scope.chooseMaterials[i].Name;
                   material.Item_Code__c = $scope.chooseMaterials[i].parts_number__c;
-                  material.Required_Quantity__c = Number($scope.chooseMaterials[i].Required_Quantity__c);
+                  material.Required_Quantity__c = Number($scope.chooseMaterials[i].Required_Quantity__c)>0?Number($scope.chooseMaterials[i].Required_Quantity__c):1;
                   material.Item_Description__c = $scope.chooseMaterials[i].Item_Description__c;
                   material.Factory__c = $scope.chooseMaterials[i].Factory__c;
-                  material.Unite_Price__c = Number($scope.chooseMaterials[i].Unite_Price__c);
-                  material.Selling_Price__c = Number($scope.chooseMaterials[i].Selling_Price__c);
+                  material.Unite_Price__c = Number($scope.chooseMaterials[i].Unite_Price__c)>0?Number($scope.chooseMaterials[i].Unite_Price__c):1;
+                  material.Selling_Price__c = Number($scope.chooseMaterials[i].Selling_Price__c)>0?Number($scope.chooseMaterials[i].Selling_Price__c):1;
                   if (taxeIndex >= 0) {
                     material.Tax__c = $scope.Taxes[taxeIndex].apiName;
                   }
