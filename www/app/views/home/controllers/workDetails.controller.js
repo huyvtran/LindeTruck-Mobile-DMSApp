@@ -2095,8 +2095,8 @@
                         onePartOriginals['Delivery_Date__c'] = element.inventory.estimatedDeliveryDate;//可发货数量以及交货期
                       }
 
-                      if (element.Procurement_Information__c != null) {
-                        onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
+                      if (element.Procurement_Item_Information__c != null) {
+                        onePartOriginals['Procurement_Item_Information__c'] = element.Procurement_Item_Information__c;//外协
                       } else {
                         regroupPartList.push(onePartOriginals);
                       }
@@ -2881,8 +2881,8 @@
           //   onePartOriginals['Parts_Type__c'] = element.type;//配件类型
           //   onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
           //   onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID
-          //   if (element.Procurement_Information__c != null) {
-          //     onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
+          //   if (element.Procurement_Item_Information__c != null) {
+          //     onePartOriginals['Procurement_Item_Information__c'] = element.Procurement_Item_Information__c;//外协
           //   } else {
           //     regroupPartList.push(onePartOriginals);
           //   }
@@ -2960,14 +2960,20 @@
                 element['Id'] = responseGetParts[i].Service_Material__c;
                 element['type'] = 'common';
                 element['edit'] = true;
-                if (responseGetParts[i].Procurement_Information__c != null) {
-                  element['Procurement_Information__c'] = responseGetParts[i].Procurement_Information__c;//外协
+                if (responseGetParts[i].Procurement_Item_Information__c != null) {
+                  element['Procurement_Item_Information__c'] = responseGetParts[i].Procurement_Item_Information__c;//外协
                 }
                 var priceCondition = {};
                 priceCondition['price'] = responseGetParts[i].Gross_Price__c;
                 element['priceCondition'] = priceCondition;//公布价
                 element['Reserved__c'] = responseGetParts[i].Reserved__c;
                 element['quantity'] = responseGetParts[i].Quantity__c;
+                var inventory = {};
+                inventory['inventoryInfo'] = responseGetParts[i].Delivery_Message__c;
+                inventory['estimatedDeliveryDate'] = responseGetParts[i].Delivery_Date__c;
+                element['inventory'] = inventory;//
+                element['Material_Type__c'] = responseGetParts[i].Material_Type__c;
+
                 $scope.selectedTruckFitItems.push(element);
               }
               console.log('$scope.getServiceOrderMaterialSums:', $scope.selectedTruckFitItems);
@@ -3103,8 +3109,8 @@
               onePartOriginals['Delivery_Message__c'] = element.inventory.inventoryInfo;//可发货数量以及交货期
               onePartOriginals['Delivery_Date__c'] = element.inventory.estimatedDeliveryDate;//可发货数量以及交货期
             }
-            if (element.Procurement_Information__c != null) {
-              onePartOriginals['Procurement_Information__c'] = element.Procurement_Information__c;//外协
+            if (element.Procurement_Item_Information__c != null) {
+              onePartOriginals['Procurement_Item_Information__c'] = element.Procurement_Item_Information__c;//外协
             } else {
               regroupPartList.push(onePartOriginals);
 
