@@ -380,6 +380,7 @@
                     if (Number(localStorage.onoffline) != 0) {
                         $scope.initTrucks(res.truckModels, res.childOrders);
                         $scope.allTruckItems = truckItems;
+                        $scope.SelectedTruckNum=  $scope.allTruckItems.length;
                     }
                 }, function error(msg) {
                     AppUtilService.hideLoading();
@@ -3677,102 +3678,209 @@
 
         $scope.checkAllAddSearchResults = function () {
           let ele = $('#ckbox_truck_add_searchresult_all');
-          if (ele.prop('checked')) {
-            $scope.selectedTruckItemsMore = [];
-            let mk = '';
-            let infoIds = [];
-            if ($scope.contentTruckItemsMore.length > 0) {
-              mk = $scope.contentTruckItemsMore[0].Maintenance_Key__c;
-              for (var i = 0; i < $scope.contentTruckItemsMore.length; i++) {
-                if (mk == $scope.contentTruckItemsMore[i].Maintenance_Key__c) {
-                  $scope.selectedTruckItemsMore.push($scope.contentTruckItemsMore[i]);
-                  infoIds.push(i);
-                }
-              }
+          var serviceType =  $('#select_service_type option:selected').val();
+          if (serviceType==="Maintenance"){
+              if (ele.prop('checked')) {
+                  $scope.selectedTruckItemsMore = [];
+                  let mk = '';
+                  let infoIds = [];
+                  if ($scope.contentTruckItemsMore.length > 0) {
+                      mk = $scope.contentTruckItemsMore[0].Maintenance_Key__c;
+                      for (var i = 0; i < $scope.contentTruckItemsMore.length; i++) {
+                          if (mk == $scope.contentTruckItemsMore[i].Maintenance_Key__c) {
+                              $scope.selectedTruckItemsMore.push($scope.contentTruckItemsMore[i]);
+                              infoIds.push(i);
+                          }
+                      }
 
-              $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
-                $(this).prop('checked', false);
-              });
+                      $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                          $(this).prop('checked', false);
+                      });
 
-              angular.forEach(infoIds, function (infoId) {
-                $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
-                  if (!element.checked && infoId == index) {
-                    $(this).prop('checked', true);
+                      angular.forEach(infoIds, function (infoId) {
+                          $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                              if (!element.checked && infoId == index) {
+                                  $(this).prop('checked', true);
+                              }
+                          });
+                      });
+                      if ($scope.contentTruckItemsMore.length > 0 && $scope.selectedTruckItemsMore.length
+                          < $scope.contentTruckItemsMore.length) {
+                          $ionicPopup.alert({
+                              title: '保养只能选择同保养策略的车'
+                          });
+                          return;
+                      }
+
                   }
-                });
-              });
-              if ($scope.contentTruckItemsMore.length > 0 && $scope.selectedTruckItemsMore.length
-                  < $scope.contentTruckItemsMore.length) {
-                $ionicPopup.alert({
-                  title: '保养只能选择同保养策略的车'
-                });
-                return;
+              } else {
+
+                  $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                      console.log('666:::', element.checked);
+                      element.checked = false;
+                  });
+
+                  let arr_temp = [];
+                  angular.forEach($scope.selectedTruckItemsMore, function (selected) {
+                      let existFlag = false;
+                      angular.forEach($scope.contentTruckItemsMore, function (searchResult) {
+                          if (searchResult.Id == selected.Id) {
+                              existFlag = true;
+                          }
+                      });
+                      if (!existFlag) {
+                          arr_temp.push(selected);
+                      }
+                  });
+                  $scope.selectedTruckItemsMore = arr_temp;
               }
+          }else if(serviceType==="Repair"){
+              if (ele.prop('checked')) {
+                  $scope.selectedTruckItemsMore = [];
+                  if ($scope.contentTruckItemsMore.length > 0) {
+                      $scope.selectedTruckItemsMore.push($scope.contentTruckItemsMore[0]);
+                  }
+                  $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                      if (index==0){
+                          $(this).prop('checked', true);
+                      }else{
+                          $(this).prop('checked', false);
+                      }
+                  });
 
-            }
-          } else {
+              }else{
+                  $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                      console.log('666:::', element.checked);
+                      element.checked = false;
+                  });
 
-            $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
-              console.log('666:::', element.checked);
-              element.checked = false;
-            });
-
-            let arr_temp = [];
-            angular.forEach($scope.selectedTruckItemsMore, function (selected) {
-              let existFlag = false;
-              angular.forEach($scope.contentTruckItemsMore, function (searchResult) {
-                if (searchResult.Id == selected.Id) {
-                  existFlag = true;
-                }
-              });
-              if (!existFlag) {
-                arr_temp.push(selected);
+                  let arr_temp = [];
+                  angular.forEach($scope.selectedTruckItemsMore, function (selected) {
+                      let existFlag = false;
+                      angular.forEach($scope.contentTruckItemsMore, function (searchResult) {
+                          if (searchResult.Id == selected.Id) {
+                              existFlag = true;
+                          }
+                      });
+                      if (!existFlag) {
+                          arr_temp.push(selected);
+                      }
+                  });
+                  $scope.selectedTruckItemsMore = arr_temp;
               }
-            });
-            $scope.selectedTruckItemsMore = arr_temp;
+          }else{
+              if (ele.prop('checked')) {
+                  $scope.selectedTruckItemsMore = [];
+                  if ($scope.contentTruckItemsMore.length > 0) {
+                      for (var i = 0; i < $scope.contentTruckItemsMore.length; i++) {
+                          $scope.selectedTruckItemsMore.push($scope.contentTruckItemsMore[i]);
+                      }
+
+                      $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                          $(this).prop('checked', true);
+                      });
+                  }
+              }else{
+                  $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+                      console.log('666:::', element.checked);
+                      element.checked = false;
+                  });
+
+                  let arr_temp = [];
+                  angular.forEach($scope.selectedTruckItemsMore, function (selected) {
+                      let existFlag = false;
+                      angular.forEach($scope.contentTruckItemsMore, function (searchResult) {
+                          if (searchResult.Id == selected.Id) {
+                              existFlag = true;
+                          }
+                      });
+                      if (!existFlag) {
+                          arr_temp.push(selected);
+                      }
+                  });
+                  $scope.selectedTruckItemsMore = arr_temp;
+              }
           }
         };
 
         $scope.checkAddSearchResults = function (ele) {
+          var serviceType =  $('#select_service_type option:selected').val();
           let element = $('input.ckbox_truck_add_searchresult_item[data-recordid*=\'' + ele.Id + '\']');
           console.log('checkSearchResults::', element);
+          if (serviceType==="Maintenance"){
+              if (element != null && element.length > 0) {
+                  if (element[0].checked) {
+                      let existFlag = false;
+                      for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
+                          if (ele.Id == $scope.selectedTruckItemsMore[i].Id) {
+                              existFlag = true;
+                          }
+                      }
+                      if (!existFlag) {
+                          if ($scope.selectedTruckItemsMore.length > 0) {
+                              let mk = $scope.selectedTruckItemsMore[0].Maintenance_Key__c;
+                              if (mk == ele.Maintenance_Key__c) {
+                                  $scope.selectedTruckItemsMore.push(ele);
+                              } else {
+                                  element[0].checked = false;
+                                  $ionicPopup.alert({
+                                      title: '保养只能选择同保养策略的车'
+                                  });
+                                  return;
+                              }
+                          } else {
+                              $scope.selectedTruckItemsMore.push(ele);
+                          }
 
-          if (element != null && element.length > 0) {
-            if (element[0].checked) {
-              let existFlag = false;
-              for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
-                if (ele.Id == $scope.selectedTruckItemsMore[i].Id) {
-                  existFlag = true;
-                }
-              }
-              if (!existFlag) {
-                if ($scope.selectedTruckItemsMore.length > 0) {
-                  let mk = $scope.selectedTruckItemsMore[0].Maintenance_Key__c;
-                  if (mk == ele.Maintenance_Key__c) {
-                    $scope.selectedTruckItemsMore.push(ele);
+                      }
                   } else {
-                    element[0].checked = false;
-                    $ionicPopup.alert({
-                      title: '保养只能选择同保养策略的车'
-                    });
-                    return;
+                      let temp = [];
+                      for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
+                          if (ele.Id != $scope.selectedTruckItemsMore[i].Id) {
+                              temp.push($scope.selectedTruckItemsMore[i]);
+                          }
+                      }
+                      $scope.selectedTruckItemsMore = temp;
                   }
-                } else {
-                  $scope.selectedTruckItemsMore.push(ele);
-                }
-
+              } else {
+                  console.log('checkSearchResults::error');
               }
-            } else {
-              let temp = [];
-              for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
-                if (ele.Id != $scope.selectedTruckItemsMore[i].Id) {
-                  temp.push($scope.selectedTruckItemsMore[i]);
+          }else if (serviceType==="Repair"){
+            if (element!=null&&element.length>0){
+                if (element[0].checked){
+                    $('input.ckbox_truck_add_searchresult_item').each(function (index, cElement) {
+                        if ($(cElement).attr("data-recordid")==ele.Id){
+                            cElement.checked = true;
+                        }else{
+                            cElement.checked = false;
+                        }
+                    });
+                    $scope.selectedTruckItemsMore=[];
+                    $scope.selectedTruckItemsMore.push(ele);
+                }else{
+                    let temp = [];
+                    for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
+                        if (ele.Id != $scope.selectedTruckItemsMore[i].Id) {
+                            temp.push($scope.selectedTruckItemsMore[i]);
+                        }
+                    }
+                    $scope.selectedTruckItemsMore = temp;
                 }
-              }
-              $scope.selectedTruckItemsMore = temp;
             }
-          } else {
-            console.log('checkSearchResults::error');
+          }else {
+              if (element!=null&&element.length>0){
+                  if (element[0].checked){
+                      $scope.selectedTruckItemsMore.push(ele);
+                  }else{
+                      let temp = [];
+                      for (var i = 0; i < $scope.selectedTruckItemsMore.length; i++) {
+                          if (ele.Id != $scope.selectedTruckItemsMore[i].Id) {
+                              temp.push($scope.selectedTruckItemsMore[i]);
+                          }
+                      }
+                      $scope.selectedTruckItemsMore = temp;
+                  }
+              }
           }
         };
         $scope.delAllAddSelectedItem = function () {
