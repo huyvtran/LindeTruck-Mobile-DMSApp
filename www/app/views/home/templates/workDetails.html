@@ -642,7 +642,7 @@
             <div class="displayQuantity" style="z-index: 99999;">
                 <div class="arrow_quantity_icon" ng-click="toDescribInfDiv();"></div>
                 <div class="displayQuantity_text" ng-click="toDescribInfDiv();">已选共{{SelectedTruckNum}}台</div>
-                <div class="addcar_icon" ng-click="addMoreTruck();"></div>
+                <div class="addcar_icon" ng-click="addMoreTruck();" ng-show="showOrderBelong"></div>
                 <div class="describ_Inf_Div" id="describInfDiv" style="display: none">
                     <div class="des_Inf_Head">
                         <div class="des_Inf_Left"><input id="selectTruckAll" type="checkbox"
@@ -892,11 +892,11 @@
                         <div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG</div>
                         <div class="Import_Btn" ng-click="getTrucksByEconomical();"> 导入经济件</div>
                         <div class="Import_Btn" ng-click="openSelectPage('selectCommonPart');"> 导入常用配件</div>
-                        <div class="Import_Btn" ng-click="goGenerateOrders();"> 生成备件订单</div>
+                        <div class="Import_Btn" ng-click="goGenerateOrders();" ng-show="showOrderBelong"> 生成备件订单</div>
                         <div class="Import_Btn" ng-click="goNewOfferFittings();"> 工单转报价</div>
                     </div>
                     <div id="btn_modify_Div" class="btn_modify_Div" style="display: none">
-                        <div class="Modify_Btn" ng-click="openSelectPage('addDele');"> 添加/删除</div>
+                        <div class="Modify_Btn" ng-click="openSelectPage('addDele');" ng-show="showOrderBelong"> 添加/删除</div>
                         <div class="Modify_Btn" ng-click="delByEconomical();"> 清空经济件</div>
                         <div class="Modify_Btn" ng-click="useByEconomical();"> 使用经济件</div>
                     </div>
@@ -1132,7 +1132,7 @@
                                 <div> 离开时间</div>
                             </th>
                             <th class="sv_Td sv_Td_nopadding_GOrderContent">
-                                <div> 里程数</div>
+                                <div> 往返里程数</div>
                             </th>
                         </tr>
                     </table>

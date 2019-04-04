@@ -326,7 +326,7 @@
               AppUtilService.hideLoading();
               console.log('getInitDataUri', res);
               $scope.initSoResult(res.soResult);
-              $scope.initWorkItems(res.workItems, res.soResult.On_Order__c);
+              $scope.initWorkItems(res.workItems, res.soResult.On_Order__c,res.soResult);
               $scope.initPartNumers(res.partNumers).then(function (res) {
                   return $scope.initPartNumersStep2(res.soResult);
               });
@@ -661,52 +661,53 @@
 
         };
 
-        $scope.initWorkItems = function (workItems, onOrder) {
+        $scope.initWorkItems = function (workItems, onOrder,soResult) {
           console.log('workItems', workItems);
           if (workItems != undefined && workItems != null && workItems.length > 0) {
             for (var i = 0; i < workItems.length; i++) {
+                if (soResult!=undefined && soResult!=null &&soResult.Service_Order_Owner__r!=undefined&&soResult.Service_Order_Owner__r!=null&&soResult.Service_Order_Owner__r.Id!=undefined&&soResult.Service_Order_Owner__r.Id!=null&&soResult.Service_Order_Owner__r.Id==oCurrentUser.Id){
+                    if (workItems[i].Arrival_Time__c != undefined && onOrder) {
+                        if (workItems[i].Leave_Time__c != undefined && onOrder) {
+                            continue;
+                        } else {
+                            for (var j = 0; j < 3; j++) {
+                                $('ol li:eq(' + j + ')').addClass('slds-is-active');
+                            }
+                            $('#departureBtn').css('pointer-events', 'none');
+                            $('#departureBtn').addClass('textCompleted');
+                            $('#arriveBtn').css('pointer-events', 'none');
+                            $('#arriveBtn').addClass('textCompleted');
+                            if (orderBelong) {
+                                $('#sidProgressBar').css('width', '50%');
+                            } else {
+                                $('#sidProgressBar').css('width', '66%');
+                            }
+                            arriveTime = new Date(workItems[i].Arrival_Time__c);
+                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                            break;
+                        }
+                    } else if (workItems[i].Departure_Time__c != undefined && onOrder) {
+                        for (var j = 0; j < 2; j++) {
+                            $('ol li:eq(' + j + ')').addClass('slds-is-active');
+                        }
+                        $('#departureBtn').css('pointer-events', 'none');
+                        $('#departureBtn').addClass('textCompleted');
+                        if (orderBelong) {
+                            $('#sidProgressBar').css('width', '25%');
+                        } else {
+                            $('#sidProgressBar').css('width', '33%');
+                        }
 
-              if (workItems[i].Arrival_Time__c != undefined && onOrder) {
-                if (workItems[i].Leave_Time__c != undefined && onOrder) {
-                  continue;
-                } else {
-                  for (var j = 0; j < 3; j++) {
-                    $('ol li:eq(' + j + ')').addClass('slds-is-active');
-                  }
-                  $('#departureBtn').css('pointer-events', 'none');
-                  $('#departureBtn').addClass('textCompleted');
-                  $('#arriveBtn').css('pointer-events', 'none');
-                  $('#arriveBtn').addClass('textCompleted');
-                  if (orderBelong) {
-                    $('#sidProgressBar').css('width', '50%');
-                  } else {
-                    $('#sidProgressBar').css('width', '66%');
-                  }
-                  arriveTime = new Date(workItems[i].Arrival_Time__c);
-                  goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
-                  break;
+                        goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                        break;
+                    } else if (workItems[i].Leave_Time__c != undefined && onOrder) {
+                        goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                        break;
+                    } else {
+                        goOffTimeFromPrefix = null;
+                        break;
+                    }
                 }
-              } else if (workItems[i].Departure_Time__c != undefined && onOrder) {
-                for (var j = 0; j < 2; j++) {
-                  $('ol li:eq(' + j + ')').addClass('slds-is-active');
-                }
-                $('#departureBtn').css('pointer-events', 'none');
-                $('#departureBtn').addClass('textCompleted');
-                if (orderBelong) {
-                  $('#sidProgressBar').css('width', '25%');
-                } else {
-                  $('#sidProgressBar').css('width', '33%');
-                }
-
-                goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
-                break;
-              } else if (workItems[i].Leave_Time__c != undefined && onOrder) {
-                goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
-                break;
-              } else {
-                goOffTimeFromPrefix = null;
-                break;
-              }
             }
           }
 
@@ -3575,7 +3576,9 @@
                       for (let i = 0; i < response.levels.length; i++) {
                           $scope.serviceLevels.push(response.levels[i]);
                       }
-                      deferred.resolve("");
+                      setTimeout(function () {
+                          deferred.resolve("");
+                      },200);
                   }
 
               }, function error(msg) {
@@ -4362,11 +4365,13 @@
          */
         var localMJobItemIds = [];
         $scope.confirmServiceModal = function () {
+          $scope.workContentShow = "";
           $('.mask_div').css('display', 'none');
           $('.maintain_popup').css('display', 'none');
           $('.maintain_checkbox').each(function (index, element) {
             if ($(element).prop('checked') && $(element).attr("id")!="") {
               localMJobItemIds.push($(element).attr("id"));
+                $scope.workContentShow  +=$(element).next().text()+"\t";
             }
           });
         };
@@ -4422,6 +4427,7 @@
         };
 
         $scope.changeCareType = function () {
+            localMJobItemIds=[];
             $scope.changeCareTypeStep1().then(function (res) {
                return  $scope.changeCareTypeStep2();
             }).then(function (res) {
@@ -4458,7 +4464,9 @@
                                     Name: res[i].CH
                                 });
                             }
-                            deferred.resolve("");
+                            setTimeout(function () {
+                                deferred.resolve("");
+                            },200);
                         }
                         // else{
                         //     $ionicPopup.alert({
@@ -4479,13 +4487,25 @@
         };
         $scope.changeCareTypeStep2=function () {
             let deferred = $q.defer();
-                if (initmjiInfos != null && initmjiInfos.length > 0) {
-                    angular.forEach(initmjiInfos, function (mjiInfo) {
-                        $('.maintain_checkbox').each(function (index, element) {
-                            if ($(element).attr("id") == mjiInfo.Id) {
-                                $(element).prop("checked", true);
+                if (initmjiInfos != null && initmjiInfos.length > 0&&$('.maintain_checkbox')!=null&&$('.maintain_checkbox').length>0) {
+                    //     $('.maintain_checkbox').each(function (index, element) {
+                    //         angular.forEach(initmjiInfos, function (mjiInfo) {
+                    //         if ($(element).attr("id") == mjiInfo.Id) {
+                    //             $(element).prop("checked", true);
+                    //         }
+                    //     });
+                    // });
+                    for(var i =0;i<$('.maintain_checkbox').length;i++){
+                        for (var j =0;j<initmjiInfos.length;j++){
+                            if ($('.maintain_checkbox')[i].id == initmjiInfos[j].Id) {
+                                $('.maintain_checkbox')[i].checked=true;
                             }
-                        });
+                        }
+                    }
+
+                }else{
+                    $('.maintain_checkbox').each(function (index, element) {
+                            $(element).prop("checked", true);
                     });
                 }
             deferred.resolve("");
