@@ -89,14 +89,24 @@
           AppUtilService.showLoading();
           ErrorCodeServices.queryTruckErrorInfo($scope.codeFiles, series, carType, errorCode).then(
             function (errorInfo) {
-
+              AppUtilService.hideLoading();
               var errorMsg = _.first(errorInfo);
 
-              $scope.codeDescription = errorMsg.CodeDescription__c;
-              $scope.condition = errorMsg.Condition__c;
-              $scope.possibleReasion = errorMsg.PossibleReasion__c;
+              if (errorMsg) {
+                $scope.codeDescription = errorMsg && errorMsg.CodeDescription__c;
+                $scope.condition = errorMsg && errorMsg.Condition__c;
+                $scope.possibleReasion = errorMsg && errorMsg.PossibleReasion__c;
+              } else {
+                $ionicPopup.show({
+                  title: "没有对应的错误信息",
+                  buttons: [
+                    {
+                      text: "确定",
+                    }
+                  ]
+                });
+              }
 
-              AppUtilService.hideLoading();
             }, function (error) {
               AppUtilService.hideLoading();
               $ionicPopup.show({
