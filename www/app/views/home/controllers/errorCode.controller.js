@@ -38,10 +38,19 @@
 
           }, function (error) {
             AppUtilService.hideLoading();
-            $log.error('ErrorCodeController.ionicView.beforeEnter Error ' + error);
+            $ionicPopup.show({
+              title: "数据出错",
+              buttons: [
+                {
+                  text: "确定",
+                }
+              ]
+            });
+            // $log.error('ErrorCodeController.ionicView.beforeEnter Error ' + error);
           });
 
         });
+
         $scope.$on('$ionicView.enter', function () {
           // check if device is online/offline
 
