@@ -348,7 +348,9 @@
                   }).then(function (res) {
                       return  $scope.changeCareTypeStep2();
                   }).then(function (res) {
-                      return $scope.showModal();
+                      if (!$scope.openPrint){
+                          return $scope.showModal();
+                      }
                   });
                 }
                 $scope.allTruckItems = truckItems;
