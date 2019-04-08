@@ -38,14 +38,16 @@
 
           }, function (error) {
             AppUtilService.hideLoading();
-            $ionicPopup.show({
-              title: "数据出错",
-              buttons: [
-                {
-                  text: "确定",
-                }
-              ]
-            });
+            if (error.responseJSON[0]) {
+              $ionicPopup.show({
+                title: error.responseJSON[0].message,
+                buttons: [
+                  {
+                    text: "确定",
+                  }
+                ]
+              });
+            }
             // $log.error('ErrorCodeController.ionicView.beforeEnter Error ' + error);
           });
 
