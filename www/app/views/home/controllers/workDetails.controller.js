@@ -49,7 +49,7 @@
         vm.isOnline = null;
 
         $scope.checkNinePices = false;
-
+        $scope.printWorkContent="";
         //配件相关init
         $scope.contentTruckFitItems = [];//配件
         $scope.selectedTruckFitItems = [];
@@ -4040,7 +4040,7 @@
                     goodsTotal: $scope.goodsList,
                     listContent: '',//listContent  配件费参见发货清单
                     demandForRequire: callStr,//demandForRequire  报修需求
-                    workContent: $('#workContentStr').val(),//workContent  工作信息
+                    workContent: $scope.printWorkContent,//workContent  工作信息
                     resultAndSuggestions: $('#serviceSuggest').val(),//resultAndSuggestions  结果及建议
                     responsibleEngineer: ownerName,//responsibleEngineer  责任人
                     printPart2Check: $("#printPart2").prop("checked"),
@@ -4474,16 +4474,24 @@
          * choose save dismiss modal
          */
         var localMJobItemIds = [];
+
         $scope.confirmServiceModal = function () {
-          $scope.workContentShow = "";
+          var workContent ="";
+            var workContent2 ="";
+            var workContent3 ="";
           $('.mask_div').css('display', 'none');
           $('.maintain_popup').css('display', 'none');
           $('.maintain_checkbox').each(function (index, element) {
             if ($(element).prop('checked') && $(element).attr("id")!="") {
               localMJobItemIds.push($(element).attr("id"));
-                $scope.workContentShow  +=$(element).next().text()+"\t";
+                workContent +=$(element).next().text()+"\n";
+                workContent2+=$(element).next().text()+"<br/>";
+                workContent3+=$(element).next().text();
             }
           });
+            $scope.workContent=workContent;
+            $scope.workContentShow=workContent2;
+            $scope.printWorkContent= workContent3;
         };
 
         $scope.showModal = function () {
