@@ -350,6 +350,8 @@
                   }).then(function (res) {
                       if (!$scope.openPrint){
                           return $scope.showModal();
+                      }else{
+                          return $scope.confirmServiceModal();
                       }
                   });
                 }
@@ -4478,20 +4480,18 @@
         $scope.confirmServiceModal = function () {
           var workContent ="";
             var workContent2 ="";
-            var workContent3 ="";
           $('.mask_div').css('display', 'none');
           $('.maintain_popup').css('display', 'none');
           $('.maintain_checkbox').each(function (index, element) {
             if ($(element).prop('checked') && $(element).attr("id")!="") {
               localMJobItemIds.push($(element).attr("id"));
                 workContent +=$(element).next().text()+"\n";
-                workContent2+=$(element).next().text()+"<br/>";
-                workContent3+=$(element).next().text();
+                workContent2+=$(element).next().text();
             }
           });
             $scope.workContent=workContent;
             $scope.workContentShow=workContent2;
-            $scope.printWorkContent= workContent3;
+            $scope.printWorkContent= workContent2;
         };
 
         $scope.showModal = function () {
@@ -4542,6 +4542,10 @@
           document.getElementById('selectTruckAddPage').style.display = 'none';
           document.getElementById('selectWorkersPage').style.display = 'none';
           document.getElementById('workPrintPage').style.display = 'none';
+        };
+
+        $scope.changeServiceType = function(){
+            var serviceType =  $('#select_service_type option:selected').val();
         };
 
         $scope.changeCareType = function () {

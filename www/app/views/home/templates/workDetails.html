@@ -707,7 +707,7 @@
                             <div class="small_Type_Title">服务类型:</div>
                             <div class="small_Type_Box">
                                 <select class="small_Type_Select" id="select_service_type" ng-model="singleCarService"
-                                        ng-change="changeServiceType(singleCarService);">
+                                        onchange="angular.element(this).scope().changeServiceType();">
                                     <option ng-repeat="carService in carServices" value="{{carService.label}}">
                                         {{carService.value}}
                                     </option>
