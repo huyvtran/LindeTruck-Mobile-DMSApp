@@ -670,48 +670,93 @@
           console.log('workItems', workItems);
           if (workItems != undefined && workItems != null && workItems.length > 0) {
             for (var i = 0; i < workItems.length; i++) {
-                if (soResult!=undefined && soResult!=null &&soResult.Service_Order_Owner__r!=undefined&&soResult.Service_Order_Owner__r!=null&&soResult.Service_Order_Owner__r.Id!=undefined&&soResult.Service_Order_Owner__r.Id!=null&&soResult.Service_Order_Owner__r.Id==oCurrentUser.Id){
-                    if (workItems[i].Arrival_Time__c != undefined && onOrder) {
-                        if (workItems[i].Leave_Time__c != undefined && onOrder) {
-                            continue;
-                        } else {
-                            for (var j = 0; j < 3; j++) {
+                if (soResult!=undefined && soResult!=null &&soResult.Service_Order_Owner__r!=undefined&&soResult.Service_Order_Owner__r!=null&&soResult.Service_Order_Owner__r.Id!=undefined&&soResult.Service_Order_Owner__r.Id!=null){
+                    if (soResult.Service_Order_Owner__r.Id==oCurrentUser.Id&&workItems[i].CreatedById==oCurrentUser.Id){
+                        if (workItems[i].Arrival_Time__c != undefined && onOrder) {
+                            if (workItems[i].Leave_Time__c != undefined && onOrder) {
+                                continue;
+                            } else {
+                                for (var j = 0; j < 3; j++) {
+                                    $('ol li:eq(' + j + ')').addClass('slds-is-active');
+                                }
+                                $('#departureBtn').css('pointer-events', 'none');
+                                $('#departureBtn').addClass('textCompleted');
+                                $('#arriveBtn').css('pointer-events', 'none');
+                                $('#arriveBtn').addClass('textCompleted');
+                                if (orderBelong) {
+                                    $('#sidProgressBar').css('width', '50%');
+                                } else {
+                                    $('#sidProgressBar').css('width', '66%');
+                                }
+                                arriveTime = new Date(workItems[i].Arrival_Time__c);
+                                goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                                break;
+                            }
+                        } else if (workItems[i].Departure_Time__c != undefined && onOrder) {
+                            for (var j = 0; j < 2; j++) {
                                 $('ol li:eq(' + j + ')').addClass('slds-is-active');
                             }
                             $('#departureBtn').css('pointer-events', 'none');
                             $('#departureBtn').addClass('textCompleted');
-                            $('#arriveBtn').css('pointer-events', 'none');
-                            $('#arriveBtn').addClass('textCompleted');
                             if (orderBelong) {
-                                $('#sidProgressBar').css('width', '50%');
+                                $('#sidProgressBar').css('width', '25%');
                             } else {
-                                $('#sidProgressBar').css('width', '66%');
+                                $('#sidProgressBar').css('width', '33%');
                             }
-                            arriveTime = new Date(workItems[i].Arrival_Time__c);
+
                             goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
                             break;
-                        }
-                    } else if (workItems[i].Departure_Time__c != undefined && onOrder) {
-                        for (var j = 0; j < 2; j++) {
-                            $('ol li:eq(' + j + ')').addClass('slds-is-active');
-                        }
-                        $('#departureBtn').css('pointer-events', 'none');
-                        $('#departureBtn').addClass('textCompleted');
-                        if (orderBelong) {
-                            $('#sidProgressBar').css('width', '25%');
+                        } else if (workItems[i].Leave_Time__c != undefined && onOrder) {
+                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                            break;
                         } else {
-                            $('#sidProgressBar').css('width', '33%');
+                            goOffTimeFromPrefix = null;
+                            break;
                         }
+                    }else if(soResult.Service_Order_Owner__r.Id!=oCurrentUser.Id&&workItems[i].CreatedById==oCurrentUser.Id){
+                        if (workItems[i].Arrival_Time__c != undefined ) {
+                            if (workItems[i].Leave_Time__c != undefined) {
+                                continue;
+                            } else {
+                                for (var j = 0; j < 3; j++) {
+                                    $('ol li:eq(' + j + ')').addClass('slds-is-active');
+                                }
+                                $('#departureBtn').css('pointer-events', 'none');
+                                $('#departureBtn').addClass('textCompleted');
+                                $('#arriveBtn').css('pointer-events', 'none');
+                                $('#arriveBtn').addClass('textCompleted');
+                                if (orderBelong) {
+                                    $('#sidProgressBar').css('width', '50%');
+                                } else {
+                                    $('#sidProgressBar').css('width', '66%');
+                                }
+                                arriveTime = new Date(workItems[i].Arrival_Time__c);
+                                goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                                break;
+                            }
+                        } else if (workItems[i].Departure_Time__c != undefined) {
+                            for (var j = 0; j < 2; j++) {
+                                $('ol li:eq(' + j + ')').addClass('slds-is-active');
+                            }
+                            $('#departureBtn').css('pointer-events', 'none');
+                            $('#departureBtn').addClass('textCompleted');
+                            if (orderBelong) {
+                                $('#sidProgressBar').css('width', '25%');
+                            } else {
+                                $('#sidProgressBar').css('width', '33%');
+                            }
 
-                        goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
-                        break;
-                    } else if (workItems[i].Leave_Time__c != undefined && onOrder) {
-                        goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
-                        break;
-                    } else {
-                        goOffTimeFromPrefix = null;
-                        break;
+                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                            break;
+                        } else if (workItems[i].Leave_Time__c != undefined) {
+                            goOffTimeFromPrefix = new Date(workItems[i].Departure_Time__c);
+                            break;
+                        } else {
+                            goOffTimeFromPrefix = null;
+                            break;
+                        }
                     }
+
                 }
             }
           }
@@ -4546,6 +4591,21 @@
 
         $scope.changeServiceType = function(){
             var serviceType =  $('#select_service_type option:selected').val();
+            if (serviceType==="Maintenance"){
+                if ($scope.allTruckItems.length>0){
+                    let mk = $scope.allTruckItems[0].Maintenance_Key__c;
+                    for(var i =0;i<$scope.allTruckItems.length;i++){
+                        if($scope.allTruckItems[i].Maintenance_Key__c!=mk){
+                            $scope.allTruckItems.splice(i,1);
+                            i--;
+                        }
+                    }
+                }
+            }else if (serviceType==="Repair"){
+                if ($scope.allTruckItems.length>0){
+                    $scope.allTruckItems=$scope.allTruckItems[0];
+                }
+            }
         };
 
         $scope.changeCareType = function () {
