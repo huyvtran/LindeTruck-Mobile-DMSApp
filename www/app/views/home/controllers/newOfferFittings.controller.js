@@ -901,6 +901,8 @@
             oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
             if (selectedTruckFitItemsIndex.priceCondition) {
               oneLabourOriginals4['Gross_Price__c'] = selectedTruckFitItemsIndex.priceCondition.price; //单价
+              oneLabourOriginals4['SPN_Discount__c'] = selectedTruckFitItemsIndex.priceCondition.spnDiscount; //spn折扣
+              oneLabourOriginals4['SPN_Price__c'] = selectedTruckFitItemsIndex.priceCondition.spnPrice; //spn价
               oneLabourOriginals4['Gross_Amount__c'] = selectedTruckFitItemsIndex.GrossAmountC; //总价
               oneLabourOriginals4['Net_Price__c'] = selectedTruckFitItemsIndex.priceCondition.favourablePrice;//优惠单价
             }

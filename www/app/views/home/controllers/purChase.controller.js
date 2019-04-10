@@ -425,6 +425,9 @@
                   //$scope.profitRate=((localRevenue-localProfitFach-(localRevenue*taxRate))/localProfitFach)*100;
                   $scope.profitRate=(((localRevenue/1.13-localProfitFach/(1+taxRate))/(localRevenue/1.13))*100).toFixed(2);
               }
+              if (localRevenue==0||localProfitFach==0){
+                $scope.profitRate=-100;
+              }
             };
 
             $scope.goBack =function () {

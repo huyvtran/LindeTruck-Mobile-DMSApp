@@ -79,6 +79,8 @@ angular.module('oinio.controllers')
                   partsItem.parts_number__c = truckFitItem.parts_number__c;
                   if (truckFitItem.priceCondition) {
                     partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+                    partsItem.SPN_Discount__c = truckFitItem.priceCondition.spnDiscount;
+                    partsItem.SPN_Price__c = truckFitItem.priceCondition.spnPrice;
                     partsItem.Discount__c = (truckFitItem.priceCondition.discount + 100) / 100;
                   } else {
                     partsItem.Gross_Amount__c = '0';
@@ -88,7 +90,6 @@ angular.module('oinio.controllers')
                   partsItem.Quantity__c = '';
                   partsItem.Net_Price__c = truckFitItem.Net_Price__c;
                   partsItem.Net_Amount__c = '';
-                  partsItem.SPN_Price__c = '';
 
                   $scope.selectedTruckFitItems.push(partsItem);
                 }
@@ -132,6 +133,8 @@ angular.module('oinio.controllers')
               partsItem.parts_number__c = truckFitItem.parts_number__c;
               if (truckFitItem.priceCondition) {
                 partsItem.Gross_Amount__c = truckFitItem.priceCondition.price;
+                partsItem.SPN_Discount__c = truckFitItem.priceCondition.spnDiscount;
+                partsItem.SPN_Price__c = truckFitItem.priceCondition.spnPrice;
                 partsItem.Discount__c = (truckFitItem.priceCondition.discount + 100) / 100;
               } else {
                 partsItem.Gross_Amount__c = '0';
@@ -142,7 +145,6 @@ angular.module('oinio.controllers')
               partsItem.Quantity__c = '';
               partsItem.Net_Price__c = '';
               partsItem.Net_Amount__c = '';
-              partsItem.SPN_Price__c = '';
 
               $scope.selectedTruckFitItems.push(partsItem);
               // var responsePartsRelatedsList = responsePartsRelateds[i];
@@ -507,6 +509,8 @@ angular.module('oinio.controllers')
                   partsItem.parts_number__c = truckFitItem.parts_number__c;
                   if (truckFitItem.priceCondition) {
                     partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
+                    partsItem.SPN_Discount__c = truckFitItem.priceCondition.spnDiscount;
+                    partsItem.SPN_Price__c = truckFitItem.priceCondition.spnPrice;
                   } else {
                     partsItem.Gross_Price__c = '0';
                   }
@@ -516,7 +520,6 @@ angular.module('oinio.controllers')
                     truckFitItem.priceCondition && (truckFitItem.priceCondition.discount + 100) / 100;
                   partsItem.Net_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.favourablePrice;
                   partsItem.Net_Amount__c = '';
-                  partsItem.SPN_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.spnPrice;
                   partsItem.estimatedDeliveryDate =
                     truckFitItem.inventory && truckFitItem.inventory.estimatedDeliveryDate;
 
@@ -532,6 +535,8 @@ angular.module('oinio.controllers')
                   partsItem.parts_number__c = truckFitItem.parts_number__c;
                   if (truckFitItem.priceCondition) {
                     partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
+                    partsItem.SPN_Discount__c = truckFitItem.priceCondition.spnDiscount;
+                    partsItem.SPN_Price__c = truckFitItem.priceCondition.spnPrice;
                   } else {
                     partsItem.Gross_Price__c = '0';
                   }
@@ -541,7 +546,6 @@ angular.module('oinio.controllers')
                     truckFitItem.priceCondition && (truckFitItem.priceCondition.discount + 100) / 100;
                   partsItem.Net_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.favourablePrice;
                   partsItem.Net_Amount__c = '';
-                  partsItem.SPN_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.spnPrice;
                   partsItem.estimatedDeliveryDate =
                     truckFitItem.inventory && truckFitItem.inventory.estimatedDeliveryDate;
 
@@ -633,6 +637,8 @@ angular.module('oinio.controllers')
                   partsItem.parts_number__c = truckFitItem.parts_number__c;
                   if (truckFitItem.priceCondition) {
                     partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
+                    partsItem.SPN_Discount__c = truckFitItem.priceCondition.spnDiscount;
+                    partsItem.SPN_Price__c = truckFitItem.priceCondition.spnPrice;
                   } else {
                     partsItem.Gross_Price__c = '';
                   }
@@ -642,7 +648,6 @@ angular.module('oinio.controllers')
                     truckFitItem.priceCondition && (truckFitItem.priceCondition.discount + 100) / 100;
                   partsItem.Net_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.favourablePrice;
                   partsItem.Net_Amount__c = '';
-                  partsItem.SPN_Price__c = truckFitItem.priceCondition && truckFitItem.priceCondition.spnPrice;
                   partsItem.estimatedDeliveryDate =
                     truckFitItem.inventory && truckFitItem.inventory.estimatedDeliveryDate;
 
@@ -801,6 +806,8 @@ angular.module('oinio.controllers')
               partsItem.parts_number__c = ele.parts_number__c;
               if (ele.priceCondition) {
                 partsItem.Gross_Price__c = ele.priceCondition.price;
+                partsItem.SPN_Discount__c = ele.priceCondition.spnDiscount;
+                partsItem.SPN_Price__c = ele.priceCondition.spnPrice;
               } else {
                 partsItem.Gross_Price__c = '';
               }
@@ -809,7 +816,6 @@ angular.module('oinio.controllers')
               partsItem.Discount__c = ele.priceCondition && (ele.priceCondition.discount + 100) / 100;
               partsItem.Net_Price__c = ele.priceCondition && ele.priceCondition.favourablePrice;
               partsItem.Net_Amount__c = '';
-              partsItem.SPN_Price__c = ele.priceCondition && ele.priceCondition.spnPrice;
               partsItem.estimatedDeliveryDate = ele.inventory && ele.inventory.estimatedDeliveryDate;
 
               $scope.selectedTruckFitItems.push(partsItem);
@@ -1077,6 +1083,9 @@ angular.module('oinio.controllers')
           oneLabourOriginals4['Discount__c'] = (Number(part_InputForListDiscount[index]) * 100) - 100;
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留
           oneLabourOriginals4['Net_Amount__c'] = Math.floor(selectedTruckFitItemsIndex.Net_Amount__c * 100) / 100;//优惠总价
+          oneLabourOriginals4['SPN_Discount__c'] = selectedTruckFitItemsIndex.SPN_Discount__c; //spn折扣
+          oneLabourOriginals4['SPN_Price__c'] = selectedTruckFitItemsIndex.SPN_Price__c; //spn价
+
           oneLabourOriginals4['Material_Type__c'] = 'Part';
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals4);
         }
@@ -1568,6 +1577,8 @@ angular.module('oinio.controllers')
               if (truckFitItem.priceCondition) {
                 partsItem.Gross_Price__c = truckFitItem.priceCondition.price;
                 partsItem.Discount__c = -truckFitItem.priceCondition.discount / 100;
+                partsItem.SPN_Discount__c = truckFitItem.priceCondition.spnDiscount;
+                partsItem.SPN_Price__c = truckFitItem.priceCondition.spnPrice;
               } else {
                 partsItem.Gross_Price__c = '0';
                 partsItem.Discount__c = '0';
@@ -1577,7 +1588,6 @@ angular.module('oinio.controllers')
               partsItem.Quantity__c = '';
               partsItem.Net_Price__c = truckFitItem.Net_Price__c;
               partsItem.Net_Amount__c = '';
-              partsItem.SPN_Price__c = '';
 
               $scope.selectedTruckFitItems.push(partsItem);
             }
