@@ -510,11 +510,11 @@
                   var material =  {};
                   material.Service_Material__c=$scope.chooseMaterials[i].Id;
                   material.Item_Code__c = $scope.chooseMaterials[i].parts_number__c;
-                  material.Required_Quantity__c = Number($scope.chooseMaterials[i].Required_Quantity__c)>0?Number($scope.chooseMaterials[i].Required_Quantity__c):1;
+                  material.Required_Quantity__c = Number($scope.chooseMaterials[i].Required_Quantity__c)>=0?Number($scope.chooseMaterials[i].Required_Quantity__c):0;
                   material.Item_Description__c = $scope.chooseMaterials[i].Item_Description__c;
                   material.Factory__c = $scope.chooseMaterials[i].Factory__c;
-                  material.Unite_Price__c = Number($scope.chooseMaterials[i].Unite_Price__c)>0?Number($scope.chooseMaterials[i].Unite_Price__c):1;
-                  material.Selling_Price__c = Number($scope.chooseMaterials[i].Selling_Price__c)>0?Number($scope.chooseMaterials[i].Selling_Price__c):1;
+                  material.Unite_Price__c = Number($scope.chooseMaterials[i].Unite_Price__c)>=0?Number($scope.chooseMaterials[i].Unite_Price__c):0;
+                  material.Selling_Price__c = Number($scope.chooseMaterials[i].Selling_Price__c)>=0?Number($scope.chooseMaterials[i].Selling_Price__c):0;
                   if (taxeIndex >= 0) {
                     material.Tax__c = $scope.Taxes[taxeIndex].apiName;
                   }

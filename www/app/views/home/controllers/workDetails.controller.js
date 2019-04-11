@@ -341,17 +341,20 @@
                 $scope.initTrucks(res.truckModels, res.childOrders);
                 initTrucks = res.truckModels;
                 if (initTrucks != null && initTrucks.length > 0) {
-                  $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
-                      return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
-                  }).then(function (res) {
-                      return $scope.changeCareTypeStep1();
-                  }).then(function (res) {
-                      return  $scope.changeCareTypeStep2();
-                  }).then(function (res) {
-                      if ($scope.openPrint){
-                          return $scope.getWorkContent(res.soResult);
-                      }
-                  });
+                  // $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
+                  //     return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
+                  // }).then(function (res) {
+                  //     return $scope.changeCareTypeStep1();
+                  // }).then(function (res) {
+                  //     return  $scope.changeCareTypeStep2();
+                  // }).then(function (res) {
+                  //     if ($scope.openPrint){
+                  //         return $scope.getWorkContent(res.soResult);
+                  //     }
+                  // });
+                    $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
+                         return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
+                    });
                 }
                 $scope.allTruckItems = truckItems;
 
@@ -1075,6 +1078,7 @@
                   ah=0;
                   am=1;
                   arriveTime=null;
+                  leaveTime=null;
                   $ionicPopup.alert({
                       title:"到达时间早于出发时间"
                   });
@@ -4680,12 +4684,12 @@
         };
 
         $scope.changeCareType = function () {
-            localMJobItemIds=[];
-            $scope.changeCareTypeStep1().then(function (res) {
-               return  $scope.changeCareTypeStep2();
-            }).then(function (res) {
-                return $scope.showModal();
-            });
+            // localMJobItemIds=[];
+            // $scope.changeCareTypeStep1().then(function (res) {
+            //    return  $scope.changeCareTypeStep2();
+            // }).then(function (res) {
+            //     return $scope.showModal();
+            // });
         };
         $scope.changeCareTypeStep1=function () {
             let deferred =$q.defer();
