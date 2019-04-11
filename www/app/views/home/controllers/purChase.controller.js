@@ -378,7 +378,7 @@
             };
 
             $scope.chooseCurrentMaterial = function(obj){
-
+                var add = true;
                 var objOther = {};
                 objOther.parts_number__c =obj.parts_number__c!=undefined&&obj.parts_number__c!=null?obj.parts_number__c:"";
                 objOther.Required_Quantity__c =1;
@@ -389,9 +389,13 @@
                 objOther.Selling_Price__c=1;
                 if (localMaterials.length>0){
                     for(var i =0;i<localMaterials.length;i++){
-                        if (localMaterials[i].Item_Code__c!=obj.Name){
-                            localMaterials.push(objOther);
+                        if (localMaterials[i].Item_Description__c==obj.Name){
+                            add=false;
+                            break;
                         }
+                    }
+                    if (add){
+                        localMaterials.push(objOther);
                     }
                 }else{
                     localMaterials.push(objOther);
