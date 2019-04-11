@@ -367,12 +367,12 @@
                             deferred.resolve('');
                         } else {
                             canDeparture=true;
-                            $scope.updateOrderType(item, 'Not Started');
+                            $scope.updateOrderType(item, 'Not Started',res.message);
                         }
                     },function error(msg) {
                         canDeparture=true;
-                        console.log(msg.responseText);
-                        $scope.updateOrderType(item, 'Not Started');
+                        console.log(JSON.stringify(msg));
+                        $scope.updateOrderType(item, 'Not Started',JSON.stringify(msg));
                     });
                 } else {
                     AppUtilService.hideLoading();
@@ -402,14 +402,15 @@
          * @param obj
          * @param status
          */
-        $scope.updateOrderType = function (obj, status) {
+        $scope.updateOrderType = function (obj, status,msgStr) {
             dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? obj.Id : obj._soupEntryId, status).then(function callBack(res) {
                 console.log(res);
                 AppUtilService.hideLoading();
                 if (res.status.toLowerCase() == 'success') {
                     $ionicPopup.alert({
-                        title: '记录出发时间失败，重置为未开始状态'
+                        title: msgStr
                     });
+                    $scope.getSomeData();
                 } else {
                     $ionicPopup.alert({
                         title: '更新工单状态失败',

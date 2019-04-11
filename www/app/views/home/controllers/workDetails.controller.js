@@ -1498,19 +1498,21 @@
                   deferred.resolve('');
                   } else {
                     canDeparture = true;
-                    $ionicPopup.alert({
-                      title: res.message
-                    });
-                    return;
+                    // $ionicPopup.alert({
+                    //   title: res.message
+                    // });
+                    // return;
+                      $scope.updateOrderType('Not Started',res.message);
                   }
                 }, function error(msg) {
                   canDeparture = true;
                   AppUtilService.hideLoading();
                   console.log(msg);
-                  $ionicPopup.alert({
-                    title: msg.responseText
-                  });
-                  return;
+                  // $ionicPopup.alert({
+                  //   title: msg.responseText
+                  // });
+                  // return;
+                    $scope.updateOrderType('Not Started',JSON.stringify(msg));
                 });
               } else {
                 canDeparture = true;
@@ -1520,13 +1522,41 @@
               console.log(msg);
               canDeparture = true;
               deferred.reject(msg);
-              $ionicPopup.alert({
-                title: msg.responseText
-              });
-              return;
+              // $ionicPopup.alert({
+              //   title: msg.responseText
+              // });
+              // return;
+                  $scope.updateOrderType('Not Started',JSON.stringify(msg));
             });
             return deferred.promise;
         };
+
+      $scope.updateOrderType = function (status,msgStr) {
+          dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, status).then(function callBack(res) {
+              console.log(res);
+              AppUtilService.hideLoading();
+              if (res.status.toLowerCase() == 'success') {
+                  $ionicPopup.alert({
+                      title: msgStr
+                  });
+
+              } else {
+                  $ionicPopup.alert({
+                      title: '更新工单状态失败',
+                      template: res.message
+                  });
+                  return false;
+              }
+          }, function error(msg) {
+              console.log(msg);
+              AppUtilService.hideLoading();
+              $ionicPopup.alert({
+                  title: '更新工单状态失败',
+                  template: msg.responseText
+              });
+              return false;
+          });
+      };
 
         var canArrive = true;
           var mobileSelect1=null;
@@ -1866,9 +1896,35 @@
         };
         var canSave=true;
         $scope.goSave = function () {
+            var sameOrNot = false;
+            var serviceType =  $('#select_service_type option:selected').val();
+            if (serviceType==="Maintenance"){
+                if ($scope.allTruckItems.length>0){
+                    let mk = $scope.allTruckItems[0].Maintenance_Key__c;
+                    for(var i =0;i<$scope.allTruckItems.length;i++){
+                        if($scope.allTruckItems[i].Maintenance_Key__c!=mk){
+                            sameOrNot=true;
+                            break;
+                        }
+                    }
+                    if (sameOrNot){
+                        $ionicPopup.alert({
+                            title: '保养只能是同一保养key的车'
+                        });
+                        return false;
+                    }
+                }
+            }else if (serviceType==="Repair"){
+                if ($scope.allTruckItems.length>1){
+                    $ionicPopup.alert({
+                        title: '维修只能加一台车'
+                    });
+                    return false;
+                }
+            }
+
           AppUtilService.showLoading();
           localUris = [];
-
           //是否点击checkbox
           if ($scope.checkNinePices) {
             if ($scope.bfObjs != null && $scope.bfObjs.length > 0) {
@@ -4590,22 +4646,31 @@
         };
 
         $scope.changeServiceType = function(){
-            var serviceType =  $('#select_service_type option:selected').val();
-            if (serviceType==="Maintenance"){
-                if ($scope.allTruckItems.length>0){
-                    let mk = $scope.allTruckItems[0].Maintenance_Key__c;
-                    for(var i =0;i<$scope.allTruckItems.length;i++){
-                        if($scope.allTruckItems[i].Maintenance_Key__c!=mk){
-                            $scope.allTruckItems.splice(i,1);
-                            i--;
-                        }
-                    }
-                }
-            }else if (serviceType==="Repair"){
-                if ($scope.allTruckItems.length>0){
-                    $scope.allTruckItems=$scope.allTruckItems[0];
-                }
-            }
+            // $('input.ckbox_truck_add_searchresult_item').each(function (index, element) {
+            //     element.checked = false;
+            // });
+            // document.getElementById('ckbox_truck_add_searchresult_all').checked = false;
+            //
+            // var serviceType =  $('#select_service_type option:selected').val();
+            // if (serviceType==="Maintenance"){
+            //     if ($scope.selectedTruckItemsMore.length>0){
+            //         let mk = $scope.selectedTruckItemsMore[0].Maintenance_Key__c;
+            //         for(var i =0;i<$scope.selectedTruckItemsMore.length;i++){
+            //             if($scope.selectedTruckItemsMore[i].Maintenance_Key__c!=mk){
+            //                 $scope.selectedTruckItemsMore.splice(i,1);
+            //                 i--;
+            //             }
+            //         }
+            //     }
+            // }else if (serviceType==="Repair"){
+            //     if ($scope.selectedTruckItemsMore.length>0){
+            //         var aa = $scope.selectedTruckItemsMore[0];
+            //         $scope.selectedTruckItemsMore=[];
+            //         $scope.selectedTruckItemsMore.push(aa);
+            //     }
+            // }
+            // $scope.hideTruckAddPage();
+
         };
 
         $scope.changeCareType = function () {
