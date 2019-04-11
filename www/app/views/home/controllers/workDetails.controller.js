@@ -1783,6 +1783,7 @@
           //$scope.workHourShow = !isNaN(minTotal) ? (minTotal / 60).toFixed(2) + '小时' : "0小时";//工作小时
           $scope.callStrShow = $('#call_str').val().trim();//报修需求
           $scope.workContentShow = $('#workContentStr').val();//工作信息
+          $scope.printWorkContent= $('#workContentStr').val();
           $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
 
           $scope.goodsList = [];
@@ -4596,8 +4597,8 @@
             }
           });
             $scope.workContent=workContent;
-            $scope.workContentShow=workContent2;
-            $scope.printWorkContent= workContent2;
+            $scope.workContentShow=workContent;
+            $scope.printWorkContent= workContent;
         };
 
         $scope.showModal = function () {
