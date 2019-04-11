@@ -348,10 +348,8 @@
                   }).then(function (res) {
                       return  $scope.changeCareTypeStep2();
                   }).then(function (res) {
-                      if (!$scope.openPrint){
-                          return $scope.showModal();
-                      }else{
-                          return $scope.confirmServiceModal();
+                      if ($scope.openPrint){
+                          return $scope.getWorkContent(res.soResult);
                       }
                   });
                 }
@@ -373,6 +371,13 @@
               console.log(msg.responseText);
             });
         });
+
+        $scope.getWorkContent=function(soResult){
+            if(soResult!=undefined&&soResult!=null){
+                $scope.workContent = soResult.Description__c != undefined && soResult.Description__c != null ? soResult.Description__c : '';
+            }
+        };
+
 
         $scope.reloadTruckData = function(){
             AppUtilService.showLoading();
