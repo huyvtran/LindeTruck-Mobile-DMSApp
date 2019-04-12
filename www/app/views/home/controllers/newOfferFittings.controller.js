@@ -570,19 +570,19 @@
         };
 
         $scope.calculatePriceConditionPriceAll = function (partItem) {
-
-          if (partItem) {
-            partItem.priceCondition.favourablePrice =
-              Number(partItem.priceCondition.discount * partItem.priceCondition.price).toFixed(2);
-          }
           //计算合计
           $scope.priceConditionPriceAll = 0;
           // for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
           //   if ($scope.selectedTruckFitItems[i].priceCondition) {
           //     $scope.priceConditionPriceAll =
-          //       Number($scope.selectedTruckFitItems[i].priceCondition.favourablePrice) *
-          // Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll; } }
-
+          //       Number($scope.selectedTruckFitItems[i].priceCondition.favourablePrice).toFixed(2) *
+          //       Number($scope.selectedTruckFitItems[i].quantity)+ $scope.priceConditionPriceAll;
+          //   }
+          // }
+          if (partItem) {
+            partItem.priceCondition.favourablePrice =
+              Number(partItem.priceCondition.discount * partItem.priceCondition.price).toFixed(2);
+          }
           $scope.priceConditionPriceAll = _.sum(_.map($scope.selectedTruckFitItems, function (item) {
             if (item.priceCondition) {
               console.log('favourablePrice', item.priceCondition.favourablePrice, 'quantity', item.quantity);
@@ -592,6 +592,7 @@
           }));
 
           console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
+          $scope.priceConditionPriceAll = $scope.priceConditionPriceAll.toFixed(2);
 
         };
         $scope.checkAllSearchResults = function () {

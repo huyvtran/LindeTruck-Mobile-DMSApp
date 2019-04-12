@@ -685,14 +685,21 @@ angular.module('oinio.controllers')
       $scope.calculatePriceConditionPriceAll = function (partItem) {
         //计算合计
         $scope.priceConditionPriceAll = 0;
-        for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
-          $scope.priceConditionPriceAll =
-            Number($scope.selectedTruckFitItems[i].Discount__c).toFixed(2) * Number($scope.selectedTruckFitItems[i].Gross_Price__c).toFixed(2)
-            * Number($scope.selectedTruckFitItems[i].Quantity__c).toFixed(2) + $scope.priceConditionPriceAll;
-        }
+        // for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
+        //   $scope.priceConditionPriceAll =
+        //     Number($scope.selectedTruckFitItems[i].Discount__c) * Number($scope.selectedTruckFitItems[i].Gross_Price__c)
+        //     * Number($scope.selectedTruckFitItems[i].Quantity__c) + $scope.priceConditionPriceAll;
+        // }
         if (partItem) {
           partItem.Net_Price__c = Number(partItem.Discount__c*partItem.Gross_Price__c).toFixed(2);
         }
+        $scope.priceConditionPriceAll = _.sum(_.map($scope.selectedTruckFitItems, function (item) {
+          if (item.Net_Price__c) {
+            console.log('favourablePrice', item.Net_Price__c, 'quantity', item.Quantity__c);
+            return (_.isNaN(item.Net_Price__c) ? 0 : Number(item.Net_Price__c))
+                   * (_.isNaN(item.Quantity__c) ? 0 : Number(item.Quantity__c));
+          }
+        }));
         console.log('calculatePriceConditionPriceAll:', $scope.priceConditionPriceAll);
         $scope.priceConditionPriceAll = $scope.priceConditionPriceAll.toFixed(2);
       };
