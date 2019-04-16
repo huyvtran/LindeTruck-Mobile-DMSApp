@@ -9,11 +9,14 @@
             var vm            = this,
                 doOnline      = true,
                 localTruckIds = [],
+                productTypes =[],
                 oCurrentUser  = LocalCacheService.get('currentUser') || {};
             $scope.newDetailPostDataUrl = "/services/apexrest/NewWorkDetailService?";
             vm.isOnline = null;
+            vm.carServices = [];
             vm.adrs = [];
             vm.priorities = [];
+            vm.productTypeShowes=[];
 
             /**
              * @func    $scope.$on('$ionicView.beforeEnter')
@@ -52,6 +55,13 @@
                 vm.adrs.push({label: 'ZS08_Z82', value: 'Z82 保修服务2'});
                 vm.adrs.push({label: 'ZS08_Z83', value: 'Z83 保修服务3'});
 
+                vm.carServices.push({label: 'Maintenance', value: '保养'});
+                vm.carServices.push({label: 'Repair', value: '维修'});
+                vm.carServices.push({label: 'Inspection', value: '巡检'});
+
+                productTypes.push({label:'20',value:'20 Service'});
+                productTypes.push({label:'30',value:'30 Rental'});
+
                 vm.priorities.push({label: '紧急', value: 'Urgent'});
                 vm.priorities.push({label: '高', value: 'High'});
                 vm.priorities.push({label: '中', value: 'Medium'});
@@ -79,7 +89,7 @@
                 //$scope.searchResultCustomerNum ='';
                 $scope.searchResultAcctId = '';
                 $scope.searchResultAcctSoupId = '';
-
+                $scope.ServiceGroupRental2='';
                 $scope.searchResultTruckName = '';
                 $scope.searchResultTruckNum = '';
                 $scope.searchResultTruckId = '';
@@ -279,10 +289,12 @@
                 //$scope.searchResultCustomerNum = acct.Customer_Number__c;
                 $scope.searchResultAcctId = acct.Id;
                 $scope.searchResultAcctSoupId = acct._soupEntryId;
+                $scope.ServiceGroupRental2 = acct.Service_Group_Rental2__c !=undefined && acct.Service_Group_Rental2__c!=null ?acct.Service_Group_Rental2__c:"";
+
 
                 //$scope.closeSelectPage();
                 $scope.init20Trucks(acct.Id);
-
+                $scope.initDivision(acct.Division__c!=undefined && acct.Division__c!=null ? acct.Division__c:"20");
             };
 
             $scope.init20Trucks = function (keyWord) {
@@ -335,6 +347,26 @@
                     //AppUtilService.hideLoading();
                     $scope.closeSelectPage();
                 });
+            };
+
+            $scope.initDivision=function (divisionStr) {
+                vm.productTypeShowes=[];
+                var arr = [];
+                if (divisionStr.length>2){
+                    arr=divisionStr.split(";");
+                }else{
+                    arr.push(divisionStr);
+                }
+                if (arr.length>0){
+                    for (var i = 0;i<arr.length;i++){
+                         for (var j =0;j<productTypes.length;j++){
+                            if (arr[i]==productTypes[j].label){
+                                vm.productTypeShowes.push(productTypes[j]);
+                                continue;
+                            }
+                         }
+                    }
+                }
             };
 
             $scope.getUsers = function (keyWord) {
@@ -469,6 +501,7 @@
 
             };
 
+            var sameOrNot = false;
             $scope.saveServiceOrder = function () {
                 if ($scope.searchResultAcctName == '') {
                     $ionicPopup.alert({
@@ -476,11 +509,46 @@
                     });
                     return;
                 }
+
+                var serviceType =  $('#select_service_type option:selected').val();
+                if (serviceType==="Maintenance"){
+                    if ($scope.selectedTruckItems.length>0){
+                        let mk = $scope.selectedTruckItems[0].Maintenance_Key__c;
+                        for(var i =0;i<$scope.selectedTruckItems.length;i++){
+                            if($scope.selectedTruckItems[i].Maintenance_Key__c!=mk){
+                                sameOrNot=true;
+                                break;
+                            }
+                        }
+                        if (sameOrNot){
+                            $ionicPopup.alert({
+                                title: '保养只能是同一保养key的车'
+                            });
+                            return false;
+                        }
+                    }
+                }else if (serviceType==="Repair"){
+                    if ($scope.selectedTruckItems.length>1){
+                        $ionicPopup.alert({
+                            title: '维修只能加一台车'
+                        });
+                        return false;
+                    }
+                }
+
+                var selectServiceGroup =  $('#select_service_group').val();
+                var localServiceGroupRental2 = "";
+                if (selectServiceGroup=="30"){
+                    localServiceGroupRental2 = $scope.ServiceGroupRental2;
+                }else {
+                    localServiceGroupRental2="";
+                }
+
                 AppUtilService.showLoading();
 
                 let order2Save = new Object();
                 let userId = $scope.searchResultOwnerId;
-
+                order2Save.Service_Group_Code__c = localServiceGroupRental2;
                 order2Save.Account_Ship_to__c = $scope.searchResultAcctId;
                 order2Save.Subject__c =  encodeURIComponent($("#textarea_desc").val());
                 let orderType = $("#select_serviceorder_type").val();

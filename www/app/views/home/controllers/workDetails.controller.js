@@ -620,9 +620,9 @@
               for (var j = 0; j < childOrders.length; j++) {
                 if (trucks[i].Id == childOrders[j].Truck_Serial_Number__c) {
                   var optHour = 0;
-                  // if (childOrders[j].Operation_Hour__c != undefined && childOrders[j].Operation_Hour__c != null) {
-                  //   optHour = childOrders[j].Operation_Hour__c;
-                  // } else {
+                  if (childOrders[j].Operation_Hour__c != undefined && childOrders[j].Operation_Hour__c != null) {
+                    optHour = childOrders[j].Operation_Hour__c;
+                  } else {
                     if (childOrders[j].Truck_Serial_Number__r != undefined && childOrders[j].Truck_Serial_Number__r
                         != null) {
                       if (childOrders[j].Truck_Serial_Number__r.Operation_Hour__c != undefined
@@ -632,7 +632,7 @@
                         optHour = 0;
                       }
                     }
-                  // }
+                  }
                   var suggestStr="";
                   if (childOrders[j].Service_Suggestion__c!=undefined&&childOrders[j].Service_Suggestion__c!=null){
                       suggestStr=childOrders[j].Service_Suggestion__c;

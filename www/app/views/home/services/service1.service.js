@@ -58,7 +58,7 @@
             this.searchAccounts = function(keyword,isOnline){
                 if(isOnline){
                     let str_type = 'querySobjectsWithChineseParams';
-                    let str_fields = 'id,Name,Customer_Number__c,Address__c,SAP_Number__c,Office_Address__c';
+                    let str_fields = 'id,Name,Customer_Number__c,Address__c,SAP_Number__c,Office_Address__c,Service_Group_Rental2__c,Division__c';
                     let str_function = 'searchAccounts';
                     let str_filter = keyword;
                     let url = service.buildChineseURL(str_type,str_fields,str_function,str_filter);

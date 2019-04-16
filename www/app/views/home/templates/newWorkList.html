@@ -27,7 +27,10 @@
             cursor: pointer;
             vertical-align: middle;
         }
-
+        .line_two {
+            display: inline-block;
+            width: 49%;
+        }
         .to_Open {
             display: block;
         }
@@ -699,20 +702,41 @@
                             </div>
                         </div>
                         <div class="small_Type_Group">
-                            <div class="small_Type_Title">作业类型:</div>
-                            <div class="small_Type_Box">
-                                <select id="select_serviceorder_type" class="small_Type_Select">
-                                    <option ng-repeat="adr in vm.adrs" value={{adr.label}}>{{adr.value}} </option>
-                                </select>
+                            <div class="line_two">
+                                <div class="small_Type_Title">作业类型:</div>
+                                <div class="small_Type_Box">
+                                    <select id="select_serviceorder_type" class="small_Type_Select">
+                                        <option ng-repeat="adr in vm.adrs" value={{adr.label}}>{{adr.value}} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line_two">
+                                <div class="small_Type_Title">服务类型:</div>
+                                <div class="small_Type_Box">
+                                    <select id="select_service_type" class="small_Type_Select">
+                                        <option ng-repeat="carService in vm.carServices" value={{carService.label}}>{{carService.value}} </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="small_Type_Group">
-                            <div class="small_Type_Title">优先级:</div>
-                            <div class="small_Type_Box">
-                                <select id="select_serviceorder_priority" class="small_Type_Select">
-                                    <option ng-repeat="pri in vm.priorities" ng-selected="pri.value=='Medium'" value={{pri.value}}>{{pri.label}}
-                                    </option>
-                                </select>
+                            <div class="line_two">
+                                <div class="small_Type_Title">产品组:</div>
+                                <div class="small_Type_Box">
+                                    <select id="select_service_group" class="small_Type_Select">
+                                        <option ng-repeat="productType in vm.productTypeShowes track by $index"  value={{productType.label}}>{{productType.value}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="line_two">
+                                <div class="small_Type_Title">优先级:</div>
+                                <div class="small_Type_Box">
+                                    <select id="select_serviceorder_priority" class="small_Type_Select">
+                                        <option ng-repeat="pri in vm.priorities" ng-selected="pri.value=='Medium'" value={{pri.value}}>{{pri.label}}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="small_Type_Group">
