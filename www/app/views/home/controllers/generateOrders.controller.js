@@ -75,6 +75,13 @@
         $(document).ready(function () {
           $('#select_work_type_g').find('option[value = ' + $stateParams.WorkOrderType + ']').attr('selected', true);
 
+          window.setTimeout(function () {
+            $('input.Entire__c').each(function (index, element) {
+                element.checked = "true";
+            });
+          }, 200);
+
+
         });
 
         //         生成备件订单
