@@ -229,7 +229,22 @@
          * */
         service.getAccesstoken = function () {
           return accesstoken;
-        }
+        };
+
+        /**
+         * fetch se app Session
+         * */
+        service.getSeAppSession = function () {
+          var stopEvent = $interval(function () {
+            //每分钟执行一次定时任务
+            ForceClientService.getForceClient().apexrest('/HomeService?action=keepOnline', 'POST', {}, null, function (response) {
+              console.log('VersionSuccess:', response);
+
+            }, function (error) {
+              console.log('error:', error);
+            });
+            }, 1740000);
+        };
 
         /**
          * 版本号比较
@@ -269,5 +284,9 @@
         }
 
       });
+
+
+
+
 
 })();

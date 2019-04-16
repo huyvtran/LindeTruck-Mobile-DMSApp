@@ -10,7 +10,7 @@
   angular
     .module('oinio.services')
     .service('LindeUrlManage',
-      function ($q, $http, $interval, $rootScope, $filter, $state, $stateParams, LocalDataService, ForceClientService) {
+      function ($q, $http, $interval, $rootScope, $filter, $state, $stateParams, LocalDataService, ForceClientService, TimeCardService) {
 
         var service = this;
 
@@ -42,6 +42,8 @@
             $rootScope.lindeSecret = "linde2018"; //生产环境Secret
             $rootScope.lindeCompanyCode = "lindechinatest"; //生产环境CompanyCode
           }
+
+          TimeCardService.getSeAppSession();
 
         };
 
