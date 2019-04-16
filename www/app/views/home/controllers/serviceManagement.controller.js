@@ -18,9 +18,9 @@
                 canClick                 = true,
                 oCurrentUser             = LocalCacheService.get('currentUser') || {};
             vm.isOnline = null;
-            vm.initServiceCars = [];
+            $scope.initServiceCars = [];
             $scope.forceClientProd = false;
-            vm.getInitServiceCarUrl = "/ServiceCarService?action=init&currentUser=";
+            $scope.getInitServiceCarUrl = "/ServiceCarService?action=init&currentUser=";
             $scope.$on('$ionicView.beforeEnter', function () {
                 $scope.imgUris1 = ["././img/images/will_add_Img.png"];
                 $scope.imgUris2 = ["././img/images/will_add_Img.png"];
@@ -44,26 +44,29 @@
                 if (oCurrentUser) {
                     vm.username = oCurrentUser.Name;
                 }
+                AppUtilService.showLoading();
 
                 //获取服务车体
                 ForceClientService.getForceClient().apexrest(
-                  vm.getInitServiceCarUrl + oCurrentUser.Id,
+                  $scope.getInitServiceCarUrl + oCurrentUser.Id,
                   'GET',
                   {},
                   null, function callBack(res) {
+                      AppUtilService.hideLoading();
+
                       console.log(res);
-                      vm.initServiceCars = [];
+                      $scope.initServiceCars = [];
                       if (res.default != null && res.default.length > 0) {
                           for (var i = 0; i < res.default.length; i++) {
-                              vm.initServiceCars.push(res.default[i]);
+                              $scope.initServiceCars.push(res.default[i]);
                           }
                       }
                       if (res.all != null && res.all.length > 0) {
                           for (var i = 0; i < res.all.length; i++) {
-                              vm.initServiceCars.push(res.all[i]);
+                              $scope.initServiceCars.push(res.all[i]);
                           }
                       }
-                      if (vm.initServiceCars.length == 0) {
+                      if ($scope.initServiceCars.length == 0) {
                           $ionicPopup.alert({
                               title: "当前用户无服务车"
                           });
@@ -71,6 +74,8 @@
                       }
                   }, function error(msg) {
                       console.log(JSON.stringify(msg));
+                      AppUtilService.hideLoading();
+
                   });
             });
             $scope.getPhoto1 = function ($event) {
