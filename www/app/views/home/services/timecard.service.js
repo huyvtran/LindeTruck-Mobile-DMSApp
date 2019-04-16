@@ -62,13 +62,14 @@
             //获取版本
             var serverAppVersion = response.SEApp_Current_Version;
             var serverMinVersion = response.SEApp_Min_Version;
+            var urlPath =  response.PackagePath;
             cordova.getAppVersion.getVersionNumber().then(function (version) {
 
               if (compareVersion(version, serverMinVersion) == -1){
-                forceShowUpdateConfirm(serverMinVersion);
+                forceShowUpdateConfirm(serverMinVersion, urlPath);
               } else {
                 if (compareVersion(version, serverAppVersion) == -1) {
-                  showUpdateConfirm(serverAppVersion);
+                  showUpdateConfirm(serverAppVersion, urlPath);
                 }
               }
 
@@ -82,7 +83,7 @@
         };
 
         // 强制更新对话框
-        function forceShowUpdateConfirm(version) {
+        function forceShowUpdateConfirm(version,urlPath) {
           var confirmPopup = $ionicPopup.show({
             title: '版本升级' + version,
             template: "您有新的版本需要升级，请点击升级按钮进行升级",
@@ -94,7 +95,7 @@
                   $ionicLoading.show({
                     template: '已经下载：0%'
                   });
-                  var url = $rootScope.apkDownloadURL; //可以从服务端获取更新APP的路径
+                  var url = urlPath; //可以从服务端获取更新APP的路径
                   var filename = url.split('/').pop();
                   var targetPath = cordova.file.externalRootDirectory + filename;//APP下载存放的路径，可以使用cordova file插件进行相关配置
                   //var targetPath = cordova.file.externalDataDirectory + filename;
@@ -130,7 +131,7 @@
         }
 
         // 显示是否更新对话框
-        function showUpdateConfirm(version) {
+        function showUpdateConfirm(version, urlPath) {
           var confirmPopup = $ionicPopup.confirm({
             title: '版本升级' + version,
             template: "您有新的版本需要升级，请点击升级按钮进行升级",
@@ -142,7 +143,7 @@
               $ionicLoading.show({
                 template: '已经下载：0%'
               });
-              var url = $rootScope.apkDownloadURL; //可以从服务端获取更新APP的路径
+              var url = urlPath; //可以从服务端获取更新APP的路径
               var filename = url.split('/').pop();
               var targetPath = cordova.file.externalRootDirectory + filename;//APP下载存放的路径，可以使用cordova file插件进行相关配置
               //var targetPath = cordova.file.externalDataDirectory + filename;
