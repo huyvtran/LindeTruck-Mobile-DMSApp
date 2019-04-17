@@ -265,10 +265,15 @@ img {
     width: calc(100% - 18px);
 }
 .workListDetails_bodyer .small_Type_Title_G_2 {
+    align-items: center;
     color: #ffffff;
     padding: 0 5%;
     display: flex;
     width: calc(100% - 128px);
+}
+.workListDetails_bodyer .part_state_p {
+    padding: 0 10px;
+    color: rgb(255, 218, 0);
 }
 .workListDetails_bodyer .small_Type_Title_G_3 {
     color: #ffffff;

@@ -138,7 +138,7 @@
 
         $scope.localWorkItems = [];
         $scope.workTimes = [];//工作时间列表
-
+        $scope.serPartOdStatus = '';//备件状态
         $scope.maintainType = false;
         $scope.mcb = false;
         $scope.serviceLevels = [''];
@@ -287,6 +287,23 @@
               imageName: 'af_' + new Date().format('yyyyMMddhhmmss/') + '*服务车外观及后备箱'
             });
         });
+
+        // $scope.replacementPartStatus = function (type) {
+        //   var returnType = '';
+        //   if (type === 'Draft') {
+        //     returnType = '草稿';
+        //   } else if (type === 'Pending') {
+        //     returnType = '待定';
+        //   } else if (type === 'Approved') {
+        //     returnType = '已审核';
+        //   } else if (type === 'Reject') {
+        //     returnType = '拒绝';
+        //   }else {
+        //     returnType = '';//其他
+        //   }
+        //   return returnType;
+        // };
+
         $scope.$on('$ionicView.enter', function () {
           LocalCacheService.set('previousStateForSCReady', $state.current.name);
           LocalCacheService.set('previousStateParamsForSCReady', $stateParams);
@@ -335,7 +352,9 @@
               initChildOrders = res.childOrders;
               initmjiInfos = res.mjiInfos;
               if (Number(localStorage.onoffline) != 0) {
+
                 $scope.initPhotoData(res.images);
+                $scope.serPartOdStatus = res.serPartOdStatus;
                 $scope.initSignature(res.sigEngineerImage, res.sigAcctImage);
                 $scope.SelectedTruckNum = res.truckModels.length;
                 $scope.initTrucks(res.truckModels, res.childOrders);

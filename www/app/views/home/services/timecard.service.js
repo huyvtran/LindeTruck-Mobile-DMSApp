@@ -238,7 +238,7 @@
           var stopEvent = $interval(function () {
             //每分钟执行一次定时任务
             ForceClientService.getForceClient().apexrest('/HomeService?action=keepOnline', 'POST', {}, null, function (response) {
-              console.log('VersionSuccess:', response);
+              console.log('keepOnline:', response);
 
             }, function (error) {
               console.log('error:', error);
