@@ -3166,7 +3166,7 @@
                 AppUtilService.hideLoading();
                 console.log(res);
                 var canUpdateData=true;
-                if(res.OriginData!=null&&res.OriginData.length>0){
+                if(res.OriginData!=undefined&&res.OriginData!=null&&res.OriginData.length>0){
                     for(var i =0;i<res.OriginData.length;i++){
                         if (res.OriginData[i].updateStatus=="fail"||res.OriginData[i].updateStatus==null){
                             canUpdateData=false;
@@ -3189,6 +3189,11 @@
                             truckNumber += singleCar.truckItemNum + "(" + singleCar.Operation_Hour__c + "H)" + '; ';
                         });
                     }
+                }else{
+                    $ionicPopup.alert({
+                        title:JSON.stringify(res)
+                    });
+                    return;
                 }
               },function error(msg) {
                 AppUtilService.hideLoading();

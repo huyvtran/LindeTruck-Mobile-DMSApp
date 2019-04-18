@@ -538,8 +538,10 @@
 
                 var selectServiceGroup =  $('#select_service_group').val();
                 var localServiceGroupRental2 = "";
+                var localDivision="";
                 if (selectServiceGroup=="30"){
                     localServiceGroupRental2 = $scope.ServiceGroupRental2;
+                    localDivision="30";
                 }else {
                     localServiceGroupRental2="";
                 }
@@ -550,6 +552,7 @@
                 let userId = $scope.searchResultOwnerId;
                 order2Save.Service_Order_Sub_Type__c=serviceType;
                 order2Save.Service_Group_Code__c = localServiceGroupRental2;
+                order2Save.Division__c = localDivision;
                 order2Save.Account_Ship_to__c = $scope.searchResultAcctId;
                 order2Save.Subject__c =  encodeURIComponent($("#textarea_desc").val());
                 let orderType = $("#select_serviceorder_type").val();
