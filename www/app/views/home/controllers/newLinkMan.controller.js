@@ -176,46 +176,54 @@
                 Service1Service.getContactsObjectByAcctId(selectAccountId, true).then(function (result) {
 
                   console.log('getContactsObjectByAcctId', result);
-                  var phoneAll = [];
-                  for (var i = 0; i < result.length; i++) {
-                    phoneAll.push(result[i].Phone);
-                  }
-                  if (phoneAll.indexOf(linkManPhoneNumber) == -1) {
-                    var obj = {};
-                    obj.Name = linManName;
-                    obj.Phone = linkManPhoneNumber;
-                    obj.MobilePhone = linkManPhoneNumber;
-                    obj.Email = linkManEmail;
-                    obj.Contact_State__c = linkManstatus;
-                    obj.Position_Type__c = linkManPostionType;
-                    obj.Account = {Id: selectAccountId, _soupEntryId: soupEntryId};
-                    var objs = [obj];
-                    Service1Service.saveContacts(objs, true).then(function (response) {
-                      AppUtilService.hideLoading();
+                  if (result && result.length!=0){
+                    var phoneAll = [];
+                    for (var i = 0; i < result.length; i++) {
+                      phoneAll.push(result[i].Phone);
+                    }
+                    if (phoneAll.indexOf(linkManPhoneNumber) == -1) {
+                      var obj = {};
+                      obj.Name = linManName;
+                      obj.Phone = linkManPhoneNumber;
+                      obj.MobilePhone = linkManPhoneNumber;
+                      obj.Email = linkManEmail;
+                      obj.Contact_State__c = linkManstatus;
+                      obj.Position_Type__c = linkManPostionType;
+                      obj.Account = {Id: selectAccountId, _soupEntryId: soupEntryId};
+                      var objs = [obj];
+                      Service1Service.saveContacts(objs, true).then(function (response) {
+                        AppUtilService.hideLoading();
 
-                      console.log('saveContacts：', response);
-                      if (response.status == 'success') {
+                        console.log('saveContacts：', response);
+                        if (response.status == 'success') {
 
-                        var inoicPop = $ionicPopup.alert({
-                          title: '保存成功'
-                        });
-                        inoicPop.then(function () {
-                          $state.go('app.home');
-                        });
+                          var inoicPop = $ionicPopup.alert({
+                            title: '保存成功'
+                          });
+                          inoicPop.then(function () {
+                            $state.go('app.home');
+                          });
 
-                      }
-                    }, function (error) {
-                      $log.error(error);
-                      AppUtilService.hideLoading();
-                    });
-                  } else {
+                        }
+                      }, function (error) {
+                        $log.error(error);
+                        AppUtilService.hideLoading();
+                      });
+                    } else {
+                      var inoicPop = $ionicPopup.alert({
+                        title: '已存在该联系人'
+                      });
+                      inoicPop.then(function () {
+                        $('#chooseLinkManName').focus();
+                      });
+                    }
+                  }else {
+                    AppUtilService.hideLoading();
                     var inoicPop = $ionicPopup.alert({
-                      title: '已存在该联系人'
-                    });
-                    inoicPop.then(function () {
-                      $('#chooseLinkManName').focus();
+                      title: '客户数据不完整'
                     });
                   }
+
                 }, function (err) {
                   $log.error(err);
                   AppUtilService.hideLoading();
