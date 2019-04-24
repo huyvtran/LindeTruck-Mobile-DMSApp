@@ -2240,11 +2240,11 @@
                     }
 
                     console.log('regroupPartList:', regroupPartList);
-                    var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId + '&materialSumJSON=' + JSON.stringify(
-                      regroupPartList);
+                    var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId;
                     console.log('savePartsUrl:', savePartsUrlVar);
 
-                    ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
+                    ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', JSON.stringify(
+                        regroupPartList), null, function callBack(responseSaveParts) {
                       console.log('responseSaveParts:', responseSaveParts);
 
                       //添加点击保存更改工单状态
@@ -3259,11 +3259,11 @@
             }
           }
           console.log('regroupPartList:', regroupPartList);
-          var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId + '&materialSumJSON=' + JSON.stringify(
-            regroupPartList);
+          var savePartsUrlVar = $scope.savePartsUrl + orderDetailsId;
           console.log('savePartsUrl:', savePartsUrlVar);
 
-          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', {}, null, function callBack(responseSaveParts) {
+          ForceClientService.getForceClient().apexrest(savePartsUrlVar, 'PUT', JSON.stringify(
+              regroupPartList), null, function callBack(responseSaveParts) {
             AppUtilService.hideLoading();
             console.log('responseSaveParts:', responseSaveParts);
             $state.go('app.generateOrders', {workOrderId: orderDetailsId, accountId: $stateParams.accountId, WorkOrderType: $('#select_work_type option:selected').val()!=undefined&&$('#select_work_type option:selected').val()!=null?$('#select_work_type option:selected').val():""});//跳转备件页面

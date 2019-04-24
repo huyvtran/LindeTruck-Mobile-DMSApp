@@ -520,7 +520,7 @@
                             }, 1000);
                             if (msg.readyState==0){
                                 $ionicPopup.alert({
-                                    title:"当前网络状况较差,请切换网络!"
+                                    title:"网络不稳定,请稍后再试!"
                                 });
                             }else{
                                 $ionicPopup.alert({
