@@ -18,7 +18,7 @@
                 canClick                 = true,
                 oCurrentUser             = LocalCacheService.get('currentUser') || {};
             vm.isOnline = null;
-            $scope.initServiceCars = [];
+            $scope.initServiceCars = [""];
             $scope.forceClientProd = false;
             $scope.getInitServiceCarUrl = "/ServiceCarService?action=init&currentUser=";
             $scope.$on('$ionicView.beforeEnter', function () {
@@ -56,6 +56,7 @@
 
                       console.log(res);
                       $scope.initServiceCars = [];
+                      $scope.initServiceCars.push("");
                       if (res.default != null && res.default.length > 0) {
                           for (var i = 0; i < res.default.length; i++) {
                               $scope.initServiceCars.push(res.default[i]);
@@ -66,6 +67,7 @@
                               $scope.initServiceCars.push(res.all[i]);
                           }
                       }
+
                       if ($scope.initServiceCars.length == 0) {
                           $ionicPopup.alert({
                               title: "当前用户无服务车"
@@ -515,10 +517,16 @@
                             setTimeout(function () {
                                 AppUtilService.hideLoading();
                                 canClick = true;
-                            }, 3000);
-                            $ionicPopup.alert({
-                                title:JSON.stringify(msg)
-                            });
+                            }, 1000);
+                            if (msg.readyState==0){
+                                $ionicPopup.alert({
+                                    title:"当前网络状况较差,请切换网络!"
+                                });
+                            }else{
+                                $ionicPopup.alert({
+                                    title:JSON.stringify(msg)
+                                });
+                            }
                         }
                     });
                 }

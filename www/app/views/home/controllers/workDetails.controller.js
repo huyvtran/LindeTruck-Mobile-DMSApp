@@ -84,6 +84,8 @@
         $scope.bfObjs = [];
         $scope.afObjs = [];
         var initmjiInfos = [];
+        var initmjiInfosSecond = [];
+        var initLevel="";
         $scope.mainTanceChioces = [];
         $scope.imgUris = [
           {
@@ -133,7 +135,7 @@
         $scope.ownerNameShow = '';//负责工程师
         $scope.workHourShow = '';//工作小时
         $scope.callStrShow = '';//报修需求
-        $scope.workContentShow = '';//工作信息
+        //$scope.workContentShow = '';//工作信息
         $scope.suggestionShoW = '';//结果及建议
 
         $scope.localWorkItems = [];
@@ -351,6 +353,7 @@
               $scope.initSavedUserData(res.savedUser, res.assignUser);
               initChildOrders = res.childOrders;
               initmjiInfos = res.mjiInfos;
+              initmjiInfosSecond = res.mjiInfos;
               if (Number(localStorage.onoffline) != 0) {
 
                 $scope.initPhotoData(res.images);
@@ -360,20 +363,17 @@
                 $scope.initTrucks(res.truckModels, res.childOrders);
                 initTrucks = res.truckModels;
                 if (initTrucks != null && initTrucks.length > 0) {
-                  // $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
-                  //     return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
-                  // }).then(function (res) {
-                  //     return $scope.changeCareTypeStep1();
-                  // }).then(function (res) {
-                  //     return  $scope.changeCareTypeStep2();
-                  // }).then(function (res) {
-                  //     if ($scope.openPrint){
-                  //         return $scope.getWorkContent(res.soResult);
-                  //     }
-                  // });
-                    $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
-                         return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
-                    });
+                  $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
+                      return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
+                  }).then(function (res) {
+                      return $scope.changeCareTypeStep1();
+                  }).then(function (res) {
+                      return  $scope.changeCareTypeStep2();
+                  }).then(function (res) {
+                      if ($scope.openPrint){
+                          return $scope.getWorkContent(res.soResult);
+                      }
+                  });
                 }
                 $scope.allTruckItems = truckItems;
 
@@ -514,6 +514,7 @@
           let deferred = $q.defer();
           if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
             var serviceLevel = childOrders[0].Maintenance_Level__c;
+            initLevel = serviceLevel;
             if (serviceLevel!="? undefined:undefined ?" && serviceLevel!=undefined && serviceLevel!=""){
                 $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
                 deferred.resolve("");
@@ -1805,8 +1806,8 @@
           }
           //$scope.workHourShow = !isNaN(minTotal) ? (minTotal / 60).toFixed(2) + '小时' : "0小时";//工作小时
           $scope.callStrShow = $('#call_str').val().trim();//报修需求
-          $scope.workContentShow = $('#workContentStr').val();//工作信息
-          $scope.printWorkContent= $('#workContentStr').val();
+          // $scope.workContentShow = $('#workContentStr').val();//工作信息
+          // $scope.printWorkContent= $('#workContentStr').val();
           $scope.suggestionShoW = $('#serviceSuggest').val();//结果及建议
 
           $scope.goodsList = [];
@@ -4183,9 +4184,9 @@
                     printPart2Check: $("#printPart2").prop("checked"),
                     printPart3Check: $("#printPart3").prop("checked"),
                     engineerImg: $scope.engineerImgStr != '././img/images/will_add_Img.png'
-                        ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : null,
+                        ? $scope.engineerImgStr.replace(/data:image\/jpeg;base64,/, '') : '',
                     busyImg: $scope.busyImgStr != '././img/images/will_add_Img.png' ? $scope.busyImgStr.replace(
-                        /data:image\/jpeg;base64,/, null) : ''
+                        /data:image\/jpeg;base64,/, '') : ''
                 }
                 , function callBack(response) {
                     console.log(response);
@@ -4621,12 +4622,16 @@
             if ($(element).prop('checked') && $(element).attr("id")!="") {
               localMJobItemIds.push($(element).attr("id"));
                 workContent +=$(element).next().text()+"\n";
-                workContent2+=$(element).next().text();
+                workContent2+="<p>"+$(element).next().text()+"</p>";
             }
           });
-            $scope.workContent=workContent;
-            $scope.workContentShow=workContent;
-            $scope.printWorkContent= workContent;
+            //$scope.workContent=workContent;
+            // $scope.workContentShow=workContent;
+            $("#workContentShowBox")[0].innerHTML="";
+            $("#workContentShowBox").append("<p>"+$("#workContentStr").val()+"</p>");
+            $("#workContentShowBox").append(workContent2);
+            $scope.printWorkContent+=$("#workContentStr").val()+"\n";
+            $scope.printWorkContent+= workContent;
         };
 
         $scope.showModal = function () {
@@ -4708,12 +4713,18 @@
         };
 
         $scope.changeCareType = function () {
-            // localMJobItemIds=[];
-            // $scope.changeCareTypeStep1().then(function (res) {
-            //    return  $scope.changeCareTypeStep2();
-            // }).then(function (res) {
-            //     return $scope.showModal();
-            // });
+            var careType=$('#select_care_type option:selected').val();
+            if (careType==initLevel){
+                initmjiInfos=initmjiInfosSecond;
+            }else{
+                initmjiInfos=[];
+            }
+            localMJobItemIds=[];
+            $scope.changeCareTypeStep1().then(function (res) {
+               return  $scope.changeCareTypeStep2();
+            }).then(function (res) {
+                return $scope.showModal();
+            });
         };
         $scope.changeCareTypeStep1=function () {
             let deferred =$q.defer();
@@ -4767,6 +4778,11 @@
             return deferred.promise;
         };
         $scope.changeCareTypeStep2=function () {
+            //$scope.workContentShow="";
+            $scope.printWorkContent="";
+            $("#workContentShowBox")[0].innerHTML="";
+            $("#workContentShowBox").append("<p>"+$("#workContentStr").val()+"</p>");
+            $scope.printWorkContent+=$("#workContentStr").val()+"\n";
             let deferred = $q.defer();
                 if (initmjiInfos != null && initmjiInfos.length > 0&&$('.maintain_checkbox')!=null&&$('.maintain_checkbox').length>0) {
                     //     $('.maintain_checkbox').each(function (index, element) {
@@ -4779,15 +4795,18 @@
                     for(var i =0;i<$('.maintain_checkbox').length;i++){
                         for (var j =0;j<initmjiInfos.length;j++){
                             if ($('.maintain_checkbox')[i].id == initmjiInfos[j].Id) {
+                                $("#workContentShowBox").append("<p>"+initmjiInfos[j].Job_Item_Description_CH__c+"</p>");
+                                $scope.printWorkContent+=initmjiInfos[j].Job_Item_Description_CH__c+"\n";
                                 $('.maintain_checkbox')[i].checked=true;
                             }
                         }
+
                     }
 
                 }else{
-                    $('.maintain_checkbox').each(function (index, element) {
-                            $(element).prop("checked", true);
-                    });
+                    for(var i =0;i<$('.maintain_checkbox').length;i++){
+                        $('.maintain_checkbox')[i].checked=true;
+                    }
                 }
             deferred.resolve("");
             return deferred.promise;
