@@ -294,7 +294,7 @@
 
                 //$scope.closeSelectPage();
                 $scope.init20Trucks(acct.Id);
-                $scope.initDivision(acct.Division__c!=undefined && acct.Division__c!=null ? acct.Division__c:"20");
+                $scope.initDivision(acct.Division__c!=undefined && acct.Division__c!=null ? acct.Division__c:"2");
             };
 
             $scope.init20Trucks = function (keyWord) {
@@ -352,10 +352,11 @@
             $scope.initDivision=function (divisionStr) {
                 vm.productTypeShowes=[];
                 var arr = [];
-                if (divisionStr.length>2){
+                if (divisionStr.length>1){
+                    vm.productTypeShowes.push("");
                     arr=divisionStr.split(";");
                 }else{
-                    arr.push(divisionStr);
+                    arr.push("20");
                 }
                 if (arr.length>0){
                     for (var i = 0;i<arr.length;i++){
@@ -537,6 +538,12 @@
                 }
 
                 var selectServiceGroup =  $('#select_service_group').val();
+                if (selectServiceGroup==""){
+                    $ionicPopup.alert({
+                        title: '请选择产品组!'
+                    });
+                    return false;
+                }
                 var localServiceGroupRental2 = "";
                 var localDivision="";
                 if (selectServiceGroup=="30"){
