@@ -3,7 +3,7 @@
     'use strict';
     angular.module('oinio.controllers')
       .controller('serviceManagementController',
-        function ($scope, $rootScope, $filter, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
+        function ($scope, $rootScope, $filter,$q, $state, $log, $ionicPopup, $stateParams, ConnectionMonitor,
                   LocalCacheService, SCarService, AppUtilService, ForceClientService) {
             var vm                       = this,
                 licensePlateNumber       = "",
@@ -44,42 +44,63 @@
                 if (oCurrentUser) {
                     vm.username = oCurrentUser.Name;
                 }
-                AppUtilService.showLoading();
 
+                $scope.initServiceCarInfo().then(function (res) {
+                    return $scope.chooseServiceCar(res);
+                });
+            });
+
+            $scope.initServiceCarInfo=function () {
+                let deferred = $q.defer();
+                var defaultServiceCar = "";
+                AppUtilService.showLoading();
                 //获取服务车体
                 ForceClientService.getForceClient().apexrest(
-                  $scope.getInitServiceCarUrl + oCurrentUser.Id,
-                  'GET',
-                  {},
-                  null, function callBack(res) {
-                      AppUtilService.hideLoading();
+                    $scope.getInitServiceCarUrl + oCurrentUser.Id,
+                    'GET',
+                    {},
+                    null, function callBack(res) {
+                        AppUtilService.hideLoading();
 
-                      console.log(res);
-                      $scope.initServiceCars = [];
-                      $scope.initServiceCars.push("");
-                      if (res.default != null && res.default.length > 0) {
-                          for (var i = 0; i < res.default.length; i++) {
-                              $scope.initServiceCars.push(res.default[i]);
-                          }
-                      }
-                      if (res.all != null && res.all.length > 0) {
-                          for (var i = 0; i < res.all.length; i++) {
-                              $scope.initServiceCars.push(res.all[i]);
-                          }
-                      }
+                        console.log(res);
+                        $scope.initServiceCars = [];
+                        $scope.initServiceCars.push("");
+                        if (res.default != null && res.default.length > 0) {
+                            defaultServiceCar=res.default[0];
+                            for (var i = 0; i < res.default.length; i++) {
+                                $scope.initServiceCars.push(res.default[i]);
+                            }
+                        }else{
+                            defaultServiceCar="";
+                        }
+                        if (res.all != null && res.all.length > 0) {
+                            for (var i = 0; i < res.all.length; i++) {
+                                $scope.initServiceCars.push(res.all[i]);
+                            }
+                        }
 
-                      if ($scope.initServiceCars.length == 0) {
-                          $ionicPopup.alert({
-                              title: "当前用户无服务车"
-                          });
-                          return;
-                      }
-                  }, function error(msg) {
-                      console.log(JSON.stringify(msg));
-                      AppUtilService.hideLoading();
+                        if ($scope.initServiceCars.length == 0) {
+                            $ionicPopup.alert({
+                                title: "当前用户无服务车"
+                            });
+                            return;
+                        }
+                        deferred.resolve(defaultServiceCar);
+                    }, function error(msg) {
+                        console.log(JSON.stringify(msg));
+                        AppUtilService.hideLoading();
 
-                  });
-            });
+                    });
+                return deferred.promise;
+            };
+
+            $scope.chooseServiceCar=function(obj){
+                setTimeout(function () {
+                    $('#licensePlateNumber').find('option[value ='+obj.CarNo__c+']').attr('selected', true);
+                },500);
+            };
+
+
             $scope.getPhoto1 = function ($event) {
                 if ($event.target.getAttribute("id") != "././img/images/will_add_Img.png") {
                     return false;
