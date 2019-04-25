@@ -363,13 +363,15 @@
                 $scope.initTrucks(res.truckModels, res.childOrders);
                 initTrucks = res.truckModels;
                 if (initTrucks != null && initTrucks.length > 0) {
-                  $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res) {
+                  $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res0) {
                       return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
-                  }).then(function (res) {
+                  }).then(function (res1) {
                       return $scope.changeCareTypeStep1();
-                  }).then(function (res) {
+                  }).then(function (res2) {
                       return  $scope.changeCareTypeStep2();
-                  }).then(function (res) {
+                  }).then(function (res3) {
+                     return $scope.confirmServiceModal();
+                  }).then(function (res4) {
                       if ($scope.openPrint){
                           return $scope.getWorkContent(res.soResult);
                       }
@@ -1796,6 +1798,13 @@
           $scope.customerAddressValueShow = customerAddressValue;
           $scope.ownerNameShow = ownerName;
           $scope.truckTypesValueShow = truckNumber;//叉车型号
+
+            $("#workContentShowBox")[0].innerHTML="";
+            $("#workContentShowBox").append("<p>  "+$("#workContentStr").val()+"</p>");
+            $("#workContentShowBox").append(localWorkContent2);
+            $scope.printWorkContent="";
+            $scope.printWorkContent+=$("#workContentStr").val()+"\n";
+            $scope.printWorkContent+= localWorkContent;
 
           var minTotal = 0;
           for (var i = 0; i < $scope.localWorkItems.length; i++) {
@@ -4612,26 +4621,26 @@
          * choose save dismiss modal
          */
         var localMJobItemIds = [];
-
+          var localWorkContent ="";
+          var localWorkContent2 ="";
         $scope.confirmServiceModal = function () {
-          var workContent ="";
-            var workContent2 ="";
+          let deferred = $q.defer();
+            localWorkContent ="";
+            localWorkContent2 ="";
           $('.mask_div').css('display', 'none');
           $('.maintain_popup').css('display', 'none');
           $('.maintain_checkbox').each(function (index, element) {
             if ($(element).prop('checked') && $(element).attr("id")!="") {
               localMJobItemIds.push($(element).attr("id"));
-                workContent +=$(element).next().text()+"\n";
-                workContent2+="<p>"+$(element).next().text()+"</p>";
+                localWorkContent +=$(element).next().text()+"\n";
+                localWorkContent2+="<p>"+$(element).next().text()+"</p>";
             }
           });
             //$scope.workContent=workContent;
             // $scope.workContentShow=workContent;
-            $("#workContentShowBox")[0].innerHTML="";
-            $("#workContentShowBox").append("<p>"+$("#workContentStr").val()+"</p>");
-            $("#workContentShowBox").append(workContent2);
-            $scope.printWorkContent+=$("#workContentStr").val()+"\n";
-            $scope.printWorkContent+= workContent;
+
+            deferred.resolve("");
+            return deferred.promise;
         };
 
         $scope.showModal = function () {
@@ -4721,7 +4730,12 @@
             }
             localMJobItemIds=[];
             $scope.changeCareTypeStep1().then(function (res) {
-               return  $scope.changeCareTypeStep2();
+                if (res=="1"){
+                    return  $scope.changeCareTypeStep2();
+                }else{
+                    localWorkContent="";
+                    localWorkContent2="";
+                }
             }).then(function (res) {
                 return $scope.showModal();
             });
@@ -4757,8 +4771,10 @@
                                 });
                             }
                             setTimeout(function () {
-                                deferred.resolve("");
+                                deferred.resolve("1");
                             },200);
+                        }else{
+                            deferred.resolve("2");
                         }
                         // else{
                         //     $ionicPopup.alert({
@@ -4778,11 +4794,11 @@
             return deferred.promise;
         };
         $scope.changeCareTypeStep2=function () {
-            //$scope.workContentShow="";
-            $scope.printWorkContent="";
-            $("#workContentShowBox")[0].innerHTML="";
-            $("#workContentShowBox").append("<p>"+$("#workContentStr").val()+"</p>");
-            $scope.printWorkContent+=$("#workContentStr").val()+"\n";
+
+            // $scope.printWorkContent="";
+            // $("#workContentShowBox")[0].innerHTML="";
+            // $("#workContentShowBox").append("<p>"+$("#workContentStr").val()+"</p>");
+            // $scope.printWorkContent+=$("#workContentStr").val()+"\n";
             let deferred = $q.defer();
                 if (initmjiInfos != null && initmjiInfos.length > 0&&$('.maintain_checkbox')!=null&&$('.maintain_checkbox').length>0) {
                     //     $('.maintain_checkbox').each(function (index, element) {
@@ -4795,8 +4811,8 @@
                     for(var i =0;i<$('.maintain_checkbox').length;i++){
                         for (var j =0;j<initmjiInfos.length;j++){
                             if ($('.maintain_checkbox')[i].id == initmjiInfos[j].Id) {
-                                $("#workContentShowBox").append("<p>"+initmjiInfos[j].Job_Item_Description_CH__c+"</p>");
-                                $scope.printWorkContent+=initmjiInfos[j].Job_Item_Description_CH__c+"\n";
+                                // $("#workContentShowBox").append("<p>"+initmjiInfos[j].Job_Item_Description_CH__c+"</p>");
+                                // $scope.printWorkContent+=initmjiInfos[j].Job_Item_Description_CH__c+"\n";
                                 $('.maintain_checkbox')[i].checked=true;
                             }
                         }
