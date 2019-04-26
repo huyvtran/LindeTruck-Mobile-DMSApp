@@ -375,16 +375,18 @@
                       if ($scope.openPrint){
                           return $scope.getWorkContent(res.soResult);
                       }
+                  }).then(function () {
+                      return  $scope.getRefundList();
+                  }).then(function () {
+                      if ($scope.openPrint) {
+                          $scope.doPrint();
+                      }
                   });
                 }
                 $scope.allTruckItems = truckItems;
 
                 //交货列表
-                $scope.getRefundList().then(function () {
-                    if ($scope.openPrint) {
-                        $scope.doPrint();
-                    }
-                });
+
                 //*********读取配件*************** */
                 $scope.getPartListForRead();
               }
@@ -516,11 +518,15 @@
           let deferred = $q.defer();
           if (childOrders != undefined && childOrders != null && childOrders.length > 0) {
             var serviceLevel = childOrders[0].Maintenance_Level__c;
+            var serviceType =  $('#select_service_type option:selected').val();
+            if (serviceType!="Maintenance"){
+                serviceLevel="";
+            }
             initLevel = serviceLevel;
             if (serviceLevel!="? undefined:undefined ?" && serviceLevel!=undefined && serviceLevel!=""){
                 $('#select_care_type').find('option[value = ' + serviceLevel + ']').attr('selected', true);
-                deferred.resolve("");
             }
+            deferred.resolve("");
           }
           return deferred.promise;
         };
@@ -2131,6 +2137,9 @@
             });
           }
 
+          if (serviceType!="Maintenance"){
+              localMJobItemIds=[];
+          }
           var requestBody = null;
           if (Number(localStorage.onoffline) != 0) {
             requestBody = JSON.stringify({
@@ -3721,7 +3730,7 @@
               SQuoteService.getMaintenanceLevelsAndDescriptionsInfo(obj.Maintenance_Key__c,
                   Number(localStorage.onoffline)).then(function callBack(response) {
                   console.log('getMainLevelsAndDesc', response);
-
+                  $scope.serviceLevels.push("");
                   if (response.levels!=undefined&& response.levels!=null && response.levels.length > 0) {
                       for (let i = 0; i < response.levels.length; i++) {
                           $scope.serviceLevels.push(response.levels[i]);
@@ -4718,6 +4727,15 @@
             //     }
             // }
             // $scope.hideTruckAddPage();
+
+            var serviceType =  $('#select_service_type option:selected').val();
+            if (serviceType==="Maintenance"){
+                $('#select_care_type').find('option[value = ""]').attr('selected', true);
+            }else{
+                localWorkContent="";
+                localWorkContent2="";
+                localMJobItemIds=[];
+            }
 
         };
 
