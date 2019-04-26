@@ -537,7 +537,7 @@
           console.log('selectStatuClass:ALL::', selectedTruckItemsCopy);
 
           $state.go('app.newOfferFittings',
-            {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: selectAcctSetId, SubjectC: $scope.SubjectC, Contact__c:$scope.selectContactsId});
+            {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: selectAcctSetId, SubjectC: encodeURIComponent($scope.SubjectC), Contact__c:$scope.selectContactsId});
 
           // $state.go('app.newOfferFittings');
 
