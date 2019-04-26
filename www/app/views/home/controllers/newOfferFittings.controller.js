@@ -799,7 +799,7 @@
           $scope.quoteLabourOriginalsList = [];
           var oneLabourOriginals1 = {};
           oneLabourOriginals1['Service_Quote__c'] = manMadeNo1Id;
-          oneLabourOriginals1['Name'] = manMadeNo1Name;
+          oneLabourOriginals1['Name'] = encodeURIComponent(manMadeNo1Name);
           oneLabourOriginals1['Gross_Price__c'] = $scope.manMadePrice1;
           oneLabourOriginals1['Gross_Amount__c'] = Number($scope.manMadePrice1) * Number($scope.manMadeNo1);
           oneLabourOriginals1['Quantity__c'] = $scope.manMadeNo1;
@@ -814,7 +814,7 @@
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals1);
           var oneLabourOriginals2 = {};
           oneLabourOriginals2['Service_Quote__c'] = manMadeNo2Id;
-          oneLabourOriginals2['Name'] = manMadeNo2Name;
+          oneLabourOriginals2['Name'] = encodeURIComponent(manMadeNo2Name);
           oneLabourOriginals2['Gross_Price__c'] = $scope.manMadePrice2;
           oneLabourOriginals2['Gross_Amount__c'] = Number($scope.manMadePrice2) * Number($scope.manMadeNo2);
           oneLabourOriginals2['Quantity__c'] = $scope.manMadeNo2;
@@ -859,7 +859,7 @@
 
           for (let index = 0; index < $scope.serviceFeeList.length; index++) {
             var oneLabourOriginals3 = {};
-            oneLabourOriginals3['Name'] = $scope.serviceFeeList[index];
+            oneLabourOriginals3['Name'] = encodeURIComponent($scope.serviceFeeList[index]);
             oneLabourOriginals3['Gross_Amount__c'] =
               Number(sv_InputForListPrice[index]) * Number(sv_InputForListNo[index]);//总价
             oneLabourOriginals3['Gross_Price__c'] = sv_InputForListPrice[index];//单价
@@ -899,7 +899,7 @@
           for (let index = 0; index < $scope.selectedTruckFitItems.length; index++) {
             var oneLabourOriginals4 = {};
             var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
-            oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
+            oneLabourOriginals4['Name'] = encodeURIComponent(selectedTruckFitItemsIndex.Name);
             if (selectedTruckFitItemsIndex.priceCondition) {
               oneLabourOriginals4['Gross_Price__c'] = selectedTruckFitItemsIndex.priceCondition.price; //单价
               oneLabourOriginals4['SPN_Discount__c'] = selectedTruckFitItemsIndex.priceCondition.spnDiscount; //spn折扣

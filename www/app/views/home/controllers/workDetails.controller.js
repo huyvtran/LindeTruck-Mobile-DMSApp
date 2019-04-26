@@ -2233,14 +2233,14 @@
                       const element = $scope.selectedTruckFitItems[i];
                       var onePartOriginals = {};
                       onePartOriginals['Line_Item__c'] = i;//行项
-                      onePartOriginals['Name'] = encodeURIComponent(element.Name);//name
+                      onePartOriginals['Name'] = element.Name;//name
                       onePartOriginals['Quantity__c'] = element.quantity;//数量
                       if (element.priceCondition != null) {
                         onePartOriginals['Gross_Price__c'] = element.priceCondition.price;//公布价
                       }
                       // onePartOriginals['View_Integrity__c'] = element.View_Integrity__c;//预留
                       onePartOriginals['Service_Material__c'] = element.Id;//Service_Material__c
-                      onePartOriginals['Material_Number__c'] = encodeURIComponent(element.parts_number__c);//物料号
+                      onePartOriginals['Material_Number__c'] = element.parts_number__c;//物料号
                       onePartOriginals['Parts_Type__c'] = element.type;//配件类型
                       onePartOriginals['Reserved__c'] = part_InputForListChecked[i];//预留
                       onePartOriginals['Service_Order_Overview__c'] = orderDetailsId;//工单ID

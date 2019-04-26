@@ -1030,7 +1030,7 @@ angular.module('oinio.controllers')
 
         for (let index = 0; index < $scope.serviceFeeList.length; index++) {
           var oneLabourOriginals3 = {};
-          oneLabourOriginals3['Name'] = $scope.serviceFeeList[index];
+          oneLabourOriginals3['Name'] = encodeURIComponent($scope.serviceFeeList[index]);
           oneLabourOriginals3['Gross_Price__c'] = sv_InputForListPrice[index];
           oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];
           oneLabourOriginals3['Discount__c'] = (Number(sv_InputForListDiscount[index]) * 100) - 100;
@@ -1073,7 +1073,7 @@ angular.module('oinio.controllers')
 
           var oneLabourOriginals4 = {};
           var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
-          oneLabourOriginals4['Name'] = selectedTruckFitItemsIndex.Name;
+          oneLabourOriginals4['Name'] =encodeURIComponent(selectedTruckFitItemsIndex.Name);
           if (selectedTruckFitItemsIndex.Id) {
             oneLabourOriginals4['Service_Material__c'] = selectedTruckFitItemsIndex.Id;
           }
