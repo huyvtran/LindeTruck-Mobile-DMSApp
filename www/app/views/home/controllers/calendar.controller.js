@@ -200,8 +200,8 @@
                   if(canDeparture){
                       canDeparture=false;
                       try{
-                          $scope.goNotStartedWorkDetails(item).then(function () {
-                              return $scope.doDepartureOrder();
+                          $scope.goNotStartedWorkDetails(item).then(function (ServiceCarInfo) {
+                              return $scope.doDepartureOrder(ServiceCarInfo);
                           }).then(function () {
                               var resp=$("#serviceCarSelectFirst").val()!=undefined&&$("#serviceCarSelectFirst").val()!=null?$("#serviceCarSelectFirst").val():"";
                               return $scope.updateDepartureOrderStatus(item,resp);
@@ -270,6 +270,7 @@
         };
         var canDeparture =true;
         var departTurePop =null;
+        var defaultServiceCar = "";
         //出发逻辑判断
         $scope.goNotStartedWorkDetails = function (item) {
             let deferred = $q.defer();
@@ -298,10 +299,14 @@
                 AppUtilService.hideLoading();
                 console.log(res);
                 $scope.serviceCars = [];
+                $scope.serviceCars.push("");
                 if (res.default!=null&&res.default.length>0){
                     for (var i=0;i<res.default.length;i++){
+                        defaultServiceCar=res.default[0];
                         $scope.serviceCars.push(res.default[i]);
                     }
+                }else{
+                    defaultServiceCar="";
                 }
 
                 if (res.all!=null&&res.all.length>0){
@@ -309,7 +314,7 @@
                         $scope.serviceCars.push(res.all[i]);
                     }
                 }
-                deferred.resolve('');
+                deferred.resolve(defaultServiceCar);
             },function error(msg) {
                 canDeparture=true;
                 deferred.reject(msg);
@@ -320,8 +325,11 @@
         };
 
 
-        $scope.doDepartureOrder=function(){
+        $scope.doDepartureOrder=function(ServiceCarInfo){
             let deferred = $q.defer();
+            setTimeout(function () {
+                $('#serviceCarSelectFirst').find('option[value ='+ServiceCarInfo.CarNo__c+']').attr('selected', true);
+            },500);
             departTurePop = $ionicPopup.show({
                 title:"请选择服务车",
                 template: "    <select id=\"serviceCarSelectFirst\" class=\"small_Type_Select\" >\n" +

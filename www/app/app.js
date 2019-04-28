@@ -145,8 +145,16 @@
                     },function error(msg) {
                         console.log(msg);
                     });
+                    var phoneNum = "";
+                    if (user.MobilePhone!=null && user.MobilePhone!=""){
+                       if (user.MobilePhone.indexOf("+86")>-1){
+                           phoneNum = user.MobilePhone.replace("+86","").trim();
+                       }
+                    }else{
+                        phoneNum="";
+                    }
 
-                    NativeStorage.setItem("CurrentUserPhoneNum",user.MobilePhone,function success(res) {
+                    NativeStorage.setItem("CurrentUserPhoneNum",phoneNum,function success(res) {
                         console.log(res);
                     },function error(msg) {
                         console.log(msg);

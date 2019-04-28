@@ -45,14 +45,11 @@
                     vm.username = oCurrentUser.Name;
                 }
 
-                $scope.initServiceCarInfo().then(function (res) {
-                    return $scope.chooseServiceCar(res);
-                });
+                $scope.initServiceCarInfo();
             });
 
             $scope.initServiceCarInfo=function () {
                 let deferred = $q.defer();
-                var defaultServiceCar = "";
                 AppUtilService.showLoading();
                 //获取服务车体
                 ForceClientService.getForceClient().apexrest(
@@ -64,14 +61,10 @@
 
                         console.log(res);
                         $scope.initServiceCars = [];
-                        $scope.initServiceCars.push("");
                         if (res.default != null && res.default.length > 0) {
-                            defaultServiceCar=res.default[0];
                             for (var i = 0; i < res.default.length; i++) {
                                 $scope.initServiceCars.push(res.default[i]);
                             }
-                        }else{
-                            defaultServiceCar="";
                         }
                         if (res.all != null && res.all.length > 0) {
                             for (var i = 0; i < res.all.length; i++) {
@@ -85,19 +78,13 @@
                             });
                             return;
                         }
-                        deferred.resolve(defaultServiceCar);
+                        deferred.resolve("");
                     }, function error(msg) {
                         console.log(JSON.stringify(msg));
                         AppUtilService.hideLoading();
 
                     });
                 return deferred.promise;
-            };
-
-            $scope.chooseServiceCar=function(obj){
-                setTimeout(function () {
-                    $('#licensePlateNumber').find('option[value ='+obj.CarNo__c+']').attr('selected', true);
-                },500);
             };
 
 

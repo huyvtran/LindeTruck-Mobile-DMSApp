@@ -362,8 +362,8 @@
                 $scope.SelectedTruckNum = res.truckModels.length;
                 $scope.initTrucks(res.truckModels, res.childOrders);
                 initTrucks = res.truckModels;
-                if (initTrucks != null && initTrucks.length > 0) {
-                  $scope.getMainLevelsAndDesc(initTrucks[0]).then(function (res0) {
+                if (initTrucks != null) {
+                  $scope.getMainLevelsAndDesc(initTrucks.length > 0?initTrucks[0]:{}).then(function (res0) {
                       return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
                   }).then(function (res1) {
                       return $scope.changeCareTypeStep1();
@@ -1387,8 +1387,8 @@
                 var deferred = $q.defer();
                 var result = null;
                 try {
-                    $scope.beforeDeparture().then(function () {
-                        return $scope.showServiceCarPop();
+                    $scope.beforeDeparture().then(function (serviceCarInfo) {
+                        return $scope.showServiceCarPop(serviceCarInfo);
                     }).then(function () {
                         result =$("#serviceCarSelectSecond").val()!=undefined&&$("#serviceCarSelectSecond").val()!=null? $("#serviceCarSelectSecond").val():"";
                         return $scope.doDeparture(result);
@@ -1411,8 +1411,8 @@
             var deferred = $q.defer();
             var result = null;
             try {
-                $scope.beforeDeparture().then(function () {
-                    return $scope.showServiceCarPop();
+                $scope.beforeDeparture().then(function (serviceCarInfo) {
+                    return $scope.showServiceCarPop(serviceCarInfo);
                 }).then(function () {
                     result = $("#serviceCarSelectSecond").val()!=undefined&&$("#serviceCarSelectSecond").val()!=null? $("#serviceCarSelectSecond").val():"";
                     return $scope.doDeparture(result);
@@ -1426,8 +1426,11 @@
             return deferred.promise;
         };
 
-        $scope.showServiceCarPop=function(){
+        $scope.showServiceCarPop=function(serviceCarInfo){
             let deferred = $q.defer();
+            setTimeout(function () {
+                $('#serviceCarSelectSecond').find('option[value ='+serviceCarInfo.CarNo__c+']').attr('selected', true);
+            },500);
             departTurePop = $ionicPopup.show({
                 title: "请选择服务车",
                 template: "    <select id=\"serviceCarSelectSecond\" class=\"small_Type_Select\" >\n" +
@@ -1447,14 +1450,16 @@
                         if(canDeparture){
                             canDeparture=false;
                         }
-                        deferred.resolve('');
+                        deferred.resolve();
                         //$scope.doDeparture($("#serviceCarSelectSecond").val());
                     }
                 }]
             });
+
             return deferred.promise;
         };
 
+        var defaultServiceCar = "";
         $scope.beforeDeparture = function () {
          let deferred = $q.defer();
           AppUtilService.showLoading();
@@ -1466,11 +1471,15 @@
             function callBack(res) {
               AppUtilService.hideLoading();
               $scope.serviceCarsSecond = [];
+              $scope.serviceCarsSecond.push("");
               console.log(res);
               if (res.default != null && res.default.length > 0) {
                 for (var i = 0; i < res.default.length; i++) {
-                  $scope.serviceCarsSecond.push(res.default[i]);
+                    defaultServiceCar=res.default[0];
+                    $scope.serviceCarsSecond.push(res.default[i]);
                 }
+              }else{
+                  defaultServiceCar="";
               }
 
               if (res.all != null && res.all.length > 0) {
@@ -1478,7 +1487,7 @@
                   $scope.serviceCarsSecond.push(res.all[i]);
                 }
               }
-            deferred.resolve('');
+            deferred.resolve(defaultServiceCar);
             },
             function error(msg) {
               AppUtilService.hideLoading();
@@ -3746,6 +3755,8 @@
                   });
                   return false;
               });
+          }else{
+              deferred.resolve("");
           }
           return deferred.promise;
         };
@@ -4808,6 +4819,8 @@
                         return;
                     }
                 );
+            }else{
+                deferred.resolve("2");
             }
             return deferred.promise;
         };
