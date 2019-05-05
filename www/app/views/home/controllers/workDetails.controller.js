@@ -3740,15 +3740,16 @@
                   Number(localStorage.onoffline)).then(function callBack(response) {
                   console.log('getMainLevelsAndDesc', response);
                   $scope.serviceLevels.push("");
-                  if (response.levels!=undefined&& response.levels!=null && response.levels.length > 0) {
+                  if (response.levels!=undefined && response.levels!=null && response.levels.length > 0) {
                       for (let i = 0; i < response.levels.length; i++) {
                           $scope.serviceLevels.push(response.levels[i]);
                       }
                       setTimeout(function () {
                           deferred.resolve("");
                       },200);
+                  }else{
+                      deferred.resolve("");
                   }
-
               }, function error(msg) {
                   $ionicPopup.alert({
                       title: msg.responseText
