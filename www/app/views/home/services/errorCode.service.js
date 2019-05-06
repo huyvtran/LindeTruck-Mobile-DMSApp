@@ -123,56 +123,56 @@
 
         };
 
-        service.getErrorCodeTxtAllData = function (fileName) {
-
-          var deferred = $q.defer();
-
-          getAppEntry(fileName).then(function (appEntry) {
-
-            readFile(appEntry).then(function (result) {
-
-              // const codeResult = base64.decode(result);
-
-              deferred.resolve(result);
-
-            }, function (error) {
-              deferred.reject(error);
-            });
-
-          }, function (error) {
-            deferred.reject(error);
-          });
-
-          return deferred.promise;
-
-        };
-
-        function getAppEntry(fileName) {
-          return new Promise((resolve, reject) => {
-            const fileURL = `${cordova.file.applicationDirectory}www/app/core/configuration/${fileName}`;
-            window.resolveLocalFileSystemURL(fileURL,
-              appEntry => {
-                resolve(appEntry);
-              }, error => {
-                reject(error);
-              });
-          });
-        };
-
-        function readFile(fileEntry) {
-          return new Promise((resolve, reject) => {
-            fileEntry.file(file => {
-              const reader = new FileReader();
-              reader.onloadend = function () {
-                resolve(this.result);
-              };
-              reader.readAsText(file);
-
-            }, onErrorReadFile => {
-              reject(onErrorReadFile);
-            });
-          });
-        };
+        // service.getErrorCodeTxtAllData = function (fileName) {
+        //
+        //   var deferred = $q.defer();
+        //
+        //   getAppEntry(fileName).then(function (appEntry) {
+        //
+        //     readFile(appEntry).then(function (result) {
+        //
+        //       // const codeResult = base64.decode(result);
+        //
+        //       deferred.resolve(result);
+        //
+        //     }, function (error) {
+        //       deferred.reject(error);
+        //     });
+        //
+        //   }, function (error) {
+        //     deferred.reject(error);
+        //   });
+        //
+        //   return deferred.promise;
+        //
+        // };
+        //
+        // function getAppEntry(fileName) {
+        //   return new Promise((resolve, reject) => {
+        //     const fileURL = `${cordova.file.applicationDirectory}www/app/core/configuration/${fileName}`;
+        //     window.resolveLocalFileSystemURL(fileURL,
+        //       appEntry => {
+        //         resolve(appEntry);
+        //       }, error => {
+        //         reject(error);
+        //       });
+        //   });
+        // };
+        //
+        // function readFile(fileEntry) {
+        //   return new Promise((resolve, reject) => {
+        //     fileEntry.file(file => {
+        //       const reader = new FileReader();
+        //       reader.onloadend = function () {
+        //         resolve(this.result);
+        //       };
+        //       reader.readAsText(file);
+        //
+        //     }, onErrorReadFile => {
+        //       reject(onErrorReadFile);
+        //     });
+        //   });
+        // };
 
         function screenAllTruckSeries(codeFiles) {
 
@@ -187,7 +187,7 @@
           var trucks = _.uniq(truckSeries);
 
           return trucks;
-        }
+        };
 
         function screenAllTruckCarType(codeFiles, series) {
 
@@ -215,7 +215,7 @@
 
           return _.uniq(truckCarTypes);
 
-        }
+        };
 
       });
 })();
