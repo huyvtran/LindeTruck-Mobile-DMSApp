@@ -149,6 +149,8 @@
                     if (user.MobilePhone!=null && user.MobilePhone!=""){
                        if (user.MobilePhone.indexOf("+86")>-1){
                            phoneNum = user.MobilePhone.replace("+86","").trim();
+                       }else{
+                           phoneNum = user.MobilePhone;
                        }
                     }else{
                         phoneNum="";
