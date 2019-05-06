@@ -48,6 +48,10 @@
             oCurrentUser         = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
+        $scope.shipToSapNumber = "";
+        $scope.soldToSapNumber = "";
+        $scope.serviceOrderSapNumber = "";
+
         $scope.checkNinePices = false;
         $scope.printWorkContent="";
         //配件相关init
@@ -430,7 +434,12 @@
             $scope.Rate__c = soResult.Rate__c;//优惠价的税率
 
             $scope.mobileName = soResult.Name != undefined && soResult.Name != null ? soResult.Name : '';
-            if (soResult.Account_Ship_to__r != null && soResult.Account_Ship_to__r != undefined) {
+            if(soResult.Main_Service_Order__r!=undefined &&soResult.Main_Service_Order__r!=null){
+                if(soResult.Main_Service_Order__r.SAP_Number__c!=undefined&&soResult.Main_Service_Order__r.SAP_Number__c!=null&&soResult.Main_Service_Order__r.SAP_Number__c!=""){
+                    $scope.serviceOrderSapNumber = "/"+soResult.Main_Service_Order__r.SAP_Number__c;
+                }
+            }
+            if (soResult.Account_Ship_to__r != undefined&& soResult.Account_Ship_to__r != null) {
               //客户名称：
               customerNameValue =
                 soResult.Account_Ship_to__r.Name != undefined && soResult.Account_Ship_to__r.Name != null
@@ -446,6 +455,22 @@
               if (soResult.Account_Ship_to__r.Id != null) {
                 $scope.localAccId = soResult.Account_Ship_to__r.Id;
                 $scope.getTrucksMore('');
+              }
+              if (soResult.Account_Ship_to__r.SAP_Number__c!=undefined && soResult.Account_Ship_to__r.SAP_Number__c!=null&&soResult.Account_Ship_to__r.SAP_Number__c!=""){
+                 $scope.shipToSapNumber = "/"+soResult.Account_Ship_to__r.SAP_Number__c;
+              }
+              if (soResult.Account_Ship_to__r.Sold_To__r!=undefined && soResult.Account_Ship_to__r.Sold_To__r!=null){
+                  if (soResult.Account_Ship_to__r.Sold_To__r.SAP_Number__c!=undefined && soResult.Account_Ship_to__r.Sold_To__r.SAP_Number__c!=null){
+                      $scope.soldToSapNumber = soResult.Account_Ship_to__r.Sold_To__r.SAP_Number__c;
+                  }else{
+                      if (soResult.Account_Ship_to__r.SAP_Number__c!=undefined && soResult.Account_Ship_to__r.SAP_Number__c!=null){
+                          $scope.soldToSapNumber = soResult.Account_Ship_to__r.SAP_Number__c;
+                      }
+                  }
+              }else{
+                  if (soResult.Account_Ship_to__r.SAP_Number__c!=undefined && soResult.Account_Ship_to__r.SAP_Number__c!=null){
+                      $scope.soldToSapNumber = soResult.Account_Ship_to__r.SAP_Number__c;
+                  }
               }
             }
             localAccountShipToc = soResult.Account_Ship_to__c != undefined && soResult.Account_Ship_to__c != null
@@ -4199,9 +4224,9 @@
             PrintPlugin.printTicket(
                 {
                     customerName: customerNameValue,//customerName  客户民称
-                    customerAccount: customerAccountValue,//customerAccount 客户号
+                    customerAccount: customerAccountValue+$scope.shipToSapNumber,//customerAccount 客户号
                     customerAddress: customerAddressValue,//customerAddress  客户地址
-                    workSingleNumber: $scope.mobileName,//workSingleNumber 工作单号
+                    workSingleNumber: $scope.mobileName+$scope.serviceOrderSapNumber,//workSingleNumber 工作单号
                     TruckModel: truckNumber,//TruckModel //叉车型号
                     //workHour: $scope.workHourShow,//workHour //工作时长
                     workTimeTotal: workItemsTotal,
