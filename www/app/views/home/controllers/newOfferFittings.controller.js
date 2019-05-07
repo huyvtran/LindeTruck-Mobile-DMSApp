@@ -151,7 +151,7 @@
 
               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList)
                                         + '&partsQuantitys='
-                                        + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                        + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId+'&isRental='+$scope.isRentalInfo;
 
               ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
                 function (responsePartsRelateds) {
@@ -187,7 +187,7 @@
           });
 
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId+'&isRental='+$scope.isRentalInfo;
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {
@@ -231,7 +231,11 @@
             document.getElementById('btn_modify_Div').style.display = 'none';//隐藏
           }
         };
+        $scope.isRentalInfo=false;
         $scope.$on('$ionicView.beforeEnter', function () {
+          if($stateParams.Division__c==="30"){
+              $scope.isRentalInfo=true;
+          }
           document.getElementById('btn_modify_Div').style.display = 'none';//隐藏
           document.getElementById('btn_import_Div').style.display = 'none';//隐藏
 
@@ -359,7 +363,7 @@
               }
               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList)
                                         + '&partsQuantitys='
-                                        + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                        + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId+'&isRental='+$scope.isRentalInfo;
               console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
               ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -439,7 +443,7 @@
             }
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId+'&isRental='+$scope.isRentalInfo;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
           $scope.selectedTruckFitItems = [];// 清空列表
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -513,7 +517,7 @@
             $scope.selectedTruckFitItems.push(item);
           });
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId+'&isRental='+$scope.isRentalInfo;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -959,7 +963,7 @@
           serviceQuoteOverview['Labour_Sub_Total_Net__c'] = _.sum(_.map(labourItems, function (item) {
             return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
           }));
-
+          serviceQuoteOverview['Division__c']= $stateParams.Division__c;
           var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                         + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
                         + JSON.stringify($scope.quoteLabourOriginalsList);
@@ -1057,7 +1061,7 @@
           serviceQuoteOverview['Labour_Sub_Total_Net__c'] = _.sum(_.map(labourItems, function (item) {
             return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
           }));
-
+          serviceQuoteOverview['Division__c']= $stateParams.Division__c;
           var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                         + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
                         + JSON.stringify($scope.quoteLabourOriginalsList);
@@ -1086,7 +1090,7 @@
           serviceQuoteOverview['Subject__c'] = $stateParams.SubjectC;
           serviceQuoteOverview['Contact__c'] = $stateParams.Contact__c;
           serviceQuoteOverview['Service_Type__c'] = $stateParams.SendAllUser[0].Service_Type__c;
-
+          serviceQuoteOverview['Division__c']= $stateParams.Division__c;
           var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                         + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
                         + JSON.stringify($scope.quoteLabourOriginalsList);
@@ -1243,7 +1247,7 @@
             partsQuantitys.push(1);//默认库存
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId+'&isRental='+$scope.isRentalInfo;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {
@@ -1396,7 +1400,7 @@
           });
 
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $stateParams.SendSoupEntryId+'&isRental='+$scope.isRentalInfo;
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {

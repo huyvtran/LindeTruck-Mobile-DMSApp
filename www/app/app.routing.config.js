@@ -77,7 +77,7 @@
             })
             .state('app.newOfferFittings', {
                 url: 'app/newOfferFittings',
-                params:{'SendAllUser':null,'SendSoupEntryId':null,'OrderTruckItem':null,'SubjectC':null,'Contact__c':null},
+                params:{'SendAllUser':null,'SendSoupEntryId':null,'OrderTruckItem':null,'SubjectC':null,'Contact__c':null,'Division__c':null},
                 views: {
                     menuContent: {
                         templateUrl: 'app/views/home/templates/newOfferFittings.html',

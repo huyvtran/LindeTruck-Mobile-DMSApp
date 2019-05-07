@@ -51,7 +51,7 @@
         $scope.shipToSapNumber = "";
         $scope.soldToSapNumber = "";
         $scope.serviceOrderSapNumber = "";
-
+        $scope.isRentalInfo=false;
         $scope.checkNinePices = false;
         $scope.printWorkContent="";
         //配件相关init
@@ -510,6 +510,13 @@
             } else {
               $('#select_service_type').find('option[value = \'Maintenance\']').attr('selected', true);
               $scope.singleCarService = 'Maintenance';
+            }
+            if(soResult.Division__c!=undefined&&soResult.Division__c!=null){
+                if (soResult.Division__c=="30"){
+                    $scope.isRentalInfo=true;
+                }else{
+                    $scope.isRentalInfo=false;
+                }
             }
           }
         };
@@ -2594,7 +2601,7 @@
               }
               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList)
                                         + '&partsQuantitys='
-                                        + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
+                                        + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
               console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
               ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -2667,7 +2674,7 @@
             }
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
           $scope.selectedTruckFitItems = [];// 清空列表
 
@@ -2733,7 +2740,7 @@
             $scope.selectedTruckFitItems.push(item);
           });
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -4492,8 +4499,7 @@
           });
 
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c;
-
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {
               AppUtilService.hideLoading();

@@ -5,9 +5,12 @@
     .controller('NewOfferController',
       function ($scope, $log, $ionicPopup, $stateParams, HomeService, $state, $rootScope, ForceClientService,
                 AppUtilService, SQuoteService, Service1Service) {
+        var vm            = this;
+        vm.productTypeShowes=[];
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
+        var productTypes =[];
         let trucksDescriptions = [];
         let trucksLevels = [];
         $scope.searchTruckText = '';
@@ -22,6 +25,11 @@
           $state.go('app.home');
 
         };
+
+        $scope.$on('$ionicView.enter', function () {
+            productTypes.push({label:'20',value:'20 Service'});
+            productTypes.push({label:'30',value:'30 Rental'});
+        });
 
         $scope.getServiceSatus = function (getId) {
           AppUtilService.showLoading();
@@ -128,12 +136,38 @@
             $scope.searchResultAcctName = response.Name;
             $scope.getServiceSatus(selectAcctSetId);//审核状态
             $scope.selectedTruckItems = [];
+            $scope.initDivision(acct.Division__c!=undefined && acct.Division__c!=null ? acct.Division__c:"2");
           }, function (error) {
             $log.error('getAccount Error ' + error);
           }).finally(function () {
             //AppUtilService.hideLoading();
           });
           $scope.closeSelectPage();
+        };
+
+        $scope.initDivision=function (divisionStr) {
+            vm.productTypeShowes=[];
+            var arr = [];
+            if (divisionStr.length>1){
+                vm.productTypeShowes.push("");
+                arr=divisionStr.split(";");
+            }else{
+                arr.push("20");
+            }
+            if (arr.length>0){
+                if (arr.length==1&&arr[0]=="10"){
+                    vm.productTypeShowes.push(productTypes[0]);
+                    return;
+                }
+                for (var i = 0;i<arr.length;i++){
+                    for (var j =0;j<productTypes.length;j++){
+                        if (arr[i]==productTypes[j].label){
+                            vm.productTypeShowes.push(productTypes[j]);
+                            continue;
+                        }
+                    }
+                }
+            }
         };
 
         //保养级别
@@ -489,7 +523,23 @@
             });
             return;
           }
-          // if ($scope.selectedTruckItems.length == 0) {
+
+        var selectServiceGroup =  $('#select_service_group').val();
+        if (selectServiceGroup==""){
+            $ionicPopup.alert({
+                title: '请选择产品组!'
+            });
+            return false;
+        }
+
+        var localDivision="20";
+        if (selectServiceGroup=="30"){
+            localDivision="30";
+        }else{
+            localDivision="20";
+        }
+
+            // if ($scope.selectedTruckItems.length == 0) {
           //     var ionPop = $ionicPopup.alert({
           //         title: "请添加车辆"
           //     });
@@ -537,7 +587,13 @@
           console.log('selectStatuClass:ALL::', selectedTruckItemsCopy);
 
           $state.go('app.newOfferFittings',
-            {SendAllUser: selectedTruckItemsCopy, SendSoupEntryId: selectAcctSetId, SubjectC: encodeURIComponent($scope.SubjectC), Contact__c:$scope.selectContactsId});
+            {
+                SendAllUser: selectedTruckItemsCopy,
+                SendSoupEntryId: selectAcctSetId,
+                SubjectC: encodeURIComponent($scope.SubjectC),
+                Contact__c:$scope.selectContactsId,
+                Division__c:localDivision
+            });
 
           // $state.go('app.newOfferFittings');
 

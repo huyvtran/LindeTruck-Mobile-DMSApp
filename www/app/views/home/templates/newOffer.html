@@ -382,6 +382,15 @@
 							<div class="search_small_black" ng-click="openSelectPage('selectContactsDiv');"></div>
 						</div>
 					</div>
+					<div class="small_Type_Group">
+						<div class="small_Type_Title">产品组:</div>
+						<div class="small_Type_Box">
+							<select id="select_service_group" class="small_Type_Select">
+								<option ng-repeat="productType in vm.productTypeShowes track by $index"  value={{productType.label}}>{{productType.value}}
+								</option>
+							</select>
+						</div>
+					</div>
 					<div class="small_Type_Group" id="forPrintTextdiv">
 						<div class="small_Type_Title">报价描述:</div>
 						<div class="small_Type_Box">

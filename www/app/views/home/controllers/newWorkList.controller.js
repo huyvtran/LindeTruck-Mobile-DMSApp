@@ -359,6 +359,10 @@
                     arr.push("20");
                 }
                 if (arr.length>0){
+                    if (arr.length==1&&arr[0]=="10"){
+                        vm.productTypeShowes.push(productTypes[0]);
+                        return;
+                    }
                     for (var i = 0;i<arr.length;i++){
                          for (var j =0;j<productTypes.length;j++){
                             if (arr[i]==productTypes[j].label){
@@ -545,7 +549,7 @@
                     return false;
                 }
                 var localServiceGroupRental2 = "";
-                var localDivision="";
+                var localDivision="20";
                 if (selectServiceGroup=="30"){
                     localServiceGroupRental2 = $scope.ServiceGroupRental2;
                     localDivision="30";
