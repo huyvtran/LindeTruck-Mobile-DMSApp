@@ -44,12 +44,14 @@
 		  				<td class="priceList_Td width_1"> 单号 </td>
 		  				<td class="priceList_Td width_2"> 关联工单 </td>
 		  				<td class="priceList_Td width_3"> 客户名称 </td>
+						<td class="priceList_Td width_3"> 报价描述 </td>
 		  				<td class="priceList_Td width_4 priceList_Td_Right"> 状态 </td>
 		  			</tr>
 		  			<tr ng-repeat="priceItem in priceListStatusItems">
 		  				<td class="priceList_Td width_1 textDecoration" ng-click="goToPriceListDetails(priceItem)"> {{priceItem.Name}} </td>
 		  				<td class="priceList_Td width_2 textDecoration" ng-click="goToWorkDetails(priceItem)"> {{priceItem.Service_Order_Overview__r && priceItem.Service_Order_Overview__r.Name}} </td>
 		  				<td class="priceList_Td width_3"> {{priceItem.Ship_To__r.Name}} </td>
+						<td class="priceList_Td width_3"> {{priceItem.Subject__c}} </td>
 		  				<td class="priceList_Td width_4 priceList_Td_Right stateColor"> {{getStatusType(priceItem.Quotation_Status__c)}}</td>
 		  			</tr>
 		  		</table>
