@@ -111,13 +111,10 @@
                           return;
                       }
                       , {
-                          quality: 50,
-                          saveToPhotoAlbum: false,
+                          saveToPhotoAlbum: true,
                           destinationType: navigator.camera.DestinationType.DATA_URL,
                           mediaType: Camera.MediaType.PICTURE,
-                          encodingType: Camera.EncodingType.JPEG,
-                          targetWidth: 300,
-                          targetHeight: 300
+                          encodingType: Camera.EncodingType.JPEG
                       }
                     );
                 } catch (e) {
@@ -219,13 +216,10 @@
                           return;
                       }
                       , {
-                          quality: 50,
-                          saveToPhotoAlbum: false,
+                          saveToPhotoAlbum: true,
                           destinationType: navigator.camera.DestinationType.DATA_URL,
                           mediaType: Camera.MediaType.PICTURE,
-                          encodingType: Camera.EncodingType.JPEG,
-                          targetWidth: 300,
-                          targetHeight: 300
+                          encodingType: Camera.EncodingType.JPEG
                       }
                     );
                 } catch (e) {
