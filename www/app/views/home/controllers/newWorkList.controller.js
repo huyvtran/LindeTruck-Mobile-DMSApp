@@ -462,13 +462,15 @@
             };
 
             $scope.getTrucksStep2=function(){
-                for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
-                    $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                        if ($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
-                            $(this).prop("checked", true);
-                        }
-                    });
-                }
+                setTimeout(function () {
+                    for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
+                        $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                            if ($(element).attr("data-recordid") == $scope.selectedTruckItems[i].Id) {
+                                $(this).prop("checked", true);
+                            }
+                        });
+                    }
+                },500);
             };
 
 
@@ -744,14 +746,21 @@
                 if (serviceType==="Maintenance"){
                     if (ele.prop('checked')) {
                         $scope.selectedTruckItems = [];
-                        let mk = '';
+
                         let infoIds = [];
                         if ($scope.contentTruckItems.length > 0) {
-                            mk = $scope.contentTruckItems[0].Maintenance_Key__c;
                             for (var i = 0; i < $scope.contentTruckItems.length; i++) {
-                                if (mk == $scope.contentTruckItems[i].Maintenance_Key__c) {
-                                    $scope.selectedTruckItems.push($scope.contentTruckItems[i]);
-                                    infoIds.push(i);
+                                if ($scope.contentTruckItems[0].Maintenance_Key__c!=undefined&&
+                                    $scope.contentTruckItems[i].Maintenance_Key__c!=undefined&&
+                                    $scope.contentTruckItems[0].Maintenance_Key__c!=null&&
+                                    $scope.contentTruckItems[i].Maintenance_Key__c!=null&&
+                                    $scope.contentTruckItems[0].Maintenance_Key__c == $scope.contentTruckItems[i].Maintenance_Key__c) {
+                                    if ($scope.contentTruckItems[0].hasOwnProperty("Ship_To_CS__c")&&
+                                        $scope.contentTruckItems[i].hasOwnProperty("Ship_To_CS__c")&&
+                                        $scope.contentTruckItems[0].Ship_To_CS__c == $scope.contentTruckItems[i].Ship_To_CS__c){
+                                        $scope.selectedTruckItems.push($scope.contentTruckItems[i]);
+                                        infoIds.push(i);
+                                    }
                                 }
                             }
 
@@ -836,13 +845,26 @@
                 }else{
                     if (ele.prop('checked')) {
                         $scope.selectedTruckItems = [];
+                        let infoIds = [];
                         if ($scope.contentTruckItems.length > 0) {
                             for (var i = 0; i < $scope.contentTruckItems.length; i++) {
-                                $scope.selectedTruckItems.push($scope.contentTruckItems[i]);
+                                if ($scope.contentTruckItems[0].hasOwnProperty("Ship_To_CS__c") &&
+                                    $scope.contentTruckItems[i].hasOwnProperty("Ship_To_CS__c") &&
+                                    $scope.contentTruckItems[0].Ship_To_CS__c===$scope.contentTruckItems[i].Ship_To_CS__c){
+                                    $scope.selectedTruckItems.push($scope.contentTruckItems[i]);
+                                    infoIds.push(i);
+                                }
                             }
 
                             $('input.ckbox_truck_searchresult_item').each(function (index, element) {
-                                $(this).prop('checked', true);
+                                $(this).prop('checked', false);
+                            });
+                            angular.forEach(infoIds, function (infoId) {
+                                $('input.ckbox_truck_searchresult_item').each(function (index, element) {
+                                    if (!element.checked && infoId == index) {
+                                        $(this).prop('checked', true);
+                                    }
+                                });
                             });
                             $scope.updateTruckString();
                         }
@@ -887,8 +909,17 @@
                             if (!existFlag) {
                                 if ($scope.selectedTruckItems.length > 0) {
                                     if ($scope.selectedTruckItems[0].Maintenance_Key__c == ele.Maintenance_Key__c) {
-                                        $scope.selectedTruckItems.push(ele);
-                                        $scope.updateTruckString();
+                                        if ($scope.selectedTruckItems[0].hasOwnProperty("Ship_To_CS__c")&&ele.hasOwnProperty("Ship_To_CS__c")&&$scope.selectedTruckItems[0].Ship_To_CS__c!=null&&ele.Ship_To_CS__c!=null&&$scope.selectedTruckItems[0].Ship_To_CS__c===ele.Ship_To_CS__c){
+                                            $scope.selectedTruckItems.push(ele);
+                                            // $scope.arrayUnique2($scope.selectedTruckItems,"Name");
+                                            $scope.updateTruckString();
+                                        }else{
+                                            element[0].checked = false;
+                                            $ionicPopup.alert({
+                                                title: ele.Name+'客户不同,请重新选择车体'
+                                            });
+                                            return;
+                                        }
                                     } else {
                                         element[0].checked = false;
                                         $ionicPopup.alert({
@@ -941,8 +972,22 @@
                 }else{
                     if (element!=null&&element.length>0){
                         if (element[0].checked){
-                            $scope.selectedTruckItems.push(ele);
-                            $scope.updateTruckString();
+                            if ($scope.selectedTruckItems.length>0){
+                                if ($scope.selectedTruckItems[0].hasOwnProperty("Ship_To_CS__c")&&ele.hasOwnProperty("Ship_To_CS__c")&&$scope.selectedTruckItems[0].Ship_To_CS__c!=null&&ele.Ship_To_CS__c!=null&&$scope.selectedTruckItems[0].Ship_To_CS__c===ele.Ship_To_CS__c){
+                                    $scope.selectedTruckItems.push(ele);
+                                    // $scope.arrayUnique2($scope.selectedTruckItems,"Name");
+                                    $scope.updateTruckString();
+                                }else{
+                                    element[0].checked = false;
+                                    $ionicPopup.alert({
+                                        title: ele.Name+'客户不同,请重新选择车体'
+                                    });
+                                    return;
+                                }
+                            }else{
+                                $scope.selectedTruckItems.push(ele);
+                                $scope.updateTruckString();
+                            }
                         }else{
                             let temp = [];
                             for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
@@ -957,6 +1002,20 @@
                 }
 
             };
+
+            // $scope.arrayUnique2 = function(arr, name){
+            //
+            //     var hash = {};
+            //
+            //     return arr.reduce(function (item, next) {
+            //
+            //         hash[next[name]] ? '' : hash[next[name]] = true && item.push(next);
+            //
+            //         return item;
+            //
+            //     }, []);
+            //
+            // };
 
             $scope.checkboxTrucks = function (truck) {
                 //console.log('checkboxTrucks:::',$('input.ckbox_truck_class'));
@@ -1003,9 +1062,15 @@
 
             $scope.updateTruckString = function () {
                 let new_temp = '';
-
-                for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
-                    new_temp = new_temp + $scope.selectedTruckItems[i].Name + ';';
+                if ($scope.selectedTruckItems!=null&&$scope.selectedTruckItems.length > 0){
+                    for (var i = 0; i < $scope.selectedTruckItems.length; i++) {
+                        new_temp = new_temp + $scope.selectedTruckItems[i].Name + ';';
+                    }
+                    if ($scope.selectedTruckItems[0].Ship_To_CS__r!=undefined&&$scope.selectedTruckItems[0].Ship_To_CS__r!=null){
+                        if ($scope.selectedTruckItems[0].Ship_To_CS__r.Name!=undefined&&$scope.selectedTruckItems[0].Ship_To_CS__r.Name!=null){
+                            $scope.searchResultAcctName =$scope.selectedTruckItems[0].Ship_To_CS__r.Name ;
+                        }
+                    }
                 }
 
                 $scope.searchResultTruckName = new_temp;
