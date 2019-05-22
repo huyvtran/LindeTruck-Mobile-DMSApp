@@ -499,7 +499,7 @@ input[type="radio"] {
     width: 27vw;
     border: 1px solid #979797;
     background: #eee9e9;
-    padding: 0 1%;
+    /*padding: 0 1%;*/
     font-size: 0.8rem;
     height: 60px;
     text-align: center;
