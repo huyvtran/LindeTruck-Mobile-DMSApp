@@ -1130,14 +1130,17 @@
                             <th class="sv_Td sv_Td_nopadding_GOrderContent">
                                 <div> 姓名</div>
                             </th>
-                            <th class="sv_Td sv_Td_Long_GOrderContent">
+                            <th class="sv_Td sv_Td_nopadding_GOrderContent">
                                 <div> 出发时间</div>
                             </th>
-                            <th class="sv_Td sv_Td_Long_GOrderContent">
+                            <th class="sv_Td sv_Td_nopadding_GOrderContent">
                                 <div> 离开时间</div>
                             </th>
                             <th class="sv_Td sv_Td_nopadding_GOrderContent">
                                 <div> 往返里程数</div>
+                            </th>
+                            <th class="sv_Td sv_Td_nopadding_GOrderContent">
+                                <div> 离程时间</div>
                             </th>
                         </tr>
                     </table>
@@ -1148,15 +1151,19 @@
                                     <td class="sv_Td sv_Td_nopadding_GOrderContent">
                                         <div> {{item.name}}</div>
                                     </td>
-                                    <td class="sv_Td sv_Td_Long_GOrderContent">
+                                    <td class="sv_Td sv_Td_nopadding_GOrderContent">
                                         <div>{{item.departureTime}}</div>
                                     </td>
-                                    <td class="sv_Td sv_Td_Long_GOrderContent">
+                                    <td class="sv_Td sv_Td_nopadding_GOrderContent">
                                         <div>{{item.leaveTime}}</div>
                                     </td>
                                     <td class="sv_Td sv_Td_nopadding_GOrderContent">
                                         <input ng-cloak ng-model="item.miles" value="{{item.miles}}"
                                                onkeyup="value=value.replace(/[^\d]/g,'')"/>
+                                    </td>
+                                    <td class="sv_Td sv_Td_nopadding_GOrderContent">
+                                        <input ng-cloak ng-model="item.backTime" value="{{item.backTime}}"
+                                               onkeyup="value=value.replace(/[^\d.]/g,'')"/>
                                     </td>
                                 </tr>
                             </table>

@@ -863,7 +863,8 @@
                 ? workItems[i].Departure_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
               leaveTime: workItems[i].Leave_Time__c != undefined && workItems[i].Leave_Time__c != null
                 ? workItems[i].Leave_Time__c.substring(0, 19).replace(/T/g, ' ') : '',
-              miles: workItems[i].Miles__c != undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c : 0
+              miles: workItems[i].Miles__c != undefined && workItems[i].Miles__c != null ? workItems[i].Miles__c : 0,
+              backTime: workItems[i].Back_Time_hrs__c != undefined && workItems[i].Back_Time_hrs__c != null ? workItems[i].Back_Time_hrs__c : 0
             });
             $scope.localWorkItems.push(
               {
@@ -2162,7 +2163,8 @@
           for (var i = 0; i < $scope.workTimes.length; i++) {
             workItemObj.push({
               Id: $scope.workTimes[i].Id,
-              Miles__c: Number($scope.workTimes[i].miles)
+              Miles__c: Number($scope.workTimes[i].miles),
+              Back_Time_hrs__c: Number($scope.workTimes[i].backTime)
             });
           }
 

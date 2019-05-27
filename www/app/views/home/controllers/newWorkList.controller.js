@@ -279,21 +279,23 @@
                 });
             };
 
-            $scope.selectAccount = function (acct) {
+            $scope.selectAccount = function (acct,fromTruck) {
                 console.log('select:acct:', acct);
                 if (acct.Name !== $scope.searchResultAcctName) {
                     $scope.selectedTruckItems = [];
                     $scope.updateTruckString();
                 }
-                $scope.searchResultAcctName = acct.Name;
+                $scope.searchResultAcctName = acct.Name!=undefined&&acct.Name!=null?acct.Name:"";
                 //$scope.searchResultCustomerNum = acct.Customer_Number__c;
-                $scope.searchResultAcctId = acct.Id;
-                $scope.searchResultAcctSoupId = acct._soupEntryId;
+                $scope.searchResultAcctId = acct.Id!=undefined&&acct.Id!=null?acct.Id:"";
+                $scope.searchResultAcctSoupId = acct._soupEntryId!=undefined&&acct._soupEntryId!=null?acct._soupEntryId:"";
                 $scope.ServiceGroupRental2 = acct.Service_Group_Rental2__c !=undefined && acct.Service_Group_Rental2__c!=null ?acct.Service_Group_Rental2__c:"";
 
 
                 //$scope.closeSelectPage();
-                $scope.init20Trucks(acct.Id);
+                if (!fromTruck){
+                    $scope.init20Trucks(acct.Id!=undefined&&acct.Id!=null?acct.Id:"");
+                }
                 $scope.initDivision(acct.Division__c!=undefined && acct.Division__c!=null ? acct.Division__c:"2");
             };
 
@@ -1067,14 +1069,10 @@
                         new_temp = new_temp + $scope.selectedTruckItems[i].Name + ';';
                     }
                     if ($scope.selectedTruckItems[0].Ship_To_CS__r!=undefined&&$scope.selectedTruckItems[0].Ship_To_CS__r!=null){
-                        if ($scope.selectedTruckItems[0].Ship_To_CS__r.Name!=undefined&&$scope.selectedTruckItems[0].Ship_To_CS__r.Name!=null){
-                            $scope.searchResultAcctName =$scope.selectedTruckItems[0].Ship_To_CS__r.Name ;
-                        }
+                        $scope.selectAccount($scope.selectedTruckItems[0].Ship_To_CS__r,true);
                     }
                 }
-
                 $scope.searchResultTruckName = new_temp;
-
             };
 
             $scope.getCurrentDateString = function () {

@@ -14,6 +14,7 @@
         let trucksDescriptions = [];
         let trucksLevels = [];
         $scope.searchTruckText = '';
+        $scope.SubjectC="";
         $scope.contentTruckItems = [];
         $scope.selectedTruckItems = [];
         $scope.serviceSatusUrl = '/ServiceQuoteOverviewStatus/';
