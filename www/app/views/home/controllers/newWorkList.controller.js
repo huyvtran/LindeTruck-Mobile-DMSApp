@@ -226,11 +226,6 @@
             };
 
             $scope.closeSelectPage = function () {
-                if ($scope.selectedTruckItems!=null&&$scope.selectedTruckItems.length==0){
-                    $("input.ckbox_truck_searchresult_item").each(function (index, element) {
-                        $(element).prop("checked",false);
-                    });
-                }
                 console.log('aaaaa');
                 $('div.newWorkList_truckSelect').animate({
                     opacity: '0.6'
@@ -1082,6 +1077,7 @@
                             }else{
                                 $scope.selectedTruckItems=[];
                                 new_temp='';
+                                $scope.searchResultAcctName = '';
                             }
                             $scope.searchResultTruckName = new_temp;
                         },function error(msg) {
