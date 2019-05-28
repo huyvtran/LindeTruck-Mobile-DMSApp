@@ -109,18 +109,18 @@
         };
         $scope.webManager = function () {
           var urlUserPage = $rootScope.devLindeCRMURL + "/UserPage/WH_MyOutInStorageRecord.aspx?curuser="
-                            + oCurrentUser.Id;
+                            + oCurrentUser.EmployeeNumber;
           console.log('urlUserPage', urlUserPage);
           $state.go('app.goH5', {SendURL: urlUserPage});
         };
         $scope.ARListView = function () {
-          var urlUserPage = $rootScope.devLindeCRMURL + "/UserPage/ARDeliverLogin.aspx?curuser=" + oCurrentUser.Id;
+          var urlUserPage = $rootScope.devLindeCRMURL + "/UserPage/ARDeliverLogin.aspx?curuser=" + oCurrentUser.EmployeeNumber;
           console.log('urlUserPage', urlUserPage);
           $state.go('app.goH5', {SendURL: urlUserPage});
         };
         $scope.carProblems = function () {
           var urlUserPage = $rootScope.devLindeCRMURL + "/UserPage/ForkliftQualityCollectList.aspx?curuser="
-                            + oCurrentUser.Id;
+                            + oCurrentUser.EmployeeNumber;
           console.log('urlUserPage', urlUserPage);
           $log.log('>>>> carProblemsURL：' + urlUserPage);
 

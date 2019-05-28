@@ -226,6 +226,11 @@
             };
 
             $scope.closeSelectPage = function () {
+                if ($scope.selectedTruckItems!=null&&$scope.selectedTruckItems.length==0){
+                    $("input.ckbox_truck_searchresult_item").each(function (index, element) {
+                        $(element).prop("checked",false);
+                    });
+                }
                 console.log('aaaaa');
                 $('div.newWorkList_truckSelect').animate({
                     opacity: '0.6'
@@ -281,7 +286,7 @@
 
             $scope.selectAccount = function (acct,fromTruck) {
                 console.log('select:acct:', acct);
-                if (acct.Name !== $scope.searchResultAcctName) {
+                if (acct.Name !== $scope.searchResultAcctName&&!fromTruck) {
                     $scope.selectedTruckItems = [];
                     $scope.updateTruckString();
                 }
@@ -1069,10 +1074,24 @@
                         new_temp = new_temp + $scope.selectedTruckItems[i].Name + ';';
                     }
                     if ($scope.selectedTruckItems[0].Ship_To_CS__r!=undefined&&$scope.selectedTruckItems[0].Ship_To_CS__r!=null){
-                        $scope.selectAccount($scope.selectedTruckItems[0].Ship_To_CS__r,true);
+                        var searchWord = $scope.selectedTruckItems[0].Ship_To_CS__r.Name!=undefined&&$scope.selectedTruckItems[0].Ship_To_CS__r.Name!=null?$scope.selectedTruckItems[0].Ship_To_CS__r.Name:"";
+                        ForceClientService.getForceClient().apexrest("/TruckFleetTransferService?action=queryAcct&keyWord="+searchWord+"&limitStr=1","GET",{},null,function callBack(result) {
+                            console.log(result);
+                            if (result.length>0){
+                                $scope.selectAccount($scope.selectedTruckItems[0].Ship_To_CS__r,true);
+                            }else{
+                                $scope.selectedTruckItems=[];
+                                new_temp='';
+                            }
+                            $scope.searchResultTruckName = new_temp;
+                        },function error(msg) {
+                            console.log(msg);
+                        });
                     }
+                }else{
+                    $scope.searchResultTruckName = '';
                 }
-                $scope.searchResultTruckName = new_temp;
+
             };
 
             $scope.getCurrentDateString = function () {
