@@ -30,6 +30,7 @@
         .line_two {
             display: inline-block;
             width: 49%;
+            margin: 0.1
         }
         .to_Open {
             display: block;
@@ -694,19 +695,26 @@
                         </div>
                         <div class="small_Type_Group" ng-click="openSelectPage('owner');">
                             <!--<div class="small_Type_Title">责任人:</div>-->
-                            <div class="small_Type_Box">
-                                <input placeholder="责任人" type="search" ng-model="searchResultOwnerName" value={{searchResultOwnerName}}
-                                    style="background-color:transparent;" class="small_Type_Input" />
-                                <div class="search_small_black"></div>
+                            <div class="line_two">
+                                <div class="small_Type_Box">
+                                    <input placeholder="计划日期" type="text" id="input_plandate" class="small_Type_Input input_plandate" />
+                                    <div class="input_date_image"></div>
+                                </div>
+                            </div>
+                            <div class="line_two">
+                                <div class="small_Type_Box">
+                                    <input placeholder="责任人" type="search" ng-model="searchResultOwnerName" value={{searchResultOwnerName}}
+                                           style="background-color:transparent;" class="small_Type_Input" />
+                                    <div class="search_small_black"></div>
+                                </div>
                             </div>
                         </div>
                         <div class="small_Type_Group">
-                            <!--<div class="small_Type_Title">计划日期:</div>-->
                             <div class="small_Type_Box">
-                                <input placeholder="计划日期" type="text" id="input_plandate" class="small_Type_Input input_plandate" />
-                                <div class="input_date_image"></div>
+                               新交车:<input type="checkbox" style="width: 30px;height: 30px" ng-model="checkNewTruckService"/>
                             </div>
                         </div>
+
                         <div class="small_Type_Group">
                             <div class="line_two">
                                 <div class="small_Type_Title">作业类型:</div>

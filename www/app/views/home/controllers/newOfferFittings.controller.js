@@ -983,7 +983,8 @@
             console.log('POST_error:', error);
             AppUtilService.hideLoading();
             var ionPop = $ionicPopup.alert({
-              title: '保存失败'
+              title: '保存失败',
+              template:JSON.stringify(error)
             });
           });
         };
@@ -1075,7 +1076,8 @@
             console.log('POST_error:', error);
             AppUtilService.hideLoading();
             var ionPop = $ionicPopup.alert({
-              title: '保存失败'
+              title: '保存失败',
+              template:JSON.stringify(error)
             });
           });
 
@@ -1117,7 +1119,8 @@
               console.log('Execl_error:', error);
               AppUtilService.hideLoading();
               var ionPop = $ionicPopup.alert({
-                title: '保存失败'
+                title: '保存失败',
+                template:JSON.stringify(error)
               });
             });
 
@@ -1125,7 +1128,8 @@
             console.log('POST_error:', error);
             AppUtilService.hideLoading();
             var ionPop = $ionicPopup.alert({
-              title: '保存失败'
+              title: '保存失败',
+              template:JSON.stringify(error)
             });
           });
         };

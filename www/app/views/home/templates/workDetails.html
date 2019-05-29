@@ -717,13 +717,20 @@
                         </div>
                     </div>
                     <div class="small_Type_Group" ng-show="singleCarService=='Maintenance'">
-                        <div class="small_Type_Title">保养级别:</div>
-                        <div class="small_Type_Box">
-                            <select class="small_Type_Select" id="select_care_type" onchange="angular.element(this).scope().changeCareType();">
-                                <option ng-repeat="singleService in serviceLevels track by $index" value="{{singleService}}">
-                                    {{singleService}}
-                                </option>
-                            </select>
+                        <div class="line_two">
+                            <div class="small_Type_Title">保养级别:</div>
+                            <div class="small_Type_Box">
+                                <select class="small_Type_Select" id="select_care_type" onchange="angular.element(this).scope().changeCareType();">
+                                    <option ng-repeat="singleService in serviceLevels track by $index" value="{{singleService}}">
+                                        {{singleService}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="line_two">
+                            <div class="small_Type_Box">
+                                新交车: <input type="checkbox" style="width: 30px;height: 30px" ng-model="checkDetailNewTruckService" onclick="return false"/>
+                            </div>
                         </div>
                     </div>
                     <div class="small_Type_Group" id="mainTainCheck" ng-show="singleCarService=='Repair'">

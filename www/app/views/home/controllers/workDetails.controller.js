@@ -48,6 +48,7 @@
             oCurrentUser         = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
+        $scope.checkDetailNewTruckService = false;
         $scope.shipToSapNumber = "";
         $scope.soldToSapNumber = "";
         $scope.serviceOrderSapNumber = "";
@@ -517,6 +518,9 @@
                 }else{
                     $scope.isRentalInfo=false;
                 }
+            }
+            if (soResult.Is_New_Truck_Service__c!=undefined&&soResult.Is_New_Truck_Service__c!=null){
+                $scope.checkDetailNewTruckService = soResult.Is_New_Truck_Service__c;
             }
           }
         };
@@ -2076,6 +2080,7 @@
           if (Number(localStorage.onoffline) != 0) {
             orderObj = [{
               'Id': orderDetailsId,
+              'Is_New_Truck_Service__c':$scope.checkDetailNewTruckService,
               'Mobile_Offline_Name__c': $scope.mobileName,
               'Work_Order_Type__c': $('#select_work_type option:selected').val()!=undefined&&$('#select_work_type option:selected').val()!=null?$('#select_work_type option:selected').val():"",
               'Description__c': $('#workContentStr').val(),
@@ -2087,6 +2092,7 @@
           } else {
             orderObj = {
               '_soupEntryId': userInfoId,
+              'Is_New_Truck_Service__c':$scope.checkDetailNewTruckService,
               'Mobile_Offline_Name__c': $scope.mobileName,
               'Work_Order_Type__c': $('#select_work_type option:selected').val()!=undefined&&$('#select_work_type option:selected').val()!=null?$('#select_work_type option:selected').val():"",
               'Description__c': $('#workContentStr').val(),

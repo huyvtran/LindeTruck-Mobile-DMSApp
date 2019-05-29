@@ -1162,7 +1162,8 @@ angular.module('oinio.controllers')
           console.log('POST_error:', error);
           AppUtilService.hideLoading();
           var ionPop = $ionicPopup.alert({
-            title: '保存失败'
+            title: '保存失败',
+            template: JSON.stringify(error)
           });
         });
       };
@@ -1192,7 +1193,7 @@ angular.module('oinio.controllers')
           console.log('toSubmitCheckFunction_error:', error);
           AppUtilService.hideLoading();
           var ionPop = $ionicPopup.alert({
-            title: error.responseJSON[0].message
+            title: JSON.stringify(error)
           });
         }, 'POST', JSON.stringify(requests), null);
         console.log('toSubmitCheckFunction_payload', requests);

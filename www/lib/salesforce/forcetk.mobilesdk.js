@@ -310,6 +310,7 @@
         contentType: method == "DELETE" || method == "GET" ? null : 'application/json',
         cache: false,
         processData: false,
+        timeout: 40000, //超时时间：40秒
         dataType: "json",
         data: payload,
         headers: getRequestHeaders(this),

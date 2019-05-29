@@ -111,6 +111,7 @@
                 $scope.defaultHistoryWorkHeight = 0;
 
                 $scope.displayDatepicker = true;
+                $scope.checkNewTruckService = false;
 
                 /*
                 HomeService.getLatest3ServiceOrders().then(function (response) {
@@ -590,7 +591,7 @@
                           if (response != null) {
                               order2Save.Service_Order_Owner__c = userId;
                               //order2Save.Service_Order_Owner__r = response;
-
+                              order2Save.Is_New_Truck_Service__c= $scope.checkNewTruckService;
                               if (Number(localStorage.onoffline) !== 0) {
                                   ForceClientService.getForceClient().apexrest(
                                     $scope.newDetailPostDataUrl + "adrs=" + JSON.stringify([order2Save]) + "&trucks="
