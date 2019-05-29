@@ -198,7 +198,15 @@ angular.module('oinio.controllers')
             }
             $scope.Pricing_Date__c = response.Pricing_Date__c;//建单日
             $scope.Rate__c = response.Rate__c;//优惠价的税率
-            $scope.proceTrucksList = response.Service_Quote__r ? response.Service_Quote__r : [];
+            //$scope.proceTrucksList = response.Service_Quote__r ? response.Service_Quote__r : [];
+            if (response.Service_Quote__r!=null&&response.Service_Quote__r.length>0){
+                for (var i =0;i<response.Service_Quote__r.length;i++){
+                    if (response.Service_Quote__r[i].Truck_Fleet__c!=undefined){
+                        $scope.proceTrucksList.push(response.Service_Quote__r[i]);
+                    }
+                }
+
+            }
             $scope.basicInfo = response;
             $scope.selectedTruckFitItems = _.filter(response.quoteLabourOriginals, function (partItem) {
               return partItem.Material_Type__c == 'Part';
