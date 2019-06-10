@@ -302,7 +302,7 @@ input[type="radio"] {
 .searchs_Table th,
 .searchs_Table td {
     width: 27vw;
-    padding: 0 1%;
+    /*padding: 0 1%;*/
     font-size: 0.8rem;
     height: 40px;
     text-align: center;
@@ -319,7 +319,7 @@ input[type="radio"] {
 }
 
 .searchs_Table th div {
-    width: calc(27vw - 10px);
+    width:27vw;
 }
 
 .searchs_Table th input {
@@ -331,7 +331,7 @@ input[type="radio"] {
 }
 
 .searchs_Table td div {
-    width: calc(27vw - 10px);
+    width: 27vw;
 }
 .big_Type_Group {
     margin-bottom: 5%;

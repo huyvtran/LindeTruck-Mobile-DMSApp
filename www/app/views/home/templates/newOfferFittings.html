@@ -210,8 +210,8 @@
 
 		.searchsout {
 			overflow-x: auto;
-			margin: 20px 0;
-			overflow-y: hidden;
+			/*margin: 20px 0;*/
+			overflow-y: auto;
 		}
 
 		.searchs_Table {
@@ -221,7 +221,7 @@
 		.searchs_Table th,
 		.searchs_Table td {
 			width: 27vw;
-			padding: 0 1%;
+			/*padding: 0 1%;*/
 			font-size: 0.8rem;
 			height: 40px;
 			text-align: center;
@@ -238,7 +238,7 @@
 		}
 
 		.searchs_Table th div {
-			width: calc(27vw - 10px);
+			width: 27vw;
 		}
 
 		.searchs_Table th input {
@@ -250,7 +250,7 @@
 		}
 
 		.searchs_Table td div {
-			width: calc(27vw - 10px);
+			width: 27vw;
 		}
 	</style>
 </head>
@@ -473,22 +473,22 @@
 								<input id="ckbox_truckFit_searchresult_all" type="checkbox" ng-click="checkAllSearchResults();" />
 							</th>
 							<th class="sv_Td">
-								<div style="width: 150px;"> 客户物料号 </div>
+								<div style="width: 200px;">客户物料号</div>
 							</th>
 							<th class="sv_Td">
-								<div> 可发货数量 </div>
+								<div>可发货数量</div>
 							</th>
 							<th class="sv_Td">
-								<div> 本仓 </div>
+								<div>本仓</div>
 							</th>
 							<th class="sv_Td">
-								<div> 本大区 </div>
+								<div>本大区</div>
 							</th>
 							<th class="sv_Td">
-								<div> 总部 </div>
+								<div>总部 </div>
 							</th>
 							<th class="sv_Td">
-								<div> 其他大区 </div>
+								<div>其他大区</div>
 							</th>
 						</tr>
 					</table>
@@ -502,22 +502,22 @@
 										 type="checkbox" />
 									</th>
 									<th class="sv_Td">
-										<div style="width: 150px;"> {{titem.Name}} <br /> {{titem.parts_number__c}}</div>
+										<div style="width: 200px;">{{titem.Name}}<br />{{titem.parts_number__c}}</div>
 									</th>
 									<th class="sv_Td">
-										<div> {{titem.inventory.sku}} </div>
+										<div>{{titem.inventory.sku}}</div>
 									</th>
 									<th class="sv_Td">
-										<div> {{titem.inventory.BR_QTY}} </div>
+										<div>{{titem.inventory.BR_QTY}}</div>
 									</th>
 									<th class="sv_Td">
-										<div> {{titem.inventory.RG_QTY}} </div>
+										<div>{{titem.inventory.RG_QTY}}</div>
 									</th>
 									<th class="sv_Td">
-										<div> {{titem.inventory.HQ_QTY}} </div>
+										<div>{{titem.inventory.HQ_QTY}}</div>
 									</th>
 									<th class="sv_Td">
-										<div> {{titem.inventory.ORG_QTY}} </div>
+										<div>{{titem.inventory.ORG_QTY}}</div>
 									</th>
 								</tr>
 							</table>

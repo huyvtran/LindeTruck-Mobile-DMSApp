@@ -216,7 +216,9 @@
             let trucks = [];
             if (response.length > 0) {
               for (let index = 0; index < response.length; index++) {
-                trucks.push(response[index]);
+                  if ( delete (response[index].Ship_To_CS__r)){
+                      trucks.push(response[index]);
+                  }
               }
               $scope.contentTruckItems = trucks;
               setTimeout(function () {//再次搜索勾选之前已经选中的车辆
@@ -268,7 +270,9 @@
             let trucks = [];
             if (response.length > 0) {
               for (let index = 0; index < response.length; index++) {
-                trucks.push(response[index]);
+                  if ( delete (response[index].Ship_To_CS__r)){
+                      trucks.push(response[index]);
+                  }
               }
               $scope.contentTruckItems = trucks;
 
