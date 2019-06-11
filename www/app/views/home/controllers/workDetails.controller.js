@@ -328,18 +328,16 @@
             $('#serviceSuggest').prop('disabled', 'disabled');
           }
 
-          if (!enableArrival) {
-            $('#departureBtn').css('pointer-events', 'none');
-            $('#arriveBtn').css('pointer-events', 'none');
-            $('#leave').css('pointer-events', 'none');
-            // $("#printBtn").css("pointer-events","none");
-            // $("#signBillBtn").css("pointer-events","none");
-          } else {
-            $('#arriveBtn').css('pointer-events', '');
-            $('#leave').css('pointer-events', '');
-            $('#printBtn').css('pointer-events', '');
-            $('#signBillBtn').css('pointer-events', '');
-          }
+          // if (!enableArrival) {
+          //   $('#departureBtn').css('pointer-events', 'none');
+          //   $('#arriveBtn').css('pointer-events', 'none');
+          //   $('#leave').css('pointer-events', 'none');
+          // } else {
+          //   $('#arriveBtn').css('pointer-events', '');
+          //   $('#leave').css('pointer-events', '');
+          //   $('#printBtn').css('pointer-events', '');
+          //   $('#signBillBtn').css('pointer-events', '');
+          // }
 
           /**
            * 初始化 详细信息／工作信息／配件需求／交货列表／服务建议
