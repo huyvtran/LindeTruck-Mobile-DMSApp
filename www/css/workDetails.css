@@ -567,6 +567,17 @@ img {
     padding: 0 5%;
     font-size: 1rem;
 }
+.workListDetails_bodyer .small_Type_Input2 {
+    color: #535353;
+    width: 70%;
+    height: 40px;
+    border-bottom: 1px solid #535353;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    padding: 0 5%;
+    font-size: 1rem;
+}
 .workListDetails_bodyer .search_small_black {
     background-repeat: no-repeat;
     background-size: cover;

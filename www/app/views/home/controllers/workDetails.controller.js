@@ -152,6 +152,9 @@
         $scope.serviceNames = [];
         $scope.showOrderBelong = true;
         $scope.localAccId = '';
+        $scope.localCustomerNameValue='';
+        $scope.localContactValue='';
+        $scope.localCustomerAddressValue='';
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -440,11 +443,25 @@
                     $scope.serviceOrderSapNumber = "/"+soResult.Main_Service_Order__r.SAP_Number__c;
                 }
             }
+            if (soResult.Contact__r!=undefined && soResult.Contact__r!=null){
+                if(soResult.Contact__r.Phone!=undefined&&soResult.Contact__r.Phone!=null){
+                    if(soResult.Contact__r.Name!=undefined&&soResult.Contact__r.Name!=null){
+                        $scope.localContactValue=soResult.Contact__r.Name+"/"+soResult.Contact__r.Phone;
+                    }else{
+                        $scope.localContactValue=soResult.Contact__r.Phone;
+                    }
+                }else{
+                    if(soResult.Contact__r.Name!=undefined&&soResult.Contact__r.Name!=null){
+                        $scope.localContactValue=soResult.Contact__r.Name;
+                    }
+                }
+            }
             if (soResult.Account_Ship_to__r != undefined&& soResult.Account_Ship_to__r != null) {
               //客户名称：
               customerNameValue =
                 soResult.Account_Ship_to__r.Name != undefined && soResult.Account_Ship_to__r.Name != null
                   ? soResult.Account_Ship_to__r.Name : '';
+              $scope.localCustomerNameValue=customerNameValue;
               //客户号：
               customerAccountValue = soResult.Account_Ship_to__r.Customer_Number__c != undefined
                                      && soResult.Account_Ship_to__r.Customer_Number__c != null
@@ -453,13 +470,16 @@
               customerAddressValue =
                 soResult.Account_Ship_to__r.Office_Address__c != undefined && soResult.Account_Ship_to__r.Office_Address__c != null
                   ? soResult.Account_Ship_to__r.Office_Address__c : '';
+              $scope.localCustomerAddressValue = customerAddressValue;
               if (soResult.Account_Ship_to__r.Id != null) {
                 $scope.localAccId = soResult.Account_Ship_to__r.Id;
                 $scope.getTrucksMore('');
               }
               if (soResult.Account_Ship_to__r.SAP_Number__c!=undefined && soResult.Account_Ship_to__r.SAP_Number__c!=null&&soResult.Account_Ship_to__r.SAP_Number__c!=""){
-                 $scope.shipToSapNumber = "/"+soResult.Account_Ship_to__r.SAP_Number__c;
+                  $scope.localCustomerNameValue = customerNameValue+"/"+soResult.Account_Ship_to__r.SAP_Number__c;
+                  $scope.shipToSapNumber = "/"+soResult.Account_Ship_to__r.SAP_Number__c;
               }
+
               if (soResult.Account_Ship_to__r.Sold_To__r!=undefined && soResult.Account_Ship_to__r.Sold_To__r!=null){
                   if (soResult.Account_Ship_to__r.Sold_To__r.SAP_Number__c!=undefined && soResult.Account_Ship_to__r.Sold_To__r.SAP_Number__c!=null){
                       $scope.soldToSapNumber = soResult.Account_Ship_to__r.Sold_To__r.SAP_Number__c;
