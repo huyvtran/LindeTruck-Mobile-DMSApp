@@ -599,6 +599,40 @@
             }
           });
 
+           var compare = function (propertyName, flag) {
+              return function (object1, object2) {
+                var value1 = object1[propertyName];
+                var value2 = object2[propertyName];
+                if (value2 < value1) {
+                  if (!flag) {
+                    return -1;
+                  } else {
+                    return 1;
+                  }
+                } else if (value2 > value1) {
+                  if (!flag) {
+                    return 1;
+                  } else {
+                    return -1;
+                  }
+                } else {
+                  return 0;
+                }
+              }
+            };
+
+          var distinctArray = function(arr){
+            var result = [];
+                var obj = {};
+                for(var i =0; i<arr.length; i++){
+                     if(!obj[arr[i].Name]){
+                          result.push(arr[i]);
+                          obj[arr[i].Name] = true;
+                       }
+                  }
+                return result;
+          };
+
           //使用对象记录重复的元素，以及出现的次数
           var getCount = function (arr) {
             if (firstRunFun) {
@@ -665,9 +699,16 @@
                 _.each(userItems.orders,function (userItem) {
                   userItem.CreatedDate = new Date(userItem.CreatedDate).format('yyyy-MM-dd hh:mm:ss');
                   allOrdersForAddArmy.orders.push(userItem);
+
                 });
               });
+
+              allOrdersForAddArmy.orders.sort(compare('CreatedDate',false));//根据时间排序
+
+              allOrdersForAddArmy.orders = distinctArray(allOrdersForAddArmy.orders);//去重复
+
               res.push(allOrdersForAddArmy);
+
               $rootScope.allUser = res;
               allUser = res;
 
@@ -873,7 +914,8 @@
                 selectDateOrders.push(currentOrder[index]);
               }
             }
-            console.log('selectDateOrders.count', selectDateOrders.length + '   selectDateOrders:' + selectDateOrders);
+            // console.log('selectDateOrders.count', selectDateOrders.length );
+            // console.log(' selectDateOrders:' ,selectDateOrders);
 
             // if (selectDateOrders.length > 0) {//点击空白处的屏蔽处理
               $scope.currentOrder = getServiceOrderType(selectDateOrders);
