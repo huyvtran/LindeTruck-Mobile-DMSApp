@@ -22,6 +22,7 @@
             $scope.chooseMaterials=[];
             $scope.chooseWorkOrder = null;
             $scope.chooseWorkOrderId = null;
+            $scope.chooseWorkOrderShipId=null;
             $scope.profitRate=0;
             $scope.revenue=0;
             $scope.priceEach=0;
@@ -194,7 +195,7 @@
 
             $scope.chooseCurrentWorkOrder =function(obj){
                 $scope.chooseWorkOrder = obj;
-
+                $scope.chooseWorkOrderShipId=obj.Account_Ship_to__c!=undefined?obj.Account_Ship_to__c:null;
                 $scope.chooseWorkOrderId = obj.Id;
                 document.getElementById("busyAllContent").style.display = "block";
                 document.getElementById("serachWorkOrderContent").style.display= "none";
@@ -312,7 +313,13 @@
             $scope.searchMaterilaByName =function(){
                 $scope.showLoading();
                 var searchName = $("#searchBig2").val();
-
+                if($scope.chooseWorkOrderShipId == null){
+                    $ionicPopup.alert({
+                        title:"请先选择服务单!"
+                    });
+                    $scope.hideLoading();
+                    return;
+                }
                 if (searchName==null||searchName==""){
                     $ionicPopup.alert({
                         title:"搜索内容不能为空!"
@@ -323,9 +330,9 @@
                 $scope.allMaterial=[];
                 //AppUtilService.showLoading();
                 if ($('#recordTypeList option:selected').val()=="Z609"){
-                    searchMaterialByNameUrl="/ProcurementInformation?type=Z609ServiceMaterial&name="+searchName;
+                    searchMaterialByNameUrl="/ProcurementInformation?type=Z609ServiceMaterial&name="+searchName+"&acctId="+$scope.chooseWorkOrderShipId;
                 }else{
-                    searchMaterialByNameUrl=$scope.getServiceMaterialUrl+searchName;
+                    searchMaterialByNameUrl=$scope.getServiceMaterialUrl+searchName+"&acctId="+$scope.chooseWorkOrderShipId;
                 }
                 ForceClientService.getForceClient().apexrest(
                     searchMaterialByNameUrl,
