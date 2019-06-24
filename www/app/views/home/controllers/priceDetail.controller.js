@@ -1099,8 +1099,8 @@ angular.module('oinio.controllers')
           oneLabourOriginals4['Material_Number__c'] = selectedTruckFitItemsIndex.parts_number__c;
           oneLabourOriginals4['Gross_Price__c'] = Math.floor(selectedTruckFitItemsIndex.Gross_Price__c * 100) / 100;
           oneLabourOriginals4['Gross_Amount__c'] =
-            Math.floor(selectedTruckFitItemsIndex.Gross_Price__c * selectedTruckFitItemsIndex.Quantity__c * 100) / 100;
-          oneLabourOriginals4['Quantity__c'] = selectedTruckFitItemsIndex.Quantity__c;
+            Math.floor(selectedTruckFitItemsIndex.Gross_Price__c * Math.round(selectedTruckFitItemsIndex.Quantity__c * 1000 )/1000 * 100) / 100;
+          oneLabourOriginals4['Quantity__c'] = Math.round(selectedTruckFitItemsIndex.Quantity__c * 1000 )/1000;
           oneLabourOriginals4['Net_Price__c'] = part_InputForListPrice[index];//优惠单价
           oneLabourOriginals4['Discount__c'] = (Number(part_InputForListDiscount[index]) * 100) - 100;
           oneLabourOriginals4['Reserved__c'] = part_InputForListChecked[index];//预留

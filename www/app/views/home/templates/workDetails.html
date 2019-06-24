@@ -981,7 +981,7 @@
                                         <div>{{item.Name}}</div>
                                     </td>
                                     <td class="sv_Td">
-                                        <input type="text" class="sv_Input" ng-model="item.quantity"/>
+                                        <input type="text" class="sv_Input"  onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-model="item.quantity"/>
                                     </td>
                                     <td class="sv_Td">
                                         <div> {{item.priceCondition.price}}</div>

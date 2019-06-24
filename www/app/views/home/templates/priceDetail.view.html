@@ -540,7 +540,7 @@
                                             <div> {{item.Gross_Price__c * item.Quantity__c}}</div>
                                         </td>
                                         <td class="sv_Td">
-                                            <input ng-model="item.Quantity__c" class="sv_Input part_InputForListNo" ng-keyup="calculatePriceConditionPriceAll(item);"/>
+                                            <input ng-model="item.Quantity__c" class="sv_Input part_InputForListNo" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-keyup="calculatePriceConditionPriceAll(item);"/>
                                         </td>
                                         <td class="sv_Td">
                                             <input class="sv_Input part_InputForListDiscount" ng-model="item.Discount__c" ng-keyup="calculatePriceConditionPriceAll(item);"/>
