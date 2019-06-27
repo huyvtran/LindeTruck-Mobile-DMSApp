@@ -744,16 +744,18 @@
                         <div class="line_two">
                             <div class="small_Type_Title">保养级别:</div>
                             <div class="small_Type_Box">
-                                <select class="small_Type_Select" id="select_care_type" onchange="angular.element(this).scope().changeCareType();">
-                                    <option ng-repeat="singleService in serviceLevels track by $index" value="{{singleService}}">
+                                <select class="small_Type_Select" id="select_care_type"  onchange="angular.element(this).scope().changeCareType();">
+                                    <option ng-repeat="singleService in serviceLevels track by $index"  value="{{singleService}}">
                                         {{singleService}}
                                     </option>
                                 </select>
                             </div>
                         </div>
+
                         <div class="line_two">
+                            <div class="small_Type_Title">修改保养内容:</div>
                             <div class="small_Type_Box">
-                                新交车: <input type="checkbox" style="width: 30px;height: 30px" ng-model="checkDetailNewTruckService" onclick="return false"/>
+                               <div style="width:20px;"> </div> <input type="image" src="././img/images/pen.png" width="40px" height="28px" style="padding-left: 20px; padding-top: 5px;" ng-click="changeCareType();"/>
                             </div>
                         </div>
                     </div>
@@ -774,6 +776,14 @@
                                     {{errorFault}}
                                 </option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="small_Type_Group">
+                        <div class="line_two">
+                            <div class="small_Type_Title">新交车:</div>
+                            <div class="small_Type_Box">
+                                <input type="checkbox" style="width: 30px;height: 30px" ng-model="checkDetailNewTruckService" onclick="return false"/>
+                            </div>
                         </div>
                     </div>
                     <div class="small_Type_Group">

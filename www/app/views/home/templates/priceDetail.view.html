@@ -543,12 +543,12 @@
                                             <input ng-model="item.Quantity__c" class="sv_Input part_InputForListNo" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-keyup="calculatePriceConditionPriceAll(item);"/>
                                         </td>
                                         <td class="sv_Td">
-                                            <input class="sv_Input part_InputForListDiscount" ng-model="item.Discount__c" ng-keyup="calculatePriceConditionPriceAll(item);"/>
+                                            <input class="sv_Input part_InputForListDiscount" ng-model="item.Discount__c" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-keyup="calculatePriceConditionPriceAll(item);"/>
                                         </td>
                                         <td class="sv_Td">
                                             <!--<input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>-->
                                             <input class="sv_Input part_InputForListPrice"
-                                                   ng-model="item.Net_Price__c" ng-keyup="calculationPartDiscount(item);"/>
+                                                   ng-model="item.Net_Price__c" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-keyup="calculationPartDiscount(item);"/>
                                         </td>
                                         <td class="sv_Td">
                                             <div class="part_InputForListSpecial">
@@ -621,21 +621,21 @@
                                     <input id="priceId" ng-model="labour.Gross_Price__c" class="sv_Input_Price" ng-keyup="sumLabour(labour);" readOnly="true" />
                                 </td>
                                 <td class="sv_Td" >
-                                    <input placeholder="0" ng-model="labour.Quantity__c" class="sv_Input_Number" ng-keyup="sumLabour(labour);"/>
+                                    <input placeholder="0" ng-model="labour.Quantity__c" class="sv_Input_Number" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-keyup="sumLabour(labour);"/>
                                 </td>
                                 <td class="sv_Td">
                                     <div class="sv_Input_Amount"> {{labour.Gross_Price__c * labour.Quantity__c}}</div>
                                 </td>
                                 <td class="sv_Td">
-                                    <input id="discountId" ng-model="labour.Discount__c"  class="sv_Input_Discount" ng-keyup="sumLabour(labour);"/>
+                                    <input id="discountId" ng-model="labour.Discount__c"  class="sv_Input_Discount" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-keyup="sumLabour(labour);"/>
                                 </td>
                                 <td class="sv_Td">
                                     <!--<input class="sv_Input part_InputForListPrice" ng-model="item.Net_Price__c" type="text"/>-->
                                     <input class="sv_Input part_InputForListPrice" ng-init="labour.Net_Price__c = labour.Gross_Price__c*labour.Discount__c"
-                                           ng-model="labour.Net_Price__c"  ng-keyup="calculationLabourDiscount1(labour);"/>
+                                           ng-model="labour.Net_Price__c" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''" ng-keyup="calculationLabourDiscount1(labour);"/>
                                 </td>
                                 <td class="sv_Td">
-                                    <input class="sv_Input_Net_Amount"
+                                    <input class="sv_Input_Net_Amount" onkeyup="this.value= this.value.match(/\d+(\.\d{0,3})?/) ? this.value.match(/\d+(\.\d{0,3})?/)[0] : ''"
                                            value="{{labour.Net_Amount__c = labour.Discount__c == 0 ? 1 : labour.Discount__c * labour.Gross_Price__c * labour.Quantity__c}}"/>
                                 </td>
                             </tr>

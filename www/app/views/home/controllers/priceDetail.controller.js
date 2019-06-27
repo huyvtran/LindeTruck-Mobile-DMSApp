@@ -1153,7 +1153,7 @@ angular.module('oinio.controllers')
         })) * 100) / 100;
 
         var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
-                      + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes) + '&quoteLabourOriginals='
+                      + '&serviceQuotes=' + encodeURIComponent(JSON.stringify($scope.serviceQuotes)) + '&quoteLabourOriginals='
                       + JSON.stringify($scope.quoteLabourOriginalsList);
         console.log('payload', payload);
 

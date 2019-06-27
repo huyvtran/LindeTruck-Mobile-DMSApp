@@ -1,5 +1,4 @@
 (function () {
-
   'use strict';
   angular.module('oinio.controllers')
     .controller('workDetailsController',
