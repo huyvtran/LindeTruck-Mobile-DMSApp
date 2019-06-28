@@ -64,16 +64,13 @@
             var serverMinVersion = response.SEApp_Min_Version;
             var urlPath =  response.PackagePath;
             cordova.getAppVersion.getVersionNumber().then(function (version) {
-
-              if (compareVersion(version, serverMinVersion) == -1){
-                forceShowUpdateConfirm(serverMinVersion, urlPath);
-              } else {
                 if (compareVersion(version, serverAppVersion) == -1) {
-                  showUpdateConfirm(serverAppVersion, urlPath);
+                    if (compareVersion(version, serverMinVersion) == -1){
+                        forceShowUpdateConfirm(serverMinVersion, urlPath);
+                    } else {
+                        showUpdateConfirm(serverAppVersion, urlPath);
+                    }
                 }
-              }
-
-
             });
 
           }, function (error) {
