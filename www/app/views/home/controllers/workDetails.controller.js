@@ -945,6 +945,10 @@
                         return;
                       }
                       , {
+
+                        targetWidth:1000,
+                        targetHeight:1000,
+                        quality:90,
                         saveToPhotoAlbum: true,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         mediaType: Camera.MediaType.PICTURE,
@@ -985,6 +989,9 @@
                         return;
                       },
                       {
+                          targetWidth:1000,
+                          targetHeight:1000,
+                        quality:90,
                         saveToPhotoAlbum: false,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
@@ -1020,6 +1027,9 @@
                         return;
                       }
                       , {
+                        targetWidth:1000,
+                        targetHeight:1000,
+                        quality:90,
                         saveToPhotoAlbum: true,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         mediaType: Camera.MediaType.PICTURE,
@@ -1042,6 +1052,9 @@
                         return;
                       },
                       {
+                        targetWidth:1000,
+                        targetHeight:1000,
+                        quality:90,
                         saveToPhotoAlbum: false,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
@@ -2019,7 +2032,7 @@
                 }
             }
 
-          AppUtilService.showLoading();
+
           localUris = [];
           //是否点击checkbox
           if ($scope.checkNinePices) {
@@ -2076,6 +2089,14 @@
             }
             console.log(localUris);
           }
+
+            if (localUris.length>20){
+                $ionicPopup.alert({
+                    title: '上传图片数量超出!!'
+                });
+                return false;
+            }
+
           if ($scope.engineerImgStr != '././img/images/will_add_Img.png'){
               localUris.push({
                   imageId: '',
@@ -2093,6 +2114,8 @@
           }
 
 
+
+          AppUtilService.showLoading();
           var orderObj = null;
           if (Number(localStorage.onoffline) != 0) {
             orderObj = [{

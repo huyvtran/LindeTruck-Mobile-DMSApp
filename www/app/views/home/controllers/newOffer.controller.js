@@ -7,6 +7,7 @@
                 AppUtilService, SQuoteService, Service1Service) {
         var vm            = this;
         vm.productTypeShowes=[];
+        var replaceName = '\\"';
         var toDisplayDelCarBool = false;
         var tabSVViewNewIndex = 1;
         var selectAcctSetId;
@@ -595,7 +596,7 @@
             {
                 SendAllUser: selectedTruckItemsCopy,
                 SendSoupEntryId: selectAcctSetId,
-                SubjectC: encodeURIComponent($scope.SubjectC),
+                SubjectC: encodeURIComponent($scope.SubjectC.replace('"',replaceName)),
                 Contact__c:$scope.selectContactsId,
                 Division__c:localDivision
             });

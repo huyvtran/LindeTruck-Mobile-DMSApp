@@ -7,7 +7,7 @@ angular.module('oinio.controllers')
               ForceClientService, AppUtilService, LocalCacheService) {
 
       var oCurrentUser = LocalCacheService.get('currentUser') || {};
-
+      var replaceName = '\\"';
       $scope.contentTruckFitItems = [];//配件
       $scope.selectedTruckFitItems = [];
       $scope.contentTruckParts = [];
@@ -21,7 +21,7 @@ angular.module('oinio.controllers')
       $scope.serviceFeeListP4 = 0;
       $scope.priceDetail = {};
       $scope.basicInfo = {};
-      $scope.serviceQuotes = {};
+      $scope.serviceQuotes = [];
       $scope.proceTrucksList = [];
       $scope.contentLSGs = [];//LSG
       $scope.paramUrl1 = '/Parts/7990110000/' + $stateParams.SendSoupEntryId;
@@ -211,7 +211,14 @@ angular.module('oinio.controllers')
             $scope.selectedTruckFitItems = _.filter(response.quoteLabourOriginals, function (partItem) {
               return partItem.Material_Type__c == 'Part';
             });
-            $scope.serviceQuotes = response.Service_Quote__r ? response.Service_Quote__r : [];
+            if (response.Service_Quote__r!=undefined && response.Service_Quote__r!=null){
+                $scope.serviceQuotes = response.Service_Quote__r;
+                if(response.Service_Quote__r.Subject__c!=undefined&&response.Service_Quote__r.Subject__c!=null){
+                    $scope.serviceQuotes.Subject__c = encodeURIComponent(response.Service_Quote__r.Subject__c.replace('"',replaceName));
+                }else{
+                    $scope.serviceQuotes.Subject__c="";
+                }
+            }
             _.each($scope.selectedTruckFitItems, function (partItem) {
               partItem.type = 'common';
               partItem.Discount__c = (partItem.Discount__c + 100) / 100;
@@ -1045,7 +1052,7 @@ angular.module('oinio.controllers')
 
         for (let index = 0; index < $scope.serviceFeeList.length; index++) {
           var oneLabourOriginals3 = {};
-          oneLabourOriginals3['Name'] = encodeURIComponent($scope.serviceFeeList[index]);
+          oneLabourOriginals3['Name'] = encodeURIComponent($scope.serviceFeeList[index].replace('"',replaceName));
           oneLabourOriginals3['Gross_Price__c'] = sv_InputForListPrice[index];
           oneLabourOriginals3['Quantity__c'] = sv_InputForListNo[index];
           oneLabourOriginals3['Discount__c'] = (Number(sv_InputForListDiscount[index]) * 100) - 100;
@@ -1088,7 +1095,7 @@ angular.module('oinio.controllers')
 
           var oneLabourOriginals4 = {};
           var selectedTruckFitItemsIndex = $scope.selectedTruckFitItems[index];
-          oneLabourOriginals4['Name'] =encodeURIComponent(selectedTruckFitItemsIndex.Name);
+          oneLabourOriginals4['Name'] = encodeURIComponent(selectedTruckFitItemsIndex.Name.replace('"',replaceName));
           if (selectedTruckFitItemsIndex.Id) {
             oneLabourOriginals4['Service_Material__c'] = selectedTruckFitItemsIndex.Id;
           }
@@ -1153,7 +1160,7 @@ angular.module('oinio.controllers')
         })) * 100) / 100;
 
         var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
-                      + '&serviceQuotes=' + encodeURIComponent(JSON.stringify($scope.serviceQuotes)) + '&quoteLabourOriginals='
+                      + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes) + '&quoteLabourOriginals='
                       + JSON.stringify($scope.quoteLabourOriginalsList);
         console.log('payload', payload);
 

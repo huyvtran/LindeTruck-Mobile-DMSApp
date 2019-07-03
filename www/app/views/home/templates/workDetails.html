@@ -906,7 +906,7 @@
                                 <!--自动添加-->
                                 <div class="item_Img" ng-repeat="itemUri in imgUrisAfter">
                                     <div style="width:80px;height: 80px;border: 1px dotted #979797;background-repeat: no-repeat;background-size: cover;position: relative;margin-bottom:20px;background-image: url({{itemUri.imageBody}});"
-                                         id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisAfter,afth_);">
+                                         id="{{itemUri.imageBody}}" ng-click="getPhoto($event,imgUrisAfter,'afth_');">
                                         <div class="del_Img"
                                              ng-show="itemUri.imageBody!='././img/images/will_add_Img.png'"
                                              ng-click="deleteCurrentImg(itemUri.imageBody,imgUrisAfter)"></div>
