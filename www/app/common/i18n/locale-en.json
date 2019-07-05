@@ -74,7 +74,10 @@
       "msg_error_out_of_range": "Out of range",
       "msg_save_data": "Save data",
       "msg_input_not_valid": "Input is not valid.",
-      "msg_form_not_valid": "Form is not valid."
+      "msg_form_not_valid": "Form is not valid.",
+      "lb_userName":"UserName:",
+      "lb_userPhone":"UserPhone:",
+      "lb_gpsInterval":"GPS Interval:"
     },
     "sync": {
       "lb_syncedToCloud": " Synced to Cloud",
@@ -406,7 +409,8 @@
       "lb_related_files": "Related Files",
       "lb_job_details": "Job Details",
       "lb_smart_connector": "Smart Connector",
-      "lb_step": "Step"
+      "lb_step": "Step",
+      "lb_more":"More"
     },
     "contentTypeDirective": {
       "errorMsg": {

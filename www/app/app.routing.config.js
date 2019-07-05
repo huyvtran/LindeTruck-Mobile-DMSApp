@@ -363,6 +363,15 @@
                 },
                 cache: false
             })
+            .state('app.more', {
+                url: '/more',
+                views: {
+                    menuContent: {
+                        templateUrl: 'app/common/more/templates/moreUserInfo.view.html',
+                        controller: 'SetMoreUserInfoController as vm'
+                    }
+                }
+            })
             .state('app.synchronize', {
                 url: '/synchronize?',
                 views: {

@@ -74,7 +74,10 @@
       "msg_error_out_of_range": "Außerhalb des Bereichs",
       "msg_save_data": "Daten werden gespeichert",
       "msg_input_not_valid": "Eingabe ist nicht korrekt.",
-      "msg_form_not_valid": "Formular ist nicht korrekt."
+      "msg_form_not_valid": "Formular ist nicht korrekt.",
+      "lb_userName":"UserName:",
+      "lb_userPhone":"UserPhone:",
+      "lb_gpsInterval":"GPS Interval:"
     },
     "sync": {
       "lb_syncedToCloud": "Sync nach Cloud",
@@ -405,7 +408,8 @@
       "lb_related_files": "Zugeordnete Dateien",
       "lb_job_details": "Auftrag Details",
       "lb_smart_connector": "Smart Connector",
-      "lb_step": "Step"
+      "lb_step": "Step",
+      "lb_more":"More"
     },
     "contentTypeDirective": {
       "errorMsg": {

@@ -27,6 +27,7 @@
             'oinio.common.synchronize',
             'oinio.common.ionicloading',
             'oinio.common.user-setting',
+            'oinio.common.more',
             'oinio.common.directives',
             'oinio.common.filter',
             'oinio.common.camera',
@@ -41,7 +42,6 @@
             'oinio.core.detail',
             'oinio.core.components',
             'oinio.services',
-
             'oinio.controllers'
 
         ]);
