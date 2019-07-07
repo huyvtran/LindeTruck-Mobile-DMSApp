@@ -15,7 +15,14 @@
         $scope.$on('$ionicView.enter', function () {
             vm.userName=oCurrentUser.Name;
             vm.userPhone=oCurrentUser.Phone;
-            vm.gpsIntervals=[3,5,10,15];
+            vm.gpsIntervals=["3","5","10","15"];
+            NativeStorage.getItem("GpsIntervalVal",function success(data) {
+                $('#gspSelect').find('option[value = ' + data + ']').attr(
+                    'selected', true);
+            },function error(msg) {
+                console.log(msg);
+            });
+
         });
 
         $scope.changeGpsInterval = function () {
