@@ -364,9 +364,16 @@
                 //车牌号
                 licensePlateNumber = $("#licensePlateNumber").val();
                 if ($("#checkServiceCar").prop("checked")){
+                    licensePlateNumber ="";
                     //原因备注
                     causeRemark = $("#causeRemark").val().trim();
                     serviceCarCheck = $("#checkServiceCar").prop("checked");
+                    if (causeRemark==""){
+                        $ionicPopup.alert({
+                            title: '请输入原因备注(必填)!'
+                        });
+                        return;
+                    }
                 }else{
                     //加油费用
                     refuelingCost = $("#refuelingCost").val().trim();
