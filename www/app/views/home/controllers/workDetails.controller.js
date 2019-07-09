@@ -4926,5 +4926,30 @@
             deferred.resolve("");
             return deferred.promise;
         };
+
+        $scope.drawPicCanvas = function () {
+            html2canvas(document.body).then(function(canvas) {
+                cordova.base64ToGallery(
+                    canvas.toDataURL("image/png"),
+
+                    {
+                        prefix: 'img_',
+                        mediaScanner: true
+                    },
+
+                    function(path) {
+                        $ionicPopup.alert({
+                            title:"截图成功!"
+                        });
+                        console.log(path);
+                    },
+
+                    function(err) {
+                        console.error(err);
+                    }
+                );
+            });
+        };
+
       });
 })();
