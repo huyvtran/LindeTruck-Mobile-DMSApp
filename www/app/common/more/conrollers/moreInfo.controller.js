@@ -29,7 +29,7 @@
             var gpsIntervalTime =  $('#gspSelect option:selected').val();
             NativeStorage.setItem("GpsIntervalVal",gpsIntervalTime,function success(res) {
                 $ionicPopup.alert({
-                    title: '设置GPS时间间隔'+gpsIntervalTime+"分钟"
+                    title: '设置GPS时间间隔'+gpsIntervalTime+"分钟,请手动重启App!"
                 });
                 console.log(res);
             },function error(msg) {
