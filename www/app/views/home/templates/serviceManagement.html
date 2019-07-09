@@ -80,13 +80,25 @@
 					</select>
 				</div>
 	  		</div>
-	  		<div class="small_Type_Group">
+			<div class="small_Type_Group">
+				<div class="small_Type_Title">服务车未使用</div>
+				<div class="small_Type_Box">
+					<input id="checkServiceCar" type="checkbox" style="width: 30px;height: 30px;" ng-model="checkNoUseServiceCar"/>
+				</div>
+			</div>
+			<div class="small_Type_Group" ng-show="checkNoUseServiceCar">
+				<div class="small_Type_Title">原因备注:</div>
+				<div class="small_Type_Box">
+					<textarea id="causeRemark" class="small_Type_Textarea"></textarea>
+				</div>
+			</div>
+	  		<div class="small_Type_Group" ng-show="!checkNoUseServiceCar">
 	  			<div class="small_Type_Title">里程表 - 公务:</div>
 	  			<div class="small_Type_Box">
 	  				<input id="odometerOfficialBusiness" class="small_Type_Input"/>
 	  			</div>
 	  		</div>
-	  		<div class="small_Type_Group">
+	  		<div class="small_Type_Group" ng-show="!checkNoUseServiceCar">
 	  			<div class="small_Type_Title">拍照:</div>
 	  			<div class="small_Type_Box">
 	  				<div class="img_Group">
@@ -98,37 +110,37 @@
 		  			</div>
 	  			</div>
 	  		</div>
-	  		<div class="small_Type_Group">
+	  		<div class="small_Type_Group" ng-show="!checkNoUseServiceCar">
 	  			<div class="small_Type_Title">里程表 - 加油:</div>
 	  			<div class="small_Type_Box">
 	  				<input id="odometerComeOn" class="small_Type_Input"/>
 	  			</div>
 	  		</div>
-	  		<div class="small_Type_Group">
+	  		<div class="small_Type_Group" ng-show="!checkNoUseServiceCar">
 	  			<div class="small_Type_Title">加油费用:</div>
 	  			<div class="small_Type_Box">
 	  				<input id="refuelingCost" class="small_Type_Input"/>
 	  			</div>
 	  		</div>
-	  		<div class="small_Type_Group">
+	  		<div class="small_Type_Group" ng-show="!checkNoUseServiceCar">
 	  			<div class="small_Type_Title">其他费用:</div>
 	  			<div class="small_Type_Box">
 	  				<input id="otherExpenses" class="small_Type_Input"/>
 	  			</div>
 	  		</div>
-	  		<div class="small_Type_Group">
-	  			<div class="small_Type_Title">原因备注:</div>
-	  			<div class="small_Type_Box">
-	  				<textarea id="causeRemark" class="small_Type_Textarea"></textarea>
-	  			</div>
-	  		</div>
-	  		<div class="small_Type_Group">
+	  		<!--<div class="small_Type_Group">-->
+	  			<!--<div class="small_Type_Title">原因备注:</div>-->
+	  			<!--<div class="small_Type_Box">-->
+	  				<!--<textarea id="causeRemark" class="small_Type_Textarea"></textarea>-->
+	  			<!--</div>-->
+	  		<!--</div>-->
+	  		<div class="small_Type_Group" ng-show="!checkNoUseServiceCar">
 	  			<div class="small_Type_Title">里程表 - 自用:</div>
 	  			<div class="small_Type_Box">
 	  				<input id="odometerSelfUse" class="small_Type_Input"/>
 	  			</div>
 	  		</div>
-	  		<div class="small_Type_Group">
+	  		<div class="small_Type_Group" ng-show="!checkNoUseServiceCar">
 	  			<div class="small_Type_Title">拍照:</div>
 	  			<div class="small_Type_Box">
 	  				<div class="img_Group">

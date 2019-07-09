@@ -13,6 +13,7 @@
                 odometerComeOn           = 0,
                 otherExpenses            = 0,
                 causeRemark              = "",
+                serviceCarCheck          = false,
                 localImgUris1            = [],
                 localImgUris2            = [],
                 canClick                 = true,
@@ -20,6 +21,7 @@
             vm.isOnline = null;
             $scope.initServiceCars = [""];
             $scope.forceClientProd = false;
+            $scope.checkNoUseServiceCar = false;
             $scope.getInitServiceCarUrl = "/ServiceCarService?action=init&currentUser=";
             $scope.$on('$ionicView.beforeEnter', function () {
                 $scope.imgUris1 = ["././img/images/will_add_Img.png"];
@@ -356,88 +358,93 @@
                 window.history.back();
             };
 
+
             $scope.serviceManagementSubmit = function () {
                 var picList = [];
                 //车牌号
                 licensePlateNumber = $("#licensePlateNumber").val();
-                //加油费用
-                refuelingCost = $("#refuelingCost").val().trim();
-                //自用里程
-                odometerSelfUse = $("#odometerSelfUse").val().trim();
-                //公务里程
-                odometerOfficialBusiness = $("#odometerOfficialBusiness").val().trim();
-                //加油里程
-                odometerComeOn = $("#odometerComeOn").val().trim();
-                //其他费用
-                otherExpenses = $("#otherExpenses").val().trim();
-                //原因备注
-                causeRemark = $("#causeRemark").val().trim();
-
-                if (odometerComeOn!=""||odometerOfficialBusiness!=""||odometerSelfUse!=""){
-                    if (odometerOfficialBusiness!=""&&odometerSelfUse!=""){
-                        $ionicPopup.alert({
-                            title: '公务里程和自用里程最多只能填一项'
-                        });
-                        return;
-                    }
-                    if ((odometerOfficialBusiness!=""&&$scope.imgUris1[0] == '././img/images/will_add_Img.png')||(odometerOfficialBusiness==""&&$scope.imgUris1[0] != '././img/images/will_add_Img.png')){
-                        $ionicPopup.alert({
-                            title: '公务里程和公务拍照，遵循一致性：同时有值或者同时没值'
-                        });
-                        return;
-                    }
-                    if ((odometerComeOn!=""&&refuelingCost=="")||(odometerComeOn==""&&refuelingCost!="")){
-                        $ionicPopup.alert({
-                            title: '加油里程和加油费用，遵循一致性：同时有值或者同时没值'
-                        });
-                        return;
-                    }
-
-                    if ((odometerSelfUse!=""&&$scope.imgUris2[0] == '././img/images/will_add_Img.png')||(odometerSelfUse==""&&$scope.imgUris2[0] != '././img/images/will_add_Img.png')){
-                        $ionicPopup.alert({
-                            title: '自用里程和自用拍照，遵循一致性：同时有值或者同时没值'
-                        });
-                        return;
-                    }
-
+                if ($("#checkServiceCar").prop("checked")){
+                    //原因备注
+                    causeRemark = $("#causeRemark").val().trim();
+                    serviceCarCheck = $("#checkServiceCar").prop("checked");
                 }else{
-                    $ionicPopup.alert({
-                        title: '加油里程/公务里程/自用里程至少要填写一项'
-                    });
-                    return;
-                }
+                    //加油费用
+                    refuelingCost = $("#refuelingCost").val().trim();
+                    //自用里程
+                    odometerSelfUse = $("#odometerSelfUse").val().trim();
+                    //公务里程
+                    odometerOfficialBusiness = $("#odometerOfficialBusiness").val().trim();
+                    //加油里程
+                    odometerComeOn = $("#odometerComeOn").val().trim();
+                    //其他费用
+                    otherExpenses = $("#otherExpenses").val().trim();
 
-                if ((otherExpenses!=""&&causeRemark=="")||(otherExpenses==""&&causeRemark!="")){
-                    $ionicPopup.alert({
-                        title: '其他费用和原因备注，遵循一致性：同时有值或者同时没值'
-                    });
-                    return;
-                }
+                    if (odometerComeOn!=""||odometerOfficialBusiness!=""||odometerSelfUse!=""){
+                        if (odometerOfficialBusiness!=""&&odometerSelfUse!=""){
+                            $ionicPopup.alert({
+                                title: '公务里程和自用里程最多只能填一项'
+                            });
+                            return;
+                        }
+                        if ((odometerOfficialBusiness!=""&&$scope.imgUris1[0] == '././img/images/will_add_Img.png')||(odometerOfficialBusiness==""&&$scope.imgUris1[0] != '././img/images/will_add_Img.png')){
+                            $ionicPopup.alert({
+                                title: '公务里程和公务拍照，遵循一致性：同时有值或者同时没值'
+                            });
+                            return;
+                        }
+                        if ((odometerComeOn!=""&&refuelingCost=="")||(odometerComeOn==""&&refuelingCost!="")){
+                            $ionicPopup.alert({
+                                title: '加油里程和加油费用，遵循一致性：同时有值或者同时没值'
+                            });
+                            return;
+                        }
 
-                //公务拍照
-                for (var i = 0; i < $scope.imgUris1.length; i++) {
-                    if ($scope.imgUris1[i] != '././img/images/will_add_Img.png') {
-                        localImgUris1.push(($scope.imgUris1[i]).slice(23));
-                        picList.push({
-                            Type: 0,
-                            AttachName: new Date().getTime() + "",
-                            AttachContent: $scope.imgUris1[i].slice(23),
-                            CreateTime: new Date(),
-                            CreateBy: employeeNum
+                        if ((odometerSelfUse!=""&&$scope.imgUris2[0] == '././img/images/will_add_Img.png')||(odometerSelfUse==""&&$scope.imgUris2[0] != '././img/images/will_add_Img.png')){
+                            $ionicPopup.alert({
+                                title: '自用里程和自用拍照，遵循一致性：同时有值或者同时没值'
+                            });
+                            return;
+                        }
+
+                    }else{
+                        $ionicPopup.alert({
+                            title: '加油里程/公务里程/自用里程至少要填写一项'
                         });
+                        return;
                     }
-                }
-                //自用拍照
-                for (var i = 0; i < $scope.imgUris2.length; i++) {
-                    if ($scope.imgUris2[i] != '././img/images/will_add_Img.png') {
-                        localImgUris2.push(($scope.imgUris2[i]).slice(23));
-                        picList.push({
-                            Type: 1,
-                            AttachName: new Date().getTime() + "",
-                            AttachContent: $scope.imgUris2[i].slice(23),
-                            CreateTime: new Date(),
-                            CreateBy: employeeNum
-                        });
+
+                    // if ((otherExpenses!=""&&causeRemark=="")||(otherExpenses==""&&causeRemark!="")){
+                    //     $ionicPopup.alert({
+                    //         title: '其他费用和原因备注，遵循一致性：同时有值或者同时没值'
+                    //     });
+                    //     return;
+                    // }
+
+                    //公务拍照
+                    for (var i = 0; i < $scope.imgUris1.length; i++) {
+                        if ($scope.imgUris1[i] != '././img/images/will_add_Img.png') {
+                            localImgUris1.push(($scope.imgUris1[i]).slice(23));
+                            picList.push({
+                                Type: 0,
+                                AttachName: new Date().getTime() + "",
+                                AttachContent: $scope.imgUris1[i].slice(23),
+                                CreateTime: new Date(),
+                                CreateBy: employeeNum
+                            });
+                        }
+                    }
+                    //自用拍照
+                    for (var i = 0; i < $scope.imgUris2.length; i++) {
+                        if ($scope.imgUris2[i] != '././img/images/will_add_Img.png') {
+                            localImgUris2.push(($scope.imgUris2[i]).slice(23));
+                            picList.push({
+                                Type: 1,
+                                AttachName: new Date().getTime() + "",
+                                AttachContent: $scope.imgUris2[i].slice(23),
+                                CreateTime: new Date(),
+                                CreateBy: employeeNum
+                            });
+                        }
                     }
                 }
 
@@ -454,6 +461,7 @@
                     GasMileage: Number(odometerComeOn),
                     GasCost: Number(refuelingCost),
                     OtherCost: Number(otherExpenses),
+                    NoUseServiceCar:serviceCarCheck,
                     Remark: causeRemark,
                     SelfMileage: Number(odometerSelfUse),
                     CreateTime: new Date(),
