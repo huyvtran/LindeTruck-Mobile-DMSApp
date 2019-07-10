@@ -44,6 +44,7 @@
             orderBelong          = true,
             selectTypeIndex      = 0, //作业类型默认选择第一个
             enableArrival        = true,
+            screenShotHeight      = 700,
             oCurrentUser         = LocalCacheService.get('currentUser') || {};
         vm.isOnline = null;
 
@@ -1883,6 +1884,13 @@
                 $scope.calculateWorkHour($scope.localWorkItems[i].arriveTime, $scope.localWorkItems[i].leaveTime);
             }
           }
+          if ($scope.localWorkItems.length>1){
+              screenShotHeight+= ($scope.localWorkItems.length-1)*20;
+          }
+          if ($scope.rejectedItems.length>1){
+              screenShotHeight+= ($scope.rejectedItems.length-1)*20;
+          }
+
           //$scope.workHourShow = !isNaN(minTotal) ? (minTotal / 60).toFixed(2) + '小时' : "0小时";//工作小时
           $scope.callStrShow = $('#call_str').val().trim();//报修需求
           // $scope.workContentShow = $('#workContentStr').val();//工作信息
@@ -4149,6 +4157,7 @@
         };
 
         $scope.hideWorkPrintPage = function () {
+          screenShotHeight = 700;
           if ($scope.openPrint) {
             window.history.back();
             // $state.go("app.home");
@@ -4713,6 +4722,7 @@
           var localWorkContent2 ="";
         $scope.confirmServiceModal = function () {
           let deferred = $q.defer();
+            screenShotHeight= 700;
             localWorkContent ="";
             localWorkContent2 ="";
           $('.mask_div').css('display', 'none');
@@ -4722,6 +4732,7 @@
               localMJobItemIds.push($(element).attr("id"));
                 localWorkContent +=$(element).next().text()+"\n";
                 localWorkContent2+="<p>"+$(element).next().text()+"</p>";
+                screenShotHeight+=20;
             }
           });
             //$scope.workContent=workContent;
@@ -4928,7 +4939,7 @@
         };
 
         $scope.drawPicCanvas = function () {
-            html2canvas(document.body).then(function(canvas) {
+            html2canvas(document.body,screenShotHeight).then(function(canvas) {
                 cordova.base64ToGallery(
                     canvas.toDataURL("image/png"),
 

@@ -6849,12 +6849,12 @@
 
     var _this = undefined;
     var parseColor$1 = function (value) { return color.parse(Parser.create(value).parseComponentValue()); };
-    var html2canvas = function (element, options) {
+    var html2canvas = function (element, targetHeight,options) {
         if (options === void 0) { options = {}; }
-        return renderElement(element, options);
+        return renderElement(element, options,targetHeight);
     };
     CacheStorage.setContext(window);
-    var renderElement = function (element, opts) { return __awaiter(_this, void 0, void 0, function () {
+    var renderElement = function (element, opts,targetHeight) { return __awaiter(_this, void 0, void 0, function () {
         var ownerDocument, defaultView, instanceName, _a, width, height, left, top, defaultResourceOptions, resourceOptions, defaultOptions, options, windowBounds, documentCloner, clonedElement, container, documentBackgroundColor, bodyBackgroundColor, bgColor, defaultBackgroundColor, backgroundColor, renderOptions, canvas, renderer, root, renderer;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -6884,7 +6884,7 @@
                         foreignObjectRendering: false,
                         scale: 1,
                         windowWidth: defaultView.innerWidth,
-                        windowHeight: 900,
+                        windowHeight: targetHeight,
                         scrollX: defaultView.pageXOffset,
                         scrollY: defaultView.pageYOffset,
                         x: left,
@@ -6892,7 +6892,7 @@
                         // width: Math.ceil(width),
                         // height: Math.ceil(height),
                         width: Math.ceil(width),
-                        height: 900,
+                        height: targetHeight,
                         id: instanceName
                     };
                     options = __assign({}, defaultOptions, resourceOptions, opts);
