@@ -17,7 +17,8 @@
             vm.adrs = [];
             vm.priorities = [];
             vm.productTypeShowes=[];
-
+            $scope.ServiceIsFrozen = false;
+            $scope.RentalServiceIsFrozen = false;
             /**
              * @func    $scope.$on('$ionicView.beforeEnter')
              * @desc
@@ -291,7 +292,8 @@
                 $scope.searchResultAcctId = acct.Id!=undefined&&acct.Id!=null?acct.Id:"";
                 $scope.searchResultAcctSoupId = acct._soupEntryId!=undefined&&acct._soupEntryId!=null?acct._soupEntryId:"";
                 $scope.ServiceGroupRental2 = acct.Service_Group_Rental2__c !=undefined && acct.Service_Group_Rental2__c!=null ?acct.Service_Group_Rental2__c:"";
-
+                $scope.ServiceIsFrozen = acct.ServiceIsFrozen__c!=undefined && acct.ServiceIsFrozen__c!=null?acct.ServiceIsFrozen__c:false;
+                $scope.RentalServiceIsFrozen = acct.RentalServiceIsFrozen__c!=undefined && acct.RentalServiceIsFrozen__c!=null?acct.RentalServiceIsFrozen__c:false;
 
                 //$scope.closeSelectPage();
                 if (!fromTruck){
@@ -1130,6 +1132,22 @@
                 }, function error(msg) {
                     console.log(msg.responseText);
                 });
+            };
+
+
+            $scope.changeProductType = function () {
+                var productType=$('#select_service_group option:selected').val();
+                if (productType=="20"&& $scope.ServiceIsFrozen){
+                    $ionicPopup.alert({
+                        title: '该客户服务产品组已冻结'
+                    });
+                    return false;
+                }else if (productType=="30"&& $scope.RentalServiceIsFrozen) {
+                    $ionicPopup.alert({
+                        title: '该客户租赁产品组已冻结'
+                    });
+                    return false;
+                }
             };
 
         }).directive('repeatFinish', function () {

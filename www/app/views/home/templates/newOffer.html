@@ -211,6 +211,7 @@
 						<ion-item id="items2" ng-repeat="item in contentItems" ng-cloak ng-click="selectAccount(item);" class="small_Box_Text">
 							<p> {{item.Name}} <p/>
 							<p> {{item.SAP_Number__c}} <p/>
+							<p> 行政备注:{{item.Service_Remarks__c}} <p/>
 						</ion-item>
 					</ion-list>
 				</div>
@@ -391,7 +392,7 @@
 					<div class="small_Type_Group">
 						<div class="small_Type_Title">产品组:</div>
 						<div class="small_Type_Box">
-							<select id="select_service_group" class="small_Type_Select">
+							<select id="select_service_group" class="small_Type_Select" onchange="angular.element(this).scope().changeProductType();">
 								<option ng-repeat="productType in vm.productTypeShowes track by $index"  value={{productType.label}}>{{productType.value}}
 								</option>
 							</select>
