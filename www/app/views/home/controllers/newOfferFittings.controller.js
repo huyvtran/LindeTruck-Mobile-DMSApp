@@ -138,7 +138,8 @@
             return;
           }
           var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url + JSON.stringify(nameList)
-                                                + '&maintenanceLevels=' + JSON.stringify(maintenanceLevelList);
+                                                + '&maintenanceLevels=' + JSON.stringify(maintenanceLevelList)
+                                                + '&acctId=' + $stateParams.SendSoupEntryId;
           ForceClientService.getForceClient().apexrest(maintenanceKeyLevelPartssBy2Url, 'GET', {}, null,
             function (response) {
               console.log('getMaintenanceKeyLevelPartssBy2:', response);
