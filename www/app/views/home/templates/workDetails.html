@@ -1135,7 +1135,7 @@
                                             <td class="sv_Td">
                                                 <input type="checkbox" data-recordid={{item.Id}}
                                                        class="sv_checkbox refundcheckbox"
-                                                       ng-click="checkOneBoxRefund();"/>
+                                                       ng-click="checkOneBoxRefund();" ng-disabled=" (!!reitems.Submit_Mark__c && reitems.Submit_Mark__c == true) || (!!reitems.Return_Quantity__c  && reitems.Return_Quantity__c != 0 && !!reitems.Delivery_Order_Status__c && reitems.Delivery_Order_Status__c == '03') || (!!reitems.Service_Part_Order__r &&!!reitems.Service_Part_Order__r.Service_Order_Overview__r && !!reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c && reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'Service Completed') || (!!reitems.Service_Part_Order__r && !! reitems.Service_Part_Order__r.Service_Order_Overview__r && !!reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c && reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'End')"/>
                                             </td>
                                             <td class="sv_Td">
                                                 <div> {{item.SAP_Delivery_Order_Line_Item__c}}</div>
