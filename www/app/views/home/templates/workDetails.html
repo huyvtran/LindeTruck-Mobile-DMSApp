@@ -1080,7 +1080,7 @@
                         <tr>
                             <th class="sv_Td">
                                 <input id="selectRefundAll" type="checkbox" class="sv_checkbox"
-                                       ng-click="checkAllBoxRefund();"/>
+                                       ng-click="checkAllBoxRefund();" ng-disabled="!!rejectedItems && ((!!rejectedItems[0].Submit_Mark__c && rejectedItems[0].Submit_Mark__c == true) || (!!rejectedItems[0].Return_Quantity__c  && rejectedItems[0].Return_Quantity__c != 0 && !!rejectedItems[0].Delivery_Order_Status__c && rejectedItems[0].Delivery_Order_Status__c == '03') || (!!rejectedItems[0].Service_Part_Order__r &&!!rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r && !!rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c && rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'Service Completed') || (!!rejectedItems[0].Service_Part_Order__r && !! rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r && !!rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c && rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'End'))"/>
                             </th>
                             <th class="sv_Td">
                                 <div> 行项</div>
