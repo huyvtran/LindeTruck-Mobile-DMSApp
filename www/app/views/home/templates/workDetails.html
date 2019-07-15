@@ -993,8 +993,9 @@
                                     </div> -->
                                         <div> {{$index+1}}</div>  <!--itemNO -->
                                     </td>
-                                    <td class="sv_Td sv_Td_Small">
+                                    <td class="sv_Td sv_Td_Small" style="overflow: hidden;text-overflow: ellipsis;">
                                         <div>{{item.parts_number__c}}</div>
+                                        <br>
                                         <div>{{item.Name}}</div>
                                     </td>
                                     <td class="sv_Td">
@@ -1140,8 +1141,9 @@
                                             <td class="sv_Td">
                                                 <div> {{item.SAP_Delivery_Order_Line_Item__c}}</div>
                                             </td>
-                                            <td class="sv_Td sv_Td_Long">
+                                            <td class="sv_Td sv_Th_240" style="overflow: hidden;text-overflow: ellipsis;">
                                                 <div> {{item.Service_Material__rparts_number__c}}</div>
+                                                <br>
                                                 <div> {{item.Service_Material__rName}}</div>
                                             </td>
                                             <td class="sv_Td">

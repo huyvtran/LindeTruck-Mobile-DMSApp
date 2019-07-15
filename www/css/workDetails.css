@@ -569,7 +569,7 @@ img {
 }
 .workListDetails_bodyer .small_Type_Input2 {
     color: #535353;
-    width: 70%;
+    /*width: 70%;*/
     height: 40px;
     border-bottom: 1px solid #535353;
     border-top: 0;
