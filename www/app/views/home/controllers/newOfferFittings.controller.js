@@ -94,29 +94,7 @@
             AppUtilService.hideLoading();
 
           });
-
-          //获得工单转报价对应的配件
-          // if ($stateParams.OrderTruckItem) {
-          //   if ($stateParams.OrderTruckItem.length == 0) { //如果没有选择车辆的处理
-          //     var serviceQuotesNull = {};
-          //     serviceQuotesNull['Truck_Fleet__c'] = null;
-          //     $stateParams.SendAllUser.push(serviceQuotesNull);
-          //   } else {
-          //     _.each($stateParams.OrderTruckItem, function (item) {
-          //       if (item.Quantity__c) {
-          //         item.quantity = item.Quantity__c;
-          //         if (item.priceCondition) {
-          //           item.priceCondition.discount = (item.priceCondition.discount + 100) / 100;
-          //         }
-          //       }
-          //       // item.parts_number__c=item.parts_number__c;
-          //     });
-          //     console.log('$stateParams.OrderTruckItem:', $stateParams.OrderTruckItem);
-          //
-          //     $scope.selectedTruckFitItems = $stateParams.OrderTruckItem;
-          //     $scope.getTrucksWithSubstitution();
-          //   }
-          // }
+          
         };
 
         $scope.getByPart = function () {
