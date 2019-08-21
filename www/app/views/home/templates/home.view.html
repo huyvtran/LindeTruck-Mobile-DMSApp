@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="././css/group.css">
     <link rel="stylesheet" href="././css/simplePerson.css">
     <link rel="stylesheet" href="././css/loadingPage.css">
+    <link rel="stylesheet" href="././css/login_new.css">
 
     <!--fullcalendar-->
     <script src='app/core/lib/jquery.min.js'></script>
@@ -65,11 +66,11 @@
         .simplePerson_Head {
             background-image: url(././img/images/simplePerson_Head.jpg);
         }
-        .loadingPage_bodyer {
+        .login_bodyer {
             background-image: url(././img/images/bg_img.png);
         }
         .lindeLogo_red {
-            background-image: url(././img/images/lindeLogo-red.png);
+            background-image: url(././img/images/lindeLogo_red.png);
         }
         .main_bodyer, .personal_bodyer, .calendar_bodyer {
             background-image: url(././img/images/bg_img.png);
@@ -212,7 +213,7 @@
                                         ng-click="ARListView()">AR报表展示
                                     </td>
                                     <td class="main_small_Type_Box" style="background: #F85383;color:#ffffff;"
-                                        ng-click="commute()"> 打卡
+                                        ng-click="commute()"> 打卡dms
                                     </td>
                                 </tr>
                             </table>
@@ -247,28 +248,37 @@
                     <div class="version">{{vmVersion}} </div>
                 </div>
                 <div class="calendar_mainSelect" style="">
-                    <div id="loadingPage_bodyer" class="loadingPage_bodyer">
+                    <!--<div id="loadingPage_bodyer" class="loadingPage_bodyer">-->
+                        <!--<div class="big_Type_Group">-->
+                            <!--<div class="lindeLogo_red">-->
+                            <!--</div>-->
+                            <!--<div class="text_Div">-->
+                                <!--<div class="text_large"> 您好，<span class="text_red"> {{personName}} </span> </div>-->
+                                <!--<div class="text_large"> 欢迎回来！</div>-->
+                                <!--<div class="text_small">（{{personDate}}）</div>-->
+                                <!--<div class="text_small"> 感谢您的辛勤付出！</div>-->
+                            <!--</div>-->
+                            <!--<div class="btn_Div">-->
+                                <!--<div class="goto_Btn" ng-click="hideLoadingPage()">-->
+                                    <!--点击开始新的一天-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div id="login_bodyer" class="login_bodyer">
                         <div class="big_Type_Group">
                             <div class="lindeLogo_red">
                             </div>
                             <div class="text_Div">
-                                <div class="text_large"> 您好，<span class="text_red"> {{personName}} </span> </div>
-                                <div class="text_large"> 欢迎回来！</div>
-                                <div class="text_small">（{{personDate}}）</div>
-                                <!--<div class="text_small"> 您花了 <span class="text_red"> 5小时56分钟 </span></div>-->
-                                <!--<div class="text_small">（4小时20分钟现场 + 1小时36分钟旅途）</div>-->
-                                <!--<div class="text_small"> 跑了<span class="text_red"> 80公里 </span> 的距离</div>-->
-                                <!--<div class="text_small"> 完成<span class="text_red"> 2个 </span> 服务单的工作。</div>-->
-                                <div class="text_small"> 感谢您的辛勤付出！</div>
-                                <!--<a href="" class="text_red">（若对上述有疑义请点此处并联系您的主管）</a>-->
-                            </div>
-                            <div class="btn_Div">
-                                <!--<div class="wait_Btn">-->
-                                    <!--请耐心等待一会儿...-->
-                                <!--</div>-->
-                                <div class="goto_Btn" ng-click="hideLoadingPage()">
-                                    点击开始新的一天
+                                <div class="engineerTitle"> 工程师：</div>
+                                <select class="selectStyle">
+                                    <option> 工程师 138839894839 </option>
+                                </select>
+                                <div class="codeGroup">
+                                    <input type="text" class="inputStyle"></input>
+                                    <div id="smsdiv" class="code-right" ng-click="sendSMS()"> {{codeText}}</div>
                                 </div>
+                                <div class="loginBtn" ng-click="hideLoadingPage()">登录</div>
                             </div>
                         </div>
                     </div>

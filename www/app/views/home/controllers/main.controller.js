@@ -32,7 +32,7 @@
           firstIntoApp = false;
         }
         console.log("mainController.$ionicView.beforeEnter");
-        TimeCardService.fetchVersionInfo();
+        // TimeCardService.fetchVersionInfo(); //检验app版本更新
       });
 
       $scope.addNewLinkMan = function () {

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="print-plugin" version="1.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>print-plugin</name>
+    <js-module name="PrintPlugin" src="www/print-plugin.js">
+        <clobbers target="PrintPlugin"/>
+    </js-module>
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="PrintPlugin">
+                <param name="android-package" value="com.capgemini.printDemo.Printer"/>
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.BLUETOOTH" />
+            <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+        </config-file>
+        <source-file src="src/android/Printer.java" target-dir="src/com/capgemini/printDemo"/>
+    </platform>
+</plugin>

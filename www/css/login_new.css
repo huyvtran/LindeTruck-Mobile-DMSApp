@@ -1,0 +1,99 @@
+body {
+	margin: 0;
+	font-size: 1rem;
+    font-family: 微软雅黑, 华文黑体, sans-serif;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    height: 100vh;
+    background-position: 50%;
+    overflow: hidden;
+}
+img {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.to_Open {
+    display: block!important;
+}
+.to_Hide {
+    display: none!important;
+}
+
+/* body */
+.login_bodyer {
+    overflow-y: auto;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    position: relative;
+}
+.login_bodyer .big_Type_Group {
+    margin-bottom: 5%;
+}
+.login_bodyer .lindeLogo_red {
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100px;
+    height: 30px;
+    margin: 80px auto;
+}
+.login_bodyer .text_Div {
+    text-align: center;
+}
+.login_bodyer .engineerTitle {
+    margin-left: 10%;
+    text-align: left;
+}
+.login_bodyer .selectStyle {
+    font-size: 0.8rem;
+    height: 2.5rem;
+    border: 1px solid #979797;
+    border-radius: 10px;
+    width: 80%;
+    margin: 2% 10% 2% 10%;
+    padding: 0 1%;
+}
+.login_bodyer .codeGroup {
+    display: flex;
+    margin: 2% 10% 2% 10%;
+}
+.login_bodyer .inputStyle {
+    display: inline-flex;
+    font-size: 0.8rem;
+    height: 2.5rem;
+    border: 1px solid #979797;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    width: 60%;
+    padding: 0 1%;
+    text-align: center;
+}
+.login_bodyer .code-right {
+    display: inline-flex;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 1px solid #979797;
+    background: #aa0020;
+    height: 2.5rem;
+    width: calc(40% - 5px);
+    margin-left: 5px;
+    justify-content: center;
+    color: #ffffff;
+    align-items: center;
+    font-size: 0.8rem;
+}
+
+.login_bodyer .loginBtn {
+    padding: 2% 5%;
+    font-size: 1rem;
+    color: #ffffff;
+    border: 1px solid #979797;
+    background: #aa0020;
+    vertical-align: middle;
+    width: 30%;
+    border-radius: 5px;
+    margin: 10% auto;
+}

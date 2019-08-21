@@ -30,6 +30,9 @@
         $scope.updateDataStatusUrl = '/WorkDetailService?action=updateStatus';
         $scope.departureUrl = '/WorkDetailService?action=departure&sooId=';
         $scope.getInitDataUri = '/WorkDetailService';
+        $scope.codeText = '发送验证码';
+        var timer_num = 60;
+
         $(document).ready(function () {
           document.addEventListener('click', newHandle);//初始化弹框
 
@@ -65,10 +68,33 @@
         $scope.hideLoadingPage = function () {
           setTimeout(function () {
             $rootScope.hideTabs = false;
-            $('div.loadingPage_bodyer').hide();
+            $('div.login_bodyer').hide();
             $('div.calendar_header').show();
           }, 100);
 
+        };
+
+        $scope.sendSMS = function () {
+          if (timer_num != 60){
+            return;
+          } else {
+            console.log('发送sms');
+          }
+          timer_num--;
+
+          var smsdiv = document.getElementById('smsdiv');
+          var timeClock=setInterval(function(){
+            timer_num--;
+            $scope.codeText = '重新发送（'+timer_num+'）';
+            if (timer_num == 0) {
+              clearInterval(timeClock);
+              timer_num = 60;
+              $scope.codeText = '发送验证码';
+              smsdiv.style.background = '#aa0020';
+            }else {
+              smsdiv.style.background = '#979797';
+            }
+          },1000)
         };
 
         $scope.$on('$ionicView.beforeLeave', function () {

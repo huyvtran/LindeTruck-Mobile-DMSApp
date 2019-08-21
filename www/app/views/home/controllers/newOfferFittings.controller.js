@@ -94,7 +94,7 @@
             AppUtilService.hideLoading();
 
           });
-          
+
         };
 
         $scope.getByPart = function () {

@@ -217,7 +217,7 @@
                 if(isOnline){
                     let str_fields = 'Id,Name,SAP_Number__c,Address__c,Salesman__c,Salesman_formula__c,' +
                                 "Sale_Group_Code__c,Customer_Number__c,Office_Address__c,Office_Location__longitude__s,Office_Location__latitude__s," +
-                                "Sale_Group_Code__r.Id,Sale_Group_Code__r.Name";
+                                "Sale_Group_Code__r.Id,Sale_Group_Code__r.Name,Service_Distance__c,Service_Transportation_Fee__c, Work_Hour_Price__c";
                     let sql = "select " + str_fields +
                         " from Account where Id = '" + accountId + "' limit 50";
                     let url = service.buildURL('querySobject',sql);
@@ -846,7 +846,7 @@
                 return deferred.promise;
             };
 
-            
+
             this.prepareAllParamsForServiceOrderSave = function (order2Save,localTruckIds) {
                 let deferred = $q.defer();
                 let ret = new Object();
@@ -861,8 +861,8 @@
                 deferred.resolve(ret);
                 return deferred.promise;
             };
-            
-            
+
+
             this.saveServiceOrderOverview = function (res) {
                 let deferred = $q.defer();
                 let ret,recTypeId,account,user,soo,so;
@@ -916,8 +916,8 @@
                 });
                 return deferred.promise;
             };
-            
-            
+
+
             this.saveActionServiceOrderOverview = function (adrs,recTypeId,account,user) {
                 var deferred = $q.defer();
                 try {
