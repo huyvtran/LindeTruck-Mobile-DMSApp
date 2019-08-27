@@ -13,6 +13,7 @@
         var allOrders = [];
         var selectStatusIndex = 0;
         $rootScope.allUser = [];
+        $scope.allLoginUser = [];
           let events = [];
         var currentOrder = [];
         var firstRunFun = false;
@@ -32,7 +33,7 @@
         $scope.getInitDataUri = '/WorkDetailService';
         $scope.codeText = '发送验证码';
         var timer_num = 60;
-
+        var getRandomSms;
         $(document).ready(function () {
           document.addEventListener('click', newHandle);//初始化弹框
 
@@ -66,11 +67,30 @@
         });
 
         $scope.hideLoadingPage = function () {
+          var inputSMSId = $('#inputSMSId').val();
+
+          if (!inputSMSId) {
+            var ionPop = $ionicPopup.alert({
+              title: '请填写验证码'
+            });
+            ionPop.then(function () {
+            });
+            return;
+          }
+          if (getRandomSms!=inputSMSId){
+            var ionPop = $ionicPopup.alert({
+              title: '验证码错误'
+            });
+            ionPop.then(function () {
+            });
+            return;
+          }
           setTimeout(function () {
             $rootScope.hideTabs = false;
             $('div.login_bodyer').hide();
             $('div.calendar_header').show();
           }, 100);
+
 
         };
 
@@ -78,7 +98,31 @@
           if (timer_num != 60){
             return;
           } else {
-            console.log('发送sms');
+            // AppUtilService.showLoading();
+            var getUserNumber = $('#selectLoginUserId option:selected').val();
+            getRandomSms = Math.floor(Math.random()*(9999-1000))+1000;
+            console.log('发送getUserNumber',getUserNumber);
+            console.log('发送getRandomSms',getRandomSms);
+            ForceClientService.getForceClient().apexrest(
+              '/LoginService?action=sendSMS&phone='+getUserNumber+'&code='+getRandomSms,
+              'GET',
+              {},
+              null, function callBack(res) {
+                console.log('sendSMS:', res);
+                // AppUtilService.hideLoading();
+                if(res.status =="Fail"){
+                  var ionPop = $ionicPopup.alert({
+                    title: res.message
+                  });
+                  ionPop.then(function () {
+                  });
+                }
+              }, function error(msg) {
+                console.log('sendSMS::ERROR:::', msg);
+                // AppUtilService.hideLoading();
+                return false;
+              }
+            );
           }
           timer_num--;
 
@@ -1004,6 +1048,23 @@
             );
           };
 
+          $scope.getLoginList = function () {
+            ForceClientService.getForceClient().apexrest(
+              '/LoginService?action=getLoginList',
+              'GET',
+              {},
+              null, function callBack(res) {
+                $scope.allLoginUser = res;
+                console.log('getLoginList:', res);
+                //AppUtilService.hideLoading();
+              }, function error(msg) {
+                console.log('getLoginList::ERROR:::', msg);
+
+                return false;
+              }
+            );
+          };
+
           $scope.initWorkPlanPicklistAction = function () {
             var selectWorkPlanType = document.getElementById('selectWorkPlanType');
             var selectWorkPlanUser = document.getElementById('selectWorkPlanUser');
@@ -1076,7 +1137,7 @@
 
           $scope.loadWorkPlanData();
           $scope.initWorkPlanPicklistAction();
-
+          $scope.getLoginList();
           $scope.getWorkPlanCount = function (arr) {
             console.log('$scope.firstRunWorkPlan::', $scope.firstRunWorkPlan);
             if ($scope.firstRunWorkPlan) {

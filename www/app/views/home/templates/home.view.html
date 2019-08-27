@@ -271,11 +271,11 @@
                             </div>
                             <div class="text_Div">
                                 <div class="engineerTitle"> 工程师：</div>
-                                <select class="selectStyle">
-                                    <option> 工程师 138839894839 </option>
+                                <select id="selectLoginUserId" class="selectStyle">
+                                    <option ng-repeat="itemloginuser in allLoginUser" value="{{itemloginuser.Mobile__c}}">{{itemloginuser.Name}} {{itemloginuser.Mobile__c}}</option>
                                 </select>
                                 <div class="codeGroup">
-                                    <input type="text" class="inputStyle"></input>
+                                    <input type="number" id="inputSMSId" class="inputStyle" οninput="if(value.length>5) value=value.slice(0,5)" placeholder="验证码" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')"/>
                                     <div id="smsdiv" class="code-right" ng-click="sendSMS()"> {{codeText}}</div>
                                 </div>
                                 <div class="loginBtn" ng-click="hideLoadingPage()">登录</div>
