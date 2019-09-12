@@ -34,6 +34,9 @@
         $scope.codeText = '发送验证码';
         var timer_num = 60;
         var getRandomSms;
+        var getUserNumber;
+        $rootScope.selectUserId = '';
+
         $(document).ready(function () {
           document.addEventListener('click', newHandle);//初始化弹框
 
@@ -56,13 +59,42 @@
           // }
           $scope.personName = oCurrentUser.Name;
           $scope.personDate = new Date().format('YYYY-MM-dd');
-          $rootScope.hideTabs = true;
-          $('div.calendar_header').hide();
+
 
           if ($cordovaAppVersion) {
             $cordovaAppVersion.getVersionNumber().then(function (version) {
               $scope.vmVersion = version;
             });
+          }
+
+          // ///ionic 利用localStorage存储
+          var firstLogin = "";
+          //循环遍历，取key值firstLogin的value
+          for (var i = localStorage.length - 1; i >= 0; i--) {
+            if (localStorage.key(i) == "firstLogin") {
+              firstLogin = localStorage.getItem(localStorage.key(i));
+              console.log("firstLogin1", firstLogin);
+            }
+            if (localStorage.key(i) == "selectUserId") {
+              $rootScope.selectUserId = localStorage.getItem(localStorage.key(i));
+            }
+          }
+
+          if (firstLogin == "first") {
+            console.log("firstLogin2", firstLogin); //初始化后 永远走此分支
+            $rootScope.hideTabs = false;
+            $('div.login_bodyer').hide();
+            $('div.calendar_header').show();
+            setTimeout(function () {
+              $scope.getHomeService();
+
+            }, 1000);
+
+          }else {
+            $rootScope.hideTabs = true;
+            $('div.calendar_header').hide();
+            $('div.login_bodyer').show();
+
           }
         });
 
@@ -85,12 +117,28 @@
             });
             return;
           }
+          var getUserObj = JSON.parse($('#selectLoginUserId option:selected').val());
+          if (getUserNumber!=getUserObj.Mobile__c){
+            var ionPop = $ionicPopup.alert({
+              title: '验证码与手机号不符'
+            });
+            ionPop.then(function () {
+            });
+            return;
+          }
+
           setTimeout(function () {
             $rootScope.hideTabs = false;
             $('div.login_bodyer').hide();
             $('div.calendar_header').show();
           }, 100);
+          $rootScope.selectUserId = getUserObj.Id;
 
+
+          localStorage.setItem("firstLogin", "first"); //初次存储
+          localStorage.setItem("selectUserId", getUserObj.Id);
+
+          $scope.getHomeService();
 
         };
 
@@ -99,9 +147,10 @@
             return;
           } else {
             // AppUtilService.showLoading();
-            var getUserNumber = $('#selectLoginUserId option:selected').val();
+            var getUserObj = JSON.parse($('#selectLoginUserId option:selected').val());
+            getUserNumber = getUserObj.Mobile__c;
             getRandomSms = Math.floor(Math.random()*(9999-1000))+1000;
-            console.log('发送getUserNumber',getUserNumber);
+            console.log('发送getUserNumberVar',getUserNumber);
             console.log('发送getRandomSms',getRandomSms);
             ForceClientService.getForceClient().apexrest(
               '/LoginService?action=sendSMS&phone='+getUserNumber+'&code='+getRandomSms,
@@ -434,7 +483,8 @@
                 if (res.status.toLowerCase() == 'success') {
                     var goTime = new Date();
                     //goTime.format('yyyy-MM-dd hh:mm:ss')
-                    dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,carNo).then(function callBack(res) {
+                  var selectUserId = localStorage.getItem('selectUserId');
+                  dualModeService.departureActionUtil(Number(localStorage.onoffline), Number(localStorage.onoffline) !== 0 ? item.Id:item._soupEntryId, Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id:oCurrentUser._soupEntryId,carNo,selectUserId).then(function callBack(res) {
                         console.log(res);
                         $scope.getHomeService();//刷新日历列表数据 更改出发状态
 
@@ -750,7 +800,7 @@
             $rootScope.allUser = [];
             allUser = [];
             AppUtilService.showLoading();
-            Service1Service.getOrdersWithGroup(Number(localStorage.onoffline)).then(function (res) {
+            Service1Service.getOrdersWithGroup(Number(localStorage.onoffline),$rootScope.selectUserId).then(function (res) {
               setTimeout(function () {
                 AppUtilService.hideLoading();
               }, 300);
@@ -804,7 +854,6 @@
 
             });
           };
-          $scope.getHomeService();
           var calendarAll = $('#calendarAll').fullCalendar({
             displayEventTime: false,
             titleFormat: 'MM',

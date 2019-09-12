@@ -74,7 +74,7 @@
 				</table>
 
 					<div class="refund_first">
-						<div class="box_num"> 交货单号: {{selectRefundInfo.SAP_Delivery_Order__c}} </div>
+						<div class="box_num"> 交货单号: {{selectRefundInfo.Name}} </div>
 						<!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
 						<!-- <div class="OpenClose_Btn arrow_Down_White"></div> -->
 					</div>
@@ -84,13 +84,13 @@
 							<table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
 								<tr>
 									<td class="sv_Td sv_Td_200">
-										<div> {{itemDetail.Service_Material__rparts_number__c}} </div>
+										<div> {{itemDetail.Material_Number__c}} </div>
 									</td>
 									<td class="sv_Td">
-										<div> {{itemDetail.Quantity__c}}</div>
+										<div> {{itemDetail.Delivary_Quantity__c}}</div>
 									</td>
 									<td class="sv_Td">
-										<div> {{itemDetail.Used_Quantity__c}} </div>
+										<div> {{itemDetail.Actual_Quantity__c}} </div>
 									</td>
 									<td class="sv_Td sv_Td_200">
 										<div> {{itemDetail.SAP_Delivery_Order_Line_Item__c}} </div>

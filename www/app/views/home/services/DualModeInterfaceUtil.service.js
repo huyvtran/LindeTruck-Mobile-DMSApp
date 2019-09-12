@@ -26,7 +26,7 @@
              */
             this.updateWorkOrderUtilInfo = function (isOnline, reqestBody) {
                 var deferred = $q.defer();
-                
+
                 if(isOnline){
                     var requestUrl = '/WorkDetailService?action=saveAction';
 
@@ -735,12 +735,12 @@
              * @param departureTime
              * @returns {*}
              */
-            this.departureActionUtil = function (isOnline, sooid, userId, carNo) {
+            this.departureActionUtil = function (isOnline, sooid, userId, carNo,selectUserId) {
                 var deferred = $q.defer();
 
                 if(isOnline){
                     //var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&departureTime='+ departureTime + '&userId='+userId+"&carNo="+carNo;
-                    var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&userId='+userId+"&carNo="+carNo;
+                    var requestUrl = '/WorkDetailService?action=departure&sooId='+ sooid + '&userId='+userId+"&carNo="+carNo+"&dmsUserId="+selectUserId;
 
                     console.log('current url:::', requestUrl);
 
@@ -890,12 +890,12 @@
              * @param travelMinutes: 单位,min (string)
              * @returns {*}
              */
-            this.arrivalActionUtil = function (isOnline, sooid, userId, travelMinutes ) {
+            this.arrivalActionUtil = function (isOnline, sooid, userId, travelMinutes ,dmsUserId) {
                 var deferred = $q.defer();
 
                 if(isOnline){
                     //var requestUrl = '/WorkDetailService?action=arrival&sooId='+ sooid + '&arrivalTime='+ arrivalTime + '&userId='+userId;
-                    var requestUrl = '/WorkDetailService?action=arrival&sooId='+ sooid + '&travelMinutes='+ travelMinutes + '&userId='+userId;
+                    var requestUrl = '/WorkDetailService?action=arrival&sooId='+ sooid + '&travelMinutes='+ travelMinutes + '&userId='+userId + '&dmsUserId=' + dmsUserId;
 
                     console.log('current url:::', requestUrl);
 
@@ -1007,11 +1007,11 @@
              * @param travelMinutes
              * @returns {*}
              */
-            this.leaveActionUtil = function (isOnline, sooid, userId, travelMinutes ) {
+            this.leaveActionUtil = function (isOnline, sooid, userId, travelMinutes ,dmsUserId) {
                 var deferred = $q.defer();
 
                 if(isOnline){
-                    var requestUrl = '/WorkDetailService?action=leave&sooId='+ sooid + '&travelMinutes='+ travelMinutes + '&userId='+userId;
+                    var requestUrl = '/WorkDetailService?action=leave&sooId='+ sooid + '&travelMinutes='+ travelMinutes + '&userId='+userId + '&dmsUserId=' + dmsUserId;
 
                     console.log('current url:::', requestUrl);
 

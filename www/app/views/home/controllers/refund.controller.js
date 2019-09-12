@@ -7,7 +7,7 @@
 
         $scope.selectRefundInfo = [];
         $scope.serviceEnd = "false";
-        $scope.paramSaveDeliveryOrdersUrl = "/UpdateDeliveryOrders/";
+        $scope.paramSaveDeliveryOrdersUrl = "/DMSDelivaryService?DMSReturnQtyWrapper=";
         $scope.paramUpdateSubmitDeliverOrders = "/UpdateSubmitDeliverOrders?recordId=";
         $scope.paramSaveAndSubminDeliveryOrdersUrl = "/submitDeliverOrders/";
         $scope.diffReasonSites = [
@@ -94,25 +94,33 @@
 
         };
         $scope.goToSave = function () {
+          let DMSReturnQtyWrapperList = [];
           _.each($scope.selectRefundInfo, function (refundItem) {
             _.each(refundItem.Delivery_Line_Item__r, function (refundItemDetail) {
-              refundItemDetail.CRM_Return_Quantity__c = Number(refundItemDetail.CRM_Return_Quantity__c);
+              DMSReturnQtyWrapperList.push({'itemId':refundItemDetail.Id,'returnQty':refundItemDetail.Return_Quantity__c});
             });
           });
           AppUtilService.showLoading();
-          var payload = $scope.paramSaveDeliveryOrdersUrl + "?deliveryorders=" + JSON.stringify($scope.selectRefundInfo)
-                        + "&deleteIds=" + JSON.stringify($scope.deleteIds);
-          console.log("payload", payload);
-          ForceClientService.getForceClient().apexrest(payload, 'POST', {}, null, function (response) {
+          var payload = $scope.paramSaveDeliveryOrdersUrl  + JSON.stringify(DMSReturnQtyWrapperList);
+          console.log("paramSaveDeliveryOrdersUrl", payload);
+          ForceClientService.getForceClient().apexrest(payload, 'PUT', {}, null, function (response) {
             console.log("POST_success:", response);
             $scope.deleteIds = [];
             AppUtilService.hideLoading();
-            var ionPop = $ionicPopup.alert({
-              title: "保存成功"
-            });
-            ionPop.then(function (res) {
-              $ionicHistory.goBack();
-            });
+            if (response.status == "fail"){
+              var ionPop = $ionicPopup.alert({
+                title: response.message
+              });
+              ionPop.then(function (res) {
+              });
+            }else {
+              var ionPop = $ionicPopup.alert({
+                title: "保存成功"
+              });
+              ionPop.then(function (res) {
+                $ionicHistory.goBack();
+              });
+            }
 
           }, function (error) {
             console.log("POST_error:", error);

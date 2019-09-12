@@ -8,7 +8,7 @@
 
         var oCurrentUser = LocalCacheService.get('currentUser') || {};
 
-        $scope.queryList = '/ServiceQuoteOverviewService?action=queryList&userId=';
+        $scope.queryList = '/ServiceQuoteOverviewService?action=queryList&isDMS=true&userId=';
         $scope.priceListItems = [];
         $scope.priceListStatusItems = [];
         $scope.statusTypes = ['草稿', '等待审批', '拒绝', '等待客户确认', '赢单', '丢单', '关闭'];
@@ -20,9 +20,11 @@
         $scope.$on('$ionicView.beforeEnter', function () {
           AppUtilService.showLoading();
           //人工
-          ForceClientService.getForceClient().apexrest($scope.queryList + oCurrentUser.Id, 'GET', {}, null,
+          var selectUserId = localStorage.getItem('selectUserId');
+          console.log('queryListUrl:', $scope.queryList + selectUserId);
+          ForceClientService.getForceClient().apexrest($scope.queryList + selectUserId, 'GET', {}, null,
             function (response) {
-              console.log('success:', response);
+              console.log('queryList:', response);
               $scope.priceListItems = response;
               $scope.priceListStatusItems = response;
               AppUtilService.hideLoading();

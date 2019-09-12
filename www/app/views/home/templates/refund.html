@@ -46,9 +46,9 @@
         <div>
             <table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
                 <tr>
-                    <th class="sv_Td">
-                        <div class="del_red_icon"></div>
-                    </th>
+                    <!--<th class="sv_Td">-->
+                        <!--<div class="del_red_icon"></div>-->
+                    <!--</th>-->
                     <th class="sv_Td sv_Th_200">
                         <div> 物料号</div>
                     </th>
@@ -58,9 +58,9 @@
                     <th class="sv_Td">
                         <div> 实用量</div>
                     </th>
-                    <th class="sv_Td sv_Th_200">
-                        <div> 序列号</div>
-                    </th>
+                    <!--<th class="sv_Td sv_Th_200">-->
+                        <!--<div> 序列号</div>-->
+                    <!--</th>-->
                     <th class="sv_Td">
                         <div> 退件数</div>
                     </th>
@@ -69,8 +69,8 @@
 
             <div ng-repeat="reitemDetail in selectRefundInfo">
                 <div class="refund_first">
-                    <div class="del_red_icon" ng-click="toDelOneRefundView(reitemDetail)"></div>
-                    <div class="box_num"> 交货单号: {{reitemDetail.SAP_Delivery_Order__c}}</div>
+                    <!--<div class="del_red_icon" ng-click="toDelOneRefundView(reitemDetail)"></div>-->
+                    <div class="box_num"> 交货单号: {{reitemDetail.Name}}</div>
                     <!-- 切换收缩开关arrow_Down_White / arrow_Left_White -->
                     <!-- <div class="OpenClose_Btn arrow_Down_White"></div> -->
                 </div>
@@ -79,55 +79,55 @@
                     <ion-item ng-repeat="itemDetail in reitemDetail.Delivery_Line_Item__r" ng-cloak>
                         <table cellpadding="0" cellspacing="0" border="0" class="refund_Table">
                             <tr>
-                                <td class="sv_Td">
-                                    <div class="del_red_icon"
-                                         ng-click="toDelTwoRefundView(reitemDetail.Delivery_Line_Item__r,itemDetail)"></div>
-                                </td>
+                                <!--<td class="sv_Td">-->
+                                    <!--<div class="del_red_icon"-->
+                                         <!--ng-click="toDelTwoRefundView(reitemDetail.Delivery_Line_Item__r,itemDetail)"></div>-->
+                                <!--</td>-->
                                 <td class="sv_Td sv_Td_200">
-                                    <div> {{itemDetail.Service_Material__rparts_number__c}}</div>
+                                    <div> {{itemDetail.Material_Number__c}}</div>
                                 </td>
                                 <td class="sv_Td">
-                                    <div> {{itemDetail.Quantity__c}}</div>
+                                    <div> {{itemDetail.Delivary_Quantity__c}}</div>
                                 </td>
                                 <td class="sv_Td">
-                                    <div> {{itemDetail.Used_Quantity__c}}</div>
+                                    <div> {{itemDetail.Actual_Quantity__c}}</div>
                                 </td>
-                                <td class="sv_Td sv_Td_200"
-                                    ng-init="SAP_Delivery_Order_Line_Item__c = itemDetail.SAP_Delivery_Order_Line_Item__c">
-                                    <input type="text" class="sv_Input"
-                                           ng-model="itemDetail.SAP_Delivery_Order_Line_Item__c"/>
-                                </td>
-                                <td class="sv_Td" ng-init="Return_Quantity = itemDetail.CRM_Return_Quantity__c">
-                                    <input type="text" class="sv_Input" ng-model="itemDetail.CRM_Return_Quantity__c"/>
+                                <!--<td class="sv_Td sv_Td_200"-->
+                                    <!--ng-init="SAP_Delivery_Order_Line_Item__c = itemDetail.SAP_Delivery_Order_Line_Item__c">-->
+                                    <!--<input type="text" class="sv_Input"-->
+                                           <!--ng-model="itemDetail.SAP_Delivery_Order_Line_Item__c"/>-->
+                                <!--</td>-->
+                                <td class="sv_Td" ng-init="Return_Quantity = itemDetail.Return_Quantity__c">
+                                    <input type="text" class="sv_Input" ng-model="itemDetail.Return_Quantity__c"/>
                                 </td>
                             </tr>
                         </table>
                     </ion-item>
                 </ion-list>
-                <div class="small_Type_Group">
-                    <div class="small_Type_Title">输入物流单号:</div>
-                    <div class="small_Type_Box" ng-init="Return_Tracking_Number = reitemDetail.Return_Tracking_Number__c">
-                        <input class="small_Type_Input" ng-model="reitemDetail.Return_Tracking_Number__c"/>
-                    </div>
-                </div>
-                <div class="small_Type_Group">
-                    <div class="small_Type_Title"> 退件原因:</div>
-                    <div class="small_Type_Box">
+                <!--<div class="small_Type_Group">-->
+                    <!--<div class="small_Type_Title">输入物流单号:</div>-->
+                    <!--<div class="small_Type_Box" ng-init="Return_Tracking_Number = reitemDetail.Return_Tracking_Number__c">-->
+                        <!--<input class="small_Type_Input" ng-model="reitemDetail.Return_Tracking_Number__c"/>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="small_Type_Group">-->
+                    <!--<div class="small_Type_Title"> 退件原因:</div>-->
+                    <!--<div class="small_Type_Box">-->
 
-                        <select class="small_Type_Select" ng-model="reitemDetail.Delivery_Line_Item__r[0].Return_Reason__c" ng-init="reitemDetail.Delivery_Line_Item__r[0].Return_Reason__c = reitemDetail.Temp_Return_Reason__index"
-                                ng-change="selectDiffChange(reitemDetail)">
-                            <option ng-repeat="x in diffReasonSites" value="{{x.site}}">
-                                {{x.name}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-                <div class="small_Type_Group">
-                    <div class="small_Type_Title">备注:</div>
-                    <div class="small_Type_Box">
-                        <textarea class="small_Type_Textarea" ng-model="Diff_Reason" value="{{reitemDetail.Diff_Reason__c = Diff_Reason}}" ng-init="Diff_Reason = reitemDetail.Delivery_Line_Item__r[0].Diff_Reason__c"></textarea>
-                    </div>
-                </div>
+                        <!--<select class="small_Type_Select" ng-model="reitemDetail.Delivery_Line_Item__r[0].Return_Reason__c" ng-init="reitemDetail.Delivery_Line_Item__r[0].Return_Reason__c = reitemDetail.Temp_Return_Reason__index"-->
+                                <!--ng-change="selectDiffChange(reitemDetail)">-->
+                            <!--<option ng-repeat="x in diffReasonSites" value="{{x.site}}">-->
+                                <!--{{x.name}}-->
+                            <!--</option>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div class="small_Type_Group">-->
+                    <!--<div class="small_Type_Title">备注:</div>-->
+                    <!--<div class="small_Type_Box">-->
+                        <!--<textarea class="small_Type_Textarea" ng-model="Diff_Reason" value="{{reitemDetail.Diff_Reason__c = Diff_Reason}}" ng-init="Diff_Reason = reitemDetail.Delivery_Line_Item__r[0].Diff_Reason__c"></textarea>-->
+                    <!--</div>-->
+                <!--</div>-->
             </div>
         </div>
     </div>
@@ -135,7 +135,7 @@
 <div class="footer">
     <div class="footer_Btn" ng-click="goBackgw();">取消</div>
     <div class="footer_Btn Save_Btn_Act" ng-show="serviceEnd == 'false'" ng-click="goToSave();">保存</div>
-    <div class="footer_Btn Submit_Btn_Act" ng-show="serviceEnd == 'false'" ng-click="goToSaveAndSubmit();">保存并提交</div>
+    <!--<div class="footer_Btn Submit_Btn_Act" ng-show="serviceEnd == 'false'" ng-click="goToSaveAndSubmit();">保存并提交</div>-->
 </div>
 </body>
 

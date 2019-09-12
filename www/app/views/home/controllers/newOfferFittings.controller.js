@@ -943,6 +943,7 @@
             return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
           }));
           serviceQuoteOverview['Division__c']= $stateParams.Division__c;
+          serviceQuoteOverview['DMS_Sharing_User__c']= $rootScope.selectUserId;
           var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                         + '&serviceQuotes=' + JSON.stringify($stateParams.SendAllUser) + '&quoteLabourOriginals='
                         + JSON.stringify($scope.quoteLabourOriginalsList);

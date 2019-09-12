@@ -461,10 +461,10 @@
             /**
              * replace function of HomeService.getEachOrder
              */
-            this.getOrdersWithGroup = function(isOnline) {
+            this.getOrdersWithGroup = function(isOnline,dmsUserId) {
                 console.log('getOrdersWithGroup::isOnline::',isOnline);
                 if(isOnline){
-                    let url = service.buildURL('getOrdersWithGroup','');
+                    let url = service.buildURL('getOrdersWithGroupForDMS'+'&dmsUserId='+dmsUserId,'');
                     let requestMethod = 'GET';
                     return service.sendRest(url,'',requestMethod,null);
                 } else {
@@ -1221,6 +1221,8 @@
             this.sendRest = function (url,param,requestMethod,str_fields) {
                 var deferred = $q.defer();
                 ForceClientService.getForceClient().apexrest(hosturl + url, requestMethod, {}, {param:param}, function (response) {
+                    console.log('Service1Service::sendRest::param::',url,'::',param);
+
                     response = service.fixAllFieldsForResult(str_fields,response);
                     deferred.resolve(response);
                 }, function (error) {

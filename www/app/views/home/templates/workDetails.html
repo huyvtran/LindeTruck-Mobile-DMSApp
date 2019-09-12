@@ -941,6 +941,7 @@
                         <div class="Import_Btn" ng-click="openSelectPage('selectLSG');"> 导入LSG</div>
                         <div class="Import_Btn" ng-click="getTrucksByEconomical();"> 导入经济件</div>
                         <div class="Import_Btn" ng-click="openSelectPage('selectCommonPart');"> 导入常用配件</div>
+                        <div class="Import_Btn" ng-click="getInventory('');"> 导入库存</div>
                         <div class="Import_Btn" ng-click="goGenerateOrders();" ng-show="showOrderBelong"> 生成备件订单</div>
                         <div class="Import_Btn" ng-click="goNewOfferFittings();"> 工单转报价</div>
                     </div>
@@ -977,7 +978,7 @@
                                 <div> 公布价</div>
                             </th>
                             <th class="sv_Td">
-                                <div> 预留</div>
+                                <div> 库存</div>
                             </th>
                         </tr>
                     </table>
@@ -1004,8 +1005,11 @@
                                     <td class="sv_Td">
                                         <div> {{item.priceCondition.price}}</div>
                                     </td>
+                                    <!--<td class="sv_Td">-->
+                                        <!--<input type="checkbox" class="sv_checkbox partCheckbox"/>-->
+                                    <!--</td>-->
                                     <td class="sv_Td">
-                                        <input type="checkbox" class="sv_checkbox partCheckbox"/>
+                                        <div> {{item.Storage__c}}</div>
                                     </td>
                                 </tr>
                             </table>
@@ -1083,9 +1087,9 @@
                                 <input id="selectRefundAll" type="checkbox" class="sv_checkbox"
                                        ng-click="checkAllBoxRefund();" ng-disabled="!!rejectedItems && ((!!rejectedItems[0].Submit_Mark__c && rejectedItems[0].Submit_Mark__c == true) || (!!rejectedItems[0].Return_Quantity__c  && rejectedItems[0].Return_Quantity__c != 0 && !!rejectedItems[0].Delivery_Order_Status__c && rejectedItems[0].Delivery_Order_Status__c == '03') || (!!rejectedItems[0].Service_Part_Order__r &&!!rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r && !!rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c && rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'Service Completed') || (!!rejectedItems[0].Service_Part_Order__r && !! rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r && !!rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c && rejectedItems[0].Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'End'))"/>
                             </th>
-                            <th class="sv_Td">
-                                <div> 行项</div>
-                            </th>
+                            <!--<th class="sv_Td">-->
+                                <!--<div> 行项</div>-->
+                            <!--</th>-->
                             <th class="sv_Td sv_Th_240">
                                 <div> 物料号</div>
                             </th>
@@ -1095,15 +1099,13 @@
                             <th class="sv_Td">
                                 <div> 实用量</div>
                             </th>
-                            <th class="sv_Td">
-                            </th>
                         </tr>
                     </table>
                     <ion-list can-swipe="true" class="quoted_Table_list">
                         <ion-item ng-repeat="reitems in rejectedItems" ng-cloak ng-click="rejectedItemsFun(item)">
                             <div class="refund_first">
                                 <!-- <div class="arrow_Down_Black"></div> -->
-                                <div class="box_num"> 交货单号: {{reitems.SAP_Delivery_Order__c}}</div>
+                                <div class="box_num"> 交货单号: {{reitems.Name}}</div>
                                 <div class="explain_Icon" ng-click="popupRefundContext(reitems)"></div>
                                 <div class="explain_Text to_Hide">
                                     <div class="dis_flex">
@@ -1138,30 +1140,19 @@
                                                        class="sv_checkbox refundcheckbox"
                                                        ng-click="checkOneBoxRefund();" ng-disabled=" (!!reitems.Submit_Mark__c && reitems.Submit_Mark__c == true) || (!!reitems.Return_Quantity__c  && reitems.Return_Quantity__c != 0 && !!reitems.Delivery_Order_Status__c && reitems.Delivery_Order_Status__c == '03') || (!!reitems.Service_Part_Order__r &&!!reitems.Service_Part_Order__r.Service_Order_Overview__r && !!reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c && reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'Service Completed') || (!!reitems.Service_Part_Order__r && !! reitems.Service_Part_Order__r.Service_Order_Overview__r && !!reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c && reitems.Service_Part_Order__r.Service_Order_Overview__r.Status__c == 'End')"/>
                                             </td>
-                                            <td class="sv_Td">
-                                                <div> {{item.SAP_Delivery_Order_Line_Item__c}}</div>
-                                            </td>
+                                            <!--<td class="sv_Td">-->
+                                                <!--<div> {{item.SAP_Delivery_Order_Line_Item__c}}</div>-->
+                                            <!--</td>-->
                                             <td class="sv_Td sv_Th_240" style="overflow: hidden;text-overflow: ellipsis;">
-                                                <div> {{item.Service_Material__rparts_number__c}}</div>
+                                                <div> {{item.Material_Number__c}}</div>
                                                 <br>
-                                                <div> {{item.Service_Material__rName}}</div>
+                                                <div> {{item.Name}}</div>
                                             </td>
                                             <td class="sv_Td">
-                                                <div> {{item.Quantity__c}}</div>
+                                                <div> {{item.Delivary_Quantity__c}}</div>
                                             </td>
                                             <td class="sv_Td">
-                                                <div> {{item.Used_Quantity__c}}</div>
-                                            </td>
-                                            <td class="sv_Td">
-                                                <div class="explain_Icon" ng-click="popupRefundContextItem(item)"></div>
-                                                <div class="explain_Text to_Hide">
-                                                    <div>
-                                                        <span>退件原因:</span>
-                                                        <span>故障判断有误</span>
-                                                    </div>
-                                                    <div> 备注：</div>
-                                                    <div> 备注内容</div>
-                                                </div>
+                                                <div> {{item.Actual_Quantity__c}}</div>
                                             </td>
                                         </tr>
                                     </table>

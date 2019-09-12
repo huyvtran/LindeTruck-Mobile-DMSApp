@@ -1158,6 +1158,7 @@ angular.module('oinio.controllers')
         serviceQuoteOverview['Labour_Sub_Total_Net__c'] =  Math.floor(_.sum(_.map(labourItems, function (item) {
           return _.isNaN(item.Net_Amount__c) ? 0 : Number(item.Net_Amount__c);
         })) * 100) / 100;
+        serviceQuoteOverview['DMS_Sharing_User__c']= $rootScope.selectUserId;
 
         var payload = $scope.paramSaveUrl + 'serviceQuoteOverview=' + JSON.stringify(serviceQuoteOverview)
                       + '&serviceQuotes=' + JSON.stringify($scope.serviceQuotes) + '&quoteLabourOriginals='

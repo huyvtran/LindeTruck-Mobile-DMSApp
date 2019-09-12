@@ -5,7 +5,7 @@
     .controller('deliveryListController',
       function ($scope, $state, $stateParams, ForceClientService, AppUtilService, $ionicPopup) {
         $scope.nowSendRefund = [];
-        $scope.getDeliveryOrder = "/DeliverOrderService?action=queryAll";
+        $scope.getDeliveryOrder = "/DMSDelivaryService?action=queryAll&dmsUserId=";
         $scope.rejectedItems = [];
         var myPopup = null;
         $scope.draftRejectedItems = [];
@@ -91,8 +91,8 @@
         //退件接口
         $scope.getRefundList = function () {
           AppUtilService.showLoading();
-
-          ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder, 'GET', {}, null,
+          var selectUserId = localStorage.getItem('selectUserId');
+          ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder  + selectUserId, 'GET', {}, null,
             function (responseGetDelivery) {
               AppUtilService.hideLoading();
               console.log('responseGetDelivery:', responseGetDelivery);
@@ -105,11 +105,11 @@
                   // }else if (partItem.Delivery_Order_Status__c =="03") {   //交货列表
                   //   $scope.draftRejectedItems.push(partItem);
                   // }
-                  if (partItem.Delivery_Order_Status__c == "03") { //草稿列表
+                  // if (partItem.Delivery_Order_Status__c == "03") { //草稿列表
                     $scope.rejectedItems.push(partItem);
-                  } else {   //交货列表
-                    $scope.draftRejectedItems.push(partItem);
-                  }
+                  // } else {   //交货列表
+                  //   $scope.draftRejectedItems.push(partItem);
+                  // }
                 });
 
                 $scope.OpenCdraftRejectedItems = $scope.draftRejectedItems;

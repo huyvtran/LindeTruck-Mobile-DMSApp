@@ -69,7 +69,8 @@
         $scope.partLSGServer = '/LSGServer';
         $scope.savePartsUrl = '/ServiceOrderMaterial?type=updateServiceOrderMaterial&serviceOrderOvId=';
         $scope.getPartsForReadUrl = '/ServiceOrderMaterial?type=getServiceOrderMaterialSums&serviceOrderOvId=';
-        $scope.getDeliveryOrder = '/DeliverOrderService?action=queryWithOrderId&dlvrOrdId=';
+        // $scope.getDeliveryOrder = '/DeliverOrderService?action=queryWithOrderId&dlvrOrdId=';
+        $scope.getDeliveryOrder = '/DMSDelivaryService?spoId=';
         $scope.getNewWorkDetailService = '/NewWorkDetailService?sooId=';
         $scope.postDataToRemote = '/WorkDetailService?action=saveAction';
         $scope.getInitDataUri = '/WorkDetailService';
@@ -80,6 +81,8 @@
         $scope.searchWorkersText = '';
         $scope.updateDataStatusUrl = '/WorkDetailService?action=updateStatus';
         $scope.getMaintanceChoiceUrl = '/NewWorkDetailService?model=';
+        $scope.getInventoryUrl = '/WareHouseService?action=getDefaultWareHouse&acctId='; //取客户的默认仓库是哪个名字
+        $scope.getInventoryByMaterialNumber = '/WareHouseService?action=getInventoryByMaterialNumberAndWareHouse&acctId='; //每个仓库的每个物料 库存有多少 被占用的有多少
         $scope.HasTruckNum = 0;
         $scope.SelectedTruckNum = 0;
         $scope.workTypes = [];
@@ -155,6 +158,7 @@
         $scope.localCustomerNameValue='';
         $scope.localContactValue='';
         $scope.localCustomerAddressValue='';
+        $scope.spoId = '';//退件id
         /**
          * @func    $scope.$on('$ionicView.beforeEnter')
          * @desc
@@ -351,6 +355,7 @@
               AppUtilService.hideLoading();
               console.log('getInitDataUri', res);
               $scope.initSoResult(res.soResult);
+              $scope.spoId = res.spoId;
               $scope.initWorkItems(res.workItems, res.soResult.On_Order__c,res.soResult);
               $scope.initPartNumers(res.partNumers).then(function (res) {
                   return $scope.initPartNumersStep2(res.soResult);
@@ -1173,9 +1178,10 @@
                   AppUtilService.showLoading();
                   //arriveTime.format('yyyy-MM-dd hh:mm:ss')
                   //leaveTime.format('yyyy-MM-dd hh:mm:ss')
+                  var selectUserId = localStorage.getItem('selectUserId');
                   dualModeService.leaveActionUtil(Number(localStorage.onoffline),
                       Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                      Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,ah*60+am).then(
+                      Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,ah*60+am, selectUserId).then(
                       function callBack(res) {
                           console.log(res);
                           AppUtilService.hideLoading();
@@ -1266,9 +1272,10 @@
                   if (canLeave){
                       canLeave=false;
                       AppUtilService.showLoading();
+                      var selectUserId = localStorage.getItem('selectUserId');
                       dualModeService.leaveActionUtil(Number(localStorage.onoffline),
                           Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                          Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,0).then(
+                          Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,0, selectUserId).then(
                           function callBack(res) {
                               console.log(res);
                               AppUtilService.hideLoading();
@@ -1579,9 +1586,10 @@
             function callBack(res) {
               if (res.status.toLowerCase() == 'success') {
                   //departureTime.format('yyyy-MM-dd hh:mm:ss')
+                var selectUserId = localStorage.getItem('selectUserId');
                 dualModeService.departureActionUtil(Number(localStorage.onoffline),
                   Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
-                  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,carNo).then(function callBack(res) {
+                  Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,carNo,selectUserId).then(function callBack(res) {
                   AppUtilService.hideLoading();
                   if (res.status.toLowerCase() == 'success') {
                     $scope.reloadWorkItems();
@@ -1760,10 +1768,11 @@
               if (canArrive){
                   canArrive=false;
                   AppUtilService.showLoading();
+                var selectUserId = localStorage.getItem('selectUserId');
                   dualModeService.arrivalActionUtil(Number(localStorage.onoffline),
                       Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
                       Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                      0).then(function callBack(res) {
+                      0,selectUserId).then(function callBack(res) {
                       console.log(res);
                       AppUtilService.hideLoading();
                       if (res.status.toLowerCase() == 'success') {
@@ -1811,10 +1820,11 @@
 
         $scope.departureArrive=function(timeMin){
             let deferred =$q.defer();
+            var selectUserId = localStorage.getItem('selectUserId');
             dualModeService.arrivalActionUtil(Number(localStorage.onoffline),
                 Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
                 Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,
-                timeMin).then(function callBack(res) {
+                timeMin,selectUserId).then(function callBack(res) {
                 AppUtilService.hideLoading();
                 console.log(res);
                 if (res.status.toLowerCase() == 'success') {
@@ -2789,6 +2799,8 @@
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {
+              console.log('responsePartsRelateds:', responsePartsRelateds);
+
               AppUtilService.hideLoading();
               for (let i = 0; i < responsePartsRelateds.length; i++) {
                 var responsePartsRelatedsList = responsePartsRelateds[i];
@@ -2810,8 +2822,63 @@
             });
 
         };
+  //获取库存
+        $scope.getInventory = function () {
+          AppUtilService.showLoading();
+          var getPartsRelatedsUrl = $scope.getInventoryUrl + Account_Ship_to__c;
+          console.log('getInventoryUrl:', getPartsRelatedsUrl);
 
-        $scope.scanCode = function () {
+          ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
+            function (responseWarehouse) {
+              console.log('responseWarehouse:', responseWarehouse);
+
+              var getInventoryByMaterialNumberUrl = $scope.getInventoryByMaterialNumber + Account_Ship_to__c;
+              console.log('getInventoryByMaterialNumberUrl:', getInventoryByMaterialNumberUrl);
+              ForceClientService.getForceClient().apexrest(getInventoryByMaterialNumberUrl, 'GET', {}, null,
+                function (responsePartsRelateds) {
+                  console.log('getInventoryByMaterialNumber:', responsePartsRelateds);
+                  AppUtilService.hideLoading();
+                  var inventorys = responsePartsRelateds;
+                  var warehouse = responseWarehouse;
+                  var partlist = $scope.selectedTruckFitItems;
+                  for(let i = 0;i<partlist.length;i++) {
+                    let key = warehouse + "," + partlist[i].parts_number__c;
+                    console.log("======key: ",  key);
+
+                    let inventory, occupied;
+                    if(inventorys["inventory"].hasOwnProperty(key))
+                      inventory = inventorys["inventory"][key].Inventory__c;
+                    else
+                      inventory = 0;
+
+                    if(inventorys["occupied"].hasOwnProperty(key))
+                      occupied = inventorys["occupied"][key];
+                    else
+                      occupied = 0;
+
+                    partlist[i]["Storage__c"] = inventory - occupied;
+                    console.log("======avaliable: ",  partlist[i]["Storage__c"]);
+                  }
+
+                }, function (error) {
+                  console.log('error:', error);
+                  AppUtilService.hideLoading();
+
+                });
+
+
+            }, function (error) {
+              console.log('error:', error);
+              AppUtilService.hideLoading();
+
+            });
+
+
+
+
+
+        }
+          $scope.scanCode = function () {
 
           cordova.plugins.barcodeScanner.scan(
             function (result) {
@@ -3441,8 +3508,8 @@
         //退件接口
         $scope.getRefundList = function () {
           let deferred = $q.defer();
-          console.log('$scope.getDeliveryOrder + orderDetailsId:', $scope.getDeliveryOrder + orderDetailsId);
-          ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + orderDetailsId, 'GET', {}, null,
+          console.log('$scope.getDeliveryOrder + $scope.spoId:', $scope.getDeliveryOrder + $scope.spoId);
+          ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + $scope.spoId, 'GET', {}, null,
             function (responseGetDelivery) {
               // ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + 'a1Zp0000000CWqd', 'GET', {},
               // null, function (responseGetDelivery) {
