@@ -111,15 +111,15 @@
             servicePartOrder) + "&isSavePartOrder=" + true;
           console.log('payload2', payload2);
 
-          ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response1) { //生成备件接口一
-            console.log('POST_success1:', response1);
-            if (response1.status == 'fail') {
-              AppUtilService.hideLoading();
-              var ionPop = $ionicPopup.alert({
-                title: response1.message
-              });
-              return;
-            }
+          // ForceClientService.getForceClient().apexrest(payload1, 'POST', {}, null, function (response1) { //生成备件接口一
+          //   console.log('POST_success1:', response1);
+          //   if (response1.status == 'fail') {
+          //     AppUtilService.hideLoading();
+          //     var ionPop = $ionicPopup.alert({
+          //       title: response1.message
+          //     });
+          //     return;
+          //   }
             ForceClientService.getForceClient().apexrest(payload2, 'POST', {}, null, function (response2) { //生成备件接口二
               console.log('POST_success2:', response2);
               AppUtilService.hideLoading();
@@ -174,13 +174,13 @@
               });
             });
 
-          }, function (error) {
-            console.log('POST_error:', error);
-            AppUtilService.hideLoading();
-            var ionPop = $ionicPopup.alert({
-              title: '生成备件失败'
-            });
-          });
+          // }, function (error) {
+          //   console.log('POST_error:', error);
+          //   AppUtilService.hideLoading();
+          //   var ionPop = $ionicPopup.alert({
+          //     title: '生成备件失败'
+          //   });
+          // });
         };
       });
 

@@ -895,9 +895,9 @@
             });
             $scope.localWorkItems.push(
               {
-                ownerName: workItems[i].Engineer__r != undefined && workItems[i].Engineer__r != null
-                           && workItems[i].Engineer__r.Name != undefined && workItems[i].Engineer__r.Name != null
-                  ? workItems[i].Engineer__r.Name : '  ',
+                ownerName: workItems[i].DMS_Sharing_User__r != undefined && workItems[i].DMS_Sharing_User__r != null
+                           && workItems[i].DMS_Sharing_User__r.Name != undefined && workItems[i].DMS_Sharing_User__r.Name != null
+                  ? workItems[i].DMS_Sharing_User__r.Name : '  ',
                 dame: workItems[i].Departure_Time__c != undefined && workItems[i].Departure_Time__c != null ? new Date(
                   workItems[i].Departure_Time__c.replace(/T/g, ' ').replace(/-/g, '/') + '+0800').format('yy/MM/dd')
                   : '  ',

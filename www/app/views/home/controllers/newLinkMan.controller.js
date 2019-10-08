@@ -173,15 +173,15 @@
             if (acctName != null && acctName != '' && selectAccountId != null && selectAccountId != '') {
               if (linkManEmail != null && re.test(linkManEmail)) {
                 AppUtilService.showLoading();
-                Service1Service.getContactsObjectByAcctId(selectAccountId, true).then(function (result) {
+                // Service1Service.getContactsObjectByAcctId(selectAccountId, true).then(function (result) {
 
-                  console.log('getContactsObjectByAcctId', result);
-                  if (result && result.length!=0){
-                    var phoneAll = [];
-                    for (var i = 0; i < result.length; i++) {
-                      phoneAll.push(result[i].Phone);
-                    }
-                    if (phoneAll.indexOf(linkManPhoneNumber) == -1) {
+                  // console.log('getContactsObjectByAcctId', result);
+                  // if (result && result.length!=0){
+                  //   var phoneAll = [];
+                  //   for (var i = 0; i < result.length; i++) {
+                  //     phoneAll.push(result[i].Phone);
+                  //   }
+                  //   if (phoneAll.indexOf(linkManPhoneNumber) == -1) {
                       var obj = {};
                       obj.Name = linManName;
                       obj.Phone = linkManPhoneNumber;
@@ -209,26 +209,26 @@
                         $log.error(error);
                         AppUtilService.hideLoading();
                       });
-                    } else {
-                      var inoicPop = $ionicPopup.alert({
-                        title: '已存在该联系人'
-                      });
-                      inoicPop.then(function () {
-                        $('#chooseLinkManName').focus();
-                      });
-                    }
-                  }else {
-                    AppUtilService.hideLoading();
-                    var inoicPop = $ionicPopup.alert({
-                      title: '客户数据不完整'
-                    });
-                  }
+                    // } else {
+                    //   var inoicPop = $ionicPopup.alert({
+                    //     title: '已存在该联系人'
+                    //   });
+                    //   inoicPop.then(function () {
+                    //     $('#chooseLinkManName').focus();
+                    //   });
+                    // }
+                  // }else {
+                  //   AppUtilService.hideLoading();
+                  //   var inoicPop = $ionicPopup.alert({
+                  //     title: '客户数据不完整'
+                  //   });
+                  // }
 
-                }, function (err) {
-                  $log.error(err);
-                  AppUtilService.hideLoading();
-
-                });
+                // }, function (err) {
+                //   $log.error(err);
+                //   AppUtilService.hideLoading();
+                //
+                // });
               } else {
                 var inoicPop = $ionicPopup.alert({
                   title: '请输入正确格式的邮箱'

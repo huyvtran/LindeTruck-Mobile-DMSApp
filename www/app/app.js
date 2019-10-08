@@ -190,9 +190,11 @@
                     }
 
                     // if (firstLogin == "first") {
-                    if (false) { //临时改为始终在线
+                    if (true) { //临时改为始终在线
                         console.log("current firstLogin:::", firstLogin); //初始化后 永远走此分支
                         $state.go(APP_SETTINGS.START_VIEW);
+                        localStorage.setItem("onoffline",1);//初始化在线离线标识
+
                     } else {
                         console.log("current firstLogin:::", firstLogin);
                       localStorage.setItem("onoffline",1);//初始化在线离线标识

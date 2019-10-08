@@ -284,23 +284,23 @@
                     return 'anpai';
                   }
                 }
-              },
-              {
-                text: '<b>增派</b>',
-                type: 'button-calm',
-                onTap: function (e) {
-                  $state.go(
-                    'app.sendMorePeople',
-                    {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
-                }
-              },
-              {
-                text: '<b>转派</b>',
-                type: 'button-balanced',
-                onTap: function (e) {
-                  $state.go('app.transfer', {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
-                }
               }
+              // , {
+              //   text: '<b>增派</b>',
+              //   type: 'button-calm',
+              //   onTap: function (e) {
+              //     $state.go(
+              //       'app.sendMorePeople',
+              //       {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
+              //   }
+              // },
+              // {
+              //   text: '<b>转派</b>',
+              //   type: 'button-balanced',
+              //   onTap: function (e) {
+              //     $state.go('app.transfer', {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
+              //   }
+              // }
             ];
           } else if (item.Status__c == 'Not Started') {  //Not Started   未开始  只显示出发 详情
             setButtons = [
@@ -331,14 +331,14 @@
                       }
                   }
                 }
-              },
-              {
-                  text: '<b>转派</b>',
-                  type: 'button-balanced',
-                  onTap: function (e) {
-                      $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
-                  }
               }
+              // , {
+              //     text: '<b>转派</b>',
+              //     type: 'button-balanced',
+              //     onTap: function (e) {
+              //         $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
+              //     }
+              // }
             ];
           } else if (item.Status__c == 'Not Completed' || item.Status__c == 'Waiting for Parts' || item.Status__c == 'Assigned' || item.Status__c == 'Abnormal feedback' || item.Status__c == 'Quoting'|| item.Status__c == 'Applying Debt Release') {  //Not Completed  进行中  只显示详情
             setButtons = [
@@ -348,21 +348,21 @@
                 onTap: function (e) {
                   $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser,false);
                 }
-              },
-              {
-                text: '<b>增派</b>',
-                type: 'button-calm',
-                onTap: function (e) {
-                  $state.go('app.sendMorePeople', {workOrderId: item.Id});
-                }
-              },
-              {
-                  text: '<b>转派</b>',
-                  type: 'button-balanced',
-                  onTap: function (e) {
-                      $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
-                  }
               }
+              // , {
+              //   text: '<b>增派</b>',
+              //   type: 'button-calm',
+              //   onTap: function (e) {
+              //     $state.go('app.sendMorePeople', {workOrderId: item.Id});
+              //   }
+              // },
+              // {
+              //     text: '<b>转派</b>',
+              //     type: 'button-balanced',
+              //     onTap: function (e) {
+              //         $state.go('app.transfer', {workOrderId: item.Id,userId:$('#selectUserId option:selected').val()});
+              //     }
+              // }
             ];
           } else if (item.Status__c == 'Service Completed'||item.Status__c == 'Field Work Done') {  //Service Completed  已完成  只能查详情
             setButtons = [

@@ -22,7 +22,8 @@
             $scope.initServiceCars = [""];
             $scope.forceClientProd = false;
             $scope.checkNoUseServiceCar = false;
-            $scope.getInitServiceCarUrl = "/ServiceCarService?action=init&currentUser=";
+            $scope.saveTruckURL = "/ServiceCarService?action=saveTruck";
+
             $scope.$on('$ionicView.beforeEnter', function () {
                 $scope.imgUris1 = ["././img/images/will_add_Img.png"];
                 $scope.imgUris2 = ["././img/images/will_add_Img.png"];
@@ -47,47 +48,7 @@
                     vm.username = oCurrentUser.Name;
                 }
 
-                $scope.initServiceCarInfo();
             });
-
-            $scope.initServiceCarInfo=function () {
-                let deferred = $q.defer();
-                AppUtilService.showLoading();
-                //获取服务车体
-                ForceClientService.getForceClient().apexrest(
-                    $scope.getInitServiceCarUrl + oCurrentUser.Id,
-                    'GET',
-                    {},
-                    null, function callBack(res) {
-                        AppUtilService.hideLoading();
-
-                        console.log(res);
-                        $scope.initServiceCars = [];
-                        if (res.default != null && res.default.length > 0) {
-                            for (var i = 0; i < res.default.length; i++) {
-                                $scope.initServiceCars.push(res.default[i]);
-                            }
-                        }
-                        if (res.all != null && res.all.length > 0) {
-                            for (var i = 0; i < res.all.length; i++) {
-                                $scope.initServiceCars.push(res.all[i]);
-                            }
-                        }
-
-                        if ($scope.initServiceCars.length == 0) {
-                            $ionicPopup.alert({
-                                title: "当前用户无服务车"
-                            });
-                            return;
-                        }
-                        deferred.resolve("");
-                    }, function error(msg) {
-                        console.log(JSON.stringify(msg));
-                        AppUtilService.hideLoading();
-
-                    });
-                return deferred.promise;
-            };
 
 
             $scope.getPhoto1 = function ($event) {
@@ -122,77 +83,6 @@
                 } catch (e) {
                     return;
                 }
-
-                // $ionicPopup.show({
-                //     title: '选择图片',
-                //     buttons: [
-                //         {
-                //             text: '拍照',
-                //             onTap: function (e) {
-                //                 try {
-                //                     navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                //                             for (var i = 0; i < $scope.imgUris1.length; i++) {
-                //                                 if ($scope.imgUris1[i] == '././img/images/will_add_Img.png' || $scope.imgUris1[i] == imgUri) {
-                //                                     $scope.imgUris1.splice(i, 1);
-                //                                     i--;
-                //                                 }
-                //                             }
-                //                             $scope.imgUris1.push("data:image/jpeg;base64,"+ imgUri);
-                //                             //$scope.imgUris1.push(imgUri);
-                //                             $scope.imgUris1.push("././img/images/will_add_Img.png");
-                //                             console.log(imgUri);
-                //                         },
-                //                         function onError(error) {
-                //                             return;
-                //                         }
-                //                         , {
-                //                             quality: 50,
-                //                             saveToPhotoAlbum: false,
-                //                             destinationType: navigator.camera.DestinationType.DATA_URL,
-                //                             mediaType: Camera.MediaType.PICTURE,
-                //                             encodingType: Camera.EncodingType.JPEG
-                //                         }
-                //                     );
-                //                 } catch (e) {
-                //                     return;
-                //                 }
-                //             }
-                //         },
-                //         {
-                //             text: '相册',
-                //             onTap: function (e) {
-                //                 try {
-                //                     navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                //                             for (var i = 0; i < $scope.imgUris1.length; i++) {
-                //                                 if ($scope.imgUris1[i] == '././img/images/will_add_Img.png' || $scope.imgUris1[i] == imgUri) {
-                //                                     $scope.imgUris1.splice(i, 1);
-                //                                     i--;
-                //                                 }
-                //                             }
-                //                             $scope.imgUris1.push("data:image/jpeg;base64," + imgUri);
-                //                             //$scope.imgUris1.push(imgUri);
-                //                             $scope.imgUris1.push("././img/images/will_add_Img.png");
-                //                             //console.log(imgUri);
-                //                         },
-                //                         function onFail(error) {
-                //                             return;
-                //                         },
-                //                         {
-                //                             quality: 50,
-                //                             saveToPhotoAlbum: false,
-                //                             destinationType: navigator.camera.DestinationType.DATA_URL,
-                //                             sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-                //                             mediaType: Camera.MediaType.PICTURE,
-                //                             encodingType: Camera.EncodingType.JPEG
-                //                         });
-                //                 } catch (e) {
-                //                     return;
-                //                 }
-                //
-                //             }
-                //         },
-                //     ]
-                // });
             };
 
             $scope.getPhoto2 = function ($event) {
@@ -227,77 +117,6 @@
                 } catch (e) {
                     return;
                 }
-
-                // $ionicPopup.show({
-                //     title: '选择图片',
-                //     buttons: [
-                //         {
-                //             text: '拍照',
-                //             onTap: function (e) {
-                //                 try {
-                //                     navigator.camera.getPicture(function onPhotoDataSuccess(imgUri) {
-                //                             for (var i = 0; i < $scope.imgUris2.length; i++) {
-                //                                 if ($scope.imgUris2[i] == '././img/images/will_add_Img.png' || $scope.imgUris2[i] == imgUri) {
-                //                                     $scope.imgUris2.splice(i, 1);
-                //                                     i--;
-                //                                 }
-                //                             }
-                //                             $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
-                //                             //$scope.imgUris2.push(imgUri);
-                //                             $scope.imgUris2.push("././img/images/will_add_Img.png");
-                //                             //console.log(imgUri);
-                //                         },
-                //                         function onError(error) {
-                //                             return;
-                //                         }
-                //                         , {
-                //                             quality: 50,
-                //                             saveToPhotoAlbum: false,
-                //                             destinationType: navigator.camera.DestinationType.DATA_URL,
-                //                             mediaType: Camera.MediaType.PICTURE,
-                //                             encodingType: Camera.EncodingType.JPEG
-                //                         }
-                //                     );
-                //                 } catch (e) {
-                //                     return;
-                //                 }
-                //             }
-                //         },
-                //         {
-                //             text: '相册',
-                //             onTap: function (e) {
-                //                 try {
-                //                     navigator.camera.getPicture(function onPhotoURISuccess(imgUri) {
-                //                             for (var i = 0; i < $scope.imgUris2.length; i++) {
-                //                                 if ($scope.imgUris2[i] == '././img/images/will_add_Img.png' || $scope.imgUris2[i] == imgUri) {
-                //                                     $scope.imgUris2.splice(i, 1);
-                //                                     i--;
-                //                                 }
-                //                             }
-                //                             $scope.imgUris2.push("data:image/jpeg;base64," + imgUri);
-                //                             //$scope.imgUris2.push(imgUri);
-                //                             $scope.imgUris2.push("././img/images/will_add_Img.png");
-                //                             //console.log(imgUri);
-                //                         },
-                //                         function onFail(error) {
-                //                             return;
-                //                         },
-                //                         {
-                //                             quality: 50,
-                //                             saveToPhotoAlbum: false,
-                //                             destinationType: navigator.camera.DestinationType.DATA_URL,
-                //                             sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-                //                             mediaType: Camera.MediaType.PICTURE,
-                //                             encodingType: Camera.EncodingType.JPEG
-                //                         });
-                //                 } catch (e) {
-                //                     return;
-                //                 }
-                //
-                //             }
-                //         },
-                //     ]
-                // });
             };
 
             $scope.deleteCurrentImg1 = function (imgUri) {
@@ -362,7 +181,7 @@
             $scope.serviceManagementSubmit = function () {
                 var picList = [];
                 //车牌号
-                licensePlateNumber = $("#licensePlateNumber").val();
+                licensePlateNumber = $("#licensePlateNumber").val().trim();
                 if ($("#checkServiceCar").prop("checked")){
                     licensePlateNumber ="";
                     //原因备注
@@ -478,73 +297,38 @@
                     modelServiceCar: baseInfo,
                     listServiceCarAttach: picList
                 };
+                console.log('allInfo');
+                console.log(JSON.stringify(allInfo));
 
-                var soapData = '<?xml version="1.0" encoding="utf-8"?>';
-                soapData +=
-                  '<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">';
-                soapData += '<soap:Body>';
-                soapData += '<SendServiceCar xmlns="http://tempuri.org/">';
-                soapData += '<jsonServiceCar>' + JSON.stringify(allInfo) + '</jsonServiceCar>';
-                soapData += '<key>2D04972DEFE24F9F946C658146EDD50A</key>';
-                soapData += '</SendServiceCar>';
-                soapData += '</soap:Body>';
-                soapData += '</soap:Envelope>';
                 AppUtilService.showLoading();
 
                 if (canClick){
                     canClick=false;
-                    $.ajax({
-                        type: 'POST',
-                        url: $scope.devLindeCRMURL,
-                        data: soapData,
-                        beforeSend: function (request) {
-                            request.setRequestHeader("Content-Type", "text/xml; charset=utf-8");
-                            request.setRequestHeader("SOAPAction", "http://tempuri.org/SendServiceCar");
-                        },
-                        success: function (result) {
-                            setTimeout(function () {
-                                AppUtilService.hideLoading();
-                                console.log(result);
-                                if (result.documentElement.getElementsByTagName('SendServiceCarResult') != null
-                                    && result.documentElement.getElementsByTagName('SendServiceCarResult').length > 0){
-                                    if (result.documentElement.getElementsByTagName(
-                                        'SendServiceCarResult')[0].innerHTML.toLowerCase() == "success"){
-                                        $ionicPopup.alert({
-                                            title: '保存成功!'
-                                        });
-                                        $state.go("app.home");
-                                    }else{
-                                        var errArr = result.documentElement.getElementsByTagName(
-                                            'SendServiceCarResult')[0].innerHTML.split("|");
-                                        if (errArr!=null&&errArr.length>0){
-                                            $ionicPopup.alert({
-                                                title: errArr[1]
-                                            });
-                                        }
-                                    }
-                                }else {
-                                    $ionicPopup.alert({
-                                        title: '保存失败,请检查是否外网连接!'
-                                    });
-                                }
-                                canClick = true;
-                            }, 3000);
-                        },
-                        error: function (msg) {
-                            setTimeout(function () {
-                                AppUtilService.hideLoading();
-                                canClick = true;
-                            }, 1000);
-                            if (msg.readyState==0){
-                                $ionicPopup.alert({
-                                    title:"网络不稳定,请稍后再试!"
-                                });
-                            }else{
-                                $ionicPopup.alert({
-                                    title:JSON.stringify(msg)
-                                });
-                            }
+                    ForceClientService.getForceClient().apexrest($scope.saveTruckURL, 'POST', JSON.stringify(allInfo), null, function (response2) { //生成备件接口二
+                        console.log('POST_success2:', response2);
+                        AppUtilService.hideLoading();
+                        canClick=true;
+                        if (response2.status == 'Success') {
+                            var ionPop = $ionicPopup.alert({
+                                title: '保存成功'
+                            });
+                            ionPop.then(function (res) {
+                                $state.go("app.home");
+                            });
+
+                        } else {
+                            var ionPop = $ionicPopup.alert({
+                                title: response2.message
+                            });
                         }
+
+                    }, function (error) {
+                        console.log('response1POST_error:', error);
+                        AppUtilService.hideLoading();
+                        canClick=true;
+                        var ionPop = $ionicPopup.alert({
+                            title: '保存失败'
+                        });
                     });
                 }
             };

@@ -37,17 +37,17 @@
                     });
                     return;
                 }
-                var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index
-                var selectUserEntryId = $scope.allUser[selectUserGroup].userSoupEntryId;//所有用户数组
-                var selectUserId = $scope.allUser[selectUserGroup].userId;//所有用户ID
-
-                // 提交请求
-                var userSoupEntryId = new Object();
-                userSoupEntryId.Id = selectUserId;
-                userSoupEntryId._soupEntryId = selectUserEntryId;
-                var orderSoupEntryId = new Object();
-                orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
-                console.log($stateParams.workOrderId);
+                // var selectUserGroup = $("#selectUserGroup").get(0).selectedIndex;//选择index
+                // var selectUserEntryId = $scope.allUser[selectUserGroup].userSoupEntryId;//所有用户数组
+                // var selectUserId = $scope.allUser[selectUserGroup].userId;//所有用户ID
+                //
+                // // 提交请求
+                // var userSoupEntryId = new Object();
+                // userSoupEntryId.Id = selectUserId;
+                // userSoupEntryId._soupEntryId = selectUserEntryId;
+                // var orderSoupEntryId = new Object();
+                // orderSoupEntryId._soupEntryId = $stateParams.SendSoupEntryId;
+                // console.log($stateParams.workOrderId);
 
                 // HomeService.modifyWorkOrder(orderSoupEntryId,userSoupEntryId,mobiDate).then(function (sobject) {
                 //     $state.go('app.home', {}, {reload: false})
@@ -126,8 +126,8 @@
                     //AppUtilService.hideLoading();
                     if (res.status.toLowerCase() == "success") {
                         ForceClientService.getForceClient().apexrest(
-                          $scope.savePlanDateUrl + $stateParams.workOrderId + "&userId=" + selectUserId + "&day="
-                          + mobiDate,
+                          $scope.savePlanDateUrl + $stateParams.workOrderId + "&day="
+                          + mobiDate +"&isDMS="+true,
                           'POST',
                           {},
                           null, function callBack(res) {
