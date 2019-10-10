@@ -1454,7 +1454,7 @@
                         return $scope.showServiceCarPop(serviceCarInfo);
                     }).then(function () {
                         result =$("#serviceCarSelectSecond").val()!=undefined&&$("#serviceCarSelectSecond").val()!=null? $("#serviceCarSelectSecond").val():"";
-                        return $scope.doDeparture(result);
+                        return $scope.doDeparture();
                     }).then(function () {
                         checkDeParture=true;
                     });
@@ -1478,7 +1478,7 @@
                     return $scope.showServiceCarPop(serviceCarInfo);
                 }).then(function () {
                     result = $("#serviceCarSelectSecond").val()!=undefined&&$("#serviceCarSelectSecond").val()!=null? $("#serviceCarSelectSecond").val():"";
-                    return $scope.doDeparture(result);
+                    return $scope.doDeparture();
                 }).then(function () {
                     return $scope.departureArrive(timeMin);
                 });
@@ -1576,7 +1576,9 @@
             });
         };
 
-        $scope.doDeparture = function (carNo) {
+        $scope.doDeparture = function () {
+          var carNo =$("#serviceCarSelectSecond").val()!=undefined&&$("#serviceCarSelectSecond").val()!=null? $("#serviceCarSelectSecond").val():"";
+
           let deferred =$q.defer();
           var departureTime = new Date();
           goOffTimeFromPrefix = departureTime;
@@ -1584,13 +1586,14 @@
           dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),
             Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(
             function callBack(res) {
+              AppUtilService.hideLoading();
               if (res.status.toLowerCase() == 'success') {
                   //departureTime.format('yyyy-MM-dd hh:mm:ss')
                 var selectUserId = localStorage.getItem('selectUserId');
                 dualModeService.departureActionUtil(Number(localStorage.onoffline),
                   Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
                   Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,carNo,selectUserId).then(function callBack(res) {
-                  AppUtilService.hideLoading();
+
                   if (res.status.toLowerCase() == 'success') {
                     $scope.reloadWorkItems();
                     //$rootScope.getSomeData();
@@ -1626,6 +1629,10 @@
                 });
               } else {
                 canDeparture = true;
+                $ionicPopup.alert({
+                  title: '',
+                  template: res.message
+                });
               }
             }, function error(msg) {
               AppUtilService.hideLoading();
@@ -2655,7 +2662,7 @@
               }
               var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList)
                                         + '&partsQuantitys='
-                                        + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
+                                        + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
               console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
               ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -2728,7 +2735,7 @@
             }
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
           $scope.selectedTruckFitItems = [];// 清空列表
 
@@ -2794,7 +2801,7 @@
             $scope.selectedTruckFitItems.push(item);
           });
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -4611,7 +4618,7 @@
           });
 
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + Account_Ship_to__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
             function (responsePartsRelateds) {
               AppUtilService.hideLoading();

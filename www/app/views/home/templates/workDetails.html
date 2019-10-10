@@ -800,14 +800,14 @@
                             <!--<textarea class="small_Type_Textarea" id="call_str" disabled="disabled">{{callPhoneContent}}</textarea>-->
                         </div>
                     </div>
-                    <div class="small_Type_Group">
-                        <div class="small_Type_Title">增派人员:</div>
-                        <div class="small_Type_Box">
-                            <input type="button" value="{{selectWorkersStr}}" style="background-color:transparent;"
-                                   ng-click="selectWorkers();" class="small_Type_Input"/>
-                            <div class="search_small_add"></div>
-                        </div>
-                    </div>
+                    <!--<div class="small_Type_Group">-->
+                        <!--<div class="small_Type_Title">增派人员:</div>-->
+                        <!--<div class="small_Type_Box">-->
+                            <!--<input type="button" value="{{selectWorkersStr}}" style="background-color:transparent;"-->
+                                   <!--ng-click="selectWorkers();" class="small_Type_Input"/>-->
+                            <!--<div class="search_small_add"></div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                 </div>
             </div>
             <div>
@@ -1270,7 +1270,7 @@
                     </div>
                     <div class="slds_textBtn">
                         <!--textCompleted-->
-                        <div id="departureBtn" class="textBtn" disabled="" ng-click="dePartureOrder();"> 出发</div>
+                        <div id="departureBtn" class="textBtn" disabled="" ng-click="doDeparture();"> 出发</div>
                         <div id="arriveBtn" class="textBtn" ng-click="getArrivalTime();" disabled=""> 到达</div>
                         <div id="leave" class="textBtn" ng-click="doLeave();" disabled=""> 离开</div>
                         <div id="printBtn" class="textBtn" ng-click="doPrint();" disabled="" ng-show="showOrderBelong">

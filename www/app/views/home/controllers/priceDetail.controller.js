@@ -65,7 +65,7 @@ angular.module('oinio.controllers')
             });
 
             var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                      + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
+                                      + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
 
             ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
               function (responsePartsRelateds) {
@@ -117,7 +117,7 @@ angular.module('oinio.controllers')
         });
 
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;;
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
 
         ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
           function (responsePartsRelateds) {
@@ -393,7 +393,7 @@ angular.module('oinio.controllers')
             partsQuantitys.push(1);//默认库存
           }
           var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;
+                                    + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
           console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
           ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -472,7 +472,7 @@ angular.module('oinio.controllers')
           forOrdParts.push(element);
         }
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;;
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
         console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
         var truckFitByItems = angular.copy($scope.selectedTruckFitItems);
@@ -611,7 +611,7 @@ angular.module('oinio.controllers')
 
         $scope.selectedTruckFitItems = [];
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;;
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
         console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
 
         ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
@@ -1439,7 +1439,7 @@ angular.module('oinio.controllers')
           partsQuantitys.push(1);//默认库存
         }
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(contentLSGsGetList) + '&partsQuantitys='
-                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;;
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
         console.log('getPartsRelatedsUrl:', getPartsRelatedsUrl);
         ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
           function (responsePartsRelateds) {
@@ -1591,7 +1591,7 @@ angular.module('oinio.controllers')
         });
 
         var getPartsRelatedsUrl = $scope.partsRelatedsUrl + JSON.stringify(parts_number__cList) + '&partsQuantitys='
-                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo;;
+                                  + JSON.stringify(partsQuantitys) + '&accountId=' + $scope.basicInfo.Ship_To__c+'&Rate__c='+$scope.Rate__c+'&Pricing_Date__c='+$scope.Pricing_Date__c+'&isRental='+$scope.isRentalInfo+'&isDMS='+ true;
 
         ForceClientService.getForceClient().apexrest(getPartsRelatedsUrl, 'GET', {}, null,
           function (responsePartsRelateds) {
