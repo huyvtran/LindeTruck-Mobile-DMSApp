@@ -1586,15 +1586,16 @@
           dualModeService.updateServiceOrderOverviewStatusUtil(Number(localStorage.onoffline),
             Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId, 'Not Completed').then(
             function callBack(res) {
-              AppUtilService.hideLoading();
               if (res.status.toLowerCase() == 'success') {
-                  //departureTime.format('yyyy-MM-dd hh:mm:ss')
+                //departureTime.format('yyyy-MM-dd hh:mm:ss')
                 var selectUserId = localStorage.getItem('selectUserId');
                 dualModeService.departureActionUtil(Number(localStorage.onoffline),
                   Number(localStorage.onoffline) !== 0 ? orderDetailsId : userInfoId,
                   Number(localStorage.onoffline) !== 0 ? oCurrentUser.Id : oCurrentUser._soupEntryId,carNo,selectUserId).then(function callBack(res) {
 
                   if (res.status.toLowerCase() == 'success') {
+                    AppUtilService.hideLoading();
+
                     $scope.reloadWorkItems();
                     //$rootScope.getSomeData();
                     for (var i = 0; i < 2; i++) {
@@ -1610,6 +1611,8 @@
                     canDeparture = true;
                   deferred.resolve('');
                   } else {
+                    AppUtilService.hideLoading();
+
                     canDeparture = true;
                     // $ionicPopup.alert({
                     //   title: res.message
@@ -1628,6 +1631,8 @@
                     $scope.updateOrderType('Not Started',JSON.stringify(msg));
                 });
               } else {
+                AppUtilService.hideLoading();
+
                 canDeparture = true;
                 $ionicPopup.alert({
                   title: '',
