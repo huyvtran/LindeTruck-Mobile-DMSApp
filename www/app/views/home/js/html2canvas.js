@@ -5,8 +5,8 @@
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global = global || self, global.html2canvas = factory());
+      typeof define === 'function' && define.amd ? define(factory) :
+        (global = global || self, global.html2canvas = factory());
 }(this, function () { 'use strict';
 
     /*! *****************************************************************************
@@ -27,8 +27,8 @@
 
     var extendStatics = function(d, b) {
         extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+                        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+                        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
 
@@ -188,10 +188,10 @@
             }
         }
         var buffer = typeof ArrayBuffer !== 'undefined' &&
-            typeof Uint8Array !== 'undefined' &&
-            typeof Uint8Array.prototype.slice !== 'undefined'
-            ? new ArrayBuffer(bufferLength)
-            : new Array(bufferLength);
+                     typeof Uint8Array !== 'undefined' &&
+                     typeof Uint8Array.prototype.slice !== 'undefined'
+          ? new ArrayBuffer(bufferLength)
+          : new Array(bufferLength);
         var bytes = Array.isArray(buffer) ? buffer : new Uint8Array(buffer);
         for (i = 0; i < len; i += 4) {
             encoded1 = lookup[base64.charCodeAt(i)];
@@ -298,8 +298,8 @@
         var headerLength = 24;
         var index = slice16(view16, headerLength / 2, view32[4] / 2);
         var data = view32[5] === 2
-            ? slice16(view16, (headerLength + view32[4]) / 2)
-            : slice32(view32, Math.ceil((headerLength + view32[4]) / 4));
+          ? slice16(view16, (headerLength + view32[4]) / 2)
+          : slice32(view32, Math.ceil((headerLength + view32[4]) / 4));
         return new Trie(view32[0], view32[1], view32[2], view32[3], index, data);
     };
     var Trie = /** @class */ (function () {
@@ -648,13 +648,13 @@
         }
         // LB25 Do not break between the following pairs of classes relevant to numbers:
         if (
-        // (PR | PO) × ( OP | HY )? NU
-        ([PR, PO].indexOf(current) !== -1 &&
-            (next === NU || ([OP, HY].indexOf(next) !== -1 && classTypes[afterIndex + 1] === NU))) ||
-            // ( OP | HY ) × NU
-            ([OP, HY].indexOf(current) !== -1 && next === NU) ||
-            // NU ×	(NU | SY | IS)
-            (current === NU && [NU, SY, IS].indexOf(next) !== -1)) {
+          // (PR | PO) × ( OP | HY )? NU
+          ([PR, PO].indexOf(current) !== -1 &&
+           (next === NU || ([OP, HY].indexOf(next) !== -1 && classTypes[afterIndex + 1] === NU))) ||
+          // ( OP | HY ) × NU
+          ([OP, HY].indexOf(current) !== -1 && next === NU) ||
+          // NU ×	(NU | SY | IS)
+          (current === NU && [NU, SY, IS].indexOf(next) !== -1)) {
             return BREAK_NOT_ALLOWED;
         }
         // NU (NU | SY | IS)* × (NU | SY | IS | CL | CP)
@@ -746,10 +746,10 @@
             classTypes = classTypes.map(function (type) { return ([NU, AL, SA].indexOf(type) !== -1 ? ID : type); });
         }
         var forbiddenBreakpoints = options.wordBreak === 'keep-all'
-            ? isLetterNumber.map(function (letterNumber, i) {
-                return letterNumber && codePoints[i] >= 0x4e00 && codePoints[i] <= 0x9fff;
-            })
-            : undefined;
+          ? isLetterNumber.map(function (letterNumber, i) {
+              return letterNumber && codePoints[i] >= 0x4e00 && codePoints[i] <= 0x9fff;
+          })
+          : undefined;
         return [indicies, classTypes, forbiddenBreakpoints];
     };
     var Break = /** @class */ (function () {
@@ -777,8 +777,8 @@
                 }
                 var lineBreak = BREAK_NOT_ALLOWED;
                 while (nextIndex < length &&
-                    (lineBreak = _lineBreakAtIndex(codePoints, classTypes, indicies, ++nextIndex, forbiddenBreakpoints)) ===
-                        BREAK_NOT_ALLOWED) { }
+                       (lineBreak = _lineBreakAtIndex(codePoints, classTypes, indicies, ++nextIndex, forbiddenBreakpoints)) ===
+                       BREAK_NOT_ALLOWED) { }
                 if (lineBreak !== BREAK_NOT_ALLOWED || nextIndex === length) {
                     var value = new Break(codePoints, lineBreak, lastEnd, nextIndex);
                     lastEnd = nextIndex;
@@ -903,9 +903,9 @@
     };
     var isNonPrintableCodePoint = function (codePoint) {
         return ((codePoint >= NULL && codePoint <= BACKSPACE) ||
-            codePoint === LINE_TABULATION ||
-            (codePoint >= SHIFT_OUT && codePoint <= INFORMATION_SEPARATOR_ONE) ||
-            codePoint === DELETE);
+                codePoint === LINE_TABULATION ||
+                (codePoint >= SHIFT_OUT && codePoint <= INFORMATION_SEPARATOR_ONE) ||
+                codePoint === DELETE);
     };
     var isValidEscape = function (c1, c2) {
         if (c1 !== REVERSE_SOLIDUS) {
@@ -1286,9 +1286,9 @@
                     return BAD_URL_TOKEN;
                 }
                 else if (codePoint === QUOTATION_MARK ||
-                    codePoint === APOSTROPHE ||
-                    codePoint === LEFT_PARENTHESIS ||
-                    isNonPrintableCodePoint(codePoint)) {
+                         codePoint === APOSTROPHE ||
+                         codePoint === LEFT_PARENTHESIS ||
+                         isNonPrintableCodePoint(codePoint)) {
                     this.consumeBadUrlRemnants();
                     return BAD_URL_TOKEN;
                 }
@@ -1662,9 +1662,9 @@
     };
     var parseNamedSide = function (tokens) {
         var sideOrCorner = tokens
-            .filter(isIdentToken)
-            .map(function (ident) { return ident.value; })
-            .join(' ');
+          .filter(isIdentToken)
+          .map(function (ident) { return ident.value; })
+          .join(' ');
         switch (sideOrCorner) {
             case 'to bottom right':
             case 'to right bottom':
@@ -2279,25 +2279,25 @@
         ctx.fillStyle = 'red';
         ctx.fillRect(0, 0, size, size);
         return loadSerializedSVG(svg)
-            .then(function (img) {
-            ctx.drawImage(img, 0, 0);
-            var data = ctx.getImageData(0, 0, size, size).data;
-            ctx.fillStyle = 'red';
-            ctx.fillRect(0, 0, size, size);
-            var node = document.createElement('div');
-            node.style.backgroundImage = "url(" + greenImageSrc + ")";
-            node.style.height = size + "px";
-            // Firefox 55 does not render inline <img /> tags
-            return isGreenPixel(data)
+          .then(function (img) {
+              ctx.drawImage(img, 0, 0);
+              var data = ctx.getImageData(0, 0, size, size).data;
+              ctx.fillStyle = 'red';
+              ctx.fillRect(0, 0, size, size);
+              var node = document.createElement('div');
+              node.style.backgroundImage = "url(" + greenImageSrc + ")";
+              node.style.height = size + "px";
+              // Firefox 55 does not render inline <img /> tags
+              return isGreenPixel(data)
                 ? loadSerializedSVG(createForeignObjectSVG(size, size, 0, 0, node))
                 : Promise.reject(false);
-        })
-            .then(function (img) {
-            ctx.drawImage(img, 0, 0);
-            // Edge does not render background-images
-            return isGreenPixel(ctx.getImageData(0, 0, size, size).data);
-        })
-            .catch(function () { return false; });
+          })
+          .then(function (img) {
+              ctx.drawImage(img, 0, 0);
+              // Edge does not render background-images
+              return isGreenPixel(ctx.getImageData(0, 0, size, size).data);
+          })
+          .catch(function () { return false; });
     };
     var createForeignObjectSVG = function (width, height, x, y, node) {
         var xmlns = 'http://www.w3.org/2000/svg';
@@ -2335,8 +2335,8 @@
         },
         get SUPPORT_FOREIGNOBJECT_DRAWING() {
             var value = typeof Array.from === 'function' && typeof window.fetch === 'function'
-                ? testForeignObject(document)
-                : Promise.resolve(false);
+              ? testForeignObject(document)
+              : Promise.resolve(false);
             Object.defineProperty(FEATURES, 'SUPPORT_FOREIGNOBJECT_DRAWING', { value: value });
             return value;
         },
@@ -2505,10 +2505,10 @@
                             isSameOrigin = CacheStorage.isSameOrigin(key);
                             useCORS = !isInlineImage(key) && this._options.useCORS === true && FEATURES.SUPPORT_CORS_IMAGES && !isSameOrigin;
                             useProxy = !isInlineImage(key) &&
-                                !isSameOrigin &&
-                                typeof this._options.proxy === 'string' &&
-                                FEATURES.SUPPORT_CORS_XHR &&
-                                !useCORS;
+                                       !isSameOrigin &&
+                                       typeof this._options.proxy === 'string' &&
+                                       FEATURES.SUPPORT_CORS_XHR &&
+                                       !useCORS;
                             if (!isSameOrigin && this._options.allowTaint === false && !isInlineImage(key) && !useProxy && !useCORS) {
                                 return [2 /*return*/];
                             }
@@ -2521,22 +2521,22 @@
                         case 2:
                             Logger.getInstance(this.id).debug("Added image " + key.substring(0, 256));
                             return [4 /*yield*/, new Promise(function (resolve, reject) {
-                                    var img = new Image();
-                                    img.onload = function () { return resolve(img); };
-                                    img.onerror = reject;
-                                    //ios safari 10.3 taints canvas with data urls unless crossOrigin is set to anonymous
-                                    if (isInlineBase64Image(src) || useCORS) {
-                                        img.crossOrigin = 'anonymous';
-                                    }
-                                    img.src = src;
-                                    if (img.complete === true) {
-                                        // Inline XML images may fail to parse, throwing an Error later on
-                                        setTimeout(function () { return resolve(img); }, 500);
-                                    }
-                                    if (_this._options.imageTimeout > 0) {
-                                        setTimeout(function () { return reject("Timed out (" + _this._options.imageTimeout + "ms) loading image"); }, _this._options.imageTimeout);
-                                    }
-                                })];
+                                var img = new Image();
+                                img.onload = function () { return resolve(img); };
+                                img.onerror = reject;
+                                //ios safari 10.3 taints canvas with data urls unless crossOrigin is set to anonymous
+                                if (isInlineBase64Image(src) || useCORS) {
+                                    img.crossOrigin = 'anonymous';
+                                }
+                                img.src = src;
+                                if (img.complete === true) {
+                                    // Inline XML images may fail to parse, throwing an Error later on
+                                    setTimeout(function () { return resolve(img); }, 500);
+                                }
+                                if (_this._options.imageTimeout > 0) {
+                                    setTimeout(function () { return reject("Timed out (" + _this._options.imageTimeout + "ms) loading image"); }, _this._options.imageTimeout);
+                                }
+                            })];
                         case 3: return [2 /*return*/, _a.sent()];
                     }
                 });
@@ -2642,12 +2642,12 @@
             }
         });
         return type === CSSImageType.LINEAR_GRADIENT
-            ? {
-                angle: (angle + deg(180)) % deg(360),
-                stops: stops,
-                type: type
-            }
-            : { size: size, shape: shape, stops: stops, position: position, type: type };
+          ? {
+              angle: (angle + deg(180)) % deg(360),
+              stops: stops,
+              type: type
+          }
+          : { size: size, shape: shape, stops: stops, position: position, type: type };
     };
 
     var CLOSEST_SIDE = 'closest-side';
@@ -2908,8 +2908,8 @@
         prefix: false,
         parse: function (tokens) {
             return parseFunctionArgs(tokens)
-                .map(function (values) { return values.filter(isLengthPercentage); })
-                .map(parseLengthPercentageTuple);
+              .map(function (values) { return values.filter(isLengthPercentage); })
+              .map(parseLengthPercentageTuple);
         }
     };
 
@@ -2927,13 +2927,13 @@
         type: PropertyDescriptorParsingType.LIST,
         parse: function (tokens) {
             return parseFunctionArgs(tokens)
-                .map(function (values) {
-                return values
+              .map(function (values) {
+                  return values
                     .filter(isIdentToken)
                     .map(function (token) { return token.value; })
                     .join(' ');
-            })
-                .map(parseBackgroundRepeat);
+              })
+              .map(parseBackgroundRepeat);
         }
     };
     var parseBackgroundRepeat = function (value) {
@@ -3754,21 +3754,21 @@
         type: PropertyDescriptorParsingType.LIST,
         parse: function (tokens) {
             return tokens
-                .filter(isIdentToken)
-                .map(function (token) {
-                switch (token.value) {
-                    case 'underline':
-                        return 1 /* UNDERLINE */;
-                    case 'overline':
-                        return 2 /* OVERLINE */;
-                    case 'line-through':
-                        return 3 /* LINE_THROUGH */;
-                    case 'none':
-                        return 4 /* BLINK */;
-                }
-                return 0 /* NONE */;
-            })
-                .filter(function (line) { return line !== 0 /* NONE */; });
+              .filter(isIdentToken)
+              .map(function (token) {
+                  switch (token.value) {
+                      case 'underline':
+                          return 1 /* UNDERLINE */;
+                      case 'overline':
+                          return 2 /* OVERLINE */;
+                      case 'line-through':
+                          return 3 /* LINE_THROUGH */;
+                      case 'none':
+                          return 4 /* BLINK */;
+                  }
+                  return 0 /* NONE */;
+              })
+              .filter(function (line) { return line !== 0 /* NONE */; });
         }
     };
 
@@ -4088,11 +4088,11 @@
         };
         CSSParsedDeclaration.prototype.isInlineLevel = function () {
             return (contains(this.display, 4 /* INLINE */) ||
-                contains(this.display, 33554432 /* INLINE_BLOCK */) ||
-                contains(this.display, 268435456 /* INLINE_FLEX */) ||
-                contains(this.display, 536870912 /* INLINE_GRID */) ||
-                contains(this.display, 67108864 /* INLINE_LIST_ITEM */) ||
-                contains(this.display, 134217728 /* INLINE_TABLE */));
+                    contains(this.display, 33554432 /* INLINE_BLOCK */) ||
+                    contains(this.display, 268435456 /* INLINE_FLEX */) ||
+                    contains(this.display, 536870912 /* INLINE_GRID */) ||
+                    contains(this.display, 67108864 /* INLINE_LIST_ITEM */) ||
+                    contains(this.display, 134217728 /* INLINE_TABLE */));
         };
         return CSSParsedDeclaration;
     }());
@@ -4365,7 +4365,7 @@
                 _this.styles.borderTopColor = _this.styles.borderRightColor = _this.styles.borderBottomColor = _this.styles.borderLeftColor = 0xa5a5a5ff;
                 _this.styles.borderTopWidth = _this.styles.borderRightWidth = _this.styles.borderBottomWidth = _this.styles.borderLeftWidth = 1;
                 _this.styles.borderTopStyle = _this.styles.borderRightStyle = _this.styles.borderBottomStyle = _this.styles.borderLeftStyle =
-                    BORDER_STYLE.SOLID;
+                  BORDER_STYLE.SOLID;
                 _this.styles.backgroundClip = [BACKGROUND_CLIP.BORDER_BOX];
                 _this.styles.backgroundOrigin = [0 /* BORDER_BOX */];
                 _this.bounds = reformatInputBounds(_this.bounds);
@@ -4420,17 +4420,17 @@
                     _this.tree = parseTree(iframe.contentWindow.document.documentElement);
                     // http://www.w3.org/TR/css3-background/#special-backgrounds
                     var documentBackgroundColor = iframe.contentWindow.document.documentElement
-                        ? parseColor(getComputedStyle(iframe.contentWindow.document.documentElement)
-                            .backgroundColor)
-                        : COLORS.TRANSPARENT;
+                      ? parseColor(getComputedStyle(iframe.contentWindow.document.documentElement)
+                        .backgroundColor)
+                      : COLORS.TRANSPARENT;
                     var bodyBackgroundColor = iframe.contentWindow.document.body
-                        ? parseColor(getComputedStyle(iframe.contentWindow.document.body).backgroundColor)
-                        : COLORS.TRANSPARENT;
+                      ? parseColor(getComputedStyle(iframe.contentWindow.document.body).backgroundColor)
+                      : COLORS.TRANSPARENT;
                     _this.backgroundColor = isTransparent(documentBackgroundColor)
-                        ? isTransparent(bodyBackgroundColor)
-                            ? _this.styles.backgroundColor
-                            : bodyBackgroundColor
-                        : documentBackgroundColor;
+                      ? isTransparent(bodyBackgroundColor)
+                        ? _this.styles.backgroundColor
+                        : bodyBackgroundColor
+                      : documentBackgroundColor;
                 }
             }
             catch (e) { }
@@ -4504,9 +4504,9 @@
     };
     var createsRealStackingContext = function (node, container, root) {
         return (container.styles.isPositionedWithZIndex() ||
-            container.styles.opacity < 1 ||
-            container.styles.isTransformed() ||
-            (isBodyElement(node) && root.styles.isTransparent()));
+                container.styles.opacity < 1 ||
+                container.styles.isTransformed() ||
+                (isBodyElement(node) && root.styles.isTransparent()));
     };
     var createsStackingContext = function (styles) { return styles.isPositioned() || styles.isFloating(); };
     var isTextNode = function (node) { return node.nodeType === Node.TEXT_NODE; };
@@ -4840,9 +4840,9 @@
     var createCounterStyleFromRange = function (value, codePointRangeStart, codePointRangeEnd, isNumeric, suffix) {
         var codePointRangeLength = codePointRangeEnd - codePointRangeStart + 1;
         return ((value < 0 ? '-' : '') +
-            (createCounterStyleWithSymbolResolver(Math.abs(value), codePointRangeLength, isNumeric, function (codePoint) {
-                return fromCodePoint(Math.floor(codePoint % codePointRangeLength) + codePointRangeStart);
-            }) +
+                (createCounterStyleWithSymbolResolver(Math.abs(value), codePointRangeLength, isNumeric, function (codePoint) {
+                     return fromCodePoint(Math.floor(codePoint % codePointRangeLength) + codePointRangeStart);
+                 }) +
                 suffix));
     };
     var createCounterStyleFromSymbols = function (value, symbols, suffix) {
@@ -4869,10 +4869,10 @@
                 string = numbers[coefficient] + string;
             }
             else if (coefficient > 1 ||
-                (coefficient === 1 && digit === 0) ||
-                (coefficient === 1 && digit === 1 && contains(flags, CJK_TEN_COEFFICIENTS)) ||
-                (coefficient === 1 && digit === 1 && contains(flags, CJK_TEN_HIGH_COEFFICIENTS) && value > 100) ||
-                (coefficient === 1 && digit > 1 && contains(flags, CJK_HUNDRED_COEFFICIENTS))) {
+                     (coefficient === 1 && digit === 0) ||
+                     (coefficient === 1 && digit === 1 && contains(flags, CJK_TEN_COEFFICIENTS)) ||
+                     (coefficient === 1 && digit === 1 && contains(flags, CJK_TEN_HIGH_COEFFICIENTS) && value > 100) ||
+                     (coefficient === 1 && digit > 1 && contains(flags, CJK_HUNDRED_COEFFICIENTS))) {
                 string = numbers[coefficient] + (digit > 0 ? multipliers[digit - 1] : '') + string;
             }
             else if (coefficient === 1 && digit > 0) {
@@ -5035,8 +5035,8 @@
                 }
                 if (typeof onclone === 'function') {
                     return Promise.resolve()
-                        .then(function () { return onclone(documentClone); })
-                        .then(function () { return iframe; });
+                      .then(function () { return onclone(documentClone); })
+                      .then(function () { return iframe; });
                 }
                 return iframe;
             });
@@ -5201,8 +5201,8 @@
                 for (var child = node.firstChild; child; child = child.nextSibling) {
                     if (!isElementNode(child) ||
                         (!isScriptElement(child) &&
-                            !child.hasAttribute(IGNORE_ATTRIBUTE) &&
-                            (typeof this.options.ignoreElements !== 'function' || !this.options.ignoreElements(child)))) {
+                         !child.hasAttribute(IGNORE_ATTRIBUTE) &&
+                         (typeof this.options.ignoreElements !== 'function' || !this.options.ignoreElements(child)))) {
                         if (!this.options.copyStyles || !isElementNode(child) || !isStyleElement(child)) {
                             clone.appendChild(this.cloneNode(child));
                         }
@@ -5267,8 +5267,8 @@
                         if (counter && isIdentToken(counter)) {
                             var counterState = _this.counters.getCounterValue(counter.value);
                             var counterType = counterStyle && isIdentToken(counterStyle)
-                                ? listStyleType.parse(counterStyle.value)
-                                : LIST_STYLE_TYPE.DECIMAL;
+                              ? listStyleType.parse(counterStyle.value)
+                              : LIST_STYLE_TYPE.DECIMAL;
                             anonymousReplacedElement.appendChild(document.createTextNode(createCounterText(counterState, counterType, false)));
                         }
                     }
@@ -5277,12 +5277,12 @@
                         if (counter && isIdentToken(counter)) {
                             var counterStates = _this.counters.getCounterValues(counter.value);
                             var counterType_1 = counterStyle && isIdentToken(counterStyle)
-                                ? listStyleType.parse(counterStyle.value)
-                                : LIST_STYLE_TYPE.DECIMAL;
+                              ? listStyleType.parse(counterStyle.value)
+                              : LIST_STYLE_TYPE.DECIMAL;
                             var separator = delim && delim.type === TokenType.STRING_TOKEN ? delim.value : '';
                             var text = counterStates
-                                .map(function (value) { return createCounterText(value, counterType_1, false); })
-                                .join(separator);
+                              .map(function (value) { return createCounterText(value, counterType_1, false); })
+                              .join(separator);
                             anonymousReplacedElement.appendChild(document.createTextNode(text));
                         }
                     }
@@ -5296,15 +5296,15 @@
                             anonymousReplacedElement.appendChild(document.createTextNode(getQuote(declaration.quotes, --_this.quoteDepth, false)));
                             break;
                         default:
-                        //    console.log('ident', token, declaration);
+                      //    console.log('ident', token, declaration);
                     }
                 }
             });
             anonymousReplacedElement.className = PSEUDO_HIDE_ELEMENT_CLASS_BEFORE + " " + PSEUDO_HIDE_ELEMENT_CLASS_AFTER;
             clone.className +=
-                pseudoElt === PseudoElementType.BEFORE
-                    ? " " + PSEUDO_HIDE_ELEMENT_CLASS_BEFORE
-                    : " " + PSEUDO_HIDE_ELEMENT_CLASS_AFTER;
+              pseudoElt === PseudoElementType.BEFORE
+                ? " " + PSEUDO_HIDE_ELEMENT_CLASS_BEFORE
+                : " " + PSEUDO_HIDE_ELEMENT_CLASS_AFTER;
             return anonymousReplacedElement;
         };
         return DocumentCloner;
@@ -5513,53 +5513,53 @@
             var paddingBottom = getAbsoluteValue(styles.paddingBottom, element.bounds.width);
             var paddingLeft = getAbsoluteValue(styles.paddingLeft, element.bounds.width);
             this.topLeftBorderBox =
-                tlh > 0 || tlv > 0
-                    ? getCurvePoints(bounds.left, bounds.top, tlh, tlv, CORNER.TOP_LEFT)
-                    : new Vector(bounds.left, bounds.top);
+              tlh > 0 || tlv > 0
+                ? getCurvePoints(bounds.left, bounds.top, tlh, tlv, CORNER.TOP_LEFT)
+                : new Vector(bounds.left, bounds.top);
             this.topRightBorderBox =
-                trh > 0 || trv > 0
-                    ? getCurvePoints(bounds.left + topWidth, bounds.top, trh, trv, CORNER.TOP_RIGHT)
-                    : new Vector(bounds.left + bounds.width, bounds.top);
+              trh > 0 || trv > 0
+                ? getCurvePoints(bounds.left + topWidth, bounds.top, trh, trv, CORNER.TOP_RIGHT)
+                : new Vector(bounds.left + bounds.width, bounds.top);
             this.bottomRightBorderBox =
-                brh > 0 || brv > 0
-                    ? getCurvePoints(bounds.left + bottomWidth, bounds.top + rightHeight, brh, brv, CORNER.BOTTOM_RIGHT)
-                    : new Vector(bounds.left + bounds.width, bounds.top + bounds.height);
+              brh > 0 || brv > 0
+                ? getCurvePoints(bounds.left + bottomWidth, bounds.top + rightHeight, brh, brv, CORNER.BOTTOM_RIGHT)
+                : new Vector(bounds.left + bounds.width, bounds.top + bounds.height);
             this.bottomLeftBorderBox =
-                blh > 0 || blv > 0
-                    ? getCurvePoints(bounds.left, bounds.top + leftHeight, blh, blv, CORNER.BOTTOM_LEFT)
-                    : new Vector(bounds.left, bounds.top + bounds.height);
+              blh > 0 || blv > 0
+                ? getCurvePoints(bounds.left, bounds.top + leftHeight, blh, blv, CORNER.BOTTOM_LEFT)
+                : new Vector(bounds.left, bounds.top + bounds.height);
             this.topLeftPaddingBox =
-                tlh > 0 || tlv > 0
-                    ? getCurvePoints(bounds.left + borderLeftWidth, bounds.top + borderTopWidth, Math.max(0, tlh - borderLeftWidth), Math.max(0, tlv - borderTopWidth), CORNER.TOP_LEFT)
-                    : new Vector(bounds.left + borderLeftWidth, bounds.top + borderTopWidth);
+              tlh > 0 || tlv > 0
+                ? getCurvePoints(bounds.left + borderLeftWidth, bounds.top + borderTopWidth, Math.max(0, tlh - borderLeftWidth), Math.max(0, tlv - borderTopWidth), CORNER.TOP_LEFT)
+                : new Vector(bounds.left + borderLeftWidth, bounds.top + borderTopWidth);
             this.topRightPaddingBox =
-                trh > 0 || trv > 0
-                    ? getCurvePoints(bounds.left + Math.min(topWidth, bounds.width + borderLeftWidth), bounds.top + borderTopWidth, topWidth > bounds.width + borderLeftWidth ? 0 : trh - borderLeftWidth, trv - borderTopWidth, CORNER.TOP_RIGHT)
-                    : new Vector(bounds.left + bounds.width - borderRightWidth, bounds.top + borderTopWidth);
+              trh > 0 || trv > 0
+                ? getCurvePoints(bounds.left + Math.min(topWidth, bounds.width + borderLeftWidth), bounds.top + borderTopWidth, topWidth > bounds.width + borderLeftWidth ? 0 : trh - borderLeftWidth, trv - borderTopWidth, CORNER.TOP_RIGHT)
+                : new Vector(bounds.left + bounds.width - borderRightWidth, bounds.top + borderTopWidth);
             this.bottomRightPaddingBox =
-                brh > 0 || brv > 0
-                    ? getCurvePoints(bounds.left + Math.min(bottomWidth, bounds.width - borderLeftWidth), bounds.top + Math.min(rightHeight, bounds.height + borderTopWidth), Math.max(0, brh - borderRightWidth), brv - borderBottomWidth, CORNER.BOTTOM_RIGHT)
-                    : new Vector(bounds.left + bounds.width - borderRightWidth, bounds.top + bounds.height - borderBottomWidth);
+              brh > 0 || brv > 0
+                ? getCurvePoints(bounds.left + Math.min(bottomWidth, bounds.width - borderLeftWidth), bounds.top + Math.min(rightHeight, bounds.height + borderTopWidth), Math.max(0, brh - borderRightWidth), brv - borderBottomWidth, CORNER.BOTTOM_RIGHT)
+                : new Vector(bounds.left + bounds.width - borderRightWidth, bounds.top + bounds.height - borderBottomWidth);
             this.bottomLeftPaddingBox =
-                blh > 0 || blv > 0
-                    ? getCurvePoints(bounds.left + borderLeftWidth, bounds.top + leftHeight, Math.max(0, blh - borderLeftWidth), blv - borderBottomWidth, CORNER.BOTTOM_LEFT)
-                    : new Vector(bounds.left + borderLeftWidth, bounds.top + bounds.height - borderBottomWidth);
+              blh > 0 || blv > 0
+                ? getCurvePoints(bounds.left + borderLeftWidth, bounds.top + leftHeight, Math.max(0, blh - borderLeftWidth), blv - borderBottomWidth, CORNER.BOTTOM_LEFT)
+                : new Vector(bounds.left + borderLeftWidth, bounds.top + bounds.height - borderBottomWidth);
             this.topLeftContentBox =
-                tlh > 0 || tlv > 0
-                    ? getCurvePoints(bounds.left + borderLeftWidth + paddingLeft, bounds.top + borderTopWidth + paddingTop, Math.max(0, tlh - (borderLeftWidth + paddingLeft)), Math.max(0, tlv - (borderTopWidth + paddingTop)), CORNER.TOP_LEFT)
-                    : new Vector(bounds.left + borderLeftWidth + paddingLeft, bounds.top + borderTopWidth + paddingTop);
+              tlh > 0 || tlv > 0
+                ? getCurvePoints(bounds.left + borderLeftWidth + paddingLeft, bounds.top + borderTopWidth + paddingTop, Math.max(0, tlh - (borderLeftWidth + paddingLeft)), Math.max(0, tlv - (borderTopWidth + paddingTop)), CORNER.TOP_LEFT)
+                : new Vector(bounds.left + borderLeftWidth + paddingLeft, bounds.top + borderTopWidth + paddingTop);
             this.topRightContentBox =
-                trh > 0 || trv > 0
-                    ? getCurvePoints(bounds.left + Math.min(topWidth, bounds.width + borderLeftWidth + paddingLeft), bounds.top + borderTopWidth + paddingTop, topWidth > bounds.width + borderLeftWidth + paddingLeft ? 0 : trh - borderLeftWidth + paddingLeft, trv - (borderTopWidth + paddingTop), CORNER.TOP_RIGHT)
-                    : new Vector(bounds.left + bounds.width - (borderRightWidth + paddingRight), bounds.top + borderTopWidth + paddingTop);
+              trh > 0 || trv > 0
+                ? getCurvePoints(bounds.left + Math.min(topWidth, bounds.width + borderLeftWidth + paddingLeft), bounds.top + borderTopWidth + paddingTop, topWidth > bounds.width + borderLeftWidth + paddingLeft ? 0 : trh - borderLeftWidth + paddingLeft, trv - (borderTopWidth + paddingTop), CORNER.TOP_RIGHT)
+                : new Vector(bounds.left + bounds.width - (borderRightWidth + paddingRight), bounds.top + borderTopWidth + paddingTop);
             this.bottomRightContentBox =
-                brh > 0 || brv > 0
-                    ? getCurvePoints(bounds.left + Math.min(bottomWidth, bounds.width - (borderLeftWidth + paddingLeft)), bounds.top + Math.min(rightHeight, bounds.height + borderTopWidth + paddingTop), Math.max(0, brh - (borderRightWidth + paddingRight)), brv - (borderBottomWidth + paddingBottom), CORNER.BOTTOM_RIGHT)
-                    : new Vector(bounds.left + bounds.width - (borderRightWidth + paddingRight), bounds.top + bounds.height - (borderBottomWidth + paddingBottom));
+              brh > 0 || brv > 0
+                ? getCurvePoints(bounds.left + Math.min(bottomWidth, bounds.width - (borderLeftWidth + paddingLeft)), bounds.top + Math.min(rightHeight, bounds.height + borderTopWidth + paddingTop), Math.max(0, brh - (borderRightWidth + paddingRight)), brv - (borderBottomWidth + paddingBottom), CORNER.BOTTOM_RIGHT)
+                : new Vector(bounds.left + bounds.width - (borderRightWidth + paddingRight), bounds.top + bounds.height - (borderBottomWidth + paddingBottom));
             this.bottomLeftContentBox =
-                blh > 0 || blv > 0
-                    ? getCurvePoints(bounds.left + borderLeftWidth + paddingLeft, bounds.top + leftHeight, Math.max(0, blh - (borderLeftWidth + paddingLeft)), blv - (borderBottomWidth + paddingBottom), CORNER.BOTTOM_LEFT)
-                    : new Vector(bounds.left + borderLeftWidth + paddingLeft, bounds.top + bounds.height - (borderBottomWidth + paddingBottom));
+              blh > 0 || blv > 0
+                ? getCurvePoints(bounds.left + borderLeftWidth + paddingLeft, bounds.top + leftHeight, Math.max(0, blh - (borderLeftWidth + paddingLeft)), blv - (borderBottomWidth + paddingBottom), CORNER.BOTTOM_LEFT)
+                : new Vector(bounds.left + borderLeftWidth + paddingLeft, bounds.top + bounds.height - (borderBottomWidth + paddingBottom));
         }
         return BoundCurves;
     }());
@@ -5866,8 +5866,8 @@
             if (hasIntrinsicValue(intrinsicProportion)) {
                 var targetRatio = bounds.width / bounds.height;
                 return targetRatio < intrinsicProportion !== (first.value === BACKGROUND_SIZE.COVER)
-                    ? [bounds.width, bounds.width / intrinsicProportion]
-                    : [bounds.height * intrinsicProportion, bounds.height];
+                  ? [bounds.width, bounds.width / intrinsicProportion]
+                  : [bounds.height * intrinsicProportion, bounds.height];
             }
             return [bounds.width, bounds.height];
         }
@@ -5890,11 +5890,11 @@
             // The other dimension is computed using the specified dimension and the intrinsic proportions.
             if (hasIntrinsicDimensions && hasIntrinsicProportion) {
                 var width_1 = hasIntrinsicWidth
-                    ? intrinsicWidth
-                    : intrinsicHeight * intrinsicProportion;
+                  ? intrinsicWidth
+                  : intrinsicHeight * intrinsicProportion;
                 var height_1 = hasIntrinsicHeight
-                    ? intrinsicHeight
-                    : intrinsicWidth / intrinsicProportion;
+                  ? intrinsicHeight
+                  : intrinsicWidth / intrinsicProportion;
                 return [width_1, height_1];
             }
             // If the image has only one intrinsic dimension but has no intrinsic proportions,
@@ -5936,15 +5936,15 @@
         }
         if (width !== null && (!second || isAuto(second))) {
             height =
-                hasIntrinsicWidth && hasIntrinsicHeight
-                    ? (width / intrinsicWidth) * intrinsicHeight
-                    : bounds.height;
+              hasIntrinsicWidth && hasIntrinsicHeight
+                ? (width / intrinsicWidth) * intrinsicHeight
+                : bounds.height;
         }
         if (height !== null && isAuto(first)) {
             width =
-                hasIntrinsicWidth && hasIntrinsicHeight
-                    ? (height / intrinsicHeight) * intrinsicWidth
-                    : bounds.width;
+              hasIntrinsicWidth && hasIntrinsicHeight
+                ? (height / intrinsicHeight) * intrinsicWidth
+                : bounds.width;
         }
         if (width !== null && height !== null) {
             return [width, height];
@@ -6137,12 +6137,12 @@
         };
         CanvasRenderer.prototype.createFontStyle = function (styles) {
             var fontVariant = styles.fontVariant
-                .filter(function (variant) { return variant === 'normal' || variant === 'small-caps'; })
-                .join('');
+              .filter(function (variant) { return variant === 'normal' || variant === 'small-caps'; })
+              .join('');
             var fontFamily = styles.fontFamily.join(', ');
             var fontSize = isDimensionToken(styles.fontSize)
-                ? "" + styles.fontSize.number + styles.fontSize.unit
-                : styles.fontSize.number + "px";
+              ? "" + styles.fontSize.number + styles.fontSize.unit
+              : styles.fontSize.number + "px";
             return [
                 [styles.fontStyle, fontVariant, styles.fontWeight, fontSize, fontFamily].join(' '),
                 fontFamily,
@@ -6162,15 +6162,15 @@
                         var textShadows = styles.textShadow;
                         if (textShadows.length && text.text.trim().length) {
                             textShadows
-                                .slice(0)
-                                .reverse()
-                                .forEach(function (textShadow) {
-                                _this.ctx.shadowColor = asString(textShadow.color);
-                                _this.ctx.shadowOffsetX = textShadow.offsetX.number * _this.options.scale;
-                                _this.ctx.shadowOffsetY = textShadow.offsetY.number * _this.options.scale;
-                                _this.ctx.shadowBlur = textShadow.blur.number;
-                                _this.ctx.fillText(text.text, text.bounds.left, text.bounds.top + text.bounds.height);
-                            });
+                              .slice(0)
+                              .reverse()
+                              .forEach(function (textShadow) {
+                                  _this.ctx.shadowColor = asString(textShadow.color);
+                                  _this.ctx.shadowOffsetX = textShadow.offsetX.number * _this.options.scale;
+                                  _this.ctx.shadowOffsetY = textShadow.offsetY.number * _this.options.scale;
+                                  _this.ctx.shadowBlur = textShadow.blur.number;
+                                  _this.ctx.fillText(text.text, text.bounds.left, text.bounds.top + text.bounds.height);
+                              });
                             _this.ctx.shadowColor = '';
                             _this.ctx.shadowOffsetX = 0;
                             _this.ctx.shadowOffsetY = 0;
@@ -6389,10 +6389,10 @@
                 var _i, _a, child, _b, _c, child, _d, _e, child, _f, _g, child, _h, _j, child, _k, _l, child, _m, _o, child;
                 return __generator(this, function (_p) {
                     switch (_p.label) {
-                        case 0: 
-                        // https://www.w3.org/TR/css-position-3/#painting-order
-                        // 1. the background and borders of the element forming the stacking context.
-                        return [4 /*yield*/, this.renderNodeBackgroundAndBorders(stack.element)];
+                        case 0:
+                            // https://www.w3.org/TR/css-position-3/#painting-order
+                            // 1. the background and borders of the element forming the stacking context.
+                            return [4 /*yield*/, this.renderNodeBackgroundAndBorders(stack.element)];
                         case 1:
                             // https://www.w3.org/TR/css-position-3/#painting-order
                             // 1. the background and borders of the element forming the stacking context.
@@ -6409,9 +6409,9 @@
                         case 4:
                             _i++;
                             return [3 /*break*/, 2];
-                        case 5: 
-                        // 3. For all its in-flow, non-positioned, block-level descendants in tree order:
-                        return [4 /*yield*/, this.renderNodeContent(stack.element)];
+                        case 5:
+                            // 3. For all its in-flow, non-positioned, block-level descendants in tree order:
+                            return [4 /*yield*/, this.renderNodeContent(stack.element)];
                         case 6:
                             // 3. For all its in-flow, non-positioned, block-level descendants in tree order:
                             _p.sent();
@@ -6698,31 +6698,31 @@
                             _a.sent();
                             this.ctx.restore();
                             styles.boxShadow
-                                .slice(0)
-                                .reverse()
-                                .forEach(function (shadow) {
-                                _this.ctx.save();
-                                var borderBoxArea = calculateBorderBoxPath(paint.curves);
-                                var maskOffset = shadow.inset ? 0 : MASK_OFFSET;
-                                var shadowPaintingArea = transformPath(borderBoxArea, -maskOffset + (shadow.inset ? 1 : -1) * shadow.spread.number, (shadow.inset ? 1 : -1) * shadow.spread.number, shadow.spread.number * (shadow.inset ? -2 : 2), shadow.spread.number * (shadow.inset ? -2 : 2));
-                                if (shadow.inset) {
-                                    _this.path(borderBoxArea);
-                                    _this.ctx.clip();
-                                    _this.mask(shadowPaintingArea);
-                                }
-                                else {
-                                    _this.mask(borderBoxArea);
-                                    _this.ctx.clip();
-                                    _this.path(shadowPaintingArea);
-                                }
-                                _this.ctx.shadowOffsetX = shadow.offsetX.number + maskOffset;
-                                _this.ctx.shadowOffsetY = shadow.offsetY.number;
-                                _this.ctx.shadowColor = asString(shadow.color);
-                                _this.ctx.shadowBlur = shadow.blur.number;
-                                _this.ctx.fillStyle = shadow.inset ? asString(shadow.color) : 'rgba(0,0,0,1)';
-                                _this.ctx.fill();
-                                _this.ctx.restore();
-                            });
+                              .slice(0)
+                              .reverse()
+                              .forEach(function (shadow) {
+                                  _this.ctx.save();
+                                  var borderBoxArea = calculateBorderBoxPath(paint.curves);
+                                  var maskOffset = shadow.inset ? 0 : MASK_OFFSET;
+                                  var shadowPaintingArea = transformPath(borderBoxArea, -maskOffset + (shadow.inset ? 1 : -1) * shadow.spread.number, (shadow.inset ? 1 : -1) * shadow.spread.number, shadow.spread.number * (shadow.inset ? -2 : 2), shadow.spread.number * (shadow.inset ? -2 : 2));
+                                  if (shadow.inset) {
+                                      _this.path(borderBoxArea);
+                                      _this.ctx.clip();
+                                      _this.mask(shadowPaintingArea);
+                                  }
+                                  else {
+                                      _this.mask(borderBoxArea);
+                                      _this.ctx.clip();
+                                      _this.path(shadowPaintingArea);
+                                  }
+                                  _this.ctx.shadowOffsetX = shadow.offsetX.number + maskOffset;
+                                  _this.ctx.shadowOffsetY = shadow.offsetY.number;
+                                  _this.ctx.shadowColor = asString(shadow.color);
+                                  _this.ctx.shadowBlur = shadow.blur.number;
+                                  _this.ctx.fillStyle = shadow.inset ? asString(shadow.color) : 'rgba(0,0,0,1)';
+                                  _this.ctx.fill();
+                                  _this.ctx.restore();
+                              });
                             _a.label = 2;
                         case 2:
                             side = 0;
@@ -6914,20 +6914,20 @@
                 case 1:
                     container = _b.sent();
                     documentBackgroundColor = ownerDocument.documentElement
-                        ? parseColor$1(getComputedStyle(ownerDocument.documentElement).backgroundColor)
-                        : COLORS.TRANSPARENT;
+                      ? parseColor$1(getComputedStyle(ownerDocument.documentElement).backgroundColor)
+                      : COLORS.TRANSPARENT;
                     bodyBackgroundColor = ownerDocument.body
-                        ? parseColor$1(getComputedStyle(ownerDocument.body).backgroundColor)
-                        : COLORS.TRANSPARENT;
+                      ? parseColor$1(getComputedStyle(ownerDocument.body).backgroundColor)
+                      : COLORS.TRANSPARENT;
                     bgColor = opts.backgroundColor;
                     defaultBackgroundColor = typeof bgColor === 'string' ? parseColor$1(bgColor) : 0xffffffff;
                     backgroundColor = element === ownerDocument.documentElement
-                        ? isTransparent(documentBackgroundColor)
-                            ? isTransparent(bodyBackgroundColor)
-                                ? defaultBackgroundColor
-                                : bodyBackgroundColor
-                            : documentBackgroundColor
-                        : defaultBackgroundColor;
+                      ? isTransparent(documentBackgroundColor)
+                        ? isTransparent(bodyBackgroundColor)
+                          ? defaultBackgroundColor
+                          : bodyBackgroundColor
+                        : documentBackgroundColor
+                      : defaultBackgroundColor;
                     renderOptions = {
                         id: instanceName,
                         cache: options.cache,

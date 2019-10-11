@@ -2885,11 +2885,44 @@
 
             });
 
-
-
-
-
         }
+
+
+        $scope.drawPicCanvas = function () {
+          AppUtilService.showLoading();
+          document.getElementById('coverPop').style.display = 'block';
+          html2canvas(document.body,screenShotHeight).then(function(canvas) {
+            cordova.base64ToGallery(
+              canvas.toDataURL("image/png"),
+
+              {
+                prefix: 'img_',
+                mediaScanner: true
+              },
+
+              function(path) {
+                AppUtilService.hideLoading();
+
+                $ionicPopup.alert({
+                  title:"截图成功!"
+                });
+                document.getElementById('coverPop').style.display = 'none';
+                console.log(path);
+              },
+
+              function(err) {
+                AppUtilService.hideLoading();
+                document.getElementById('coverPop').style.display = 'none';
+
+                console.log(err);
+                $ionicPopup.alert({
+                  title:"请开启存储权限!"
+                });
+              }
+            );
+          });
+        };
+
           $scope.scanCode = function () {
 
           cordova.plugins.barcodeScanner.scan(
@@ -5017,29 +5050,6 @@
             return deferred.promise;
         };
 
-        $scope.drawPicCanvas = function () {
-            html2canvas(document.body,screenShotHeight).then(function(canvas) {
-                cordova.base64ToGallery(
-                    canvas.toDataURL("image/png"),
-
-                    {
-                        prefix: 'img_',
-                        mediaScanner: true
-                    },
-
-                    function(path) {
-                        $ionicPopup.alert({
-                            title:"截图成功!"
-                        });
-                        console.log(path);
-                    },
-
-                    function(err) {
-                        console.error(err);
-                    }
-                );
-            });
-        };
 
       });
 })();

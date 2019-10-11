@@ -793,7 +793,6 @@
           oneLabourOriginals1['Line_Item__c'] = 1;
           oneLabourOriginals1['Material_Type__c'] = 'Labour';
           oneLabourOriginals1['Material_Number__c'] = '7990110000';
-          // oneLabourOriginals1["Net_Amount__c"] = $scope.discountPrice1; //优惠总价
           $scope.quoteLabourOriginalsList.push(oneLabourOriginals1);
           var oneLabourOriginals2 = {};
           oneLabourOriginals2['Service_Quote__c'] = manMadeNo2Id;
