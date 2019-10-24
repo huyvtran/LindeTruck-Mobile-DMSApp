@@ -252,7 +252,7 @@
                 }
                 AppUtilService.showLoading();
                 ForceClientService.getForceClient().apexrest(
-                  $scope.postUri + JSON.stringify(postData)+'&serviceOrderOverviewId='+currentOrderId,
+                  $scope.postUri + JSON.stringify(postData)+'&serviceOrderOverviewId='+currentOrderId+'&isDMS=true',
                   "POST",
                   {},
                   null, function callBack(res) {

@@ -285,15 +285,15 @@
                   }
                 }
               }
-              // , {
-              //   text: '<b>增派</b>',
-              //   type: 'button-calm',
-              //   onTap: function (e) {
-              //     $state.go(
-              //       'app.sendMorePeople',
-              //       {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
-              //   }
-              // },
+              , {
+                text: '<b>增派</b>',
+                type: 'button-calm',
+                onTap: function (e) {
+                  $state.go(
+                    'app.sendMorePeople',
+                    {workOrderId: Number(localStorage.onoffline) !== 0 ? item.Id : item._soupEntryId});
+                }
+              }
               // {
               //   text: '<b>转派</b>',
               //   type: 'button-balanced',
@@ -349,13 +349,13 @@
                   $scope.goPageWorkDetails(item, true, null,isBelongCurrentUser,false);
                 }
               }
-              // , {
-              //   text: '<b>增派</b>',
-              //   type: 'button-calm',
-              //   onTap: function (e) {
-              //     $state.go('app.sendMorePeople', {workOrderId: item.Id});
-              //   }
-              // },
+              , {
+                text: '<b>增派</b>',
+                type: 'button-calm',
+                onTap: function (e) {
+                  $state.go('app.sendMorePeople', {workOrderId: item.Id});
+                }
+              }
               // {
               //     text: '<b>转派</b>',
               //     type: 'button-balanced',

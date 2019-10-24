@@ -216,32 +216,32 @@
            * 本地初始化作业类型数据
            */
           $scope.workTypes.push({label: 'ZS01_Z10', value: 'Z10 按次收费服务'});
-          $scope.workTypes.push({label: 'ZS01_Z11', value: 'Z11 代开票按次收费服务'});
+          //$scope.workTypes.push({label: 'ZS01_Z11', value: 'Z11 代开票按次收费服务'});
           $scope.workTypes.push({label: 'ZS02_Z20', value: 'Z20 服务合同要求的服务'});
           $scope.workTypes.push({label: 'ZS02_Z21', value: 'Z21 合同期间长租车的服务（跨区域资产）'});
-          $scope.workTypes.push({label: 'ZS02_Z22', value: 'Z22 合同期间长租车的服务（非跨区域资产-仅RE使用）'});
+          //$scope.workTypes.push({label: 'ZS02_Z22', value: 'Z22 合同期间长租车的服务（非跨区域资产-仅RE使用）'});
           $scope.workTypes.push({label: 'ZS03_Z30', value: 'Z30 资产（短租）车的服务'});
           $scope.workTypes.push({label: 'ZS03_Z31', value: 'Z31 库存（二手/新车）车的非销售要求的服务'});
           $scope.workTypes.push({label: 'ZS03_Z33', value: 'Z33 服务支持要求的服务'});
-          $scope.workTypes.push({label: 'ZS03_Z35', value: 'Z35 工程师培训'});
-          $scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 服务市场活动要求支持的服务'});
+          //$scope.workTypes.push({label: 'ZS03_Z35', value: 'Z35 工程师培训'});
+          //$scope.workTypes.push({label: 'ZS03_Z36', value: 'Z36 服务市场活动要求支持的服务'});
           $scope.workTypes.push({label: 'ZS03_Z38', value: 'Z38 跨区域要求的服务'});
-          $scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 资产（短租）车的服务(上海)'});
+          //$scope.workTypes.push({label: 'ZS03_Z39', value: 'Z39 资产（短租）车的服务(上海)'});
           $scope.workTypes.push({label: 'ZS03_Z3A', value: 'Z3A 销售合同赠送的服务'});
-          $scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 RC为HQ自用叉车提供维保'});
-          $scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 测试车事务'});
-          $scope.workTypes.push({label: 'ZS03_ZH3', value: 'ZH3 质量部质量分析'});
-          $scope.workTypes.push({label: 'ZS03_ZH4', value: 'ZH4 防爆车交车前改装事务'});
-          $scope.workTypes.push({label: 'ZS03_ZOC', value: 'ZOC 发车后订单修改'});
-          $scope.workTypes.push({label: 'ZS03_ZR2', value: 'ZR2 长租资产化后加装、改装服务'});
-          $scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 短租资产化后加装、改装服务'});
+          //$scope.workTypes.push({label: 'ZS03_ZH1', value: 'ZH1 RC为HQ自用叉车提供维保'});
+          //$scope.workTypes.push({label: 'ZS03_ZH2', value: 'ZH2 测试车事务'});
+          //$scope.workTypes.push({label: 'ZS03_ZH3', value: 'ZH3 质量部质量分析'});
+          //$scope.workTypes.push({label: 'ZS03_ZH4', value: 'ZH4 防爆车交车前改装事务'});
+          //$scope.workTypes.push({label: 'ZS03_ZOC', value: 'ZOC 发车后订单修改'});
+          //$scope.workTypes.push({label: 'ZS03_ZR2', value: 'ZR2 长租资产化后加装、改装服务'});
+          //$scope.workTypes.push({label: 'ZS03_ZR3', value: 'ZR3 短租资产化后加装、改装服务'});
           $scope.workTypes.push({label: 'ZS03_ZSS', value: 'ZSS 一般销售支持'});
-          $scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD 运输损坏'});
+          //$scope.workTypes.push({label: 'ZS03_ZTD', value: 'ZTD 运输损坏'});
           $scope.workTypes.push({label: 'ZS04_Z40', value: 'Z40 纯配件销售'});
           $scope.workTypes.push({label: 'ZS08_Z80', value: 'Z80 保修服务'});
           $scope.workTypes.push({label: 'ZS08_Z81', value: 'Z81 保修服务1'});
-          $scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 保修服务2'});
-          $scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 保修服务3'});
+          //$scope.workTypes.push({label: 'ZS08_Z82', value: 'Z82 保修服务2'});
+          //$scope.workTypes.push({label: 'ZS08_Z83', value: 'Z83 保修服务3'});
 
           //before
           $scope.bfObjs.push(
