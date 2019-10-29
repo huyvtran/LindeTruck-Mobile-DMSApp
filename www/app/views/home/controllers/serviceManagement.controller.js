@@ -291,7 +291,8 @@
                     Remark: causeRemark,
                     SelfMileage: Number(odometerSelfUse),
                     CreateTime: new Date(),
-                    CreateBy: employeeNum
+                    CreateBy: employeeNum,
+                    Engineer:$rootScope.allUser[0].userName
                 };
                 var allInfo = {
                     modelServiceCar: baseInfo,
