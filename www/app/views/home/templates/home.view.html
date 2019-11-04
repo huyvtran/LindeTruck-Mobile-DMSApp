@@ -275,7 +275,7 @@
                             <div class="text_Div">
                                 <div class="engineerTitle"> 工程师：</div>
                                 <select id="selectLoginUserId" class="selectStyle">
-                                    <option ng-repeat="itemloginuser in allLoginUser" value="{{itemloginuser}}">{{itemloginuser.Name}} {{itemloginuser.Mobile__c}}</option>
+                                    <option ng-repeat="itemloginuser in allLoginUser" value="{{itemloginuser}}">{{itemloginuser.Name}} {{itemloginuser.Mobile_Display__c}}</option>
                                 </select>
                                 <div class="codeGroup">
                                     <input type="number" id="inputSMSId" class="inputStyle" οninput="if(value.length>5) value=value.slice(0,5)" placeholder="验证码" onkeyup="this.value=this.value.replace(/[^0-9]/g,'')" onafterpaste="this.value=this.value.replace(/[^0-9]/g,'')"/>
