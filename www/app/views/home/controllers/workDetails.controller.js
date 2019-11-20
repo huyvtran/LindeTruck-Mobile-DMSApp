@@ -955,7 +955,7 @@
                         targetWidth:1000,
                         targetHeight:1000,
                         quality:90,
-                        saveToPhotoAlbum: true,
+                        // saveToPhotoAlbum: true,
                         destinationType: navigator.camera.DestinationType.DATA_URL,
                         mediaType: Camera.MediaType.PICTURE,
                         encodingType: Camera.EncodingType.JPEG
