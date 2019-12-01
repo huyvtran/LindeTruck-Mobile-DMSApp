@@ -1924,12 +1924,13 @@
             var items = $scope.rejectedItems[i].Delivery_Line_Item__r;
             for (var j = 0; j < items.length; j++) {
               if (items[j]!=null){
+                  console.log('items:::666:::',items[j]);
                   $scope.goodsList.push({
-                      SAP_Delivery_Order_Line_Item__c: items[j].SAP_Delivery_Order_Line_Item__c!=undefined&&items[j].SAP_Delivery_Order_Line_Item__c!=null?items[j].SAP_Delivery_Order_Line_Item__c:"      ",
-                      Service_Material__rparts_number__c: items[j].Service_Material__rparts_number__c!=undefined&&items[j].Service_Material__rparts_number__c!=null?$scope.polishText(items[j].Service_Material__rparts_number__c,10):"          ",
-                      Service_Material__rName:items[j].Service_Material__rName!=undefined&&items[j].Service_Material__rName!=null?$scope.polishText(items[j].Service_Material__rName.replace(/\s+/g,"").substring(0, 4),4):"    ",
+                      SAP_Delivery_Order_Line_Item__c: items[j].SPO_Line_Item__c !=undefined&&items[j].SPO_Line_Item__c!=null?items[j].SPO_Line_Item__c:"      ",
+                      Service_Material__rparts_number__c: items[j].Material_Number__c !=undefined&&items[j].Material_Number__c!=null?$scope.polishText(items[j].Material_Number__c,10):"          ",
+                      Service_Material__rName:items[j].Material_Name__c!=undefined&&items[j].Material_Name__c!=null?$scope.polishText(items[j].Material_Name__c.replace(/\s+/g,"").substring(0, 4),4):"    ",
                       Quantity__c: items[j].Quantity__c!=undefined&&items[j].Quantity__c!=null?items[j].Quantity__c:0,
-                      Used_Quantity__c: items[j].Used_Quantity__c!=undefined&&items[j].Used_Quantity__c!=null?items[j].Used_Quantity__c:0
+                      Used_Quantity__c: items[j].Actual_Quantity__c!=undefined&&items[j].Actual_Quantity__c!=null?items[j].Actual_Quantity__c:0
                   });
               }
             }
@@ -3353,9 +3354,10 @@
         };
         var updateTrucks=[];
         $scope.hidePartPagewithSave = function () {
-          if (oCurrentUser.EmployeeNumber==undefined||oCurrentUser.EmployeeNumber==null||oCurrentUser.EmployeeNumber==""){
-              return;
-          }
+            console.log('hidePartPagewithSave();:',oCurrentUser);
+          //if (oCurrentUser.EmployeeNumber==undefined||oCurrentUser.EmployeeNumber==null||oCurrentUser.EmployeeNumber==""){
+              //return;
+          //}
           AppUtilService.showLoading();
           updateTrucks=[];
           angular.forEach($scope.allTruckItems,function (singleTruckItem) {
@@ -3373,6 +3375,8 @@
              }
           });
 
+          console.log('updateTrucks:',updateTrucks);
+
           ForceClientService.getForceClient().apexrest(
               '/TruckFleetOpHourService?action=updateTruckHour&trukHourRequest='+JSON.stringify(updateTrucks),
               'POST',
@@ -3384,7 +3388,7 @@
                 var canUpdateData=true;
                 if(res.OriginData!=undefined&&res.OriginData!=null&&res.OriginData.length>0){
                     for(var i =0;i<res.OriginData.length;i++){
-                        if (res.OriginData[i].updateStatus=="fail"||res.OriginData[i].updateStatus==null){
+                        if (res.OriginData[i].updateStatus=="fail"){
                             canUpdateData=false;
                         }
                     }
