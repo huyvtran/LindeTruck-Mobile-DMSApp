@@ -60,7 +60,7 @@
                 vm.carServices.push({label: 'Repair', value: '维修'});
                 vm.carServices.push({label: 'Inspection', value: '巡检'});
 
-                productTypes.push({label:'20',value:'20 Service'});
+                productTypes.push({label:'20',value:'20 服务'});
                 productTypes.push({label:'30',value:'30 Rental'});
 
                 vm.priorities.push({label: '紧急', value: 'Urgent'});
@@ -358,7 +358,7 @@
                 vm.productTypeShowes=[];
                 var arr = [];
                 if (divisionStr.length>1){
-                    vm.productTypeShowes.push("");
+                    //vm.productTypeShowes.push("");
                     arr=divisionStr.split(";");
                 }else{
                     arr.push("20");

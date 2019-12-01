@@ -482,6 +482,7 @@
           let parts_number__cList = [];
           let partsQuantitys = [];
           let forOrdParts = [];
+          console.log('$scope.selectedTruckFitItems::',$scope.selectedTruckFitItems);
           for (let i = 0; i < $scope.selectedTruckFitItems.length; i++) {
             if ($scope.selectedTruckFitItems[i].type == 'common' && !$scope.selectedTruckFitItems[i].edit) {
               parts_number__cList.push($scope.selectedTruckFitItems[i].parts_number__c);
