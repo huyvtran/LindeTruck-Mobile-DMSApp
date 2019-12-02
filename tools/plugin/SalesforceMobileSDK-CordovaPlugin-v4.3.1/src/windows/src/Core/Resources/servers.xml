@@ -5,6 +5,6 @@
   Setting "allowNewConnections" to false and specifying a single server will streamline login; adding an account will go straight to oauth, skipping the server dialog.
   -->
 <servers allowNewConnections="True"> <!-- set allowNewConnections to false if creating new connections should not be allowed -->
-  <server name="Production" url="https://devpro3-kionapac.cs75.force.com/PartnerCentral"/>
+  <server name="Production" url="https://full-kionapac.cs58.force.com/DealerPortal"/>
   <server name="Sandbox" url="https://test.salesforce.com" />
 </servers>

@@ -7,105 +7,21 @@
     "files": {}
   },
   "installed_plugins": {
-    "com.linde.scapp": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "com.oinio.cordova.plugin.PdfViewer": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-actionsheet": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-app-version": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-camera": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-device": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-dialogs": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-document-viewer": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-file": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-file-opener2": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-inappbrowser": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-network-information": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-splashscreen": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-statusbar": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-x-toast": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "ionic-plugin-keyboard": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "phonegap-plugin-barcodescanner": {
-      "ANDROID_SUPPORT_V4_VERSION": "27.+",
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "phonegap-plugin-push": {
-      "SENDER_ID": "theIdFromGoogle",
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-geolocation": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-baidumaplocation": {
-      "ANDROID_KEY": "gqNHAdSW0ORFLGF5IsGfuoM5DxhtSTiq",
-      "IOS_KEY": "IOS_KEY",
-      "IOS_LOCATION_DESC": "请点击'好'以允许访问。",
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-background-mode": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-contacts": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-file-transfer": {
+    "com.darktalker.cordova.screenshot": {
       "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
     },
     "com.lampa.startapp": {
       "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
     },
-    "cordova-plugin-appavailability": {
+    "com.linde.scapp": {
       "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
     },
-    "cordova-plugin-nativestorage": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "cordova-plugin-email-composer": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "com.salesforce": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "nl.codeyellow.signature": {
+    "com.oinio.cordova.plugin.PdfViewer": {
       "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
     }
   },
   "dependent_plugins": {
     "cordova.plugins.diagnostic": {
-      "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
-    },
-    "print-plugin": {
       "PACKAGE_NAME": "com.capgemini.lindetruckdms.pda"
     },
     "cordova-plugin-whitelist": {

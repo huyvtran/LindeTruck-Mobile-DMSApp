@@ -1,6 +1,9 @@
 {
   "name": "AVANTO",
-  "app_id": "com.capgemini.linde.avanto.prod",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic1",
   "gulpStartupTasks": [
     "sass",
     "watch"
@@ -10,8 +13,5 @@
     "!www/lib/**/*",
     "scss/**/*"
   ],
-  "type": "ionic1",
-  "integrations": {
-    "cordova": {}
-  }
+  "id": "com.capgemini.linde.avanto.prod"
 }
