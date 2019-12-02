@@ -115,6 +115,9 @@
             AppUtilService.hideLoading();
             return;
           }
+          console.log('nameList',JSON.stringify(nameList));
+            console.log('maintenanceLevelList',JSON.stringify(maintenanceLevelList));
+            console.log('acctId',$stateParams.SendSoupEntryId);
           var maintenanceKeyLevelPartssBy2Url = $scope.getMaintenanceKeyLevelPartssBy2Url + JSON.stringify(nameList)
                                                 + '&maintenanceLevels=' + JSON.stringify(maintenanceLevelList)
                                                 + '&acctId=' + $stateParams.SendSoupEntryId;
