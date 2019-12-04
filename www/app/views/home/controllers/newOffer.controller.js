@@ -31,7 +31,7 @@
         };
 
         $scope.$on('$ionicView.enter', function () {
-            productTypes.push({label:'20',value:'20 Service'});
+            productTypes.push({label:'20',value:'20 服务'});
             productTypes.push({label:'30',value:'30 Rental'});
         });
 
@@ -155,7 +155,7 @@
             vm.productTypeShowes=[];
             var arr = [];
             if (divisionStr.length>1){
-                vm.productTypeShowes.push("");
+                //vm.productTypeShowes.push("");
                 arr=divisionStr.split(";");
             }else{
                 arr.push("20");
