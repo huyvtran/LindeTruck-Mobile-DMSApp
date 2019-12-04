@@ -7,7 +7,7 @@
             $log, $ionicActionSheet, $cordovaAppVersion, $timeout, LocalCacheService,
             ModalService, APP_SETTINGS, $state, TouchIdService, LoginService,
             LocalDataService, LocalSyncService, IonicLoadingService,
-            ConnectionMonitor, UserAssignmentService) {
+            ConnectionMonitor, UserAssignmentService,$cordovaFile) {
             var vm = this;
             var myTimeout = null;
             var isCountDown = false;
@@ -281,10 +281,34 @@
                         return false;
                     },
                     buttonClicked: function () {
-                        // stop and destroy time interval for mobile data synchronisation
-                        $scope.$broadcast('timer-stopped', 'destroy-timer');
-                        cordova.require('com.salesforce.plugin.sfaccountmanager').logout();
+
                         localStorage.setItem("firstLogin", "last"); //初次存储
+                        //console.log('buwen::$cordovaFile::',$cordovaFile);
+                        let path = cordova.file.dataDirectory;
+                        $cordovaFile.createFile(path, "isNeedLevel2Login.txt", true).then(function (success) {
+                            console.log('createFile::success::',success);
+                            $cordovaFile.writeFile(path, "isNeedLevel2Login.txt", "isNeedLevel2Login", true)
+                                .then(function (writesuccess) {
+                                    console.log('writesuccess::success::',writesuccess);
+                                    $cordovaFile.readAsText(path, "isNeedLevel2Login.txt").then(function (result) {
+                                        console.log('readAsText::result::',result);
+                                        //return JSON.parse(result);
+
+                                        // stop and destroy time interval for mobile data synchronisation
+                                        $scope.$broadcast('timer-stopped', 'destroy-timer');
+                                        cordova.require('com.salesforce.plugin.sfaccountmanager').logout();
+                                    }, function (error2) {
+                                        console.log('readAsText::error2::',error2);
+                                    });
+                                }, function (writeerror) {
+                                    console.log('writesuccess::writeerror::',writeerror);
+                                });
+
+                        }, function (error) {
+                            console.log('createFile::error::',error);
+                        });
+
+
                     }
                 });
             };

@@ -3,7 +3,7 @@
   angular.module('oinio.controllers')
     .controller('CalendarController',
       function ($scope, $rootScope,$q, $filter, $state, $stateParams, ConnectionMonitor, $ionicPopup,
-                LocalCacheService, ForceClientService, AppUtilService , $log, FileService, $cordovaAppVersion, Service1Service,dualModeService) {
+                LocalCacheService, ForceClientService, AppUtilService , $log, FileService, $cordovaAppVersion, Service1Service,dualModeService,$cordovaFile) {
 
         var vm           = this,
             oCurrentUser = LocalCacheService.get('currentUser') || {};
@@ -67,6 +67,8 @@
             });
           }
 
+
+
           // ///ionic 利用localStorage存储
           var firstLogin = "";
           //循环遍历，取key值firstLogin的value
@@ -80,22 +82,52 @@
             }
           }
 
-          if (firstLogin == "first") {
-            console.log("firstLogin2", firstLogin); //初始化后 永远走此分支
-            $rootScope.hideTabs = false;
-            $('div.login_bodyer').hide();
-            $('div.calendar_header').show();
-            setTimeout(function () {
-              $scope.getHomeService();
 
-            }, 1000);
+            let path = cordova.file.dataDirectory;
+            let isNeedLevel2Login = false;
+            $cordovaFile.readAsText(path, "isNeedLevel2Login.txt").then(function (result) {
+                console.log('readAsText::result::',result);
+                if(result == 'isNeedLevel2Login'){
+                    isNeedLevel2Login = true;
 
-          }else {
-            $rootScope.hideTabs = true;
-            $('div.calendar_header').hide();
-            $('div.login_bodyer').show();
+                }
+                console.log('isNeedLevel2Login::',isNeedLevel2Login);
+                if (firstLogin == "first" && (isNeedLevel2Login == false )) {
+                    console.log("firstLogin2", firstLogin); //初始化后 永远走此分支
+                    $rootScope.hideTabs = false;
+                    $('div.login_bodyer').hide();
+                    $('div.calendar_header').show();
+                    setTimeout(function () {
+                        $scope.getHomeService();
 
-          }
+                    }, 1000);
+
+                }else {
+                    $rootScope.hideTabs = true;
+                    $('div.calendar_header').hide();
+                    $('div.login_bodyer').show();
+
+                }
+            }, function (error2) {
+                console.log('readAsText::error2::',error2);
+                if (firstLogin == "first" ) {
+                    console.log("firstLogin2", firstLogin); //初始化后 永远走此分支
+                    $rootScope.hideTabs = false;
+                    $('div.login_bodyer').hide();
+                    $('div.calendar_header').show();
+                    setTimeout(function () {
+                        $scope.getHomeService();
+
+                    }, 1000);
+
+                }else {
+                    $rootScope.hideTabs = true;
+                    $('div.calendar_header').hide();
+                    $('div.login_bodyer').show();
+
+                }
+            });
+
         });
 
         $scope.hideLoadingPage = function () {
@@ -134,6 +166,18 @@
           }, 100);
           $rootScope.selectUserId = getUserObj.Id;
 
+            let path = cordova.file.dataDirectory;
+            $cordovaFile.writeFile(path, "isNeedLevel2Login.txt", "", true).then(function (writesuccess) {
+                console.log('writesuccess::success::',writesuccess);
+                $cordovaFile.readAsText(path, "isNeedLevel2Login.txt").then(function (result) {
+                    console.log('readAsText::result::',result);
+                    //return JSON.parse(result);
+                }, function (error2) {
+                    console.log('readAsText::error2::',error2);
+                });
+            }, function (writeerror) {
+                console.log('writesuccess::writeerror::',writeerror);
+            });
 
           localStorage.setItem("firstLogin", "first"); //初次存储
           localStorage.setItem("selectUserId", getUserObj.Id);
