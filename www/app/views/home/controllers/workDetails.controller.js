@@ -2658,6 +2658,7 @@
           let parts_number__cList = [];
           let partsQuantitys = [];
           var getPartsRelatedsKeyWordUrl = $scope.searchPartssUrl + keyWord+"&accId="+Account_Ship_to__c;
+          console.log('getPartsRelatedsKeyWordUrl::',getPartsRelatedsKeyWordUrl);
           ForceClientService.getForceClient().apexrest(getPartsRelatedsKeyWordUrl, 'GET', {}, null,
             function (response) {
               console.log('searchPartssUrl:', response);

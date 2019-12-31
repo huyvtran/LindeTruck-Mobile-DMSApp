@@ -452,6 +452,7 @@
               return;
             }
           }
+          console.log('oCurrentUserL:',oCurrentUser);
           ForceClientService.getForceClient().apexrest(
             '/ServiceCarService?action=init&currentUser='+oCurrentUser.Id,
             'GET',
