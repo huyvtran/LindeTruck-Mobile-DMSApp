@@ -453,8 +453,9 @@
             }
           }
           console.log('oCurrentUserL:',oCurrentUser);
+          console.log('dmsUserId::',$rootScope.selectUserId);
           ForceClientService.getForceClient().apexrest(
-            '/ServiceCarService?action=init&currentUser='+oCurrentUser.Id,
+            '/ServiceCarService?action=initDMS&currentUser='+$rootScope.selectUserId,
             'GET',
             {},
             null,
