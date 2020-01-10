@@ -464,14 +464,15 @@
                 AppUtilService.hideLoading();
                 console.log(res);
                 $scope.serviceCars = [];
-                $scope.serviceCars.push("");
-                if (res.default!=null&&res.default.length>0){
-                    for (var i=0;i<res.default.length;i++){
-                        defaultServiceCar=res.default[0];
-                        $scope.serviceCars.push(res.default[i]);
+                //$scope.serviceCars.push("");
+                if (res!=null&&res.length>0){
+                    for (var i=0;i<res.length;i++){
+                        defaultServiceCar=res[0];
+                        $scope.serviceCars.push(res[i]);
                     }
                 }else{
                     defaultServiceCar="";
+                    $scope.serviceCars.push("");
                 }
 
                 if (res.all!=null&&res.all.length>0){
