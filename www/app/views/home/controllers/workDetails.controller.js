@@ -375,20 +375,27 @@
                 initTrucks = res.truckModels;
                 if (initTrucks != null) {
                   $scope.getMainLevelsAndDesc(initTrucks.length > 0?initTrucks[0]:{}).then(function (res0) {
+                      console.log('res0::',res0);
                       return $scope.initChidOrderInfo(initTrucks[0], initChildOrders);
                   }).then(function (res1) {
+                      console.log('res1::',res1);
                       return $scope.changeCareTypeStep1();
                   }).then(function (res2) {
+                      console.log('res2::',res2);
                       return  $scope.changeCareTypeStep2();
                   }).then(function (res3) {
+                      console.log('res3::',res3);
                      return $scope.confirmServiceModal();
                   }).then(function (res4) {
+                      console.log('res4::',res4);
                       if ($scope.openPrint){
                           return $scope.getWorkContent(res.soResult);
                       }
                   }).then(function () {
+                      console.log('getRefundList::');
                       return  $scope.getRefundList();
                   }).then(function () {
+                      console.log('openPrint::');
                       if ($scope.openPrint) {
                           $scope.doPrint();
                       }
@@ -1879,6 +1886,7 @@
          * @param $event
          */
         $scope.doPrint = function () {
+            console.log('doPrint::');
           document.getElementById('workDetailTotal').style.display = 'none';
           document.getElementById('truckConfigPage').style.display = 'none';
           document.getElementById('workDetailPart').style.display = 'none';
@@ -3558,6 +3566,9 @@
         //退件接口
         $scope.getRefundList = function () {
           let deferred = $q.defer();
+          if($scope.spoId == '' || $scope.spoId == null){
+              $scope.spoId = 'null';
+          }
           console.log('$scope.getDeliveryOrder + $scope.spoId:', $scope.getDeliveryOrder + $scope.spoId);
           ForceClientService.getForceClient().apexrest($scope.getDeliveryOrder + $scope.spoId, 'GET', {}, null,
             function (responseGetDelivery) {
